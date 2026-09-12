@@ -1,53 +1,10 @@
-# Per-position feature definitions used to build feature vectors.
-# Feature names must match column names in data/processed/players.parquet.
-#
-# Two projections will be built:
-#   1. style    - raw position-normalized z-scores (NO multipliers)
-#   2. quality  - with league quality multipliers applied to scaled_metrics
-
-forwards:
-  dims: 10
-  features:
-    - goals_per_60                  # 5v5 production rate
-    - primary_assists_per_60        # 5v5 playmaking
-    - shots_per_60                  # 5v5 shot generation
-    - xg_per_60                     # NHL/AHL only; NaN elsewhere — handled in pipeline
-    - points_per_60_pp              # special teams contribution
-    - defensive_zone_start_pct      # workload signal
-    - penalty_differential_per_60   # drawn minus taken
-    - toi_per_game                  # role / coach trust
-    - age                           # career stage
-    - league_id                     # categorical, used for multiplier lookup, not in vector
-
-defensemen:
-  dims: 10
-  features:
-    - goals_per_60
-    - primary_assists_per_60
-    - shot_attempts_per_60          # defensive activity proxy (defensemen-specific)
-    - xga_per_60                    # NHL/AHL only; NaN elsewhere
-    - pp_toi_per_game               # offensive-D signal
-    - pk_toi_per_game               # defensive-D signal
-    - penalty_differential_per_60
-    - toi_per_game
-    - age
-    - league_id
-
-goalies:
-  dims: 6
-  features:
-    - games_played
-    - save_pct_5v5
-    - save_pct_sh
-    - goals_saved_above_expected_per_60   # NHL only
-    - age
-    - league_id
-
-# xG handling rule (locked decision):
-# xG is NOT imputed when missing. For non-NHL/AHL players the column is NaN.
-# The cross-league projection drops the xG column; xG is shown only in player
-# tooltips and the technical section as NHL/AHL enrichment.
-xg_policy:
-  impute: false
-  in_main_projection: false
-  in_tooltip_enrichment: true
+# One vector per position group, identical across leagues (spec §5).
+groups: [FW, MF, DF]       # FBref `pos` first token; GK excluded
+features:
+  - npg_p90        # non-penalty goals per 90
+  - ast_p90        # assists per 90
+  - min_share      # minutes / (club matches * 90)
+  - age            # at season start (Jul 1)
+  - cards_p90      # (yellow + 2*red) per 90
+min_minutes: 450   # inclusion floor (5 full matches)
+phantom_minutes: 900

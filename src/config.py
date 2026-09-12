@@ -6,7 +6,7 @@ paths and YAML parsing logic out of the fetch and feature modules.
 
 from __future__ import annotations
 
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 from typing import Any
 
@@ -33,7 +33,7 @@ def ensure_dirs() -> None:
 # --- Config loading ----------------------------------------------------------
 
 
-@lru_cache(maxsize=None)
+@cache
 def load_yaml(name: str) -> dict[str, Any]:
     """Load a YAML config from the config/ directory.
 
@@ -59,18 +59,35 @@ def leagues() -> dict[str, Any]:
 
 
 def league_quality() -> dict[str, Any]:
-    """Return the league_quality.yaml config dict."""
+    """Return the league_quality.yaml config dict.
+
+    Note: config/league_quality.yaml is written by Task 5. Calling this
+    before that task lands will raise FileNotFoundError.
+    """
     return load_yaml("league_quality.yaml")
 
 
-def features_config() -> dict[str, Any]:
+SNAPSHOT_DIR: Path = DATA_DIR / "snapshot"
+
+
+def countries() -> dict[str, Any]:
+    """Return the countries.yaml config dict."""
+    return load_yaml("countries.yaml")
+
+
+def seasons() -> dict[str, str]:
+    """Return the seasons.yaml config dict."""
+    return load_yaml("seasons.yaml")
+
+
+def features() -> dict[str, Any]:
     """Return the feature_definitions.yaml config dict."""
     return load_yaml("feature_definitions.yaml")
 
 
-def nt_veterans() -> dict[str, list[str]]:
-    """Return the nt_veterans.yaml config dict."""
-    return load_yaml("nt_veterans.yaml")
+HEADLINE_LEAGUES: list[str] = list(leagues()["headline"])
+DOMESTIC_LEAGUE: str = leagues()["domestic"]
+PEER_COUNTRIES: list[str] = list(countries()["peers"])
 
 
 # --- Reproducibility ---------------------------------------------------------

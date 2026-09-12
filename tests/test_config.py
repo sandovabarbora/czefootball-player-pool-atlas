@@ -1,43 +1,22 @@
-"""Tests for the config loader. These run on a fresh clone (no data needed)."""
-
-from __future__ import annotations
-
-import pytest
-
 from src import config
 
 
-def test_paths_exist():
-    """Static directories that ship with the repo must exist."""
-    assert config.CONFIG_DIR.is_dir()
-    assert config.TEMPLATES_DIR.is_dir()
+def test_headline_leagues_are_nine_and_exclude_peers():
+    assert len(config.HEADLINE_LEAGUES) == 9
+    peer_codes = set(config.countries()["peers"])
+    assert not any(l.split("-")[0] in peer_codes for l in config.HEADLINE_LEAGUES)  # noqa: E741
 
 
-def test_leagues_yaml_loads():
-    cfg = config.leagues()
-    assert "leagues" in cfg
-    assert "nhl" in cfg["leagues"]
-    assert "khl" in cfg["excluded"]  # KHL must be in excluded, not leagues
-    assert "khl" not in cfg["leagues"]
+def test_peer_countries_have_population():
+    peers = config.countries()["peers"]
+    assert set(peers) == {"CZE", "SVK", "AUT", "HUN", "POL", "CRO", "DEN", "SUI", "NOR"}
+    assert all(v["population_m"] > 1 for v in peers.values())
 
 
-def test_league_quality_yaml_loads():
-    cfg = config.league_quality()
-    multipliers = cfg["multipliers"]
-    assert multipliers["nhl"] == 1.00
-    assert "khl" not in multipliers  # KHL must NOT appear here either
-    assert all(0.0 < v <= 1.0 for v in multipliers.values())
+def test_seasons_are_unambiguous():
+    for s in config.seasons().values():
+        assert len(s) == 9 and s[4] == "-"
 
 
-def test_features_config_loads():
-    cfg = config.features_config()
-    for pos in ("forwards", "defensemen", "goalies"):
-        assert pos in cfg
-        assert cfg[pos]["dims"] == len(cfg[pos]["features"])
-    # xG policy must be set
-    assert cfg["xg_policy"]["impute"] is False
-    assert cfg["xg_policy"]["in_main_projection"] is False
-
-
-def test_random_seed_set():
-    assert config.RANDOM_SEED == 42
+def test_snapshot_dir_is_inside_data():
+    assert config.SNAPSHOT_DIR.parent == config.DATA_DIR

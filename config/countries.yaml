@@ -1,0 +1,13 @@
+# Peer set for the per-capita benchmark. Population in millions, Eurostat
+# 2024-01-01 estimates (demo_pjan). FBref nation codes are 3-letter.
+peers:
+  CZE: {name: Czechia,     population_m: 10.90}
+  SVK: {name: Slovakia,    population_m: 5.42}
+  AUT: {name: Austria,     population_m: 9.16}
+  HUN: {name: Hungary,     population_m: 9.58}
+  POL: {name: Poland,      population_m: 36.62}
+  CRO: {name: Croatia,     population_m: 3.86}
+  DEN: {name: Denmark,     population_m: 5.96}
+  SUI: {name: Switzerland, population_m: 8.96}
+  NOR: {name: Norway,      population_m: 5.55}
+# NB: FBref uses CRO/DEN/SUI, not ISO HRV/DNK/CHE. Keep FBref codes here.

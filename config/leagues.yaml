@@ -1,68 +1,37 @@
-# Leagues included in the player pool.
-# Each league declares its fetch strategy and the source it represents.
-
-# Strategy values:
-#   http_json     - direct HTTP GET, parse JSON (NHL API)
-#   http_csv      - direct CSV download (MoneyPuck)
-#   http_html     - HTTP GET + BeautifulSoup (hokej.cz, IIHF)
-#   playwright    - Playwright headless browser (SPA-rendered sites)
-
-leagues:
-  nhl:
-    name: National Hockey League
-    country: NA
-    tier: 1
-    strategy: http_json
-    season_window: [2024, 2025]   # MoneyPuck uses single-year (2024 = 2024/25 season)
-
-  ahl:
-    name: American Hockey League
-    country: NA
-    tier: 2
-    strategy: http_html
-    notes: Limited advanced stats. Use hockey-reference + theahl.com.
-
-  liiga:
-    name: Liiga
-    country: FI
-    tier: 1
-    strategy: playwright
-    notes: API v2 locked. Render SPA pages via Playwright Chromium.
-
-  shl:
-    name: Svenska Hockeyligan
-    country: SE
-    tier: 1
-    strategy: playwright
-    notes: SPA, no SSR data.
-
-  nl:
-    name: National League
-    country: CH
-    tier: 1
-    strategy: playwright
-    notes: SPA via sihf.ch.
-
-  extraliga:
-    name: Tipsport Extraliga
-    country: CZ
-    tier: 1
-    strategy: http_html
-    notes: SSR'd on hokej.cz, /hrac/{slug}/{id} URL pattern.
-
-  cz1l:
-    name: Chance Liga (1. liga)
-    country: CZ
-    tier: 2
-    strategy: http_html
-    notes: For top prospects only — defined as IIHF U20/U18 participants in last 3 years.
-
-# Explicitly excluded
-excluded:
-  khl:
-    name: Kontinental Hockey League
-    reason: |
-      Excluded for political and data-quality reasons. Political sanctions limit the
-      usability of Russian statistical sources, and data quality has been unverifiable
-      recently. Czech players in KHL are not captured in this version of the map.
-      This exclusion is documented in the report's Limitations section.
+# FBref competitions. `fbref_key` is the soccerdata league key; non-Big-5
+# keys are registered into ~/soccerdata/config/league_dict.json by
+# src/leagues_setup.py using `comp_id` + `slug` (both readable from the
+# competition URL: /en/comps/<comp_id>/<slug>-Stats).
+headline:            # UEFA coefficient ranks 1-9, 2025 — none is a peer country
+  - ENG-Premier League
+  - ITA-Serie A
+  - ESP-La Liga
+  - GER-Bundesliga
+  - FRA-Ligue 1
+  - NED-Eredivisie
+  - POR-Primeira Liga
+  - BEL-Pro League
+  - TUR-Süper Lig
+domestic: CZE-First League
+custom:              # not built into soccerdata; comp_id verified via the country page links
+  NED-Eredivisie:     {comp_id: 23, slug: Eredivisie,        country: NED, tier: 1}
+  POR-Primeira Liga:  {comp_id: 32, slug: Primeira-Liga,     country: POR, tier: 1}
+  BEL-Pro League:     {comp_id: 37, slug: Belgian-Pro-League, country: BEL, tier: 1}
+  TUR-Süper Lig:      {comp_id: 26, slug: Super-Lig,         country: TUR, tier: 1}
+  CZE-First League:   {comp_id: 66, slug: Czech-First-League, country: CZE, tier: 1}
+  GER-2. Bundesliga:  {comp_id: 33, slug: 2-Bundesliga,      country: GER, tier: 2}
+peer_domestic:       # tier-1 leagues of the peer countries (exhibit A, route origins)
+  SVK-Super Liga:     {comp_id: 39, slug: Slovak-Super-Liga,  country: SVK, tier: 1}
+  AUT-Bundesliga:     {comp_id: 56, slug: Austrian-Bundesliga, country: AUT, tier: 1}
+  HUN-NB I:           {comp_id: 46, slug: NB-I,               country: HUN, tier: 1}
+  POL-Ekstraklasa:    {comp_id: 36, slug: Ekstraklasa,        country: POL, tier: 1}
+  CRO-HNL:            {comp_id: 63, slug: Hrvatska-NL,        country: CRO, tier: 1}
+  DEN-Superliga:      {comp_id: 50, slug: Danish-Superliga,   country: DEN, tier: 1}
+  SUI-Super League:   {comp_id: 57, slug: Swiss-Super-League, country: SUI, tier: 1}
+  NOR-Eliteserien:    {comp_id: 28, slug: Eliteserien,        country: NOR, tier: 1}
+stepping_stone: [NED-Eredivisie, BEL-Pro League, POR-Primeira Liga, TUR-Süper Lig, GER-2. Bundesliga]
+# comp_ids above are best knowledge; Task 2's live smoke verifies each one against
+# the page title FBref returns and corrects the yaml before fetching.
+# Any further league is added to `custom` when pool discovery (Task 3) finds
+# >= 3 Czech players in it; comp_id comes from the discovery output.
+min_players_to_fetch: 3
