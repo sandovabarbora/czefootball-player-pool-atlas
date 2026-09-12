@@ -66,6 +66,12 @@ clean:
 	@echo "Cleaned processed/ and outputs/ (raw/ preserved)"
 
 pages:
-	cp outputs/index.html outputs/style.css outputs/atlas_forwards.svg \
-	   outputs/atlas_defense.svg outputs/report.pdf docs/
-	@echo "Copied current outputs/ to docs/ for GitHub Pages"
+	# Czech render -> site/source, then build EN (docs/) + CS (docs/cs/) pages.
+	# SVGs: Czech originals go to docs/cs/; docs/*.svg carry English labels
+	# (site/svg_labels.py, run by site/build.sh).
+	cp outputs/index.html site/source/index.cs.html
+	cp outputs/style.css docs/
+	cp outputs/atlas_forwards.svg outputs/atlas_defense.svg outputs/intl_cohort_heatmap.svg docs/cs/
+	cp outputs/report.pdf docs/
+	./site/build.sh
+	@echo "Built docs/ for GitHub Pages (en default, cs under /cs/)"
