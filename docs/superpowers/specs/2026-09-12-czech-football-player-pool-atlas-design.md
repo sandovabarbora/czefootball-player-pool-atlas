@@ -18,6 +18,10 @@ mono footnote that backs it.
 
 ### In v1
 
+- **Fetched leagues.** Headline nine + Chance Liga + the eight peer domestic
+  leagues (tier 1) + GER-2. Bundesliga + any league discovery finds ≥ 3 Czech
+  players in. Seasons 2023/24–2025/26 for all; 2020/21–2022/23 for the
+  headline nine only (analog corpus and route history).
 - **Corpus.** Every Czech-eligible professional in a competition FBref covers
   (about forty leagues) plus the whole Chance Liga. Players in leagues FBref
   does not cover are listed by name, club and league (discovered from FBref's
@@ -38,11 +42,29 @@ mono footnote that backs it.
 - **Cards and analogs.** Six showcase players — per position group the highest
   quality-adjusted P/90 and the youngest NT-flagged player (a rule, not a pick) with photo, stats, cluster placement, trajectory and top-3
   historical analogs at the same age from the all-nationality FBref corpus.
+- **Pathways and differences (chapter "Where the train leaves").** Four
+  exhibits, all computed from the fetched league tables plus ClubElo:
+  - **A. Youth exposure at home** — share of league minutes given to the
+    league's own nationals aged ≤ 21 and ≤ 23, Chance Liga vs the eight peer
+    domestic leagues, 2024/25.
+  - **B. Export route** — for every peer-country player on a 2025/26 top-9
+    roster: age at first top-9 season and origin (league of the previous
+    season, bucketed as domestic / stepping-stone (NED, BEL, POR, TUR,
+    GER-2) / other top-9 / not covered).
+  - **C. How they fare** — minutes share in the top-9 club and the club's
+    ClubElo percentile within its league, Czechs vs peers.
+  - **D. Profile of those who made it** — position mix and cohort medians
+    split by tier (domestic / stepping-stone / top-9).
+  Each exhibit is descriptive; the copy names the gap ("Czech U21 minutes
+  share is X vs Y in Denmark"), never the remedy.
 - **Site.** `football.datasimply.eu`, English default, Czech under `/cs/`,
   built with the `site/` toolchain and `modern.css` / `atlas.js` inherited
   from the hockey repo.
 
 ### Out of v1 (v1.1 candidates)
+
+- Transfermarkt transfer histories (fees, exact transfer age, loans) —
+  per-player scraping; would sharpen exhibit B.
 
 - LLM scout briefs (needs `ANTHROPIC_API_KEY`; prompt ports from hockey).
 - Video layer (link to `tactical-cz` instead of a new PoC).
@@ -99,6 +121,12 @@ Mirrors hockey; differences are position-specific.
 - **Reduction and clustering.** PCA to 2 components per group and
   projection (style / quality), KMeans with k chosen by silhouette in 3..6,
   seed 42. UMAP retained only for the notebook, not the report.
+- **Pathways.** Youth exposure = Σ minutes(nationality = league country,
+  age ≤ 21 at Jul 1) / Σ minutes(all). Export age = age in the first season a
+  player appears in any headline league table (history back to 2020/21; an
+  earlier appearance is reported as "≥ 2020/21 censored"). Origin = league of
+  the season before that first season, if fetched. Club strength = ClubElo
+  percentile of the club within its league at season start.
 - **Analogs.** For each showcase player, nearest 5 in (quality P/90, minutes,
   league quality) at the same age across the whole FBref corpus, with the
   following four seasons shown. Description, not prediction.
