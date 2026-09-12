@@ -234,6 +234,34 @@ def mover_repl(m):
 sub(r'(<tr>\s*)<td>([A-Za-zÀ-ž ]+)</td>(\s*<td class="muted">)', mover_repl, 5)
 
 
+
+# ---------------------------------------------------------------- progressive disclosure (less text on screen, nothing removed)
+# LLM briefs: keep the first section visible, fold the rest
+def brief_fold(m):
+    body = m.group(1)
+    parts = re.split(r'(?=<h5 class="llm-brief-heading">)', body)
+    head, rest = parts[0] + parts[1], "".join(parts[2:])
+    return ('<div class="llm-brief-body">' + head +
+            '<details class="fold"><summary>Celý brief</summary>' + rest + '</details></div>')
+sub(r'<div class="llm-brief-body">(.*?)</div>\s*</article>', lambda m: brief_fold(m) + '\n      </article>', 2, re.S)
+
+# Limitations: each <p><strong>Title.</strong> text</p> -> details, first one open
+def lim_fold(m):
+    title, text = m.group(1), m.group(2).strip()
+    return f'<details class="fold fold-lim"><summary>{title}</summary><p>{text}</p></details>'
+sub(r'<p><strong>([^<]+?)\.?</strong>\s*(.*?)</p>', lim_fold, 8, re.S)
+sub(r'(<div class="limitations">\s*)<details class="fold fold-lim">', r'\1<details class="fold fold-lim" open>', 1)
+
+# Video PoC: three long captions under one fold
+sub(r'(<dl class="video-poc-metrics">.*?</dl>)\s*(<figcaption class="roadmap-caption">.*?</figcaption>\s*<figcaption class="roadmap-caption">.*?</figcaption>\s*<figcaption class="roadmap-caption">.*?</figcaption>)',
+    lambda m: m.group(1) + '\n      <details class="fold"><summary>Co tahle vrstva přidá &middot; 3 poznámky</summary>\n      ' +
+              m.group(2).replace('<figcaption class="roadmap-caption">', '<p class="roadmap-caption">').replace('</figcaption>', '</p>') +
+              '\n      </details>', 1, re.S)
+
+# Cycle cards: LLM excerpt folded
+sub(r'<div class="cycle-section">\s*<p class="cycle-section-label">LLM brief excerpt</p>\s*(<p class="cycle-brief-excerpt">.*?</p>)\s*</div>',
+    r'<details class="fold cycle-section"><summary class="cycle-section-label">LLM brief excerpt</summary>\1</details>', 5, re.S)
+
 # ---------------------------------------------------------------- behaviour: bar reveal + active TOC
 JS = """<script>
   window.renderTex = () => {

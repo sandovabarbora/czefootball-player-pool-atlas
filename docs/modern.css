@@ -380,3 +380,31 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 /* notes under exhibits: one consistent small size */
 .capita-note, .muted.small { font-size: 0.88rem; line-height: 1.5; max-width: 64ch; }
 .kv-table td:first-child, .sensitivity-table td:first-child { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* folds: progressive disclosure — text stays, screen gets lighter */
+details.fold { border-top: 1px solid var(--rule); margin-top: var(--space-3); }
+details.fold > summary {
+  cursor: pointer; list-style: none; display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.7rem 0; font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy-700);
+}
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::before { content: "+"; display: inline-grid; place-items: center; width: 1.1rem; height: 1.1rem; border: 1px solid currentColor; font-size: 0.8rem; line-height: 1; }
+details.fold[open] > summary::before { content: "−"; }
+details.fold > summary:hover { color: var(--oxblood-700); }
+details.fold > :not(summary) { animation: fold-in 0.25s ease-out; }
+@keyframes fold-in { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+details.fold-lim { margin-top: 0; }
+details.fold-lim:first-child { border-top: 0; }
+details.fold-lim > summary { font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; text-transform: none; color: var(--ink); padding: 0.85rem 0; }
+details.fold-lim > p { margin: 0 0 var(--space-3) 1.7rem; max-width: 62ch; }
+.cycle-card details.cycle-section { margin-top: var(--space-3); }
+.cycle-card details.cycle-section > summary.cycle-section-label { padding: 0.6rem 0; margin: 0; }
+.video-poc details.fold .roadmap-caption { margin: 0 0 var(--space-3); max-width: 70ch; }
+/* clusters: description and tactical read side by side */
+@media (min-width: 900px) {
+  .cluster-list dd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); column-gap: var(--space-5); align-items: start; }
+  .cluster-list dd .cluster-tactical { margin-top: 0; }
+  .cluster-list dd .cluster-top { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { details.fold > :not(summary) { animation: none; } }

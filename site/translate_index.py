@@ -627,72 +627,72 @@ R('AHL/junior reserves nebo strongly defensive-only D. Cluster mimo aktivní NHL
 
 # limitations
 R('<h3 id="omezeni">Omezení této analýzy</h3>', '<h3 id="omezeni">Limitations of this analysis</h3>')
-R('''<p><strong>Veřejná versus interní data.</strong> Tato analýza využívá výhradně veřejně dostupné
+R('''<summary>Veřejná versus interní data</summary><p>Tato analýza využívá výhradně veřejně dostupné
 statistické zdroje (NHL API, MoneyPuck, Liiga, hokej.cz, Wikipedia pro IIHF turnaje).
 Trénerský a manažerský úsek reprezentace ČR disponuje interními daty (videosrážka,
 kondiční sledování, scoutingové zprávy, mikrostatistiky vstupů do pásma a kontrolovaných
 výjezdů), které tato metoda nezohledňuje. Vzory zde identifikované jsou hypotézami
 pro vnitřní validaci, nikoli závěry.</p>''',
-  '''<p><strong>Public versus internal data.</strong> This analysis uses exclusively publicly
+  '''<summary>Public versus internal data</summary><p>This analysis uses exclusively publicly
 available statistical sources (NHL API, MoneyPuck, Liiga, hokej.cz, Wikipedia for IIHF tournaments).
 The coaching and management staff of the Czech national team has internal data (video breakdown,
 conditioning tracking, scouting reports, micro-stats on zone entries and controlled exits)
 that this method does not take into account. The patterns identified here are hypotheses
 for internal validation, not conclusions.</p>''')
-R('''<p><strong>Liga quality multipliers.</strong> Použité násobičky kvality lig (NHL = 1.00, AHL = 0.55,
+R('''<summary>Liga quality multipliers</summary><p>Použité násobičky kvality lig (NHL = 1.00, AHL = 0.55,
 SHL = 0.45, Liiga = 0.42, NL = 0.40, Extraliga = 0.35, 1. liga = 0.20) jsou subjektivní
 aproximace. Vycházejí z veřejných srovnání produkce hráčů, kteří přešli mezi ligami, ale
 jsou citlivé na výběr hráčů, vlastnosti pravidel, velikost kluziště a sezónní kontext.
 Citlivostní analýza (oddíl Methodologie) ukazuje, jak se mapa mění při změně násobičky
 o ±20 %: top-10 ranking je vůči těmto perturbacím stabilní (churn 0-1 hráčů).</p>''',
-  '''<p><strong>League quality multipliers.</strong> The league quality multipliers used (NHL = 1.00, AHL = 0.55,
+  '''<summary>League quality multipliers</summary><p>The league quality multipliers used (NHL = 1.00, AHL = 0.55,
 SHL = 0.45, Liiga = 0.42, NL = 0.40, Extraliga = 0.35, 1st league = 0.20) are subjective
 approximations. They are based on public comparisons of the production of players who moved
 between leagues, but are sensitive to player selection, rule differences, rink size and seasonal
 context. The sensitivity analysis (Methodology section) shows how the map changes when a multiplier
 shifts by ±20 %: the top-10 ranking is stable under these perturbations (churn 0-1 players).</p>''')
-R('''<p><strong>Žádná data z KHL.</strong> KHL je z analýzy vyloučena ze dvou důvodů: politické sankce
+R('''<summary>Žádná data z KHL</summary><p>KHL je z analýzy vyloučena ze dvou důvodů: politické sankce
 omezují použitelnost ruských statistických zdrojů, a kvalita dat byla v poslední době
 neověřitelná. Čeští hráči v KHL nejsou v této verzi mapy zachyceni.</p>''',
-  '''<p><strong>No KHL data.</strong> The KHL is excluded from the analysis for two reasons: political
+  '''<summary>No KHL data</summary><p>The KHL is excluded from the analysis for two reasons: political
 sanctions limit the usability of Russian statistical sources, and data quality has recently been
 unverifiable. Czech players in the KHL are not captured in this version of the map.</p>''')
-R('''<p><strong>Velikost vzorku a Bayesovský shrinkage.</strong> Někteří hráči mají odehráno méně než 10
+R('''<summary>Velikost vzorku a Bayesovský shrinkage</summary><p>Někteří hráči mají odehráno méně než 10
 zápasů v sezoně 2025/26. Per-game metriky pro tyto hráče byly shrinkutovány k mediánu
 své ligy (Empirical Bayes, K = 10 fantomových zápasů). Trajektoriální analýza vyžaduje
 minimum 30 zápasů v obou sezónách (16 hráčů splňuje).</p>''',
-  '''<p><strong>Sample size and Bayesian shrinkage.</strong> Some players have played fewer than 10
+  '''<summary>Sample size and Bayesian shrinkage</summary><p>Some players have played fewer than 10
 games in the 2025/26 season. Per-game metrics for these players were shrunk towards their league
 median (empirical Bayes, K = 10 phantom games). The trajectory analysis requires a minimum of
 30 games in both seasons (16 players qualify).</p>''')
-R('''<p><strong>Goaltending.</strong> Brankáři jsou vyloučeni z hlavní mapy, protože jejich pozičně
+R('''<summary>Goaltending</summary><p>Brankáři jsou vyloučeni z hlavní mapy, protože jejich pozičně
 specifické metriky neumožňují společnou projekci s útočníky a obránci. Brankářská
 analytika je extrémně kontext-závislá (kvalita obrany před brankářem, ledové podmínky,
 schéma hry) a tato analýza nenárokuje hloubku v této oblasti.</p>''',
-  '''<p><strong>Goaltending.</strong> Goalies are excluded from the main map because their
+  '''<summary>Goaltending</summary><p>Goalies are excluded from the main map because their
 position-specific metrics do not allow a joint projection with forwards and defensemen.
 Goaltending analytics is extremely context-dependent (quality of the defence in front of the
 goalie, ice conditions, game scheme) and this analysis claims no depth in that area.</p>''')
-R('''<p><strong>Chybějící zdroje.</strong> SHL a švýcarská NL jsou v této verzi mapy vyloučeny;
+R('''<summary>Chybějící zdroje</summary><p>SHL a švýcarská NL jsou v této verzi mapy vyloučeny;
 oba weby jsou JavaScript-rendered s netriviálním přístupem k datům. Český pool
 v těchto ligách (~10-20 hráčů) tedy v této verzi mapy chybí. AHL hráči, NCAA, juniorské
 ligy mimo Extraligu a Liigy jsou rovněž mimo scope.</p>''',
-  '''<p><strong>Missing sources.</strong> The SHL and the Swiss NL are excluded from this version of
+  '''<summary>Missing sources</summary><p>The SHL and the Swiss NL are excluded from this version of
 the map; both sites are JavaScript-rendered with non-trivial data access. The Czech pool in these
 leagues (~10-20 players) is therefore missing from this version. AHL players, NCAA and junior
 leagues outside the Extraliga and Liiga are also out of scope.</p>''')
-R('''<p><strong>Style ≠ tactical understanding.</strong> Statistický otisk hráče nezachycuje schopnost
+R('''<summary>Style ≠ tactical understanding</summary><p>Statistický otisk hráče nezachycuje schopnost
 číst hru, leadership, šatnové vlivy, ani specifické dovednosti pro mezinárodní turnaje
 (např. hru na velkém ledě po dlouhé NHL sezóně). To je doménou trenérů a scoutingu.</p>''',
-  '''<p><strong>Style ≠ tactical understanding.</strong> A player's statistical footprint does not
+  '''<summary>Style ≠ tactical understanding</summary><p>A player's statistical footprint does not
 capture the ability to read the game, leadership, dressing-room influence, or specific skills
 for international tournaments (e.g. playing on the big ice after a long NHL season). That is
 the domain of coaches and scouting.</p>''')
-R('''<p><strong>Žádné doporučení.</strong> Tato analýza identifikuje statistická seskupení a změny v čase.
+R('''<summary>Žádné doporučení</summary><p>Tato analýza identifikuje statistická seskupení a změny v čase.
 Výběr hráčů a strategická rozhodnutí vyžadují integraci s interní expertízou, kterou
 tato metoda nemá k dispozici. Cílem je nabídnout metodu, kterou interní tým může
 aplikovat na vlastní rozšířenou datovou základnu.</p>''',
-  '''<p><strong>No recommendations.</strong> This analysis identifies statistical groupings and changes
+  '''<summary>No recommendations</summary><p>This analysis identifies statistical groupings and changes
 over time. Player selection and strategic decisions require integration with internal expertise
 that this method does not have. The aim is to offer a method the internal team can apply to its
 own extended data base.</p>''')
@@ -741,6 +741,10 @@ R('<p class="cycle-brief-excerpt">Nečas spadá do style clusteru C0 (Top-six sc
 R('data-tex="\\text{shrunk rate} = \\dfrac{\\text{počet eventů} + K \\cdot \\text{medián kohorty}}{\\text{GP hráče} + K},\\qquad K = 10"',
   'data-tex="\\text{shrunk rate} = \\dfrac{\\text{events} + K \\cdot \\text{cohort median}}{\\text{player GP} + K},\\qquad K = 10"')
 R('m_{\\text{liga}}">P/GP_quality = P/GP_shrunk × m_liga</p>', 'm_{\\text{league}}">P/GP_quality = P/GP_shrunk × m_league</p>')
+
+
+R('<summary>Celý brief</summary>', '<summary>Full brief</summary>', 2)
+R('<summary>Co tahle vrstva přidá &middot; 3 poznámky</summary>', '<summary>What this layer adds &middot; 3 notes</summary>')
 
 # ---------------------------------------------------------------- numbers: decimal comma -> point
 _head, _sep, _body = html.partition('</head>')

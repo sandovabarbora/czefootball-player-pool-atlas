@@ -757,7 +757,7 @@
           <h5 class="llm-brief-heading">Statistický profil</h5>
           <p>Pastrňák spadá do style clusteru C0 (Top-six skórující) a quality clusteru C3, s extrémní pozicí na produkční ose PC1 (5.77 style / 8.49 quality). Quality-adjusted P/GP 1.189 odpovídá cross-league z-score +6.50 — outlier i v rámci NHL elity v korpusu. Distribuce bodů je výrazně asistenčně vážená (A/GP shrunk 0.833 vs. G/GP 0.356), což ho v rámci C0 řadí spíše k playmaker-forward profilu než k čistému střelci.</p>
           
-          <h5 class="llm-brief-heading">Trajektorie</h5>
+          <details class="fold"><summary>Celý brief</summary><h5 class="llm-brief-heading">Trajektorie</h5>
           <p>Mezi sezónami 2024-2025 a 2025-2026 P/GP zůstává prakticky identické (1.189 → 1.189, Δ -0.001) při srovnatelném vzorku (82 → 77 GP). Profil je v multi-season okně stable, bez signálu age-related declinu na produkční ose ani strukturálního posunu mezi goal-share a assist-share.</p>
           
           <h5 class="llm-brief-heading">Reprezentační kontext</h5>
@@ -769,7 +769,7 @@
           <h5 class="llm-brief-heading">Caveats</h5>
           <p>Datový set obsahuje pouze NHL zdroj, žádné EU srovnání pro tohoto hráče. Vzhledem k extrémním souřadnicím (PC1 quality 8.49) je vzdálenost k nejbližším sousedům v clusteru C0 velká (>2.0), takže "comparable profiles" jsou nejbližší pouze relativně — Pastrňák je v korpusu strukturálně izolovaný outlier.</p>
           
-        </div>
+        </details></div>
       </article>
       
       <article class="llm-brief">
@@ -785,7 +785,7 @@
           <h5 class="llm-brief-heading">Statistický profil</h5>
           <p>Hronek se v sezóně 2025-26 nachází ve style clusteru C0 (Ofenzivní obránci) s PCA souřadnicemi (3.35, -0.77), což ho řadí do pravého kvadrantu produkční osy. Quality-adjusted P/GP 0.558 (NHL multiplier 1.00) je tažený především A/GP 0.466; cross-league z-score +6.205 ho na P/GP umisťuje vysoko nad mean defensemen v korpusu. Quality cluster C3 (PCA quality 7.60, 0.50) odpovídá produkčně dominantnímu profilu navzdory labelu "Mladí prospekti" — clustering reflektuje věkovou složku PC2.</p>
           
-          <h5 class="llm-brief-heading">Trajektorie</h5>
+          <details class="fold"><summary>Celý brief</summary><h5 class="llm-brief-heading">Trajektorie</h5>
           <p>Mezi 2024-25 a 2025-26 vzestup P/GP 0.497 → 0.558 (Δ +0.060) při zvýšení vzorku z 61 na 82 GP, klasifikováno jako stable. Růst je tažen spíše stabilizací zdraví a vyšším volume než skokovou změnou v rate stats; shrinkage efekt na 82 GP je minimální (raw 0.598 → shrunk 0.558).</p>
           
           <h5 class="llm-brief-heading">Reprezentační kontext</h5>
@@ -797,7 +797,7 @@
           <h5 class="llm-brief-heading">Caveats</h5>
           <p>Style clustering nezohledňuje ligový kontext, proto srovnatelné profily zahrnují útočníky z Extraligy/Liigy s diametrálně odlišnou kvalitou opozice; quality cluster C3 je relevantnější benchmark. Data set neobsahuje shots/GP, TOI ani usage split (PP1 vs ES), což pro ofenzivního obránce limituje interpretaci, kolik produkce pochází z přesilovkového nasazení.</p>
           
-        </div>
+        </details></div>
       </article>
       
     </div>
@@ -1827,10 +1827,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">LLM brief excerpt</p>
-          <p class="cycle-brief-excerpt">Pastrňák spadá do style clusteru C0 (Top-six skórující) a quality clusteru C3, s extrémní pozicí na produkční ose PC1 (5.77 style / 8.49 quality). Quality-adjusted P/GP 1.189 odpovídá cross-league z-score +6.50 — outlier i v rámci NHL elity v korpusu. Distribuce bodů je výrazně asistenčně vážená (A/GP shrunk 0.833 vs.…</p>
-        </div>
+        <details class="fold cycle-section"><summary class="cycle-section-label">LLM brief excerpt</summary><p class="cycle-brief-excerpt">Pastrňák spadá do style clusteru C0 (Top-six skórující) a quality clusteru C3, s extrémní pozicí na produkční ose PC1 (5.77 style / 8.49 quality). Quality-adjusted P/GP 1.189 odpovídá cross-league z-score +6.50 — outlier i v rámci NHL elity v korpusu. Distribuce bodů je výrazně asistenčně vážená (A/GP shrunk 0.833 vs.…</p></details>
         
       </article>
       
@@ -1876,10 +1873,7 @@
             <span class="cycle-traj-detail">79 GP &rarr; 78 GP</span>
           </p>
         </div>
-        <div class="cycle-section">
-          <p class="cycle-section-label">LLM brief excerpt</p>
-          <p class="cycle-brief-excerpt">Nečas spadá do style clusteru C0 (Top-six skórující) s extrémní pozicí na produkční ose — PCA style souřadnice (5.46, -0.04), quality (8.52, -0.27) ho řadí mezi nejvyhraněnější skórující profily v korpusu. Quality-adjusted P/GP 1.175 (G/GP 0.454, A/GP 0.721) s cross-league z-score +6.414 znamená více než šest směrodatných odchylek nad…</p>
-        </div>
+        <details class="fold cycle-section"><summary class="cycle-section-label">LLM brief excerpt</summary><p class="cycle-brief-excerpt">Nečas spadá do style clusteru C0 (Top-six skórující) s extrémní pozicí na produkční ose — PCA style souřadnice (5.46, -0.04), quality (8.52, -0.27) ho řadí mezi nejvyhraněnější skórující profily v korpusu. Quality-adjusted P/GP 1.175 (G/GP 0.454, A/GP 0.721) s cross-league z-score +6.414 znamená více než šest směrodatných odchylek nad…</p></details>
       </article>
       <article class="cycle-card" id="card-filip-hronek">
         <div class="cycle-card-visual" style="--hero: url('https://assets.nhle.com/mugs/actionshots/1296x729/8479425.jpg')">
@@ -1969,10 +1963,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">LLM brief excerpt</p>
-          <p class="cycle-brief-excerpt">Hronek se v sezóně 2025-26 nachází ve style clusteru C0 (Ofenzivní obránci) s PCA souřadnicemi (3.35, -0.77), což ho řadí do pravého kvadrantu produkční osy. Quality-adjusted P/GP 0.558 (NHL multiplier 1.00) je tažený především A/GP 0.466; cross-league z-score +6.205 ho na P/GP umisťuje vysoko nad mean defensemen v…</p>
-        </div>
+        <details class="fold cycle-section"><summary class="cycle-section-label">LLM brief excerpt</summary><p class="cycle-brief-excerpt">Hronek se v sezóně 2025-26 nachází ve style clusteru C0 (Ofenzivní obránci) s PCA souřadnicemi (3.35, -0.77), což ho řadí do pravého kvadrantu produkční osy. Quality-adjusted P/GP 0.558 (NHL multiplier 1.00) je tažený především A/GP 0.466; cross-league z-score +6.205 ho na P/GP umisťuje vysoko nad mean defensemen v…</p></details>
         
       </article>
       
@@ -2064,10 +2055,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">LLM brief excerpt</p>
-          <p class="cycle-brief-excerpt">Zacha spadá do style clusteru C0 (Top-six skórující) s PCA souřadnicemi (3.02, -0.43) a v quality-adjusted projekci sedí na PC1 = 5.41, což ho řadí mezi NHL elitu corpusu. Quality-adjusted P/GP 0.777 (G/GP 0.363, A/GP 0.415) odpovídá cross-league z-skóre +3.90 — jedna z nejvyšších hodnot v celém datasetu. Style…</p>
-        </div>
+        <details class="fold cycle-section"><summary class="cycle-section-label">LLM brief excerpt</summary><p class="cycle-brief-excerpt">Zacha spadá do style clusteru C0 (Top-six skórující) s PCA souřadnicemi (3.02, -0.43) a v quality-adjusted projekci sedí na PC1 = 5.41, což ho řadí mezi NHL elitu corpusu. Quality-adjusted P/GP 0.777 (G/GP 0.363, A/GP 0.415) odpovídá cross-league z-skóre +3.90 — jedna z nejvyšších hodnot v celém datasetu. Style…</p></details>
         
       </article>
       
@@ -2150,10 +2138,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">LLM brief excerpt</p>
-          <p class="cycle-brief-excerpt">Kulich spadá do style clusteru C1 (Mladí prospekti / doplnění) a quality clusteru C4 (EU mladá / depth), s PCA souřadnicemi style (0.03, 0.37) a quality (1.98, 0.10) — pravostranná pozice na produkční ose ho odlišuje od většiny C4 kohorty díky NHL multiplikátoru. Po Bayesovském shrinkage (K=10) činí jeho…</p>
-        </div>
+        <details class="fold cycle-section"><summary class="cycle-section-label">LLM brief excerpt</summary><p class="cycle-brief-excerpt">Kulich spadá do style clusteru C1 (Mladí prospekti / doplnění) a quality clusteru C4 (EU mladá / depth), s PCA souřadnicemi style (0.03, 0.37) a quality (1.98, 0.10) — pravostranná pozice na produkční ose ho odlišuje od většiny C4 kohorty díky NHL multiplikátoru. Po Bayesovském shrinkage (K=10) činí jeho…</p></details>
         
       </article>
       
@@ -2302,7 +2287,8 @@
         <div><dt>HC Mountfield + ref</dt><dd>395 detekcí</dd></div>
         <div><dt>Inference / frame</dt><dd>18,3 ms (CPU)</dd></div>
       </dl>
-      <figcaption class="roadmap-caption">
+      <details class="fold"><summary>Co tahle vrstva přidá &middot; 3 poznámky</summary>
+      <p class="roadmap-caption">
         <strong>Co tahle vrstva přidá nad samotnou detekci:</strong> dense sample
         (5 fps, 151 frames z 30 s), ICE ROI filter (odstraňuje 32,9 % junk
         detekcí lavičky a davu), a per-team color split (KMeans-like rule
@@ -2312,8 +2298,8 @@
         každý tým strávil čas na ledě v rámci 30 s sample &mdash; tactical
         signal který commercial trackery dělají, ale jen pro NHL; pro
         Extraliga, Liiga, SHL je tahle vrstva mezera na trhu.
-      </figcaption>
-      <figcaption class="roadmap-caption">
+      </p>
+      <p class="roadmap-caption">
         <strong>0 detekcí puku</strong> a fixed-rectangle ICE ROI jsou dva
         očekávané PoC floors: puk je v 640&times;360 broadcast ~1-2 px diameter
         proti COCO "sports ball" tréninku na 30-60 px míče; ROI obdélník je
@@ -2323,8 +2309,8 @@
         z polygonu). Hockey-specific fine-tune detektoru na annotated puk
         dataset (Roboflow public sets nebo vlastní labelling) odstraní oba
         defaults.
-      </figcaption>
-      <figcaption class="roadmap-caption">
+      </p>
+      <p class="roadmap-caption">
         <strong>Co tahle vrstva přidá pro video coach nad commercial tracker:</strong>
         Sportlogiq a InStat pokrývají NHL plně, Extraliga útržkovitě a draho.
         Tahle pipeline běží na CPU v real-time (~55 fps na pretrained modelu),
@@ -2339,7 +2325,8 @@
         <em>real-time alerts</em> (&ldquo;soupeř právě přepnul na 1-3-1 PK box&rdquo;).
         Detekce je primitive layer; tactical platform je <strong>vrstva
         klasifikace, retrieval a alerts nad detekcí</strong>.
-      </figcaption>
+      </p>
+      </details>
     </figure>
 
     <h3 id="roadmap-buzz">Plánováno &middot; media buzz index z českých hokej podcastů</h3>
@@ -2773,40 +2760,40 @@
 
     <h3 id="omezeni">Omezení této analýzy</h3>
     <div class="limitations">
-      <p><strong>Veřejná versus interní data.</strong> Tato analýza využívá výhradně veřejně dostupné
+      <details class="fold fold-lim" open><summary>Veřejná versus interní data</summary><p>Tato analýza využívá výhradně veřejně dostupné
 statistické zdroje (NHL API, MoneyPuck, Liiga, hokej.cz, Wikipedia pro IIHF turnaje).
 Trénerský a manažerský úsek reprezentace ČR disponuje interními daty (videosrážka,
 kondiční sledování, scoutingové zprávy, mikrostatistiky vstupů do pásma a kontrolovaných
 výjezdů), které tato metoda nezohledňuje. Vzory zde identifikované jsou hypotézami
-pro vnitřní validaci, nikoli závěry.</p>
-<p><strong>Liga quality multipliers.</strong> Použité násobičky kvality lig (NHL = 1.00, AHL = 0.55,
+pro vnitřní validaci, nikoli závěry.</p></details>
+<details class="fold fold-lim"><summary>Liga quality multipliers</summary><p>Použité násobičky kvality lig (NHL = 1.00, AHL = 0.55,
 SHL = 0.45, Liiga = 0.42, NL = 0.40, Extraliga = 0.35, 1. liga = 0.20) jsou subjektivní
 aproximace. Vycházejí z veřejných srovnání produkce hráčů, kteří přešli mezi ligami, ale
 jsou citlivé na výběr hráčů, vlastnosti pravidel, velikost kluziště a sezónní kontext.
 Citlivostní analýza (oddíl Methodologie) ukazuje, jak se mapa mění při změně násobičky
-o ±20 %: top-10 ranking je vůči těmto perturbacím stabilní (churn 0-1 hráčů).</p>
-<p><strong>Žádná data z KHL.</strong> KHL je z analýzy vyloučena ze dvou důvodů: politické sankce
+o ±20 %: top-10 ranking je vůči těmto perturbacím stabilní (churn 0-1 hráčů).</p></details>
+<details class="fold fold-lim"><summary>Žádná data z KHL</summary><p>KHL je z analýzy vyloučena ze dvou důvodů: politické sankce
 omezují použitelnost ruských statistických zdrojů, a kvalita dat byla v poslední době
-neověřitelná. Čeští hráči v KHL nejsou v této verzi mapy zachyceni.</p>
-<p><strong>Velikost vzorku a Bayesovský shrinkage.</strong> Někteří hráči mají odehráno méně než 10
+neověřitelná. Čeští hráči v KHL nejsou v této verzi mapy zachyceni.</p></details>
+<details class="fold fold-lim"><summary>Velikost vzorku a Bayesovský shrinkage</summary><p>Někteří hráči mají odehráno méně než 10
 zápasů v sezoně 2025/26. Per-game metriky pro tyto hráče byly shrinkutovány k mediánu
 své ligy (Empirical Bayes, K = 10 fantomových zápasů). Trajektoriální analýza vyžaduje
-minimum 30 zápasů v obou sezónách (16 hráčů splňuje).</p>
-<p><strong>Goaltending.</strong> Brankáři jsou vyloučeni z hlavní mapy, protože jejich pozičně
+minimum 30 zápasů v obou sezónách (16 hráčů splňuje).</p></details>
+<details class="fold fold-lim"><summary>Goaltending</summary><p>Brankáři jsou vyloučeni z hlavní mapy, protože jejich pozičně
 specifické metriky neumožňují společnou projekci s útočníky a obránci. Brankářská
 analytika je extrémně kontext-závislá (kvalita obrany před brankářem, ledové podmínky,
-schéma hry) a tato analýza nenárokuje hloubku v této oblasti.</p>
-<p><strong>Chybějící zdroje.</strong> SHL a švýcarská NL jsou v této verzi mapy vyloučeny;
+schéma hry) a tato analýza nenárokuje hloubku v této oblasti.</p></details>
+<details class="fold fold-lim"><summary>Chybějící zdroje</summary><p>SHL a švýcarská NL jsou v této verzi mapy vyloučeny;
 oba weby jsou JavaScript-rendered s netriviálním přístupem k datům. Český pool
 v těchto ligách (~10-20 hráčů) tedy v této verzi mapy chybí. AHL hráči, NCAA, juniorské
-ligy mimo Extraligu a Liigy jsou rovněž mimo scope.</p>
-<p><strong>Style ≠ tactical understanding.</strong> Statistický otisk hráče nezachycuje schopnost
+ligy mimo Extraligu a Liigy jsou rovněž mimo scope.</p></details>
+<details class="fold fold-lim"><summary>Style ≠ tactical understanding</summary><p>Statistický otisk hráče nezachycuje schopnost
 číst hru, leadership, šatnové vlivy, ani specifické dovednosti pro mezinárodní turnaje
-(např. hru na velkém ledě po dlouhé NHL sezóně). To je doménou trenérů a scoutingu.</p>
-<p><strong>Žádné doporučení.</strong> Tato analýza identifikuje statistická seskupení a změny v čase.
+(např. hru na velkém ledě po dlouhé NHL sezóně). To je doménou trenérů a scoutingu.</p></details>
+<details class="fold fold-lim"><summary>Žádné doporučení</summary><p>Tato analýza identifikuje statistická seskupení a změny v čase.
 Výběr hráčů a strategická rozhodnutí vyžadují integraci s interní expertízou, kterou
 tato metoda nemá k dispozici. Cílem je nabídnout metodu, kterou interní tým může
-aplikovat na vlastní rozšířenou datovou základnu.</p>
+aplikovat na vlastní rozšířenou datovou základnu.</p></details>
     </div>
 
     <h3 id="reprodukovatelnost">Reprodukovatelnost</h3>
