@@ -36,6 +36,16 @@ HTML/CSS/JS on GitHub Pages.
 - Every strong claim in the report ends with `*` and has a mono footnote.
 - `data/snapshot/` (processed parquet the render needs) is committed.
 - Commit after every task; never commit `data/raw/` or secrets.
+- **Player key (ruled after the Task 0 spike):** soccerdata's FBref frames
+  carry no player ids. The canonical key everywhere is
+  `player_key = normalize_name(player) + "|" + str(born)` (`born` may be
+  `<NA>` → `"x"`). Wherever a task says `fbref_id` as a join key, implement
+  `player_key`. The real 8-char FBref id exists only for Czech players (from
+  the country page) and is stored as `fbref_id` for photo file names and links.
+- **Country page (ruled after Task 0):** it is a `<p>` list, not a table:
+  `<p><a href="/en/players/<id>/<Slug>"><strong>Name</strong></a> 2013-2027 · FW · Club A, Club B, …</p>`
+  (`<strong>` and a span end year ≥ current season start mean "active"; clubs
+  are most-recent first; no competition, no birth date).
 
 ---
 
@@ -353,6 +363,7 @@ git commit -m "Prune hockey fork; football config (leagues, peers, seasons, feat
 
 **Files:**
 - Create: `src/leagues_setup.py`, `src/fetch_fbref.py`
+- Modify: `src/utils.py` (add `normalize_name`, `player_key`)
 - Test: `tests/test_fetch_fbref.py`
 
 **Interfaces:**
@@ -388,10 +399,11 @@ def _soccerdata_like():
 
 def test_normalize_flattens_and_types():
     out = normalize_player_table(_soccerdata_like(), "ENG-Premier League", "2024-2025")
-    assert list(out.columns) == ["league", "season", "team", "player", "fbref_id", "nation",
+    assert list(out.columns) == ["league", "season", "team", "player", "player_key", "nation",
                                  "pos", "born", "age", "mp", "min", "gls", "ast", "pk", "crdy", "crdr"]
     row = out[out.player == "Tomáš Souček"].iloc[0]
     assert row.nation == "CZE" and row.pos == "MF" and row.born == 1995 and row["min"] == 3200
+    assert row.player_key == "tomas soucek|1995"
     assert out.season.unique().tolist() == ["2024-2025"]
 
 
@@ -466,10 +478,10 @@ import pandas as pd
 import soccerdata as sd
 
 from src import config
-from src.utils import write_parquet
+from src.utils import player_key, write_parquet
 
 LOG = logging.getLogger(__name__)
-COLS = ["league", "season", "team", "player", "fbref_id", "nation", "pos", "born", "age",
+COLS = ["league", "season", "team", "player", "player_key", "nation", "pos", "born", "age",
         "mp", "min", "gls", "ast", "pk", "crdy", "crdr"]
 
 
@@ -487,7 +499,6 @@ def normalize_player_table(df: pd.DataFrame, league: str, season: str) -> pd.Dat
         "season": season,
         "team": idx["team"].values,
         "player": idx["player"].values,
-        "fbref_id": df.index.get_level_values("player").map(str),  # replaced below if ids present
         "nation": _col(df, ("nation", "")).astype(str).str.split().str[-1].values,
         "pos": _col(df, ("pos", "")).astype(str).str.split(",").str[0].values,
         "born": pd.to_numeric(_col(df, ("born", "")), errors="coerce").astype("Int64").values,
@@ -500,8 +511,7 @@ def normalize_player_table(df: pd.DataFrame, league: str, season: str) -> pd.Dat
         "crdy": pd.to_numeric(_col(df, ("Performance", "CrdY")), errors="coerce").fillna(0).astype(int).values,
         "crdr": pd.to_numeric(_col(df, ("Performance", "CrdR")), errors="coerce").fillna(0).astype(int).values,
     })
-    if "id" in idx.columns:            # soccerdata >= 1.8 exposes FBref player ids in the index
-        out["fbref_id"] = idx["id"].values
+    out["player_key"] = [player_key(n, b) for n, b in zip(out["player"], out["born"])]
     return out[COLS]
 
 
@@ -538,8 +548,10 @@ Expected: 2 passed.
 - [ ] **Step 6: Live smoke (one league) and commit**
 
 Run: `uv run python -c "from src.fetch_fbref import fetch_league; print(fetch_league('ENG-Premier League','2024-2025').head())"`
-Expected: a frame with ≈ 550 rows; `fbref_id` populated (if it equals the
-name, note it — Task 3 then maps ids from the country page).
+Expected: a frame with ≈ 550 rows and unique `player_key`s per team.
+`player_key` and `normalize_name` live in `src/utils.py` — add them in this
+task (code listed in Task 3, Step 3); Task 4 imports `normalize_name` from
+`src.utils` too.
 
 ```bash
 git add src/leagues_setup.py src/fetch_fbref.py tests/test_fetch_fbref.py
@@ -552,14 +564,19 @@ git commit -m "FBref player tables via soccerdata, normalised"
 
 **Files:**
 - Create: `src/pool.py`
+- Modify: `src/utils.py` (add `normalize_name`, `player_key` if Task 2 did not)
 - Test: `tests/test_pool.py` (uses `tests/fixtures/fbref_country_cze.html` from Task 0)
 
 **Interfaces:**
-- Produces: `parse_country_page(html: str) -> pd.DataFrame` with columns
-  `fbref_id, player, born, pos, club, comp_id, comp_name`;
+- Produces: `parse_country_page(html: str, current_start_year: int) -> pd.DataFrame`
+  with columns `fbref_id, player, player_norm, span_start, span_end, active, pos, clubs (list[str])`;
   `build_pool() -> pd.DataFrame` writing `data/processed/pool.parquet` with
-  columns `fbref_id, player, born, pos_group, club_current, comp_id, comp_name,
-  in_fbref_tables (bool)`; `discover_missing_leagues() -> list[dict]`.
+  columns `player_key, fbref_id, player, born, pos_group, club_current,
+  in_fbref_tables (bool)`; `unmatched_clubs(pool, tables) -> pd.DataFrame`
+  (`club, n_players`) listing clubs of active Czech players that appear in no
+  fetched league table — the manual hook for extending `config/leagues.yaml`.
+- Consumes: `fbref_players.parquet` (Task 2); `normalize_name`, `player_key`
+  from `src/utils.py`.
 
 - [ ] **Step 1: Failing parser test**
 
@@ -570,12 +587,14 @@ from src.pool import parse_country_page, pos_group
 FIX = Path(__file__).parent / "fixtures" / "fbref_country_cze.html"
 
 
-def test_country_page_yields_players_with_ids():
-    df = parse_country_page(FIX.read_text(encoding="utf-8"))
-    assert len(df) > 100
+def test_country_page_yields_players_with_ids_and_activity():
+    df = parse_country_page(FIX.read_text(encoding="utf-8"), current_start_year=2025)
+    assert len(df) > 1500                      # all-time list
     assert df.fbref_id.str.len().eq(8).all()
-    assert {"player", "born", "pos", "club", "comp_id", "comp_name"} <= set(df.columns)
-    assert (df.player == "Patrik Schick").any()
+    schick = df[df.player == "Patrik Schick"].iloc[0]
+    assert schick.active and schick.pos == "FW" and schick.clubs[0] == "Leverkusen"
+    assert not df[df.player == "Martin Abraham"].iloc[0].active
+    assert df.active.sum() > 150
 
 
 def test_pos_group_mapping():
@@ -584,18 +603,33 @@ def test_pos_group_mapping():
     assert pos_group("GK") is None
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [ ] **Step 2: Run to verify it fails** → `ModuleNotFoundError`.
 
-Run: `uv run pytest tests/test_pool.py -q` → FAIL `ModuleNotFoundError`.
+- [ ] **Step 3: Implement `src/pool.py`** (`src/utils.py` helpers shown for reference — same code as Task 2)
 
-- [ ] **Step 3: Implement `src/pool.py`**
+```python
+# src/utils.py — helpers (add if missing)
+import re as _re
+from unidecode import unidecode as _unidecode
+
+
+def normalize_name(s: str | None) -> str:
+    return _re.sub(r"\s+", " ", _unidecode(s or "").lower()).strip()
+
+
+def player_key(name: str | None, born) -> str:
+    try:
+        b = str(int(born))
+    except (TypeError, ValueError):
+        b = "x"
+    return f"{normalize_name(name)}|{b}"
+```
 
 ```python
 """Czech-eligible pool: discovery (FBref country page) ∪ league tables.
 
-FBref rows carry `data-stat` attributes, which is the only stable hook — column
-order and headers change, `data-stat` does not. Tables sit inside HTML comments
-on some pages; we un-comment before parsing.
+The country page lists every Czech player FBref ever tracked as one <p> per
+player: link (id + name), career span, position, clubs most-recent-first.
 """
 from __future__ import annotations
 
@@ -606,10 +640,11 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 from src import config
-from src.utils import read_parquet, write_parquet
+from src.utils import normalize_name, player_key, read_parquet, write_parquet
 
 LOG = logging.getLogger(__name__)
 COUNTRY_URL = "https://fbref.com/en/country/players/CZE/Czechia-Football-Players"
+ENTRY = re.compile(r"^(?P<span>\d{4}(?:-\d{4})?)\s*·\s*(?P<pos>[A-Z,]+)(?:\s*·\s*(?P<clubs>.*))?$")
 
 
 def pos_group(pos: str | None) -> str | None:
@@ -617,40 +652,27 @@ def pos_group(pos: str | None) -> str | None:
     return first if first in ("FW", "MF", "DF") else None
 
 
-def _uncomment(html: str) -> str:
-    return re.sub(r"<!--|-->", "", html)
-
-
-def parse_country_page(html: str) -> pd.DataFrame:
-    soup = BeautifulSoup(_uncomment(html), "lxml")
+def parse_country_page(html: str, current_start_year: int) -> pd.DataFrame:
+    soup = BeautifulSoup(html, "lxml")
     rows = []
-    for tr in soup.select("table tbody tr"):
-        cell = tr.find(attrs={"data-stat": "player"})
-        if cell is None or not cell.find("a"):
+    for p in soup.find_all("p"):
+        a = p.find("a", href=re.compile(r"^/en/players/[0-9a-f]{8}/"))
+        if a is None:
             continue
-        href = cell.find("a")["href"]                      # /en/players/<id>/<Name>
-        pid = href.split("/")[3]
-        club_cell = tr.find(attrs={"data-stat": "team"}) or tr.find(attrs={"data-stat": "club"})
-        comp_cell = tr.find(attrs={"data-stat": "comp_level"}) or tr.find(attrs={"data-stat": "league"})
-        comp_id, comp_name = None, None
-        if comp_cell is not None and comp_cell.find("a"):
-            m = re.search(r"/comps/(\d+)/", comp_cell.find("a")["href"])
-            comp_id = int(m.group(1)) if m else None
-            comp_name = comp_cell.get_text(strip=True)
-        born_cell = tr.find(attrs={"data-stat": "birth_year"}) or tr.find(attrs={"data-stat": "born"})
-        pos_cell = tr.find(attrs={"data-stat": "position"}) or tr.find(attrs={"data-stat": "pos"})
-        rows.append({
-            "fbref_id": pid,
-            "player": cell.get_text(strip=True),
-            "born": pd.to_numeric(born_cell.get_text(strip=True) if born_cell else None, errors="coerce"),
-            "pos": pos_cell.get_text(strip=True) if pos_cell else "",
-            "club": club_cell.get_text(strip=True) if club_cell else "",
-            "comp_id": comp_id,
-            "comp_name": comp_name,
-        })
-    df = pd.DataFrame(rows).drop_duplicates("fbref_id")
-    df["born"] = df["born"].astype("Int64")
-    return df
+        pid = a["href"].split("/")[3]
+        name = a.get_text(strip=True)
+        rest = p.get_text(" ", strip=True)[len(name):].strip()
+        m = ENTRY.match(rest)
+        if not m:
+            continue
+        span = m.group("span")
+        start, end = int(span[:4]), int(span[-4:])
+        clubs = [c.strip() for c in (m.group("clubs") or "").split(",") if c.strip()]
+        rows.append({"fbref_id": pid, "player": name, "player_norm": normalize_name(name),
+                     "span_start": start, "span_end": end,
+                     "active": bool(a.find("strong")) or end >= current_start_year,
+                     "pos": m.group("pos"), "clubs": clubs})
+    return pd.DataFrame(rows).drop_duplicates("fbref_id")
 
 
 def fetch_country_page() -> str:
@@ -659,30 +681,37 @@ def fetch_country_page() -> str:
     return fb.get(COUNTRY_URL, fb.data_dir / "country_cze.html").read().decode("utf-8")
 
 
-def discover_missing_leagues(discovery: pd.DataFrame) -> list[dict]:
-    """Competitions with >= min_players_to_fetch Czech players not yet in config."""
-    cfg = config.leagues()
-    known = {v["comp_id"] for v in cfg["custom"].values()} | {9, 11, 12, 20, 13}  # Big-5 ids
-    counts = discovery.dropna(subset=["comp_id"]).groupby(["comp_id", "comp_name"]).size()
-    return [{"comp_id": int(cid), "comp_name": name, "players": int(n)}
-            for (cid, name), n in counts.items() if n >= cfg["min_players_to_fetch"] and cid not in known]
+def unmatched_clubs(pool: pd.DataFrame, tables: pd.DataFrame) -> pd.DataFrame:
+    known = set(tables.team.map(normalize_name))
+    act = pool[pool.active & ~pool.in_fbref_tables]
+    counts = act.club_current.map(lambda c: c if c and normalize_name(c) not in known else None).dropna().value_counts()
+    return counts.rename_axis("club").reset_index(name="n_players")
 
 
 def build_pool() -> pd.DataFrame:
-    discovery = parse_country_page(fetch_country_page())
+    current_year = int(config.seasons()["current"][:4])
+    disc = parse_country_page(fetch_country_page(), current_year)
     tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
-    cze_tables = tables[tables.nation == "CZE"]
-    ids_in_tables = set(cze_tables.fbref_id)
-    pool = discovery.copy()
-    pool["pos_group"] = pool["pos"].map(pos_group)
-    pool["in_fbref_tables"] = pool.fbref_id.isin(ids_in_tables)
-    pool = pool.rename(columns={"club": "club_current"})
-    missing = discover_missing_leagues(discovery)
-    if missing:
-        LOG.warning("leagues with Czech players not yet fetched: %s", missing)
-    write_parquet(pool, config.PROCESSED_DIR / "pool.parquet")
-    LOG.info("pool: %d players, %d with metrics", len(pool), pool.in_fbref_tables.sum())
-    return pool
+    cze = tables[tables.nation == "CZE"].copy()
+    cze["player_norm"] = cze.player.map(normalize_name)
+    born_by_norm = cze.groupby("player_norm")["born"].first()
+    pool = disc.copy()
+    pool["born"] = pool.player_norm.map(born_by_norm).astype("Int64")
+    pool["player_key"] = [player_key(n, b) for n, b in zip(pool.player, pool.born)]
+    pool["pos_group"] = pool.pos.map(pos_group)
+    pool["club_current"] = pool.clubs.map(lambda c: c[0] if c else "")
+    pool["in_fbref_tables"] = pool.player_norm.isin(set(cze.player_norm))
+    dup = pool[pool.active].player_norm.duplicated(keep=False)
+    if dup.any():
+        LOG.warning("active players sharing a normalised name: %s", sorted(pool[pool.active][dup].player.unique()))
+    miss = unmatched_clubs(pool, tables)
+    if len(miss):
+        LOG.warning("active Czech players at clubs outside fetched leagues (extend config/leagues.yaml):\n%s",
+                    miss.head(30).to_string(index=False))
+    out = pool[pool.active][["player_key", "fbref_id", "player", "born", "pos_group", "club_current", "in_fbref_tables"]].reset_index(drop=True)
+    write_parquet(out, config.PROCESSED_DIR / "pool.parquet")
+    LOG.info("pool: %d active players, %d with metrics", len(out), int(out.in_fbref_tables.sum()))
+    return out
 
 
 def main() -> None:
@@ -693,27 +722,24 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 ```
-If the fixture's `data-stat` names differ from the alternatives tried above,
-read them from the fixture (`grep -o 'data-stat="[a-z_]*"' tests/fixtures/fbref_country_cze.html | sort -u`)
-and adjust the `find(attrs=...)` names — the test pins the contract, not the names.
 
-- [ ] **Step 4: Run tests**
-
-Run: `uv run pytest tests/test_pool.py -q` → 2 passed.
+- [ ] **Step 4: Run tests** → `uv run pytest tests/test_pool.py -q` → 2 passed.
 
 - [ ] **Step 5: Run discovery live, extend `config/leagues.yaml`**
 
-Run: `uv run python -m src.pool`
-Expected: log line `pool: N players` and possibly a warning listing leagues
-with ≥ 3 Czech players not yet in config. Add each of those to
-`config.leagues.custom` (comp_id from the log, slug from the FBref URL), rerun
-`make fetch` for the new leagues, rerun `python -m src.pool`.
+Run: `uv run python -m src.pool`. The warning lists clubs of active Czech
+players outside fetched leagues. Group those clubs by league (football
+knowledge; the FBref comp id is in the competition page URL
+`/en/comps/<id>/`); add every league with ≥ 3 players to
+`config.leagues.custom`, rerun `python -m src.fetch_fbref` for the new
+leagues, rerun `python -m src.pool`. Record the final unmatched list in the
+report — it becomes a Limitations line.
 
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/pool.py tests/test_pool.py config/leagues.yaml
-git commit -m "Pool discovery from FBref country page; missing-league report"
+git add src/pool.py src/utils.py tests/test_pool.py config/leagues.yaml
+git commit -m "Pool discovery from the FBref country page; unmatched-club report"
 ```
 
 ---
