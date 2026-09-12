@@ -72,9 +72,9 @@
     const key = fig.dataset.atlas;
     // cluster archetype names from the page's cluster list
     const names = new Map();
-    document.querySelectorAll(`.cluster-list[data-atlas-clusters="${key}"] dt`).forEach((dt) => {
+    document.querySelectorAll(`.cluster-list[data-atlas-clusters="${key}"] .cluster-head`).forEach((dt) => {
       const id = dt.querySelector('.cluster-id')?.textContent.trim();
-      const lab = dt.querySelector('span:last-child')?.childNodes[0]?.textContent.trim();
+      const lab = dt.querySelector(":scope > span:nth-of-type(2)")?.childNodes[0]?.textContent.trim();
       if (id && lab) names.set(id, lab);
     });
 

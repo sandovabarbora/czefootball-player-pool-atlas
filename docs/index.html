@@ -8,11 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="modern.css">
+  <link rel="stylesheet" href="style.css?v=202609121319">
+  <link rel="stylesheet" href="modern.css?v=202609121319">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js"></script>
+  <script defer src="atlas.js?v=202609121319"></script>
   <link rel="alternate" hreflang="en" href="https://hockey.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://hockey.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://hockey.datasimply.eu/">
@@ -25,6 +25,7 @@
     <a href="#ai-vrstva">AI layer</a>
     <a href="#metodologie">Methodology</a>
   </div>
+  <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Contents</button>
   <div class="lang-switch" aria-label="Language">
     <span aria-current="page" lang="en">EN</span><a href="cs/" hreflang="cs" lang="cs">CS</a>
   </div>
@@ -87,17 +88,8 @@
 
     <a class="cast" href="#cyklus-dashboard">
       <span class="cast-stack"><img src="https://assets.nhle.com/mugs/nhl/20262027/BOS/8477956.png" alt="David Pastrňák" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="https://assets.nhle.com/mugs/nhl/20262027/COL/8480039.png" alt="Martin Nečas" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="https://assets.nhle.com/mugs/nhl/20262027/VAN/8479425.png" alt="Filip Hronek" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="https://assets.nhle.com/mugs/nhl/20262027/BOS/8478401.png" alt="Pavel Zacha" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="https://assets.nhle.com/mugs/nhl/20262027/BUF/8483468.png" alt="Jiří Kulich" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="https://assets.nhle.com/mugs/nhl/20262027/PHI/8483460.png" alt="David Jiříček" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
-      <span class="cast-caption">Six player profiles: Pastrňák, Nečas, Hronek, Zacha, Kulich, Jiříček</span>
+      <span class="cast-caption" data-short="6 player profiles">Six player profiles: Pastrňák, Nečas, Hronek, Zacha, Kulich, Jiříček</span>
     </a>
-
-    <details class="toc-mobile" open>
-      <summary>Report contents</summary>
-      <ol>
-        <li><a href="#shrnuti">Summary</a> · <a href="#strukturalni-benchmark">Benchmark</a> · <a href="#pozorovani">Observations</a> · <a href="#cluster-archetypy">Cluster archetypes</a> · <a href="#trajektorie">Trajectories</a></li>
-        <li><a href="#ai-vrstva">AI layer</a> · <a href="#llm-briefy">LLM briefs</a> · <a href="#historicke-analogy">Analogs</a> · <a href="#cyklus-dashboard">Cycle</a> · <a href="#roadmap-video">Video platform</a> · <a href="#roadmap-buzz">Buzz roadmap</a></li>
-        <li><a href="#metodologie">Methodology</a> · <a href="#nasobicky">Multipliers</a> · <a href="#shrinkage">Shrinkage</a> · <a href="#pca-loadings">PCA</a> · <a href="#sensitivity">Sensitivity</a> · <a href="#atlas-obrancu">Defensemen atlas</a> · <a href="#omezeni">Limitations</a></li>
-      </ol>
-    </details>
   </div>
 </header>
 
@@ -125,6 +117,7 @@
           Finland has roughly <strong>four times</strong> the density,
           Sweden <strong>five times</strong>.
         </p>
+        <details class="fold fold-hero"><summary>In context</summary>
         <p class="hero-sublead">
           The structural gap is most pronounced among <strong>U22 forwards</strong>
           (a single player) and across the entire <strong>defence pipeline</strong>
@@ -132,8 +125,14 @@
           intuition recognises these numbers player by player, but has no single
           place where they are aggregated.
         </p>
+        </details>
       </div>
     </div>
+    <ul class="hero-tiles" aria-label="Key numbers">
+          <li><strong>5.<span>/6</span></strong><span class="hero-tile-label">per-capita rank among peer countries</span></li>
+          <li><strong>1</strong><span class="hero-tile-label">U22 forward in the NHL <em>FIN 3 · SWE 7</em></span></li>
+          <li><strong>4</strong><span class="hero-tile-label">NHL defensemen in total <em>FIN 14 · SWE 30</em></span></li>
+        </ul>
     <p class="hero-footnote">* 15 players with birth_country = CZE on 2025/26 NHL rosters (NHL Stats API) ÷ 10.9 M inhabitants (2024 estimate); peer countries computed the same way. <a href="#metodologie">Methodology</a>.</p>
     <dl class="hero-meta">
       <div><dt>Mapped pool</dt> <dd>385 players</dd></div>
@@ -577,77 +576,49 @@
     </div>
 
     <h3 id="cluster-archetypy">Cluster archetypes — forwards (style projection)</h3>
-    <dl class="cluster-list" data-atlas-clusters="forwards">
+    <div class="cluster-list" data-atlas-clusters="forwards">
       
-      <dt>
-        <span class="cluster-id">C0</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C0</span>
         <span>
           Top-six scorers
           <span class="cluster-meta-inline">
             18 players · WC pool 8 · median birth year 1996
           </span>
-        </span>
-      </dt>
-      <dd>
-        High goal + assist production, NHL stars (Pastrňák, Hertl, Zacha, Nečas) + EU elite (Mazura). Median birth year 1996.
+        </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/BOS/8477956.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">DP</span><span class="pchip-name">David Pastrnak</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/COL/8480039.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MN</span><span class="pchip-name">Martin Necas</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/BOS/8478401.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">PZ</span><span class="pchip-name">Pavel Zacha</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/VGK/8476881.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TH</span><span class="pchip-name">Tomas Hertl</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RČ</span><span class="pchip-name">Roman Červenka</span></span></span></summary><div class="cluster-body">High goal + assist production, NHL stars (Pastrňák, Hertl, Zacha, Nečas) + EU elite (Mazura). Median birth year 1996.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Shooting-heavy top-six profile. Statistical footprint consistent with players who generate their own shot from controlled-entry situations and hold PP1 minutes. National-team context: players in this cluster typically carry the first line's offensive load.</span>
-        
-        <span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/BOS/8477956.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">DP</span><span class="pchip-name">David Pastrnak</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/COL/8480039.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MN</span><span class="pchip-name">Martin Necas</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/BOS/8478401.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">PZ</span><span class="pchip-name">Pavel Zacha</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/VGK/8476881.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TH</span><span class="pchip-name">Tomas Hertl</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RČ</span><span class="pchip-name">Roman Červenka</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Shooting-heavy top-six profile. Statistical footprint consistent with players who generate their own shot from controlled-entry situations and hold PP1 minutes. National-team context: players in this cluster typically carry the first line's offensive load.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C1</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C1</span>
         <span>
           Young prospects / depth
           <span class="cluster-meta-inline">
             122 players · WC pool 9 · median birth year 2001
           </span>
-        </span>
-      </dt>
-      <dd>
-        Low production, median birth year 2001. Mostly Extraliga (112/122). Junior call-ups and young depth players.
+        </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/BUF/8483468.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">JK</span><span class="pchip-name">Jiri Kulich</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TM</span><span class="pchip-name">Tomas Mazura</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/VAN/8480078.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">FC</span><span class="pchip-name">Filip Chytil</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">OK</span><span class="pchip-name">Ondrej Kos</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JF</span><span class="pchip-name">Jakub Frolo *</span></span></span></summary><div class="cluster-body">Low production, median birth year 2001. Mostly Extraliga (112/122). Junior call-ups and young depth players.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Development pool. A transitional cluster: the career arc is the decisive signal here, not current stats. For national-team planning over a 4-year cycle, this layer is fund-the-future.</span>
-        
-        <span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/BUF/8483468.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">JK</span><span class="pchip-name">Jiri Kulich</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TM</span><span class="pchip-name">Tomas Mazura</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/VAN/8480078.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">FC</span><span class="pchip-name">Filip Chytil</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">OK</span><span class="pchip-name">Ondrej Kos</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JF</span><span class="pchip-name">Jakub Frolo *</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Development pool. A transitional cluster: the career arc is the decisive signal here, not current stats. For national-team planning over a 4-year cycle, this layer is fund-the-future.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C2</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C2</span>
         <span>
           Physical role players
           <span class="cluster-meta-inline">
             9 players · WC pool 1 · median birth year 1997
           </span>
-        </span>
-      </dt>
-      <dd>
-        Markedly high PIM (5-6× the cohort median). Big players: Klapka (NHL prospect), Zohorna, Lakatoš. Mid-to-upper age.
+        </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/CGY/8483609.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">AK</span><span class="pchip-name">Adam Klapka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LH</span><span class="pchip-name">Libor Hudáček</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DL</span><span class="pchip-name">Dominik Lakatoš</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MS</span><span class="pchip-name">Matúš Sukeľ</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">OP</span><span class="pchip-name">Ondrej Pavel</span></span></span></summary><div class="cluster-body">Markedly high PIM (5-6× the cohort median). Big players: Klapka (NHL prospect), Zohorna, Lakatoš. Mid-to-upper age.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Physical-engagement profile: the high-PIM signal points to third-line / bottom-six minutes with an energy or forecheck role. The cluster does not mix elite production with size; the stylistic separation from scorers is clear.</span>
-        
-        <span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/CGY/8483609.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">AK</span><span class="pchip-name">Adam Klapka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LH</span><span class="pchip-name">Libor Hudáček</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DL</span><span class="pchip-name">Dominik Lakatoš</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MS</span><span class="pchip-name">Matúš Sukeľ</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">OP</span><span class="pchip-name">Ondrej Pavel</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Physical-engagement profile: the high-PIM signal points to third-line / bottom-six minutes with an energy or forecheck role. The cluster does not mix elite production with size; the stylistic separation from scorers is clear.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C3</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C3</span>
         <span>
           Veteran two-way
           <span class="cluster-meta-inline">
             92 players · WC pool 4 · median birth year 1993
           </span>
-        </span>
-      </dt>
-      <dd>
-        Median birth year 1994, lower production than C0. A mix of NHL veterans (Palát, Faksa, Nosek, Kampf) and Extraliga regulars.
+        </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/DAL/8476889.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">RF</span><span class="pchip-name">Radek Faksa</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/latest/8477931.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TN</span><span class="pchip-name">Tomas Nosek</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/NYI/8476292.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">OP</span><span class="pchip-name">Ondrej Palat</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/latest/8480144.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">DK</span><span class="pchip-name">David Kampf</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DK</span><span class="pchip-name">David Kaše</span></span></span></summary><div class="cluster-body">Median birth year 1994, lower production than C0. A mix of NHL veterans (Palát, Faksa, Nosek, Kampf) and Extraliga regulars.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Two-way / utility middle-six. Players who, in a national-team context, usually hold PK minutes, defensive-zone faceoffs and a structure-of-play role. Stylistic profile between pure scorers and defensive specialists.</span>
-        
-        <span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/DAL/8476889.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">RF</span><span class="pchip-name">Radek Faksa</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/latest/8477931.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TN</span><span class="pchip-name">Tomas Nosek</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/NYI/8476292.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">OP</span><span class="pchip-name">Ondrej Palat</span></span><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/latest/8480144.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">DK</span><span class="pchip-name">David Kampf</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DK</span><span class="pchip-name">David Kaše</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Two-way / utility middle-six. Players who, in a national-team context, usually hold PK minutes, defensive-zone faceoffs and a structure-of-play role. Stylistic profile between pure scorers and defensive specialists.</span></div></details>
       
-    </dl>
+    </div>
 
     <h3 id="trajektorie">Trajectories 2024/25 → 2025/26 (forwards, ≥30 GP in both seasons)</h3>
     <div class="movers-grid">
@@ -840,7 +811,7 @@
         </p>
         <p class="analog-cohort">Cohort N = 542</p>
       </div>
-      <ol class="analog-list">
+      <details class="fold analog-fold" open><summary>5 nearest analogs and what followed</summary><ol class="analog-list">
         
         <li class="analog-row">
           <div class="analog-row-head">
@@ -1022,7 +993,7 @@
           
         </li>
         
-      </ol>
+      </ol></details>
     </div>
     
     <div class="analog-block">
@@ -1038,7 +1009,7 @@
         </p>
         <p class="analog-cohort">Cohort N = 306</p>
       </div>
-      <ol class="analog-list">
+      <details class="fold analog-fold"><summary>5 nearest analogs and what followed</summary><ol class="analog-list">
         
         <li class="analog-row">
           <div class="analog-row-head">
@@ -1190,7 +1161,7 @@
           
         </li>
         
-      </ol>
+      </ol></details>
     </div>
     
     <div class="analog-block">
@@ -1206,7 +1177,7 @@
         </p>
         <p class="analog-cohort">Cohort N = 310</p>
       </div>
-      <ol class="analog-list">
+      <details class="fold analog-fold"><summary>5 nearest analogs and what followed</summary><ol class="analog-list">
         
         <li class="analog-row">
           <div class="analog-row-head">
@@ -1348,7 +1319,7 @@
           
         </li>
         
-      </ol>
+      </ol></details>
     </div>
     
     <div class="analog-block">
@@ -1364,7 +1335,7 @@
         </p>
         <p class="analog-cohort">Cohort N = 169</p>
       </div>
-      <ol class="analog-list">
+      <details class="fold analog-fold"><summary>5 nearest analogs and what followed</summary><ol class="analog-list">
         
         <li class="analog-row">
           <div class="analog-row-head">
@@ -1546,7 +1517,7 @@
           
         </li>
         
-      </ol>
+      </ol></details>
     </div>
     
     <div class="analog-block">
@@ -1562,7 +1533,7 @@
         </p>
         <p class="analog-cohort">Cohort N = 266</p>
       </div>
-      <ol class="analog-list">
+      <details class="fold analog-fold"><summary>5 nearest analogs and what followed</summary><ol class="analog-list">
         
         <li class="analog-row">
           <div class="analog-row-head">
@@ -1719,7 +1690,7 @@
           
         </li>
         
-      </ol>
+      </ol></details>
     </div>
     
     <p class="capita-note">
@@ -1796,9 +1767,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">Historical analogs @29</p>
-          <ol class="cycle-analogs">
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historical analogs @29</summary><ol class="cycle-analogs">
             
             <li>
               <span class="cycle-analog-name">Ryan Nugent-Hopkins</span>
@@ -1827,8 +1796,7 @@
               </span>
             </li>
             
-          </ol>
-        </div>
+          </ol></details>
         
 
         
@@ -1932,9 +1900,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">Historical analogs @28</p>
-          <ol class="cycle-analogs">
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historical analogs @28</summary><ol class="cycle-analogs">
             
             <li>
               <span class="cycle-analog-name">Shayne Gostisbehere</span>
@@ -1963,8 +1929,7 @@
               </span>
             </li>
             
-          </ol>
-        </div>
+          </ol></details>
         
 
         
@@ -2024,9 +1989,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">Historical analogs @28</p>
-          <ol class="cycle-analogs">
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historical analogs @28</summary><ol class="cycle-analogs">
             
             <li>
               <span class="cycle-analog-name">Elias Lindholm</span>
@@ -2055,8 +2018,7 @@
               </span>
             </li>
             
-          </ol>
-        </div>
+          </ol></details>
         
 
         
@@ -2107,9 +2069,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">Historical analogs @21</p>
-          <ol class="cycle-analogs">
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historical analogs @21</summary><ol class="cycle-analogs">
             
             <li>
               <span class="cycle-analog-name">Mike Hardman</span>
@@ -2138,8 +2098,7 @@
               </span>
             </li>
             
-          </ol>
-        </div>
+          </ol></details>
         
 
         
@@ -2190,9 +2149,7 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">Historical analogs @22</p>
-          <ol class="cycle-analogs">
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historical analogs @22</summary><ol class="cycle-analogs">
             
             <li>
               <span class="cycle-analog-name">Victor Mancini</span>
@@ -2221,8 +2178,7 @@
               </span>
             </li>
             
-          </ol>
-        </div>
+          </ol></details>
         
 
         
@@ -2477,7 +2433,7 @@
     </p>
 
     <h3 id="pca-loadings">PCA loadings</h3>
-    <table class="loadings-table">
+    <details class="fold fold-table"><summary>Loadings table</summary><table class="loadings-table">
       <thead>
         <tr>
           <th>Position</th><th>Projection</th><th>PC</th><th>% variance</th>
@@ -2575,7 +2531,7 @@
         </tr>
         
       </tbody>
-    </table>
+    </table></details>
 
     <h3 id="sensitivity">Sensitivity analysis (±20 % multipliers)</h3>
     <p>
@@ -2583,7 +2539,7 @@
       <strong>The top-10 ranking is stable under these changes</strong>: no scenario causes churn greater than 1 player.
       The NHL top elite (Pastrňák, Nečas, Zacha, Hertl) stays in the top four in all scenarios.
     </p>
-    <table class="sensitivity-table">
+    <details class="fold fold-table"><summary>Scenario table</summary><table class="sensitivity-table">
       <thead>
         <tr>
           <th>Scenario</th><th>Description</th>
@@ -2649,7 +2605,7 @@
         </tr>
         
       </tbody>
-    </table>
+    </table></details>
 
     <h3 id="atlas-obrancu">Defensemen atlas</h3>
     <figure class="figure-bleed" data-atlas="defense">
@@ -2659,111 +2615,69 @@
     </figure>
 
     <h3 id="cluster-obranci">Cluster details — defensemen</h3>
-    <dl class="cluster-list" data-atlas-clusters="defense">
+    <div class="cluster-list" data-atlas-clusters="defense">
       
-      <dt>
-        <span class="cluster-id">C0</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C0</span>
         <span>
           Offensive defensemen
           <span class="cluster-meta-inline">
             15 players · WC pool 3 · median birth year 1997
           </span>
-        </span>
-      </dt>
-      <dd>
-        Higher A/GP (0.29), playmaking from the blue line. Hronek (NHL), Jordan (Liiga), Alscher, Kaňák.
+        </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/VAN/8479425.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">FH</span><span class="pchip-name">Filip Hronek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MA</span><span class="pchip-name">Marek Alscher</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MJ</span><span class="pchip-name">Michal Jordan</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MA</span><span class="pchip-name">Marian Adámek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JG</span><span class="pchip-name">Jakub Galvas</span></span></span></summary><div class="cluster-body">Higher A/GP (0.29), playmaking from the blue line. Hronek (NHL), Jordan (Liiga), Alscher, Kaňák.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Power-play QB / puck-moving D profile. A/GP dominates over G/GP; the statistical footprint matches first-pair offensive defensemen with a breakout-control role. The value is realised in teams with a perimeter-heavy PP structure.</span>
-        
-        <span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/VAN/8479425.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">FH</span><span class="pchip-name">Filip Hronek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MA</span><span class="pchip-name">Marek Alscher</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MJ</span><span class="pchip-name">Michal Jordan</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MA</span><span class="pchip-name">Marian Adámek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JG</span><span class="pchip-name">Jakub Galvas</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Power-play QB / puck-moving D profile. A/GP dominates over G/GP; the statistical footprint matches first-pair offensive defensemen with a breakout-control role. The value is realised in teams with a perimeter-heavy PP structure.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C1</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C1</span>
         <span>
           Physical veterans
           <span class="cluster-meta-inline">
             10 players · WC pool 1 · median birth year 1995
           </span>
-        </span>
-      </dt>
-      <dd>
-        Gudas (NHL), Pláněk, Šenkeřík. Low production, higher PIM. The pivot of the defensive style.
+        </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/FLA/8475462.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">RG</span><span class="pchip-name">Radko Gudas</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">PŠ</span><span class="pchip-name">Petr Šenkeřík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TD</span><span class="pchip-name">Tomáš Dvořák</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JJ</span><span class="pchip-name">Janis Jaks</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TB</span><span class="pchip-name">Tomáš Bartejs</span></span></span></summary><div class="cluster-body">Gudas (NHL), Pláněk, Šenkeřík. Low production, higher PIM. The pivot of the defensive style.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Top-shutdown / matchup-pair profile. The high-PIM signal correlates with physical engagement in defensive-zone work. A cluster of pure defensive D, often matched against the opposing top six.</span>
-        
-        <span class="cluster-top"><span class="pchip"><img class="pchip-img" src="https://assets.nhle.com/mugs/nhl/20262027/FLA/8475462.png" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">RG</span><span class="pchip-name">Radko Gudas</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">PŠ</span><span class="pchip-name">Petr Šenkeřík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TD</span><span class="pchip-name">Tomáš Dvořák</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JJ</span><span class="pchip-name">Janis Jaks</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TB</span><span class="pchip-name">Tomáš Bartejs</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Top-shutdown / matchup-pair profile. The high-PIM signal correlates with physical engagement in defensive-zone work. A cluster of pure defensive D, often matched against the opposing top six.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C2</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C2</span>
         <span>
           Young depth D
           <span class="cluster-meta-inline">
             42 players · WC pool 6 · median birth year 2001
           </span>
-        </span>
-      </dt>
-      <dd>
-        Median birth year 2001, mostly Extraliga. Jiříček (NHL prospect), Hovorka, Trejbal, Hájek.
+        </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MH</span><span class="pchip-name">Mikulas Hovorka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">OT</span><span class="pchip-name">Ondrej Trejbal</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RP</span><span class="pchip-name">Rayen Petrovický</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FK</span><span class="pchip-name">Filip Král</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DM</span><span class="pchip-name">David Moravec</span></span></span></summary><div class="cluster-body">Median birth year 2001, mostly Extraliga. Jiříček (NHL prospect), Hovorka, Trejbal, Hájek.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Development blue-line pool. AHL/Extraliga call-up volume, NHL prospects. A transitional cluster: for most, a top-pair NHL ceiling is an open question, not a current statement.</span>
-        
-        <span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MH</span><span class="pchip-name">Mikulas Hovorka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">OT</span><span class="pchip-name">Ondrej Trejbal</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RP</span><span class="pchip-name">Rayen Petrovický</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FK</span><span class="pchip-name">Filip Král</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DM</span><span class="pchip-name">David Moravec</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Development blue-line pool. AHL/Extraliga call-up volume, NHL prospects. A transitional cluster: for most, a top-pair NHL ceiling is an open question, not a current statement.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C3</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C3</span>
         <span>
           Veteran point producers
           <span class="cluster-meta-inline">
             5 players · WC pool 3 · median birth year 1992
           </span>
-        </span>
-      </dt>
-      <dd>
-        Tichaček, Kundrátek, Krejčík. Higher A (0.29), older (1992). Grey-haired playmakers from the blue line.
+        </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JT</span><span class="pchip-name">Jiri Tichacek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JK</span><span class="pchip-name">Jakub Krejčík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TK</span><span class="pchip-name">Tomáš Kundrátek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RŠ</span><span class="pchip-name">Radim Šimek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DŠ</span><span class="pchip-name">David Škůrek</span></span></span></summary><div class="cluster-body">Tichaček, Kundrátek, Krejčík. Higher A (0.29), older (1992). Grey-haired playmakers from the blue line.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>PP2 utility / experienced offensive D. A continuity-of-system role, often the link between young top-pair D and defensive shutdown players. In a national-team context they hold the familiar scheme.</span>
-        
-        <span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JT</span><span class="pchip-name">Jiri Tichacek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JK</span><span class="pchip-name">Jakub Krejčík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TK</span><span class="pchip-name">Tomáš Kundrátek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RŠ</span><span class="pchip-name">Radim Šimek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DŠ</span><span class="pchip-name">David Škůrek</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>PP2 utility / experienced offensive D. A continuity-of-system role, often the link between young top-pair D and defensive shutdown players. In a national-team context they hold the familiar scheme.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C4</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C4</span>
         <span>
           Two-way mid-age
           <span class="cluster-meta-inline">
             13 players · WC pool 3 · median birth year 2000
           </span>
-        </span>
-      </dt>
-      <dd>
-        Balanced profile, median birth year 2000.
+        </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RK</span><span class="pchip-name">Radek Kucerik</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TC</span><span class="pchip-name">Tomáš Cibulka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MT</span><span class="pchip-name">Miguël Tourigny</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">SH</span><span class="pchip-name">Samuel Huzevka *</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LZ</span><span class="pchip-name">Libor Zábranský</span></span></span></summary><div class="cluster-body">Balanced profile, median birth year 2000.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Bottom-pair / depth blue-line profile. A balanced statistical footprint without specialisation; the cluster where the distinction between role types blurs. Utility value depends on team context.</span>
-        
-        <span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">RK</span><span class="pchip-name">Radek Kucerik</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TC</span><span class="pchip-name">Tomáš Cibulka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MT</span><span class="pchip-name">Miguël Tourigny</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">SH</span><span class="pchip-name">Samuel Huzevka *</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LZ</span><span class="pchip-name">Libor Zábranský</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Bottom-pair / depth blue-line profile. A balanced statistical footprint without specialisation; the cluster where the distinction between role types blurs. Utility value depends on team context.</span></div></details>
       
-      <dt>
-        <span class="cluster-id">C5</span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C5</span>
         <span>
           Defensive depth
           <span class="cluster-meta-inline">
             43 players · WC pool 0 · median birth year 1993
           </span>
-        </span>
-      </dt>
-      <dd>
-        The sixth category: typically very young or strongly defensive.
+        </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FP</span><span class="pchip-name">Filip Pavlík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AP</span><span class="pchip-name">Adam Polášek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AJ</span><span class="pchip-name">Adam Jánošík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">PD</span><span class="pchip-name">Patrik Demel</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AR</span><span class="pchip-name">Alex Rašner</span></span></span></summary><div class="cluster-body">The sixth category: typically very young or strongly defensive.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>AHL/junior reserves or strongly defensive-only D. A cluster outside active NHL minutes; the relevance is organisational depth, not a current role.</span>
-        
-        <span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FP</span><span class="pchip-name">Filip Pavlík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AP</span><span class="pchip-name">Adam Polášek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AJ</span><span class="pchip-name">Adam Jánošík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">PD</span><span class="pchip-name">Patrik Demel</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AR</span><span class="pchip-name">Alex Rašner</span></span></span>
-      </dd>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>AHL/junior reserves or strongly defensive-only D. A cluster outside active NHL minutes; the relevance is organisational depth, not a current role.</span></div></details>
       
-    </dl>
+    </div>
 
     <h3 id="omezeni">Limitations of this analysis</h3>
     <div class="limitations">
@@ -2869,6 +2783,28 @@ own extended data base.</p></details>
     });
   };
   if (window.katex) window.renderTex();
+  (() => {
+    // contents panel on narrow screens
+    const btn = document.querySelector('.toc-btn'), toc = document.getElementById('toc');
+    if (btn && toc) {
+      const set = (open) => { document.body.classList.toggle('toc-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('toc-open')));
+      toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM)
+    const cs = document.documentElement.lang === 'cs';
+    const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
+    document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote), .container > .muted.small').forEach((p) => {
+      const narrow = matchMedia('(max-width: 719px)').matches;
+      if (p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      p.classList.add('clamp');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => { const open = p.classList.toggle('clamp-open'); b.textContent = open ? L[1] : L[0]; b.setAttribute('aria-expanded', String(open)); });
+      p.after(b);
+    });
+  })();
   (() => {
     const capita = document.querySelector('.capita');
     if (capita && 'IntersectionObserver' in window) {

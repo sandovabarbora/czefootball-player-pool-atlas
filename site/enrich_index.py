@@ -262,6 +262,55 @@ sub(r'(<dl class="video-poc-metrics">.*?</dl>)\s*(<figcaption class="roadmap-cap
 sub(r'<div class="cycle-section">\s*<p class="cycle-section-label">LLM brief excerpt</p>\s*(<p class="cycle-brief-excerpt">.*?</p>)\s*</div>',
     r'<details class="fold cycle-section"><summary class="cycle-section-label">LLM brief excerpt</summary>\1</details>', 5, re.S)
 
+
+# ---------------------------------------------------------------- UX pass: less on screen, nothing removed
+# hero: three stat tiles carry the finding; the sublead paragraph folds under them
+TILES = """<ul class="hero-tiles" aria-label="Klíčová čísla">
+          <li><strong>5.<span>/6</span></strong><span class="hero-tile-label">per-capita pořadí mezi peer zeměmi</span></li>
+          <li><strong>1</strong><span class="hero-tile-label">útočník U22 v NHL <em>FIN 3 · SWE 7</em></span></li>
+          <li><strong>4</strong><span class="hero-tile-label">obránci v NHL celkem <em>FIN 14 · SWE 30</em></span></li>
+        </ul>
+"""
+sub(r'<p class="hero-sublead">', '<details class="fold fold-hero"><summary>Souvislosti</summary>\n        <p class="hero-sublead">', 1)
+sub(r'(\s*)<p class="hero-footnote">', lambda m: m.group(1) + TILES.strip() + m.group(1) + '<p class="hero-footnote">', 1)
+sub(r'(place where they are aggregated\.|agregaci v jednom místě nemá\.)(\s*</p>)', r'\1\2\n        </details>', 1)
+
+# mobile TOC: drop the in-page list; the top bar gets a Contents button that opens the rail as a panel
+sub(r'\s*<details class="toc-mobile" open>.*?</details>', '', 1, re.S)
+sub(r'(<div class="lang-switch")', r'<button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Obsah</button>\n  \1', 1)
+sub(r'<span class="cast-caption">', '<span class="cast-caption" data-short="6 profilů hráčů">', 1)
+
+# clusters: accordion — header + photo chips visible, description + tactical read folded
+def cluster_acc(m):
+    dt, dd = m.group(1), m.group(2).rstrip()
+    i = dd.find('<span class="cluster-top">')
+    body, top = (dd[:i], dd[i:]) if i >= 0 else (dd, "")
+    return ('<details class="cluster"><summary class="cluster-head">' + dt.strip() + top +
+            '</summary><div class="cluster-body">' + body.strip() + '</div></details>')
+def cluster_list(m):
+    inner, n = re.subn(r'<dt>(.*?)</dt>\s*<dd>(.*?)</dd>', cluster_acc, m.group(2), flags=re.S)
+    if n not in (4, 6):
+        fails.append(("cluster-list entries", n, "4|6"))
+    return '<div class="cluster-list"' + m.group(1) + '>' + inner + '</div>'
+sub(r'<dl class="cluster-list"([^>]*)>(.*?)</dl>', cluster_list, 2, re.S)
+
+# historical analogs: each list folds; the first target stays open
+_first = [True]
+def analog_fold(m):
+    o = ' open' if _first[0] else ''
+    _first[0] = False
+    return f'<details class="fold analog-fold"{o}><summary>5 nejbližších analogů a jejich pokračování</summary>{m.group(1)}</details>'
+sub(r'(<ol class="analog-list">.*?</ol>)', analog_fold, 5, re.S)
+
+# cycle cards: analogs fold too (stats, clusters and tactical read stay visible)
+sub(r'<div class="cycle-section">\s*<p class="cycle-section-label">(Historické analogy @\d+)</p>\s*(<ol class="cycle-analogs">.*?</ol>)\s*</div>',
+    r'<details class="fold cycle-section"><summary class="cycle-section-label">\1</summary>\2</details>', 5, re.S)
+
+
+# appendix tables fold (PCA loadings, sensitivity)
+sub(r'(<table class="loadings-table">.*?</table>)', r'<details class="fold fold-table"><summary>Tabulka loadings</summary>\1</details>', 1, re.S)
+sub(r'(<table class="sensitivity-table">.*?</table>)', r'<details class="fold fold-table"><summary>Tabulka scénářů</summary>\1</details>', 1, re.S)
+
 # ---------------------------------------------------------------- behaviour: bar reveal + active TOC
 JS = """<script>
   window.renderTex = () => {
@@ -270,6 +319,28 @@ JS = """<script>
     });
   };
   if (window.katex) window.renderTex();
+  (() => {
+    // contents panel on narrow screens
+    const btn = document.querySelector('.toc-btn'), toc = document.getElementById('toc');
+    if (btn && toc) {
+      const set = (open) => { document.body.classList.toggle('toc-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('toc-open')));
+      toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM)
+    const cs = document.documentElement.lang === 'cs';
+    const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
+    document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote), .container > .muted.small').forEach((p) => {
+      const narrow = matchMedia('(max-width: 719px)').matches;
+      if (p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      p.classList.add('clamp');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => { const open = p.classList.toggle('clamp-open'); b.textContent = open ? L[1] : L[0]; b.setAttribute('aria-expanded', String(open)); });
+      p.after(b);
+    });
+  })();
   (() => {
     const capita = document.querySelector('.capita');
     if (capita && 'IntersectionObserver' in window) {
@@ -302,6 +373,12 @@ JS = """<script>
 </script>
 </body>"""
 sub(r'</body>', lambda m: JS, 1)
+
+# cache-busting stamp on our own assets
+import datetime as _dt
+_v = _dt.datetime.now().strftime("%Y%m%d%H%M")
+for _a in ("style.css", "modern.css", "atlas.js"):
+    html = html.replace(f'"{_a}"', f'"{_a}?v={_v}"')
 
 SRC.write_text(html, encoding="utf-8")
 if fails:

@@ -80,13 +80,6 @@ R('<div><dt>Pool</dt> <dd><strong>385</strong> hráčů</dd></div>',
   '<div><dt>Pool</dt> <dd><strong>385</strong> players</dd></div>')
 R('<div><dt>Aktivní reprezentace MS 24/25</dt> <dd><strong>42</strong></dd></div>',
   '<div><dt>Active national team, WC 24/25</dt> <dd><strong>42</strong></dd></div>')
-R('<summary>Obsah reportu</summary>', '<summary>Report contents</summary>')
-R('<li><a href="#shrnuti">Shrnutí</a> · <a href="#strukturalni-benchmark">Benchmark</a> · <a href="#pozorovani">Pozorování</a> · <a href="#cluster-archetypy">Cluster archetypy</a> · <a href="#trajektorie">Trajektorie</a></li>',
-  '<li><a href="#shrnuti">Summary</a> · <a href="#strukturalni-benchmark">Benchmark</a> · <a href="#pozorovani">Observations</a> · <a href="#cluster-archetypy">Cluster archetypes</a> · <a href="#trajektorie">Trajectories</a></li>')
-R('<li><a href="#ai-vrstva">AI vrstva</a> · <a href="#llm-briefy">LLM briefy</a> · <a href="#historicke-analogy">Analogy</a> · <a href="#cyklus-dashboard">Cyklus</a> · <a href="#roadmap-video">Video platform</a> · <a href="#roadmap-buzz">Buzz roadmap</a></li>',
-  '<li><a href="#ai-vrstva">AI layer</a> · <a href="#llm-briefy">LLM briefs</a> · <a href="#historicke-analogy">Analogs</a> · <a href="#cyklus-dashboard">Cycle</a> · <a href="#roadmap-video">Video platform</a> · <a href="#roadmap-buzz">Buzz roadmap</a></li>')
-R('<li><a href="#metodologie">Metodologie</a> · <a href="#nasobicky">Násobičky</a> · <a href="#shrinkage">Shrinkage</a> · <a href="#pca-loadings">PCA</a> · <a href="#sensitivity">Sensitivity</a> · <a href="#atlas-obrancu">Atlas obránců</a> · <a href="#omezeni">Omezení</a></li>',
-  '<li><a href="#metodologie">Methodology</a> · <a href="#nasobicky">Multipliers</a> · <a href="#shrinkage">Shrinkage</a> · <a href="#pca-loadings">PCA</a> · <a href="#sensitivity">Sensitivity</a> · <a href="#atlas-obrancu">Defensemen atlas</a> · <a href="#omezeni">Limitations</a></li>')
 
 # ---------------------------------------------------------------- hero
 R('aria-label="Identifikace dokumentu"', 'aria-label="Document identification"')
@@ -370,7 +363,7 @@ R('''Synthesis view nad existujícími vrstvami: pro každého hráče v showcas
       player, on one screen.''')
 R('&middot; MS 24/25 ×', '&middot; WC 24/25 ×', 0)
 R('<p class="cycle-section-label">Trajektorie 24/25 &rarr; 25/26</p>', '<p class="cycle-section-label">Trajectory 24/25 &rarr; 25/26</p>', 4)
-RX(r'<p class="cycle-section-label">Historické analogy @(\d+)</p>', r'<p class="cycle-section-label">Historical analogs @\1</p>', 5)
+RX(r'<summary class="cycle-section-label">Historické analogy @(\d+)</summary>', r'<summary class="cycle-section-label">Historical analogs @\1</summary>', 5)
 R('Power-play QB / puck-moving D profil. A/GP dominuje nad G/GP, statistický otisk odpovídá first-pair offensive obráncům s breakout-control rolí. Hodnota se realizuje v týmech s perimetr-heavy PP strukturou.',
   'Power-play QB / puck-moving D profile. A/GP dominates over G/GP; the statistical footprint matches first-pair offensive defensemen with a breakout-control role. The value is realised in teams with a perimeter-heavy PP structure.', 2)
 R('Development blue-line pool. AHL/Extraliga callup volume, NHL prospekti. Cluster přechodný: top-pair NHL ceiling je u většiny open question, ne aktuální výpověď.',
@@ -730,8 +723,8 @@ R('<a href="#shrnuti">Shrnutí</a> <a href="#ai-vrstva">AI vrstva</a> <a href="#
   '<a href="#shrnuti">Summary</a>\n    <a href="#ai-vrstva">AI layer</a>\n    <a href="#metodologie">Methodology</a>')
 R('<div class="lang-switch" aria-label="Jazyk"> <a href="../" hreflang="en" lang="en">EN</a><span aria-current="page" lang="cs">CS</span> </div>',
   '<div class="lang-switch" aria-label="Language">\n    <span aria-current="page" lang="en">EN</span><a href="cs/" hreflang="cs" lang="cs">CS</a>\n  </div>')
-R('<span class="cast-caption">Profily šesti hráčů: Pastrňák, Nečas, Hronek, Zacha, Kulich, Jiříček</span>',
-  '<span class="cast-caption">Six player profiles: Pastrňák, Nečas, Hronek, Zacha, Kulich, Jiříček</span>')
+R('<span class="cast-caption" data-short="6 profilů hráčů">Profily šesti hráčů: Pastrňák, Nečas, Hronek, Zacha, Kulich, Jiříček</span>',
+  '<span class="cast-caption" data-short="6 player profiles">Six player profiles: Pastrňák, Nečas, Hronek, Zacha, Kulich, Jiříček</span>')
 
 R('<p class="hero-footnote">* 15 hráčů s birth_country = CZE na soupiskách NHL 2025/26 (NHL Stats API) ÷ 10,9 M obyvatel (odhad 2024); peer země počítány stejně. <a href="#metodologie">Metodologie</a>.</p>',
   '<p class="hero-footnote">* 15 players with birth_country = CZE on 2025/26 NHL rosters (NHL Stats API) ÷ 10.9 M inhabitants (2024 estimate); peer countries computed the same way. <a href="#metodologie">Methodology</a>.</p>')
@@ -746,6 +739,17 @@ R('m_{\\text{liga}}">P/GP_quality = P/GP_shrunk × m_liga</p>', 'm_{\\text{leagu
 R('<summary>Celý brief</summary>', '<summary>Full brief</summary>', 2)
 R('<summary>Co tahle vrstva přidá &middot; 3 poznámky</summary>', '<summary>What this layer adds &middot; 3 notes</summary>')
 
+
+R('<ul class="hero-tiles" aria-label="Klíčová čísla">', '<ul class="hero-tiles" aria-label="Key numbers">')
+R('<span class="hero-tile-label">per-capita pořadí mezi peer zeměmi</span>', '<span class="hero-tile-label">per-capita rank among peer countries</span>')
+R('<span class="hero-tile-label">útočník U22 v NHL <em>FIN 3 · SWE 7</em></span>', '<span class="hero-tile-label">U22 forward in the NHL <em>FIN 3 · SWE 7</em></span>')
+R('<span class="hero-tile-label">obránci v NHL celkem <em>FIN 14 · SWE 30</em></span>', '<span class="hero-tile-label">NHL defensemen in total <em>FIN 14 · SWE 30</em></span>')
+R('<details class="fold fold-hero"><summary>Souvislosti</summary>', '<details class="fold fold-hero"><summary>In context</summary>')
+R('aria-controls="toc" aria-expanded="false">Obsah</button>', 'aria-controls="toc" aria-expanded="false">Contents</button>')
+R('<summary>5 nejbližších analogů a jejich pokračování</summary>', '<summary>5 nearest analogs and what followed</summary>', 5)
+
+R('<summary>Tabulka loadings</summary>', '<summary>Loadings table</summary>')
+R('<summary>Tabulka scénářů</summary>', '<summary>Scenario table</summary>')
 # ---------------------------------------------------------------- numbers: decimal comma -> point
 _head, _sep, _body = html.partition('</head>')
 _body = _body.replace('1,177', '1\u2063177')            # English thousands separator: keep

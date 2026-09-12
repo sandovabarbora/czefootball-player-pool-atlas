@@ -15,8 +15,8 @@ cp "$S/source/index.cs.html" "$D/index.html"
 python3 "$S/enrich_index.py" "$D/index.html"
 mkdir -p "$D/cs"
 cp "$D/index.html" "$D/cs/index.html"
-sed -i '' -e 's|href="style.css"|href="../style.css"|' -e 's|href="modern.css"|href="../modern.css"|' \
-          -e 's|src="video_poc_|src="../video_poc_|g' -e 's|src="atlas.js"|src="../atlas.js"|' "$D/cs/index.html"
+sed -i '' -e 's|href="style.css?|href="../style.css?|' -e 's|href="modern.css?|href="../modern.css?|' \
+          -e 's|src="video_poc_|src="../video_poc_|g' -e 's|src="atlas.js?|src="../atlas.js?|' "$D/cs/index.html"
 python3 "$S/translate_index.py" "$D/index.html"
 python3 "$S/svg_labels.py" "$D" >/dev/null
 python3 "$S/atlas_meta.py" "$D" >/dev/null
