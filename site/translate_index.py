@@ -744,7 +744,9 @@ R('m_{\\text{liga}}">P/GP_quality = P/GP_shrunk × m_liga</p>', 'm_{\\text{leagu
 
 # ---------------------------------------------------------------- numbers: decimal comma -> point
 _head, _sep, _body = html.partition('</head>')
-html = _head + _sep + re.sub(r'(?<=\d),(?=\d)', '.', _body)
+_body = _body.replace('1,177', '1\u2063177')            # English thousands separator: keep
+_body = re.sub(r'(?<=\d),(?=\d)', '.', _body)          # Czech decimal comma -> point
+html = _head + _sep + _body.replace('1\u2063177', '1,177')
 
 SRC.write_text(html, encoding="utf-8")
 if failures:
