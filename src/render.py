@@ -60,7 +60,7 @@ RULE_KICKERS = [
     ("highest quality-adjusted", "Highest quality-adjusted production"),
     ("youngest national-team", "Youngest national-team call-up"),
     ("most top-9 league minutes", "Most top-9 minutes"),
-    ("most domestic-league minutes", "Most domestic minutes, no top-9 season yet"),
+    ("most domestic-league minutes", "Most domestic minutes under 23, no top-9 season yet"),
 ]
 DESTINATION_LABELS = {
     "domestic": "domestic", "top9": "top-9", "stepping_stone": "stepping stone",

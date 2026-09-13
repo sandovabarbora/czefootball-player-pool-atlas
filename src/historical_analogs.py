@@ -63,16 +63,28 @@ def _age(born: int, season: str) -> int:
     return int(season[:4]) + 1 - int(born)
 
 
-def find_analogs(corpus: pd.DataFrame, target_key: str, k: int = 5) -> pd.DataFrame:
-    """Find the k nearest analogs to `target_key`'s most recent corpus season.
+def _target_row(corpus: pd.DataFrame, target_key: str, target_season: str | None) -> pd.Series:
+    """The target's metrics-season row when present, else the latest season."""
+    season = config.seasons()["metrics"] if target_season is None else target_season
+    rows = corpus[corpus.player_key == target_key].sort_values("season")
+    in_season = rows[rows.season == season]
+    return (in_season if len(in_season) else rows).iloc[-1]
 
+
+def find_analogs(corpus: pd.DataFrame, target_key: str, k: int = 5,
+                 target_season: str | None = None) -> pd.DataFrame:
+    """Find the k nearest analogs to `target_key`'s `target_season` row.
+
+    `target_season` defaults to `config.seasons()["metrics"]`; when the
+    player has no corpus row in that season the latest season is used, so
+    every showcase target is compared at the same (metrics) season.
     Cohort = every other corpus row in the same position group at the same
     season-start age. Distance is Euclidean over z-scored (npg_ast_q, min,
     league_multiplier), z-scored against the whole corpus. `followed` lists
     each analog's own later seasons (up to 4), each with
     season/league/min/npg_ast_q.
     """
-    tgt = corpus[corpus.player_key == target_key].sort_values("season").iloc[-1]
+    tgt = _target_row(corpus, target_key, target_season)
     age = _age(tgt.born, tgt.season)
     cand = corpus[(corpus.player_key != target_key) & (corpus.pos_group == tgt.pos_group)].copy()
     cand["age"] = [_age(b, s) for b, s in zip(cand.born, cand.season, strict=True)]
@@ -114,7 +126,7 @@ def showcase_ids(
         (c) most minutes in the headline (top-9) leagues — the "established
             export"; players already chosen by (a) or (b) are skipped and
             the rule falls through to the next player by minutes.
-        (d) aged <= 23 in the metrics season (season start year - born),
+        (d) under 23 in the metrics season (season start year - born < 23),
             most minutes in the domestic league, and no season in any
             headline league anywhere in the fetched history (across all
             position groups); already chosen players are skipped.
@@ -165,7 +177,7 @@ def showcase_ids(
                 _add(row, group, f"most top-9 league minutes among {group}")
                 break
 
-            home = cz[(cz.league == domestic) & ((season_start - cz.born) <= 23)
+            home = cz[(cz.league == domestic) & ((season_start - cz.born) < 23)
                       & ~cz.player_key.isin(ever_abroad)]
             home_min = home.groupby("player_key")["min"].sum().sort_values(ascending=False)
             for key in home_min.index:
@@ -205,12 +217,11 @@ def main() -> None:
     analogs_out: dict[str, dict] = {}
     for s in showcase:
         key = s["player_key"]
-        tgt_rows = corpus[corpus.player_key == key].sort_values("season")
-        if tgt_rows.empty:
+        if corpus[corpus.player_key == key].empty:
             LOG.warning("showcase player %s not found in corpus (min floor?)", key)
             continue
-        tgt = tgt_rows.iloc[-1]
-        result = find_analogs(corpus, key, k=5)
+        tgt = _target_row(corpus, key, seasons_cfg["metrics"])
+        result = find_analogs(corpus, key, k=5, target_season=seasons_cfg["metrics"])
         analogs_out[key] = {
             "target": {
                 "name": tgt.player,

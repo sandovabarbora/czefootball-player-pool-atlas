@@ -6,7 +6,7 @@ from src.historical_analogs import find_analogs, showcase_ids
 def _corpus():
     rows = []
     for key, born, seasons, pos_group in [
-        ("t", 2002, ["2024-2025"], "FW"),
+        ("t", 2002, ["2024-2025", "2025-2026"], "FW"),   # 2025-2026 row must not become the target
         ("a", 1998, ["2020-2021", "2021-2022"], "FW"),
         ("b", 1990, ["2012-2013", "2013-2014"], "FW"),
         # same age (23) and identical stats as "a" in 2020-2021, but a
@@ -21,18 +21,18 @@ def _corpus():
 
 
 def test_analogs_match_same_age_and_list_following_seasons():
-    out = find_analogs(_corpus(), "t", k=2)
+    out = find_analogs(_corpus(), "t", k=2, target_season="2024-2025")
     assert list(out.player_key) == ["a", "b"]          # both aged 22 in their first listed season
     assert out.iloc[0].followed[0]["season"] == "2021-2022"
 
 
 def test_analogs_exclude_other_position_groups():
-    out = find_analogs(_corpus(), "t", k=3)
+    out = find_analogs(_corpus(), "t", k=3, target_season="2024-2025")
     assert "c" not in out.player_key.values  # same age, off-group -> excluded
 
 
 def test_analogs_output_columns():
-    out = find_analogs(_corpus(), "t", k=2)
+    out = find_analogs(_corpus(), "t", k=2, target_season="2024-2025")
     assert list(out.columns) == ["rank", "player_key", "player", "nation", "league", "season",
                                   "min", "npg_ast_q", "distance", "followed"]
     assert list(out["rank"]) == [1, 2]
@@ -41,19 +41,19 @@ def test_analogs_output_columns():
 def _showcase_toy():
     fw = pd.DataFrame({
         "player_key": ["fw_top", "fw_young_nt", "fw_old_nt", "fw_low_min", "fw_export_2nd", "fw_home",
-                       "fw_home_u23_returnee", "fw_home_u23", "fw_home_u23_2nd"],
+                       "fw_home_u23_returnee", "fw_home_u23", "fw_home_u23_2nd", "fw_home_23"],
         "player": ["FW Top", "FW Young NT", "FW Old NT", "FW Low Min", "FW Export 2nd", "FW Home",
-                   "FW Home U23 Returnee", "FW Home U23", "FW Home U23 2nd"],
-        "season": ["2024-2025"] * 9,
+                   "FW Home U23 Returnee", "FW Home U23", "FW Home U23 2nd", "FW Home 23"],
+        "season": ["2024-2025"] * 10,
         "league": ["ENG-Premier League", "CZE-First League", "CZE-First League", "ITA-Serie A",
                    "GER-Bundesliga", "CZE-First League", "CZE-First League", "CZE-First League",
-                   "CZE-First League"],
-        "czech_eligible": [True] * 9,
-        "min": [1200, 1000, 950, 500, 1100, 3000, 2900, 2000, 1500],
-        "npg_p90_quality": [0.9, 0.4, 0.3, 5.0, 0.2, 0.3, 0.2, 0.2, 0.2],
-        "ast_p90_quality": [0.2, 0.1, 0.1, 5.0, 0.1, 0.1, 0.1, 0.1, 0.1],
-        "nt_flag": [False, True, True, False, False, False, False, False, False],
-        "born": [2000, 2003, 1995, 2005, 1998, 1999, 2002, 2002, 2003],
+                   "CZE-First League", "CZE-First League"],
+        "czech_eligible": [True] * 10,
+        "min": [1200, 1000, 950, 500, 1100, 3000, 2900, 2000, 1500, 2500],
+        "npg_p90_quality": [0.9, 0.4, 0.3, 5.0, 0.2, 0.3, 0.2, 0.2, 0.2, 0.2],
+        "ast_p90_quality": [0.2, 0.1, 0.1, 5.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+        "nt_flag": [False, True, True, False, False, False, False, False, False, False],
+        "born": [2000, 2003, 1995, 2005, 1998, 1999, 2002, 2002, 2003, 2001],
     })
     # an earlier season abroad for the returnee: rules it out of (d)
     fw = pd.concat([fw, pd.DataFrame({
@@ -120,10 +120,12 @@ def test_showcase_fourth_rule_domestic_u23_without_top9_season():
                        domestic_league="CZE-First League")
     reasons = {s["player_key"]: s["reason"] for s in out}
     # fw_home (3000 min) is 25 -> too old; fw_home_u23_returnee (2900) had a 2022/23
-    # Ligue 1 season -> excluded; fw_home_u23 (2000, born 2002 -> 22) is chosen;
+    # Ligue 1 season -> excluded; fw_home_23 (2500, born 2001 -> exactly 23) fails the
+    # strict under-23 gate; fw_home_u23 (2000, born 2002 -> 22) is chosen;
     # fw_young_nt (CZE, born 2003, 1000 min) is skipped as already chosen by (b).
     assert reasons["fw_home_u23"] == "most domestic-league minutes among under-23 FW without a top-9 season"
     assert "fw_home_u23_returnee" not in reasons and "fw_home" not in reasons
+    assert "fw_home_23" not in reasons
     assert "fw_home_u23_2nd" not in reasons
     # skip logic: if the U23 leader is already chosen, the rule falls through
     toy = _showcase_toy()
@@ -136,3 +138,17 @@ def test_showcase_fourth_rule_domestic_u23_without_top9_season():
     reasons2 = {s["player_key"]: s["reason"] for s in out2}
     assert reasons2["fw_home_u23"] == "youngest national-team call-up among FW"
     assert reasons2["fw_home_u23_2nd"].startswith("most domestic-league minutes among under-23 FW")
+
+
+def test_find_analogs_targets_metrics_season_not_latest():
+    corpus = _corpus()
+    # "t" has a 2025-2026 row too; the target must be the 2024-2025 (metrics) row
+    out = find_analogs(corpus, "t", k=2, target_season="2024-2025")
+    assert list(out.player_key) == ["a", "b"]           # age-22 cohort of the 2024-2025 row
+    later = find_analogs(corpus, "t", k=2, target_season="2025-2026")
+    assert list(later.player_key) == ["a", "b"]         # age-23 rows exist for a and b as well
+    assert list(later.season) == ["2021-2022", "2013-2014"]
+    assert list(out.season) == ["2020-2021", "2012-2013"]
+    # a season the player has no row in falls back to the latest one
+    fallback = find_analogs(corpus, "t", k=2, target_season="2019-2020")
+    assert list(fallback.season) == ["2021-2022", "2013-2014"]
