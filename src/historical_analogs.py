@@ -1,301 +1,172 @@
-"""Historical career-trajectory analog finder.
+"""Historical analogs on the football corpus.
 
-For a target Czech player at age X, find the k-nearest analogs (any
-nationality, any era) whose stats AT AGE X most resemble the target's,
-and show how those analogs' careers continued at ages X+1, X+2, ...
+For a showcase Czech-eligible player at age X (metrics season), find the
+k-nearest analogs (any nationality, any era in the corpus) whose stats AT
+AGE X most resemble the target's, and show how those analogs' careers
+continued in their following seasons (up to 4).
 
-This is descriptive analog lookup, not prediction:
-    "Kulich at 21 statisticky nejvíc připomíná Hejduka@21, Plekance@21,
-     Voráčka@21. Hejduk @22 měl 41g; Plekanec @22 měl 14g; Voráček @22
-     měl 14g." → reader interprets the range, the method does not predict.
+This is descriptive analog lookup, not a prediction and not a selection
+recommendation: it shows how similarly-profiled players developed, the
+reader draws their own conclusions about the range of outcomes.
 
-This addresses a federation gap: hockey people know individual analogs,
-but don't systematize the search across thousands of seasons of public
-NHL data.
+Corpus: every features_{FW,MF,DF}.parquet row (all nationalities, all
+seasons the pipeline has fetched -- metrics/previous/current plus the
+2020-2021..2022-2023 history seasons fetched for the nine headline leagues),
+filtered to `min >= 450` (the feature pipeline's own inclusion floor, so
+this is a no-op filter kept here for clarity/robustness).
 
-Data source: cached NHL landings (1183 players, mostly current rosters).
-This is a limited reference set (no pre-2000 retirees). For a production
-version we would supplement with hockey-reference scraping of historical
-Czech NHL players (Jágr, Reichel, Hašek, Elias, Hejduk, Sýkora, etc.).
-This PoC uses the current cache.
-
-Output: data/processed/historical_analogs.parquet
+Output:
+    data/processed/showcase.json  -- up to 6 showcase players (2 per
+        position group): highest quality-adjusted npG+A per 90, and the
+        youngest national-team-flagged player, among Czech-eligible players
+        with >= 900 minutes in the metrics season.
+    data/processed/analogs.json   -- keyed by showcase player_key, each
+        value has `target` (name/age/league/season/min/npg_ast_q) and
+        `analogs` (the find_analogs() rows, `followed` included).
 """
 
 from __future__ import annotations
 
 import json
 import logging
-from pathlib import Path
-from typing import Iterable
 
-import numpy as np
 import pandas as pd
 
 from src import config
-from src.logging_setup import setup as logging_setup
-from src.utils import write_parquet
+from src.utils import read_parquet
 
 LOG = logging.getLogger(__name__)
 
-LANDING_CACHE = config.RAW_DIR / ".cache" / "nhl_landing"
-
-# League quality multipliers — shared with main pipeline.
-LEAGUE_QUALITY = {
-    "NHL": 1.00, "AHL": 0.55, "SHL": 0.45, "Liiga": 0.42,
-    "NL": 0.40, "Czechia": 0.35, "KHL": 0.55,
-    # League IDs sometimes appear as abbrev; defaults below
-}
-
-# Target players (current Czech) to find analogs for.
-# Selected to span positions and career stages.
-TARGETS = [
-    ("8483468", "Jiří Kulich",    "F"),
-    ("8483460", "David Jiříček",  "D"),
-    ("8478401", "Pavel Zacha",    "F"),
-    ("8479425", "Filip Hronek",   "D"),
-    ("8477956", "David Pastrňák", "F"),
-]
-
-# Window of ages to compare. We compare the target's "current age" against
-# every other player's stats AT THE SAME AGE.
-TRAJECTORY_FUTURE_AGES = 4  # show analogs' careers up to 4 years past comparison age
+SHOWCASE_MIN_MINUTES = 900
+CORPUS_MIN_MINUTES = 450
 
 
-# -----------------------------------------------------------------------------
-# Per-player career table from landing JSON
-# -----------------------------------------------------------------------------
+def _age(born: int, season: str) -> int:
+    """Season-start age: e.g. born 2002, season '2024-2025' -> 23."""
+    return int(season[:4]) + 1 - int(born)
 
 
-def _load_career(player_id: str) -> dict | None:
-    p = LANDING_CACHE / f"{player_id}.json"
-    if not p.exists():
-        return None
-    try:
-        return json.loads(p.read_text(encoding="utf-8"))
-    except Exception:
-        return None
+def find_analogs(corpus: pd.DataFrame, target_key: str, k: int = 5) -> pd.DataFrame:
+    """Find the k nearest analogs to `target_key`'s most recent corpus season.
 
-
-def _per_age_table(landing: dict) -> pd.DataFrame:
-    """Build a per-age regular-season table for one player.
-
-    Columns: age, league, GP, P, P_per_GP, P_per_GP_quality
-    Filters: regular season, league with known quality multiplier, GP >= 5.
+    Cohort = every other corpus row at the same season-start age. Distance
+    is Euclidean over z-scored (npg_ast_q, min, league_multiplier), z-scored
+    against the whole corpus. `followed` lists each analog's own later
+    seasons (up to 4), each with season/league/min/npg_ast_q.
     """
-    if not landing:
-        return pd.DataFrame()
-    birth = landing.get("birthDate")
-    if not birth:
-        return pd.DataFrame()
-    try:
-        birth_year = int(birth[:4])
-    except ValueError:
-        return pd.DataFrame()
+    tgt = corpus[corpus.player_key == target_key].sort_values("season").iloc[-1]
+    age = _age(tgt.born, tgt.season)
+    cand = corpus[corpus.player_key != target_key].copy()
+    cand["age"] = [_age(b, s) for b, s in zip(cand.born, cand.season, strict=True)]
+    cand = cand[cand.age == age]
 
-    rows = []
-    for s in (landing.get("seasonTotals") or []):
-        if s.get("gameTypeId") != 2:  # regular season only
-            continue
-        league = s.get("leagueAbbrev")
-        if league not in LEAGUE_QUALITY:
-            continue
-        season = s.get("season")
-        if not season:
-            continue
-        # season e.g. 20242025 → start year 2024
-        season_start = int(str(season)[:4])
-        age = season_start - birth_year
-        gp = s.get("gamesPlayed", 0)
-        p  = s.get("points", 0) or 0
-        if gp < 5 or p is None:
-            continue
-        p_per_gp = p / gp
-        quality_mult = LEAGUE_QUALITY[league]
-        rows.append({
-            "player_id":         landing.get("playerId"),
-            "first_name":        landing.get("firstName", {}).get("default"),
-            "last_name":         landing.get("lastName",  {}).get("default"),
-            "birth_country":     landing.get("birthCountry"),
-            "position":          landing.get("position"),
-            "season":            season_start,
-            "age":               age,
-            "league":            league,
-            "GP":                gp,
-            "P":                 p,
-            "P_per_GP":          round(p_per_gp, 3),
-            "P_per_GP_quality":  round(p_per_gp * quality_mult, 3),
-            "league_quality":    quality_mult,
-        })
-    return pd.DataFrame(rows)
+    feats = ["npg_ast_q", "min", "league_multiplier"]
+    mu, sd = corpus[feats].mean(), corpus[feats].std().replace(0, 1)
+    z = (cand[feats] - mu) / sd
+    zt = (tgt[feats].astype(float) - mu) / sd
+    cand["distance"] = ((z - zt) ** 2).sum(axis=1) ** 0.5
+
+    best = cand.sort_values("distance").head(k).reset_index(drop=True)
+    best["rank"] = best.index + 1
+
+    followed = []
+    for r in best.itertuples():
+        later = (corpus[(corpus.player_key == r.player_key) & (corpus.season > r.season)]
+                 .sort_values("season").head(4))
+        followed.append([
+            {"season": s, "league": lg, "min": int(m), "npg_ast_q": round(float(q), 2)}
+            for s, lg, m, q in zip(later.season, later.league, later["min"], later.npg_ast_q, strict=True)
+        ])
+    best["followed"] = followed
+    return best[["rank", "player_key", "player", "nation", "league", "season",
+                 "min", "npg_ast_q", "distance", "followed"]]
 
 
-def _build_full_corpus() -> pd.DataFrame:
-    """Load every cached landing → per-age career table."""
-    frames: list[pd.DataFrame] = []
-    n = 0
-    for p in LANDING_CACHE.iterdir():
-        if not p.name.endswith(".json"):
-            continue
-        landing = _load_career(p.stem)
-        if landing is None:
-            continue
-        df = _per_age_table(landing)
-        if not df.empty:
-            frames.append(df)
-        n += 1
-    LOG.info("scanned %d cached landings, %d had usable career data", n, len(frames))
-    if not frames:
-        return pd.DataFrame()
-    return pd.concat(frames, ignore_index=True)
+def showcase_ids(feats_by_group: dict[str, pd.DataFrame], metrics_season: str) -> list[dict]:
+    """Pick up to 2 showcase players per position group (up to 6 total).
 
-
-# -----------------------------------------------------------------------------
-# Analog lookup
-# -----------------------------------------------------------------------------
-
-
-def _position_normalised(pos: str) -> str:
-    """Map NHL position codes (or already-normalized labels) to F/D/G."""
-    if pos in {"C", "L", "R", "F"}:
-        return "F"
-    if pos == "D":
-        return "D"
-    return "G"
-
-
-def find_analogs(target_id: str, target_name: str, target_pos: str,
-                 corpus: pd.DataFrame, k: int = 5) -> dict | None:
-    """Find k nearest historical analogs to target at target's current age.
-
-    Returns dict with target metadata + list of analogs (each with their
-    subsequent trajectory up to TRAJECTORY_FUTURE_AGES years).
+    Among Czech-eligible players in `metrics_season` with `min >= 900`:
+        (a) highest npg_p90_quality + ast_p90_quality
+        (b) youngest nt_flag player (skipped if already chosen)
     """
-    tgt_landing = _load_career(target_id)
-    if tgt_landing is None:
-        return None
-    tgt_career = _per_age_table(tgt_landing)
-    if tgt_career.empty:
-        LOG.warning("no usable career data for target %s", target_name)
-        return None
+    showcase: list[dict] = []
+    seen: set[str] = set()
+    for group, df in feats_by_group.items():
+        cz = df[(df.season == metrics_season) & df.czech_eligible & (df["min"] >= SHOWCASE_MIN_MINUTES)].copy()
+        if cz.empty:
+            continue
+        cz["q"] = cz.npg_p90_quality + cz.ast_p90_quality
 
-    # Use most-recent age as comparison point
-    cmp_row = tgt_career.sort_values("age").iloc[-1]
-    cmp_age = int(cmp_row["age"])
-    tgt_norm_pos = _position_normalised(target_pos)
+        top = cz.sort_values("q", ascending=False).iloc[0]
+        if top.player_key not in seen:
+            showcase.append({
+                "player_key": top.player_key,
+                "player": top.player,
+                "pos_group": group,
+                "reason": f"highest quality-adjusted npG+A per 90 among {group}",
+            })
+            seen.add(top.player_key)
 
-    # Build cohort: every player with a season at age cmp_age, same position,
-    # excluding the target himself.
-    cohort = corpus[
-        (corpus["age"] == cmp_age) &
-        (corpus["player_id"] != int(target_id))
-    ].copy()
-    cohort["pos_norm"] = cohort["position"].apply(_position_normalised)
-    cohort = cohort[cohort["pos_norm"] == tgt_norm_pos]
-
-    if cohort.empty:
-        LOG.warning("no cohort for %s at age %d", target_name, cmp_age)
-        return None
-
-    # If a player has multiple rows at same age (multiple leagues), keep highest
-    # GP row — typical for callups split between AHL and NHL.
-    cohort = cohort.sort_values("GP", ascending=False).drop_duplicates(
-        subset=["player_id"], keep="first"
-    )
-
-    # Distance: weighted on (P_per_GP_quality, GP, league_quality).
-    # Use z-scores within cohort so units are comparable.
-    feats = ["P_per_GP_quality", "GP", "league_quality"]
-    cz = cohort[feats].copy()
-    means = cz.mean()
-    stds = cz.std().replace(0, 1)
-    cz_z = (cz - means) / stds
-
-    tgt_vec = pd.Series({
-        "P_per_GP_quality": cmp_row["P_per_GP_quality"],
-        "GP":               cmp_row["GP"],
-        "league_quality":   cmp_row["league_quality"],
-    })
-    tgt_z = (tgt_vec - means) / stds
-
-    cohort["distance"] = np.sqrt(((cz_z - tgt_z) ** 2).sum(axis=1))
-    nearest = cohort.nsmallest(k, "distance")
-
-    # For each analog, build subsequent trajectory
-    analogs = []
-    for _, a in nearest.iterrows():
-        future = corpus[
-            (corpus["player_id"] == a["player_id"]) &
-            (corpus["age"] > cmp_age) &
-            (corpus["age"] <= cmp_age + TRAJECTORY_FUTURE_AGES)
-        ].copy()
-        future = future.sort_values("GP", ascending=False).drop_duplicates(
-            subset=["age"], keep="first"
-        ).sort_values("age")
-
-        trajectory_rows = [
-            {
-                "age": int(r["age"]),
-                "league": r["league"],
-                "GP": int(r["GP"]),
-                "P": int(r["P"]),
-                "P_per_GP": float(r["P_per_GP"]),
-            }
-            for _, r in future.iterrows()
-        ]
-        analogs.append({
-            "player_id":     int(a["player_id"]),
-            "name":          f"{a['first_name']} {a['last_name']}",
-            "country":       a["birth_country"],
-            "position":      a["position"],
-            "league":        a["league"],
-            "GP":            int(a["GP"]),
-            "P":             int(a["P"]),
-            "P_per_GP":      float(a["P_per_GP"]),
-            "P_per_GP_quality": float(a["P_per_GP_quality"]),
-            "distance":      round(float(a["distance"]), 3),
-            "trajectory":    trajectory_rows,
-        })
-
-    return {
-        "target_id":          target_id,
-        "target_name":        target_name,
-        "target_position":    target_pos,
-        "comparison_age":     cmp_age,
-        "target_league":      cmp_row["league"],
-        "target_GP":          int(cmp_row["GP"]),
-        "target_P":           int(cmp_row["P"]),
-        "target_P_per_GP":    float(cmp_row["P_per_GP"]),
-        "target_P_per_GP_quality": float(cmp_row["P_per_GP_quality"]),
-        "n_cohort":           int(len(cohort)),
-        "analogs":            analogs,
-    }
+        nt = cz[cz.nt_flag].sort_values("born", ascending=False)
+        if len(nt) and nt.iloc[0].player_key not in seen:
+            youngest = nt.iloc[0]
+            showcase.append({
+                "player_key": youngest.player_key,
+                "player": youngest.player,
+                "pos_group": group,
+                "reason": f"youngest national-team call-up among {group}",
+            })
+            seen.add(youngest.player_key)
+    return showcase[:6]
 
 
 def main() -> None:
-    logging_setup()
-    config.ensure_dirs()
+    logging.basicConfig(level=logging.INFO)
+    cfg = config.features()
+    seasons_cfg = config.seasons()
 
-    corpus = _build_full_corpus()
-    if corpus.empty:
-        LOG.error("empty corpus, abort")
-        return
+    feats_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in cfg["groups"]}
+    for df in feats_by_group.values():
+        df["npg_ast_q"] = df["npg_p90_quality"] + df["ast_p90_quality"]
 
-    out_path = config.PROCESSED_DIR / "historical_analogs.json"
-    results = []
-    for pid, name, pos in TARGETS:
-        r = find_analogs(pid, name, pos, corpus, k=5)
-        if r:
-            LOG.info("%s @%d: %d analogs, cohort N=%d",
-                     name, r["comparison_age"], len(r["analogs"]), r["n_cohort"])
-            for a in r["analogs"]:
-                LOG.info("    %s (%s) — d=%.3f, %s, %d GP, %d P",
-                         a["name"], a["country"], a["distance"],
-                         a["league"], a["GP"], a["P"])
-            results.append(r)
-    out_path.write_text(json.dumps(results, ensure_ascii=False, indent=2),
-                        encoding="utf-8")
-    LOG.info("wrote %s (%d targets)", out_path, len(results))
+    corpus = pd.concat(feats_by_group.values(), ignore_index=True)
+    n_before = len(corpus)
+    # A handful of rows carry no birth year (FBref gap); age can't be derived
+    # for them, so they can't take part in age-matched analog lookup.
+    corpus = corpus[(corpus["min"] >= CORPUS_MIN_MINUTES) & corpus["born"].notna()].reset_index(drop=True)
+    LOG.info("analog corpus: %d player-seasons (%d dropped: <%d min or missing born), seasons=%s",
+              len(corpus), n_before - len(corpus), CORPUS_MIN_MINUTES, sorted(corpus.season.unique()))
+
+    showcase = showcase_ids(feats_by_group, seasons_cfg["metrics"])
+
+    analogs_out: dict[str, dict] = {}
+    for s in showcase:
+        key = s["player_key"]
+        tgt_rows = corpus[corpus.player_key == key].sort_values("season")
+        if tgt_rows.empty:
+            LOG.warning("showcase player %s not found in corpus (min floor?)", key)
+            continue
+        tgt = tgt_rows.iloc[-1]
+        result = find_analogs(corpus, key, k=5)
+        analogs_out[key] = {
+            "target": {
+                "name": tgt.player,
+                "age": _age(tgt.born, tgt.season),
+                "league": tgt.league,
+                "season": tgt.season,
+                "min": int(tgt["min"]),
+                "npg_ast_q": round(float(tgt.npg_ast_q), 2),
+            },
+            "analogs": result.to_dict("records"),
+        }
+        LOG.info("%s (%s, %s): %d analogs", tgt.player, s["pos_group"], s["reason"], len(result))
+
+    config.PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    (config.PROCESSED_DIR / "showcase.json").write_text(
+        json.dumps(showcase, ensure_ascii=False, indent=1), encoding="utf-8")
+    (config.PROCESSED_DIR / "analogs.json").write_text(
+        json.dumps(analogs_out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
+    LOG.info("wrote showcase.json (%d players) and analogs.json", len(showcase))
 
 
 if __name__ == "__main__":

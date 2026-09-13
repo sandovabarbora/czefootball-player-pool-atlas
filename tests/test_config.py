@@ -14,8 +14,15 @@ def test_peer_countries_have_population():
 
 
 def test_seasons_are_unambiguous():
-    for s in config.seasons().values():
+    def _check(s: str) -> None:
         assert len(s) == 9 and s[4] == "-"
+
+    for v in config.seasons().values():
+        if isinstance(v, list):
+            for s in v:
+                _check(s)
+        else:
+            _check(v)
 
 
 def test_snapshot_dir_is_inside_data():

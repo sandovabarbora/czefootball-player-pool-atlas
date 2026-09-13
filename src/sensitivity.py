@@ -1,30 +1,27 @@
-"""Sensitivity analysis for league quality multipliers.
+"""Sensitivity analysis for league quality multipliers (football corpus).
 
-Locked critique decision: show how the quality-adjusted ranking changes when
-each league multiplier is perturbed by ±20%. This is the single most
-important credibility check for the methodology section — Morkes will look
-for it. If the top-10 ranking is highly sensitive to a 20% multiplier swing
-on (say) Liiga, that's a methodological weakness worth naming. If it's
-stable, the multiplier choice is defensible despite being subjective.
+Locked decision: show how the quality-adjusted ranking of Czech-eligible
+players in the metrics season changes when league multipliers are
+perturbed. The metric is npg_p90_quality + ast_p90_quality, recomputed from
+each player's `npg_p90_shrunk` / `ast_p90_shrunk` columns times the
+scenario's (possibly perturbed) multiplier for that player's league --
+not the canonical, baseline-multiplier `*_quality` columns already on the
+features frame.
 
-Procedure:
-  1. Take the canonical features parquet (forwards).
-  2. For each perturbation scenario:
-     - baseline (current multipliers from config/league_quality.yaml)
-     - liiga × 0.8
-     - liiga × 1.2
-     - extraliga × 0.8
-     - extraliga × 1.2
-     - all leagues × 0.8 (extreme low)
-     - all leagues × 1.2 (extreme high)
-  3. Recompute quality-adjusted points/GP and quality-z.
-  4. Track how each player's TOP-10 rank position changes vs baseline.
-  5. Output sensitivity.parquet with one row per (scenario, player_rank),
-     plus a sensitivity_summary.parquet with rank-change statistics.
+Scenarios: baseline, each individual league +/-20%, and every league
++/-20% at once (config/league_quality.yaml's `multipliers`).
 
-Output:
-  data/processed/sensitivity_rankings.parquet
-  data/processed/sensitivity_summary.parquet
+Position groups (FW/MF/DF) score on very different scales for this metric
+(forwards post far higher npG+A per 90 than defenders), so a single
+cross-position ranking would just reproduce the position order every time.
+Instead, ranking is done *within* each position group, and the three
+ranked frames are then pooled into one sensitivity.parquet -- "top-10"
+below means the union of each group's own top-10 (up to 30 players), and
+"top-20" the union of each group's own top-20 (up to 60 players), not one
+cross-position top-10/20 list.
+
+Output: data/processed/sensitivity.parquet, columns
+    scenario, description, top10_overlap, top10_churn, mean_delta_rank_top20
 """
 
 from __future__ import annotations
@@ -32,11 +29,9 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 
-import numpy as np
 import pandas as pd
 
 from src import config
-from src.logging_setup import setup as logging_setup
 from src.utils import read_parquet, write_parquet
 
 LOG = logging.getLogger(__name__)
@@ -45,93 +40,90 @@ LOG = logging.getLogger(__name__)
 @dataclass(frozen=True)
 class Scenario:
     name: str
-    multiplier_overrides: dict[str, float]  # league -> new multiplier
+    multiplier_overrides: dict[str, float]
     description: str
 
 
 def _build_scenarios(baseline: dict[str, float]) -> list[Scenario]:
-    out = [Scenario("baseline", dict(baseline), "current multipliers from config")]
-    for league in ("liiga", "extraliga"):
-        if league not in baseline:
-            continue
+    out = [Scenario("baseline", dict(baseline), "current multipliers from config/league_quality.yaml")]
+    for league, mult in baseline.items():
         m_lo = dict(baseline)
-        m_lo[league] = round(baseline[league] * 0.8, 4)
-        out.append(Scenario(f"{league}_minus20", m_lo, f"{league} multiplier −20%"))
+        m_lo[league] = round(mult * 0.8, 4)
+        out.append(Scenario(f"{league}_minus20", m_lo, f"{league} multiplier -20%"))
         m_hi = dict(baseline)
-        m_hi[league] = round(baseline[league] * 1.2, 4)
+        m_hi[league] = round(mult * 1.2, 4)
         out.append(Scenario(f"{league}_plus20", m_hi, f"{league} multiplier +20%"))
-    # Global extremes (informational)
-    all_lo = {k: round(v * 0.8, 4) for k, v in baseline.items()}
-    all_hi = {k: round(v * 1.2, 4) for k, v in baseline.items()}
-    out.append(Scenario("all_minus20", all_lo, "every league multiplier −20%"))
-    out.append(Scenario("all_plus20", all_hi, "every league multiplier +20%"))
+    out.append(Scenario("all_minus20", {k: round(v * 0.8, 4) for k, v in baseline.items()},
+                         "every league multiplier -20%"))
+    out.append(Scenario("all_plus20", {k: round(v * 1.2, 4) for k, v in baseline.items()},
+                         "every league multiplier +20%"))
     return out
 
 
-def recompute_quality_rank(features: pd.DataFrame, multipliers: dict[str, float]) -> pd.DataFrame:
-    """Recompute points_per_gp_quality for one scenario; return ranked frame.
+def _rank_group(df: pd.DataFrame, multipliers: dict[str, float]) -> pd.DataFrame:
+    """Recompute the metric for one position group under `multipliers`, rank within it."""
+    out = df.copy()
+    mult = out["league"].map(multipliers).astype(float)
+    out["metric"] = (out["npg_p90_shrunk"] + out["ast_p90_shrunk"]) * mult
+    out = out.sort_values("metric", ascending=False).reset_index(drop=True)
+    out["rank"] = out.index + 1
+    return out
 
-    When a player has rows in multiple leagues for the same season (rare —
-    a true mid-season cross-league move), keep the row with highest GP as
-    the player's "primary" stint for the ranking.
+
+def rank_pool(feats_by_group: dict[str, pd.DataFrame], multipliers: dict[str, float]) -> pd.DataFrame:
+    """Rank players within each position group under `multipliers`, then pool the groups."""
+    frames = []
+    for group, df in feats_by_group.items():
+        ranked = _rank_group(df, multipliers)
+        ranked["pos_group"] = group
+        frames.append(ranked[["player_key", "player", "pos_group", "metric", "rank"]])
+    return pd.concat(frames, ignore_index=True)
+
+
+def churn(baseline: pd.DataFrame, scenario: pd.DataFrame) -> dict:
+    """Top-10 overlap/churn and mean |Δrank| over top-20, pooled across position groups.
+
+    "top-10"/"top-20" = union of each group's own top-10/top-20 by `rank`
+    (see module docstring); overlap/churn compare player_key set membership,
+    mean_delta_rank_top20 compares each surviving player's rank number.
     """
-    df = features[features["season"] == features["season"].max()].copy()
-    # Deduplicate canonical_id by keeping the highest-GP league for that season
-    df = df.sort_values("GP", ascending=False).drop_duplicates("canonical_id", keep="first")
-    df["scenario_multiplier"] = df["league"].map(multipliers).astype(float)
-    df["points_per_gp_quality_alt"] = df["points_per_gp_shrunk"] * df["scenario_multiplier"]
-    df = df.sort_values("points_per_gp_quality_alt", ascending=False).reset_index(drop=True)
-    df["rank"] = df.index + 1
-    return df
+    base_top10 = set(baseline.loc[baseline["rank"] <= 10, "player_key"])
+    scen_top10 = set(scenario.loc[scenario["rank"] <= 10, "player_key"])
+    overlap = len(base_top10 & scen_top10)
+    churn_n = len(base_top10 - scen_top10)
+
+    joined = baseline.merge(scenario, on=["player_key", "pos_group"], suffixes=("_base", "_scen"))
+    top20 = joined[joined.rank_base <= 20]
+    mean_delta = float((top20.rank_scen - top20.rank_base).abs().mean()) if len(top20) else 0.0
+
+    return {"top10_overlap": overlap, "top10_churn": churn_n, "mean_delta_rank_top20": round(mean_delta, 3)}
 
 
 def main() -> None:
-    logging_setup()
-    config.ensure_dirs()
-
-    features = read_parquet(config.PROCESSED_DIR / "features_forwards.parquet")
+    logging.basicConfig(level=logging.INFO)
+    cfg = config.features()
+    seasons_cfg = config.seasons()
     baseline_multipliers: dict[str, float] = config.league_quality()["multipliers"]
+
+    feats_by_group = {}
+    for g in cfg["groups"]:
+        df = read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet")
+        feats_by_group[g] = df[(df.season == seasons_cfg["metrics"]) & df.czech_eligible].copy()
+        LOG.info("%s: %d Czech-eligible players in %s", g, len(feats_by_group[g]), seasons_cfg["metrics"])
+
     scenarios = _build_scenarios(baseline_multipliers)
-    LOG.info("scenarios: %s", [s.name for s in scenarios])
+    baseline_ranked = rank_pool(feats_by_group, baseline_multipliers)
 
-    # Get baseline ranking
-    base_df = recompute_quality_rank(features, baseline_multipliers)
-    base_ranks = base_df.set_index("canonical_id")["rank"]
-
-    all_rows: list[pd.DataFrame] = []
-    summary: list[dict] = []
+    rows = []
     for s in scenarios:
-        scen_df = recompute_quality_rank(features, s.multiplier_overrides)
-        scen_ranks = scen_df.set_index("canonical_id")["rank"]
-        joined = pd.concat([base_ranks.rename("rank_baseline"),
-                            scen_ranks.rename("rank_scenario")], axis=1, join="inner")
-        joined["rank_delta"] = joined["rank_scenario"] - joined["rank_baseline"]
-        joined["scenario"] = s.name
-        joined["scenario_description"] = s.description
-        joined = joined.reset_index()
-        all_rows.append(joined)
+        scen_ranked = rank_pool(feats_by_group, s.multiplier_overrides)
+        stats = churn(baseline_ranked, scen_ranked)
+        rows.append({"scenario": s.name, "description": s.description, **stats})
 
-        # Summary: how stable is top-10 across this scenario?
-        top10_baseline = set(base_df.head(10)["canonical_id"])
-        top10_scenario = set(scen_df.head(10)["canonical_id"])
-        overlap = len(top10_baseline & top10_scenario)
-        churn = 10 - overlap
-        mean_abs_delta_top20 = joined.nsmallest(20, "rank_baseline")["rank_delta"].abs().mean()
-        summary.append({
-            "scenario": s.name,
-            "description": s.description,
-            "top10_overlap_with_baseline": overlap,
-            "top10_churn": churn,
-            "mean_abs_rank_delta_top20": round(float(mean_abs_delta_top20), 2),
-        })
-
-    rankings = pd.concat(all_rows, ignore_index=True)
-    summary_df = pd.DataFrame(summary)
-    write_parquet(rankings, config.PROCESSED_DIR / "sensitivity_rankings.parquet")
-    write_parquet(summary_df, config.PROCESSED_DIR / "sensitivity_summary.parquet")
-
-    LOG.info("=== sensitivity summary ===")
-    LOG.info("\n%s", summary_df.to_string(index=False))
+    out = pd.DataFrame(rows)
+    write_parquet(out, config.PROCESSED_DIR / "sensitivity.parquet")
+    LOG.info("sensitivity: %d scenarios, max top10_churn=%d, max mean_delta_rank_top20=%.2f",
+              len(out), int(out.top10_churn.max()), float(out.mean_delta_rank_top20.max()))
 
 
 if __name__ == "__main__":

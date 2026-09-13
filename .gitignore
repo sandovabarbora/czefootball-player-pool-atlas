@@ -37,6 +37,7 @@ outputs/*.png
 
 # Fetch run logs
 fetch.log
+fetch_history.log
 photos.log
 
 # SeleniumBase runtime artifacts (soccerdata's FBref reader uses seleniumbase)

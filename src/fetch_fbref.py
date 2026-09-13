@@ -67,6 +67,15 @@ def main() -> None:
                 LOG.info("%s %s: %d rows", league, season, len(frames[-1]))
             except Exception as exc:  # one league failing must not kill the run
                 LOG.warning("%s %s failed: %s", league, season, exc)
+    # Analog corpus depth: extra seasons for the nine headline leagues only
+    # (keeps the extra fetch volume to headline_leagues * history_seasons calls).
+    for league in cfg["headline"]:
+        for season in seasons.get("history", []):
+            try:
+                frames.append(fetch_league(league, season))
+                LOG.info("%s %s: %d rows", league, season, len(frames[-1]))
+            except Exception as exc:  # one league failing must not kill the run
+                LOG.warning("%s %s failed: %s", league, season, exc)
     write_parquet(pd.concat(frames, ignore_index=True), config.PROCESSED_DIR / "fbref_players.parquet")
 
 
