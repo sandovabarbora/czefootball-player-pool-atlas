@@ -15,6 +15,23 @@ seasons the pipeline has fetched -- metrics/previous/current plus the
 filtered to `min >= 450` (the feature pipeline's own inclusion floor, so
 this is a no-op filter kept here for clarity/robustness).
 
+Before building the corpus, `main()` runs `utils.collapse_player_seasons`
+on each position group's frame: `fbref_players.parquet` has one row per
+player-TEAM-season, so a player transferred mid-season has two rows for
+the same player_key/season/pos_group. Left as-is, that duplication would
+let one transferred player occupy two of the k analog slots in
+`find_analogs`, and would double-list them as their own "later season" in
+`followed`. The collapse sums `min` and takes a minutes-weighted mean of
+the rate/quality columns across the duplicate rows (see
+`collapse_player_seasons`'s docstring for the exact rule); everything
+downstream (corpus, showcase_ids, find_analogs) then sees one row per
+player-season.
+
+`find_analogs` also restricts candidates to the target's own `pos_group`:
+comparing e.g. a forward's npG+A per 90 against a defender's is not a
+meaningful "historical analog" even at the same age, and the two score on
+different scales for this metric.
+
 Output:
     data/processed/showcase.json  -- up to 6 showcase players (2 per
         position group): highest quality-adjusted npG+A per 90, and the
@@ -33,7 +50,7 @@ import logging
 import pandas as pd
 
 from src import config
-from src.utils import read_parquet
+from src.utils import collapse_player_seasons, read_parquet
 
 LOG = logging.getLogger(__name__)
 
@@ -49,14 +66,15 @@ def _age(born: int, season: str) -> int:
 def find_analogs(corpus: pd.DataFrame, target_key: str, k: int = 5) -> pd.DataFrame:
     """Find the k nearest analogs to `target_key`'s most recent corpus season.
 
-    Cohort = every other corpus row at the same season-start age. Distance
-    is Euclidean over z-scored (npg_ast_q, min, league_multiplier), z-scored
-    against the whole corpus. `followed` lists each analog's own later
-    seasons (up to 4), each with season/league/min/npg_ast_q.
+    Cohort = every other corpus row in the same position group at the same
+    season-start age. Distance is Euclidean over z-scored (npg_ast_q, min,
+    league_multiplier), z-scored against the whole corpus. `followed` lists
+    each analog's own later seasons (up to 4), each with
+    season/league/min/npg_ast_q.
     """
     tgt = corpus[corpus.player_key == target_key].sort_values("season").iloc[-1]
     age = _age(tgt.born, tgt.season)
-    cand = corpus[corpus.player_key != target_key].copy()
+    cand = corpus[(corpus.player_key != target_key) & (corpus.pos_group == tgt.pos_group)].copy()
     cand["age"] = [_age(b, s) for b, s in zip(cand.born, cand.season, strict=True)]
     cand = cand[cand.age == age]
 
@@ -126,8 +144,13 @@ def main() -> None:
     seasons_cfg = config.seasons()
 
     feats_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in cfg["groups"]}
-    for df in feats_by_group.values():
+    for g, df in feats_by_group.items():
         df["npg_ast_q"] = df["npg_p90_quality"] + df["ast_p90_quality"]
+        n_before = len(df)
+        df = collapse_player_seasons(df, rate_cols=["npg_p90_quality", "ast_p90_quality", "npg_ast_q"])
+        if len(df) != n_before:
+            LOG.info("%s: collapsed %d mid-season-transfer duplicate rows", g, n_before - len(df))
+        feats_by_group[g] = df
 
     corpus = pd.concat(feats_by_group.values(), ignore_index=True)
     n_before = len(corpus)

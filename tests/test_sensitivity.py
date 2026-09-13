@@ -46,3 +46,19 @@ def test_churn_detects_a_dropped_player():
     out = churn(baseline, scenario)
     assert out["top10_overlap"] == 1
     assert out["top10_churn"] == 1
+
+
+def test_churn_deduplicates_repeated_player_key_before_comparing():
+    # "a" appears twice in baseline (e.g. an uncollapsed mid-season-transfer
+    # row slipped through) -- churn() must keep only its best rank and must
+    # not cartesian-join it against scenario's single "a" row.
+    baseline = pd.DataFrame({
+        "player_key": ["a", "a", "b"], "pos_group": ["FW", "FW", "FW"], "rank": [1, 15, 2],
+    })
+    scenario = pd.DataFrame({
+        "player_key": ["a", "b"], "pos_group": ["FW", "FW"], "rank": [1, 2],
+    })
+    out = churn(baseline, scenario)
+    assert out["top10_overlap"] == 2
+    assert out["top10_churn"] == 0
+    assert out["mean_delta_rank_top20"] == 0.0

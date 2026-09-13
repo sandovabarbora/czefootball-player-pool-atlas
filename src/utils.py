@@ -126,3 +126,58 @@ def read_parquet(path: Path) -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError(f"Expected parquet not found: {path}. Run upstream fetcher first.")
     return pd.read_parquet(path)
+
+
+def collapse_player_seasons(
+    df: pd.DataFrame,
+    rate_cols: list[str],
+    key_cols: tuple[str, ...] = ("player_key", "season", "pos_group"),
+) -> pd.DataFrame:
+    """Collapse duplicate (player_key, season, pos_group) rows into one.
+
+    `features_*.parquet` is built from `fbref_players.parquet`, which has
+    one row per player-TEAM-season -- a player transferred mid-season (rare,
+    but real) therefore has two rows for the same player_key/season/pos_group,
+    one per club. Left uncollapsed, that duplication lets one transferred
+    player occupy two analog-candidate slots in `find_analogs`, or inflate
+    `sensitivity.churn()`'s rank comparison via a cartesian merge.
+
+    This is NOT a re-run of Bayesian shrinkage from raw counts (that would
+    require redoing the (league, season) shrinkage cohort math in
+    `features.bayesian_shrink`, which a couple of split-season rows don't
+    justify). Instead, for each duplicate group:
+      - `min` is summed (that player's total minutes that season)
+      - every column in `rate_cols` (per-90 rate/quality columns, already on
+        the features frame) is replaced by its minutes-weighted mean across
+        the group's rows (weights = each row's `min`) -- a reasonable
+        second-order approximation of a season aggregate
+      - every other column (`league`, `team`, `nation`, `born`, `age`,
+        `nt_flag`, `nt_events`, `czech_eligible`, `league_multiplier`, ...)
+        is taken from the row with the most minutes (that club/league is
+        where most of the player's season was spent)
+
+    Groups of size 1 pass through unchanged (weighted mean of one row is
+    itself; sum of one row's `min` is itself), so it is always safe to call
+    this on a full features frame, not just on rows known to be duplicated.
+    """
+    key_cols = list(key_cols)
+    df = df.reset_index(drop=True)
+    sizes = df.groupby(key_cols)["min"].transform("size")
+    singles, dup_rows = df[sizes == 1], df[sizes > 1]
+    if dup_rows.empty:
+        return df
+
+    other_cols = [c for c in df.columns if c not in {*key_cols, *rate_cols, "min"}]
+    collapsed = []
+    for _, g in dup_rows.groupby(key_cols):
+        total_min = float(g["min"].sum())
+        weights = g["min"] / total_min if total_min > 0 else pd.Series(1.0 / len(g), index=g.index)
+        lead = g.loc[g["min"].idxmax()]
+        row = {c: lead[c] for c in key_cols}
+        row["min"] = int(total_min)
+        row.update({c: float((g[c].astype(float) * weights).sum()) for c in rate_cols})
+        row.update({c: lead[c] for c in other_cols})
+        collapsed.append(row)
+
+    out = pd.concat([singles, pd.DataFrame(collapsed)], ignore_index=True)
+    return out[df.columns.tolist()]

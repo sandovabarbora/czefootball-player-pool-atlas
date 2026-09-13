@@ -20,6 +20,19 @@ below means the union of each group's own top-10 (up to 30 players), and
 "top-20" the union of each group's own top-20 (up to 60 players), not one
 cross-position top-10/20 list.
 
+Before ranking, `main()` runs `utils.collapse_player_seasons` on each
+position group's metrics-season/Czech-eligible frame: a player transferred
+mid-season has two rows in `fbref_players.parquet` (one per club) that
+survive into `features_*.parquet`, and left uncollapsed those two rows
+would (a) let one player occupy two ranks in the same group and (b) turn
+`churn()`'s baseline/scenario merge into a cartesian join on the repeated
+`player_key`, inflating `mean_delta_rank_top20`. The collapse sums `min`
+and takes a minutes-weighted mean of `npg_p90_shrunk`/`ast_p90_shrunk`
+across the duplicate rows before the scenario multiplier is even applied.
+`churn()` additionally dedupes defensively (keeping each player's best
+rank) before comparing, in case a caller passes in an unpooled or
+uncollapsed frame.
+
 Output: data/processed/sensitivity.parquet, columns
     scenario, description, top10_overlap, top10_churn, mean_delta_rank_top20
 """
@@ -32,7 +45,7 @@ from dataclasses import dataclass
 import pandas as pd
 
 from src import config
-from src.utils import read_parquet, write_parquet
+from src.utils import collapse_player_seasons, read_parquet, write_parquet
 
 LOG = logging.getLogger(__name__)
 
@@ -80,6 +93,17 @@ def rank_pool(feats_by_group: dict[str, pd.DataFrame], multipliers: dict[str, fl
     return pd.concat(frames, ignore_index=True)
 
 
+def _dedup_by_best_rank(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep one row per (player_key, pos_group): the one with the best (lowest) rank.
+
+    Defensive guard for `churn()`: a duplicate (player_key, pos_group) --
+    normally prevented upstream by `collapse_player_seasons` in main() --
+    would otherwise turn the baseline/scenario merge below into a cartesian
+    join and inflate mean_delta_rank_top20.
+    """
+    return df.sort_values("rank").drop_duplicates(subset=["player_key", "pos_group"], keep="first")
+
+
 def churn(baseline: pd.DataFrame, scenario: pd.DataFrame) -> dict:
     """Top-10 overlap/churn and mean |Δrank| over top-20, pooled across position groups.
 
@@ -87,6 +111,9 @@ def churn(baseline: pd.DataFrame, scenario: pd.DataFrame) -> dict:
     (see module docstring); overlap/churn compare player_key set membership,
     mean_delta_rank_top20 compares each surviving player's rank number.
     """
+    baseline = _dedup_by_best_rank(baseline)
+    scenario = _dedup_by_best_rank(scenario)
+
     base_top10 = set(baseline.loc[baseline["rank"] <= 10, "player_key"])
     scen_top10 = set(scenario.loc[scenario["rank"] <= 10, "player_key"])
     overlap = len(base_top10 & scen_top10)
@@ -108,7 +135,12 @@ def main() -> None:
     feats_by_group = {}
     for g in cfg["groups"]:
         df = read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet")
-        feats_by_group[g] = df[(df.season == seasons_cfg["metrics"]) & df.czech_eligible].copy()
+        sub = df[(df.season == seasons_cfg["metrics"]) & df.czech_eligible].copy()
+        n_before = len(sub)
+        sub = collapse_player_seasons(sub, rate_cols=["npg_p90_shrunk", "ast_p90_shrunk"])
+        if len(sub) != n_before:
+            LOG.info("%s: collapsed %d mid-season-transfer duplicate rows", g, n_before - len(sub))
+        feats_by_group[g] = sub
         LOG.info("%s: %d Czech-eligible players in %s", g, len(feats_by_group[g]), seasons_cfg["metrics"])
 
     scenarios = _build_scenarios(baseline_multipliers)
