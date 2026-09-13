@@ -622,6 +622,8 @@
       <input type="search" id="player-search" placeholder="{{ t('pi.search.placeholder') }}" autocomplete="off" spellcheck="false">
       <span class="player-index-count" aria-live="polite" data-total="{{ player_index | length }}">{{ player_index | length }}</span>
     </div>
+    <details class="fold fold-table player-index-fold">
+      <summary>{{ t('pi.summary', n=player_index | length) }}</summary>
     <table class="player-index-table">
       <thead>
         <tr>
@@ -646,6 +648,7 @@
         {% endfor %}
       </tbody>
     </table>
+    </details>
     <p class="capita-note">{{ t('pi.note', season=seasons.metrics, min=feature_defs.min_minutes) }}</p>
   </div>
 </section>

@@ -1,29 +1,34 @@
 /* atlas.js — interaction layer over the static matplotlib SVGs.
  * The SVGs are fetched lazily and inlined; atlas_meta.json (built from the
- * SVG geometry) supplies cluster ids, axis calibration, name labels and
- * heatmap cell values. No chart data is re-computed here.
+ * SVG geometry by site/atlas_meta.py) supplies cluster ids, axis calibration,
+ * name labels and heatmap cell values. No chart data is re-computed here.
+ * Three atlases (fw / mf / df) + the cohort heatmap; the same file serves the
+ * English and the Czech page (strings keyed on <html lang>).
  */
 (() => {
   const script = document.currentScript;
   const metaUrl = script.src.replace(/atlas\.js(\?.*)?$/, 'atlas_meta.json');
   const cs = document.documentElement.lang === 'cs';
   const T = cs ? {
-    ringOnly: 'Jen MS 24/25', reset: 'Reset', players: 'hráčů', hint: 'Najeď na bod → PC1/PC2 · klik na jméno → karta hráče',
-    median: 'medián P/GP', nodata: 'bez dat', wc: 'MS 24/25', open: 'Otevřít kartu', cluster: 'cluster', all: 'vše',
+    ringOnly: 'Jen reprezentace', reset: 'Reset', players: 'hráčů', hint: 'Najeď na bod → PC1/PC2 · klik na jméno → karta hráče',
+    median: 'medián npG+A/90', nodata: 'bez dat', ring: 'Reprezentace 2024–26', open: 'Otevřít kartu', cluster: 'cluster', all: 'vše',
   } : {
-    ringOnly: 'WC 24/25 only', reset: 'Reset', players: 'players', hint: 'Hover a point → PC1/PC2 · click a name → player card',
-    median: 'median P/GP', nodata: 'no data', wc: 'WC 24/25', open: 'Open card', cluster: 'cluster', all: 'all',
+    ringOnly: 'NT pool only', reset: 'Reset', players: 'players', hint: 'Hover a point → PC1/PC2 · click a name → player card',
+    median: 'median npG+A/90', nodata: 'no data', ring: 'NT 2024–26', open: 'Open card', cluster: 'cluster', all: 'all',
   };
   const ascii = (s) => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const fmt = (v) => (Math.round(v * 100) / 100).toFixed(2);
 
-  // cards on the page, by ascii surname, for name-label clicks
+  // cards on the page, by ascii surname, for name-label clicks (the SVG labels
+  // are surnames); a surname shared by two cards links to neither
   const cards = new Map();
+  const dupes = new Set();
   document.querySelectorAll('.cycle-card[id]').forEach((c) => {
     const n = c.querySelector('.cycle-card-name')?.textContent.trim() || '';
     const sur = ascii(n.split(' ').pop());
-    cards.set(sur, c);
+    if (cards.has(sur)) dupes.add(sur); else cards.set(sur, c);
   });
+  dupes.forEach((s) => cards.delete(s));
 
   let metaPromise = null;
   const getMeta = () => (metaPromise ||= fetch(metaUrl).then((r) => r.json()));
@@ -145,7 +150,7 @@
       const ring = p.ringKeys.has(k);
       const lab = names.get(c.label) ? `${c.label} · ${names.get(c.label)}` : c.label;
       tip.innerHTML = `${nm ? `<strong>${nm.text}</strong>` : ''}<span><i style="background:${c.color}"></i>${lab}</span>` +
-        `<span class="mono">PC1 ${fmt(pc1)} · PC2 ${fmt(pc2)}</span>${ring ? `<span class="ring-tag">${T.wc}</span>` : ''}`;
+        `<span class="mono">PC1 ${fmt(pc1)} · PC2 ${fmt(pc2)}</span>${ring ? `<span class="ring-tag">${T.ring}</span>` : ''}`;
       hl.setAttribute('cx', x); hl.setAttribute('cy', y); hl.style.display = '';
       placeTip(wrap, svg, tip, x, y);
     };
