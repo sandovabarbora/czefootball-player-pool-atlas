@@ -57,3 +57,6 @@ node_modules/
 .env.*
 !.env.example
 secrets/
+
+# Czech render (build output)
+outputs/cs/

@@ -1,5 +1,7 @@
 {#- ---------------------------------------------------------------------------
-   Czech football · Player pool atlas — English source template.
+   Czech football · Player pool atlas — report template, rendered once per
+   language (`lang`, `t()` and `term()` come from src/i18n.py; every static
+   string goes through t(), every data label through term()).
    Structure and class names follow the hockey report (docs/style.css,
    docs/modern.css, docs/atlas.js and site/ key off them). Every number on the
    page comes from the context; the only literals are years, K = 10 and ±20 %.
@@ -10,55 +12,57 @@
 {%- macro pct(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.0f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
 {%- macro pct1(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.1f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
 {%- macro signed(x) -%}{%- if x is none -%}—{%- else -%}{{ '%+.3f' | format(x) }}{%- endif -%}{%- endmacro -%}
-{%- macro ordinal(n) -%}{{ n }}{% if n % 100 in [11, 12, 13] %}th{% elif n % 10 == 1 %}st{% elif n % 10 == 2 %}nd{% elif n % 10 == 3 %}rd{% else %}th{% endif %}{%- endmacro -%}
 {%- set topn = headline_leagues | length -%}
 {%- set cze = per_capita | selectattr('country', 'equalto', 'CZE') | list | first -%}
+{%- set gt = {} -%}
+{%- for grp in groups %}{% set _ = gt.update({grp: term(group_titles[grp])}) %}{% endfor -%}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Czech football · Player pool atlas</title>
-  <meta name="description" content="Structural benchmark of the Czech professional football player pool against {{ hero.n_peers - 1 }} peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.">
+  <title>{{ t('meta.title') }}</title>
+  <meta name="description" content="{{ t('meta.description', n=hero.n_peers - 1) }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ assets }}style.css">
 </head>
 <body>
 
-<a class="skip-link" href="#summary">Skip to content</a>
+<a class="skip-link" href="#summary">{{ t('skip') }}</a>
 
-<nav class="toc-sticky" aria-label="Report contents" id="toc">
+<nav class="toc-sticky" aria-label="{{ t('toc.aria') }}" id="toc">
   <button type="button" class="toc-toggle" aria-controls="toc" aria-expanded="true"
-          aria-label="Hide contents">
+          aria-label="{{ t('toc.hide') }}" data-label-show="{{ t('toc.show') }}" data-label-hide="{{ t('toc.hide') }}">
     <span class="toc-toggle-glyph" aria-hidden="true"></span>
   </button>
-  <p class="toc-heading">Contents</p>
+  <p class="toc-heading">{{ t('toc.heading') }}</p>
   <ol>
-    <li><a href="#summary">Summary</a>
+    <li><a href="#summary">{{ t('toc.summary') }}</a>
       <ol>
-        <li><a href="#benchmark">Benchmark vs peer countries</a></li>
-        <li><a href="#observations">Observations</a></li>
-        <li><a href="#clusters">Cluster archetypes</a></li>
-        <li><a href="#trajectories">Trajectories</a></li>
+        <li><a href="#benchmark">{{ t('toc.benchmark') }}</a></li>
+        <li><a href="#observations">{{ t('toc.observations') }}</a></li>
+        <li><a href="#clusters">{{ t('toc.clusters') }}</a></li>
+        <li><a href="#trajectories">{{ t('toc.trajectories') }}</a></li>
       </ol>
     </li>
-    <li><a href="#pathways">Where the train leaves</a></li>
-    <li><a href="#cards">Cards and analogs</a>
+    <li><a href="#pathways">{{ t('toc.pathways') }}</a></li>
+    <li><a href="#cards">{{ t('toc.cards_chapter') }}</a>
       <ol>
-        <li><a href="#cards">Player cards</a></li>
-        <li><a href="#analogs">Historical analogs</a></li>
+        <li><a href="#cards">{{ t('toc.cards') }}</a></li>
+        <li><a href="#analogs">{{ t('toc.analogs') }}</a></li>
+        <li><a href="#players">{{ t('toc.players') }}</a></li>
       </ol>
     </li>
-    <li><a href="#methodology">Methodology</a>
+    <li><a href="#methodology">{{ t('toc.methodology') }}</a>
       <ol>
-        <li><a href="#multipliers">League multipliers</a></li>
-        <li><a href="#shrinkage">Bayesian shrinkage</a></li>
-        <li><a href="#pca-loadings">PCA loadings</a></li>
-        <li><a href="#sensitivity">Sensitivity analysis</a></li>
-        <li><a href="#limitations">Limitations</a></li>
-        <li><a href="#reproducibility">Reproducibility</a></li>
+        <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
+        <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
+        <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
+        <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
+        <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
+        <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
       </ol>
     </li>
   </ol>
@@ -66,26 +70,21 @@
 
 <header class="report-header">
   <div class="container">
-    <p class="masthead-kicker">Czech football &middot; football intelligence brief &middot; {{ seasons.current }}</p>
-    <h1>Atlas of the <em>player pool</em></h1>
-    <p class="masthead-subtitle">
-      A structured view of the Czech professional pool, read from a football
-      intelligence perspective: how big and how deep it is compared with peer
-      countries, and where the structural gaps sit. No predictions, no
-      selection recommendations.
-    </p>
+    <p class="masthead-kicker">{{ t('mast.kicker', season=seasons.current) }}</p>
+    <h1>{{ t('mast.title') }}</h1>
+    <p class="masthead-subtitle">{{ t('mast.subtitle') }}</p>
     <dl class="masthead-meta">
-      <div><dt>Pool</dt> <dd><strong>{{ facts.n_pool }}</strong> players</dd></div>
-      <div><dt>With {{ seasons.metrics }} metrics</dt> <dd><strong>{{ facts.n_with_metrics }}</strong></dd></div>
-      <div><dt>NT call-up 2024–26</dt> <dd><strong>{{ facts.n_nt_flagged }}</strong></dd></div>
+      <div><dt>{{ t('mast.pool') }}</dt> <dd>{{ t('mast.pool_value', n=facts.n_pool) }}</dd></div>
+      <div><dt>{{ t('mast.with_metrics', season=seasons.metrics) }}</dt> <dd><strong>{{ facts.n_with_metrics }}</strong></dd></div>
+      <div><dt>{{ t('mast.nt') }}</dt> <dd><strong>{{ facts.n_nt_flagged }}</strong></dd></div>
     </dl>
 
     <details class="toc-mobile" open>
-      <summary>Report contents</summary>
+      <summary>{{ t('toc.aria') }}</summary>
       <ol>
-        <li><a href="#summary">Summary</a> · <a href="#benchmark">Benchmark</a> · <a href="#observations">Observations</a> · <a href="#clusters">Cluster archetypes</a> · <a href="#trajectories">Trajectories</a></li>
-        <li><a href="#pathways">Where the train leaves</a> · <a href="#cards">Cards</a> · <a href="#analogs">Analogs</a></li>
-        <li><a href="#methodology">Methodology</a> · <a href="#multipliers">Multipliers</a> · <a href="#shrinkage">Shrinkage</a> · <a href="#pca-loadings">PCA</a> · <a href="#sensitivity">Sensitivity</a> · <a href="#limitations">Limitations</a></li>
+        <li><a href="#summary">{{ t('toc.summary') }}</a> · <a href="#benchmark">{{ t('toc.short.benchmark') }}</a> · <a href="#observations">{{ t('toc.observations') }}</a> · <a href="#clusters">{{ t('toc.clusters') }}</a> · <a href="#trajectories">{{ t('toc.trajectories') }}</a></li>
+        <li><a href="#pathways">{{ t('toc.pathways') }}</a> · <a href="#cards">{{ t('toc.short.cards') }}</a> · <a href="#analogs">{{ t('toc.short.analogs') }}</a> · <a href="#players">{{ t('toc.players') }}</a></li>
+        <li><a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a></li>
       </ol>
     </details>
   </div>
@@ -95,45 +94,42 @@
    HERO BAND — drenched navy with the headline number
    ============================================================================= #}
 <section class="hero" id="summary">
-  <aside class="hero-stamp" aria-label="Document identification">
-    <p class="hero-stamp-line">Report</p>
-    <p class="hero-stamp-line"><strong>Atlas · {{ seasons.current }}</strong></p>
-    <p class="hero-stamp-line">first edition · MIT</p>
+  <aside class="hero-stamp" aria-label="{{ t('hero.stamp.aria') }}">
+    <p class="hero-stamp-line">{{ t('hero.stamp.report') }}</p>
+    <p class="hero-stamp-line"><strong>{{ t('hero.stamp.atlas', season=seasons.current) }}</strong></p>
+    <p class="hero-stamp-line">{{ t('hero.stamp.edition') }}</p>
   </aside>
   <div class="container">
-    <p class="hero-kicker">Summary — structural benchmark vs peer countries</p>
-    <h2>Summary</h2>
+    <p class="hero-kicker">{{ t('hero.kicker') }}</p>
+    <h2>{{ t('hero.h2') }}</h2>
     <div class="hero-grid">
       <div class="hero-num">
         <span class="hero-num-figure">{{ '%.2f' | format(hero.per_million) }}<span class="ast" aria-hidden="true">*</span></span>
-        <span class="hero-num-unit">players in Europe's {{ topn }} strongest leagues per million inhabitants, {{ seasons.current }} rosters</span>
+        <span class="hero-num-unit">{{ t('hero.unit', topn=topn, season=seasons.current) }}</span>
       </div>
       <div class="hero-lead">
         <p>
-          Per-capita density of top-{{ topn }} league players puts the Czech pool
-          <span class="hero-pull">{{ ordinal(hero.rank) }} of {{ hero.n_peers }}</span> peer countries.
-          {{ hero.top.name }} leads with <strong>{{ f2(hero.top.per_million) }}</strong> per million,
-          {{ '%.1f' | format(hero.top.per_million / hero.per_million) }} times the Czech density.
+          {{ t('hero.lead', topn=topn, rank=ordinal(hero.rank), n=hero.n_peers, top=term(hero.top.name),
+               top_pm=f2(hero.top.per_million), ratio=('%.1f' | format(hero.top.per_million / hero.per_million))) }}
         </p>
         <p class="hero-sublead">
-          {% if hero.gap %}The largest cohort gap is in <strong>{{ hero.gap.group_title | lower }} aged {{ hero.gap.cohort }}</strong>:
-          {{ hero.gap.cze_n }} Czech player{% if hero.gap.cze_n != 1 %}s{% endif %} in the top-{{ topn }} leagues against a peer median of {{ g(hero.gap.peer_median_n) }}.{% endif %}
-          {% if hero.export_cze and hero.export_den %}A recent Czech export first reached a top-{{ topn }} roster at a median age of
-          {{ g(hero.export_cze.median_export_age_recent) }}; a Danish one at {{ g(hero.export_den.median_export_age_recent) }}.{% endif %}
-          Football people recognise these numbers player by player; there is no place where they are aggregated.
+          {% if hero.gap %}{{ t('hero.sublead.gap', group=gt[hero.gap.pos_group] | lower, cohort=hero.gap.cohort, cze_n=hero.gap.cze_n,
+                                s=('' if hero.gap.cze_n == 1 or lang != 'en' else 's'), topn=topn, peer=g(hero.gap.peer_median_n)) }}{% endif %}
+          {% if hero.export_cze and hero.export_den %}{{ t('hero.sublead.export', topn=topn, cze=g(hero.export_cze.median_export_age_recent), den=g(hero.export_den.median_export_age_recent)) }}{% endif %}
+          {{ t('hero.sublead.close') }}
         </p>
       </div>
     </div>
-    <ul class="hero-tiles" aria-label="Key numbers">
-      <li><strong>{{ hero.rank }}<span>/{{ hero.n_peers }}</span></strong><span class="hero-tile-label">per-capita rank among peer countries</span></li>
-      {% if hero.gap %}<li><strong>{{ hero.gap.cze_n }}</strong><span class="hero-tile-label">Czech {{ hero.gap.group_title | lower }} aged {{ hero.gap.cohort }} in top-{{ topn }} leagues <em>peer median {{ g(hero.gap.peer_median_n) }}</em></span></li>{% endif %}
-      {% if hero.export_cze and hero.export_den %}<li><strong>{{ g(hero.export_cze.median_export_age_recent) }}</strong><span class="hero-tile-label">median age of a recent Czech export <em>DEN {{ g(hero.export_den.median_export_age_recent) }}</em></span></li>{% endif %}
+    <ul class="hero-tiles" aria-label="{{ t('hero.tiles.aria') }}">
+      <li><strong>{{ hero.rank }}<span>/{{ hero.n_peers }}</span></strong><span class="hero-tile-label">{{ t('hero.tile.rank') }}</span></li>
+      {% if hero.gap %}<li><strong>{{ hero.gap.cze_n }}</strong><span class="hero-tile-label">{{ t('hero.tile.gap', group=gt[hero.gap.pos_group] | lower, cohort=hero.gap.cohort, topn=topn, peer=g(hero.gap.peer_median_n)) }}</span></li>{% endif %}
+      {% if hero.export_cze and hero.export_den %}<li><strong>{{ g(hero.export_cze.median_export_age_recent) }}</strong><span class="hero-tile-label">{{ t('hero.tile.export', den=g(hero.export_den.median_export_age_recent)) }}</span></li>{% endif %}
     </ul>
-    <p class="hero-footnote">* {{ hero.n_players }} players with FBref nationality CZE on {{ seasons.current }} rosters of the UEFA top-{{ topn }} leagues ÷ {{ '%.1f' | format(hero.population_m) }} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href="#methodology">Methodology</a>.</p>
+    <p class="hero-footnote">{{ t('hero.footnote', n=hero.n_players, season=seasons.current, topn=topn, pop=('%.1f' | format(hero.population_m))) }}</p>
     <dl class="hero-meta">
-      <div><dt>Mapped pool</dt> <dd>{{ facts.n_with_metrics }} players with {{ seasons.metrics }} metrics</dd></div>
-      <div><dt>NT call-up 2024–26</dt> <dd>{{ facts.n_nt_flagged }} players</dd></div>
-      <div><dt>Data frame</dt> <dd>{{ seasons.previous }} → {{ seasons.metrics }}, rosters {{ seasons.current }}</dd></div>
+      <div><dt>{{ t('hero.meta.pool') }}</dt> <dd>{{ t('hero.meta.pool_value', n=facts.n_with_metrics, season=seasons.metrics) }}</dd></div>
+      <div><dt>{{ t('hero.meta.nt') }}</dt> <dd>{{ t('hero.meta.nt_value', n=facts.n_nt_flagged) }}</dd></div>
+      <div><dt>{{ t('hero.meta.frame') }}</dt> <dd>{{ t('hero.meta.frame_value', previous=seasons.previous, metrics=seasons.metrics, current=seasons.current) }}</dd></div>
     </dl>
   </div>
 </section>
@@ -143,30 +139,20 @@
    ============================================================================= #}
 <section class="exec-summary">
   <div class="container">
-    <p class="framing">
-      A map of the {{ facts.n_with_metrics }} Czech-eligible professionals with a complete
-      {{ seasons.metrics }} season in a league FBref covers, segmented by position group and
-      statistical profile, and benchmarked against {{ hero.n_peers - 1 }} peer countries.
-      A methodological tool for mapping the pool across a national-team cycle, not a
-      selection recommendation.
-    </p>
+    <p class="framing">{{ t('ch1.framing', n=facts.n_with_metrics, season=seasons.metrics, peers=hero.n_peers - 1) }}</p>
 
-    <h3 id="benchmark">Structural benchmark vs peer countries</h3>
-    <p>
-      Football intuition recognises the Czech pool player by player. <strong>Its structural
-      position among the peer countries needs an aggregation nobody holds in one place.</strong>
-      Three numbers below that are usually not collected together.
-    </p>
+    <h3 id="benchmark">{{ t('ch1.benchmark.h3') }}</h3>
+    <p>{{ t('ch1.benchmark.p') }}</p>
 
-    <h4>Per-capita density of top-{{ topn }} league players ({{ seasons.current }} rosters)</h4>
-    <div class="capita" role="list" aria-label="Per-capita density of top-league players by country">
+    <h4>{{ t('ch1.capita.h4', topn=topn, season=seasons.current) }}</h4>
+    <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
       {% for r in per_capita %}
       <div class="capita-row" role="listitem"
            {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
            style="--value: {{ r.per_million }}; --max: {{ max_per_million }};">
         <div class="capita-country">
           <span class="capita-code">{{ r.country }}</span>
-          {{ r.name }}
+          {{ term(r.name) }}
         </div>
         <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
         <div class="capita-value">{{ f2(r.per_million) }}</div>
@@ -174,27 +160,22 @@
       {% endfor %}
     </div>
     <p class="capita-note">
-      * Numerator: players with the country's FBref nationality on a {{ seasons.current }} roster of
-      the {{ topn }} headline leagues ({{ headline_leagues | join(', ') }}); denominator: Eurostat 2024
-      population. Czechia: {{ cze.n_players }} players ÷ {{ '%.2f' | format(cze.population_m) }} M = {{ f2(cze.per_million) }},
-      rank {{ cze.rank }} of {{ per_capita | length }}.
+      {{ t('ch1.capita.note', season=seasons.current, topn=topn, leagues=headline_leagues | join(', '), n=cze.n_players,
+           pop=('%.2f' | format(cze.population_m)), pm=f2(cze.per_million), rank=cze.rank, total=per_capita | length) }}
     </p>
 
     <figure class="figure-bleed" data-atlas="heatmap">
-      <img src="intl_cohort_heatmap.svg"
-           alt="Heatmap of the international cohort benchmark: {{ hero.n_peers }} countries by position group and age cohort, {{ seasons.metrics }} season. Each cell carries the player count and the median non-penalty goals plus assists per 90 minutes; the Czech row is outlined.">
-      <figcaption>
-        Median non-penalty goals + assists per 90 by country, position group and age cohort,
-        {{ seasons.metrics }}. The outlined row is Czechia; each cell shows the player count and the median.
-      </figcaption>
+      <img src="{{ assets }}intl_cohort_heatmap.svg"
+           alt="{{ t('ch1.heatmap.alt', n=hero.n_peers, season=seasons.metrics) }}">
+      <figcaption>{{ t('ch1.heatmap.caption', season=seasons.metrics) }}</figcaption>
     </figure>
 
     {% for grp in groups %}
-    <h4>Cohort gaps — {{ group_titles[grp] | lower }}</h4>
+    <h4>{{ t('ch1.cohorts.h4', group=gt[grp] | lower) }}</h4>
     <table class="cohort-table">
       <thead>
         <tr>
-          <th>Cohort</th>
+          <th>{{ t('ch1.cohorts.th') }}</th>
           {% for cc in cohort_countries %}<th{% if cc == 'CZE' %} class="cohort-cze"{% endif %}>{{ cc }}</th>{% endfor %}
         </tr>
       </thead>
@@ -208,7 +189,7 @@
               {% if cell.n > 0 %}
                 <span class="cohort-cell-n">{{ cell.n }}</span><span class="cohort-cell-median">{{ f2(cell.median) }}</span>
               {% else %}
-                <span class="muted" title="no player">—</span>
+                <span class="muted" title="{{ t('ch1.cohorts.none') }}">—</span>
               {% endif %}
             </td>
           {% endfor %}
@@ -217,28 +198,23 @@
       </tbody>
     </table>
     {% endfor %}
+    {% set gap_items = [] %}
+    {% for r in cohort_gaps[:3] %}{% set _ = gap_items.append(t('ch1.cohorts.gap_item', group=gt[r.pos_group] | lower, cohort=r.cohort, cze=r.cze_n, peer=g(r.peer_median_n))) %}{% endfor %}
     <p class="capita-note">
-      * Count and median npG+A per 90 of players with the country's nationality in a top-{{ topn }}
-      league, {{ seasons.metrics }}, at least {{ feature_defs.min_minutes }} minutes; cohort by age at
-      the season's start. {{ cohort_countries | length }} of the {{ hero.n_peers }} countries are shown; the heatmap above carries all of them.
-      Largest Czech shortfalls against the peer median count:
-      {% for r in cohort_gaps[:3] %}{{ r.group_title | lower }} {{ r.cohort }} ({{ r.cze_n }} vs {{ g(r.peer_median_n) }}){% if not loop.last %}, {% endif %}{% endfor %}.
+      {{ t('ch1.cohorts.note', topn=topn, season=seasons.metrics, min=feature_defs.min_minutes, shown=cohort_countries | length,
+           n=hero.n_peers, gaps=gap_items | join(', ')) }}
     </p>
 
     {% for grp in groups %}
     {% set note = atlas_notes[grp] %}
     <figure class="figure-bleed" data-atlas="{{ grp | lower }}">
-      <img src="atlas_{{ grp }}.svg"
-           alt="Two-panel atlas of {{ group_titles[grp] | lower }} {{ seasons.metrics }} in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of {{ note.n_corpus }} players; coloured points are the {{ note.n_czech }} Czech-eligible players by cluster; oxblood rings mark the {{ note.n_nt }} with a national-team call-up since 2024.">
-      <figcaption>
-        Atlas of {{ group_titles[grp] | lower }} {{ seasons.metrics }} in both projections: {{ note.n_czech }}
-        Czech-eligible players in colour against a corpus of {{ note.n_corpus }}. Oxblood rings mark the
-        national-team pool (call-up 2024–26, {{ note.n_nt }} players).
-      </figcaption>
+      <img src="{{ assets }}atlas_{{ grp }}.svg"
+           alt="{{ t('ch1.atlas.alt', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt) }}">
+      <figcaption>{{ t('ch1.atlas.caption', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt) }}</figcaption>
     </figure>
     {% endfor %}
 
-    <h3 id="observations">Observations</h3>
+    <h3 id="observations">{{ t('ch1.observations.h3') }}</h3>
     <div class="observations">
       {% for obs in observations %}
       <div class="observation">
@@ -248,14 +224,10 @@
       {% endfor %}
     </div>
 
-    <h3 id="clusters">Cluster archetypes (style projection)</h3>
-    <p>
-      Clusters are fitted on the whole corpus of {{ seasons.metrics }} player-seasons and read here
-      through their Czech members. The label describes the cluster's median footprint; the count is
-      Czech members of the corpus cluster; names are the Czech members with the most minutes.
-    </p>
+    <h3 id="clusters">{{ t('ch1.clusters.h3') }}</h3>
+    <p>{{ t('ch1.clusters.p', season=seasons.metrics) }}</p>
     {% for grp in groups %}
-    <h4>{{ group_titles[grp] }}</h4>
+    <h4>{{ gt[grp] }}</h4>
     <dl class="cluster-list" data-atlas-clusters="{{ grp | lower }}">
       {% for c in clusters[grp] %}
       <dt>
@@ -263,63 +235,59 @@
         <span>
           {{ c.label }}
           <span class="cluster-meta-inline">
-            {{ c.n }} Czech of {{ c.n_corpus }} · NT pool {{ c.nt_pool }} · median born {% if c.median_born is none %}—{% else %}{{ c.median_born }}{% endif %}
+            {{ t('ch1.clusters.meta', n=c.n, corpus=c.n_corpus, nt=c.nt_pool, born=('—' if c.median_born is none else c.median_born)) }}
           </span>
         </span>
       </dt>
       <dd>
-        Corpus medians: {{ f2(c.medians.npg_p90) }} non-penalty goals and {{ f2(c.medians.ast_p90) }} assists per 90,
-        {{ pct(c.medians.min_share) }} of the club's minutes, age {{ g(c.medians.age) }}, {{ f2(c.medians.cards_p90) }} cards per 90.
+        {{ t('ch1.clusters.medians', npg=f2(c.medians.npg_p90), ast=f2(c.medians.ast_p90), share=pct(c.medians.min_share), age=g(c.medians.age), cards=f2(c.medians.cards_p90)) }}
         {% if c.tactical %}
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>{{ c.tactical }}</span>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">{{ t('ch1.clusters.tactical') }}</span>{{ c.tactical }}</span>
         {% endif %}
-        {% if c.top %}<span class="cluster-top">{{ c.top | join(', ') }}</span>{% endif %}
+        {% if c.top %}<span class="cluster-top">{% for name in c.top %}<span class="cluster-top-name" data-player-key="{{ c.top_keys[loop.index0] }}">{{ name }}</span>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
       </dd>
       {% endfor %}
     </dl>
     {% endfor %}
 
-    <h3 id="trajectories">Trajectories {{ seasons.previous }} → {{ seasons.metrics }} (Czech-eligible, ≥ {{ thresholds.min_minutes }} minutes in both seasons)</h3>
-    <p>
-      Season-over-season change in quality-adjusted npG+A per 90. A move counts as up or down
-      beyond ± {{ f2(thresholds.direction) }}; everything inside that band is stable and not listed.
-    </p>
+    <h3 id="trajectories">{{ t('ch1.traj.h3', previous=seasons.previous, metrics=seasons.metrics, min=thresholds.min_minutes) }}</h3>
+    <p>{{ t('ch1.traj.p', band=f2(thresholds.direction)) }}</p>
     {% for grp in groups %}
     {% set m = movers[grp] %}
-    <h4>{{ group_titles[grp] }} — {{ m.n_czech }} players: {{ m.directions.improving }} up, {{ m.directions.stable }} stable, {{ m.directions.declining }} down</h4>
+    <h4>{{ t('ch1.traj.h4', group=gt[grp], n=m.n_czech, up=m.directions.improving, stable=m.directions.stable, down=m.directions.declining) }}</h4>
     <div class="movers-grid">
       <div class="movers-col">
-        <h4>Moving up (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>{{ t('ch1.traj.up') }}</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min {{ seasons.previous }} / {{ seasons.metrics }}</th><th>Δ</th></tr></thead>
+          <thead><tr><th>{{ t('ch1.traj.th.player') }}</th><th>{{ t('ch1.traj.th.league') }}</th><th>{{ t('ch1.traj.th.min', previous=seasons.previous, metrics=seasons.metrics) }}</th><th>Δ</th></tr></thead>
           <tbody>
             {% for r in m.up %}
             <tr>
-              <td>{{ r.name }}</td>
+              <td data-player-key="{{ r.player_key }}">{{ r.name }}</td>
               <td class="muted">{{ r.league }}</td>
               <td class="muted">{{ r.min_prev }} / {{ r.min_curr }}</td>
               <td class="arrow-up">{{ signed(r.delta) }}</td>
             </tr>
             {% else %}
-            <tr><td colspan="4" class="muted">No Czech player moved up beyond the band.</td></tr>
+            <tr><td colspan="4" class="muted">{{ t('ch1.traj.none_up') }}</td></tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
       <div class="movers-col">
-        <h4>Moving down (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>{{ t('ch1.traj.down') }}</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min {{ seasons.previous }} / {{ seasons.metrics }}</th><th>Δ</th></tr></thead>
+          <thead><tr><th>{{ t('ch1.traj.th.player') }}</th><th>{{ t('ch1.traj.th.league') }}</th><th>{{ t('ch1.traj.th.min', previous=seasons.previous, metrics=seasons.metrics) }}</th><th>Δ</th></tr></thead>
           <tbody>
             {% for r in m.down %}
             <tr>
-              <td>{{ r.name }}</td>
+              <td data-player-key="{{ r.player_key }}">{{ r.name }}</td>
               <td class="muted">{{ r.league }}</td>
               <td class="muted">{{ r.min_prev }} / {{ r.min_curr }}</td>
               <td class="arrow-down">{{ signed(r.delta) }}</td>
             </tr>
             {% else %}
-            <tr><td colspan="4" class="muted">No Czech player moved down beyond the band.</td></tr>
+            <tr><td colspan="4" class="muted">{{ t('ch1.traj.none_down') }}</td></tr>
             {% endfor %}
           </tbody>
         </table>
@@ -327,7 +295,7 @@
     </div>
     {% endfor %}
 
-    <p class="continue">Pathways abroad follow; cards, analogs and the methodology come after them</p>
+    <p class="continue">{{ t('ch1.continue') }}</p>
   </div>
 </section>
 
@@ -335,37 +303,26 @@
    CHAPTER II — WHERE THE TRAIN LEAVES (pathways and differences)
    ============================================================================= #}
 {% set pw = pathways %}
-<aside class="chapter-divider" role="separator" aria-label="Chapter II">
+<aside class="chapter-divider" role="separator" aria-label="{{ t('ch2.aria') }}">
   <p class="chapter-numeral">II</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Where the train leaves</p>
-  <p class="chapter-synopsis">
-    Four exhibits on the road from a domestic league to a top-{{ topn }} roster: minutes given to
-    a league's own under-21s, the age and door of the export, how the exports fare at the new
-    club, and the production profile by tier. Each names a difference; none names a remedy.
-  </p>
+  <p class="chapter-title">{{ t('ch2.title') }}</p>
+  <p class="chapter-synopsis">{{ t('ch2.synopsis', topn=topn) }}</p>
 </aside>
 
 <section class="ai-layer">
   <div class="container">
-    <h2 id="pathways">Where the train leaves</h2>
-    <p class="framing">
-      Pathways and differences between Czechia and the {{ pw.n_countries - 1 }} peer countries,
-      computed from the same league tables: exposure at home, export route, how the exports fare,
-      and the profile of those who made it.
-    </p>
+    <h2 id="pathways">{{ t('toc.pathways') }}</h2>
+    <p class="framing">{{ t('ch2.framing', n=pw.n_countries - 1) }}</p>
 
-    <h3>Exhibit A — youth exposure at home</h3>
+    <h3>{{ t('ch2.a.h3') }}</h3>
     <p>
-      Share of a domestic league's total minutes played by its own nationals aged 21 or under,
-      {{ seasons.metrics }}.
-      {% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}The Czech First League gives
-      <strong>{{ pct1(pw.youth_cze.share_u21) }}</strong> of its minutes to Czech under-21s,
-      {{ ordinal(pw.youth_rank) }} of the {{ pw.youth | selectattr('share_u21', 'ne', none) | list | length }} leagues with data*;
-      {{ pw.youth_top.name }} leads with {{ pct1(pw.youth_top.share_u21) }}.{% endif %}
+      {{ t('ch2.a.p', season=seasons.metrics) }}
+      {% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('ch2.a.cze', share=pct1(pw.youth_cze.share_u21), rank=ordinal(pw.youth_rank),
+           n=pw.youth | selectattr('share_u21', 'ne', none) | list | length, top=term(pw.youth_top.name), top_share=pct1(pw.youth_top.share_u21)) }}{% endif %}
     </p>
     {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
-    <div class="capita" role="list" aria-label="Share of domestic-league minutes played by own under-21 nationals">
+    <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
       {% for r in pw.youth %}
       <div class="capita-row" role="listitem"
            {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
@@ -375,40 +332,33 @@
           {{ r.league }}
         </div>
         <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-        <div class="capita-value">{% if r.share_u21 is none %}<span class="muted" title="league not on FBref">—</span>{% else %}{{ pct1(r.share_u21) }}{% endif %}</div>
+        <div class="capita-value">{% if r.share_u21 is none %}<span class="muted" title="{{ t('ch2.a.nodata') }}">—</span>{% else %}{{ pct1(r.share_u21) }}{% endif %}</div>
       </div>
       {% endfor %}
     </div>
-    <p class="capita-note">
-      * Σ minutes of players with the league country's nationality and age ≤ 21 at the season's
-      start ÷ Σ minutes of all players in the league, {{ seasons.metrics }}. Under-23 shares:
-      {% for r in pw.youth if r.share_u23 is not none %}{{ r.country }} {{ pct1(r.share_u23) }}{% if not loop.last %}, {% endif %}{% endfor %}.
-      A league without a bar is not covered by FBref.
-    </p>
+    {% set u23 = [] %}
+    {% for r in pw.youth if r.share_u23 is not none %}{% set _ = u23.append(r.country ~ ' ' ~ pct1(r.share_u23)) %}{% endfor %}
+    <p class="capita-note">{{ t('ch2.a.note', season=seasons.metrics, u23=u23 | join(', ')) }}</p>
 
-    <h3>Exhibit B — export route</h3>
+    <h3>{{ t('ch2.b.h3') }}</h3>
     <p>
-      For every peer-country player on a {{ seasons.current }} top-{{ topn }} roster: the age at the
-      first top-{{ topn }} season (full roster, and recent entrants only) and, for recent entrants, the
-      league of the season before it.
-      {% if pw.export_cze %}Czech exports: {{ pw.export_cze.n }} players, median export age
-      {{ g(pw.export_cze.median_export_age) }} (recent entrants {{ pw.export_cze.n_recent }}, median
-      {{ g(pw.export_cze.median_export_age_recent) }}), {{ pct(pw.export_cze.origin.domestic) }} of the recent
-      ones straight from the Czech First League*.{% endif %}
+      {{ t('ch2.b.p', current=seasons.current, topn=topn) }}
+      {% if pw.export_cze %}{{ t('ch2.b.cze', n=pw.export_cze.n, age=g(pw.export_cze.median_export_age), n_recent=pw.export_cze.n_recent,
+           age_recent=g(pw.export_cze.median_export_age_recent), domestic=pct(pw.export_cze.origin.domestic)) }}{% endif %}
     </p>
     <table class="kv-table">
       <thead>
         <tr>
-          <th>Country</th><th>n</th><th>Recent</th>
-          <th>Export age (all)</th><th>Export age (recent)</th>
-          <th>Domestic</th><th>Stepping stone</th><th>Other top-{{ topn }}</th><th>Not covered</th>
-          <th>Censored</th>
+          <th>{{ t('ch2.b.th.country') }}</th><th>n</th><th>{{ t('ch2.b.th.recent') }}</th>
+          <th>{{ t('ch2.b.th.age_all') }}</th><th>{{ t('ch2.b.th.age_recent') }}</th>
+          <th>{{ t('ch2.b.th.domestic') }}</th><th>{{ t('ch2.b.th.stepping') }}</th><th>{{ t('ch2.b.th.other', topn=topn) }}</th><th>{{ t('ch2.b.th.not_covered') }}</th>
+          <th>{{ t('ch2.b.th.censored') }}</th>
         </tr>
       </thead>
       <tbody>
         {% for r in pw.export %}
         <tr{% if r.country == 'CZE' %} class="cohort-cze"{% endif %}>
-          <td><span class="capita-code">{{ r.country }}</span> {{ r.name }}</td>
+          <td><span class="capita-code">{{ r.country }}</span> {{ term(r.name) }}</td>
           <td>{{ r.n }}</td>
           <td>{{ r.n_recent }}</td>
           <td>{{ g(r.median_export_age) }}</td>
@@ -423,78 +373,61 @@
       </tbody>
     </table>
     <p class="capita-note">
-      * Export age = age at the first season in any headline league, history back to
-      {{ seasons.history_start }}; a first appearance already in {{ seasons.history_start }} is censored.
-      Recent entrants: first top-{{ topn }} season {{ seasons.metrics }} or {{ seasons.current }}, the only
-      ones whose previous season lies inside the fetched window ({{ facts.coverage_start }} onwards for
-      peer domestic leagues). Stepping-stone leagues: {{ stepping_stone | join(', ') }}. Not covered: no
-      earlier row in the data.
+      {{ t('ch2.b.note', start=seasons.history_start, topn=topn, metrics=seasons.metrics, current=seasons.current, coverage=facts.coverage_start, stepping=stepping_stone | join(', ')) }}
     </p>
 
-    <h3>Exhibit C — how the exports fare</h3>
+    <h3>{{ t('ch2.c.h3') }}</h3>
     <p>
-      Peer-country players at a top-{{ topn }} club in {{ seasons.metrics }}: median share of the club's
-      minutes, and the club's strength within its league.
-      {% if pw.fare_min_cze and pw.fare_goals_cze %}Czech exports play a median
-      <strong>{{ pct(pw.fare_min_cze.value) }}</strong> of their club's minutes ({{ ordinal(pw.fare_min_rank) }} of
-      {{ pw.fare_min | length }}) for clubs at the {{ pct(pw.fare_goals_cze.value) }} goals-scored percentile of
-      their league ({{ ordinal(pw.fare_goals_rank) }} of {{ pw.fare_goals | length }})*.{% endif %}
+      {{ t('ch2.c.p', topn=topn, season=seasons.metrics) }}
+      {% if pw.fare_min_cze and pw.fare_goals_cze %}{{ t('ch2.c.cze', share=pct(pw.fare_min_cze.value), rank_min=ordinal(pw.fare_min_rank), n_min=pw.fare_min | length,
+           goals=pct(pw.fare_goals_cze.value), rank_goals=ordinal(pw.fare_goals_rank), n_goals=pw.fare_goals | length) }}{% endif %}
     </p>
-    <h4>Median minutes share at the top-{{ topn }} club</h4>
+    <h4>{{ t('ch2.c.h4.min', topn=topn) }}</h4>
     {% set fare_min_max = pw.fare_min | map(attribute='value') | max %}
-    <div class="capita" role="list" aria-label="Median minutes share of exports at their club, by country">
+    <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
       {% for r in pw.fare_min %}
       <div class="capita-row" role="listitem"
            {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
            style="--value: {{ r.value }}; --max: {{ fare_min_max }};">
         <div class="capita-country">
           <span class="capita-code">{{ r.country }}</span>
-          {{ r.name }} <span class="muted small">n = {{ r.n }}</span>
+          {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
         </div>
         <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
         <div class="capita-value">{{ pct(r.value) }}</div>
       </div>
       {% endfor %}
     </div>
-    <h4>Median club strength: goals-scored percentile within the league</h4>
+    <h4>{{ t('ch2.c.h4.goals') }}</h4>
     {% set fare_goals_max = pw.fare_goals | map(attribute='value') | max %}
-    <div class="capita" role="list" aria-label="Median club goals-scored percentile of exports' clubs, by country">
+    <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.goals') }}">
       {% for r in pw.fare_goals %}
       <div class="capita-row" role="listitem"
            {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
            style="--value: {{ r.value }}; --max: {{ fare_goals_max }};">
         <div class="capita-country">
           <span class="capita-code">{{ r.country }}</span>
-          {{ r.name }} <span class="muted small">n = {{ r.n }}</span>
+          {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
         </div>
         <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
         <div class="capita-value">{{ pct(r.value) }}</div>
       </div>
       {% endfor %}
     </div>
-    <p class="capita-note">
-      * Minutes share = player minutes ÷ (club matches × 90), {{ seasons.metrics }}, one row per player-season.
-      Club strength proxy: {{ pw.club_strength_proxy }} — clubs ranked by the goals their own
-      roster scored that season (ClubElo was unreachable at run time). Both are medians over the
-      country's exports; n per country in the bars.
-    </p>
+    <p class="capita-note">{{ t('ch2.c.note', season=seasons.metrics, proxy=term(pw.club_strength_proxy)) }}</p>
 
-    <h3>Exhibit D — profile of those who made it</h3>
-    <p>
-      Quality-adjusted npG+A per 90 in {{ seasons.metrics }} by the tier of the player's own league:
-      domestic, stepping stone, top-{{ topn }}, or another covered league. Czech count and median
-      against the median of the peer countries' values.
-    </p>
+    <h3>{{ t('ch2.d.h3') }}</h3>
+    <p>{{ t('ch2.d.p', season=seasons.metrics, topn=topn) }}</p>
     <details class="fold fold-table">
-      <summary>Profile table by tier and position group</summary>
+      <summary>{{ t('ch2.d.summary') }}</summary>
       <table class="kv-table">
         <thead>
-          <tr><th>Tier</th><th>Group</th><th>CZE n</th><th>CZE median</th><th>Peer median n</th><th>Peer median</th></tr>
+          <tr><th>{{ t('ch2.d.th.tier') }}</th><th>{{ t('ch2.d.th.group') }}</th><th>{{ t('ch2.d.th.cze_n') }}</th><th>{{ t('ch2.d.th.cze_median') }}</th><th>{{ t('ch2.d.th.peer_n') }}</th><th>{{ t('ch2.d.th.peer_median') }}</th></tr>
         </thead>
         <tbody>
           {% for r in pw.profile %}
           <tr>
-            <td>{{ r.tier_label }}</td>
+            <td>{{ term(r.tier_label) }}</td>
             <td>{{ r.pos_group }}</td>
             <td class="cohort-cze">{{ r.cze_n }}</td>
             <td class="cohort-cze">{{ f2(r.cze_median) }}</td>
@@ -505,29 +438,24 @@
         </tbody>
       </table>
     </details>
-    <p class="capita-note">
-      * Tier = the league of the player's own {{ seasons.metrics }} season. Peer median n and peer
-      median are medians across the peer countries present in that tier and group; a tier a country
-      has no player in is absent, not zero.
-    </p>
+    <p class="capita-note">{{ t('ch2.d.note', season=seasons.metrics) }}</p>
 
     {% if pathways.destinations %}
     {% set dest = pathways.destinations %}
-    <h3>Exhibit E — where Czech exports go</h3>
+    <h3>{{ t('ch2.e.h3') }}</h3>
+    {% set bucket_items = [] %}
+    {% for b in dest.buckets %}{% set _ = bucket_items.append(term(b.label) ~ ' ' ~ pct(b.share_of_abroad)) %}{% endfor %}
     <p>
-      Of the {{ dest.n_total }} mapped Czech players, {{ dest.n_abroad }} play outside the Czech
-      First League.{% if dest.buckets %} Their leagues by bucket, as a share of those abroad:
-      {% for b in dest.buckets %}{{ b.label }} {{ pct(b.share_of_abroad) }}{% if not loop.last %}, {% endif %}{% endfor %}.
-      <strong>{{ pct(dest.sideways_share) }}</strong> of the moves are sideways* — {{ dest.sideways_definition }}.{% endif %}
+      {{ t('ch2.e.p', total=dest.n_total, abroad=dest.n_abroad) }}{% if dest.buckets %} {{ t('ch2.e.buckets', buckets=bucket_items | join(', '), sideways=pct(dest.sideways_share), definition=term(dest.sideways_definition)) }}{% endif %}
     </p>
     {% if dest.buckets %}
     {% set dest_max = dest.buckets | map(attribute='share_of_abroad') | max %}
-    <div class="capita" role="list" aria-label="Czech players abroad by destination bucket">
+    <div class="capita" role="list" aria-label="{{ t('ch2.e.aria') }}">
       {% for b in dest.buckets %}
       <div class="capita-row" role="listitem" style="--value: {{ b.share_of_abroad }}; --max: {{ dest_max }};">
         <div class="capita-country">
           <span class="capita-code">{{ b.n }}</span>
-          {{ b.label }}{% if b.median_multiplier is not none %} <span class="muted small">median multiplier {{ f3(b.median_multiplier) }}</span>{% endif %}
+          {{ term(b.label) }}{% if b.median_multiplier is not none %} <span class="muted small">{{ t('ch2.e.median_mult', m=f3(b.median_multiplier)) }}</span>{% endif %}
         </div>
         <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
         <div class="capita-value">{{ pct(b.share_of_abroad) }}</div>
@@ -536,14 +464,10 @@
     </div>
     <ul class="small dest-examples">
       {% for b in dest.buckets if b.examples %}
-      <li><span class="capita-code">{{ b.label }}</span> <code>{{ b.examples | join(' · ') }}</code></li>
+      <li><span class="capita-code">{{ term(b.label) }}</span> <code>{{ b.examples | join(' · ') }}</code></li>
       {% endfor %}
     </ul>
-    <p class="capita-note">
-      * Buckets by the league of the player's own {{ seasons.metrics }} season; the number in front
-      of each bar is the player count, the median multiplier is the bucket's median league
-      multiplier. Sideways: {{ dest.sideways_definition }}.
-    </p>
+    <p class="capita-note">{{ t('ch2.e.note', season=seasons.metrics, definition=term(dest.sideways_definition)) }}</p>
     {% endif %}
     {% endif %}
   </div>
@@ -552,58 +476,44 @@
 {# =============================================================================
    CHAPTER III — CARDS AND ANALOGS
    ============================================================================= #}
-<aside class="chapter-divider" role="separator" aria-label="Chapter III">
+<aside class="chapter-divider" role="separator" aria-label="{{ t('ch3.aria') }}">
   <p class="chapter-numeral">III</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Cards and analogs</p>
-  <p class="chapter-synopsis">
-    {{ cards | length }} player cards chosen by rules, not picks — per position group the highest
-    quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the
-    top-{{ topn }} leagues, and the most domestic minutes among players under 23 without a top-{{ topn }}
-    season — each combining stats,
-    cluster placement, tactical read, trajectory and the nearest historical analogs at the same
-    age from the all-nationality corpus.
-  </p>
+  <p class="chapter-title">{{ t('ch3.title') }}</p>
+  <p class="chapter-synopsis">{{ t('ch3.synopsis', n=cards | length, topn=topn) }}</p>
 </aside>
 
 <section class="ai-layer">
   <div class="container">
-    <h2 id="cards">Player cards</h2>
-    <p class="framing">
-      One integrated card per showcase player, one row per selection rule: {{ seasons.metrics }}
-      production, cluster placement in both projections, the cluster's tactical read, the
-      {{ seasons.previous }} → {{ seasons.metrics }} trajectory and the
-      {{ cards[0].analogs | length if cards else 0 }} nearest analogs. The club on the name line is
-      the {{ seasons.current }} club; the stats block is {{ seasons.metrics }}.
-      Description, not prediction.
-    </p>
+    <h2 id="cards">{{ t('ch3.cards.h2') }}</h2>
+    <p class="framing">{{ t('ch3.cards.framing', metrics=seasons.metrics, previous=seasons.previous, n=(cards[0].analogs | length if cards else 0), current=seasons.current) }}</p>
     {% for row in card_rows %}
     <p class="cycle-row-kicker">{{ row.kicker }}</p>
     <div class="cycle-grid">
       {% for p in row.cards %}
-      <article class="cycle-card" id="card-{{ p.fbref_id }}" data-player-key="{{ p.player_key }}" data-fbref-id="{{ p.fbref_id }}" data-rule="{{ p.reason }}">
+      <article class="cycle-card" id="card-{{ p.fbref_id }}" data-player-key="{{ p.player_key }}" data-fbref-id="{{ p.fbref_id }}" data-rule="{{ p.reason }}" data-pos="{{ p.pos }}" data-club="{{ p.club }}">
         <header class="cycle-card-head">
           <h4 class="cycle-card-name">{{ p.name }}</h4>
           <p class="cycle-card-meta">
-            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ p.club_label }}){% if p.nt_flag %} &middot; NT 2024–26{% endif %}
+            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ t('ch3.card.latest_known') if p.club_label == 'latest known' else p.club_label }}){% if p.nt_flag %} &middot; {{ t('ch3.card.nt') }}{% endif %}
           </p>
         </header>
 
         <p class="cycle-card-meta cycle-stats-head">{{ seasons.metrics }} &middot; {{ p.club_season }} &middot; {{ p.league }}</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>{{ f2(p.stats.npg_ast_q) }}</dd></div>
-          <div><dt>npG / A per 90</dt><dd>{{ f2(p.stats.npg_p90) }} / {{ f2(p.stats.ast_p90) }}</dd></div>
-          <div><dt>Minutes</dt><dd>{{ p.stats.min }} ({{ pct(p.stats.min_share) }})</dd></div>
+          <div><dt>{{ t('ch3.card.stat.q') }}</dt><dd>{{ f2(p.stats.npg_ast_q) }}</dd></div>
+          <div><dt>{{ t('ch3.card.stat.rates') }}</dt><dd>{{ f2(p.stats.npg_p90) }} / {{ f2(p.stats.ast_p90) }}</dd></div>
+          <div><dt>{{ t('ch3.card.stat.min') }}</dt><dd>{{ p.stats.min }} ({{ pct(p.stats.min_share) }})</dd></div>
         </dl>
 
         <div class="cycle-cluster">
           <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-tag">{{ t('ch3.card.style') }}</span>
             <span class="cycle-cluster-pill">{{ p.clusters.style.id }}</span>
             <span class="cycle-cluster-label">{{ p.clusters.style.label }}</span>
           </span>
           <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-tag">{{ t('ch3.card.quality') }}</span>
             <span class="cycle-cluster-pill">{{ p.clusters.quality.id }}</span>
             <span class="cycle-cluster-label">{{ p.clusters.quality.label }}</span>
           </span>
@@ -611,32 +521,32 @@
 
         {% if p.tactical %}
         <div class="cycle-section">
-          <p class="cycle-section-label">Tactical read</p>
+          <p class="cycle-section-label">{{ t('ch3.card.tactical') }}</p>
           <p class="cycle-tactical">{{ p.tactical }}</p>
         </div>
         {% endif %}
 
         {% if p.trajectory %}
         <div class="cycle-section">
-          <p class="cycle-section-label">Trajectory {{ seasons.previous }} &rarr; {{ seasons.metrics }}</p>
+          <p class="cycle-section-label">{{ t('ch3.card.traj', previous=seasons.previous, metrics=seasons.metrics) }}</p>
           <p class="cycle-traj">
             <span class="cycle-traj-delta">Δ {{ signed(p.trajectory.delta) }} npG+A/90</span>
-            <span class="cycle-traj-dir">{{ p.trajectory.direction }}</span>
-            <span class="cycle-traj-detail">{{ p.trajectory.min_prev }} min &rarr; {{ p.trajectory.min_curr }} min</span>
+            <span class="cycle-traj-dir">{{ term(p.trajectory.direction) }}</span>
+            <span class="cycle-traj-detail">{{ p.trajectory.min_prev }} {{ t('ch3.card.min') }} &rarr; {{ p.trajectory.min_curr }} {{ t('ch3.card.min') }}</span>
           </p>
         </div>
         {% endif %}
 
         {% if p.analogs %}
         <div class="cycle-section">
-          <p class="cycle-section-label">Historical analogs at age {{ p.analog_age }}</p>
+          <p class="cycle-section-label">{{ t('ch3.card.analogs', age=p.analog_age) }}</p>
           <ol class="cycle-analogs">
             {% for a in p.analogs %}
             <li>
               <span class="cycle-analog-name">{{ a.name }}</span>
               <span class="cycle-analog-country">{{ a.nation }}</span>
               <span class="cycle-analog-stats">
-                {{ a.league }} {{ a.season }} &middot; {{ a.min }} min &middot; {{ f2(a.npg_ast_q) }} &middot;
+                {{ a.league }} {{ a.season }} &middot; {{ a.min }} {{ t('ch3.card.min') }} &middot; {{ f2(a.npg_ast_q) }} &middot;
                 d&nbsp;=&nbsp;{{ f2(a.distance) }}
               </span>
             </li>
@@ -648,144 +558,145 @@
         {% if p.nt_events %}
         <p class="cycle-card-meta">{{ p.nt_events | join(' · ') }}</p>
         {% endif %}
-        <p class="muted small">Selected as: {{ p.reason }}.</p>
+        <p class="muted small">{{ t('ch3.card.selected', reason=reason(p.reason)) }}</p>
       </article>
       {% endfor %}
     </div>
     {% endfor %}
-    <p class="capita-note">
-      * Each card renders the existing dataset; no computation beyond the join. Age on the name line
-      is the {{ seasons.current }} season-start age (start year − birth year); the club is from the
-      {{ seasons.current }} tables, or — labelled "latest known" — from FBref's country page where
-      the player has no {{ seasons.current }} row. Age on the analog line follows the analog finder's convention
-      (season start year + 1 − birth year).
-    </p>
+    <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
 
-    <h3 id="analogs">Historical analogs</h3>
-    <p>
-      For each showcase player the finder takes the nearest {{ analog_blocks[0].analogs | length if analog_blocks else 0 }}
-      player-seasons at the same age across the whole corpus of the {{ topn }} headline leagues
-      back to {{ seasons.history_start }}, all nationalities. Distance is computed on three
-      standardised features: <code>npG+A/90 (quality-adjusted)</code>, <code>minutes</code>,
-      <code>league multiplier</code>. For every analog the following seasons are shown as they
-      happened. <strong>Description, not prediction</strong>: the reader sees the spread of paths;
-      the method imposes none.
-    </p>
-    {% for t in analog_blocks %}
-    <div class="analog-block" data-player-key="{{ t.player_key }}">
+    <h3 id="analogs">{{ t('ch3.analogs.h3') }}</h3>
+    <p>{{ t('ch3.analogs.p', n=(analog_blocks[0].analogs | length if analog_blocks else 0), topn=topn, start=seasons.history_start) }}</p>
+    {% for tb in analog_blocks %}
+    <div class="analog-block" data-player-key="{{ tb.player_key }}">
       <div class="analog-target">
-        <p class="analog-label">Target</p>
-        <p class="analog-name">{{ t.target.name }}</p>
+        <p class="analog-label">{{ t('ch3.analogs.target') }}</p>
+        <p class="analog-name">{{ tb.target.name }}</p>
         <p class="analog-stats">
-          {{ t.pos_group }} &middot; age {{ t.target.age }} &middot; {{ t.target.league }} {{ t.target.season }} &middot;
-          {{ t.target.min }} min &middot; {{ f2(t.target.npg_ast_q) }} npG+A/90 quality
+          {{ t('ch3.analogs.target_stats', group=tb.pos_group, age=tb.target.age, league=tb.target.league, season=tb.target.season, min=tb.target.min, q=f2(tb.target.npg_ast_q)) }}
         </p>
-        <p class="analog-cohort">Nearest {{ t.analogs | length }} at the same age</p>
+        <p class="analog-cohort">{{ t('ch3.analogs.cohort', n=tb.analogs | length) }}</p>
       </div>
       <ol class="analog-list">
-        {% for a in t.analogs %}
+        {% for a in tb.analogs %}
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">{{ a.rank }}</span>
             <span class="analog-row-name">{{ a.name }}</span>
             <span class="analog-row-country">{{ a.nation }}</span>
             <span class="analog-row-context">
-              {{ a.league }} {{ a.season }} &middot; {{ a.min }} min &middot; {{ f2(a.npg_ast_q) }} npG+A/90 &middot;
-              d&nbsp;=&nbsp;{{ f2(a.distance) }}
+              {{ t('ch3.analogs.row', league=a.league, season=a.season, min=a.min, q=f2(a.npg_ast_q), d=f2(a.distance)) }}
             </span>
           </div>
           {% if a.followed %}
           <div class="analog-row-trajectory">
-            <span class="analog-traj-label">Followed by:</span>
+            <span class="analog-traj-label">{{ t('ch3.analogs.followed') }}</span>
             {% for s in a.followed %}
             <span class="analog-traj-step">
               {{ s.season }}&nbsp;
-              <span class="analog-traj-detail">{{ s.league }}&nbsp;&middot;&nbsp;{{ s.min }}&nbsp;min&nbsp;&middot;&nbsp;{{ f2(s.npg_ast_q) }}</span>
+              <span class="analog-traj-detail">{{ s.league }}&nbsp;&middot;&nbsp;{{ s.min }}&nbsp;{{ t('ch3.card.min') }}&nbsp;&middot;&nbsp;{{ f2(s.npg_ast_q) }}</span>
             </span>
             {% endfor %}
           </div>
           {% else %}
-          <div class="analog-row-trajectory"><span class="analog-traj-label">No later season in the corpus.</span></div>
+          <div class="analog-row-trajectory"><span class="analog-traj-label">{{ t('ch3.analogs.none') }}</span></div>
           {% endif %}
         </li>
         {% endfor %}
       </ol>
     </div>
     {% endfor %}
-    <p class="capita-note">
-      * Corpus: player-seasons with at least {{ feature_defs.min_minutes }} minutes in the headline leagues,
-      {{ seasons.history_start }} → {{ seasons.current }}; the target's own seasons are excluded. A path
-      that ends early means the player left the covered leagues, not that the career ended.
-    </p>
+    <p class="capita-note">{{ t('ch3.analogs.note', min=feature_defs.min_minutes, start=seasons.history_start, current=seasons.current) }}</p>
+  </div>
+</section>
+
+{# =============================================================================
+   PLAYER INDEX — every mapped Czech player with the metrics-season numbers
+   ============================================================================= #}
+<section class="player-index" id="players">
+  <div class="container">
+    <h2>{{ t('pi.h2') }}</h2>
+    <p class="framing">{{ t('pi.framing', season=seasons.metrics, n=player_index | length) }}</p>
+    <div class="player-index-tools">
+      <label for="player-search">{{ t('pi.search') }}</label>
+      <input type="search" id="player-search" placeholder="{{ t('pi.search.placeholder') }}" autocomplete="off" spellcheck="false">
+      <span class="player-index-count" aria-live="polite" data-total="{{ player_index | length }}">{{ player_index | length }}</span>
+    </div>
+    <table class="player-index-table">
+      <thead>
+        <tr>
+          <th>{{ t('pi.th.player') }}</th><th>{{ t('pi.th.pos') }}</th><th>{{ t('pi.th.age') }}</th>
+          <th>{{ t('pi.th.club') }}</th><th>{{ t('pi.th.league') }}</th><th>{{ t('pi.th.min') }}</th>
+          <th>{{ t('pi.th.q') }}</th><th>{{ t('pi.th.cluster') }}</th><th>{{ t('pi.th.nt') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in player_index %}
+        <tr data-player-key="{{ r.player_key }}" data-fbref-id="{{ r.fbref_id }}" data-name="{{ r.ascii_name }}">
+          <td>{% if r.card_id %}<a href="#card-{{ r.card_id }}">{{ r.player }}</a>{% else %}{{ r.player }}{% endif %}</td>
+          <td>{{ r.pos_group }}</td>
+          <td>{{ r.age if r.age is not none else '—' }}</td>
+          <td>{{ r.club }}</td>
+          <td class="muted">{{ r.league }}</td>
+          <td>{{ r.min }}</td>
+          <td>{{ f2(r.npg_ast_q) }}</td>
+          <td><span class="cluster-id">{{ r.cluster_style }}</span> {{ r.cluster_label }}</td>
+          <td>{% if r.nt_flag %}{{ t('pi.nt_yes') }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="capita-note">{{ t('pi.note', season=seasons.metrics, min=feature_defs.min_minutes) }}</p>
   </div>
 </section>
 
 {# =============================================================================
    CHAPTER IV — METHODOLOGY
    ============================================================================= #}
-<aside class="chapter-divider" role="separator" aria-label="Chapter IV">
+<aside class="chapter-divider" role="separator" aria-label="{{ t('ch4.aria') }}">
   <p class="chapter-numeral">IV</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Methodology</p>
-  <p class="chapter-synopsis">
-    A replicable pipeline: data sources, league multipliers, Bayesian shrinkage, PCA loadings,
-    sensitivity analysis. Limitations and reproducibility.
-  </p>
+  <p class="chapter-title">{{ t('ch4.title') }}</p>
+  <p class="chapter-synopsis">{{ t('ch4.synopsis') }}</p>
 </aside>
 
 <section class="methodology">
   <div class="container">
-    <h2 id="methodology">Methodology</h2>
+    <h2 id="methodology">{{ t('ch4.h2') }}</h2>
 
-    <h3 id="data-sources">Data sources</h3>
+    <h3 id="data-sources">{{ t('ch4.sources.h3') }}</h3>
     <ul>
-      <li><strong>FBref</strong> (via <code>soccerdata</code>): player season tables (standard, playing time) for the {{ topn }} headline leagues, the Czech First League, the peer domestic leagues and the German second tier; the country page "Players from Czechia" for pool discovery; the nationality column for peer counts</li>
-      <li><strong>Wikipedia</strong>: national-team squad tables ({{ facts.nt_events }}) for the call-up flag</li>
-      <li><strong>Wikidata / Wikimedia Commons</strong>: player portraits (P18) matched on name, citizenship and date of birth; credits in the footer</li>
-      <li><strong>UEFA association coefficients</strong> (via Wikipedia) as the league-strength source, ClubElo being unreachable at run time</li>
-      <li><strong>Eurostat</strong>: population estimates, 2024</li>
+      <li>{{ t('ch4.sources.fbref', topn=topn) }}</li>
+      <li>{{ t('ch4.sources.wikipedia', events=facts.nt_events) }}</li>
+      <li>{{ t('ch4.sources.wikidata') }}</li>
+      <li>{{ t('ch4.sources.uefa') }}</li>
+      <li>{{ t('ch4.sources.eurostat') }}</li>
     </ul>
 
-    <h3 id="multipliers">League multipliers (quality projection)</h3>
-    <p class="formula" data-tex="\text{npG/90}_{\text{quality}} = \text{npG/90}_{\text{shrunk}} \times m_{\text{league}}">npG/90_quality = npG/90_shrunk × m_league</p>
+    <h3 id="multipliers">{{ t('ch4.mult.h3') }}</h3>
+    <p class="formula" data-tex="{{ t('ch4.mult.tex') }}">{{ t('ch4.mult.formula') }}</p>
     <table class="kv-table">
-      <thead><tr><th>League</th><th>Multiplier</th></tr></thead>
+      <thead><tr><th>{{ t('ch4.mult.th.league') }}</th><th>{{ t('ch4.mult.th.value') }}</th></tr></thead>
       <tbody>
         {% for r in multipliers %}
         <tr><td>{{ r.league }}</td><td>{{ f3(r.value) }}</td></tr>
         {% endfor %}
       </tbody>
     </table>
-    <p class="muted small">
-      Method: <code>{{ multiplier_method }}</code>. {{ multiplier_source }}
-      The sensitivity analysis below shows the ranking's robustness to ±20 % on any one multiplier.
-    </p>
+    <p class="muted small">{{ t('ch4.mult.method', method=multiplier_method, source=term(multiplier_source)) }}</p>
 
-    <h3 id="shrinkage">Bayesian shrinkage</h3>
-    <p>
-      Per-90 rates of players with few minutes are shrunk towards the median of their league and
-      season (players with at least {{ feature_defs.phantom_minutes }} minutes) using the empirical
-      Bayes formula, with K = 10 phantom matches expressed as {{ feature_defs.phantom_minutes }} minutes:
-    </p>
-    <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
-    <p>
-      At {{ feature_defs.min_minutes }} minutes (the inclusion floor) the league median carries
-      {{ pct(feature_defs.phantom_minutes / (feature_defs.min_minutes + feature_defs.phantom_minutes)) }}
-      of the weight; at {{ feature_defs.phantom_minutes }} minutes the player's own rate and the
-      median weigh the same. Minutes share and age are not shrunk.
-    </p>
+    <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>
+    <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes) }}</p>
+    <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
+    <p>{{ t('ch4.shrink.p2', min=feature_defs.min_minutes, weight=pct(feature_defs.phantom_minutes / (feature_defs.min_minutes + feature_defs.phantom_minutes)), phantom=feature_defs.phantom_minutes) }}</p>
 
-    <h3 id="pca-loadings">PCA loadings</h3>
-    <p>
-      One five-feature vector per position group ({{ feature_defs.features | join(', ') }}),
-      standardised, reduced to two components per projection. Style uses the shrunk rates;
-      quality multiplies the rates by the league multiplier first.
-    </p>
+    <h3 id="pca-loadings">{{ t('ch4.pca.h3') }}</h3>
+    <p>{{ t('ch4.pca.p', features=feature_defs.features | join(', ')) }}</p>
     <table class="loadings-table">
       <thead>
         <tr>
-          <th>Group</th><th>Projection</th><th>PC</th><th>% variance</th>
-          <th>npG/90</th><th>A/90</th><th>min share</th><th>age</th><th>cards/90</th>
+          <th>{{ t('ch4.pca.th.group') }}</th><th>{{ t('ch4.pca.th.projection') }}</th><th>PC</th><th>{{ t('ch4.pca.th.variance') }}</th>
+          <th>npG/90</th><th>A/90</th><th>{{ t('ch4.pca.th.share') }}</th><th>{{ t('ch4.pca.th.age') }}</th><th>cards/90</th>
         </tr>
       </thead>
       <tbody>
@@ -805,19 +716,16 @@
       </tbody>
     </table>
 
-    <h3 id="sensitivity">Sensitivity analysis (±20 % multipliers)</h3>
+    <h3 id="sensitivity">{{ t('ch4.sens.h3') }}</h3>
     <p>
-      For each scenario the quality-adjusted ranking of Czech-eligible players within each position
-      group was recomputed and compared with the baseline; "top-10" is the union of the {{ groups | length }} groups'
-      own top tens ({{ sensitivity.baseline_top10 }} players at baseline). Of the
-      {{ sensitivity.n_scenarios }} scenarios, {{ sensitivity.n_zero_churn }} change nobody in that
-      set; the largest churn is {{ sensitivity.max_churn }}{% if sensitivity.worst %} ({{ sensitivity.worst.description }}, mean rank shift {{ f2(sensitivity.worst.mean_delta) }} in the top twenty){% endif %}*.
+      {{ t('ch4.sens.p', groups=groups | length, base=sensitivity.baseline_top10, n=sensitivity.n_scenarios, zero=sensitivity.n_zero_churn, churn=sensitivity.max_churn,
+           worst=(t('ch4.sens.worst', description=sensitivity.worst.description, delta=f2(sensitivity.worst.mean_delta)) if sensitivity.worst else '')) }}
     </p>
     <table class="sensitivity-table">
       <thead>
         <tr>
-          <th>Scenario</th><th>Description</th>
-          <th>Top-10 overlap</th><th>Top-10 churn</th><th>Mean Δ rank (top 20)</th>
+          <th>{{ t('ch4.sens.th.scenario') }}</th><th>{{ t('ch4.sens.th.description') }}</th>
+          <th>{{ t('ch4.sens.th.overlap') }}</th><th>{{ t('ch4.sens.th.churn') }}</th><th>{{ t('ch4.sens.th.delta') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -832,40 +740,25 @@
         {% endfor %}
       </tbody>
     </table>
-    <p class="capita-note">
-      * Churn = baseline top-10 members that leave the set under the scenario; mean Δ rank = mean
-      absolute rank change over the baseline top-20 union. Scenarios: baseline, every league ±20 %
-      on its own, and all leagues ±20 % at once.
-    </p>
+    <p class="capita-note">{{ t('ch4.sens.note') }}</p>
 
-    <h3 id="limitations">Limitations of this analysis</h3>
+    <h3 id="limitations">{{ t('ch4.lim.h3') }}</h3>
     <div class="limitations">
       {% for l in limitations %}
       <p><strong>{{ l.title }}.</strong> {{ l.body }}</p>
       {% endfor %}
     </div>
 
-    <h3 id="reproducibility">Reproducibility</h3>
-    <p>
-      The full pipeline is public: <a href="{{ repo_url }}">{{ repo_url | replace('https://', '') }}</a>.
-      MIT licence. From a clean clone with the data snapshot present, <code>make install &amp;&amp; make all</code>
-      renders this report; <code>make pages</code> builds the site. Random seed {{ seed }} for every
-      stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never
-      touches the network.
-    </p>
+    <h3 id="reproducibility">{{ t('ch4.repro.h3') }}</h3>
+    <p>{{ t('ch4.repro.p', url=repo_url, url_short=repo_url | replace('https://', ''), seed=seed) }}</p>
   </div>
 </section>
 
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Football intelligence consultant</p>
-      <p class="role-body">
-        Data science, video tracking and tactical reading of the game in one method. I work with
-        public statistical sources of European professional leagues and combine them with a
-        structural view of the player pool, scouting signals and a roadmap for football analytics.
-        The methodology, code and data of this analysis are public and reproducible.
-      </p>
+      <p class="role-kicker">{{ t('foot.kicker') }}</p>
+      <p class="role-body">{{ t('foot.body') }}</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -877,7 +770,7 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Photo credits ({{ photo_credits | length }} portraits, Wikimedia Commons)</summary>
+        <summary>{{ t('foot.credits', n=photo_credits | length) }}</summary>
         <ul class="small">
           {% for c in photo_credits %}
           <li data-fbref-id="{{ c.fbref_id }}" data-player-key="{{ c.player_key }}">
@@ -887,7 +780,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: {{ rendered_at }}</p>
+    <p class="rendered-at">{{ t('foot.rendered', at=rendered_at) }}</p>
   </div>
 </footer>
 
@@ -901,7 +794,7 @@
     const apply = (collapsed) => {
       toc.dataset.collapsed = collapsed ? 'true' : 'false';
       btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-      btn.setAttribute('aria-label', collapsed ? 'Show contents' : 'Hide contents');
+      btn.setAttribute('aria-label', collapsed ? btn.dataset.labelShow : btn.dataset.labelHide);
     };
     try {
       apply(localStorage.getItem(KEY) === 'true');

@@ -6,7 +6,13 @@ Reads only `data/processed/*`, `config/*.yaml`, `site/players.json` and
 Output:
   outputs/atlas_FW.svg, outputs/atlas_MF.svg, outputs/atlas_DF.svg
   outputs/index.html          (full report, English)
+  outputs/cs/index.html       (the same report in Czech; assets via ../)
   outputs/style.css           (copy of templates/style.css)
+
+Languages: the template calls `t()` / `term()` from the context; both come
+from src/i18n.py (English defaults + config/i18n/cs.yaml). Generated prose
+(observations, limitations, kickers, sensitivity descriptions) is built
+through the same translator, so one context per language is enough.
 
 Every number in the report comes from the template context built here;
 the template types only years, K = 10 and the ±20 % of the sensitivity
@@ -29,6 +35,7 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 
 from src import config
+from src.i18n import LANGS, Translator, localize_html_numbers
 from src.logging_setup import setup as logging_setup
 from src.utils import normalize_name, read_parquet
 
@@ -62,6 +69,12 @@ RULE_KICKERS = [
     ("most top-9 league minutes", "Most top-9 minutes"),
     ("most domestic-league minutes", "Most domestic minutes under 23, no top-9 season yet"),
 ]
+RULE_KICKER_KEYS = {
+    "highest quality-adjusted": "kicker.highest",
+    "youngest national-team": "kicker.youngest",
+    "most top-9 league minutes": "kicker.top9",
+    "most domestic-league minutes": "kicker.domestic",
+}
 DESTINATION_LABELS = {
     "domestic": "domestic", "top9": "top-9", "stepping_stone": "stepping stone",
     "peer_domestic": "peer country league", "other": "other",
@@ -304,8 +317,9 @@ def _cohort_gaps(coh: pd.DataFrame, peers: list[str]) -> list[dict]:
 
 
 def _build_clusters(coords: pd.DataFrame, features: pd.DataFrame, labels: dict,
-                    group: str, season: str) -> list[dict]:
+                    group: str, season: str, tr: Translator | None = None) -> list[dict]:
     """Style-projection cluster archetypes for one group."""
+    tr = tr or Translator("en")
     cur = _metrics_rows(coords, season).copy()
     feat = _metrics_rows(features, season)[
         ["player_key", "npg_p90_shrunk", "ast_p90_shrunk", "min_share", "age", "cards_p90_shrunk"]
@@ -320,7 +334,7 @@ def _build_clusters(coords: pd.DataFrame, features: pd.DataFrame, labels: dict,
         cz = members[members["czech_eligible"]].sort_values("min", ascending=False)
         rows.append({
             "id": key,
-            "label": style_labels.get(key, f"Cluster {key}"),
+            "label": tr.term(style_labels[key]) if key in style_labels else f"Cluster {key}",
             "n": int(len(cz)),
             "n_corpus": int(len(members)),
             "nt_pool": int(cz["nt_flag"].sum()),
@@ -332,7 +346,7 @@ def _build_clusters(coords: pd.DataFrame, features: pd.DataFrame, labels: dict,
                 "age": _opt_float(members["age"].median(), 0),
                 "cards_p90": _opt_float(members["cards_p90_shrunk"].median()),
             },
-            "tactical": (tactical.get(key) or {}).get("en", ""),
+            "tactical": (tactical.get(key) or {}).get(tr.lang, ""),
             "top": cz["player"].head(CLUSTER_TOP_N).tolist(),
             "top_keys": cz["player_key"].head(CLUSTER_TOP_N).tolist(),
         })
@@ -414,29 +428,31 @@ def _current_club(key: str, current_by_key: pd.DataFrame, pool_row: pd.Series | 
     return club, "", "country page", "latest known"
 
 
-def _card_rows(cards: list[dict]) -> list[dict]:
+def _card_rows(cards: list[dict], tr: Translator | None = None) -> list[dict]:
     """Group cards by showcase rule, one row per rule, in RULE_KICKERS order."""
+    tr = tr or Translator("en")
     rows = []
-    for prefix, kicker in RULE_KICKERS:
+    for prefix, _kicker in RULE_KICKERS:
         members = [c for c in cards if c["reason"].startswith(prefix)]
         if members:
-            rows.append({"kicker": kicker, "cards": members})
+            rows.append({"kicker": tr.raw(RULE_KICKER_KEYS[prefix]), "cards": members})
     rest = [c for c in cards if not any(c["reason"].startswith(p) for p, _ in RULE_KICKERS)]
     if rest:
-        rows.append({"kicker": "Other rules", "cards": rest})
+        rows.append({"kicker": tr.raw("kicker.other"), "cards": rest})
     return rows
 
 
 def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.DataFrame],
                  coords: dict[str, pd.DataFrame], traj: dict[str, pd.DataFrame],
                  pool: pd.DataFrame, labels: dict, photos: dict, season: str,
-                 current_season: str) -> list[dict]:
+                 current_season: str, tr: Translator | None = None) -> list[dict]:
     """One card per showcase player: stats, clusters, tactical read, trajectory, analogs.
 
     Stats come from `season` (metrics); the club on the meta line is the
     `current_season` club (row with most minutes across all groups), falling
     back to the pool's country-page club.
     """
+    tr = tr or Translator("en")
     pool_by_key = pool.drop_duplicates("player_key").set_index("player_key")
     photos_by_key = {v["player_key"]: dict(v, fbref_id=k) for k, v in photos.items()}
     current_rows = _metrics_rows(pd.concat(features.values(), ignore_index=True), current_season)
@@ -458,11 +474,11 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
         style_labels = labels.get(group, {}).get("style", {})
         quality_labels = labels.get(group, {}).get("quality", {})
         tactical = labels.get("tactical", {}).get(group, {}).get(style_id) or {}
-        tr = traj[group]
-        tr = tr[tr["player_key"] == key] if not tr.empty else tr
+        tj = traj[group]
+        tj = tj[tj["player_key"] == key] if not tj.empty else tj
         trajectory = None
-        if not tr.empty:
-            r = tr.iloc[0]
+        if not tj.empty:
+            r = tj.iloc[0]
             trajectory = {
                 "delta": round(float(r["delta"]), 3), "direction": str(r["direction"]),
                 "min_prev": int(r["min_prev"]), "min_curr": int(r["min_curr"]),
@@ -504,10 +520,10 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
                 "ast": int(f["ast"]),
             },
             "clusters": {
-                "style": {"id": style_id, "label": style_labels.get(style_id, style_id)},
-                "quality": {"id": quality_id, "label": quality_labels.get(quality_id, quality_id)},
+                "style": {"id": style_id, "label": tr.term(style_labels[style_id]) if style_id in style_labels else style_id},
+                "quality": {"id": quality_id, "label": tr.term(quality_labels[quality_id]) if quality_id in quality_labels else quality_id},
             },
-            "tactical": tactical.get("en", ""),
+            "tactical": tactical.get(tr.lang, ""),
             "trajectory": trajectory,
             "analog_age": analog_age,
             "analogs": [_analog_row(a) for a in block.get("analogs", [])[:CARD_ANALOGS]],
@@ -623,9 +639,10 @@ def _build_loadings(loadings: pd.DataFrame) -> list[dict]:
     return rows
 
 
-def _build_sensitivity(sens: pd.DataFrame) -> dict:
+def _build_sensitivity(sens: pd.DataFrame, tr: Translator | None = None) -> dict:
+    tr = tr or Translator("en")
     rows = [
-        {"scenario": r.scenario, "description": r.description, "overlap": int(r.top10_overlap),
+        {"scenario": r.scenario, "description": tr.sensitivity(str(r.description)), "overlap": int(r.top10_overlap),
          "churn": int(r.top10_churn), "mean_delta": round(float(r.mean_delta_rank_top20), 2)}
         for r in sens.itertuples()
     ]
@@ -641,136 +658,121 @@ def _build_sensitivity(sens: pd.DataFrame) -> dict:
     }
 
 
-def _build_limitations(facts: dict) -> list[dict]:
-    """Limitations from spec §10 and the pipeline ledger; numbers from `facts`."""
-    f = facts
-    return [
-        {"title": "Leagues without metrics",
-         "body": (f"The pipeline fetches {f['n_leagues']} competitions from FBref; the Czech second "
-                  f"tier and the Slovak top flight are not on FBref at all. {f['n_no_tables']} of the {f['n_pool']} Czech "
-                  f"professionals found on FBref's country page play in a league without season "
-                  f"tables and carry no metrics; they are listed by name and club only. Slovakia's "
-                  f"exhibits in chapter II therefore rest on its players abroad.")},
-        {"title": "Free-tier feature set",
-         "body": ("The feature vector is five basic columns per 90 minutes: non-penalty goals, "
-                  "assists, minutes share, age and cards. No expected goals, no progressive passes, "
-                  "no tackles — the rule was one identical vector across every league in the corpus, "
-                  "and only the basic table is available for all of them. Defensive and creative "
-                  "contributions beyond assists are invisible to the map.")},
-        {"title": "National-team flag source",
-         "body": (f"The flag \"called up since 2024\" is parsed from Wikipedia squad tables "
-                  f"({f['nt_events']}) and matched on normalised name plus birth year. "
-                  f"{f['n_nt_flagged']} of the {f['n_with_metrics']} mapped players carry it. A squad "
-                  f"table edit or a name variant can drop a call-up; the flag is a tag, not a cap count.")},
-        {"title": "Photo coverage",
-         "body": (f"{f['n_photos']} of the {f['n_pool']} pool players have a Wikimedia Commons "
-                  f"portrait (Wikidata P18, matched on name, citizenship and birth date, occupation "
-                  f"filtered to association football player) used on the site. Players without a "
-                  f"portrait on the site show initials.")},
-        {"title": "Season split",
-         "body": (f"The headline per-capita count uses {f['current']} rosters; every metric, cohort "
-                  f"table and atlas uses the complete {f['metrics']} season; trajectories run "
-                  f"{f['previous']} → {f['metrics']}; the club on a card is the {f['current']} club. "
-                  f"A player who moved in summer therefore appears with last season's numbers and this "
-                  f"season's club.")},
-        {"title": "League multipliers",
-         "body": (f"ClubElo was unreachable at run time, so the multipliers are UEFA association "
-                  f"coefficients scaled to the strongest league = {f['max_multiplier']:.2f}, and "
-                  f"second-tier leagues are set to {f['tier2_factor']:g} × the first tier of the same "
-                  f"country by assumption. The club-strength "
-                  "proxy in chapter II is the club's goals-scored percentile within its league, not "
-                  "an Elo rating. The sensitivity table shows how far a ±20 % error in any one "
-                  "multiplier moves the Czech ranking.")},
-        {"title": "Export origins from recent entrants only",
-         "body": (f"The origin league of an export is known only when the season before the first "
-                  f"top-9 season was fetched: {f['history_start']} onwards for the headline leagues, "
-                  f"{f['coverage_start']} onwards for the peer domestic leagues. Origin shares and the "
-                  f"recent export age are therefore computed over players whose first top-9 season is "
-                  f"{f['metrics']} or {f['current']}; earlier entrants count towards the full export "
-                  f"age but not the origin mix, and a first appearance already in {f['history_start']} "
-                  f"is censored (the censored share is shown).")},
-        {"title": "Player identity",
-         "body": ("FBref's season tables carry no player id, so players are joined on normalised "
-                  "name plus birth year across leagues and seasons; two players sharing both would "
-                  "collapse into one. A mid-season transfer produces two club rows that are collapsed "
-                  "into one minutes-weighted row before ranking.")},
-        {"title": "Women's entries and the -ová heuristic",
-         "body": ("FBref's country page mixes men's and women's competitions. Entries whose surname "
-                  "ends in -ová were dropped from the pool; a woman with a different surname ending "
-                  "would survive the filter, and a man with that ending would not.")},
-        {"title": "No market values, no scouting",
-         "body": ("Transfer fees, market values, video and scouting reports are outside the public "
-                  "sources used here. The map describes statistical footprints and counts; selection "
-                  "and development decisions require the federation's own data and expertise, which "
-                  "this method does not have.")},
-    ]
+def _build_limitations(facts: dict, tr: Translator | None = None) -> list[dict]:
+    """Limitations from spec §10 and the pipeline ledger; numbers from `facts`, copy from i18n."""
+    tr = tr or Translator("en")
+    params = dict(facts, max_multiplier=f"{facts['max_multiplier']:.2f}",
+                  tier2_factor=f"{facts['tier2_factor']:g}")
+    out = []
+    for name in ("leagues", "features", "nt", "photos", "seasons", "multipliers", "origins",
+                 "identity", "women", "scope"):
+        out.append({"title": tr.raw(f"lim.{name}.title"),
+                    "body": tr.num(tr.raw(f"lim.{name}.body", **params))})
+    return out
 
 
 def _build_observations(hero: dict, per_capita: list[dict], gaps: list[dict],
                         movers: dict[str, dict], thresholds: dict, seasons: dict,
-                        n_headline: int) -> list[dict]:
+                        n_headline: int, tr: Translator | None = None) -> list[dict]:
     """Three computed observations; every number and the titles come from the data."""
+    tr = tr or Translator("en")
     top = per_capita[0]
     n_other_peers = len(per_capita) - 1
     cze = next(r for r in per_capita if r["country"] == "CZE")
     above = [r for r in per_capita if r["rank"] < cze["rank"]]
     below = [r for r in per_capita if r["rank"] > cze["rank"]]
     nearest_above = above[-1] if above else None
-    obs1_body = (
-        f"{cze['n_players']} Czech players on {seasons['current']} rosters of the "
-        f"{number_word(n_headline)} strongest leagues give {cze['per_million']:.2f} per million "
-        f"inhabitants, rank {cze['rank']} of "
-        f"{len(per_capita)}. {top['name']} leads with {top['per_million']:.2f}, "
-        f"{top['per_million'] / cze['per_million']:.1f} times the Czech density"
+    obs1_body = tr.raw(
+        "obs.1.body", cze_n=cze["n_players"], season=seasons["current"],
+        topn=tr.number_word(n_headline, NUMBER_WORDS), pm=f"{cze['per_million']:.2f}",
+        rank=cze["rank"], n=len(per_capita), top=tr.term(top["name"]), top_pm=f"{top['per_million']:.2f}",
+        ratio=f"{top['per_million'] / cze['per_million']:.1f}",
     )
     if nearest_above:
         ratio = cze["population_m"] / nearest_above["population_m"]
-        size = (f"{ratio:.1f} times smaller" if ratio >= 1
-                else f"{1 / ratio:.1f} times larger")
-        obs1_body += (
-            f"; {nearest_above['name']} sits one place above with {nearest_above['per_million']:.2f} "
-            f"from {nearest_above['n_players']} players and a population {size}"
-        )
+        size = (tr.raw("obs.1.smaller", ratio=f"{ratio:.1f}") if ratio >= 1
+                else tr.raw("obs.1.larger", ratio=f"{1 / ratio:.1f}"))
+        obs1_body += tr.raw("obs.1.above", name=tr.term(nearest_above["name"]),
+                            pm=f"{nearest_above['per_million']:.2f}",
+                            players=nearest_above["n_players"], size=size)
     obs1_body += ". " + (
-        f"Below Czechia: {', '.join(r['name'] for r in below)}." if below else "No peer sits below."
+        tr.raw("obs.1.below", names=", ".join(tr.term(r["name"]) for r in below)) if below
+        else tr.raw("obs.1.none_below")
     )
 
     g = gaps[:3]
     gap_text = "; ".join(
-        f"{r['group_title'].lower()} {r['cohort']} — {r['cze_n']} Czech against a peer median of "
-        f"{r['peer_median_n']:g}" for r in g
+        tr.raw("obs.2.gap", group=tr.term(r["group_title"]).lower(), cohort=r["cohort"],
+               cze=r["cze_n"], peer=f"{r['peer_median_n']:g}") for r in g
     )
-    obs2_body = (
-        f"Counting {seasons['metrics']} top-{n_headline} players by position group and age cohort and "
-        f"comparing the Czech count with the median of the other {number_word(n_other_peers)} "
-        f"peer{'s' if n_other_peers != 1 else ''}, the {number_word(len(g))} largest shortfall"
-        f"{'s are' if len(g) != 1 else ' is'} {gap_text}. The cohort tables above show the medians "
-        f"behind the counts."
+    obs2_body = tr.raw(
+        "obs.2.body", season=seasons["metrics"], topn=n_headline,
+        peers=tr.number_word(n_other_peers, NUMBER_WORDS), s="s" if n_other_peers != 1 else "",
+        k=tr.number_word(len(g), NUMBER_WORDS), plural="s are" if len(g) != 1 else " is",
+        gaps=gap_text,
     )
 
     parts = []
     for group in GROUPS:
         m = movers[group]
         d = m["directions"]
-        parts.append(f"{GROUP_TITLES[group].lower()} {m['n_czech']} ({d['improving']} up, "
-                     f"{d['stable']} stable, {d['declining']} down)")
+        parts.append(tr.raw("obs.3.part", group=tr.term(GROUP_TITLES[group]).lower(), n=m["n_czech"],
+                            up=d["improving"], stable=d["stable"], down=d["declining"]))
     n_total = sum(movers[g]["n_czech"] for g in GROUPS)
     n_stable = sum(movers[g]["directions"]["stable"] for g in GROUPS)
     stable_share = n_stable / n_total if n_total else 0.0
-    traj_verdict = "mostly stable" if stable_share >= 0.5 else "mixed"
-    obs3_body = (
-        f"{n_total} Czech-eligible players had at least {thresholds['min_minutes']} minutes in both "
-        f"{seasons['previous']} and {seasons['metrics']}: {'; '.join(parts)}. A move counts as up or "
-        f"down when quality-adjusted npG+A per 90 changed by more than "
-        f"{thresholds['direction']:.2f}; {n_stable} of {n_total} stayed within that band. These are "
-        f"season-over-season deltas, not projections."
+    traj_verdict = tr.raw("obs.3.stable") if stable_share >= 0.5 else tr.raw("obs.3.mixed")
+    obs3_body = tr.raw(
+        "obs.3.body", n=n_total, min=thresholds["min_minutes"], previous=seasons["previous"],
+        metrics=seasons["metrics"], parts="; ".join(parts), band=f"{thresholds['direction']:.2f}",
+        stable=n_stable,
     )
     return [
-        {"title": f"Per capita: rank {cze['rank']} of {len(per_capita)}", "body": obs1_body},
-        {"title": f"The largest cohort gap: {g[0]['group_title'].lower()} {g[0]['cohort']}" if g else "Cohort gaps",
-         "body": obs2_body},
-        {"title": f"Trajectories {seasons['previous']} → {seasons['metrics']}: {traj_verdict}", "body": obs3_body},
+        {"title": tr.raw("obs.1.title", rank=cze["rank"], n=len(per_capita)), "body": tr.num(obs1_body)},
+        {"title": (tr.raw("obs.2.title", group=tr.term(g[0]["group_title"]).lower(), cohort=g[0]["cohort"])
+                   if g else tr.raw("obs.2.title_empty")),
+         "body": tr.num(obs2_body)},
+        {"title": tr.raw("obs.3.title", previous=seasons["previous"], metrics=seasons["metrics"],
+                         verdict=traj_verdict), "body": tr.num(obs3_body)},
     ]
+
+
+def _build_player_index(features: dict[str, pd.DataFrame], coords: dict[str, pd.DataFrame],
+                        pool: pd.DataFrame, labels: dict, cards: list[dict], season: str,
+                        tr: Translator | None = None) -> list[dict]:
+    """Every Czech-eligible player with a `season` row: the numbers behind the atlases.
+
+    One row per player (club with most minutes), sorted by surname; a player
+    with a card carries its id so the index can link to it.
+    """
+    tr = tr or Translator("en")
+    fbref_by_key = pool.drop_duplicates("player_key").set_index("player_key")["fbref_id"].to_dict()
+    card_by_key = {c["player_key"]: c["fbref_id"] for c in cards}
+    rows = []
+    for group in GROUPS:
+        feat = _metrics_rows(features[group], season)
+        feat = feat[feat["czech_eligible"]]
+        co = _metrics_rows(coords[group], season).set_index("player_key")
+        style_labels = labels.get(group, {}).get("style", {})
+        for r in feat.itertuples():
+            style = str(co.loc[r.player_key, "cluster_style"]) if r.player_key in co.index else ""
+            rows.append({
+                "player_key": r.player_key,
+                "fbref_id": str(fbref_by_key.get(r.player_key, "")),
+                "card_id": card_by_key.get(r.player_key, ""),
+                "player": str(r.player),
+                "ascii_name": normalize_name(str(r.player)),
+                "pos_group": group,
+                "age": _opt_int(r.age),
+                "league": str(r.league),
+                "club": str(r.team),
+                "min": int(r.min),
+                "npg_ast_q": round(float(r.npg_p90_quality + r.ast_p90_quality), 2),
+                "cluster_style": style,
+                "cluster_label": tr.term(style_labels[style]) if style in style_labels else "",
+                "nt_flag": bool(r.nt_flag),
+            })
+    return sorted(rows, key=lambda r: (_last_name(r["ascii_name"]), r["ascii_name"]))
 
 
 def _photo_credits(photos: dict, used_keys: set[str]) -> list[dict]:
@@ -826,9 +828,21 @@ def load_data() -> dict[str, Any]:
     }
 
 
-def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = None) -> dict[str, Any]:
-    """Assemble the template context from loaded data."""
+def _translator_context(tr: Translator) -> dict[str, Any]:
+    """Language, asset prefix and the callables the template uses (`t`, `term` ...)."""
+    return {
+        "lang": tr.lang,
+        "assets": "" if tr.lang == "en" else "../",
+        "t": tr, "term": tr.term, "ordinal": tr.ordinal, "reason": tr.reason,
+    }
+
+
+def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = None,
+                  lang: str = "en") -> dict[str, Any]:
+    """Assemble the template context from loaded data, in one language."""
     from src.trajectory import DIRECTION_THRESHOLD, MIN_MINUTES
+
+    tr = Translator(lang)
 
     seasons_raw = data["seasons"]
     seasons = {
@@ -846,14 +860,16 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     cohorts = _build_cohorts(data["cohorts"], COHORT_COUNTRIES)
     gaps = _cohort_gaps(data["cohorts"], peers)
 
-    clusters = {g: _build_clusters(data["coords"][g], data["features"][g], data["cluster_labels"], g, metrics)
+    clusters = {g: _build_clusters(data["coords"][g], data["features"][g], data["cluster_labels"], g, metrics, tr)
                 for g in GROUPS}
     movers = {g: _build_movers(data["trajectory"][g]) for g in GROUPS}
     analog_blocks = _build_analog_blocks(data["showcase"], data["analogs"])
     cards = _build_cards(data["showcase"], data["analogs"], data["features"], data["coords"],
                          data["trajectory"], data["pool"], data["cluster_labels"], data["photos"], metrics,
-                         seasons_raw["current"])
+                         seasons_raw["current"], tr)
     pathways = _build_pathways(data["pathways"], names, peers)
+    player_index = _build_player_index(data["features"], data["coords"], data["pool"],
+                                       data["cluster_labels"], cards, metrics, tr)
 
     # Pool facts for the masthead and limitations
     lq = data["league_quality"]
@@ -890,7 +906,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "export_cze": pathways["export_cze"], "export_den": pathways["export_den"],
     }
     observations = _build_observations(hero, per_capita, gaps, movers, thresholds, seasons,
-                                       len(data["leagues"]["headline"]))
+                                       len(data["leagues"]["headline"]), tr)
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -903,7 +919,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         used_keys.update(r["player_key"] for r in movers[g]["up"] + movers[g]["down"])
 
     return {
-        "lang": "en",
+        **_translator_context(tr),
         "seasons": seasons,
         "groups": GROUPS,
         "group_titles": GROUP_TITLES,
@@ -920,7 +936,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "thresholds": thresholds,
         "pathways": pathways,
         "cards": cards,
-        "card_rows": _card_rows(cards),
+        "card_rows": _card_rows(cards, tr),
+        "player_index": player_index,
         "analog_blocks": analog_blocks,
         "atlas_notes": atlas_notes or {g: {"n_corpus": 0, "n_czech": 0, "n_nt": 0} for g in GROUPS},
         "multipliers": multipliers,
@@ -928,8 +945,9 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "multiplier_method": str(lq.get("method", "")),
         "feature_defs": data["feature_defs"],
         "loadings": _build_loadings(data["loadings"]) if not data["loadings"].empty else [],
-        "sensitivity": _build_sensitivity(data["sensitivity"]) if not data["sensitivity"].empty else _build_sensitivity(pd.DataFrame(columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"])),
-        "limitations": _build_limitations(facts),
+        "sensitivity": _build_sensitivity(data["sensitivity"] if not data["sensitivity"].empty else pd.DataFrame(
+            columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"]), tr),
+        "limitations": _build_limitations(facts, tr),
         "facts": facts,
         "n_leagues": n_leagues,
         "headline_leagues": list(data["leagues"]["headline"]),
@@ -941,12 +959,13 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     }
 
 
-def build_context_from_fixtures() -> dict[str, Any]:
+def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     """Small hand-written context so the template renders offline in tests.
 
     Two countries, one position group (FW), one card, one analog block, one
     pathways row per exhibit. Shapes mirror `build_context()`.
     """
+    tr = Translator(lang)
     seasons = {"metrics": "2024/25", "previous": "2023/24", "current": "2025/26", "history_start": "2020/21"}
     per_capita = [
         {"country": "DEN", "name": "Denmark", "n_players": 59, "population_m": 5.96, "per_million": 9.9, "rank": 1},
@@ -957,7 +976,7 @@ def build_context_from_fixtures() -> dict[str, Any]:
     cohorts = {"FW": [{"cohort": c, "cells": {"CZE": {"n": 1, "median": 0.33}, "DEN": {"n": 0, "median": None}}}
                       for c in COHORT_ORDER]}
     clusters = {"FW": [{
-        "id": "C0", "label": "High-volume scorers", "n": 3, "n_corpus": 314, "nt_pool": 1,
+        "id": "C0", "label": tr.term("High-volume scorers"), "n": 3, "n_corpus": 314, "nt_pool": 1,
         "median_born": 1999,
         "medians": {"npg_p90": 0.26, "ast_p90": 0.06, "min_share": 0.601, "age": 25.0, "cards_p90": 0.14},
         "tactical": "Primary scorers on starter minutes.",
@@ -979,8 +998,8 @@ def build_context_from_fixtures() -> dict[str, Any]:
         "moved": False, "nt_flag": True, "nt_events": ["UEFA Euro 2024"],
         "reason": "highest quality-adjusted npG+A per 90 among FW",
         "stats": {"npg_ast_q": 0.68, "npg_p90": 0.8, "ast_p90": 0.06, "min": 1684, "min_share": 0.55, "npg": 15, "ast": 1},
-        "clusters": {"style": {"id": "C0", "label": "High-volume scorers"},
-                     "quality": {"id": "C2", "label": "High-volume scorers in top-five leagues"}},
+        "clusters": {"style": {"id": "C0", "label": tr.term("High-volume scorers")},
+                     "quality": {"id": "C2", "label": tr.term("High-volume scorers in top-five leagues")}},
         "tactical": "Primary scorers on starter minutes.",
         "trajectory": {"delta": 0.1, "direction": "improving", "min_prev": 1500, "min_curr": 1684, "prev": 0.58, "curr": 0.68},
         "analog_age": 29,
@@ -1009,7 +1028,7 @@ def build_context_from_fixtures() -> dict[str, Any]:
                         {"bucket": "peer_domestic", "label": "peer country league", "n": 10,
                          "share_of_abroad": 0.25, "median_multiplier": 0.268, "examples": ["Patrizio Stronati"]}],
             "sideways_share": 0.25,
-            "sideways_definition": "moved to a league with a multiplier at or below the Czech First League's",
+            "sideways_definition": "destination league multiplier <= the domestic league's multiplier",
         },
         "youth": youth, "export": export, "fare_min": fare_min, "fare_goals": fare_goals,
         "club_strength_proxy": "goals-scored percentile within league",
@@ -1025,26 +1044,36 @@ def build_context_from_fixtures() -> dict[str, Any]:
     hero = {"per_million": 1.65, "rank": 2, "n_peers": 2, "n_players": 18, "population_m": 10.9,
             "top": per_capita[0], "gap": gaps[0], "export_cze": export[0], "export_den": export[0]}
     thresholds = {"min_minutes": 900, "direction": 0.05}
-    sens = pd.DataFrame([{"scenario": "baseline", "description": "current multipliers",
+    sens = pd.DataFrame([{"scenario": "baseline", "description": "current multipliers from config/league_quality.yaml",
                           "top10_overlap": 29, "top10_churn": 0, "mean_delta_rank_top20": 0.0}])
+    player_index = [{
+        "player_key": "patrik schick|1996", "fbref_id": "5d4f7d61", "card_id": "5d4f7d61", "player": "Patrik Schick",
+        "ascii_name": "patrik schick", "pos_group": "FW", "age": 28, "league": "GER-Bundesliga", "club": "Leverkusen",
+        "min": 1684, "npg_ast_q": 0.68, "cluster_style": "C0", "cluster_label": tr.term("High-volume scorers"), "nt_flag": True,
+    }, {
+        "player_key": "filip vecheta|2003", "fbref_id": "0e5dcb3d", "card_id": "", "player": "Filip Vecheta",
+        "ascii_name": "filip vecheta", "pos_group": "FW", "age": 21, "league": "CZE-First League", "club": "Slovácko",
+        "min": 2100, "npg_ast_q": 0.33, "cluster_style": "C0", "cluster_label": tr.term("High-volume scorers"), "nt_flag": False,
+    }]
     return {
-        "lang": "en", "seasons": seasons, "groups": ["FW"], "group_titles": GROUP_TITLES,
+        **_translator_context(tr), "seasons": seasons, "groups": ["FW"], "group_titles": GROUP_TITLES,
         "hero": hero, "per_capita": per_capita, "max_per_million": 9.9,
         "cohorts": cohorts, "cohort_countries": ["CZE", "DEN"], "cohort_names": {"CZE": "Czechia", "DEN": "Denmark"},
         "cohort_gaps": gaps,
         "observations": _build_observations(hero, per_capita, gaps, movers | {"MF": movers["FW"], "DF": movers["FW"]},
-                                            thresholds, seasons, n_headline=1),
+                                            thresholds, seasons, n_headline=1, tr=tr),
         "clusters": clusters, "movers": movers, "thresholds": thresholds,
-        "pathways": pathways, "cards": cards, "card_rows": _card_rows(cards), "analog_blocks": analog_blocks,
+        "pathways": pathways, "cards": cards, "card_rows": _card_rows(cards, tr), "player_index": player_index,
+        "analog_blocks": analog_blocks,
         "atlas_notes": {"FW": {"n_corpus": 926, "n_czech": 39, "n_nt": 18}},
         "multipliers": [{"league": "ENG-Premier League", "value": 1.0}, {"league": "CZE-First League", "value": 0.434}],
-        "multiplier_source": "UEFA coefficient fallback.", "multiplier_method": "uefa_coefficient",
+        "multiplier_source": "", "multiplier_method": "uefa_coefficient",
         "feature_defs": {"features": ["npg_p90", "ast_p90", "min_share", "age", "cards_p90"],
                          "min_minutes": 450, "phantom_minutes": 900},
         "loadings": [{"position": "FW", "projection": "style", "pc": "PC1", "explained_pct": 26.8,
                       "npg_p90": 0.501, "ast_p90": 0.469, "min_share": 0.544, "age": 0.191, "cards_p90": -0.444}],
-        "sensitivity": _build_sensitivity(sens),
-        "limitations": _build_limitations(facts), "facts": facts,
+        "sensitivity": _build_sensitivity(sens, tr),
+        "limitations": _build_limitations(facts, tr), "facts": facts,
         "n_leagues": 19, "headline_leagues": ["ENG-Premier League"],
         "stepping_stone": ["NED-Eredivisie"], "seed": config.RANDOM_SEED,
         "photo_credits": [{"fbref_id": "5d4f7d61", "name": "Patrik Schick", "player_key": "patrik schick|1996",
@@ -1056,8 +1085,10 @@ def build_context_from_fixtures() -> dict[str, Any]:
 
 
 def render_html(context: dict[str, Any]) -> str:
+    """Render one language; Czech pages get decimal commas in their text nodes."""
     env = Environment(loader=FileSystemLoader(str(config.TEMPLATES_DIR)), autoescape=True)
-    return env.get_template("report.html.j2").render(**context)
+    html = env.get_template("report.html.j2").render(**context)
+    return localize_html_numbers(html) if context.get("lang") == "cs" else html
 
 
 def main() -> None:
@@ -1075,11 +1106,13 @@ def main() -> None:
     if not heatmap.exists():
         LOG.warning("%s missing — run src.international_benchmark first", heatmap)
 
-    context = build_context(data, atlas_notes)
-    html_out = render_html(context)
-    html_path = config.OUTPUTS_DIR / "index.html"
-    html_path.write_text(html_out, encoding="utf-8")
-    LOG.info("wrote %s (%d bytes)", html_path, len(html_out.encode("utf-8")))
+    for lang in LANGS:
+        context = build_context(data, atlas_notes, lang=lang)
+        html_out = render_html(context)
+        html_path = config.OUTPUTS_DIR / ("index.html" if lang == "en" else f"{lang}/index.html")
+        html_path.parent.mkdir(parents=True, exist_ok=True)
+        html_path.write_text(html_out, encoding="utf-8")
+        LOG.info("wrote %s (%d bytes)", html_path, len(html_out.encode("utf-8")))
 
     css_src = config.TEMPLATES_DIR / "style.css"
     if css_src.exists():
