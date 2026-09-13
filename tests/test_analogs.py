@@ -40,18 +40,28 @@ def test_analogs_output_columns():
 
 def _showcase_toy():
     fw = pd.DataFrame({
-        "player_key": ["fw_top", "fw_young_nt", "fw_old_nt", "fw_low_min", "fw_export_2nd", "fw_home"],
-        "player": ["FW Top", "FW Young NT", "FW Old NT", "FW Low Min", "FW Export 2nd", "FW Home"],
-        "season": ["2024-2025"] * 6,
+        "player_key": ["fw_top", "fw_young_nt", "fw_old_nt", "fw_low_min", "fw_export_2nd", "fw_home",
+                       "fw_home_u23_returnee", "fw_home_u23", "fw_home_u23_2nd"],
+        "player": ["FW Top", "FW Young NT", "FW Old NT", "FW Low Min", "FW Export 2nd", "FW Home",
+                   "FW Home U23 Returnee", "FW Home U23", "FW Home U23 2nd"],
+        "season": ["2024-2025"] * 9,
         "league": ["ENG-Premier League", "CZE-First League", "CZE-First League", "ITA-Serie A",
-                   "GER-Bundesliga", "CZE-First League"],
-        "czech_eligible": [True] * 6,
-        "min": [1200, 1000, 950, 500, 1100, 3000],
-        "npg_p90_quality": [0.9, 0.4, 0.3, 5.0, 0.2, 0.3],
-        "ast_p90_quality": [0.2, 0.1, 0.1, 5.0, 0.1, 0.1],
-        "nt_flag": [False, True, True, False, False, False],
-        "born": [2000, 2003, 1995, 2005, 1998, 1999],
+                   "GER-Bundesliga", "CZE-First League", "CZE-First League", "CZE-First League",
+                   "CZE-First League"],
+        "czech_eligible": [True] * 9,
+        "min": [1200, 1000, 950, 500, 1100, 3000, 2900, 2000, 1500],
+        "npg_p90_quality": [0.9, 0.4, 0.3, 5.0, 0.2, 0.3, 0.2, 0.2, 0.2],
+        "ast_p90_quality": [0.2, 0.1, 0.1, 5.0, 0.1, 0.1, 0.1, 0.1, 0.1],
+        "nt_flag": [False, True, True, False, False, False, False, False, False],
+        "born": [2000, 2003, 1995, 2005, 1998, 1999, 2002, 2002, 2003],
     })
+    # an earlier season abroad for the returnee: rules it out of (d)
+    fw = pd.concat([fw, pd.DataFrame({
+        "player_key": ["fw_home_u23_returnee"], "player": ["FW Home U23 Returnee"],
+        "season": ["2022-2023"], "league": ["FRA-Ligue 1"], "czech_eligible": [True],
+        "min": [700], "npg_p90_quality": [0.1], "ast_p90_quality": [0.0], "nt_flag": [False],
+        "born": [2002],
+    })], ignore_index=True)
     mf = pd.DataFrame({
         "player_key": ["mf_best_and_youngest"],
         "player": ["MF Best And Youngest"],
@@ -79,7 +89,7 @@ def test_showcase_ids_picks_top_quality_and_youngest_nt_skipping_low_minutes():
     assert "fw_old_nt" not in keys
     # MF: same player is both top quality and youngest NT -> only listed once
     assert keys.count("mf_best_and_youngest") == 1
-    assert len(out) <= 9
+    assert len(out) <= 12
     reasons = {s["player_key"]: s["reason"] for s in out}
     assert reasons["fw_top"] == "highest quality-adjusted npG+A per 90 among FW"
     assert reasons["fw_young_nt"] == "youngest national-team call-up among FW"
@@ -87,15 +97,42 @@ def test_showcase_ids_picks_top_quality_and_youngest_nt_skipping_low_minutes():
 
 
 def test_showcase_third_rule_most_top9_minutes_skips_already_chosen():
-    out = showcase_ids(_showcase_toy(), "2024-2025", headline_leagues=["ENG-Premier League",
-                                                                       "GER-Bundesliga",
-                                                                       "ITA-Serie A"])
+    out = showcase_ids(_showcase_toy(), "2024-2025",
+                       headline_leagues=["ENG-Premier League", "GER-Bundesliga", "ITA-Serie A",
+                                         "FRA-Ligue 1"],
+                       domestic_league="CZE-First League")
     reasons = {s["player_key"]: s["reason"] for s in out}
     # fw_top has the most top-9 minutes (1200) but is already chosen by rule (a);
     # fw_low_min (ITA, 500) is under the floor; fw_home (3000) plays at home ->
     # the rule falls through to fw_export_2nd (GER, 1100).
     assert reasons["fw_export_2nd"] == "most top-9 league minutes among FW"
     assert "fw_home" not in reasons
-    assert [s["player_key"] for s in out if s["pos_group"] == "FW"] == ["fw_top", "fw_young_nt", "fw_export_2nd"]
+    assert [s["player_key"] for s in out if s["pos_group"] == "FW"] == [
+        "fw_top", "fw_young_nt", "fw_export_2nd", "fw_home_u23"]
     # MF has no headline-league player -> no third card for MF
     assert [s["player_key"] for s in out if s["pos_group"] == "MF"] == ["mf_best_and_youngest"]
+
+
+def test_showcase_fourth_rule_domestic_u23_without_top9_season():
+    out = showcase_ids(_showcase_toy(), "2024-2025",
+                       headline_leagues=["ENG-Premier League", "GER-Bundesliga", "ITA-Serie A",
+                                         "FRA-Ligue 1"],
+                       domestic_league="CZE-First League")
+    reasons = {s["player_key"]: s["reason"] for s in out}
+    # fw_home (3000 min) is 25 -> too old; fw_home_u23_returnee (2900) had a 2022/23
+    # Ligue 1 season -> excluded; fw_home_u23 (2000, born 2002 -> 22) is chosen;
+    # fw_young_nt (CZE, born 2003, 1000 min) is skipped as already chosen by (b).
+    assert reasons["fw_home_u23"] == "most domestic-league minutes among under-23 FW without a top-9 season"
+    assert "fw_home_u23_returnee" not in reasons and "fw_home" not in reasons
+    assert "fw_home_u23_2nd" not in reasons
+    # skip logic: if the U23 leader is already chosen, the rule falls through
+    toy = _showcase_toy()
+    toy["FW"].loc[toy["FW"].player_key == "fw_home_u23", "nt_flag"] = True
+    toy["FW"].loc[toy["FW"].player_key == "fw_home_u23", "born"] = 2004  # youngest NT now
+    out2 = showcase_ids(toy, "2024-2025",
+                        headline_leagues=["ENG-Premier League", "GER-Bundesliga", "ITA-Serie A",
+                                          "FRA-Ligue 1"],
+                        domestic_league="CZE-First League")
+    reasons2 = {s["player_key"]: s["reason"] for s in out2}
+    assert reasons2["fw_home_u23"] == "youngest national-team call-up among FW"
+    assert reasons2["fw_home_u23_2nd"].startswith("most domestic-league minutes among under-23 FW")

@@ -510,6 +510,40 @@
       median are medians across the peer countries present in that tier and group; a tier a country
       has no player in is absent, not zero.
     </p>
+
+    {% if pathways.destinations %}
+    {% set dest = pathways.destinations %}
+    <h3>Exhibit E — where Czech exports go</h3>
+    <p>
+      Of the {{ dest.n_total }} mapped Czech players, {{ dest.n_abroad }} play outside the Czech
+      First League. Their leagues by bucket, as a share of those abroad:
+      {% for b in dest.buckets %}{{ b.label }} {{ pct(b.share_of_abroad) }}{% if not loop.last %}, {% endif %}{% endfor %}.
+      <strong>{{ pct(dest.sideways_share) }}</strong> of the moves are sideways* — {{ dest.sideways_definition }}.
+    </p>
+    {% set dest_max = dest.buckets | map(attribute='share_of_abroad') | max %}
+    <div class="capita" role="list" aria-label="Czech players abroad by destination bucket">
+      {% for b in dest.buckets %}
+      <div class="capita-row" role="listitem" style="--value: {{ b.share_of_abroad }}; --max: {{ dest_max }};">
+        <div class="capita-country">
+          <span class="capita-code">{{ b.n }}</span>
+          {{ b.label }}{% if b.median_multiplier is not none %} <span class="muted small">median multiplier {{ f3(b.median_multiplier) }}</span>{% endif %}
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">{{ pct(b.share_of_abroad) }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <ul class="small dest-examples">
+      {% for b in dest.buckets if b.examples %}
+      <li><span class="capita-code">{{ b.label }}</span> <code>{{ b.examples | join(' · ') }}</code></li>
+      {% endfor %}
+    </ul>
+    <p class="capita-note">
+      * Buckets by the league of the player's own {{ seasons.metrics }} season; the number in front
+      of each bar is the player count, the median multiplier is the bucket's median league
+      multiplier. Sideways: {{ dest.sideways_definition }}.
+    </p>
+    {% endif %}
   </div>
 </section>
 
@@ -522,8 +556,9 @@
   <p class="chapter-title">Cards and analogs</p>
   <p class="chapter-synopsis">
     {{ cards | length }} player cards chosen by rules, not picks — per position group the highest
-    quality-adjusted npG+A per 90, the youngest national-team call-up and the most minutes in the
-    top-{{ topn }} leagues — each combining stats,
+    quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the
+    top-{{ topn }} leagues, and the most domestic minutes among under-23s without a top-{{ topn }}
+    season — each combining stats,
     cluster placement, tactical read, trajectory and the nearest historical analogs at the same
     age from the all-nationality corpus.
   </p>
@@ -533,21 +568,26 @@
   <div class="container">
     <h2 id="cards">Player cards</h2>
     <p class="framing">
-      One integrated card per showcase player: {{ seasons.metrics }} production, cluster placement
-      in both projections, the cluster's tactical read, the {{ seasons.previous }} → {{ seasons.metrics }}
-      trajectory and the {{ cards[0].analogs | length if cards else 0 }} nearest analogs.
+      One integrated card per showcase player, one row per selection rule: {{ seasons.metrics }}
+      production, cluster placement in both projections, the cluster's tactical read, the
+      {{ seasons.previous }} → {{ seasons.metrics }} trajectory and the
+      {{ cards[0].analogs | length if cards else 0 }} nearest analogs. The club on the name line is
+      the {{ seasons.current }} club; the stats block is {{ seasons.metrics }}.
       Description, not prediction.
     </p>
+    {% for row in card_rows %}
+    <p class="cycle-row-kicker">{{ row.kicker }}</p>
     <div class="cycle-grid">
-      {% for p in cards %}
-      <article class="cycle-card" id="card-{{ p.fbref_id }}" data-player-key="{{ p.player_key }}" data-fbref-id="{{ p.fbref_id }}">
+      {% for p in row.cards %}
+      <article class="cycle-card" id="card-{{ p.fbref_id }}" data-player-key="{{ p.player_key }}" data-fbref-id="{{ p.fbref_id }}" data-rule="{{ p.reason }}">
         <header class="cycle-card-head">
           <h4 class="cycle-card-name">{{ p.name }}</h4>
           <p class="cycle-card-meta">
-            {{ p.pos }} &middot; born {{ p.born }} &middot; {{ p.league }} &middot; {{ p.club_season }}{% if p.moved %} &rarr; {{ p.club }} ({{ seasons.current }}){% endif %}{% if p.nt_flag %} &middot; NT 2024–26{% endif %}
+            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ seasons.current }}){% if p.nt_flag %} &middot; NT 2024–26{% endif %}
           </p>
         </header>
 
+        <p class="cycle-card-meta cycle-stats-head">{{ seasons.metrics }} &middot; {{ p.club_season }} &middot; {{ p.league }}</p>
         <dl class="cycle-stats">
           <div><dt>npG+A/90 quality</dt><dd>{{ f2(p.stats.npg_ast_q) }}</dd></div>
           <div><dt>npG / A per 90</dt><dd>{{ f2(p.stats.npg_p90) }} / {{ f2(p.stats.ast_p90) }}</dd></div>
@@ -610,9 +650,13 @@
       </article>
       {% endfor %}
     </div>
+    {% endfor %}
     <p class="capita-note">
-      * Each card renders the existing dataset; no computation beyond the join. Age on the analog
-      line follows the analog finder's convention (season start year + 1 − birth year).
+      * Each card renders the existing dataset; no computation beyond the join. Age on the name line
+      is the {{ seasons.current }} season-start age (start year − birth year); the club is from the
+      {{ seasons.current }} tables, or from FBref's country page where the player has no
+      {{ seasons.current }} row. Age on the analog line follows the analog finder's convention
+      (season start year + 1 − birth year).
     </p>
 
     <h3 id="analogs">Historical analogs</h3>

@@ -16,6 +16,7 @@ from jinja2 import Environment, FileSystemLoader
 from src import config
 from src.render import (
     GROUPS,
+    RULE_KICKERS,
     _build_observations,
     build_context,
     build_context_from_fixtures,
@@ -60,6 +61,10 @@ def test_template_renders_with_fixture_context():
     ctx = build_context_from_fixtures()
     html = _render(ctx)
     _check(html, ctx["groups"])
+    assert "Exhibit E" in html and 'class="cycle-row-kicker"' in html
+    # the template tolerates a pathways.json without `destinations`
+    ctx["pathways"]["destinations"] = None
+    assert "Exhibit E" not in _render(ctx)
 
 
 def test_observations_derive_counts_and_titles_from_context():
@@ -97,5 +102,7 @@ def test_template_renders_with_real_context():
     ctx = build_context(load_data())
     html = _render(ctx)
     _check(html, GROUPS)
-    assert len(ctx["cards"]) == 9
+    assert len(ctx["cards"]) == 12
+    assert [r["kicker"] for r in ctx["card_rows"]] == [k for _, k in RULE_KICKERS]
+    assert all(c["club"] and c["age_current"] for c in ctx["cards"])
     assert len(ctx["per_capita"]) == 9

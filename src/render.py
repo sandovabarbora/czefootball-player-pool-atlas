@@ -55,6 +55,17 @@ ORIGIN_LABELS = {
 }
 ORIGIN_ORDER = ["domestic", "stepping_stone", "other_top9", "not_covered"]
 NT_LABEL = "NT 2024–26"
+# showcase rule -> row kicker (descriptive; order = row order on the page)
+RULE_KICKERS = [
+    ("highest quality-adjusted", "Highest quality-adjusted production"),
+    ("youngest national-team", "Youngest national-team call-up"),
+    ("most top-9 league minutes", "Most top-9 minutes"),
+    ("most domestic-league minutes", "Most domestic minutes, no top-9 season yet"),
+]
+DESTINATION_LABELS = {
+    "domestic": "domestic", "top9": "top-9", "stepping_stone": "stepping stone",
+    "peer_domestic": "peer country league", "other": "other",
+}
 CARD_ANALOGS = 3
 CLUSTER_TOP_N = 5
 ATLAS_NAMES_N = 10
@@ -387,12 +398,34 @@ def _build_analog_blocks(showcase: list[dict], analogs: dict) -> list[dict]:
     return blocks
 
 
+def _card_rows(cards: list[dict]) -> list[dict]:
+    """Group cards by showcase rule, one row per rule, in RULE_KICKERS order."""
+    rows = []
+    for prefix, kicker in RULE_KICKERS:
+        members = [c for c in cards if c["reason"].startswith(prefix)]
+        if members:
+            rows.append({"kicker": kicker, "cards": members})
+    rest = [c for c in cards if not any(c["reason"].startswith(p) for p, _ in RULE_KICKERS)]
+    if rest:
+        rows.append({"kicker": "Other rules", "cards": rest})
+    return rows
+
+
 def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.DataFrame],
                  coords: dict[str, pd.DataFrame], traj: dict[str, pd.DataFrame],
-                 pool: pd.DataFrame, labels: dict, photos: dict, season: str) -> list[dict]:
-    """One card per showcase player: stats, clusters, tactical read, trajectory, analogs."""
+                 pool: pd.DataFrame, labels: dict, photos: dict, season: str,
+                 current_season: str) -> list[dict]:
+    """One card per showcase player: stats, clusters, tactical read, trajectory, analogs.
+
+    Stats come from `season` (metrics); the club on the meta line is the
+    `current_season` club (row with most minutes across all groups), falling
+    back to the pool's country-page club.
+    """
     pool_by_key = pool.drop_duplicates("player_key").set_index("player_key")
     photos_by_key = {v["player_key"]: dict(v, fbref_id=k) for k, v in photos.items()}
+    current_rows = _metrics_rows(pd.concat(features.values(), ignore_index=True), current_season)
+    current_by_key = current_rows.set_index("player_key")
+    current_year = int(current_season[:4])
     cards = []
     for s in showcase:
         key, group = s["player_key"], s["pos_group"]
@@ -420,7 +453,12 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
                 "prev": round(float(r["npg_ast_quality_prev"]), 2),
                 "curr": round(float(r["npg_ast_quality_curr"]), 2),
             }
-        club_current = str(p["club_current"]) if p is not None and p["club_current"] else ""
+        if key in current_by_key.index:
+            cur = current_by_key.loc[key]
+            club_current, league_current, club_source = str(cur["team"]), str(cur["league"]), "tables"
+        else:
+            club_current = str(p["club_current"]) if p is not None and p["club_current"] else ""
+            league_current, club_source = "", "country page"
         block = analogs.get(key) or {}
         analog_age = _opt_int((block.get("target") or {}).get("age"))
         nt_events = [e for e in str(f.get("nt_events") or "").split(" · ") if e]
@@ -436,6 +474,9 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
             "league": str(f["league"]),
             "club_season": str(f["team"]),
             "club": club_current,
+            "club_league": league_current,
+            "club_source": club_source,
+            "age_current": current_year - int(f["born"]) if pd.notna(f["born"]) else None,
             "moved": bool(club_current) and not _same_club(str(f["team"]), club_current),
             "nt_flag": bool(f["nt_flag"]),
             "nt_events": nt_events,
@@ -522,7 +563,26 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
     def _find(rows: list[dict], country: str) -> dict | None:
         return next((r for r in rows if r["country"] == country), None)
 
+    dest_raw = pw.get("destinations")
+    destinations = None
+    if dest_raw:
+        buckets = sorted(
+            [{
+                "bucket": b["bucket"], "label": DESTINATION_LABELS.get(b["bucket"], b["bucket"]),
+                "n": int(b["n"]), "share_of_abroad": round(float(b.get("share_of_abroad") or 0), 3),
+                "median_multiplier": _opt_float(b.get("median_multiplier"), 3),
+                "examples": list((dest_raw.get("examples") or {}).get(b["bucket"], [])),
+            } for b in dest_raw.get("buckets", [])],
+            key=lambda b: -b["share_of_abroad"])
+        destinations = {
+            "n_total": int(dest_raw.get("n_total") or 0), "n_abroad": int(dest_raw.get("n_abroad") or 0),
+            "buckets": buckets,
+            "sideways_share": round(float(dest_raw.get("sideways_share") or 0), 3),
+            "sideways_definition": str(dest_raw.get("sideways_definition") or ""),
+        }
+
     return {
+        "destinations": destinations,
         "youth": youth, "export": export, "fare_min": fare_min, "fare_goals": fare_goals,
         "club_strength_proxy": proxy, "profile": profile,
         "youth_cze": _find(youth, "CZE"), "youth_top": next((r for r in youth if r["share_u21"] is not None), None),
@@ -778,7 +838,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     movers = {g: _build_movers(data["trajectory"][g]) for g in GROUPS}
     analog_blocks = _build_analog_blocks(data["showcase"], data["analogs"])
     cards = _build_cards(data["showcase"], data["analogs"], data["features"], data["coords"],
-                         data["trajectory"], data["pool"], data["cluster_labels"], data["photos"], metrics)
+                         data["trajectory"], data["pool"], data["cluster_labels"], data["photos"], metrics,
+                         seasons_raw["current"])
     pathways = _build_pathways(data["pathways"], names, peers)
 
     # Pool facts for the masthead and limitations
@@ -846,6 +907,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "thresholds": thresholds,
         "pathways": pathways,
         "cards": cards,
+        "card_rows": _card_rows(cards),
         "analog_blocks": analog_blocks,
         "atlas_notes": atlas_notes or {g: {"n_corpus": 0, "n_czech": 0, "n_nt": 0} for g in GROUPS},
         "multipliers": multipliers,
@@ -899,7 +961,8 @@ def build_context_from_fixtures() -> dict[str, Any]:
     cards = [{
         "player_key": "patrik schick|1996", "fbref_id": "5d4f7d61", "name": "Patrik Schick", "pos": "FW",
         "pos_title": "Forwards", "born": 1996, "age": 28, "league": "GER-Bundesliga", "club_season": "Leverkusen",
-        "club": "Leverkusen", "moved": False, "nt_flag": True, "nt_events": ["UEFA Euro 2024"],
+        "club": "Leverkusen", "club_league": "GER-Bundesliga", "club_source": "tables", "age_current": 29,
+        "moved": False, "nt_flag": True, "nt_events": ["UEFA Euro 2024"],
         "reason": "highest quality-adjusted npG+A per 90 among FW",
         "stats": {"npg_ast_q": 0.68, "npg_p90": 0.8, "ast_p90": 0.06, "min": 1684, "min_share": 0.55, "npg": 15, "ast": 1},
         "clusters": {"style": {"id": "C0", "label": "High-volume scorers"},
@@ -925,6 +988,15 @@ def build_context_from_fixtures() -> dict[str, Any]:
     fare_min = [{"country": "CZE", "name": "Czechia", "n": 24, "value": 0.338}]
     fare_goals = [{"country": "CZE", "name": "Czechia", "n": 24, "value": 0.513}]
     pathways = {
+        "destinations": {
+            "n_total": 199, "n_abroad": 40,
+            "buckets": [{"bucket": "top9", "label": "top-9", "n": 18, "share_of_abroad": 0.45,
+                         "median_multiplier": 0.788, "examples": ["Patrik Schick"]},
+                        {"bucket": "peer_domestic", "label": "peer country league", "n": 10,
+                         "share_of_abroad": 0.25, "median_multiplier": 0.268, "examples": ["Patrizio Stronati"]}],
+            "sideways_share": 0.25,
+            "sideways_definition": "moved to a league with a multiplier at or below the Czech First League's",
+        },
         "youth": youth, "export": export, "fare_min": fare_min, "fare_goals": fare_goals,
         "club_strength_proxy": "goals-scored percentile within league",
         "profile": [{"tier": "top9", "tier_label": "top-9 league", "pos_group": "FW", "cze_n": 4,
@@ -949,7 +1021,7 @@ def build_context_from_fixtures() -> dict[str, Any]:
         "observations": _build_observations(hero, per_capita, gaps, movers | {"MF": movers["FW"], "DF": movers["FW"]},
                                             thresholds, seasons, n_headline=1),
         "clusters": clusters, "movers": movers, "thresholds": thresholds,
-        "pathways": pathways, "cards": cards, "analog_blocks": analog_blocks,
+        "pathways": pathways, "cards": cards, "card_rows": _card_rows(cards), "analog_blocks": analog_blocks,
         "atlas_notes": {"FW": {"n_corpus": 926, "n_czech": 39, "n_nt": 18}},
         "multipliers": [{"league": "ENG-Premier League", "value": 1.0}, {"league": "CZE-First League", "value": 0.434}],
         "multiplier_source": "UEFA coefficient fallback.", "multiplier_method": "uefa_coefficient",

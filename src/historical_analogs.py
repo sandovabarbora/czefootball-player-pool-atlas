@@ -104,8 +104,9 @@ def showcase_ids(
     feats_by_group: dict[str, pd.DataFrame],
     metrics_season: str,
     headline_leagues: list[str] | None = None,
+    domestic_league: str | None = None,
 ) -> list[dict]:
-    """Pick up to 3 showcase players per position group (up to 9 total).
+    """Pick up to 4 showcase players per position group (up to 12 total).
 
     Among Czech-eligible players in `metrics_season` with `min >= 900`:
         (a) highest npg_p90_quality + ast_p90_quality
@@ -113,9 +114,19 @@ def showcase_ids(
         (c) most minutes in the headline (top-9) leagues — the "established
             export"; players already chosen by (a) or (b) are skipped and
             the rule falls through to the next player by minutes.
+        (d) aged <= 23 in the metrics season (season start year - born),
+            most minutes in the domestic league, and no season in any
+            headline league anywhere in the fetched history (across all
+            position groups); already chosen players are skipped.
     Rules, not picks: the reason string is descriptive.
     """
     headline = list(config.HEADLINE_LEAGUES if headline_leagues is None else headline_leagues)
+    domestic = config.DOMESTIC_LEAGUE if domestic_league is None else domestic_league
+    season_start = int(metrics_season[:4])
+    ever_abroad: set[str] = set()
+    for df in feats_by_group.values():
+        if "league" in df.columns:
+            ever_abroad.update(df.loc[df.league.isin(headline), "player_key"].unique())
     showcase: list[dict] = []
     seen: set[str] = set()
 
@@ -153,7 +164,18 @@ def showcase_ids(
                 row = abroad[abroad.player_key == key].iloc[0]
                 _add(row, group, f"most top-9 league minutes among {group}")
                 break
-    return showcase[:9]
+
+            home = cz[(cz.league == domestic) & ((season_start - cz.born) <= 23)
+                      & ~cz.player_key.isin(ever_abroad)]
+            home_min = home.groupby("player_key")["min"].sum().sort_values(ascending=False)
+            for key in home_min.index:
+                if key in seen:
+                    continue
+                row = home[home.player_key == key].iloc[0]
+                _add(row, group,
+                     f"most domestic-league minutes among under-23 {group} without a top-9 season")
+                break
+    return showcase[:12]
 
 
 def main() -> None:
