@@ -13,10 +13,11 @@ Four independent exhibits, all restricted to the peer countries
 
     export_route: for peer-country players currently rostered in a UEFA
         top-9 headline league, the age at which they first appeared in a
-        headline league and the league they came from immediately before
-        (their own domestic league / one of five stepping-stone leagues /
-        another top-9 league / not covered by our data). Answers "how old
-        when they left, and by which door".
+        headline league and (for recent entrants only — see the function's
+        own docstring) the league they came from immediately before (their
+        own domestic league / one of five stepping-stone leagues / another
+        top-9 league / not covered by our data). Answers "how old when
+        they left, and by which door".
 
     fare: for the same current-headline-league peer players, minutes share
         at their new club and a club-strength proxy. ClubElo is down (see
@@ -155,6 +156,7 @@ def export_route(
     peer_domestic: dict[str, str],
     peers: list[str],
     current: str | None = None,
+    recent_since: str | None = None,
 ) -> pd.DataFrame:
     """Age and origin of peer-country players currently in a headline league.
 
@@ -168,45 +170,71 @@ def export_route(
     `stepping_stone`, `other_top9` (a different headline league), or
     `not_covered` (no earlier row in our data at all).
 
-    `censored_share`: our roster data for the headline leagues starts at
-    the table's own earliest season (2020-2021 in the live run). A player
-    whose first headline appearance IS that earliest season has an unknown
-    true origin — we cannot see what came before our data starts — and is
-    counted as censored, separate from the `origin_shares` breakdown (whose
-    `not_covered` bucket instead means "no earlier row for this player at
-    all, though the table itself is not at its floor").
+    `median_export_age` and `n` are computed over the FULL current roster
+    (they only need each player's own top-9 history, which goes back to
+    2020-2021 for every headline league). `origin_shares` and
+    `median_export_age_recent`/`n_recent`, however, are restricted to
+    "recent entrants" — players whose first top-9 season is >=
+    `recent_since` (defaults to `current`; `main()` passes
+    `config.seasons()["metrics"]`, i.e. first top-9 season in
+    {metrics, current} in the live run). Peer/domestic-league rosters are
+    only fetched from 2023-2024 onward, so for anyone whose first top-9
+    season predates that, the season immediately before it is invisible to
+    us and `origin_shares` would trivially read `not_covered` — not
+    informative, and not a fair count against `not_covered`'s other
+    meaning (a player with a covered "before" season whose league still
+    doesn't classify into a bucket). Restricting the origin breakdown to
+    recent entrants (whose immediately-preceding season is always
+    2023-2024 or later, i.e. inside our peer/domestic coverage window)
+    removes that artifact instead of reporting it as if it were signal.
+    Players excluded from the recent subset still count toward `n` and
+    `median_export_age`.
+
+    `censored_share` is a separate, unrelated concept computed over the
+    FULL roster (like `n`/`median_export_age`, not the recent subset): our
+    roster data for the headline leagues starts at the table's own earliest
+    season (2020-2021 in the live run), so a player whose first headline
+    appearance IS that earliest season has an unknown true origin — we
+    cannot see what came before our data starts at all — and is counted as
+    censored.
     """
     t = _dedupe_player_season(tables)
     current = current if current is not None else t.season.max()
+    recent_since = recent_since if recent_since is not None else current
     first_hist = t.season.min()
     rows = []
     for country in peers:
         on_roster = t[(t.season == current) & t.league.isin(headline) & (t.nation == country)]
-        ages, origins, censored = [], [], 0
+        ages, ages_recent, origins, censored = [], [], [], 0
         for pid in on_roster.player_key.unique():
             hist = t[t.player_key == pid].sort_values("season")
             top = hist[hist.league.isin(headline)]
             first = top.iloc[0]
+            age = _age(first.born, first.season)
+            ages.append(age)
             if first.season == first_hist:
                 censored += 1
-            ages.append(_age(first.born, first.season))
-            before = hist[hist.season < first.season]
-            if before.empty:
-                origins.append("not_covered")
-            else:
-                lg = before.iloc[-1].league
-                origins.append(
-                    "domestic" if peer_domestic.get(lg) == country else
-                    "stepping_stone" if lg in stepping else
-                    "other_top9" if lg in headline else
-                    "not_covered"
-                )
-        n = len(ages)
-        shares = {k: (origins.count(k) / n if n else 0.0) for k in ORIGIN_LABELS}
+            if first.season >= recent_since:
+                ages_recent.append(age)
+                before = hist[hist.season < first.season]
+                if before.empty:
+                    origins.append("not_covered")
+                else:
+                    lg = before.iloc[-1].league
+                    origins.append(
+                        "domestic" if peer_domestic.get(lg) == country else
+                        "stepping_stone" if lg in stepping else
+                        "other_top9" if lg in headline else
+                        "not_covered"
+                    )
+        n, n_recent = len(ages), len(ages_recent)
+        shares = {k: (origins.count(k) / n_recent if n_recent else 0.0) for k in ORIGIN_LABELS}
         rows.append({
             "country": country,
             "n": n,
+            "n_recent": n_recent,
             "median_export_age": float(pd.Series(ages).median()) if n else None,
+            "median_export_age_recent": float(pd.Series(ages_recent).median()) if n_recent else None,
             "origin_shares": shares,
             "censored_share": censored / n if n else 0.0,
         })
@@ -302,7 +330,8 @@ def main() -> None:
     out = {
         "youth_exposure": youth_exposure(tables, seasons["metrics"], peer_domestic).to_dict("records"),
         "export_route": export_route(
-            tables, cfg["headline"], cfg["stepping_stone"], peer_domestic, peers, seasons["current"]
+            tables, cfg["headline"], cfg["stepping_stone"], peer_domestic, peers,
+            seasons["current"], seasons["metrics"],
         ).to_dict("records"),
         "fare": {
             "club_strength_proxy": "goals-scored percentile within league",

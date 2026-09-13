@@ -56,20 +56,46 @@ def test_dedupe_player_season_sums_minutes_and_keeps_dominant_row():
     assert x.league == "GER-Bundesliga"  # dominant (most-minutes) club
 
 
-def test_export_route_age_and_origin():
+def test_export_route_recent_entrants_and_full_roster_age():
+    # x: first top-9 season 2025-2026 (== current) -> recent entrant.
+    # old: first top-9 season 2021-2022, but still on the current-season
+    #   roster -> counts toward n/median_export_age, excluded from
+    #   origin_shares/n_recent (its "before" season, 2020-2021, predates
+    #   our peer/domestic coverage window, so its true origin classifies
+    #   would be an artifact, not signal).
+    # y: first top-9 season 2024-2025 (== metrics, the recent_since floor)
+    #   -> recent entrant, with a domestic-league "before" season
+    #   (2023-2024) that IS inside our coverage window.
     t = pd.DataFrame({
-        "player_key": ["x", "x", "x", "y", "y"], "nation": ["CZE"] * 3 + ["DEN"] * 2,
-        "born": [2001] * 3 + [2000] * 2,
+        "player_key": ["x", "x", "x", "old", "old", "old", "y", "y", "y"],
+        "nation": ["CZE", "CZE", "CZE", "CZE", "CZE", "CZE", "DEN", "DEN", "DEN"],
+        "born": [2001, 2001, 2001, 1999, 1999, 1999, 2000, 2000, 2000],
         "league": ["CZE-First League", "NED-Eredivisie", "ENG-Premier League",
-                   "DEN-Superliga", "ITA-Serie A"],
-        "season": ["2022-2023", "2023-2024", "2025-2026", "2024-2025", "2025-2026"],
-        "min": [1000] * 5,
+                   "CZE-First League", "ENG-Premier League", "ENG-Premier League",
+                   "DEN-Superliga", "ITA-Serie A", "ITA-Serie A"],
+        "season": ["2022-2023", "2023-2024", "2025-2026",
+                   "2020-2021", "2021-2022", "2025-2026",
+                   "2023-2024", "2024-2025", "2025-2026"],
+        "min": [1000] * 9,
     })
     out = export_route(t, ["ENG-Premier League", "ITA-Serie A"], ["NED-Eredivisie"],
-                        {"CZE-First League": "CZE", "DEN-Superliga": "DEN"}, ["CZE", "DEN"])
+                        {"CZE-First League": "CZE", "DEN-Superliga": "DEN"},
+                        ["CZE", "DEN"], recent_since="2024-2025")
     cze, den = out[out.country == "CZE"].iloc[0], out[out.country == "DEN"].iloc[0]
-    assert cze.median_export_age == 24 and cze.origin_shares["stepping_stone"] == 1.0
-    assert den.median_export_age == 25 and den.origin_shares["domestic"] == 1.0
+
+    # Full roster (x age 24, old age 22): both counted in n/median_export_age.
+    assert cze.n == 2
+    assert cze.median_export_age == 23.0
+
+    # Recent-entrant subset excludes "old" (first top-9 season 2021-2022 < 2024-2025).
+    assert cze.n_recent == 1
+    assert cze.median_export_age_recent == 24.0
+    assert cze.origin_shares["stepping_stone"] == 1.0
+    assert cze.origin_shares["domestic"] == 0.0  # "old" would have been domestic, but is excluded
+
+    assert den.n == 1 and den.n_recent == 1
+    assert den.median_export_age == 24.0 and den.median_export_age_recent == 24.0
+    assert den.origin_shares["domestic"] == 1.0
 
 
 def test_export_route_censored_share_at_first_fetched_season():
