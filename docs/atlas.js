@@ -12,9 +12,11 @@
   const T = cs ? {
     ringOnly: 'Jen reprezentace', reset: 'Reset', players: 'hráčů', hint: 'Najeď na bod → PC1/PC2 · klik na jméno → karta hráče',
     median: 'medián npG+A/90', nodata: 'bez dat', ring: 'Reprezentace 2024–26', open: 'Otevřít kartu', cluster: 'cluster', all: 'vše',
+    styleMap: 'Style mapa', qualityMap: 'Kvalitou upravená mapa',
   } : {
     ringOnly: 'NT pool only', reset: 'Reset', players: 'players', hint: 'Hover a point → PC1/PC2 · click a name → player card',
     median: 'median npG+A/90', nodata: 'no data', ring: 'NT 2024–26', open: 'Open card', cluster: 'cluster', all: 'all',
+    styleMap: 'Style map', qualityMap: 'Quality-adjusted map',
   };
   const ascii = (s) => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const fmt = (v) => (Math.round(v * 100) / 100).toFixed(2);
@@ -75,13 +77,21 @@
     if (!meta) return;
     const { svg, wrap, tip } = await inlineSvg(img);
     const key = fig.dataset.atlas;
-    // cluster archetype names from the page's cluster list
-    const names = new Map();
-    document.querySelectorAll(`.cluster-list[data-atlas-clusters="${key}"] .cluster-head`).forEach((dt) => {
-      const id = dt.querySelector('.cluster-id')?.textContent.trim();
-      const lab = dt.querySelector(":scope > span:nth-of-type(2)")?.childNodes[0]?.textContent.trim();
-      if (id && lab) names.set(id, lab);
-    });
+    // cluster archetype names: the style and quality projections are clustered
+    // separately, so the figure carries both label sets (rendered in the page
+    // language); the cluster accordion is the fallback for the style panel
+    let byProj = {};
+    try { byProj = JSON.parse(fig.dataset.clusterNames || '{}'); } catch (e) { byProj = {}; }
+    if (!byProj.style || !Object.keys(byProj.style).length) {
+      byProj.style = {};
+      document.querySelectorAll(`.cluster-list[data-atlas-clusters="${key}"] .cluster-head`).forEach((dt) => {
+        const id = dt.querySelector('.cluster-id')?.textContent.trim();
+        const lab = dt.querySelector(':scope > span:nth-of-type(2)')?.childNodes[0]?.textContent.trim();
+        if (id && lab) byProj.style[id] = lab;
+      });
+    }
+    const nameOf = (p, lab) => (byProj[p.proj || 'style'] || {})[lab] || '';
+    const names = new Map(Object.entries(byProj.style || {}));
 
     const hl = svgEl('circle', { r: 6.5, class: 'atlas-hl', fill: 'none', 'stroke-width': 1.6 });
     hl.style.display = 'none';
@@ -120,6 +130,8 @@
       b.type = 'button'; b.className = 'atlas-chip'; b.dataset.cluster = lab; b.setAttribute('aria-pressed', 'true');
       const n = countOf(lab);
       b.innerHTML = `<i style="background:${colorOf(lab)}"></i><b>${lab}</b>${names.get(lab) ? ` ${names.get(lab)}` : ''}${n ? `<small>${n}</small>` : ''}`;
+      const q = (byProj.quality || {})[lab];
+      if (q) b.title = `${T.styleMap}: ${names.get(lab) || lab} · ${T.qualityMap}: ${q}`;
       b.addEventListener('click', (e) => {
         if (e.altKey || e.metaKey) { // solo
           state.off = new Set(labels.filter((l) => l !== lab));
@@ -148,7 +160,8 @@
       const nm = p.byPos.get(k);
       const pc1 = p.cx.a * x + p.cx.b, pc2 = p.cy.a * y + p.cy.b;
       const ring = p.ringKeys.has(k);
-      const lab = names.get(c.label) ? `${c.label} · ${names.get(c.label)}` : c.label;
+      const nm2 = nameOf(p, c.label);
+      const lab = nm2 ? `${c.label} · ${nm2}` : c.label;
       tip.innerHTML = `${nm ? `<strong>${nm.text}</strong>` : ''}<span><i style="background:${c.color}"></i>${lab}</span>` +
         `<span class="mono">PC1 ${fmt(pc1)} · PC2 ${fmt(pc2)}</span>${ring ? `<span class="ring-tag">${T.ring}</span>` : ''}`;
       hl.setAttribute('cx', x); hl.setAttribute('cy', y); hl.style.display = '';

@@ -1,7 +1,18 @@
 """Extract interaction metadata from the matplotlib atlas SVGs -> docs/atlas_meta.json.
 
-Geometry is language-independent (EN and CS SVGs differ only in title text),
-so we read the Czech originals in docs/cs/.
+Three scatter atlases (atlas_FW/MF/DF.svg, two panels each: style and
+quality projection) and the cohort heatmap (three panels). Geometry is
+language-independent (the Czech SVGs differ only in title text), so the
+English originals in docs/ are read. Text is decoded from the
+`<!-- text -->` comment matplotlib writes before each glyph-path group.
+
+Per atlas panel: axes bbox, cluster point groups (`<g id="FW-style-C0">` ...,
+label = cluster code, colour from the first point), the NT ring group
+(`FW-style-nt`), px -> PC value calibration from the tick labels, and the
+name labels attached to their nearest point. Per heatmap panel: bbox,
+column/row labels and the cell values.
+
+usage: atlas_meta.py docs
 """
 import json
 import math
@@ -12,17 +23,23 @@ from pathlib import Path
 
 DOCS = Path(sys.argv[1])
 SVG = "{http://www.w3.org/2000/svg}"
-XL = "{http://www.w3.org/1999/xlink}href"
+ATLASES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg"]
+HEATMAP = "intl_cohort_heatmap.svg"
+NAME = re.compile(r"^[A-ZÀ-Ž][a-zà-ž]+$")
+GROUP_ID = re.compile(r"^(?P<pos>[A-Z]{2})-(?P<proj>style|quality)-(?P<cluster>C\d+|nt)$")
 
 
-def dec(g):
-    out = []
-    for u in g.iter(SVG + "use"):
-        h = u.get(XL) or ""
-        m = re.match(r"#[A-Za-z]+-([0-9a-f]+)$", h)
-        if m:
-            out.append(chr(int(m.group(1), 16)))
-    return "".join(out)
+def parse(path: Path):
+    parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+    return ET.parse(path, parser=parser).getroot()
+
+
+def text_of(g) -> str:
+    """The original string of a glyph-path text group (its leading comment)."""
+    for el in g.iter():
+        if el.tag is ET.Comment:
+            return (el.text or "").strip()
+    return ""
 
 
 def translate_of(g):
@@ -48,77 +65,69 @@ def num(s):
         return None
 
 
-def parse_atlas(path):
-    root = ET.parse(path).getroot()
+def axes_of(root):
+    return [ax for ax in root.iter(SVG + "g") if (ax.get("id") or "").startswith("axes_")]
+
+
+def ticks_of(children):
+    return [t for axis in children if (axis.get("id") or "").startswith("matplotlib.axis") for t in axis]
+
+
+def parse_atlas(path: Path):
+    root = parse(path)
     vb = [float(x) for x in root.get("viewBox").split()]
     panels = []
-    for ax in root.iter(SVG + "g"):
-        if not (ax.get("id") or "").startswith("axes_"):
-            continue
+    for ax in axes_of(root):
         children = list(ax)
         panel = {"id": ax.get("id"), "clusters": [], "ring": None, "xt": [], "yt": [], "names": [], "title": ""}
-        legend = {}
-        # legend first (marks + texts alternate)
+        legend_ring = None
         for g in children:
             if (g.get("id") or "").startswith("legend"):
-                items = list(g)
-                for i, lg in enumerate(items):
-                    lid = lg.get("id") or ""
-                    if lid.startswith("text"):
-                        label = dec(lg)
-                        mark = items[i - 1] if i else None
-                        col = None
-                        if mark is not None:
-                            for el in mark.iter():
-                                st = el.get("style") or ""
-                                m = re.search(r"fill: (#[0-9a-f]+)", st)
-                                if m:
-                                    col = m.group(1)
-                                    break
-                                m = re.search(r"stroke: (#[0-9a-f]+)", st)
-                                if m and "fill: none" in st:
-                                    col = "ring"
-                                    break
-                        legend[col or label] = label
-        ticks = [t for axis in children if (axis.get("id") or "").startswith("matplotlib.axis") for t in axis]
-        for i, g in enumerate(children + ticks):
+                for tg in g:
+                    if (tg.get("id") or "").startswith("text") and "NT" in text_of(tg):
+                        legend_ring = text_of(tg)
+        for g in children + ticks_of(children):
             gid = g.get("id") or ""
-            if gid == "patch_2" or (gid.startswith("patch_") and not panel.get("bbox")):
+            gm = GROUP_ID.match(gid)
+            if gid.startswith("patch_") and not panel.get("bbox"):
                 try:
                     panel["bbox"] = bbox_of_patch(g)
                 except StopIteration:
                     pass
-            elif gid.startswith("PathCollection"):
+            elif gm:
                 uses = list(g.iter(SVG + "use"))
                 if not uses:
                     continue
                 st = uses[0].get("style") or ""
-                if "fill: none" in st:
-                    panel["ring"] = {"id": gid, "label": legend.get("ring", "WC 24/25"),
+                panel["proj"] = gm.group("proj")
+                if gm.group("cluster") == "nt":
+                    panel["ring"] = {"id": gid, "label": legend_ring or "NT",
                                      "pts": [[float(u.get("x")), float(u.get("y"))] for u in uses]}
                 else:
                     col = re.search(r"fill: (#[0-9a-f]+)", st).group(1)
-                    panel["clusters"].append({"id": gid, "color": col, "label": legend.get(col, "?"), "n": len(uses)})
+                    panel["clusters"].append({"id": gid, "color": col, "label": gm.group("cluster"), "n": len(uses)})
             elif gid.startswith("xtick") or gid.startswith("ytick"):
-                u = next(g.iter(SVG + "use"))
+                u = next(g.iter(SVG + "use"), None)
                 lab = next((c for c in g if (c.get("id") or "").startswith("text")), None)
-                v = num(dec(lab)) if lab is not None else None
-                if v is not None:
+                v = num(text_of(lab)) if lab is not None else None
+                if u is not None and v is not None:
                     (panel["xt"] if gid.startswith("xtick") else panel["yt"]).append(
                         [float(u.get("x" if gid.startswith("xtick") else "y")), v])
             elif gid.startswith("text"):
-                txt = dec(g)
-                if re.match(r"^[A-ZČŠŽ][a-zá-ž]+$", txt):
+                txt = text_of(g)
+                if NAME.match(txt):
                     x, y = translate_of(g)
                     panel["names"].append({"id": gid, "text": txt, "x": x, "y": y})
                 elif txt and not panel["title"] and len(txt) > 8:
                     panel["title"] = txt
-        # calibration: linear px -> value from first/last tick
+        if not panel["clusters"] or len(panel["xt"]) < 2 or len(panel["yt"]) < 2:
+            raise SystemExit(f"{path.name} {panel['id']}: clusters={len(panel['clusters'])} xticks={len(panel['xt'])} yticks={len(panel['yt'])}")
+
         def cal(t):
             (p0, v0), (p1, v1) = t[0], t[-1]
             return {"a": (v1 - v0) / (p1 - p0), "b": v0 - (v1 - v0) / (p1 - p0) * p0}
         panel["cx"] = cal(panel["xt"]); panel["cy"] = cal(panel["yt"])
-        # attach each name label to the nearest point (any cluster) within 30 px
+        # attach each name label to the nearest point (any cluster) within 40 px
         pts = []
         for c in panel["clusters"]:
             g = next(x for x in ax.iter(SVG + "g") if x.get("id") == c["id"])
@@ -126,26 +135,22 @@ def parse_atlas(path):
                 pts.append((float(u.get("x")), float(u.get("y")), c["id"]))
         for nm in panel["names"]:
             best = min(pts, key=lambda p: math.hypot(p[0] - nm["x"], p[1] - nm["y"]))
-            d = math.hypot(best[0] - nm["x"], best[1] - nm["y"])
-            if d < 40:
+            if math.hypot(best[0] - nm["x"], best[1] - nm["y"]) < 40:
                 nm["px"], nm["py"], nm["cluster"] = best[0], best[1], best[2]
         del panel["xt"]; del panel["yt"]
         panels.append(panel)
     return {"viewBox": vb, "panels": panels}
 
 
-def parse_heatmap(path):
-    root = ET.parse(path).getroot()
+def parse_heatmap(path: Path):
+    root = parse(path)
     vb = [float(x) for x in root.get("viewBox").split()]
     panels = []
-    for ax in root.iter(SVG + "g"):
-        if not (ax.get("id") or "").startswith("axes_"):
-            continue
+    for ax in axes_of(root):
         children = list(ax)
         bbox = None
         cols, rows, texts, title = [], [], [], ""
-        ticks = [t for axis in children if (axis.get("id") or "").startswith("matplotlib.axis") for t in axis]
-        for i, g in enumerate(children + ticks):
+        for g in children + ticks_of(children):
             gid = g.get("id") or ""
             if gid.startswith("patch_") and bbox is None:
                 try:
@@ -156,13 +161,10 @@ def parse_heatmap(path):
                 tg = next((c for c in g if (c.get("id") or "").startswith("text")), None)
                 if tg is None:
                     continue
-                lab = dec(tg); tx, ty = translate_of(tg)
-                if gid.startswith("xtick"):
-                    cols.append([tx, lab])
-                else:
-                    rows.append([ty, lab])
+                lab = text_of(tg); tx, ty = translate_of(tg)
+                (cols if gid.startswith("xtick") else rows).append([tx if gid.startswith("xtick") else ty, lab])
             elif gid.startswith("text"):
-                txt = dec(g)
+                txt = text_of(g)
                 pos = translate_of(g)
                 if txt and pos:
                     if len(txt) > 12 and not title:
@@ -172,7 +174,8 @@ def parse_heatmap(path):
         cols.sort(); rows.sort()
         if not rows and panels:
             rows = [[None, r] for r in panels[0]["rows"]]
-        # bucket texts into cells
+        if bbox is None or not cols or not rows:
+            raise SystemExit(f"{path.name} {ax.get('id')}: bbox={bbox} cols={len(cols)} rows={len(rows)}")
         cw = (bbox[2] - bbox[0]) / len(cols); rh = (bbox[3] - bbox[1]) / len(rows)
         cells = {}
         for x, y, txt in texts:
@@ -191,13 +194,13 @@ def parse_heatmap(path):
     return {"viewBox": vb, "panels": panels}
 
 
-meta = {
-    "atlas_forwards.svg": parse_atlas(DOCS / "cs" / "atlas_forwards.svg"),
-    "atlas_defense.svg": parse_atlas(DOCS / "cs" / "atlas_defense.svg"),
-    "intl_cohort_heatmap.svg": parse_heatmap(DOCS / "cs" / "intl_cohort_heatmap.svg"),
-}
+meta = {name: parse_atlas(DOCS / name) for name in ATLASES}
+meta[HEATMAP] = parse_heatmap(DOCS / HEATMAP)
 (DOCS / "atlas_meta.json").write_text(json.dumps(meta, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 for k, v in meta.items():
     for p in v["panels"]:
-        print(k, p["id"], p.get("title", "")[:30], "clusters" if "clusters" in p else "", [(c["label"], c["n"]) for c in p.get("clusters", [])],
-              "ring", len(p["ring"]["pts"]) if p.get("ring") else 0, "names", len(p.get("names", [])), "cells", len(p.get("cells", {})))
+        print(k, p["id"], repr(p.get("title", "")[:34]),
+              [(c["label"], c["n"]) for c in p.get("clusters", [])],
+              "ring", len(p["ring"]["pts"]) if p.get("ring") else 0,
+              "names", len(p.get("names", [])), "linked", sum(1 for n in p.get("names", []) if "px" in n),
+              "cells", len(p.get("cells", {})))

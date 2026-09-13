@@ -64,6 +64,5 @@ clean:
 	rm -rf data/processed/* outputs/*.html outputs/*.pdf outputs/*.svg outputs/*.png
 	@echo "Cleaned processed/ and outputs/ (raw/ preserved)"
 
-pages:
-	cp outputs/index.html site/source/index.en.html
-	@echo "Copied rendered report into site/source/"
+pages: render
+	./site/build.sh

@@ -73,7 +73,7 @@ def http_get(
         requests.HTTPError: on non-2xx after retries.
     """
     headers = headers or {}
-    headers.setdefault("User-Agent", "czehockey-player-pool-atlas/0.1 (research)")
+    headers.setdefault("User-Agent", "czefootball-player-pool-atlas/0.1 (research)")
     resp = requests.get(url, headers=headers, timeout=timeout)
     resp.raise_for_status()
     if sleep_after:

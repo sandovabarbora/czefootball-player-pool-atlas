@@ -207,7 +207,7 @@
 
     {% for grp in groups %}
     {% set note = atlas_notes[grp] %}
-    <figure class="figure-bleed" data-atlas="{{ grp | lower }}">
+    <figure class="figure-bleed" data-atlas="{{ grp | lower }}" data-cluster-names='{{ cluster_names.get(grp, {}) | tojson }}'>
       <img src="{{ assets }}atlas_{{ grp }}.svg"
            alt="{{ t('ch1.atlas.alt', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt) }}">
       <figcaption>{{ t('ch1.atlas.caption', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt) }}</figcaption>

@@ -1,3 +1,3 @@
-"""Czech Hockey Player Pool Atlas — pipeline package."""
+"""Czech Football Player Pool Atlas — pipeline package."""
 
 __version__ = "0.1.0"

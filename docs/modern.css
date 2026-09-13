@@ -213,6 +213,10 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 
 /* analogs */
 .analog-target { padding: var(--space-4); }
+/* the grid tracks must shrink below the min-content of the analog rows on phones */
+.analog-block { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 880px) { .analog-block { grid-template-columns: 220px minmax(0, 1fr); } }
+.analog-block > * { min-width: 0; }
 .analog-target .avatar { margin-bottom: var(--space-2); }
 .analog-name { font-size: 1.4rem; letter-spacing: -0.02em; }
 .analog-stats { font-family: var(--font-mono); font-size: 0.74rem; }
@@ -483,7 +487,8 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .hero-tiles li { flex-direction: row; align-items: baseline; gap: var(--space-3); }
   .hero-tiles strong { min-width: 3.2rem; }
   .hero-tile-label em { display: inline; margin-left: 0.4rem; }
-  .cast { width: 100%; }
+  .cast { width: 100%; flex-wrap: wrap; }
+  .cast-stack > :nth-child(n+7) { display: none; }  /* twelve portraits do not fit a phone row */
   .cast-caption { font-size: 0; }
   .cast-caption::after { content: attr(data-short); font-size: 0.85rem; }
   .cycle-card-visual { height: 150px; }
@@ -511,10 +516,16 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
 }
 .fold-table > summary { padding: 0.6rem 0; }
 .fold-table table { margin-top: 0.5rem; }
-@media (max-width: 719px) { .movers-grid { grid-template-columns: minmax(0, 1fr); } .movers-col { min-width: 0; } }
+@media (max-width: 719px) { .movers-grid { grid-template-columns: minmax(0, 1fr); } }
+/* two columns must not grow past the container: min-content of the nowrap league / minutes cells */
+@media (min-width: 760px) { .movers-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.movers-col { min-width: 0; }
+.movers-col .movers-table { display: block; overflow-x: auto; }
+.movers-table td:nth-child(2) { white-space: nowrap; }
 @media (max-width: 719px) {
   .analog-row-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.5rem; }
-  .analog-row-context { flex-basis: 100%; }
+  .analog-row-context { flex-basis: 100%; white-space: normal; }
+  .analog-list { grid-template-columns: minmax(0, 1fr); }
   .analog-row-trajectory { display: flex; flex-wrap: wrap; gap: 0.15rem 0.8rem; }
 }
 .hero-tiles { margin-top: var(--space-5); }

@@ -112,6 +112,10 @@ sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
     f'  <script defer src="{P}atlas.js"></script>',
     1)
 
+# ---------------------------------------------------------------- Czech page: the translated SVGs sit next to it in docs/cs/
+if LANG == "cs":
+    sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg)"', r'<img src="\1"', 4)
+
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{h}">{l}</a>' for h, l in S["nav"])
 switch = ('<span aria-current="page" lang="en">EN</span><a href="cs/" hreflang="cs" lang="cs">CS</a>' if LANG == "en"

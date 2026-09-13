@@ -353,6 +353,15 @@ def _build_clusters(coords: pd.DataFrame, features: pd.DataFrame, labels: dict,
     return rows
 
 
+def _cluster_names(labels: dict, tr: Translator) -> dict[str, dict[str, dict[str, str]]]:
+    """Cluster code -> translated label per group and projection, for the atlas tooltips."""
+    return {
+        g: {proj: {code: tr.term(label) for code, label in (labels.get(g, {}).get(proj) or {}).items()}
+            for proj in ("style", "quality")}
+        for g in GROUPS
+    }
+
+
 def _build_movers(traj: pd.DataFrame, n: int = MOVERS_N) -> dict[str, list[dict]]:
     """Czech-eligible movers up / down by quality-adjusted npG+A per 90 delta."""
     if traj.empty:
@@ -932,6 +941,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "cohort_gaps": gaps,
         "observations": observations,
         "clusters": clusters,
+        "cluster_names": _cluster_names(data["cluster_labels"], tr),
         "movers": movers,
         "thresholds": thresholds,
         "pathways": pathways,
@@ -1062,7 +1072,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "cohort_gaps": gaps,
         "observations": _build_observations(hero, per_capita, gaps, movers | {"MF": movers["FW"], "DF": movers["FW"]},
                                             thresholds, seasons, n_headline=1, tr=tr),
-        "clusters": clusters, "movers": movers, "thresholds": thresholds,
+        "clusters": clusters, "cluster_names": {"FW": {"style": {"C0": tr.term("High-volume scorers")}, "quality": {"C2": tr.term("High-volume scorers in top-five leagues")}}},
+        "movers": movers, "thresholds": thresholds,
         "pathways": pathways, "cards": cards, "card_rows": _card_rows(cards, tr), "player_index": player_index,
         "analog_blocks": analog_blocks,
         "atlas_notes": {"FW": {"n_corpus": 926, "n_czech": 39, "n_nt": 18}},
