@@ -1,5 +1,5 @@
 """Tests for src/pathways.py — youth exposure at home, export route, how
-exports fare, and profile by tier."""
+exports fare, profile by tier, and destinations of Czech exports."""
 
 from __future__ import annotations
 
@@ -7,9 +7,12 @@ import pandas as pd
 
 from src.pathways import (
     CLUB_STRENGTH_PROXY,
+    SIDEWAYS_DEFINITION,
     _age,
     _dedupe_player_season,
+    _summarize_destinations,
     build_pathways,
+    destinations,
     export_route,
     fare,
     profile,
@@ -185,6 +188,68 @@ def test_fare_zero_matches_yields_n_zero_row():
     assert hun.club_strength_proxy == CLUB_STRENGTH_PROXY
 
 
+def test_destinations_buckets_one_player_each():
+    # One Czech-eligible player per destination bucket, all >= 450 min.
+    # NED-Eredivisie is deliberately omitted from `headline` here (unlike
+    # the live config) so "Stepping Sam"'s GER-2. Bundesliga row exercises
+    # the stepping_stone branch cleanly; top9-before-stepping_stone
+    # precedence itself is exercised by the live run (see report).
+    feats = pd.DataFrame({
+        "player": ["Domestic Dan", "Topnine Tom", "Stepping Sam", "Peer Pavel", "Other Otto"],
+        "player_key": ["dan", "tom", "sam", "pavel", "otto"],
+        "league": ["CZE-First League", "ENG-Premier League", "GER-2. Bundesliga",
+                   "AUT-Bundesliga", "SOMEWHERE-Unknown League"],
+        "season": ["2024-2025"] * 5,
+        "nation": ["CZE"] * 5,
+        "czech_eligible": [True] * 5,
+        "min": [2000, 1800, 1200, 900, 500],
+    })
+    league_quality = {"multipliers": {
+        "CZE-First League": 0.434, "ENG-Premier League": 1.0,
+        "GER-2. Bundesliga": 0.473, "AUT-Bundesliga": 0.268,
+        # "SOMEWHERE-Unknown League" deliberately absent -> None multiplier.
+    }}
+    cfg = {
+        "domestic": "CZE-First League",
+        "headline": ["ENG-Premier League"],
+        "stepping_stone": ["GER-2. Bundesliga"],
+        "peer_domestic": {"AUT-Bundesliga": {"country": "AUT"}},
+    }
+    rows = destinations(feats, league_quality, cfg, "2024-2025")
+    by_player = {r["player"]: r["bucket"] for r in rows}
+    assert by_player == {
+        "Domestic Dan": "domestic",
+        "Topnine Tom": "top9",
+        "Stepping Sam": "stepping_stone",
+        "Peer Pavel": "peer_domestic",
+        "Other Otto": "other",
+    }
+
+    summary = _summarize_destinations(rows, league_quality["multipliers"][cfg["domestic"]])
+    assert summary["n_total"] == 5
+    assert summary["n_abroad"] == 4
+    assert summary["sideways_definition"] == SIDEWAYS_DEFINITION
+    # Sideways: AUT-Bundesliga (0.268) <= 0.434 -> sideways. ENG-PL (1.0)
+    # and GER-2. Bundesliga (0.473) are not. "Other Otto" has no multiplier
+    # on file, so is excluded from the sideways count (not "sideways").
+    assert abs(summary["sideways_share"] - 1 / 4) < 1e-9
+    bucket_names = {b["bucket"] for b in summary["buckets"]}
+    assert bucket_names == {"top9", "stepping_stone", "peer_domestic", "other"}
+    assert summary["examples"]["peer_domestic"] == ["Peer Pavel"]
+
+
+def test_destinations_excludes_below_min_minutes():
+    feats = pd.DataFrame({
+        "player": ["Benchwarmer"], "player_key": ["bw"],
+        "league": ["ENG-Premier League"], "season": ["2024-2025"],
+        "nation": ["CZE"], "czech_eligible": [True], "min": [200],
+    })
+    league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0}}
+    cfg = {"domestic": "CZE-First League", "headline": ["ENG-Premier League"],
+           "stepping_stone": [], "peer_domestic": {}}
+    assert destinations(feats, league_quality, cfg, "2024-2025") == []
+
+
 def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
     tables = pd.DataFrame({
         "player_key": ["a", "b"], "nation": ["CZE", "DEN"],
@@ -194,10 +259,12 @@ def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
         "born": [2000, 2000], "min": [1800, 1800], "mp": [20, 20], "gls": [10, 5],
     })
     feats = pd.DataFrame({
-        "player_key": ["a"], "nation": ["CZE"], "league": ["ENG-Premier League"],
-        "season": ["2024-2025"], "pos_group": ["FW"],
+        "player_key": ["a"], "player": ["Test Player"], "nation": ["CZE"],
+        "league": ["ENG-Premier League"], "season": ["2024-2025"], "pos_group": ["FW"],
         "npg_p90_quality": [0.3], "ast_p90_quality": [0.1],
+        "czech_eligible": [True], "min": [1800],
     })
+    league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0}}
     cfg = {
         "headline": ["ENG-Premier League"],
         "stepping_stone": [],
@@ -205,12 +272,19 @@ def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
         "peer_domestic": {"DEN-Superliga": {"country": "DEN"}},
     }
     seasons = {"metrics": "2024-2025", "current": "2024-2025"}
-    out = build_pathways(tables, feats, cfg, seasons, ["CZE", "DEN"])
+    out = build_pathways(tables, feats, league_quality, cfg, seasons, ["CZE", "DEN"])
 
     assert isinstance(out["fare"], list)
     for row in out["fare"]:
         assert {"country", "n", "median_min_share", "median_club_goals_pct", "club_strength_proxy"} <= row.keys()
         assert row["club_strength_proxy"] == CLUB_STRENGTH_PROXY
+
+    dest = out["destinations"]
+    assert dest.keys() >= {
+        "n_total", "n_abroad", "buckets", "sideways_share", "sideways_definition", "examples",
+    }
+    assert dest["n_total"] == 1 and dest["n_abroad"] == 1
+    assert dest["buckets"][0]["bucket"] == "top9"
 
 
 def test_profile_other_tier_for_peer_in_third_country_league():

@@ -1,8 +1,8 @@
 """Pathways and differences: youth exposure at home, export route, how
-exports fare, profile by tier.
+exports fare, profile by tier, destinations of Czech exports.
 
-Four independent exhibits, all restricted to the peer countries
-(`config.PEER_COUNTRIES`, CZE included):
+Five independent exhibits. A-D are restricted to the peer countries
+(`config.PEER_COUNTRIES`, CZE included); E is CZE-specific:
 
     youth_exposure: for each headline-league country's own domestic league
         (in practice this module is called with the CZE-First-League +
@@ -40,6 +40,17 @@ Four independent exhibits, all restricted to the peer countries
         but not CZE's). Answers "does production differ by tier, for a
         given country".
 
+    destinations: for Czech-eligible players (`czech_eligible`, from
+        `features_{FW,MF,DF}.parquet`) with >= 450 minutes in the metrics
+        season, which kind of league they play in — `domestic`
+        (CZE-First League), `top9` (headline), `stepping_stone`,
+        `peer_domestic` (a peer country's own domestic league — e.g. a
+        Czech international at a Polish club), or `other` (anything else)
+        — plus each destination bucket's median league-quality multiplier
+        and the share of exports whose destination is "sideways" (a
+        multiplier at or below the CZE-First-League's own). Answers "when
+        a Czech player does leave, is it a step up".
+
 This module makes no player-selection recommendation; it reports counts,
 shares, ages and medians.
 
@@ -53,17 +64,20 @@ Inputs:
     data/processed/fbref_players.parquet (all seasons; headline leagues
         2020-2021 onward, domestic/peer/2.Bundesliga 2023-2024 onward)
     data/processed/features_{FW,MF,DF}.parquet (metrics-season quality
-        features, for `profile`)
-    config/leagues.yaml, config/countries.yaml, config/seasons.yaml
+        features, for `profile` and `destinations`)
+    config/leagues.yaml, config/countries.yaml, config/seasons.yaml,
+        config/league_quality.yaml (for `destinations`)
 
 Output:
     data/processed/pathways.json with keys `youth_exposure`, `export_route`,
-    `fare`, `profile` (see `build_pathways` for the assembly, factored out
-    of `main()` so the JSON shape is unit-testable without disk I/O). Every
-    exhibit except `profile` emits exactly one row per configured
-    league/country, even where there is no matching data (`profile` stays
-    groupby-based: an absent tier there is legitimately empty, not a
-    configured slot that could be missing).
+    `fare`, `profile`, `destinations` (see `build_pathways` for the
+    assembly, factored out of `main()` so the JSON shape is unit-testable
+    without disk I/O). Every exhibit except `profile` and `destinations`'
+    per-player rows emits exactly one row per configured league/country,
+    even where there is no matching data (`profile` stays groupby-based:
+    an absent tier there is legitimately empty, not a configured slot that
+    could be missing; `destinations`' bucket summary is likewise
+    groupby-based over whichever buckets actually have players abroad).
 """
 
 from __future__ import annotations
@@ -78,7 +92,7 @@ from src.utils import read_parquet
 
 LOG = logging.getLogger(__name__)
 
-__all__ = ["youth_exposure", "export_route", "fare", "profile", "build_pathways", "main"]
+__all__ = ["youth_exposure", "export_route", "fare", "profile", "destinations", "build_pathways", "main"]
 
 ORIGIN_LABELS = ("domestic", "stepping_stone", "other_top9", "not_covered")
 
@@ -385,9 +399,133 @@ def profile(
     return out
 
 
+MIN_MINUTES_DESTINATIONS = 450
+
+SIDEWAYS_DEFINITION = "destination league multiplier <= the domestic league's multiplier"
+
+
+def destinations(
+    features_all_groups: pd.DataFrame,
+    league_quality: dict,
+    cfg: dict,
+    metrics_season: str,
+) -> list[dict]:
+    """Bucket each Czech-eligible player-season into a destination league type.
+
+    Restricted to `czech_eligible` rows (from `features_{FW,MF,DF}.parquet`,
+    concatenated) in `metrics_season` with `min >= 450`, deduped to one row
+    per player-season via `_dedupe_player_season`. Each returned row is
+    `{player, player_key, league, min, bucket, multiplier}`:
+
+        bucket: `domestic` (the CZE-First League itself), `top9` (a
+            headline league — checked BEFORE `stepping_stone`, since four
+            of the five stepping-stone leagues — NED-Eredivisie,
+            BEL-Pro League, POR-Primeira Liga, TUR-Süper Lig — are
+            themselves ALSO headline leagues in config/leagues.yaml; this
+            precedence matches `profile`'s own top9-before-stepping_stone
+            order), `stepping_stone` (in practice, in the live data, only
+            GER-2. Bundesliga — the one stepping-stone league that isn't
+            also headline), `peer_domestic` (one of the eight peer
+            countries' own domestic leagues, e.g. a Czech international
+            playing in Poland's Ekstraklasa), or `other` (any other
+            tracked league).
+        multiplier: that league's quality multiplier from
+            `league_quality["multipliers"]` (config/league_quality.yaml),
+            or None if the league has no multiplier on file.
+
+    This is the per-player row list; `_summarize_destinations` aggregates
+    it into the `pathways.json["destinations"]` shape.
+    """
+    domestic_league = cfg["domestic"]
+    headline = set(cfg["headline"])
+    stepping = set(cfg["stepping_stone"])
+    peer_leagues = set(cfg["peer_domestic"].keys())
+    mult = league_quality["multipliers"]
+
+    f = features_all_groups[
+        (features_all_groups.season == metrics_season)
+        & features_all_groups.czech_eligible
+        & (features_all_groups["min"] >= MIN_MINUTES_DESTINATIONS)
+    ]
+    f = _dedupe_player_season(f)
+
+    def _bucket(league: str) -> str:
+        if league == domestic_league:
+            return "domestic"
+        if league in headline:
+            return "top9"
+        if league in stepping:
+            return "stepping_stone"
+        if league in peer_leagues:
+            return "peer_domestic"
+        return "other"
+
+    return [
+        {
+            "player": r["player"],
+            "player_key": r["player_key"],
+            "league": r["league"],
+            "min": int(r["min"]),
+            "bucket": _bucket(r["league"]),
+            "multiplier": mult.get(r["league"]),
+        }
+        for _, r in f.iterrows()
+    ]
+
+
+def _summarize_destinations(rows: list[dict], domestic_multiplier: float | None) -> dict:
+    """Aggregate `destinations()`'s per-player rows into the exhibit shape.
+
+    `buckets` and `examples` cover only players ABROAD (bucket !=
+    `domestic`) — `n_total` and `n_abroad` carry the domestic count
+    implicitly (n_total - n_abroad). Only buckets with at least one abroad
+    player appear (groupby-based, like `profile`'s tiers): with the live
+    league set, `other` is typically empty (every tracked league classifies
+    into one of the other four buckets), so it wouldn't appear at all.
+
+    `sideways_share`: share of players abroad whose destination league's
+    multiplier is <= `domestic_multiplier` (the CZE-First League's own). A
+    player whose destination league has no multiplier on file, or when
+    `domestic_multiplier` itself is unknown, is excluded from the sideways
+    count (not counted as sideways) but still counted in `n_abroad`.
+    """
+    n_total = len(rows)
+    abroad = [r for r in rows if r["bucket"] != "domestic"]
+    n_abroad = len(abroad)
+
+    buckets = []
+    examples: dict[str, list[str]] = {}
+    for bucket in sorted({r["bucket"] for r in abroad}):
+        g = [r for r in abroad if r["bucket"] == bucket]
+        mults = [r["multiplier"] for r in g if r["multiplier"] is not None]
+        buckets.append({
+            "bucket": bucket,
+            "n": len(g),
+            "share_of_abroad": len(g) / n_abroad if n_abroad else 0.0,
+            "median_multiplier": float(pd.Series(mults).median()) if mults else None,
+        })
+        examples[bucket] = [r["player"] for r in sorted(g, key=lambda r: -r["min"])[:3]]
+
+    sideways = [
+        r for r in abroad
+        if r["multiplier"] is not None
+        and domestic_multiplier is not None
+        and r["multiplier"] <= domestic_multiplier
+    ]
+    return {
+        "n_total": n_total,
+        "n_abroad": n_abroad,
+        "buckets": buckets,
+        "sideways_share": len(sideways) / n_abroad if n_abroad else 0.0,
+        "sideways_definition": SIDEWAYS_DEFINITION,
+        "examples": examples,
+    }
+
+
 def build_pathways(
     tables: pd.DataFrame,
     feats: pd.DataFrame,
+    league_quality: dict,
     cfg: dict,
     seasons: dict[str, str],
     peers: list[str],
@@ -399,6 +537,8 @@ def build_pathways(
     writing the result.
     """
     peer_domestic = {k: v["country"] for k, v in cfg["peer_domestic"].items()} | {cfg["domestic"]: "CZE"}
+    dest_rows = destinations(feats, league_quality, cfg, seasons["metrics"])
+    domestic_multiplier = league_quality["multipliers"].get(cfg["domestic"])
     return {
         "youth_exposure": youth_exposure(tables, seasons["metrics"], peer_domestic).to_dict("records"),
         "export_route": export_route(
@@ -409,17 +549,19 @@ def build_pathways(
         "profile": profile(
             feats, peer_domestic, cfg["headline"], cfg["stepping_stone"], peers, seasons["metrics"]
         ).to_dict("records"),
+        "destinations": _summarize_destinations(dest_rows, domestic_multiplier),
     }
 
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     cfg, seasons, peers = config.leagues(), config.seasons(), config.PEER_COUNTRIES
+    league_quality = config.league_quality()
     tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
     feats = pd.concat(
         [read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in config.features()["groups"]]
     )
-    out = build_pathways(tables, feats, cfg, seasons, peers)
+    out = build_pathways(tables, feats, league_quality, cfg, seasons, peers)
     (config.PROCESSED_DIR / "pathways.json").write_text(json.dumps(out, indent=1, default=float))
     LOG.info("pathways written")
 
