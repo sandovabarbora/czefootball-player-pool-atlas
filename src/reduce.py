@@ -1,184 +1,131 @@
-"""Dimensionality reduction: PCA + UMAP for forwards + defensemen.
+"""Dimensionality reduction: PCA for forwards, midfielders and defenders.
 
-Two projection variants per position (locked critique decision):
-  - STYLE   — z-scored features without league multipliers
-  - QUALITY — z-scored features with league multipliers applied
+Two projection variants per position group (locked critique decision):
+  - STYLE   -- z-scored features without league multipliers (`*_shrunk_z`)
+  - QUALITY -- z-scored features with league multipliers applied (`*_quality_z`)
 
-Two reduction methods per variant:
-  - PCA(n_components=2)  — interpretable; loadings published in methodology
-  - UMAP(n_neighbors=15, min_dist=0.3)  — better local structure
+Each projection is reduced to 2 components with PCA. PCA is fit on the rows
+of the metrics season only (`config.seasons()["metrics"]`) that have a
+complete feature vector, then used to transform every season's rows with a
+complete feature vector -- so the previous/current seasons land in the same
+component space as the metrics season they are compared against. Rows with
+a missing feature get NaN coordinates.
 
-All operations use src.config.RANDOM_SEED (=42).
+All stochastic operations use `src.config.RANDOM_SEED` (=42).
 
-Feature vector (honest about what we have across all 3 leagues):
-  - goals_per_gp_shrunk        (production)
-  - assists_per_gp_shrunk      (playmaking)
-  - pim_per_gp_shrunk          (penalty behavior, single-sided proxy)
-  - birth_year_norm            (z-scored age signal; lower = older)
-
-Shots per game is INTENTIONALLY DROPPED from the cross-league projection
-because hokej.cz doesn't expose shots in the Extraliga team /statistiky
-table. Including shots would force either dropping all 217 Extraliga
-forwards or imputing with cohort medians (which creates phantom signal
-and was rejected for xG via the same reasoning). The NHL/MoneyPuck
-enrichment table contains per-60 5v5 shots for tooltip use.
+Feature vector (see `src.features.FEATURES`):
+  - npg_p90    (non-penalty goals per 90)
+  - ast_p90    (assists per 90)
+  - min_share  (minutes / (club matches * 90))
+  - age        (at season start)
+  - cards_p90  ((yellow + 2*red) per 90)
 
 Inputs:
-  data/processed/features_forwards.parquet
-  data/processed/features_defense.parquet
+  data/processed/features_{FW,MF,DF}.parquet
 
 Outputs:
-  data/processed/coords_forwards.parquet
-      canonical_id, season, league, name, birth_year, position_normalized,
-      czech_eligible_flag, iihf_appearances,
-      pca_x_style, pca_y_style, umap_x_style, umap_y_style,
-      pca_x_quality, pca_y_quality, umap_x_quality, umap_y_quality
-  data/processed/coords_defense.parquet  (same schema)
+  data/processed/coords_{FW,MF,DF}.parquet
+      player_key, player, season, league, team, born, pos_group,
+      czech_eligible, nt_flag, min,
+      pc1_style, pc2_style, pc1_quality, pc2_quality
   data/processed/pca_loadings.parquet
-      One row per (position, projection, principal_component, feature)
-      with loading values for the methodology section.
+      One row per (position, projection, pc) with explained_variance and
+      one column per feature holding its loading, for the methodology
+      section. `projection` in {style, quality}.
 """
 
 from __future__ import annotations
 
 import logging
-from typing import Iterable
 
 import numpy as np
 import pandas as pd
-import umap
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
 
 from src import config
+from src.features import FEATURES
 from src.logging_setup import setup as logging_setup
 from src.utils import read_parquet, write_parquet
 
 LOG = logging.getLogger(__name__)
 
-UMAP_N_NEIGHBORS = 15
-UMAP_MIN_DIST = 0.3
+# (projection label, feature-column suffix)
+PROJECTIONS: tuple[tuple[str, str], ...] = (("style", "shrunk"), ("quality", "quality"))
 
-# Cross-league feature columns we use (suffixes appended below per projection)
-PROJECTION_METRICS: tuple[str, ...] = ("goals_per_gp", "assists_per_gp", "pim_per_gp")
+META_COLS: list[str] = [
+    "player_key", "player", "season", "league", "team", "born",
+    "pos_group", "czech_eligible", "nt_flag", "min",
+]
 
-
-def _build_matrix(df: pd.DataFrame, suffix: str) -> tuple[np.ndarray, pd.Series, list[str]]:
-    """Build feature matrix for one projection variant.
-
-    Args:
-        df: features parquet (forwards or defense)
-        suffix: '_shrunk' for style, '_quality' for quality
-
-    Returns:
-        (X, kept_mask, feature_names)
-        X is the standardized matrix; kept_mask aligns rows with the input
-        DataFrame (True = row included in projection).
-    """
-    cols = [f"{m}{suffix}" for m in PROJECTION_METRICS]
-    if "birth_year" in df.columns:
-        cols_with_age = cols + ["birth_year"]
-    else:
-        cols_with_age = cols
-
-    sub = df[cols_with_age].copy()
-    # Mask: drop rows with any NaN across the feature columns
-    kept_mask = sub.notna().all(axis=1)
-    sub_clean = sub[kept_mask].astype(float)
-
-    # Standardize (mean=0, std=1) across the kept rows
-    scaler = StandardScaler()
-    X = scaler.fit_transform(sub_clean.values)
-    return X, kept_mask, cols_with_age
+MIN_FIT_ROWS = 4
 
 
-def _reduce_one(
-    df: pd.DataFrame,
-    suffix: str,
-    label: str,
-) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Run PCA + UMAP for one (position, projection) pair.
+def feature_columns(suffix: str) -> list[str]:
+    """Z-scored feature columns for one projection variant."""
+    return [f"{f}_{suffix}_z" for f in FEATURES]
+
+
+def _reduce_one(df: pd.DataFrame, suffix: str, label: str, group: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Fit PCA on the metrics-season rows, transform all complete rows.
 
     Returns:
-        (coords_df, loadings_df)
-        coords_df has one row per input row with NaN for rows that were
-        dropped (missing features). loadings_df has one row per (PC,
-        feature) for the methodology section.
+        (coords_df, loadings_df). coords_df has one row per input row
+        (NaN for rows with a missing feature). loadings_df has one row per
+        principal component.
     """
-    X, kept_mask, feature_names = _build_matrix(df, suffix)
-    n_kept = kept_mask.sum()
-    LOG.info("  %s projection (suffix=%s): %d rows in feature matrix, %d features",
-             label, suffix, n_kept, len(feature_names))
-
-    if n_kept < 4:
-        LOG.warning("  too few rows (%d) for reduction; skipping", n_kept)
-        empty = pd.DataFrame(index=df.index, columns=[
-            f"pca_x_{label}", f"pca_y_{label}",
-            f"umap_x_{label}", f"umap_y_{label}",
-        ], dtype=float)
-        return empty, pd.DataFrame()
-
-    pca = PCA(n_components=2, random_state=config.RANDOM_SEED)
-    pca_coords = pca.fit_transform(X)
-
-    # UMAP: n_components=2, with min n_neighbors capped by sample size
-    n_neighbors = min(UMAP_N_NEIGHBORS, max(2, n_kept - 1))
-    reducer = umap.UMAP(
-        n_neighbors=n_neighbors,
-        min_dist=UMAP_MIN_DIST,
-        n_components=2,
-        random_state=config.RANDOM_SEED,
-    )
-    umap_coords = reducer.fit_transform(X)
+    cols = feature_columns(suffix)
+    kept_mask = df[cols].notna().all(axis=1)
+    metrics_season = config.seasons()["metrics"]
+    fit_mask = kept_mask & (df["season"] == metrics_season)
+    n_fit = int(fit_mask.sum())
 
     out = pd.DataFrame(index=df.index, dtype=float)
-    out[f"pca_x_{label}"] = np.nan
-    out[f"pca_y_{label}"] = np.nan
-    out[f"umap_x_{label}"] = np.nan
-    out[f"umap_y_{label}"] = np.nan
-    out.loc[kept_mask, f"pca_x_{label}"] = pca_coords[:, 0]
-    out.loc[kept_mask, f"pca_y_{label}"] = pca_coords[:, 1]
-    out.loc[kept_mask, f"umap_x_{label}"] = umap_coords[:, 0]
-    out.loc[kept_mask, f"umap_y_{label}"] = umap_coords[:, 1]
+    out[f"pc1_{label}"] = np.nan
+    out[f"pc2_{label}"] = np.nan
 
-    # Loadings table for methodology
+    if n_fit < MIN_FIT_ROWS:
+        LOG.warning("%s %s: too few metrics-season rows (%d) to fit PCA; skipping", group, label, n_fit)
+        return out, pd.DataFrame()
+
+    x_fit = df.loc[fit_mask, cols].astype(float).values
+    pca = PCA(n_components=2, random_state=config.RANDOM_SEED)
+    pca.fit(x_fit)
+
+    if kept_mask.any():
+        x_all = df.loc[kept_mask, cols].astype(float).values
+        transformed = pca.transform(x_all)
+        out.loc[kept_mask, f"pc1_{label}"] = transformed[:, 0]
+        out.loc[kept_mask, f"pc2_{label}"] = transformed[:, 1]
+
     loadings_rows: list[dict] = []
     for pc_idx in range(2):
-        explained = float(pca.explained_variance_ratio_[pc_idx])
-        for f_idx, feature_name in enumerate(feature_names):
-            loadings_rows.append({
-                "projection": label,
-                "pc": f"PC{pc_idx + 1}",
-                "feature": feature_name,
-                "loading": float(pca.components_[pc_idx, f_idx]),
-                "explained_variance_ratio": explained,
-            })
-    loadings_df = pd.DataFrame(loadings_rows)
-    return out, loadings_df
+        row = {
+            "position": group,
+            "projection": label,
+            "pc": f"PC{pc_idx + 1}",
+            "explained_variance": float(pca.explained_variance_ratio_[pc_idx]),
+        }
+        for f_idx, feat in enumerate(FEATURES):
+            row[feat] = float(pca.components_[pc_idx, f_idx])
+        loadings_rows.append(row)
+    return out, pd.DataFrame(loadings_rows)
 
 
-def reduce_position(df: pd.DataFrame, position_label: str) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Run both style + quality projections for one position."""
-    LOG.info("reducing %s features: %d rows", position_label, len(df))
-    style_coords, style_loadings = _reduce_one(df, "_shrunk", "style")
-    quality_coords, quality_loadings = _reduce_one(df, "_quality", "quality")
+def reduce_group(df: pd.DataFrame, group: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Run both style + quality PCA projections for one position group."""
+    LOG.info("reducing %s features: %d rows", group, len(df))
+    coords_parts: list[pd.DataFrame] = []
+    loadings_parts: list[pd.DataFrame] = []
+    for label, suffix in PROJECTIONS:
+        coords, loadings = _reduce_one(df, suffix, label, group)
+        coords_parts.append(coords)
+        loadings_parts.append(loadings)
 
-    # Combine coords side-by-side
-    coords = pd.concat([style_coords, quality_coords], axis=1)
-    # Attach metadata
-    meta_cols = ["canonical_id", "season", "league", "first_name", "last_name",
-                 "birth_year", "position_normalized", "czech_eligible_flag",
-                 "iihf_appearances", "GP"]
-    meta_cols = [c for c in meta_cols if c in df.columns]
-    out = pd.concat([df[meta_cols].reset_index(drop=True),
-                     coords.reset_index(drop=True)], axis=1)
-
-    # Tag loadings with position
-    for ldf in (style_loadings, quality_loadings):
-        if not ldf.empty:
-            ldf.insert(0, "position", position_label)
-    loadings_combined = pd.concat([style_loadings, quality_loadings], ignore_index=True)
-    return out, loadings_combined
+    coords = pd.concat(coords_parts, axis=1)
+    meta_cols = [c for c in META_COLS if c in df.columns]
+    out = pd.concat([df[meta_cols].reset_index(drop=True), coords.reset_index(drop=True)], axis=1)
+    loadings = pd.concat(loadings_parts, ignore_index=True)
+    return out, loadings
 
 
 def main() -> None:
@@ -186,21 +133,19 @@ def main() -> None:
     config.ensure_dirs()
     np.random.seed(config.RANDOM_SEED)
 
-    fwd = read_parquet(config.PROCESSED_DIR / "features_forwards.parquet")
-    df_def = read_parquet(config.PROCESSED_DIR / "features_defense.parquet")
+    all_loadings: list[pd.DataFrame] = []
+    for group in config.features()["groups"]:
+        df = read_parquet(config.PROCESSED_DIR / f"features_{group}.parquet")
+        coords, loadings = reduce_group(df, group)
+        write_parquet(coords, config.PROCESSED_DIR / f"coords_{group}.parquet")
+        all_loadings.append(loadings)
 
-    fwd_coords, fwd_loadings = reduce_position(fwd, "F")
-    write_parquet(fwd_coords, config.PROCESSED_DIR / "coords_forwards.parquet")
+    combined = pd.concat(all_loadings, ignore_index=True)
+    write_parquet(combined, config.PROCESSED_DIR / "pca_loadings.parquet")
 
-    def_coords, def_loadings = reduce_position(df_def, "D")
-    write_parquet(def_coords, config.PROCESSED_DIR / "coords_defense.parquet")
-
-    all_loadings = pd.concat([fwd_loadings, def_loadings], ignore_index=True)
-    write_parquet(all_loadings, config.PROCESSED_DIR / "pca_loadings.parquet")
-
-    LOG.info("=== PCA loadings (forwards, style) ===")
-    fwd_style = all_loadings[(all_loadings["position"] == "F") & (all_loadings["projection"] == "style")]
-    LOG.info("\n%s", fwd_style.to_string(index=False))
+    LOG.info("=== PCA explained variance (PC1 + PC2) ===")
+    ev = combined.groupby(["position", "projection"])["explained_variance"].sum()
+    LOG.info("\n%s", ev.to_string())
 
 
 if __name__ == "__main__":

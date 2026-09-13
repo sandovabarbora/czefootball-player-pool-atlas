@@ -1,1 +1,55 @@
-{}
+# Descriptive (non-evaluative) labels per (position group, projection,
+# cluster), written after inspecting `data/processed/cluster_summary.parquet`
+# medians for npg_p90_quality, ast_p90_quality, min_share, age, cards_p90.
+# Each label line carries an inline comment: n and the 3 most common leagues,
+# for controller review of label sanity. These are descriptive reads only --
+# no selection-recommendation language, no "tactical reads" (those come
+# later from the author).
+
+FW:
+  style:
+    C0: "Older forwards with moderate playing time"   # n=396; TUR-Süper Lig, CZE-First League, POR-Primeira Liga
+    C1: "High-minutes starting forwards, low card rate"   # n=435; NOR-Eliteserien, POL-Ekstraklasa, POR-Primeira Liga
+    C2: "Young rotation forwards with a high card rate"   # n=332; POR-Primeira Liga, CZE-First League, GER-2. Bundesliga
+    C3: "Young low-minute forwards"   # n=663; BEL-Pro League, CZE-First League, POR-Primeira Liga
+    C4: "High-volume scorers"   # n=314; GER-2. Bundesliga, ENG-Premier League, NED-Eredivisie
+    C5: "High-assist forwards"   # n=272; NOR-Eliteserien, FRA-Ligue 1, GER-2. Bundesliga
+  quality:
+    C0: "High-minutes starting forwards"   # n=536; NOR-Eliteserien, POL-Ekstraklasa, GER-2. Bundesliga
+    C1: "Young low-minute forwards"   # n=722; NOR-Eliteserien, BEL-Pro League, CZE-First League
+    C2: "High-volume scorers in top-five leagues"   # n=198; ENG-Premier League, ESP-La Liga, GER-Bundesliga
+    C3: "Older forwards with moderate playing time"   # n=426; TUR-Süper Lig, CZE-First League, GER-2. Bundesliga
+    C4: "High-assist forwards in top-five leagues"   # n=183; GER-Bundesliga, ITA-Serie A, ENG-Premier League
+    C5: "High-card-rate forwards"   # n=347; CZE-First League, POR-Primeira Liga, GER-2. Bundesliga
+
+MF:
+  style:
+    C0: "High-minutes creative midfielders"   # n=754; GER-2. Bundesliga, GER-Bundesliga, TUR-Süper Lig
+    C1: "High-card-rate midfielders"   # n=1012; POR-Primeira Liga, TUR-Süper Lig, GER-2. Bundesliga
+    C2: "Young low-minute midfielders"   # n=1702; CZE-First League, BEL-Pro League, GER-2. Bundesliga
+    C3: "Everyday starting midfielders, low scoring output"   # n=1342; BEL-Pro League, POR-Primeira Liga, GER-2. Bundesliga
+    C4: "Older rotation midfielders"   # n=1151; TUR-Süper Lig, CZE-First League, POL-Ekstraklasa
+    C5: "High-scoring attacking midfielders"   # n=637; TUR-Süper Lig, NED-Eredivisie, ENG-Premier League
+  quality:
+    C0: "Everyday starting midfielders, low scoring output"   # n=1571; GER-2. Bundesliga, BEL-Pro League, NOR-Eliteserien
+    C1: "Older rotation midfielders"   # n=1231; TUR-Süper Lig, POL-Ekstraklasa, CZE-First League
+    C2: "High-scoring midfielders in top-five leagues"   # n=341; ENG-Premier League, GER-Bundesliga, ITA-Serie A
+    C3: "High-card-rate midfielders"   # n=1154; POR-Primeira Liga, GER-2. Bundesliga, TUR-Süper Lig
+    C4: "Young low-minute midfielders"   # n=1808; CZE-First League, BEL-Pro League, NED-Eredivisie
+    C5: "High-assist midfielders in top-five leagues"   # n=493; ENG-Premier League, GER-Bundesliga, ITA-Serie A
+
+DF:
+  style:
+    C0: "Everyday starting defenders"   # n=1221; NED-Eredivisie, POL-Ekstraklasa, NOR-Eliteserien
+    C1: "Young low-minute defenders"   # n=1139; BEL-Pro League, CZE-First League, CRO-HNL
+    C2: "High-card-rate defenders"   # n=687; POR-Primeira Liga, GER-2. Bundesliga, TUR-Süper Lig
+    C3: "Goal-scoring defenders"   # n=651; NOR-Eliteserien, CZE-First League, HUN-NB I
+    C4: "Older defenders"   # n=812; TUR-Süper Lig, ESP-La Liga, POR-Primeira Liga
+    C5: "High-assist defenders with high playing time"   # n=569; NED-Eredivisie, TUR-Süper Lig, DEN-Superliga
+  quality:
+    C0: "Older defenders"   # n=927; TUR-Süper Lig, POL-Ekstraklasa, CZE-First League
+    C1: "High-card-rate defenders"   # n=746; POR-Primeira Liga, GER-2. Bundesliga, TUR-Süper Lig
+    C2: "High-assist defenders in top-five leagues"   # n=331; ENG-Premier League, ESP-La Liga, ITA-Serie A
+    C3: "Everyday starting defenders"   # n=1364; NOR-Eliteserien, NED-Eredivisie, POL-Ekstraklasa
+    C4: "Goal-scoring defenders in top-five leagues"   # n=488; ENG-Premier League, GER-Bundesliga, ESP-La Liga
+    C5: "Young low-minute defenders"   # n=1223; NOR-Eliteserien, CZE-First League, TUR-Süper Lig
