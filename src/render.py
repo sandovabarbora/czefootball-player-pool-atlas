@@ -454,18 +454,21 @@ def _card_rows(cards: list[dict], tr: Translator | None = None) -> list[dict]:
 def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.DataFrame],
                  coords: dict[str, pd.DataFrame], traj: dict[str, pd.DataFrame],
                  pool: pd.DataFrame, labels: dict, photos: dict, season: str,
-                 current_season: str, tr: Translator | None = None) -> list[dict]:
+                 current_season: str, tr: Translator | None = None,
+                 current_table: pd.DataFrame | None = None) -> list[dict]:
     """One card per showcase player: stats, clusters, tactical read, trajectory, analogs.
 
     Stats come from `season` (metrics); the club on the meta line is the
-    `current_season` club (row with most minutes across all groups), falling
-    back to the pool's country-page club.
+    `current_season` club from `current_table` (the raw fbref_players rows,
+    no minutes floor — the features frames drop players under 450 minutes,
+    which early in a season is most of them), row with most minutes per
+    player, falling back to the pool's country-page club.
     """
     tr = tr or Translator("en")
     pool_by_key = pool.drop_duplicates("player_key").set_index("player_key")
     photos_by_key = {v["player_key"]: dict(v, fbref_id=k) for k, v in photos.items()}
-    current_rows = _metrics_rows(pd.concat(features.values(), ignore_index=True), current_season)
-    current_by_key = current_rows.set_index("player_key")
+    source = current_table if current_table is not None else pd.concat(features.values(), ignore_index=True)
+    current_by_key = _metrics_rows(source, current_season).set_index("player_key")
     current_year = int(current_season[:4])
     cards = []
     for s in showcase:
@@ -824,6 +827,7 @@ def load_data() -> dict[str, Any]:
         "loadings": _load_parquet_or_empty(p / "pca_loadings.parquet"),
         "sensitivity": _load_parquet_or_empty(p / "sensitivity.parquet"),
         "pool": read_parquet(p / "pool.parquet"),
+        "fbref_players": _load_parquet_or_empty(p / "fbref_players.parquet"),
         "showcase": _load_json(p / "showcase.json", []),
         "analogs": _load_json(p / "analogs.json", {}),
         "pathways": _load_json(p / "pathways.json", {}),
@@ -875,7 +879,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     analog_blocks = _build_analog_blocks(data["showcase"], data["analogs"])
     cards = _build_cards(data["showcase"], data["analogs"], data["features"], data["coords"],
                          data["trajectory"], data["pool"], data["cluster_labels"], data["photos"], metrics,
-                         seasons_raw["current"], tr)
+                         seasons_raw["current"], tr,
+                         current_table=data["fbref_players"] if not data["fbref_players"].empty else None)
     pathways = _build_pathways(data["pathways"], names, peers)
     player_index = _build_player_index(data["features"], data["coords"], data["pool"],
                                        data["cluster_labels"], cards, metrics, tr)

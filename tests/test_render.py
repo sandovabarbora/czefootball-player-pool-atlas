@@ -95,6 +95,40 @@ def test_current_club_prefers_the_row_with_more_minutes():
     assert (club, league, source, label) == ("Viktoria Plzeň", "CZE-First League", "tables", "2025/26")
 
 
+def test_current_club_uses_raw_table_rows_under_the_minutes_floor():
+    # Early-season rows have few minutes; a 100-minute current-season row must
+    # still beat the country-page fallback (the features frames would have
+    # dropped it at the 450-minute inclusion floor).
+    cur = _current_rows(("p|2000", "Leverkusen", "GER-Bundesliga", 100))
+    pool_row = pd.Series({"club_current": "Sparta Prague", "fbref_id": "abc"})
+    assert _current_club("p|2000", cur, pool_row, "2025/26") == (
+        "Leverkusen", "GER-Bundesliga", "tables", "2025/26")
+
+
+def test_build_cards_reads_current_club_from_raw_table_not_features():
+    from src.render import _build_cards
+    season, current = "2024-2025", "2025-2026"
+    feat = pd.DataFrame([{
+        "player_key": "p|2000", "player": "P", "season": season, "league": "CZE-First League",
+        "team": "Karviná", "born": 2000, "age": 24, "min": 1800, "min_share": 0.6, "npg": 5, "ast": 2,
+        "npg_p90": 0.25, "ast_p90": 0.1, "npg_p90_quality": 0.11, "ast_p90_quality": 0.04,
+        "nt_flag": False, "nt_events": "", "czech_eligible": True,
+    }])
+    coords = pd.DataFrame([{"player_key": "p|2000", "season": season, "min": 1800,
+                            "cluster_style": "C0", "cluster_quality": "C0"}])
+    raw = pd.DataFrame([{"player_key": "p|2000", "player": "P", "season": current,
+                         "league": "GER-Bundesliga", "team": "Leverkusen", "min": 120}])
+    pool = pd.DataFrame([{"player_key": "p|2000", "fbref_id": "abc", "club_current": "Sparta Prague"}])
+    showcase = [{"player_key": "p|2000", "player": "P", "pos_group": "FW", "reason": "highest quality-adjusted"}]
+    cards = _build_cards(showcase, {}, {"FW": feat}, {"FW": coords}, {"FW": pd.DataFrame()}, pool,
+                         {}, {}, season, current, current_table=raw)
+    assert cards[0]["club"] == "Leverkusen" and cards[0]["club_label"] == "2025/26"
+    # without the raw table the features frame has no 2025/26 row -> fallback
+    cards = _build_cards(showcase, {}, {"FW": feat}, {"FW": coords}, {"FW": pd.DataFrame()}, pool,
+                         {}, {}, season, current)
+    assert cards[0]["club"] == "Sparta Prague" and cards[0]["club_label"] == "latest known"
+
+
 def test_current_club_falls_back_to_pool_and_is_labelled_latest_known():
     cur = _current_rows(("other|1999", "Slavia Prague", "CZE-First League", 500))
     pool_row = pd.Series({"club_current": "Bohemians 1905", "fbref_id": "abc"})
