@@ -100,15 +100,34 @@ def find_analogs(corpus: pd.DataFrame, target_key: str, k: int = 5) -> pd.DataFr
                  "min", "npg_ast_q", "distance", "followed"]]
 
 
-def showcase_ids(feats_by_group: dict[str, pd.DataFrame], metrics_season: str) -> list[dict]:
-    """Pick up to 2 showcase players per position group (up to 6 total).
+def showcase_ids(
+    feats_by_group: dict[str, pd.DataFrame],
+    metrics_season: str,
+    headline_leagues: list[str] | None = None,
+) -> list[dict]:
+    """Pick up to 3 showcase players per position group (up to 9 total).
 
     Among Czech-eligible players in `metrics_season` with `min >= 900`:
         (a) highest npg_p90_quality + ast_p90_quality
         (b) youngest nt_flag player (skipped if already chosen)
+        (c) most minutes in the headline (top-9) leagues — the "established
+            export"; players already chosen by (a) or (b) are skipped and
+            the rule falls through to the next player by minutes.
+    Rules, not picks: the reason string is descriptive.
     """
+    headline = list(config.HEADLINE_LEAGUES if headline_leagues is None else headline_leagues)
     showcase: list[dict] = []
     seen: set[str] = set()
+
+    def _add(row: pd.Series, group: str, reason: str) -> None:
+        showcase.append({
+            "player_key": row.player_key,
+            "player": row.player,
+            "pos_group": group,
+            "reason": reason,
+        })
+        seen.add(row.player_key)
+
     for group, df in feats_by_group.items():
         cz = df[(df.season == metrics_season) & df.czech_eligible & (df["min"] >= SHOWCASE_MIN_MINUTES)].copy()
         if cz.empty:
@@ -117,25 +136,24 @@ def showcase_ids(feats_by_group: dict[str, pd.DataFrame], metrics_season: str) -
 
         top = cz.sort_values("q", ascending=False).iloc[0]
         if top.player_key not in seen:
-            showcase.append({
-                "player_key": top.player_key,
-                "player": top.player,
-                "pos_group": group,
-                "reason": f"highest quality-adjusted npG+A per 90 among {group}",
-            })
-            seen.add(top.player_key)
+            _add(top, group, f"highest quality-adjusted npG+A per 90 among {group}")
 
         nt = cz[cz.nt_flag].sort_values("born", ascending=False)
         if len(nt) and nt.iloc[0].player_key not in seen:
-            youngest = nt.iloc[0]
-            showcase.append({
-                "player_key": youngest.player_key,
-                "player": youngest.player,
-                "pos_group": group,
-                "reason": f"youngest national-team call-up among {group}",
-            })
-            seen.add(youngest.player_key)
-    return showcase[:6]
+            _add(nt.iloc[0], group, f"youngest national-team call-up among {group}")
+
+        if "league" in cz.columns:
+            abroad = cz[cz.league.isin(headline)]
+            # minutes summed per player across headline-league rows (a mid-season
+            # move between two top-9 clubs would otherwise split them)
+            top9_min = abroad.groupby("player_key")["min"].sum().sort_values(ascending=False)
+            for key in top9_min.index:
+                if key in seen:
+                    continue
+                row = abroad[abroad.player_key == key].iloc[0]
+                _add(row, group, f"most top-9 league minutes among {group}")
+                break
+    return showcase[:9]
 
 
 def main() -> None:

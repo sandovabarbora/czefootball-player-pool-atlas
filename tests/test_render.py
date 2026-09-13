@@ -62,5 +62,5 @@ def test_template_renders_with_real_context():
     ctx = build_context(load_data())
     html = _render(ctx)
     _check(html, GROUPS)
-    assert len(ctx["cards"]) == 6
+    assert len(ctx["cards"]) == 9
     assert len(ctx["per_capita"]) == 9

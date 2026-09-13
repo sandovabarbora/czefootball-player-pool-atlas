@@ -40,20 +40,23 @@ def test_analogs_output_columns():
 
 def _showcase_toy():
     fw = pd.DataFrame({
-        "player_key": ["fw_top", "fw_young_nt", "fw_old_nt", "fw_low_min"],
-        "player": ["FW Top", "FW Young NT", "FW Old NT", "FW Low Min"],
-        "season": ["2024-2025"] * 4,
-        "czech_eligible": [True, True, True, True],
-        "min": [1200, 1000, 950, 500],
-        "npg_p90_quality": [0.9, 0.4, 0.3, 5.0],
-        "ast_p90_quality": [0.2, 0.1, 0.1, 5.0],
-        "nt_flag": [False, True, True, False],
-        "born": [2000, 2003, 1995, 2005],
+        "player_key": ["fw_top", "fw_young_nt", "fw_old_nt", "fw_low_min", "fw_export_2nd", "fw_home"],
+        "player": ["FW Top", "FW Young NT", "FW Old NT", "FW Low Min", "FW Export 2nd", "FW Home"],
+        "season": ["2024-2025"] * 6,
+        "league": ["ENG-Premier League", "CZE-First League", "CZE-First League", "ITA-Serie A",
+                   "GER-Bundesliga", "CZE-First League"],
+        "czech_eligible": [True] * 6,
+        "min": [1200, 1000, 950, 500, 1100, 3000],
+        "npg_p90_quality": [0.9, 0.4, 0.3, 5.0, 0.2, 0.3],
+        "ast_p90_quality": [0.2, 0.1, 0.1, 5.0, 0.1, 0.1],
+        "nt_flag": [False, True, True, False, False, False],
+        "born": [2000, 2003, 1995, 2005, 1998, 1999],
     })
     mf = pd.DataFrame({
         "player_key": ["mf_best_and_youngest"],
         "player": ["MF Best And Youngest"],
         "season": ["2024-2025"],
+        "league": ["CZE-First League"],
         "czech_eligible": [True],
         "min": [1500],
         "npg_p90_quality": [0.6],
@@ -76,8 +79,23 @@ def test_showcase_ids_picks_top_quality_and_youngest_nt_skipping_low_minutes():
     assert "fw_old_nt" not in keys
     # MF: same player is both top quality and youngest NT -> only listed once
     assert keys.count("mf_best_and_youngest") == 1
-    assert len(out) <= 6
+    assert len(out) <= 9
     reasons = {s["player_key"]: s["reason"] for s in out}
     assert reasons["fw_top"] == "highest quality-adjusted npG+A per 90 among FW"
     assert reasons["fw_young_nt"] == "youngest national-team call-up among FW"
     assert all("pos_group" in s and "player" in s for s in out)
+
+
+def test_showcase_third_rule_most_top9_minutes_skips_already_chosen():
+    out = showcase_ids(_showcase_toy(), "2024-2025", headline_leagues=["ENG-Premier League",
+                                                                       "GER-Bundesliga",
+                                                                       "ITA-Serie A"])
+    reasons = {s["player_key"]: s["reason"] for s in out}
+    # fw_top has the most top-9 minutes (1200) but is already chosen by rule (a);
+    # fw_low_min (ITA, 500) is under the floor; fw_home (3000) plays at home ->
+    # the rule falls through to fw_export_2nd (GER, 1100).
+    assert reasons["fw_export_2nd"] == "most top-9 league minutes among FW"
+    assert "fw_home" not in reasons
+    assert [s["player_key"] for s in out if s["pos_group"] == "FW"] == ["fw_top", "fw_young_nt", "fw_export_2nd"]
+    # MF has no headline-league player -> no third card for MF
+    assert [s["player_key"] for s in out if s["pos_group"] == "MF"] == ["mf_best_and_youngest"]
