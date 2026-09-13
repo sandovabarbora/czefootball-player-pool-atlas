@@ -1,40 +1,26 @@
-# League quality multipliers, applied ONLY to production-rate metrics
-# (goals/60, assists/60, shots/60, xG/60) in the quality-adjusted projection.
-#
-# These are SUBJECTIVE APPROXIMATIONS. They smooth over differences in rules,
-# ice size, schedule density, and roster composition. The report's Limitations
-# section names them as such, and a sensitivity notebook shows how the map
-# changes when each multiplier shifts by ±20%.
-#
-# Reference: hockeyviz.com league quality comparisons; Sznajder & others on
-# cross-league NHL-equivalency. Cite the source explicitly in the report
-# methodology section.
-
+source: ClubElo unavailable at run time (HTTP error); fell back to Wikipedia's UEFA
+  men's association coefficient, current 5-year ranking (2022–23–2026–27 seasons).
+  tier-1 multiplier = coef[country] / max(coef); tier-2 multiplier = 0.6 * tier-1
+  multiplier of the same country (stated assumption, not derived from data). Strongest
+  tier-1 country = 1.00.
+method: uefa_coefficient
 multipliers:
-  nhl:       1.00
-  ahl:       0.55
-  shl:       0.45
-  liiga:     0.42
-  nl:        0.40
-  extraliga: 0.35
-  cz1l:      0.20
-
-# Sensitivity range used in the perturbation notebook
-sensitivity_pct: 0.20  # +/- 20%
-
-# Metrics affected by the multiplier (rate-independent metrics are NOT scaled)
-scaled_metrics:
-  - goals_per_60
-  - assists_per_60
-  - shots_per_60
-  - xg_per_60
-  - points_per_60_pp
-
-# Metrics NOT scaled (interpreted as role / context signals)
-unscaled_metrics:
-  - age
-  - toi_per_game
-  - defensive_zone_start_pct
-  - penalty_differential_per_60
-  - pp_toi_per_game
-  - pk_toi_per_game
+  ENG-Premier League: 1.0
+  ITA-Serie A: 0.856
+  ESP-La Liga: 0.807
+  GER-Bundesliga: 0.788
+  FRA-Ligue 1: 0.666
+  NED-Eredivisie: 0.51
+  POR-Primeira Liga: 0.63
+  BEL-Pro League: 0.573
+  TUR-Süper Lig: 0.484
+  CZE-First League: 0.434
+  SVK-Super Liga: 0.217
+  AUT-Bundesliga: 0.268
+  HUN-NB I: 0.265
+  POL-Ekstraklasa: 0.438
+  CRO-HNL: 0.249
+  DEN-Superliga: 0.371
+  SUI-Super League: 0.293
+  NOR-Eliteserien: 0.374
+  GER-2. Bundesliga: 0.473

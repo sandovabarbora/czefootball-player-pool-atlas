@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.fetch_elo import league_multipliers
+from src.fetch_elo import league_multipliers, uefa_coefficient_multipliers
 
 
 def test_multipliers_scale_strongest_to_one():
@@ -18,3 +18,26 @@ def test_multipliers_scale_strongest_to_one():
     m = league_multipliers(elo, {"ENG-Premier League": ("ENG", 1), "CZE-First League": ("CZE", 1)})
     assert m["ENG-Premier League"] == 1.0
     assert 0.5 < m["CZE-First League"] < 0.9
+
+
+def test_uefa_coefficient_multipliers_tier1_and_tier2():
+    coefs = {"ENG": 100.0, "GER": 80.0, "CZE": 40.0}
+    league_map = {
+        "ENG-Premier League": ("ENG", 1),
+        "GER-Bundesliga": ("GER", 1),
+        "GER-2. Bundesliga": ("GER", 2),
+        "CZE-First League": ("CZE", 1),
+    }
+    m = uefa_coefficient_multipliers(coefs, league_map)
+    assert m["ENG-Premier League"] == 1.0
+    assert m["GER-Bundesliga"] == 0.8
+    assert m["CZE-First League"] == 0.4
+    # tier-2 = 0.6 * tier-1 multiplier of the same country
+    assert m["GER-2. Bundesliga"] == round(0.6 * 0.8, 3)
+
+
+def test_uefa_coefficient_multipliers_missing_country_is_skipped():
+    coefs = {"ENG": 100.0}
+    league_map = {"ENG-Premier League": ("ENG", 1), "XXX-Nowhere League": ("XXX", 1)}
+    m = uefa_coefficient_multipliers(coefs, league_map)
+    assert m == {"ENG-Premier League": 1.0}
