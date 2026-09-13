@@ -150,7 +150,11 @@ def collapse_player_seasons(
       - every column in `rate_cols` (per-90 rate/quality columns, already on
         the features frame) is replaced by its minutes-weighted mean across
         the group's rows (weights = each row's `min`) -- a reasonable
-        second-order approximation of a season aggregate
+        second-order approximation of a season aggregate. Rows where that
+        rate is NaN are excluded from both the weighted sum and the weight
+        total, so a NaN stint never dilutes the result toward zero -- if
+        only one row has a value, the collapsed result is exactly that
+        row's value.
       - every other column (`league`, `team`, `nation`, `born`, `age`,
         `nt_flag`, `nt_events`, `czech_eligible`, `league_multiplier`, ...)
         is taken from the row with the most minutes (that club/league is
@@ -171,13 +175,30 @@ def collapse_player_seasons(
     collapsed = []
     for _, g in dup_rows.groupby(key_cols):
         total_min = float(g["min"].sum())
-        weights = g["min"] / total_min if total_min > 0 else pd.Series(1.0 / len(g), index=g.index)
         lead = g.loc[g["min"].idxmax()]
         row = {c: lead[c] for c in key_cols}
         row["min"] = int(total_min)
-        row.update({c: float((g[c].astype(float) * weights).sum()) for c in rate_cols})
+        for c in rate_cols:
+            row[c] = _weighted_mean_skip_nan(g[c], g["min"])
         row.update({c: lead[c] for c in other_cols})
         collapsed.append(row)
 
     out = pd.concat([singles, pd.DataFrame(collapsed)], ignore_index=True)
     return out[df.columns.tolist()]
+
+
+def _weighted_mean_skip_nan(values: pd.Series, weights: pd.Series) -> float:
+    """Minutes-weighted mean of `values`, excluding rows where `values` is NaN.
+
+    The weight denominator only sums the minutes of the *valid* rows, so a
+    NaN stint's minutes don't dilute the result: with one NaN row and one
+    valid row, the answer is exactly the valid row's own value, not that
+    value scaled down by its share of total minutes. Returns NaN if every
+    row is NaN.
+    """
+    valid = values.notna()
+    if not valid.any():
+        return float("nan")
+    v, w = values[valid].astype(float), weights[valid].astype(float)
+    w_total = w.sum()
+    return float(v.mean()) if w_total <= 0 else float((v * w).sum() / w_total)

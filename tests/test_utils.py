@@ -73,3 +73,39 @@ def test_collapse_player_seasons_is_a_no_op_when_no_duplicates():
         df.sort_values("player_key").reset_index(drop=True),
         check_dtype=False,
     )
+
+
+def test_collapse_player_seasons_ignores_nan_rate_instead_of_diluting():
+    # One stint has no valid rate (e.g. a per-90 rate that couldn't be
+    # computed for that row); the collapsed rate must equal the OTHER row's
+    # own value exactly, not that value scaled down by its share of total
+    # minutes (which a naive weighted-mean-over-total-minutes would give:
+    # 0.9 * 600 / 2400 = 0.225).
+    df = pd.DataFrame({
+        "player_key": ["x|2000", "x|2000"],
+        "season": ["2024-2025", "2024-2025"],
+        "pos_group": ["FW", "FW"],
+        "league": ["L1", "L2"],
+        "min": [1800, 600],
+        "npg_ast_q": [float("nan"), 0.9],
+    })
+    out = utils.collapse_player_seasons(df, rate_cols=["npg_ast_q"])
+    row = out.iloc[0]
+    assert row["min"] == 2400
+    assert abs(row.npg_ast_q - 0.9) < 1e-9
+
+
+def test_collapse_player_seasons_keeps_other_columns_from_max_minutes_row():
+    df = pd.DataFrame({
+        "player_key": ["x|2000", "x|2000"],
+        "season": ["2024-2025", "2024-2025"],
+        "pos_group": ["FW", "FW"],
+        "league": ["L1", "L2"],
+        "min": [600, 1800],
+        "npg_ast_q": [1.0, 0.5],
+        "nt_flag": [True, False],   # differs between the two rows
+    })
+    out = utils.collapse_player_seasons(df, rate_cols=["npg_ast_q"])
+    row = out.iloc[0]
+    assert row.nt_flag == False  # noqa: E712 -- from the 1800-minute row, not the 600-minute one
+    assert row.league == "L2"
