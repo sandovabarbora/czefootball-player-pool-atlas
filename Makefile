@@ -58,7 +58,7 @@ lint:
 check: lint test
 
 snapshot:
-	mkdir -p data/snapshot && cp data/processed/*.parquet data/snapshot/
+	mkdir -p data/snapshot && cp data/processed/*.parquet data/processed/*.json data/snapshot/
 
 clean:
 	rm -rf data/processed/* outputs/*.html outputs/*.pdf outputs/*.svg outputs/*.png

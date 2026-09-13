@@ -17,10 +17,8 @@ ENV/
 # Data — large files, regenerable from sources
 data/raw/*
 data/processed/*
-data/snapshot/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-!data/snapshot/.gitkeep
 
 # Notebook artifacts
 .ipynb_checkpoints/
