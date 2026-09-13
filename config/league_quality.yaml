@@ -4,6 +4,7 @@ source: ClubElo unavailable at run time (HTTP error); fell back to Wikipedia's U
   multiplier of the same country (stated assumption, not derived from data). Strongest
   tier-1 country = 1.00.
 method: uefa_coefficient
+tier2_factor: 0.6
 multipliers:
   ENG-Premier League: 1.0
   ITA-Serie A: 0.856

@@ -14,7 +14,13 @@ import pytest
 from jinja2 import Environment, FileSystemLoader
 
 from src import config
-from src.render import GROUPS, build_context, build_context_from_fixtures, load_data
+from src.render import (
+    GROUPS,
+    _build_observations,
+    build_context,
+    build_context_from_fixtures,
+    load_data,
+)
 
 SECTION_IDS = (
     "summary", "benchmark", "observations", "clusters", "trajectories", "pathways",
@@ -54,6 +60,35 @@ def test_template_renders_with_fixture_context():
     ctx = build_context_from_fixtures()
     html = _render(ctx)
     _check(html, ctx["groups"])
+
+
+def test_observations_derive_counts_and_titles_from_context():
+    ctx = build_context_from_fixtures()
+    obs = ctx["observations"]
+    # two countries in the fixture -> "other one peer"; one headline league -> "one strongest"
+    assert "median of the other one peer," in obs[1]["body"]
+    assert "rosters of the one strongest leagues" in obs[0]["body"]
+    assert "rank 2 of 2" in obs[0]["body"]
+    # Denmark (5.96 M) sits above Czechia (10.9 M): a smaller population
+    assert "population 1.8 times smaller" in obs[0]["body"]
+    # a larger country above Czechia (Poland-like) reads "larger", not "smaller"
+    big = [{"country": "POL", "name": "Poland", "n_players": 32, "population_m": 36.62,
+            "per_million": 0.87, "rank": 1}, dict(ctx["per_capita"][1], rank=2)]
+    hero = dict(ctx["hero"], top=big[0])
+    poland_above = _build_observations(hero, big, ctx["cohort_gaps"], ctx["movers"] | {
+        "MF": ctx["movers"]["FW"], "DF": ctx["movers"]["FW"]}, ctx["thresholds"], ctx["seasons"], 9)
+    assert "population 3.4 times larger" in poland_above[0]["body"]
+    # fixture movers: 1 up, 0 stable in every group -> stable share 0 -> "mixed"
+    assert obs[2]["title"].endswith(": mixed")
+    assert "0 of 3 stayed within that band" in obs[2]["body"]
+    # flip: make every group's players stable -> "mostly stable"
+    stable = {g: {"up": [], "down": [], "n_czech": 4,
+                  "directions": {"improving": 1, "stable": 3, "declining": 0}} for g in GROUPS}
+    flipped = _build_observations(ctx["hero"], ctx["per_capita"], ctx["cohort_gaps"], stable,
+                                  ctx["thresholds"], ctx["seasons"], n_headline=9)
+    assert flipped[2]["title"].endswith(": mostly stable")
+    assert "9 of 12 stayed within that band" in flipped[2]["body"]
+    assert "rosters of the nine strongest leagues" in flipped[0]["body"]
 
 
 @pytest.mark.skipif(not (config.PROCESSED_DIR / "per_capita.parquet").exists(),

@@ -127,7 +127,7 @@ def main() -> None:
             f"{TIER2_FACTOR} * tier-1 multiplier of the same country (stated assumption, "
             f"not derived from data). Strongest tier-1 country = 1.00."
         )
-    out = {"source": source, "method": method, "multipliers": m}
+    out = {"source": source, "method": method, "tier2_factor": TIER2_FACTOR, "multipliers": m}
     (config.CONFIG_DIR / "league_quality.yaml").write_text(
         yaml.safe_dump(out, sort_keys=False, allow_unicode=True)
     )
