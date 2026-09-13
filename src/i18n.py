@@ -13,6 +13,7 @@ Two sections in the yaml:
 
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,7 @@ from markupsafe import Markup, escape
 ROOT_DIR = Path(__file__).resolve().parent.parent
 CS_PATH = ROOT_DIR / "config" / "i18n" / "cs.yaml"
 LANGS = ("en", "cs")
+log = logging.getLogger(__name__)
 
 # fmt: off
 EN: dict[str, str] = {
@@ -370,12 +372,21 @@ def placeholders(s: str) -> set[str]:
 
 
 def check_placeholders(cs: dict[str, dict[str, str]]) -> list[str]:
-    """Keys whose Czech placeholders differ from the English ones (a subset is allowed)."""
+    """Keys whose Czech placeholders differ from the English ones (a subset is allowed).
+
+    A Czech string that drops a placeholder is legal (word order, a count
+    folded into the sentence) but worth a look, so it is logged by key.
+    """
     bad = []
     for key, en in EN.items():
         cz = cs["strings"].get(key)
-        if cz is not None and not placeholders(cz) <= placeholders(en):
+        if cz is None:
+            continue
+        cz_ph, en_ph = placeholders(cz), placeholders(en)
+        if not cz_ph <= en_ph:
             bad.append(key)
+        elif cz_ph < en_ph:
+            log.warning("cs.yaml %s drops placeholder(s) %s", key, sorted(en_ph - cz_ph))
     return bad
 
 

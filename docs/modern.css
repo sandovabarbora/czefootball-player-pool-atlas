@@ -483,6 +483,8 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .hero-meta dd { font-size: 1rem; }
   .hero-cutout { display: none; }
   .hero-stamp { display: none; }
+  .capita-value { white-space: nowrap; }  /* "13,2 %" must not wrap in the exhibit rows */
+  .capita-country { min-width: 0; overflow-wrap: anywhere; }  /* raw league keys shrink instead of pushing the value */
   .hero-tiles { grid-template-columns: 1fr; }
   .hero-tiles li { flex-direction: row; align-items: baseline; gap: var(--space-3); }
   .hero-tiles strong { min-width: 3.2rem; }

@@ -199,8 +199,12 @@ def top_repl(m):
     names = re.findall(r'<span class="cluster-top-name" data-player-key="([^"]+)">([^<]+)</span>', m.group(1))
     return '<span class="cluster-top">' + "".join(chip(k, n) for k, n in names) + '</span>'
 
-sub(r'<span class="cluster-top">(.*?)</span></span>', top_repl, None, re.S)
-sub(r'<td data-player-key="([^"]+)">([^<]+)</td>', lambda m: f'<td>{chip(m.group(1), m.group(2), "sm")}</td>', None)
+_n_top_lists = len(re.findall(r'<span class="cluster-top">', html))
+_n_mover_cells = len(re.findall(r'<td data-player-key="', html))
+if _n_top_lists < 12 or _n_mover_cells < 6:
+    fails.append(("chip targets (top lists, mover cells)", (_n_top_lists, _n_mover_cells), ">=(12, 6)"))
+sub(r'<span class="cluster-top">(.*?)</span></span>', top_repl, _n_top_lists, re.S)
+sub(r'<td data-player-key="([^"]+)">([^<]+)</td>', lambda m: f'<td>{chip(m.group(1), m.group(2), "sm")}</td>', _n_mover_cells)
 
 # ---------------------------------------------------------------- folds
 # limitations: each <p><strong>Title.</strong> text</p> -> details, first one open

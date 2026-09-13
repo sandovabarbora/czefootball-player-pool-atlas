@@ -59,7 +59,7 @@ def test_czech_page_points_at_czech_figures(built):
         assert f'<img src="{name}"' in cs, name
         assert (DOCS / "cs" / name).exists()
         svg = (DOCS / "cs" / name).read_text(encoding="utf-8")
-        assert "<text " in svg and "Český fotbal" in svg or "Mezinárodní" in svg
+        assert "<text " in svg and ("Český fotbal" in svg or "Mezinárodní" in svg)
     for name in ("atlas_FW.svg", "intl_cohort_heatmap.svg"):
         assert f'<img src="{name}"' in built["en"]
 
