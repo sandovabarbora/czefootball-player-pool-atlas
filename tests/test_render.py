@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import re
 
+import pandas as pd
 import pytest
 from jinja2 import Environment, FileSystemLoader
 
@@ -18,6 +19,7 @@ from src.render import (
     GROUPS,
     RULE_KICKERS,
     _build_observations,
+    _current_club,
     build_context,
     build_context_from_fixtures,
     load_data,
@@ -67,6 +69,45 @@ def test_template_renders_with_fixture_context():
     assert "Exhibit E" not in _render(ctx)
 
 
+def test_exhibit_e_with_empty_buckets_renders_sentence_without_bars():
+    ctx = build_context_from_fixtures()
+    ctx["pathways"]["destinations"] = {"n_total": 12, "n_abroad": 0, "buckets": [],
+                                       "sideways_share": 0.0, "sideways_definition": "n/a"}
+    html = _render(ctx)
+    assert "Exhibit E" in html
+    assert "Of the 12 mapped Czech players, 0 play outside" in html
+    assert 'aria-label="Czech players abroad by destination bucket"' not in html
+    assert "sideways" not in html.split("Exhibit E")[1].split("</section>")[0]
+
+
+def _current_rows(*rows: tuple[str, str, str, int]) -> pd.DataFrame:
+    df = pd.DataFrame(rows, columns=["player_key", "team", "league", "min"])
+    df["season"] = "2025-2026"
+    # same dedupe as render: row with most minutes per player
+    return df.sort_values("min", ascending=False).drop_duplicates("player_key").set_index("player_key")
+
+
+def test_current_club_prefers_the_row_with_more_minutes():
+    cur = _current_rows(("p|2000", "Karviná", "CZE-First League", 300),
+                        ("p|2000", "Viktoria Plzeň", "CZE-First League", 900))
+    club, league, source, label = _current_club("p|2000", cur, None, "2025/26")
+    assert (club, league, source, label) == ("Viktoria Plzeň", "CZE-First League", "tables", "2025/26")
+
+
+def test_current_club_falls_back_to_pool_and_is_labelled_latest_known():
+    cur = _current_rows(("other|1999", "Slavia Prague", "CZE-First League", 500))
+    pool_row = pd.Series({"club_current": "Bohemians 1905", "fbref_id": "abc"})
+    club, league, source, label = _current_club("p|2000", cur, pool_row, "2025/26")
+    assert (club, league, source, label) == ("Bohemians 1905", "", "country page", "latest known")
+    # no pool club either -> empty club, still labelled as a fallback
+    assert _current_club("p|2000", cur, None, "2025/26") == ("", "", "country page", "latest known")
+    # the label reaches the meta line: fixture card switched to the fallback case
+    ctx = build_context_from_fixtures()
+    ctx["cards"][0].update(club="Bohemians 1905", club_label="latest known")
+    html = _render(ctx)
+    assert "Bohemians 1905 (latest known)" in html and "Bohemians 1905 (2025/26)" not in html
+
+
 def test_observations_derive_counts_and_titles_from_context():
     ctx = build_context_from_fixtures()
     obs = ctx["observations"]
@@ -105,4 +146,5 @@ def test_template_renders_with_real_context():
     assert len(ctx["cards"]) == 12
     assert [r["kicker"] for r in ctx["card_rows"]] == [k for _, k in RULE_KICKERS]
     assert all(c["club"] and c["age_current"] for c in ctx["cards"])
+    assert all(c["club_label"] in ("2025/26", "latest known") for c in ctx["cards"])
     assert len(ctx["per_capita"]) == 9

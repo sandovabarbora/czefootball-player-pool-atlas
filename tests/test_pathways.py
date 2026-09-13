@@ -301,3 +301,25 @@ def test_profile_other_tier_for_peer_in_third_country_league():
     aut_row = out[(out.country == "AUT") & (out.pos_group == "FW")].iloc[0]
     assert cze_row.tier == "other"    # CZE player in AUT's own domestic league
     assert aut_row.tier == "domestic"  # AUT player in AUT's own domestic league
+
+
+def test_destinations_sideways_counts_equal_multiplier_as_sideways():
+    # A peer league whose multiplier equals the domestic one (0.434) is
+    # sideways (<=), a league just above it (0.435) is not.
+    feats = pd.DataFrame({
+        "player": ["Equal Eda", "Above Aleš"],
+        "player_key": ["eda", "ales"],
+        "league": ["AUT-Bundesliga", "POL-Ekstraklasa"],
+        "season": ["2024-2025"] * 2,
+        "nation": ["CZE"] * 2,
+        "czech_eligible": [True] * 2,
+        "min": [1000, 1000],
+    })
+    league_quality = {"multipliers": {"CZE-First League": 0.434, "AUT-Bundesliga": 0.434,
+                                      "POL-Ekstraklasa": 0.435}}
+    cfg = {"domestic": "CZE-First League", "headline": [], "stepping_stone": [],
+           "peer_domestic": {"AUT-Bundesliga": {"country": "AUT"}, "POL-Ekstraklasa": {"country": "POL"}}}
+    rows = destinations(feats, league_quality, cfg, "2024-2025")
+    summary = _summarize_destinations(rows, league_quality["multipliers"][cfg["domestic"]])
+    assert summary["n_abroad"] == 2
+    assert abs(summary["sideways_share"] - 0.5) < 1e-9

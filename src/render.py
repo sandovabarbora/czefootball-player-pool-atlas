@@ -398,6 +398,22 @@ def _build_analog_blocks(showcase: list[dict], analogs: dict) -> list[dict]:
     return blocks
 
 
+def _current_club(key: str, current_by_key: pd.DataFrame, pool_row: pd.Series | None,
+                  current_label: str) -> tuple[str, str, str, str]:
+    """(club, league, source, label) for the card's name line.
+
+    The club comes from the current-season table row with the most minutes
+    (label = the season, e.g. "2025/26"); a player without a current-season
+    row falls back to the pool's country-page club, labelled "latest known"
+    because that page carries no season.
+    """
+    if key in current_by_key.index:
+        cur = current_by_key.loc[key]
+        return str(cur["team"]), str(cur["league"]), "tables", current_label
+    club = str(pool_row["club_current"]) if pool_row is not None and pool_row["club_current"] else ""
+    return club, "", "country page", "latest known"
+
+
 def _card_rows(cards: list[dict]) -> list[dict]:
     """Group cards by showcase rule, one row per rule, in RULE_KICKERS order."""
     rows = []
@@ -453,12 +469,8 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
                 "prev": round(float(r["npg_ast_quality_prev"]), 2),
                 "curr": round(float(r["npg_ast_quality_curr"]), 2),
             }
-        if key in current_by_key.index:
-            cur = current_by_key.loc[key]
-            club_current, league_current, club_source = str(cur["team"]), str(cur["league"]), "tables"
-        else:
-            club_current = str(p["club_current"]) if p is not None and p["club_current"] else ""
-            league_current, club_source = "", "country page"
+        club_current, league_current, club_source, club_label = _current_club(
+            key, current_by_key, p, season_label(current_season))
         block = analogs.get(key) or {}
         analog_age = _opt_int((block.get("target") or {}).get("age"))
         nt_events = [e for e in str(f.get("nt_events") or "").split(" · ") if e]
@@ -476,6 +488,7 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
             "club": club_current,
             "club_league": league_current,
             "club_source": club_source,
+            "club_label": club_label,
             "age_current": current_year - int(f["born"]) if pd.notna(f["born"]) else None,
             "moved": bool(club_current) and not _same_club(str(f["team"]), club_current),
             "nt_flag": bool(f["nt_flag"]),
@@ -961,7 +974,8 @@ def build_context_from_fixtures() -> dict[str, Any]:
     cards = [{
         "player_key": "patrik schick|1996", "fbref_id": "5d4f7d61", "name": "Patrik Schick", "pos": "FW",
         "pos_title": "Forwards", "born": 1996, "age": 28, "league": "GER-Bundesliga", "club_season": "Leverkusen",
-        "club": "Leverkusen", "club_league": "GER-Bundesliga", "club_source": "tables", "age_current": 29,
+        "club": "Leverkusen", "club_league": "GER-Bundesliga", "club_source": "tables",
+        "club_label": "2025/26", "age_current": 29,
         "moved": False, "nt_flag": True, "nt_events": ["UEFA Euro 2024"],
         "reason": "highest quality-adjusted npG+A per 90 among FW",
         "stats": {"npg_ast_q": 0.68, "npg_p90": 0.8, "ast_p90": 0.06, "min": 1684, "min_share": 0.55, "npg": 15, "ast": 1},

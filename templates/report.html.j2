@@ -516,10 +516,11 @@
     <h3>Exhibit E — where Czech exports go</h3>
     <p>
       Of the {{ dest.n_total }} mapped Czech players, {{ dest.n_abroad }} play outside the Czech
-      First League. Their leagues by bucket, as a share of those abroad:
+      First League.{% if dest.buckets %} Their leagues by bucket, as a share of those abroad:
       {% for b in dest.buckets %}{{ b.label }} {{ pct(b.share_of_abroad) }}{% if not loop.last %}, {% endif %}{% endfor %}.
-      <strong>{{ pct(dest.sideways_share) }}</strong> of the moves are sideways* — {{ dest.sideways_definition }}.
+      <strong>{{ pct(dest.sideways_share) }}</strong> of the moves are sideways* — {{ dest.sideways_definition }}.{% endif %}
     </p>
+    {% if dest.buckets %}
     {% set dest_max = dest.buckets | map(attribute='share_of_abroad') | max %}
     <div class="capita" role="list" aria-label="Czech players abroad by destination bucket">
       {% for b in dest.buckets %}
@@ -543,6 +544,7 @@
       of each bar is the player count, the median multiplier is the bucket's median league
       multiplier. Sideways: {{ dest.sideways_definition }}.
     </p>
+    {% endif %}
     {% endif %}
   </div>
 </section>
@@ -583,7 +585,7 @@
         <header class="cycle-card-head">
           <h4 class="cycle-card-name">{{ p.name }}</h4>
           <p class="cycle-card-meta">
-            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ seasons.current }}){% if p.nt_flag %} &middot; NT 2024–26{% endif %}
+            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ p.club_label }}){% if p.nt_flag %} &middot; NT 2024–26{% endif %}
           </p>
         </header>
 
@@ -654,8 +656,8 @@
     <p class="capita-note">
       * Each card renders the existing dataset; no computation beyond the join. Age on the name line
       is the {{ seasons.current }} season-start age (start year − birth year); the club is from the
-      {{ seasons.current }} tables, or from FBref's country page where the player has no
-      {{ seasons.current }} row. Age on the analog line follows the analog finder's convention
+      {{ seasons.current }} tables, or — labelled "latest known" — from FBref's country page where
+      the player has no {{ seasons.current }} row. Age on the analog line follows the analog finder's convention
       (season start year + 1 − birth year).
     </p>
 
