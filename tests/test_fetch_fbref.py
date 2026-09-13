@@ -35,6 +35,29 @@ def test_pos_takes_first_token():
     assert out[out.player == "Bukayo Saka"].iloc[0].pos == "FW"
 
 
+def _soccerdata_like_with_missing_nation_and_pos():
+    cols = pd.MultiIndex.from_tuples([
+        ("nation", ""), ("pos", ""), ("age", ""), ("born", ""),
+        ("Playing Time", "MP"), ("Playing Time", "Min"),
+        ("Performance", "Gls"), ("Performance", "Ast"), ("Performance", "PK"),
+        ("Performance", "CrdY"), ("Performance", "CrdR"),
+    ])
+    idx = pd.MultiIndex.from_tuples(
+        [("ENG-Premier League", "2425", "West Ham", "Unknown Player")],
+        names=["league", "season", "team", "player"])
+    data = [[float("nan"), float("nan"), "23-100", 2001, 10, 900, 0, 0, 0, 0, 0]]
+    return pd.DataFrame(data, index=idx, columns=cols)
+
+
+def test_missing_nation_and_pos_become_empty_string_not_the_literal_nan():
+    out = normalize_player_table(
+        _soccerdata_like_with_missing_nation_and_pos(), "ENG-Premier League", "2024-2025")
+    row = out.iloc[0]
+    assert row.nation == ""
+    assert row.pos == ""
+    assert row.player_key == "unknown player|2001"
+
+
 def test_normalize_name_strips_diacritics_lowercases_and_collapses_whitespace():
     assert normalize_name("Tomáš   Souček") == "tomas soucek"
     assert normalize_name("Bukayo Saka") == "bukayo saka"
