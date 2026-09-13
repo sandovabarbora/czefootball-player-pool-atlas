@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from src.international_benchmark import assign_cohort, cohort_table, per_capita
+from src.international_benchmark import assign_cohort, build_narrative, cohort_table, per_capita
 
 
 def test_per_capita_counts_distinct_players_in_headline_leagues():
@@ -75,3 +75,27 @@ def test_cohort_table_excludes_below_min_minutes(monkeypatch):
     peers = {"CZE": {"name": "Czechia", "population_m": 10.0}}
     out = cohort_table({"FW": fw}, peers)
     assert out.empty
+
+
+def test_build_narrative_zero_fills_absent_peers_in_cohort_median():
+    # Three peers: CZE, DEN, POL. In the FW/U22 cohort, POL has no
+    # qualifying players at all (no row in `coh`) — the median over the
+    # non-CZE peers (DEN, POL) must treat POL as n=0, not exclude it.
+    pc = pd.DataFrame({
+        "country": ["CZE", "DEN", "POL"],
+        "name": ["Czechia", "Denmark", "Poland"],
+        "n_players": [2, 4, 0],
+        "population_m": [10.0, 5.0, 36.0],
+        "per_million": [0.2, 0.8, 0.0],
+        "rank": [2, 1, 3],
+    })
+    coh = pd.DataFrame({
+        "country": ["CZE", "DEN"],
+        "pos_group": ["FW", "FW"],
+        "cohort": ["U22", "U22"],
+        "n": [2, 4],
+        "median_npg_ast_p90": [0.3, 0.5],
+    })
+    narrative = build_narrative(pc, coh)
+    # median([DEN=4, POL=0]) == 2.0, not median([DEN=4]) == 4.0
+    assert "| Forwards | U22 | 2 | 2.0 | 0.0 |" in narrative

@@ -12,6 +12,11 @@ Two independent deliverables:
     cohort, restricted to players with >= min_minutes in headline leagues.
     Answers "at which age cohort is each country's pool thin or deep".
 
+Per-capita ties (equal `per_million`) are broken by ascending population —
+the smaller-population country ranks first — since it's inert on real data
+(no two of the nine peers tie) but needed to make a tied toy case resolve
+deterministically.
+
 Inputs:
     data/processed/fbref_players.parquet   (all rosters, all nations/leagues)
     data/processed/features_{FW,MF,DF}.parquet (quality-adjusted per-90 rates)
@@ -159,7 +164,7 @@ def cohort_table(features_by_group: dict[str, pd.DataFrame], peers: dict) -> pd.
                 "n": len(g),
                 "median_npg_ast_p90": round(float(g["npg_ast_q"].median()), 2),
             })
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=["country", "pos_group", "cohort", "n", "median_npg_ast_p90"])
 
 
 # --- Visualization -----------------------------------------------------------
@@ -297,13 +302,18 @@ def build_narrative(pc: pd.DataFrame, coh: pd.DataFrame) -> str:
     lines.append("")
 
     if not coh.empty:
+        # Zero-fill symmetrically: the median is over the 8 non-CZE peers
+        # from `pc` (which always has one row per configured peer, CZE
+        # included), not just the peers that happen to have a row in this
+        # (pos_group, cohort) — a peer absent from `coh` for a cohort has 0
+        # qualifying players there, same as CZE would if it were absent.
+        other_peers = [c for c in pc["country"].tolist() if c != "CZE"]
         gaps = []
         for (group, cohort), g in coh.groupby(["pos_group", "cohort"]):
             cze_n = g[g.country == "CZE"]["n"]
             cze_n_val = int(cze_n.iloc[0]) if not cze_n.empty else 0
-            peer_n = g[g.country != "CZE"]["n"]
-            if peer_n.empty:
-                continue
+            n_by_country = g.set_index("country")["n"]
+            peer_n = pd.Series([int(n_by_country.get(c, 0)) for c in other_peers])
             peer_median_n = float(peer_n.median())
             gaps.append({
                 "pos_group": group,
