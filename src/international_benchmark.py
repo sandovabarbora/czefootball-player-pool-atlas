@@ -1,46 +1,49 @@
-"""International peer benchmarking — Czech NHL cohort vs FIN/SWE/CAN/USA peers.
+"""Per-capita benchmark and cohort gaps for the nine peer countries.
 
-Reads all 1183 cached NHL player landings (not just Czech-filtered) and joins
-with MoneyPuck per-60 production data to compute cohort-level comparisons:
+Two independent deliverables:
 
-    For each (country, position, age_cohort):
-        - n_players
-        - median P/GP (raw, 5v5 + special teams from MoneyPuck "all" situation)
-        - mean P/GP
-        - top performer P/GP
+    per-capita: distinct players (by `player_key`) with `nation` == peer on
+    `current`-season rosters of the UEFA top-9 headline leagues, divided by
+    population (millions). Answers "how many top-9-league players does each
+    peer country field, relative to its population".
 
-This is the "what the federation doesn't have" deliverable. Czech hockey
-experts know their own players individually; they don't have a quantified
-view of where Czech NHL pool sits structurally vs Finnish/Swedish/Canadian
-peers at each age cohort.
+    cohorts: for the `metrics` season, median non-penalty-goals + assists per
+    90 (quality-adjusted) by country x position group (FW/MF/DF) x age
+    cohort, restricted to players with >= min_minutes in headline leagues.
+    Answers "at which age cohort is each country's pool thin or deep".
 
 Inputs:
-    data/raw/.cache/nhl_landing/{id}.json   (1183 player landings, all countries)
-    data/raw/moneypuck_skaters_2025.parquet (per-player production)
-    data/raw/moneypuck_skaters_2024.parquet
+    data/processed/fbref_players.parquet   (all rosters, all nations/leagues)
+    data/processed/features_{FW,MF,DF}.parquet (quality-adjusted per-90 rates)
 
 Outputs:
-    data/processed/international_cohort.parquet  — one row per (country × position × cohort × season)
-    outputs/intl_cohort_heatmap.svg              — visual: countries × cohorts heatmap
-    outputs/intl_cohort_summary.md               — Czech-language analysis paragraphs
+    data/processed/per_capita.parquet
+    data/processed/cohorts.parquet
+    outputs/intl_cohort_heatmap.svg
+    outputs/benchmark_narrative.md
+
+This module reports counts and medians only. It makes no player-selection
+recommendation.
 """
 
 from __future__ import annotations
 
-import json
 import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 import pandas as pd
+from matplotlib.colors import LinearSegmentedColormap
 
 from src import config
 from src.logging_setup import setup as logging_setup
 from src.utils import read_parquet, write_parquet
 
-# Palette aligned with templates/style.css and src/render.py.
+LOG = logging.getLogger(__name__)
+
+# --- Palette (kept from the hockey module's styling) -------------------------
+
 NAVY        = "#1f3a5f"
 NAVY_DEEP   = "#162a44"
 OXBLOOD     = "#9c3a2a"
@@ -50,8 +53,8 @@ RULE        = "#c8c2b7"
 CREAM       = "#fdfbf6"
 CREAM_TINT  = "#efe9dc"
 
-# Sequential ramp cream → navy. Reads as "more production = more visual weight"
-# without the YlGnBu green-teal SaaS-dashboard vocabulary.
+# Sequential ramp cream -> navy. Reads as "more production = more visual
+# weight" without the YlGnBu green-teal SaaS-dashboard vocabulary.
 CMAP_NAVY = LinearSegmentedColormap.from_list(
     "cream_to_navy",
     [
@@ -64,7 +67,7 @@ CMAP_NAVY = LinearSegmentedColormap.from_list(
     N=256,
 )
 
-# Matplotlib font defaults — share render.py's chain.
+# Matplotlib font defaults, shared with render.py.
 plt.rcParams["font.family"] = "serif"
 plt.rcParams["font.serif"] = [
     "Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif",
@@ -74,185 +77,134 @@ plt.rcParams["font.sans-serif"] = [
 ]
 plt.rcParams["text.color"] = INK
 
-LOG = logging.getLogger(__name__)
-
-LANDING_CACHE_DIR = config.RAW_DIR / ".cache" / "nhl_landing"
-
-# Top hockey nations to include in benchmark. Russia excluded (political /
-# data quality, per locked decision). Slovakia included as direct CZ peer.
-COUNTRIES = ["CAN", "USA", "SWE", "FIN", "CZE", "SVK"]
-
-# Population (millions, ~2024). For per-capita normalization talking points.
-POPULATION_M = {
-    "CAN": 40.1,
-    "USA": 335.0,
-    "SWE": 10.6,
-    "FIN": 5.6,
-    "CZE": 10.9,
-    "SVK": 5.4,
+COHORTS = [("U22", 0, 21), ("23-25", 23, 25), ("26-29", 26, 29), ("30+", 30, 99)]
+POS_GROUPS = ["FW", "MF", "DF"]
+POS_GROUP_TITLES = {
+    "FW": "Forwards",
+    "MF": "Midfielders",
+    "DF": "Defenders",
 }
 
-# Age cohort buckets. Edges in birth year for season's calendar year minus age.
-# For season starting 2025 (i.e. 2025-26): age = 2025 - birth_year.
-COHORTS = [
-    ("U22", 18, 21),   # prospects / rookies
-    ("23-25", 22, 25), # establishing
-    ("26-29", 26, 29), # prime
-    ("30+", 30, 99),   # veterans
-]
 
-# Position normalization (NHL landing 'position' field)
-POS_F = {"C", "L", "R"}
-POS_D = {"D"}
+def assign_cohort(born: int, season: str) -> str | None:
+    """Age cohort at the season's calendar turn (as in the hockey module).
 
-
-# --- Load landing metadata for ALL nationalities ---
-
-
-def load_all_landings() -> pd.DataFrame:
-    """Read every cached NHL landing into a DataFrame (no country filter)."""
-    rows: list[dict] = []
-    for f in LANDING_CACHE_DIR.iterdir():
-        if not f.name.endswith(".json"):
-            continue
-        try:
-            with f.open(encoding="utf-8") as fp:
-                d = json.load(fp)
-        except Exception:
-            continue
-        pid = d.get("playerId")
-        bc = d.get("birthCountry")
-        pos = d.get("position")
-        bd = d.get("birthDate")
-        if not (pid and bc and pos and bd):
-            continue
-        # birthDate is ISO YYYY-MM-DD
-        try:
-            birth_year = int(bd[:4])
-        except (ValueError, TypeError):
-            continue
-        rows.append({
-            "player_id": int(pid),
-            "birth_country": bc,
-            "birth_year": birth_year,
-            "position_raw": pos,
-            "position": "F" if pos in POS_F else ("D" if pos in POS_D else "G"),
-            "first_name": d.get("firstName", {}).get("default"),
-            "last_name": d.get("lastName", {}).get("default"),
-        })
-    return pd.DataFrame(rows)
-
-
-# --- Cohort assignment ---
-
-
-def assign_cohort(birth_year: int, season: int) -> str | None:
-    """Return cohort label for a player given (birth_year, season starting year)."""
-    age = season - birth_year
-    for label, lo, hi in COHORTS:
+    age = year the season turns into (season[:4] + 1) - birth year.
+    """
+    age = int(season[:4]) + 1 - born
+    if age <= 22:
+        return "U22"
+    for label, lo, hi in COHORTS[1:]:
         if lo <= age <= hi:
             return label
     return None
 
 
-# --- Build cohort aggregate ---
-
-
-def build_cohort_table(season: int) -> pd.DataFrame:
-    """For one season, compute (country × position × cohort) → aggregate stats."""
-    landings = load_all_landings()
-    landings = landings[landings["birth_country"].isin(COUNTRIES)]
-    landings["cohort"] = landings["birth_year"].apply(lambda y: assign_cohort(int(y), season))
-    landings = landings.dropna(subset=["cohort"])
-
-    # MoneyPuck for production stats (per-game, "all" situation)
-    mp_path = config.RAW_DIR / f"moneypuck_skaters_{season}.parquet"
-    if not mp_path.exists():
-        LOG.error("MoneyPuck parquet missing for season %s: %s", season, mp_path)
-        return pd.DataFrame()
-    mp = read_parquet(mp_path)
-    mp = mp[mp["situation"] == "all"].copy()
-    mp["P_per_GP"] = (mp["I_F_points"] / mp["games_played"]).astype(float)
-
-    joined = landings.merge(
-        mp[["playerId", "games_played", "P_per_GP", "I_F_goals", "I_F_primaryAssists"]],
-        left_on="player_id", right_on="playerId", how="inner",
-    )
-    # Filter to players with meaningful GP — drop 1-game callups
-    joined = joined[joined["games_played"] >= 10]
-
-    LOG.info("season %d: %d players after country+GP filter", season, len(joined))
-
-    # Aggregate
-    rows: list[dict] = []
-    for (country, pos, cohort), grp in joined.groupby(["birth_country", "position", "cohort"]):
-        if pos == "G":  # goalies not in this analysis
-            continue
+def per_capita(
+    tables: pd.DataFrame, peers: dict, headline_leagues: list[str], season: str
+) -> pd.DataFrame:
+    """Distinct headline-league players per peer country, per million population."""
+    sub = tables[
+        (tables.season == season)
+        & tables.league.isin(headline_leagues)
+        & tables.nation.isin(peers)
+    ]
+    n = sub.groupby("nation")["player_key"].nunique()
+    rows = []
+    for code, meta in peers.items():
+        cnt = int(n.get(code, 0))
         rows.append({
-            "season": season,
-            "country": country,
-            "position": pos,
-            "cohort": cohort,
-            "n_players": int(len(grp)),
-            "n_per_capita_per_M": round(len(grp) / POPULATION_M[country], 2),
-            "median_P_per_GP": round(float(grp["P_per_GP"].median()), 3),
-            "mean_P_per_GP": round(float(grp["P_per_GP"].mean()), 3),
-            "top_P_per_GP": round(float(grp["P_per_GP"].max()), 3),
-            "total_GP": int(grp["games_played"].sum()),
+            "country": code,
+            "name": meta["name"],
+            "n_players": cnt,
+            "population_m": meta["population_m"],
+            "per_million": round(cnt / meta["population_m"], 2),
         })
+    # Tie-break: on equal per-capita rate, the smaller-population country
+    # ranks first (a given rate reflects a thinner population base).
+    out = (
+        pd.DataFrame(rows)
+        .sort_values(["per_million", "population_m"], ascending=[False, True])
+        .reset_index(drop=True)
+    )
+    out["rank"] = range(1, len(out) + 1)
+    return out
+
+
+def cohort_table(features_by_group: dict[str, pd.DataFrame], peers: dict) -> pd.DataFrame:
+    """Median quality-adjusted npG+A per 90 by country x position group x cohort.
+
+    Restricted to the metrics season, headline leagues, and players with
+    >= min_minutes.
+    """
+    season = config.seasons()["metrics"]
+    min_minutes = config.features()["min_minutes"]
+    rows = []
+    for group, df in features_by_group.items():
+        d = df[
+            (df.season == season)
+            & df.nation.isin(peers)
+            & df.league.isin(config.HEADLINE_LEAGUES)
+            & (df["min"] >= min_minutes)
+        ].copy()
+        if d.empty:
+            continue
+        d["cohort"] = d["born"].map(lambda b: assign_cohort(int(b), season))
+        d["npg_ast_q"] = d["npg_p90_quality"] + d["ast_p90_quality"]
+        for (country, cohort), g in d.groupby(["nation", "cohort"]):
+            rows.append({
+                "country": country,
+                "pos_group": group,
+                "cohort": cohort,
+                "n": len(g),
+                "median_npg_ast_p90": round(float(g["npg_ast_q"].median()), 2),
+            })
     return pd.DataFrame(rows)
 
 
-# --- Visualization ---
+# --- Visualization -----------------------------------------------------------
 
 
-def render_cohort_heatmap(table: pd.DataFrame, out_path: Path) -> None:
-    """Two-panel heatmap: forwards + defensemen. Rows = countries, cols = cohorts.
-    Cell color = median P/GP (cream → navy ramp); cell annotation = n_players
-    over median P/GP. The CZE row is highlighted with an oxblood outline so it
-    pops against the navy-tone heatmap."""
-    latest_season = int(table["season"].max())
-    sub = table[table["season"] == latest_season]
-    fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.2), sharey=True)
-    fig.patch.set_facecolor(CREAM)
-
+def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame, out_path: Path) -> None:
+    """Three-panel heatmap: FW / MF / DF. Rows = countries ordered by
+    per-capita rank (top first); cols = age cohorts. Cell color = median
+    npG+A per 90 (cream -> navy ramp); cell annotation = n over median. The
+    CZE row is highlighted with an oxblood outline."""
+    country_order = per_capita_table.sort_values("rank")["country"].tolist()
     cohort_order = [c[0] for c in COHORTS]
-    country_order = COUNTRIES
     n_countries = len(country_order)
     n_cohorts = len(cohort_order)
 
-    for ax, position, title in (
-        (axes[0], "F", "Útočníci"),
-        (axes[1], "D", "Obránci"),
-    ):
-        sub_pos = sub[sub["position"] == position]
+    fig, axes = plt.subplots(1, 3, figsize=(16.5, 5.4), sharey=True)
+    fig.patch.set_facecolor(CREAM)
+
+    vmax = float(cohorts["median_npg_ast_p90"].max()) if not cohorts.empty else 1.0
+
+    for ax, group in zip(axes, POS_GROUPS, strict=True):
+        sub = cohorts[cohorts["pos_group"] == group]
         matrix = np.full((n_countries, n_cohorts), np.nan)
         n_matrix = np.zeros((n_countries, n_cohorts), dtype=int)
         for i, country in enumerate(country_order):
             for j, cohort in enumerate(cohort_order):
-                row = sub_pos[(sub_pos["country"] == country) & (sub_pos["cohort"] == cohort)]
+                row = sub[(sub["country"] == country) & (sub["cohort"] == cohort)]
                 if not row.empty:
-                    matrix[i, j] = row.iloc[0]["median_P_per_GP"]
-                    n_matrix[i, j] = int(row.iloc[0]["n_players"])
+                    matrix[i, j] = row.iloc[0]["median_npg_ast_p90"]
+                    n_matrix[i, j] = int(row.iloc[0]["n"])
 
-        ax.imshow(matrix, cmap=CMAP_NAVY, aspect="auto", vmin=0.0, vmax=1.0)
+        ax.imshow(matrix, cmap=CMAP_NAVY, aspect="auto", vmin=0.0, vmax=vmax)
         ax.set_xticks(range(n_cohorts))
-        ax.set_xticklabels(cohort_order, fontsize=9.5, fontfamily="sans-serif",
-                           color=INK)
+        ax.set_xticklabels(cohort_order, fontsize=9.5, fontfamily="sans-serif", color=INK)
         ax.set_yticks(range(n_countries))
         ax.set_yticklabels(country_order, fontsize=9.5, fontfamily="sans-serif",
-                           color=INK, weight="medium")
-        ax.set_title(f"{title}  ·  medián bodů na zápas",
-                     fontsize=11.5, fontfamily="serif", color=INK,
-                     pad=12, loc="left", weight="normal")
-
-        # Thin tick marks, no rectangular outline
-        ax.tick_params(axis="both", which="both", length=0,
-                       colors=INK, pad=6)
+                            color=INK, weight="medium")
+        ax.set_title(
+            f"{POS_GROUP_TITLES[group]}  ·  median npG+A per 90 (quality-adjusted)",
+            fontsize=11, fontfamily="serif", color=INK, pad=12, loc="left", weight="normal",
+        )
+        ax.tick_params(axis="both", which="both", length=0, colors=INK, pad=6)
         for spine in ax.spines.values():
             spine.set_visible(False)
 
-        # Annotate each cell — n on top, value beneath
         for i in range(n_countries):
             for j in range(n_cohorts):
                 n = n_matrix[i, j]
@@ -261,145 +213,117 @@ def render_cohort_heatmap(table: pd.DataFrame, out_path: Path) -> None:
                             fontsize=10, color=MUTED, fontfamily="serif")
                 else:
                     val = matrix[i, j]
-                    # Text color threshold for legibility on cream→navy ramp:
-                    # midpoint of ramp sits around 0.45–0.55 — switch above 0.55
-                    text_color = CREAM if val > 0.55 else INK
+                    text_color = CREAM if (vmax and val > 0.55 * vmax) else INK
                     ax.text(j, i - 0.10, f"n={n}", ha="center", va="center",
-                            fontsize=8.5, color=text_color,
-                            fontfamily="sans-serif", weight="medium")
+                            fontsize=8.5, color=text_color, fontfamily="sans-serif",
+                            weight="medium")
                     ax.text(j, i + 0.20, f"{val:.2f}", ha="center", va="center",
-                            fontsize=9, color=text_color,
-                            fontfamily="serif", weight="normal")
+                            fontsize=9, color=text_color, fontfamily="serif", weight="normal")
 
-        # Highlight Czech row with an oxblood outline
-        cz_idx = country_order.index("CZE")
-        ax.add_patch(plt.Rectangle(
-            (-0.5, cz_idx - 0.5), n_cohorts, 1,
-            fill=False, edgecolor=OXBLOOD, lw=2.2, zorder=8,
-        ))
+        cz_idx = country_order.index("CZE") if "CZE" in country_order else None
+        if cz_idx is not None:
+            ax.add_patch(plt.Rectangle(
+                (-0.5, cz_idx - 0.5), n_cohorts, 1,
+                fill=False, edgecolor=OXBLOOD, lw=2.2, zorder=8,
+            ))
 
-    # Materialize tick labels and repaint the CZE row label in oxblood
-    # (post-loop so sharedY does not leave the right axis with empty labels).
-    cz_idx = country_order.index("CZE")
     fig.canvas.draw()
-    for ax in axes:
-        labels = ax.get_yticklabels()
-        if cz_idx < len(labels):
-            labels[cz_idx].set_color(OXBLOOD)
-            labels[cz_idx].set_weight("bold")
+    if "CZE" in country_order:
+        cz_idx = country_order.index("CZE")
+        for ax in axes:
+            labels = ax.get_yticklabels()
+            if cz_idx < len(labels):
+                labels[cz_idx].set_color(OXBLOOD)
+                labels[cz_idx].set_weight("bold")
 
     fig.suptitle(
-        f"Mezinárodní cohort benchmark  ·  NHL {latest_season}/{latest_season+1 - 2000:02d}",
-        fontsize=14, fontfamily="serif", color=INK,
-        x=0.02, ha="left", y=1.04, weight="normal",
+        "International cohort benchmark  ·  UEFA top-9 leagues 2024/25",
+        fontsize=14, fontfamily="serif", color=INK, x=0.02, ha="left", y=1.04, weight="normal",
     )
     fig.text(
         0.02, 0.985,
-        "Buňka: počet hráčů a medián bodů na zápas. Vyznačená řada = Česko.",
+        "Cell: player count and median npG+A per 90. Rows ordered by per-capita rank "
+        "(top first); highlighted row = CZE.",
         ha="left", fontsize=9, color=MUTED, fontfamily="sans-serif",
     )
-    plt.subplots_adjust(top=0.88, wspace=0.06)
-    plt.savefig(out_path, bbox_inches="tight", format="svg",
-                facecolor=CREAM, edgecolor="none")
+    plt.subplots_adjust(top=0.86, wspace=0.08)
+    plt.savefig(out_path, bbox_inches="tight", format="svg", facecolor=CREAM, edgecolor="none")
     plt.close(fig)
     LOG.info("wrote %s", out_path)
 
 
-# --- Czech-language narrative ---
+# --- Narrative -----------------------------------------------------------
 
 
-def build_narrative(table: pd.DataFrame) -> str:
-    """Generate Czech analytical paragraphs from the cohort table."""
-    latest_season = int(table["season"].max())
-    sub = table[table["season"] == latest_season]
+def build_narrative(pc: pd.DataFrame, coh: pd.DataFrame) -> str:
+    """Factual, non-evaluative summary: per-capita ranking, CZE rank, and the
+    top-3 cohort gaps where CZE's player count is lowest relative to the
+    peer median for that cohort."""
     lines = [
-        f"# Mezinárodní cohort benchmark — NHL {latest_season}-{latest_season+1}",
+        "# International cohort benchmark",
         "",
-        "## Strukturální pohled na český fond v NHL napříč peer-zeměmi",
+        f"UEFA top-9 leagues, {config.seasons()['current']} rosters "
+        f"(per-capita) and {config.seasons()['metrics']} season (cohorts).",
         "",
-        "Tato analýza není o tom kdo je nejlepší český hokejista. Je o tom **kde "
-        "v rámci věkových skupin je český fond v NHL strukturálně tenčí nebo "
-        "silnější než peer-země (Finsko, Švédsko, Slovensko, Kanada, USA).** To "
-        "je otázka která nezávisí na hokejové intuici — vyžaduje datovou "
-        "agregaci kterou jedinec v hlavě nedokáže.",
+        "## Per-capita ranking (headline-league players per million population)",
         "",
-        "## Headline čísla (sezóna 2025-26)",
-        "",
+        "| Rank | Country | Players | Population (M) | Per million |",
+        "|---:|---|---:|---:|---:|",
     ]
-
-    # Total counts by country
-    total_by_country = sub.groupby("country")["n_players"].sum().to_dict()
-    lines.append("### Celkový počet NHL hráčů (forwards + defensemen, ≥10 GP)")
-    lines.append("")
-    lines.append("| Země | NHL hráči | Populace (M) | Hráči per M |")
-    lines.append("|---|---:|---:|---:|")
-    for c in COUNTRIES:
-        n = int(total_by_country.get(c, 0))
-        pop = POPULATION_M[c]
-        per_m = round(n / pop, 2)
-        lines.append(f"| {c} | {n} | {pop} | {per_m} |")
+    for _, r in pc.sort_values("rank").iterrows():
+        lines.append(
+            f"| {int(r['rank'])} | {r['name']} ({r['country']}) | {int(r['n_players'])} | "
+            f"{r['population_m']:.2f} | {r['per_million']:.2f} |"
+        )
     lines.append("")
 
-    # Czech vs peers per-cohort gap
-    lines.append("## Specifické gapy v cohortech (vs FIN/SWE)")
-    lines.append("")
-    for position, pname in (("F", "Útočníci"), ("D", "Obránci")):
-        sub_pos = sub[sub["position"] == position]
-        cz = sub_pos[sub_pos["country"] == "CZE"]
-        if cz.empty:
-            continue
-        lines.append(f"### {pname}")
+    cze_row = pc[pc.country == "CZE"]
+    if not cze_row.empty:
+        r = cze_row.iloc[0]
+        lines.append(
+            f"CZE ranks {int(r['rank'])} of {len(pc)} peer countries, with "
+            f"{int(r['n_players'])} players ({r['per_million']:.2f} per million)."
+        )
         lines.append("")
-        for cohort_label, _, _ in COHORTS:
-            cz_row = cz[cz["cohort"] == cohort_label]
-            if cz_row.empty:
-                lines.append(f"- **{cohort_label}**: Čeští hráči v této cohorte v NHL nepřítomni.")
+
+    lines.append("## Cohort gaps")
+    lines.append("")
+    lines.append(
+        "For each position group x age cohort, CZE's player count (n) compared "
+        "with the median n across the other peer countries in that cohort. The "
+        "three cohorts with the largest shortfall (CZE n minus peer median n) "
+        "are listed below."
+    )
+    lines.append("")
+
+    if not coh.empty:
+        gaps = []
+        for (group, cohort), g in coh.groupby(["pos_group", "cohort"]):
+            cze_n = g[g.country == "CZE"]["n"]
+            cze_n_val = int(cze_n.iloc[0]) if not cze_n.empty else 0
+            peer_n = g[g.country != "CZE"]["n"]
+            if peer_n.empty:
                 continue
-            cz_n = int(cz_row.iloc[0]["n_players"])
-            cz_med = float(cz_row.iloc[0]["median_P_per_GP"])
-            comparators = []
-            for peer in ("FIN", "SWE", "SVK"):
-                peer_row = sub_pos[(sub_pos["country"] == peer) & (sub_pos["cohort"] == cohort_label)]
-                if peer_row.empty:
-                    continue
-                peer_n = int(peer_row.iloc[0]["n_players"])
-                peer_med = float(peer_row.iloc[0]["median_P_per_GP"])
-                comparators.append(f"{peer} {peer_n} hráčů (medián {peer_med:.2f})")
-            line = (
-                f"- **{cohort_label}**: ČR {cz_n} hráčů (medián {cz_med:.2f} P/GP). "
-                + ("Srovnání: " + ", ".join(comparators) if comparators else "")
+            peer_median_n = float(peer_n.median())
+            gaps.append({
+                "pos_group": group,
+                "cohort": cohort,
+                "cze_n": cze_n_val,
+                "peer_median_n": peer_median_n,
+                "gap": cze_n_val - peer_median_n,
+            })
+        gaps_df = pd.DataFrame(gaps).sort_values("gap")
+        lines.append("| Position | Cohort | CZE n | Peer median n | Gap |")
+        lines.append("|---|---|---:|---:|---:|")
+        for _, r in gaps_df.head(3).iterrows():
+            lines.append(
+                f"| {POS_GROUP_TITLES[r['pos_group']]} | {r['cohort']} | {int(r['cze_n'])} | "
+                f"{r['peer_median_n']:.1f} | {r['gap']:.1f} |"
             )
-            lines.append(line)
         lines.append("")
 
-    lines.append("## Limitations této analýzy")
-    lines.append("")
     lines.append(
-        "- Pouze NHL. AHL / EU ligy nejsou v této verzi zahrnuty (sledováno "
-        "samostatně v hlavním Atlasu)."
-    )
-    lines.append(
-        "- Produkční metrika = points/game ze všech situací. Nezohledňuje "
-        "role (top-line vs energy line) ani pozici v rámci forwardů (C vs LW/RW)."
-    )
-    lines.append(
-        "- Cohort buckets jsou pevné (U22/23-25/26-29/30+). Tranzice mezi "
-        "cohorty mezi sezónami je očekávaná, ne signál."
-    )
-    lines.append(
-        "- N hráčů je z aktivních NHL rosterů 2025-26 s ≥10 GP. Krátké callupy "
-        "vyloučeny."
-    )
-    lines.append(
-        "- Populační normalizace (hráči per milion) je hrubý proxy talent "
-        "pipeline; nezohledňuje hokejovou infrastrukturu (počet ledů, mládežnické "
-        "úrovně), historický kontext, ani imigrační patterns."
-    )
-    lines.append("")
-    lines.append(
-        "Toto NENÍ doporučení pro výběr hráčů ani prognóza. Je to popis "
-        "strukturálního stavu fondu napříč peer-zeměmi pro účely plánování "
-        "v rámci 4-letého cyklu (MS 2027, ZOH 2030)."
+        "Numbers only; this is not a player-selection recommendation."
     )
     return "\n".join(lines)
 
@@ -411,40 +335,23 @@ def main() -> None:
     logging_setup()
     config.ensure_dirs()
 
-    seasons = config.leagues()["leagues"]["nhl"]["season_window"]
-    LOG.info("building international cohort benchmark for seasons %s", seasons)
+    peers = config.countries()["peers"]
+    tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
+    pc = per_capita(tables, peers, config.HEADLINE_LEAGUES, config.seasons()["current"])
+    write_parquet(pc, config.PROCESSED_DIR / "per_capita.parquet")
 
-    all_frames = []
-    for season in seasons:
-        df = build_cohort_table(season)
-        if not df.empty:
-            all_frames.append(df)
-    if not all_frames:
-        LOG.error("no cohort data built")
-        return
-    table = pd.concat(all_frames, ignore_index=True)
-    out_parquet = config.PROCESSED_DIR / "international_cohort.parquet"
-    write_parquet(table, out_parquet)
+    feats = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in config.features()["groups"]}
+    coh = cohort_table(feats, peers)
+    write_parquet(coh, config.PROCESSED_DIR / "cohorts.parquet")
 
-    # Visualization
-    heatmap_path = config.OUTPUTS_DIR / "intl_cohort_heatmap.svg"
-    render_cohort_heatmap(table, heatmap_path)
+    render_cohort_heatmap(pc, coh, config.OUTPUTS_DIR / "intl_cohort_heatmap.svg")
 
-    # Narrative
-    narrative = build_narrative(table)
-    narrative_path = config.OUTPUTS_DIR / "intl_cohort_summary.md"
+    narrative = build_narrative(pc, coh)
+    narrative_path = config.OUTPUTS_DIR / "benchmark_narrative.md"
     narrative_path.write_text(narrative, encoding="utf-8")
     LOG.info("wrote %s", narrative_path)
 
-    # Headline print to console
-    latest = int(table["season"].max())
-    sub = table[table["season"] == latest]
-    LOG.info("=== headline (season %d) ===", latest)
-    total = sub.groupby("country")["n_players"].sum().to_dict()
-    for c in COUNTRIES:
-        n = int(total.get(c, 0))
-        per_m = round(n / POPULATION_M[c], 2)
-        LOG.info("  %s: %d hráčů, %.2f/M pop", c, n, per_m)
+    LOG.info("per capita:\n%s", pc.to_string(index=False))
 
 
 if __name__ == "__main__":
