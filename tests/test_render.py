@@ -52,7 +52,8 @@ def _check(html: str, groups: list[str]) -> None:
     assert 'data-fbref-id="' in html and 'data-player-key="' in html
     # nothing leaked from the template engine, no None/nan in visible text
     assert "{{" not in html and "{%" not in html
-    no_tex = re.sub(r'data-tex="[^"]*"', "", html)  # KaTeX sources legitimately contain "}}"
+    # KaTeX sources and the figures' cluster-name JSON legitimately contain "}}"
+    no_tex = re.sub(r'data-tex="[^"]*"|data-cluster-names=\'[^\']*\'', "", html)
     assert "}}" not in no_tex
     text = re.sub(r"<[^>]+>", " ", html)
     assert not re.search(r"\bNone\b", text)

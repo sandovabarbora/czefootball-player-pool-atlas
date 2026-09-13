@@ -28,7 +28,7 @@ T = {
     "Czech football · Midfielders 2024/25": "Český fotbal · Záložníci 2024/25",
     "Czech football · Defenders 2024/25": "Český fotbal · Obránci 2024/25",
     "corpus": "korpus",
-    "NT 2024–26": "Reprezentace 2024–26",
+    "NT 2024–26": "Reprezentace",   # the years are in the caption; the legend sits at the panel edge
     # heatmap
     "Forwards  ·  median npG+A per 90 (quality-adjusted)": "Útočníci  ·  medián npG+A na 90 (kvalitou upravené)",
     "Midfielders  ·  median npG+A per 90 (quality-adjusted)": "Záložníci  ·  medián npG+A na 90 (kvalitou upravené)",
@@ -47,8 +47,8 @@ CAPTION_CS = ("PCA pětiprvkového vektoru (npG/90, A/90, podíl minut, věk, ka
               "Oxbloodové kroužky: reprezentační nominace {nt}.")
 # labels that stay as they are (axis names, cluster codes, cohorts, countries, numbers, surnames)
 KEEP = re.compile(r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d\d\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+)$")
-# a longer Czech legend entry gets a slightly smaller face so it stays inside the left panel
-SHRINK = {"NT 2024–26": 0.85}
+# per-string font scale, for a Czech entry that would otherwise leave its panel
+SHRINK: dict[str, float] = {}
 FONT = {"Georgia": "Georgia, 'Times New Roman', serif",
         "HelveticaNeue": "'Helvetica Neue', Helvetica, Arial, sans-serif",
         "DejaVuSans": "'DejaVu Sans', Arial, sans-serif"}

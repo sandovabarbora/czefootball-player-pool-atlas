@@ -100,3 +100,11 @@ def test_fixture_context_renders_in_czech():
     assert "{{" not in cs and "{%" not in cs
     assert "Nejvyšší kvalitou upravená produkce" in cs and "Highest quality-adjusted production" in en
     assert 'data-rule="highest quality-adjusted npG+A per 90 among FW"' in cs  # machine attribute stays English
+
+
+def test_every_template_key_has_an_english_default_and_a_czech_entry():
+    template = (config.TEMPLATES_DIR / "report.html.j2").read_text(encoding="utf-8")
+    used = set(re.findall(r"""\bt\(\s*['"]([a-z0-9_.]+)['"]""", template))
+    assert used, "template calls no t()"
+    assert used <= set(EN), sorted(used - set(EN))
+    assert used <= set(load_cs()["strings"]), sorted(used - set(load_cs()["strings"]))
