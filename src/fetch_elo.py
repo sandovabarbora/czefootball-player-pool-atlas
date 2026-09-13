@@ -15,8 +15,8 @@ fetch raises an HTTP error (e.g. its CSV backend is down):
 scraped from Wikipedia by src.fetch_uefa_coefficients.
 
 src.utils.http_get has no built-in cache, so a small file cache is kept here
-(mirroring src/fetch_squads.py's _fetch_html) to avoid re-hitting ClubElo on
-every run.
+via src.utils.cached_text (shared with src/fetch_squads.py and
+src/fetch_uefa_coefficients.py) to avoid re-hitting ClubElo on every run.
 """
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ import requests
 import yaml
 
 from src import config, fetch_uefa_coefficients
-from src.utils import http_get
+from src.utils import cached_text
 
 LOG = logging.getLogger(__name__)
 
@@ -100,14 +100,8 @@ def uefa_coefficient_multipliers(
 
 def _fetch_csv(date: str) -> str:
     """Fetch the ClubElo CSV for `date`, cached under data/raw/clubelo/<date>.csv."""
-    cache_dir = config.RAW_DIR / "clubelo"
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    path = cache_dir / f"{date}.csv"
-    if path.exists():
-        return path.read_text(encoding="utf-8")
-    resp = http_get(f"http://api.clubelo.com/{date}")
-    path.write_text(resp.text, encoding="utf-8")
-    return resp.text
+    cache_path = config.RAW_DIR / "clubelo" / f"{date}.csv"
+    return cached_text(f"http://api.clubelo.com/{date}", cache_path)
 
 
 def main() -> None:

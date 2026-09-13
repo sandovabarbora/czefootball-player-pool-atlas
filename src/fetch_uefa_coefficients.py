@@ -10,8 +10,8 @@ amateur-competition tables on the same page, which share a near-identical
 column layout but rank different (and much lower/differently-scoped) totals.
 
 src.utils.http_get has no built-in cache, so a small file cache is kept here
-(mirroring src/fetch_squads.py's _fetch_html) to avoid re-hitting Wikipedia
-on every run.
+via src.utils.cached_text (shared with src/fetch_squads.py and
+src/fetch_elo.py) to avoid re-hitting Wikipedia on every run.
 """
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 
 from src import config
-from src.utils import http_get
+from src.utils import cached_text
 
 LOG = logging.getLogger(__name__)
 
@@ -177,18 +177,9 @@ def ranking_seasons(html: str) -> list[str]:
 
 
 def _fetch_html(url: str, cache_key: str) -> str:
-    """Fetch `url`, cached under data/raw/wiki/<cache_key>.html.
-
-    Mirrors src/fetch_squads.py::_fetch_html.
-    """
-    cache_dir = config.RAW_DIR / "wiki"
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    path = cache_dir / f"{cache_key}.html"
-    if path.exists():
-        return path.read_text(encoding="utf-8")
-    resp = http_get(url, headers={"User-Agent": USER_AGENT})
-    path.write_text(resp.text, encoding="utf-8")
-    return resp.text
+    """Fetch `url`, cached under data/raw/wiki/<cache_key>.html."""
+    cache_path = config.RAW_DIR / "wiki" / f"{cache_key}.html"
+    return cached_text(url, cache_path, headers={"User-Agent": USER_AGENT})
 
 
 def fetch_country_coefficients() -> tuple[dict[str, float], list[str]]:

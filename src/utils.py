@@ -81,6 +81,39 @@ def http_get(
     return resp
 
 
+def cached_text(
+    url: str,
+    cache_path: Path,
+    *,
+    headers: dict[str, str] | None = None,
+    timeout: float = 15.0,
+) -> str:
+    """Return `cache_path`'s text if it exists, else fetch `url` and cache it.
+
+    http_get has no built-in cache, so fetchers that hit slow/rate-limited
+    sources (Wikipedia, ClubElo, ...) keep a small local file cache instead
+    of re-hitting the source on every run. Each caller picks its own
+    `cache_path` (directory + filename convention) and headers (e.g.
+    User-Agent); this helper only handles the read-through-cache logic.
+
+    Args:
+        url: full URL to request on a cache miss.
+        cache_path: file to read from / write to. Parent directory is
+            created if missing.
+        headers: passed through to http_get.
+        timeout: passed through to http_get.
+
+    Returns:
+        The cached or freshly-fetched text.
+    """
+    if cache_path.exists():
+        return cache_path.read_text(encoding="utf-8")
+    resp = http_get(url, headers=headers, timeout=timeout)
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    cache_path.write_text(resp.text, encoding="utf-8")
+    return resp.text
+
+
 def write_parquet(df: pd.DataFrame, path: Path) -> None:
     """Write a DataFrame to parquet, ensuring parent directory exists."""
     path.parent.mkdir(parents=True, exist_ok=True)
