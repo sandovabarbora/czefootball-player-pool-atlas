@@ -12,6 +12,7 @@ exact licence.
 """
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import logging
@@ -35,13 +36,22 @@ SPARQL_URL = "https://query.wikidata.org/sparql"
 
 
 def sparql_for(names: list[str]) -> str:
-    """Build a SPARQL query matching any of `names` who are Czech citizens (wd:Q213)."""
+    """Build a SPARQL query matching any of `names` who are Czech citizens (wd:Q213)
+    and association football players (wd:Q937857)."""
     values = " ".join(f'"{n}"@en' for n in names)
     return f"""SELECT ?p ?pLabel ?dob ?img WHERE {{
   VALUES ?name {{ {values} }}
-  ?p rdfs:label ?name ; wdt:P27 wd:Q213 .
+  ?p rdfs:label ?name ; wdt:P27 wd:Q213 ; wdt:P106 wd:Q937857 .
   OPTIONAL {{ ?p wdt:P569 ?dob }} OPTIONAL {{ ?p wdt:P18 ?img }}
   SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }} }}"""
+
+
+def _batch_cache_key(names: list[str]) -> str:
+    """Content hash of a (sorted) batch of names, so the cache file changes when
+    the pool changes -- a positional `batch_<i>.json` key would silently serve
+    stale results after the pool is re-fetched/re-filtered."""
+    digest = hashlib.sha1("\n".join(sorted(names)).encode("utf-8")).hexdigest()
+    return digest[:12]
 
 
 def match_images(bindings: list[dict], pool: pd.DataFrame) -> pd.DataFrame:
@@ -111,11 +121,16 @@ def _download(url: str, dest) -> None:
 
 
 def _fetch_batches(names: list[str]) -> list[dict]:
-    """Query Wikidata in batches of BATCH_SIZE names, caching each response to disk."""
+    """Query Wikidata in batches of BATCH_SIZE names, caching each response to disk.
+
+    Each batch's cache file is keyed by a content hash of its (sorted) names,
+    not its position in the list, so a changed pool never silently serves a
+    stale response left over from a different set of names at that index.
+    """
     bindings: list[dict] = []
     for i in range(0, len(names), BATCH_SIZE):
         batch = names[i : i + BATCH_SIZE]
-        cache_path = WIKIDATA_CACHE_DIR / f"batch_{i // BATCH_SIZE}.json"
+        cache_path = WIKIDATA_CACHE_DIR / f"batch_{_batch_cache_key(batch)}.json"
         was_cached = cache_path.exists()
         q = sparql_for(batch)
         url = f"{SPARQL_URL}?{urllib.parse.urlencode({'query': q, 'format': 'json'})}"
