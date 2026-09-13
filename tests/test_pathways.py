@@ -1,0 +1,130 @@
+"""Tests for src/pathways.py — youth exposure at home, export route, how
+exports fare, and profile by tier."""
+
+from __future__ import annotations
+
+import pandas as pd
+
+from src.pathways import _age, _dedupe_player_season, export_route, fare, profile, youth_exposure
+
+
+def test_age_at_season_start_no_plus_one():
+    # This module's own convention: age at the season's Jul 1 = season-start
+    # year minus birth year (not the +1-cohort convention used elsewhere,
+    # e.g. src.international_benchmark.assign_cohort).
+    assert _age(2004, "2024-2025") == 20
+    assert _age(2001, "2025-2026") == 24
+
+
+def test_youth_exposure_counts_own_young_nationals():
+    t = pd.DataFrame({
+        "league": ["CZE-First League"] * 3, "season": ["2024-2025"] * 3,
+        "player_key": list("abc"), "nation": ["CZE", "CZE", "SVK"],
+        "born": [2004, 1995, 2004], "min": [900, 2700, 900],
+    })
+    out = youth_exposure(t, "2024-2025", {"CZE-First League": "CZE"})
+    row = out.iloc[0]
+    assert abs(row.share_u21 - 900 / 4500) < 1e-9
+    assert row.minutes_total == 4500
+
+
+def test_youth_exposure_share_u23_includes_older_band():
+    t = pd.DataFrame({
+        "league": ["CZE-First League"] * 2, "season": ["2024-2025"] * 2,
+        "player_key": list("ab"), "nation": ["CZE", "CZE"],
+        "born": [2002, 1990], "min": [1000, 1000],
+    })
+    # age(2002, 2024-2025) = 22 -> not u21, but is u23
+    out = youth_exposure(t, "2024-2025", {"CZE-First League": "CZE"})
+    row = out.iloc[0]
+    assert row.share_u21 == 0.0
+    assert abs(row.share_u23 - 0.5) < 1e-9
+
+
+def test_dedupe_player_season_sums_minutes_and_keeps_dominant_row():
+    df = pd.DataFrame({
+        "player_key": ["x", "x", "y"], "season": ["2023-2024"] * 3,
+        "league": ["CZE-First League", "GER-Bundesliga", "AUT-Bundesliga"],
+        "team": ["Sparta", "Mainz 05", "Rapid"],
+        "nation": ["CZE", "CZE", "AUT"], "born": [2000, 2000, 1998],
+        "min": [300, 900, 1200],
+    })
+    out = _dedupe_player_season(df)
+    assert len(out) == 2
+    x = out[out.player_key == "x"].iloc[0]
+    assert x["min"] == 1200
+    assert x.league == "GER-Bundesliga"  # dominant (most-minutes) club
+
+
+def test_export_route_age_and_origin():
+    t = pd.DataFrame({
+        "player_key": ["x", "x", "x", "y", "y"], "nation": ["CZE"] * 3 + ["DEN"] * 2,
+        "born": [2001] * 3 + [2000] * 2,
+        "league": ["CZE-First League", "NED-Eredivisie", "ENG-Premier League",
+                   "DEN-Superliga", "ITA-Serie A"],
+        "season": ["2022-2023", "2023-2024", "2025-2026", "2024-2025", "2025-2026"],
+        "min": [1000] * 5,
+    })
+    out = export_route(t, ["ENG-Premier League", "ITA-Serie A"], ["NED-Eredivisie"],
+                        {"CZE-First League": "CZE", "DEN-Superliga": "DEN"}, ["CZE", "DEN"])
+    cze, den = out[out.country == "CZE"].iloc[0], out[out.country == "DEN"].iloc[0]
+    assert cze.median_export_age == 24 and cze.origin_shares["stepping_stone"] == 1.0
+    assert den.median_export_age == 25 and den.origin_shares["domestic"] == 1.0
+
+
+def test_export_route_censored_share_at_first_fetched_season():
+    # x's earliest tracked headline appearance IS the table's own earliest
+    # season (2020-2021) -> its true origin before that is unknown to our
+    # data (censored). y's only headline appearance is at the current
+    # season, one season later than the table's minimum, so it is not
+    # censored (even though its own origin is "not_covered", a separate
+    # concept from censoring).
+    t = pd.DataFrame({
+        "player_key": ["x", "x", "y"], "nation": ["CZE", "CZE", "CZE"],
+        "born": [1999, 1999, 2001],
+        "league": ["ENG-Premier League", "ENG-Premier League", "ENG-Premier League"],
+        "season": ["2020-2021", "2023-2024", "2023-2024"],
+        "min": [1000, 1000, 1000],
+    })
+    out = export_route(t, ["ENG-Premier League"], [], {"CZE-First League": "CZE"},
+                        ["CZE"], current="2023-2024")
+    cze = out[out.country == "CZE"].iloc[0]
+    assert cze.n == 2
+    assert abs(cze.censored_share - 0.5) < 1e-9
+
+
+def test_fare_uses_goals_scored_percentile_proxy():
+    tables = pd.DataFrame({
+        "player_key": ["a", "b", "c", "d"], "nation": ["CZE", "CZE", "DEN", "ENG"],
+        "league": ["ENG-Premier League"] * 4,
+        "season": ["2024-2025"] * 4,
+        "team": ["Weakside", "Strongside", "Strongside", "Weakside"],
+        "born": [2000, 2000, 2000, 2000],
+        "min": [900, 1800, 1800, 900],
+        "mp": [20, 20, 20, 20],
+        "gls": [1, 10, 10, 1],
+    })
+    out = fare(tables, ["ENG-Premier League"], ["CZE", "DEN"], "2024-2025")
+    cze = out[out.country == "CZE"].iloc[0]
+    den = out[out.country == "DEN"].iloc[0]
+    # Weakside scored 2 total, Strongside 20 total -> Strongside is the
+    # top-scoring (and only other) club, percentile rank 1.0 vs 0.5.
+    assert cze.n == 2
+    assert abs(den.median_club_goals_pct - 1.0) < 1e-9
+    assert den.median_club_goals_pct > cze.median_club_goals_pct
+
+
+def test_profile_other_tier_for_peer_in_third_country_league():
+    feats = pd.DataFrame({
+        "player_key": ["p1", "p2"], "nation": ["CZE", "AUT"],
+        "league": ["AUT-Bundesliga", "AUT-Bundesliga"], "season": ["2024-2025"] * 2,
+        "pos_group": ["FW", "FW"],
+        "npg_p90_quality": [0.3, 0.4], "ast_p90_quality": [0.1, 0.1],
+    })
+    peer_domestic = {"AUT-Bundesliga": "AUT", "CZE-First League": "CZE"}
+    out = profile(feats, peer_domestic, ["ENG-Premier League"], ["NED-Eredivisie"],
+                   ["CZE", "AUT"], "2024-2025")
+    cze_row = out[(out.country == "CZE") & (out.pos_group == "FW")].iloc[0]
+    aut_row = out[(out.country == "AUT") & (out.pos_group == "FW")].iloc[0]
+    assert cze_row.tier == "other"    # CZE player in AUT's own domestic league
+    assert aut_row.tier == "domestic"  # AUT player in AUT's own domestic league
