@@ -5,7 +5,16 @@ from __future__ import annotations
 
 import pandas as pd
 
-from src.pathways import _age, _dedupe_player_season, export_route, fare, profile, youth_exposure
+from src.pathways import (
+    CLUB_STRENGTH_PROXY,
+    _age,
+    _dedupe_player_season,
+    build_pathways,
+    export_route,
+    fare,
+    profile,
+    youth_exposure,
+)
 
 
 def test_age_at_season_start_no_plus_one():
@@ -39,6 +48,24 @@ def test_youth_exposure_share_u23_includes_older_band():
     row = out.iloc[0]
     assert row.share_u21 == 0.0
     assert abs(row.share_u23 - 0.5) < 1e-9
+
+
+def test_youth_exposure_missing_league_yields_none_row():
+    # SVK-Super Liga has no FBref comp_id (see config/leagues.yaml) and so
+    # never appears in fbref_players.parquet at all. It must still get a
+    # row -- with minutes_total 0 and share_u21/share_u23 None -- rather
+    # than being silently dropped from the exhibit.
+    t = pd.DataFrame({
+        "league": ["CZE-First League"], "season": ["2024-2025"],
+        "player_key": ["a"], "nation": ["CZE"], "born": [2004], "min": [900],
+    })
+    out = youth_exposure(t, "2024-2025", {"CZE-First League": "CZE", "SVK-Super Liga": "SVK"})
+    assert len(out) == 2
+    svk = out[out.country == "SVK"].iloc[0]
+    assert svk.league == "SVK-Super Liga"
+    assert svk.minutes_total == 0
+    assert svk.share_u21 is None
+    assert svk.share_u23 is None
 
 
 def test_dedupe_player_season_sums_minutes_and_keeps_dominant_row():
@@ -138,6 +165,52 @@ def test_fare_uses_goals_scored_percentile_proxy():
     assert cze.n == 2
     assert abs(den.median_club_goals_pct - 1.0) < 1e-9
     assert den.median_club_goals_pct > cze.median_club_goals_pct
+    assert (out.club_strength_proxy == CLUB_STRENGTH_PROXY).all()
+
+
+def test_fare_zero_matches_yields_n_zero_row():
+    # HUN has no players in the one headline league present -> must still
+    # get a row (n=0, medians None), not be dropped from the exhibit.
+    tables = pd.DataFrame({
+        "player_key": ["a"], "nation": ["CZE"],
+        "league": ["ENG-Premier League"], "season": ["2024-2025"],
+        "team": ["Arsenal"], "born": [2000], "min": [1800], "mp": [20], "gls": [10],
+    })
+    out = fare(tables, ["ENG-Premier League"], ["CZE", "HUN"], "2024-2025")
+    assert len(out) == 2
+    hun = out[out.country == "HUN"].iloc[0]
+    assert hun.n == 0
+    assert hun.median_min_share is None
+    assert hun.median_club_goals_pct is None
+    assert hun.club_strength_proxy == CLUB_STRENGTH_PROXY
+
+
+def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
+    tables = pd.DataFrame({
+        "player_key": ["a", "b"], "nation": ["CZE", "DEN"],
+        "league": ["ENG-Premier League", "CZE-First League"],
+        "season": ["2024-2025", "2024-2025"],
+        "team": ["Arsenal", "Sparta"],
+        "born": [2000, 2000], "min": [1800, 1800], "mp": [20, 20], "gls": [10, 5],
+    })
+    feats = pd.DataFrame({
+        "player_key": ["a"], "nation": ["CZE"], "league": ["ENG-Premier League"],
+        "season": ["2024-2025"], "pos_group": ["FW"],
+        "npg_p90_quality": [0.3], "ast_p90_quality": [0.1],
+    })
+    cfg = {
+        "headline": ["ENG-Premier League"],
+        "stepping_stone": [],
+        "domestic": "CZE-First League",
+        "peer_domestic": {"DEN-Superliga": {"country": "DEN"}},
+    }
+    seasons = {"metrics": "2024-2025", "current": "2024-2025"}
+    out = build_pathways(tables, feats, cfg, seasons, ["CZE", "DEN"])
+
+    assert isinstance(out["fare"], list)
+    for row in out["fare"]:
+        assert {"country", "n", "median_min_share", "median_club_goals_pct", "club_strength_proxy"} <= row.keys()
+        assert row["club_strength_proxy"] == CLUB_STRENGTH_PROXY
 
 
 def test_profile_other_tier_for_peer_in_third_country_league():

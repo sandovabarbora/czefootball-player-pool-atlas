@@ -58,7 +58,12 @@ Inputs:
 
 Output:
     data/processed/pathways.json with keys `youth_exposure`, `export_route`,
-    `fare`, `profile`.
+    `fare`, `profile` (see `build_pathways` for the assembly, factored out
+    of `main()` so the JSON shape is unit-testable without disk I/O). Every
+    exhibit except `profile` emits exactly one row per configured
+    league/country, even where there is no matching data (`profile` stays
+    groupby-based: an absent tier there is legitimately empty, not a
+    configured slot that could be missing).
 """
 
 from __future__ import annotations
@@ -73,9 +78,11 @@ from src.utils import read_parquet
 
 LOG = logging.getLogger(__name__)
 
-__all__ = ["youth_exposure", "export_route", "fare", "profile", "main"]
+__all__ = ["youth_exposure", "export_route", "fare", "profile", "build_pathways", "main"]
 
 ORIGIN_LABELS = ("domestic", "stepping_stone", "other_top9", "not_covered")
+
+CLUB_STRENGTH_PROXY = "goals-scored percentile within league"
 
 
 def _age(born, season: str) -> float:
@@ -130,11 +137,25 @@ def youth_exposure(tables: pd.DataFrame, season: str, league_country: dict[str, 
     each club still belong to that league-season's total either way) and
     report the share of total minutes played by nationals of `country` aged
     <=21 / <=23.
+
+    Emits exactly one row per `league_country` entry, even when that league
+    has no data for `season` (e.g. SVK-Super Liga, which FBref does not
+    track at all — see config/leagues.yaml). A missing league gets
+    `minutes_total: 0` and `share_u21`/`share_u23: None`, rather than being
+    dropped, so every exhibit consumer can rely on a fixed row per
+    configured league/country without checking for absence itself.
     """
     rows = []
     for league, country in league_country.items():
         t = tables[(tables.league == league) & (tables.season == season)]
         if t.empty:
+            rows.append({
+                "league": league,
+                "country": country,
+                "minutes_total": 0,
+                "share_u21": None,
+                "share_u23": None,
+            })
             continue
         age = t["born"].map(lambda b: _age(b, season))
         own = t.nation == country
@@ -146,7 +167,10 @@ def youth_exposure(tables: pd.DataFrame, season: str, league_country: dict[str, 
             "share_u21": float(t.loc[own & (age <= 21), "min"].sum()) / total,
             "share_u23": float(t.loc[own & (age <= 23), "min"].sum()) / total,
         })
-    return pd.DataFrame(rows)
+    # dtype=object keeps a real Python None for a missing league distinct
+    # from pandas' usual float NaN (a DataFrame built without it would
+    # silently upcast None to NaN once any other row has a real float).
+    return pd.DataFrame(rows, dtype=object)
 
 
 def export_route(
@@ -197,6 +221,14 @@ def export_route(
     appearance IS that earliest season has an unknown true origin — we
     cannot see what came before our data starts at all — and is counted as
     censored.
+
+    Known limitation (not fixed here): a handful of `fbref_players.parquet`
+    rows have no `born` year (see `_age`). Such a player still counts
+    toward `n`/`n_recent` (their headline-league presence is real) even
+    though their `_age` is NaN and is therefore silently excluded from the
+    `median_export_age*` calculations (`pd.Series.median()` skips NaN by
+    default) — `n`/`n_recent` can be very slightly larger than the count of
+    ages the corresponding median is computed over.
     """
     t = _dedupe_player_season(tables)
     current = current if current is not None else t.season.max()
@@ -248,6 +280,12 @@ def fare(tables: pd.DataFrame, headline: list[str], peers: list[str], season: st
     `season`:
         median_min_share: minutes / (club matches played * 90), median over
             the country's players (deduped to one row per player-season).
+            `team_matches` (the denominator's match count) is computed over
+            ALL of that season's rows across every league in `tables`, not
+            just headline leagues — deliberately: it is keyed by
+            (league, team), so a same-named club in a different league
+            never gets conflated, and every team that could be joined
+            against (headline or not) gets a match count.
         median_club_goals_pct: club-strength proxy. ClubElo is down (Task
             5), so this uses the league-table proxy available in this
             repo's own data instead of an Elo percentile: rank each club
@@ -257,6 +295,14 @@ def fare(tables: pd.DataFrame, headline: list[str], peers: list[str], season: st
             count toward the club's total), then take the percentile of
             that rank within the league (1.0 = the league's top-scoring
             club that season). Median taken over the country's players.
+
+    Emits exactly one row per `peers` entry, even when a peer has zero
+    headline-league players that season: `{country, n: 0,
+    median_min_share: None, median_club_goals_pct: None,
+    club_strength_proxy}` rather than being dropped, so every exhibit
+    consumer can rely on a fixed row per configured peer. The proxy string
+    is repeated on every record (this is a flat list in `pathways.json`,
+    not a `{proxy, rows}` wrapper).
     """
     all_season = tables[tables.season == season]
     team_matches = all_season.groupby(["league", "team"])["mp"].max().rename("team_matches")
@@ -269,17 +315,35 @@ def fare(tables: pd.DataFrame, headline: list[str], peers: list[str], season: st
     t = peer_rows.join(team_matches, on=["league", "team"]).join(club_goals_pct, on=["league", "team"])
     t["min_share"] = t["min"] / (t["team_matches"] * 90)
 
-    out = (
-        t.groupby("nation")
-        .agg(n=("player_key", "nunique"),
-             median_min_share=("min_share", "median"),
-             median_club_goals_pct=("club_goals_pct", "median"))
-        .reset_index()
-        .rename(columns={"nation": "country"})
+    by_country = t.groupby("nation").agg(
+        n=("player_key", "nunique"),
+        median_min_share=("min_share", "median"),
+        median_club_goals_pct=("club_goals_pct", "median"),
     )
+    rows = []
+    for country in peers:
+        if country in by_country.index:
+            r = by_country.loc[country]
+            rows.append({
+                "country": country,
+                "n": int(r["n"]),
+                "median_min_share": float(r["median_min_share"]),
+                "median_club_goals_pct": float(r["median_club_goals_pct"]),
+                "club_strength_proxy": CLUB_STRENGTH_PROXY,
+            })
+        else:
+            rows.append({
+                "country": country,
+                "n": 0,
+                "median_min_share": None,
+                "median_club_goals_pct": None,
+                "club_strength_proxy": CLUB_STRENGTH_PROXY,
+            })
     LOG.info("fare: %d peer headline-league player-seasons, %d with a club_goals_pct match",
               len(t), int(t["club_goals_pct"].notna().sum()))
-    return out
+    # dtype=object: see youth_exposure's comment -- keeps a real Python
+    # None for a zero-match peer distinct from pandas' float NaN.
+    return pd.DataFrame(rows, dtype=object)
 
 
 def profile(
@@ -321,31 +385,41 @@ def profile(
     return out
 
 
-def main() -> None:
-    logging.basicConfig(level=logging.INFO)
-    cfg, seasons, peers = config.leagues(), config.seasons(), config.PEER_COUNTRIES
-    tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
-    peer_domestic = {k: v["country"] for k, v in cfg["peer_domestic"].items()} | {cfg["domestic"]: "CZE"}
+def build_pathways(
+    tables: pd.DataFrame,
+    feats: pd.DataFrame,
+    cfg: dict,
+    seasons: dict[str, str],
+    peers: list[str],
+) -> dict:
+    """Assemble the full `pathways.json` payload (no disk I/O).
 
-    out = {
+    Factored out of `main()` so the JSON shape itself is unit-testable
+    without reading parquet files: `main()` only handles reading inputs and
+    writing the result.
+    """
+    peer_domestic = {k: v["country"] for k, v in cfg["peer_domestic"].items()} | {cfg["domestic"]: "CZE"}
+    return {
         "youth_exposure": youth_exposure(tables, seasons["metrics"], peer_domestic).to_dict("records"),
         "export_route": export_route(
             tables, cfg["headline"], cfg["stepping_stone"], peer_domestic, peers,
             seasons["current"], seasons["metrics"],
         ).to_dict("records"),
-        "fare": {
-            "club_strength_proxy": "goals-scored percentile within league",
-            "rows": fare(tables, cfg["headline"], peers, seasons["metrics"]).to_dict("records"),
-        },
+        "fare": fare(tables, cfg["headline"], peers, seasons["metrics"]).to_dict("records"),
+        "profile": profile(
+            feats, peer_domestic, cfg["headline"], cfg["stepping_stone"], peers, seasons["metrics"]
+        ).to_dict("records"),
     }
 
+
+def main() -> None:
+    logging.basicConfig(level=logging.INFO)
+    cfg, seasons, peers = config.leagues(), config.seasons(), config.PEER_COUNTRIES
+    tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
     feats = pd.concat(
         [read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in config.features()["groups"]]
     )
-    out["profile"] = profile(
-        feats, peer_domestic, cfg["headline"], cfg["stepping_stone"], peers, seasons["metrics"]
-    ).to_dict("records")
-
+    out = build_pathways(tables, feats, cfg, seasons, peers)
     (config.PROCESSED_DIR / "pathways.json").write_text(json.dumps(out, indent=1, default=float))
     LOG.info("pathways written")
 
