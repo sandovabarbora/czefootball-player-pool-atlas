@@ -126,7 +126,8 @@ def parse_atlas(path: Path):
         def cal(t):
             (p0, v0), (p1, v1) = t[0], t[-1]
             return {"a": (v1 - v0) / (p1 - p0), "b": v0 - (v1 - v0) / (p1 - p0) * p0}
-        panel["cx"] = cal(panel["xt"]); panel["cy"] = cal(panel["yt"])
+        panel["cx"] = cal(panel["xt"])
+        panel["cy"] = cal(panel["yt"])
         # attach each name label to the nearest point (any cluster) within 40 px
         pts = []
         for c in panel["clusters"]:
@@ -137,7 +138,7 @@ def parse_atlas(path: Path):
             best = min(pts, key=lambda p: math.hypot(p[0] - nm["x"], p[1] - nm["y"]))
             if math.hypot(best[0] - nm["x"], best[1] - nm["y"]) < 40:
                 nm["px"], nm["py"], nm["cluster"] = best[0], best[1], best[2]
-        del panel["xt"]; del panel["yt"]
+        del panel["xt"], panel["yt"]
         panels.append(panel)
     return {"viewBox": vb, "panels": panels}
 
@@ -161,7 +162,8 @@ def parse_heatmap(path: Path):
                 tg = next((c for c in g if (c.get("id") or "").startswith("text")), None)
                 if tg is None:
                     continue
-                lab = text_of(tg); tx, ty = translate_of(tg)
+                lab = text_of(tg)
+                tx, ty = translate_of(tg)
                 (cols if gid.startswith("xtick") else rows).append([tx if gid.startswith("xtick") else ty, lab])
             elif gid.startswith("text"):
                 txt = text_of(g)
@@ -171,17 +173,20 @@ def parse_heatmap(path: Path):
                         title = txt
                     else:
                         texts.append([pos[0], pos[1], txt])
-        cols.sort(); rows.sort()
+        cols.sort()
+        rows.sort()
         if not rows and panels:
             rows = [[None, r] for r in panels[0]["rows"]]
         if bbox is None or not cols or not rows:
             raise SystemExit(f"{path.name} {ax.get('id')}: bbox={bbox} cols={len(cols)} rows={len(rows)}")
-        cw = (bbox[2] - bbox[0]) / len(cols); rh = (bbox[3] - bbox[1]) / len(rows)
+        cw = (bbox[2] - bbox[0]) / len(cols)
+        rh = (bbox[3] - bbox[1]) / len(rows)
         cells = {}
         for x, y, txt in texts:
             if not (bbox[0] <= x <= bbox[2] and bbox[1] <= y <= bbox[3]):
                 continue
-            ci = min(int((x - bbox[0]) / cw), len(cols) - 1); ri = min(int((y - bbox[1]) / rh), len(rows) - 1)
+            ci = min(int((x - bbox[0]) / cw), len(cols) - 1)
+            ri = min(int((y - bbox[1]) / rh), len(rows) - 1)
             cell = cells.setdefault(f"{ri},{ci}", {})
             if txt.startswith("n="):
                 cell["n"] = int(txt[2:])

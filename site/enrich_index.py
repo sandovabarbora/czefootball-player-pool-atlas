@@ -117,7 +117,7 @@ if LANG == "cs":
     sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg)"', r'<img src="\1"', 4)
 
 # ---------------------------------------------------------------- top bar
-links = "\n".join(f'    <a href="{h}">{l}</a>' for h, l in S["nav"])
+links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])
 switch = ('<span aria-current="page" lang="en">EN</span><a href="cs/" hreflang="cs" lang="cs">CS</a>' if LANG == "en"
           else '<a href="../" hreflang="en" lang="en">EN</a><span aria-current="page" lang="cs">CS</span>')
 TOPBAR = f'''<nav class="topbar" aria-label="{S["nav_aria"]}">

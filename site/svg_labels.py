@@ -93,7 +93,7 @@ def convert(src: str, name: str) -> str:
     refs = set(re.findall(r'xlink:href="#([^"]+)"', out))
     defs = []
     for mid in sorted(refs - ids):
-        m = re.search(r'<path id="%s".*?"/>' % re.escape(mid), src, flags=re.S)
+        m = re.search(rf'<path id="{re.escape(mid)}".*?"/>', src, flags=re.S)
         if m:
             defs.append(m.group(0))
     if defs:
