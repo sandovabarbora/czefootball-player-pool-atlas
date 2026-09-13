@@ -21,7 +21,15 @@ custom:              # not built into soccerdata; comp_id verified via the count
   CZE-First League:   {comp_id: 66, slug: Czech-First-League, country: CZE, tier: 1}
   GER-2. Bundesliga:  {comp_id: 33, slug: 2-Bundesliga,      country: GER, tier: 2}
 peer_domestic:       # tier-1 leagues of the peer countries (exhibit A, route origins)
-  SVK-Super Liga:     {comp_id: 39, slug: Slovak-Super-Liga,  country: SVK, tier: 1}
+  # Task 2 correction: comp_id 39 is actually Ukrainian Premier League on FBref
+  # (verified 2026-09-13). Slovakia's top flight does not appear at all in
+  # FBref's tracked-competitions index (fbref.com/en/comps/, "Domestic Leagues
+  # - 1st Tier Table", 66 leagues, none Slovak) under "Slovak Super Liga",
+  # "Fortuna Liga", or "Niké Liga" -- soccerdata's FBref reader can only
+  # resolve leagues that are in that index, so this league cannot be fetched
+  # via soccerdata today. comp_id left null rather than guessing; see
+  # task-2-report.md.
+  SVK-Super Liga:     {comp_id: null, slug: Slovak-Super-Liga,  country: SVK, tier: 1}
   AUT-Bundesliga:     {comp_id: 56, slug: Austrian-Bundesliga, country: AUT, tier: 1}
   HUN-NB I:           {comp_id: 46, slug: NB-I,               country: HUN, tier: 1}
   POL-Ekstraklasa:    {comp_id: 36, slug: Ekstraklasa,        country: POL, tier: 1}

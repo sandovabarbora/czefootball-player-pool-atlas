@@ -7,6 +7,7 @@ caller, move it into the caller.
 from __future__ import annotations
 
 import logging
+import re
 import time
 from pathlib import Path
 
@@ -18,8 +19,29 @@ from tenacity import (
     stop_after_attempt,
     wait_exponential,
 )
+from unidecode import unidecode
 
 LOG = logging.getLogger(__name__)
+
+
+def normalize_name(name: str) -> str:
+    """Canonicalize a player name for cross-source matching.
+
+    unidecode (strip diacritics) -> lowercase -> collapse whitespace.
+    """
+    ascii_name = unidecode(str(name))
+    return re.sub(r"\s+", " ", ascii_name.strip().lower())
+
+
+def player_key(name: str, born: object) -> str:
+    """Build the canonical player key: normalized name + birth year.
+
+    FBref's player-season tables carry no player id, so `normalize_name(name)
+    + "|" + str(born)` is the join key across leagues/seasons (see Task 0
+    spike). `born` becomes "x" when missing or not a finite number.
+    """
+    born_part = "x" if born is None or pd.isna(born) else str(int(born))
+    return f"{normalize_name(name)}|{born_part}"
 
 
 @retry(

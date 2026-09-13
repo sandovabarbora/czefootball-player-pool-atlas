@@ -35,6 +35,12 @@ outputs/*.svg
 outputs/*.png
 !outputs/.gitkeep
 
+# Fetch run logs
+fetch.log
+
+# SeleniumBase runtime artifacts (soccerdata's FBref reader uses seleniumbase)
+downloaded_files/
+
 # OS / editor
 .DS_Store
 .idea/
