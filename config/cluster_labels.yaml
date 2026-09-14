@@ -54,8 +54,8 @@ DF:
 
 # Tactical reads (style projection only), written from the 2025/26 cluster
 # medians — the author edits these. Descriptive: what the statistical
-# footprint is consistent with, never what a coach should do. Czech examples
-# are the Czech-eligible players with the most 2025/26 minutes in the cluster.
+# footprint is consistent with, never what a coach should do. Examples appended at render time
+# are the home-eligible players with the most 2025/26 minutes in the cluster.
 tactical:
   FW:
     C0:
@@ -71,8 +71,8 @@ tactical:
       en: "Experienced forwards on managed minutes — median age 31, about 40 % of minutes, output at median. The impact or target forward used in rotation"
       cs: "Zkušení útočníci s řízenou minutáží — medián věku 31, zhruba 40 % minut, produkce na mediánu. Impaktový nebo cílový útočník v rotaci"
     C4:
-      en: "The development tier and the largest forward cluster — median age 23, under 30 % of minutes, output just below median. Where most young Czech forwards sit"
-      cs: "Rozvojová vrstva a největší cluster útočníků — medián věku 23, pod 30 % minut, produkce těsně pod mediánem. Tady sedí většina mladých českých útočníků"
+      en: "The development tier and the largest forward cluster — median age 23, under 30 % of minutes, output just below median. Where most of the home pool's young forwards sit"
+      cs: "Rozvojová vrstva a největší cluster útočníků — medián věku 23, pod 30 % minut, produkce těsně pod mediánem. Tady sedí většina mladých útočníků domácího fondu"
     C5:
       en: "Primary scorers — non-penalty goal rate nearly double the forward median on starter minutes (56 %). The finishing forward of a first-choice line"
       cs: "Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby"
@@ -84,8 +84,8 @@ tactical:
       en: "Veteran rotation midfielders — median age 30 on managed minutes (40 %), output at median, card rate above it. Experience kept in the squad rather than on the pitch every week"
       cs: "Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden"
     C2:
-      en: "Development midfielders — the largest Czech midfield group: median age 22, under a third of minutes, output at median. The pipeline's waiting room"
-      cs: "Rozvojoví záložníci — největší česká záložnická skupina: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline"
+      en: "Development midfielders — the home pool's largest midfield group: median age 22, under a third of minutes, output at median. The pipeline's waiting room"
+      cs: "Rozvojoví záložníci — největší záložnická skupina domácího fondu: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline"
     C3:
       en: "The engine room — nearly 80 % of minutes with median output: holding and box-to-box midfielders whose value is continuity and structure, not numbers"
       cs: "Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla"
