@@ -9,3 +9,9 @@ events:
   - {team: A,   event: "2026 World Cup qualification",    year: 2025, url: "https://en.wikipedia.org/wiki/Czech_Republic_national_football_team", section: "Recent call-ups"}
   - {team: U21, event: "UEFA European Under-21 Championship 2025", year: 2025, url: "https://en.wikipedia.org/wiki/2025_UEFA_European_Under-21_Championship_squads", section: "Czech Republic"}
   - {team: A,   event: "2026 FIFA World Cup",              year: 2026, url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads", section: "Czech Republic"}
+
+# Exhibit F (squad_lens): peer squads on the same nt_core_event Wikipedia page,
+# compared against the Czech squad above.
+peer_squads:
+  - {country: CRO, section: "Croatia"}
+  - {country: DEN, section: "Denmark"}

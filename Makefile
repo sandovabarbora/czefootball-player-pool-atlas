@@ -55,6 +55,7 @@ reduce:
 
 benchmark:
 	$(ACT) python -m src.international_benchmark
+	$(ACT) python -m src.squad_lens
 
 analogs:
 	$(ACT) python -m src.historical_analogs

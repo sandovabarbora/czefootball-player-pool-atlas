@@ -642,6 +642,46 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
     }
 
 
+def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
+    """Exhibit F context: `lens` (src.squad_lens.build_squad_lens's JSON shape) -> template rows.
+
+    Rows are ordered CZE first, then the remaining countries by their top-9
+    tier count descending. Empty/missing `lens` (squad_lens.json absent)
+    returns `{}`, which the template reads as "no exhibit F".
+    """
+    countries = lens.get("countries") or []
+    if not countries:
+        return {}
+    cze = next((c for c in countries if c["country"] == "CZE"), None)
+    others = sorted(
+        (c for c in countries if c["country"] != "CZE"),
+        key=lambda c: -c["tiers"].get("top9", 0),
+    )
+    ordered = ([cze] if cze else []) + others
+    rows = []
+    for c in ordered:
+        n, tiers = c["n"], c["tiers"]
+
+        def pct(k: str, n: int = n, tiers: dict = tiers) -> float:
+            return round(100 * tiers.get(k, 0) / n, 1) if n else 0.0
+
+        rows.append({
+            "country": c["country"], "name": names.get(c["country"], c["country"]),
+            "n": n, "matched": c["matched"],
+            "top9_pct": pct("top9"), "stepping_pct": pct("stepping_stone"),
+            "domestic_pct": pct("domestic"), "other_pct": pct("other"),
+            "unmatched": tiers.get("unmatched", 0),
+            "cohorts": c["cohorts"],
+            "median_minutes": c.get("median_minutes"),
+            "median_multiplier": c.get("median_multiplier"),
+        })
+    return {
+        "event": str(lens.get("event", "")),
+        "season_label": season_label(lens["season"]),
+        "rows": rows,
+    }
+
+
 def _build_loadings(loadings: pd.DataFrame) -> list[dict]:
     rows = []
     for r in loadings.itertuples():
@@ -840,6 +880,7 @@ def load_data() -> dict[str, Any]:
         "showcase": _load_json(p / "showcase.json", []),
         "analogs": _load_json(p / "analogs.json", {}),
         "pathways": _load_json(p / "pathways.json", {}),
+        "squad_lens": _load_json(p / "squad_lens.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.load_yaml("cluster_labels.yaml"),
         "league_quality": config.league_quality(),
@@ -892,6 +933,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                          current_table=data["fbref_players"] if not data["fbref_players"].empty else None)
     nt_core_event = config.load_yaml("squads.yaml").get("nt_core_event")
     pathways = _build_pathways(data["pathways"], names, peers)
+    squad_lens = _build_squad_lens(data["squad_lens"], names)
     player_index = _build_player_index(data["features"], data["coords"], data["pool"],
                                        data["cluster_labels"], cards, metrics, tr)
 
@@ -961,6 +1003,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "movers": movers,
         "thresholds": thresholds,
         "pathways": pathways,
+        "squad_lens": squad_lens,
         "cards": cards,
         "card_rows": _card_rows(cards, tr, nt_core_event=nt_core_event),
         "nt_core_event": nt_core_event,
@@ -1074,6 +1117,19 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
              "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
              "nt_years": config.nt_years(),
              "n_leagues": 19, "tier2_factor": 0.6, "max_multiplier": 1.0, **seasons}
+    squad_lens = _build_squad_lens({
+        "event": "2026 FIFA World Cup", "season": metrics_raw,
+        "countries": [
+            {"country": "CZE", "n": 3, "matched": 2,
+             "tiers": {"top9": 1, "stepping_stone": 0, "domestic": 1, "other": 0, "unmatched": 1},
+             "cohorts": {"U22": 0, "23-25": 1, "26-29": 0, "30+": 2},
+             "median_minutes": 1850.0, "median_multiplier": 0.434},
+            {"country": "DEN", "n": 1, "matched": 1,
+             "tiers": {"top9": 0, "stepping_stone": 0, "domestic": 1, "other": 0, "unmatched": 0},
+             "cohorts": {"U22": 0, "23-25": 0, "26-29": 1, "30+": 0},
+             "median_minutes": 900.0, "median_multiplier": 0.371},
+        ],
+    }, {"CZE": "Czechia", "DEN": "Denmark"})
     hero = {"per_million": 1.65, "rank": 2, "n_peers": 2, "n_players": 18, "population_m": 10.9,
             "top": per_capita[0], "gap": gaps[0], "export_cze": export[0], "export_den": export[0]}
     thresholds = {"min_minutes": 900, "direction": 0.05}
@@ -1097,7 +1153,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                                             thresholds, seasons, n_headline=1, tr=tr),
         "clusters": clusters, "cluster_names": {"FW": {"style": {"C0": tr.term("High-volume scorers")}, "quality": {"C2": tr.term("High-volume scorers in top-five leagues")}}},
         "movers": movers, "thresholds": thresholds,
-        "pathways": pathways, "cards": cards,
+        "pathways": pathways, "squad_lens": squad_lens, "cards": cards,
         "card_rows": _card_rows(cards, tr, nt_core_event="2026 FIFA World Cup"),
         "nt_core_event": "2026 FIFA World Cup",
         "player_index": player_index,

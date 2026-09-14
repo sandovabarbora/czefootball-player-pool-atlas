@@ -14,3 +14,14 @@ def test_parse_czech_euro2024_squad():
     assert 23 <= len(df) <= 26
     assert (df.player_norm == "patrik schick").any()
     assert df.born.between(1985, 2006).all()
+
+
+def test_parse_squad_section_works_for_peer_countries_on_the_same_page():
+    # Exhibit F (squad_lens) parses peer sections off the same wiki page as
+    # the Czech squad; this fixture happens to carry both.
+    html = FIX.read_text(encoding="utf-8")
+    cro = parse_squad_section(html, section="Croatia")
+    den = parse_squad_section(html, section="Denmark")
+    assert 20 <= len(cro) <= 26
+    assert 20 <= len(den) <= 26
+    assert cro.born.between(1985, 2006).all() and den.born.between(1985, 2006).all()

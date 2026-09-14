@@ -91,6 +91,31 @@ def main() -> None:
     ]
     write_parquet(out, config.PROCESSED_DIR / "nt_flags.parquet")
 
+    # Exhibit F (squad_lens): the Czech nt_core_event squad plus its peer
+    # squads from the same Wikipedia page (config/squads.yaml::peer_squads).
+    cfg = config.load_yaml("squads.yaml")
+    core = next(e for e in cfg["events"] if e["event"] == cfg["nt_core_event"])
+    cache_key = f"wiki_{core['year']}_{core['team']}_{normalize_name(core['event']).replace(' ', '_')}"
+    core_html = _fetch_html(core["url"], cache_key)
+    peers = [parse_squad_section(core_html, core["section"]).assign(country="CZE")]
+    for p in cfg.get("peer_squads", []):
+        try:
+            peers.append(parse_squad_section(core_html, p["section"]).assign(country=p["country"]))
+        except ValueError:
+            # The cached page is read-only here (no refetch); a peer whose
+            # squad section isn't on it yet (e.g. not qualified for
+            # nt_core_event at cache time) is simply absent from the lens,
+            # not an error.
+            LOG.warning(
+                "%s section %r not found on the %s page (cached, not refetched); skipping",
+                p["country"], p["section"], core["event"],
+            )
+    ps = pd.concat(peers, ignore_index=True).assign(event=core["event"])
+    write_parquet(
+        ps[["country", "player_norm", "player", "born", "event"]],
+        config.PROCESSED_DIR / "peer_squads.parquet",
+    )
+
 
 if __name__ == "__main__":
     main()

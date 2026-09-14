@@ -470,6 +470,48 @@
     <p class="capita-note">{{ t('ch2.e.note', season=seasons.metrics, definition=term(dest.sideways_definition)) }}</p>
     {% endif %}
     {% endif %}
+
+    {% if squad_lens and squad_lens.rows %}
+    {% set cze_row = (squad_lens.rows | selectattr('country', 'equalto', 'CZE') | list | first) or squad_lens.rows[0] %}
+    {% set peer_names = [] %}
+    {% for r in squad_lens.rows if r.country != 'CZE' %}{% set _ = peer_names.append(term(r.name)) %}{% endfor %}
+    {% set total_unmatched = squad_lens.rows | sum(attribute='unmatched') %}
+    <h3>{{ t('ch2.f.h3', event=squad_lens.event) }}</h3>
+    <p>
+      {{ t('ch2.f.p', n=cze_row.n, event=squad_lens.event, season=squad_lens.season_label, peers=peer_names | join(', ')) }}
+    </p>
+    <table class="kv-table">
+      <thead>
+        <tr>
+          <th>{{ t('ch2.f.th.country') }}</th><th>{{ t('ch2.f.th.squad') }}</th>
+          <th>{{ t('ch2.f.th.top9') }}</th><th>{{ t('ch2.f.th.stepping') }}</th>
+          <th>{{ t('ch2.f.th.domestic') }}</th><th>{{ t('ch2.f.th.other') }}</th>
+          <th>{{ t('ch2.f.th.median_min') }}</th><th>{{ t('ch2.f.th.median_mult') }}</th>
+          <th>{{ t('ch2.f.th.u22') }}</th><th>{{ t('ch2.f.th.c2325') }}</th>
+          <th>{{ t('ch2.f.th.c2629') }}</th><th>{{ t('ch2.f.th.c30plus') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in squad_lens.rows %}
+        <tr{% if r.country == 'CZE' %} class="cohort-cze"{% endif %}>
+          <td><span class="capita-code">{{ r.country }}</span> {{ term(r.name) }}</td>
+          <td>{{ r.n }}</td>
+          <td>{{ '%.1f' | format(r.top9_pct) }} %</td>
+          <td>{{ '%.1f' | format(r.stepping_pct) }} %</td>
+          <td>{{ '%.1f' | format(r.domestic_pct) }} %</td>
+          <td>{{ '%.1f' | format(r.other_pct) }} %</td>
+          <td>{{ g(r.median_minutes) }}</td>
+          <td>{{ f3(r.median_multiplier) }}</td>
+          <td>{{ r.cohorts['U22'] }}</td>
+          <td>{{ r.cohorts['23-25'] }}</td>
+          <td>{{ r.cohorts['26-29'] }}</td>
+          <td>{{ r.cohorts['30+'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="capita-note">{{ t('ch2.f.note', unmatched=total_unmatched, season=squad_lens.season_label) }}</p>
+    {% endif %}
   </div>
 </section>
 
