@@ -117,3 +117,10 @@ def test_season_page_url_uses_fbrefs_page_segment(monkeypatch):
     assert url.endswith("/en/comps/9/stats/Premier-League-Stats")
     assert fetch_fbref._season_page_url(_FB(), "ENG-Premier League", "2026-2027", "keeper").endswith(
         "/en/comps/9/keepers/Premier-League-Stats")
+
+
+def test_parse_player_page_reports_squads_only_page():
+    from src.fetch_fbref import MissingTable
+    page = "<html><body><h1>2026-2027 NB I Stats</h1><table id='stats_squads_standard_for'></table></body></html>"
+    with pytest.raises(MissingTable):
+        parse_player_page(page, "HUN-NB I", "2026-2027", "standard")

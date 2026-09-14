@@ -30,6 +30,10 @@ class SeasonMismatch(RuntimeError):
     """The page FBref served is not the season that was asked for."""
 
 
+class MissingTable(RuntimeError):
+    """The page has no player table (FBref intermittently serves a squads-only page)."""
+
+
 def page_season(page_html: str) -> str | None:
     """Season named in the page's <h1> ("2025-2026 Ekstraklasa Stats"), or None."""
     tree = html.fromstring(page_html)
@@ -55,7 +59,10 @@ def parse_player_page(page_html: str, league: str, season: str, stat_type: str) 
     tree = html.fromstring(page_html)
     for elem in tree.xpath("//td[@data-stat='comp_level']//span"):
         elem.getparent().remove(elem)
-    (el,) = tree.xpath(f"//comment()[contains(.,'div_stats_{stat_type}')]")
+    comments = tree.xpath(f"//comment()[contains(.,'div_stats_{stat_type}')]")
+    if not comments:
+        raise MissingTable(f"{league} {season}: no player {stat_type} table on the page")
+    el = comments[0]
     parser = etree.HTMLParser(recover=True)
     (table,) = etree.fromstring(el.text, parser).xpath(f"//table[contains(@id, 'stats_{stat_type}')]")
     df = _parse_table(table)
@@ -112,8 +119,9 @@ def _season_page_url(fb: sd.FBref, league: str, season: str, stat_type: str) -> 
 
 
 def fetch_player_page(league: str, season: str, stat_type: str = "standard") -> pd.DataFrame:
-    """Cached page for (league, season); on a season mismatch the stale index
-    and page are discarded and fetched once more before giving up."""
+    """Cached page for (league, season). On a season mismatch the stale index
+    and page are discarded; on a squads-only page (FBref serves one now and
+    then) just the page is; either way one refetch, then give up."""
     fb = sd.FBref(leagues=[league], seasons=[season])
     skey = fb.seasons[0]
     page_path: Path = fb.data_dir / f"players_{league}_{skey}_{stat_type}.html"
@@ -123,11 +131,12 @@ def fetch_player_page(league: str, season: str, stat_type: str = "standard") -> 
         page_html = fb.get(url, page_path).read().decode("utf-8", errors="ignore")
         try:
             return parse_player_page(page_html, league, season, stat_type)
-        except SeasonMismatch as exc:
+        except (SeasonMismatch, MissingTable) as exc:
             if attempt == 2:
                 raise
-            LOG.warning("%s; discarding cached index + page and refetching", exc)
-            for p in (page_path, index_path):
+            stale = (page_path, index_path) if isinstance(exc, SeasonMismatch) else (page_path,)
+            LOG.warning("%s; discarding %s and refetching", exc, ", ".join(p.name for p in stale))
+            for p in stale:
                 p.unlink(missing_ok=True)
     raise AssertionError("unreachable")
 
