@@ -45,13 +45,13 @@
   {
    "country": "NOR",
    "n": 26,
-   "matched": 18,
+   "matched": 22,
    "tiers": {
-    "top9": 18,
+    "top9": 17,
     "stepping_stone": 0,
-    "domestic": 0,
+    "domestic": 5,
     "other": 0,
-    "unmatched": 8
+    "unmatched": 4
    },
    "cohorts": {
     "U22": 2,
@@ -59,8 +59,8 @@
     "26-29": 14,
     "30+": 4
    },
-   "median_minutes": 1895.0,
-   "median_multiplier": 0.856
+   "median_minutes": 2164.5,
+   "median_multiplier": 0.832
   },
   {
    "country": "AUT",
