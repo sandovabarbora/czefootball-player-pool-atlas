@@ -5,7 +5,10 @@ from __future__ import annotations
 
 import pandas as pd
 
+from src import config
 from src.trajectory import compute_trajectory
+
+PREV, METRICS = config.seasons()["previous"], config.seasons()["metrics"]
 
 
 def _row(player_key, season, min_, npg_q, ast_q, **kw):
@@ -29,14 +32,14 @@ def _row(player_key, season, min_, npg_q, ast_q, **kw):
 def test_compute_trajectory_requires_900_min_in_both_seasons():
     rows = [
         # Qualifies: >=900 min both seasons.
-        _row("a", "2023-2024", 1000, 0.30, 0.10),
-        _row("a", "2024-2025", 1000, 0.30, 0.10),
+        _row("a", PREV, 1000, 0.30, 0.10),
+        _row("a", METRICS, 1000, 0.30, 0.10),
         # Fails: under 900 min in the previous season.
-        _row("b", "2023-2024", 800, 0.30, 0.10),
-        _row("b", "2024-2025", 1000, 0.30, 0.10),
+        _row("b", PREV, 800, 0.30, 0.10),
+        _row("b", METRICS, 1000, 0.30, 0.10),
         # Fails: under 900 min in the metrics season.
-        _row("c", "2023-2024", 1000, 0.30, 0.10),
-        _row("c", "2024-2025", 700, 0.30, 0.10),
+        _row("c", PREV, 1000, 0.30, 0.10),
+        _row("c", METRICS, 700, 0.30, 0.10),
     ]
     features = pd.DataFrame(rows)
     out = compute_trajectory(features, "FW")
@@ -46,14 +49,14 @@ def test_compute_trajectory_requires_900_min_in_both_seasons():
 def test_compute_trajectory_direction_thresholds():
     rows = [
         # delta = +0.10 -> improving (> 0.05)
-        _row("improver", "2023-2024", 1000, 0.20, 0.00),
-        _row("improver", "2024-2025", 1000, 0.30, 0.00),
+        _row("improver", PREV, 1000, 0.20, 0.00),
+        _row("improver", METRICS, 1000, 0.30, 0.00),
         # delta = -0.10 -> declining (< -0.05)
-        _row("decliner", "2023-2024", 1000, 0.30, 0.00),
-        _row("decliner", "2024-2025", 1000, 0.20, 0.00),
+        _row("decliner", PREV, 1000, 0.30, 0.00),
+        _row("decliner", METRICS, 1000, 0.20, 0.00),
         # delta = +0.02 -> stable (within +-0.05)
-        _row("stable_player", "2023-2024", 1000, 0.20, 0.00),
-        _row("stable_player", "2024-2025", 1000, 0.22, 0.00),
+        _row("stable_player", PREV, 1000, 0.20, 0.00),
+        _row("stable_player", METRICS, 1000, 0.22, 0.00),
     ]
     features = pd.DataFrame(rows)
     out = compute_trajectory(features, "FW").set_index("player_key")
@@ -64,8 +67,8 @@ def test_compute_trajectory_direction_thresholds():
 
 def test_compute_trajectory_output_columns():
     rows = [
-        _row("a", "2023-2024", 1000, 0.30, 0.10),
-        _row("a", "2024-2025", 1000, 0.30, 0.10),
+        _row("a", PREV, 1000, 0.30, 0.10),
+        _row("a", METRICS, 1000, 0.30, 0.10),
     ]
     features = pd.DataFrame(rows)
     out = compute_trajectory(features, "FW")
@@ -78,7 +81,7 @@ def test_compute_trajectory_output_columns():
 
 
 def test_compute_trajectory_empty_when_no_overlap():
-    rows = [_row("a", "2023-2024", 1000, 0.30, 0.10)]
+    rows = [_row("a", PREV, 1000, 0.30, 0.10)]
     features = pd.DataFrame(rows)
     out = compute_trajectory(features, "FW")
     assert out.empty
@@ -88,14 +91,14 @@ def test_compute_trajectory_collapses_mid_season_transfers():
     rows = [
         # Split season: 500 + 500 minutes across two clubs passes the 900 gate
         # only once the two rows are collapsed into the season total.
-        _row("split", "2023-2024", 500, 0.20, 0.00, team="A"),
-        _row("split", "2023-2024", 500, 0.40, 0.00, team="B"),
-        _row("split", "2024-2025", 1000, 0.30, 0.00, team="B"),
+        _row("split", PREV, 500, 0.20, 0.00, team="A"),
+        _row("split", PREV, 500, 0.40, 0.00, team="B"),
+        _row("split", METRICS, 1000, 0.30, 0.00, team="B"),
         # Duplicated in the metrics season too: must appear exactly once, and
         # the join must not fan out into two trajectory rows.
-        _row("dup", "2023-2024", 1000, 0.30, 0.00, team="A"),
-        _row("dup", "2024-2025", 900, 0.30, 0.00, team="A"),
-        _row("dup", "2024-2025", 300, 0.30, 0.00, team="B"),
+        _row("dup", PREV, 1000, 0.30, 0.00, team="A"),
+        _row("dup", METRICS, 900, 0.30, 0.00, team="A"),
+        _row("dup", METRICS, 300, 0.30, 0.00, team="B"),
     ]
     out = compute_trajectory(pd.DataFrame(rows), "FW").set_index("player_key")
 
