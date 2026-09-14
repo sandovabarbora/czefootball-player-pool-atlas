@@ -176,7 +176,7 @@ strings:
   ch2.e.median_mult: "medián násobičky {m}"
   ch2.e.note: "* Koše podle ligy vlastní sezóny {season} hráče; hráč se počítá jednou za každý post, stejně jako všude jinde na stránce, takže hráč s řádky ve dvou postech se počítá v obou; číslo před sloupcem je počet hráčů, medián násobičky je mediánová ligová násobička koše. Do strany: {definition}."
   ch2.f.h3: "F · Soupiska {event} podle ligové úrovně"
-  ch2.f.p: "Kde hráli {season} hráči nominovaní na {event} — {n} jich je — vedle {peers}. Úroveň = liga hráčovy sezóny {season} s nejvíce minutami."
+  ch2.f.p: "Kde v sezóně {season} hráli hráči nominovaní na {event} ({n} jmen), a totéž pro peer země na turnaji: {peers}. Úroveň = liga hráčovy sezóny {season} s nejvíce minutami."
   ch2.f.th.country: "Země"
   ch2.f.th.squad: "Soupiska"
   ch2.f.th.top9: "Top-9 %"

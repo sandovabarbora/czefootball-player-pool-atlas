@@ -70,9 +70,9 @@ NT_LABEL = f"NT {config.nt_years()}"
 RULE_KICKERS = [
     ("highest quality-adjusted", "Highest quality-adjusted production"),
     ("youngest national-team", "Youngest national-team call-up"),
+    ("most top-9 minutes among", "National-team core"),   # row order = the order the rules are applied
     ("most top-9 league minutes", "Most top-9 minutes"),
     ("most domestic-league minutes", "Most domestic minutes under 23, no top-9 season yet"),
-    ("most top-9 minutes among", "National-team core"),
 ]
 RULE_KICKER_KEYS = {
     "highest quality-adjusted": "kicker.highest",

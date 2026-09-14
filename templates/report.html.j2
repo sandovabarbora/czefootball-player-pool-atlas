@@ -163,7 +163,7 @@
     <h3 id="benchmark">{{ t('ch1.benchmark.h3') }}</h3>
     <p>{{ t('ch1.benchmark.p') }}</p>
 
-    <h4>{{ t('ch1.capita.h4', topn=topn, season=seasons.current) }}</h4>
+    <h4>{{ t('ch1.capita.h4', topn=topn, season=seasons.metrics) }}</h4>
     <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
       {% for r in per_capita %}
       <div class="capita-row" role="listitem"
@@ -179,7 +179,7 @@
       {% endfor %}
     </div>
     <p class="capita-note">
-      {{ t('ch1.capita.note', season=seasons.current, topn=topn, leagues=headline_leagues | join(', '), n=cze.n_players,
+      {{ t('ch1.capita.note', season=seasons.metrics, topn=topn, leagues=headline_leagues | join(', '), n=cze.n_players,
            pop=('%.2f' | format(cze.population_m)), pm=f2(cze.per_million), rank=cze.rank, total=per_capita | length) }}
     </p>
 
