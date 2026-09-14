@@ -21,6 +21,9 @@ LOG = logging.getLogger(__name__)
 COLS = ["league", "season", "team", "player", "player_key", "nation", "pos", "born", "age",
         "mp", "min", "gls", "ast", "pk", "crdy", "crdr"]
 SEASON_RE = re.compile(r"(\d{4}-\d{4})")
+# FBref's URL segment per soccerdata stat_type (same mapping as soccerdata's reader)
+PAGE_FOR_STAT = {"standard": "stats", "keeper": "keepers", "shooting": "shooting",
+                 "playing_time": "playingtime", "misc": "misc"}
 
 
 class SeasonMismatch(RuntimeError):
@@ -105,7 +108,7 @@ def _season_page_url(fb: sd.FBref, league: str, season: str, stat_type: str) -> 
     seasons = fb.read_seasons()
     (row,) = [r for (lk, sk), r in seasons.iterrows() if lk == league]
     parts = row.url.split("/")
-    return FBREF_API + "/".join(parts[:-1]) + f"/{stat_type}/" + parts[-1]
+    return FBREF_API + "/".join(parts[:-1]) + f"/{PAGE_FOR_STAT[stat_type]}/" + parts[-1]
 
 
 def fetch_player_page(league: str, season: str, stat_type: str = "standard") -> pd.DataFrame:

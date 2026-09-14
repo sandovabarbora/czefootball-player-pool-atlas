@@ -103,3 +103,17 @@ def test_parse_player_page_without_matches_column():
 def test_parse_player_page_rejects_wrong_season():
     with pytest.raises(SeasonMismatch, match="2026-2027"):
         parse_player_page(FIX.read_text(encoding="utf-8"), "POL-Ekstraklasa", "2026-2027", "standard")
+
+
+def test_season_page_url_uses_fbrefs_page_segment(monkeypatch):
+    from src import fetch_fbref
+
+    class _FB:
+        def read_seasons(self):
+            return pd.DataFrame({"url": ["/en/comps/9/Premier-League-Stats"]},
+                                index=pd.MultiIndex.from_tuples([("ENG-Premier League", "2627")],
+                                                                names=["league", "season"]))
+    url = fetch_fbref._season_page_url(_FB(), "ENG-Premier League", "2026-2027", "standard")
+    assert url.endswith("/en/comps/9/stats/Premier-League-Stats")
+    assert fetch_fbref._season_page_url(_FB(), "ENG-Premier League", "2026-2027", "keeper").endswith(
+        "/en/comps/9/keepers/Premier-League-Stats")
