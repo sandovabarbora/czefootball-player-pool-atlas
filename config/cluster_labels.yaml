@@ -1,118 +1,112 @@
 # Descriptive (non-evaluative) labels per (position group, projection,
 # cluster), written after inspecting `data/processed/cluster_summary.parquet`
-# medians for npg_p90_quality, ast_p90_quality, min_share, age, cards_p90.
-# Each label line carries an inline comment: n and the 3 most common leagues,
-# for controller review of label sanity. These are descriptive reads only --
-# no selection-recommendation language, no "tactical reads" (those come
-# later from the author).
+# medians for npg_p90_quality, ast_p90_quality, min_share, age, cards_p90
+# (fit on the 2025/26 metrics season, k by silhouette per projection).
+# Each label line carries an inline comment: n (all seasons) and the 3 most
+# common leagues, for controller review of label sanity. Descriptive reads
+# only -- no selection-recommendation language.
 
 FW:
   style:
-    C0: "Older forwards with moderate playing time"   # n=396; TUR-Süper Lig, CZE-First League, POR-Primeira Liga
-    C1: "High-minutes starting forwards, low card rate"   # n=435; NOR-Eliteserien, POL-Ekstraklasa, POR-Primeira Liga
-    C2: "Young rotation forwards with a high card rate"   # n=332; POR-Primeira Liga, CZE-First League, GER-2. Bundesliga
-    C3: "Young low-minute forwards"   # n=663; BEL-Pro League, CZE-First League, POR-Primeira Liga
-    C4: "High-volume scorers"   # n=314; GER-2. Bundesliga, ENG-Premier League, NED-Eredivisie
-    C5: "High-assist forwards"   # n=272; NOR-Eliteserien, FRA-Ligue 1, GER-2. Bundesliga
+    C0: "High-minutes starting forwards"   # n=938; ENG-Premier League, ITA-Serie A, GER-Bundesliga
+    C1: "Primary scorers"   # n=626; ENG-Premier League, FRA-Ligue 1, BEL-Pro League
+    C2: "Older forwards with moderate playing time"   # n=739; TUR-Süper Lig, ITA-Serie A, ESP-La Liga
+    C3: "Duel-heavy rotation forwards"   # n=707; POR-Primeira Liga, ESP-La Liga, BEL-Pro League
+    C4: "Young low-minute forwards"   # n=1142; ITA-Serie A, FRA-Ligue 1, NED-Eredivisie
   quality:
-    C0: "High-minutes starting forwards"   # n=536; NOR-Eliteserien, POL-Ekstraklasa, GER-2. Bundesliga
-    C1: "Young low-minute forwards"   # n=722; NOR-Eliteserien, BEL-Pro League, CZE-First League
-    C2: "High-volume scorers in top-five leagues"   # n=198; ENG-Premier League, ESP-La Liga, GER-Bundesliga
-    C3: "Older forwards with moderate playing time"   # n=426; TUR-Süper Lig, CZE-First League, GER-2. Bundesliga
-    C4: "High-assist forwards in top-five leagues"   # n=183; GER-Bundesliga, ITA-Serie A, ENG-Premier League
-    C5: "High-card-rate forwards"   # n=347; CZE-First League, POR-Primeira Liga, GER-2. Bundesliga
+    C0: "Young low-minute forwards"   # n=940; NED-Eredivisie, BEL-Pro League, FRA-Ligue 1
+    C1: "High-minutes starting forwards"   # n=792; BEL-Pro League, POR-Primeira Liga, NED-Eredivisie
+    C2: "High-assist forwards in top-five leagues"   # n=644; ENG-Premier League, ITA-Serie A, GER-Bundesliga
+    C3: "High-volume scorers in top-five leagues"   # n=571; ENG-Premier League, ESP-La Liga, GER-Bundesliga
+    C4: "High-card-rate forwards"   # n=572; POR-Primeira Liga, BEL-Pro League, ESP-La Liga
+    C5: "Older forwards with moderate playing time"   # n=633; TUR-Süper Lig, ESP-La Liga, ITA-Serie A
 
 MF:
   style:
-    C0: "High-minutes creative midfielders"   # n=754; GER-2. Bundesliga, GER-Bundesliga, TUR-Süper Lig
-    C1: "High-card-rate midfielders"   # n=1012; POR-Primeira Liga, TUR-Süper Lig, GER-2. Bundesliga
-    C2: "Young low-minute midfielders"   # n=1702; CZE-First League, BEL-Pro League, GER-2. Bundesliga
-    C3: "Everyday starting midfielders, low scoring output"   # n=1342; BEL-Pro League, POR-Primeira Liga, GER-2. Bundesliga
-    C4: "Older rotation midfielders"   # n=1151; TUR-Süper Lig, CZE-First League, POL-Ekstraklasa
-    C5: "High-scoring attacking midfielders"   # n=637; TUR-Süper Lig, NED-Eredivisie, ENG-Premier League
+    C0: "High-minutes creative midfielders"   # n=1255; GER-Bundesliga, NED-Eredivisie, TUR-Süper Lig
+    C1: "Older rotation midfielders"   # n=2046; TUR-Süper Lig, ESP-La Liga, ITA-Serie A
+    C2: "Young low-minute midfielders"   # n=2395; ITA-Serie A, NED-Eredivisie, FRA-Ligue 1
+    C3: "High-card-rate midfielders"   # n=1932; POR-Primeira Liga, ESP-La Liga, ITA-Serie A
+    C4: "Everyday starting midfielders, low scoring output"   # n=2674; ITA-Serie A, BEL-Pro League, ENG-Premier League
+    C5: "High-scoring attacking midfielders"   # n=1193; NED-Eredivisie, TUR-Süper Lig, ENG-Premier League
   quality:
-    C0: "Everyday starting midfielders, low scoring output"   # n=1571; GER-2. Bundesliga, BEL-Pro League, NOR-Eliteserien
-    C1: "Older rotation midfielders"   # n=1231; TUR-Süper Lig, POL-Ekstraklasa, CZE-First League
-    C2: "High-scoring midfielders in top-five leagues"   # n=341; ENG-Premier League, GER-Bundesliga, ITA-Serie A
-    C3: "High-card-rate midfielders"   # n=1154; POR-Primeira Liga, GER-2. Bundesliga, TUR-Süper Lig
-    C4: "Young low-minute midfielders"   # n=1808; CZE-First League, BEL-Pro League, NED-Eredivisie
-    C5: "High-assist midfielders in top-five leagues"   # n=493; ENG-Premier League, GER-Bundesliga, ITA-Serie A
+    C0: "Everyday starting midfielders, low scoring output"   # n=3101; BEL-Pro League, NED-Eredivisie, TUR-Süper Lig
+    C1: "Young low-minute midfielders"   # n=3585; POR-Primeira Liga, NED-Eredivisie, FRA-Ligue 1
+    C2: "Productive midfielders in top-five leagues"   # n=2034; ENG-Premier League, GER-Bundesliga, ITA-Serie A
+    C3: "Older rotation midfielders"   # n=2775; TUR-Süper Lig, ESP-La Liga, ITA-Serie A
 
 DF:
   style:
-    C0: "Everyday starting defenders"   # n=1221; NED-Eredivisie, POL-Ekstraklasa, NOR-Eliteserien
-    C1: "Young low-minute defenders"   # n=1139; BEL-Pro League, CZE-First League, CRO-HNL
-    C2: "High-card-rate defenders"   # n=687; POR-Primeira Liga, GER-2. Bundesliga, TUR-Süper Lig
-    C3: "Goal-scoring defenders"   # n=651; NOR-Eliteserien, CZE-First League, HUN-NB I
-    C4: "Older defenders"   # n=812; TUR-Süper Lig, ESP-La Liga, POR-Primeira Liga
-    C5: "High-assist defenders with high playing time"   # n=569; NED-Eredivisie, TUR-Süper Lig, DEN-Superliga
+    C0: "Goal-scoring defenders"   # n=969; ENG-Premier League, NED-Eredivisie, GER-Bundesliga
+    C1: "High-assist defenders with high playing time"   # n=872; NED-Eredivisie, ENG-Premier League, ESP-La Liga
+    C2: "Older defenders"   # n=1648; TUR-Süper Lig, ESP-La Liga, ENG-Premier League
+    C3: "Everyday starting defenders"   # n=2240; NED-Eredivisie, ENG-Premier League, BEL-Pro League
+    C4: "Young low-minute defenders"   # n=1877; BEL-Pro League, FRA-Ligue 1, ENG-Premier League
+    C5: "High-card-rate defenders"   # n=1288; ESP-La Liga, POR-Primeira Liga, ITA-Serie A
   quality:
-    C0: "Older defenders"   # n=927; TUR-Süper Lig, POL-Ekstraklasa, CZE-First League
-    C1: "High-card-rate defenders"   # n=746; POR-Primeira Liga, GER-2. Bundesliga, TUR-Süper Lig
-    C2: "High-assist defenders in top-five leagues"   # n=331; ENG-Premier League, ESP-La Liga, ITA-Serie A
-    C3: "Everyday starting defenders"   # n=1364; NOR-Eliteserien, NED-Eredivisie, POL-Ekstraklasa
-    C4: "Goal-scoring defenders in top-five leagues"   # n=488; ENG-Premier League, GER-Bundesliga, ESP-La Liga
-    C5: "Young low-minute defenders"   # n=1223; NOR-Eliteserien, CZE-First League, TUR-Süper Lig
+    C0: "Older defenders"   # n=1659; TUR-Süper Lig, ESP-La Liga, ITA-Serie A
+    C1: "Goal-scoring defenders in top-five leagues"   # n=911; ENG-Premier League, GER-Bundesliga, ITA-Serie A
+    C2: "Young low-minute defenders"   # n=1956; NED-Eredivisie, BEL-Pro League, FRA-Ligue 1
+    C3: "High-assist defenders in top-five leagues"   # n=717; ENG-Premier League, ESP-La Liga, GER-Bundesliga
+    C4: "High-card-rate defenders"   # n=1317; POR-Primeira Liga, ESP-La Liga, ITA-Serie A
+    C5: "Everyday starting defenders"   # n=2334; NED-Eredivisie, TUR-Süper Lig, BEL-Pro League
 
-# Tactical reads (style projection only), DRAFT by Claude 2026-09-13 from the
-# 2024/25 cluster medians — the author edits these. Descriptive: what the
-# statistical footprint is consistent with, never what a coach should do.
-# Czech examples are the Czech-eligible players with the most minutes in the cluster.
+# Tactical reads (style projection only), written from the 2025/26 cluster
+# medians — the author edits these. Descriptive: what the statistical
+# footprint is consistent with, never what a coach should do. Czech examples
+# are the Czech-eligible players with the most 2025/26 minutes in the cluster.
 tactical:
   FW:
     C0:
-      en: "Experienced forwards on managed minutes — median age 31, about a third of the season's minutes, output at the group median. The footprint of the impact or target forward used in rotation (Vydra, Kuchta, Ondrášek)."
-      cs: "Zkušení útočníci s řízenou minutáží — medián věku 31, zhruba třetina minut sezóny, produkce na mediánu skupiny. Otisk impaktového nebo cílového útočníka v rotaci (Vydra, Kuchta, Ondrášek)."
+      en: "Every-week starters — three quarters of the season's minutes, assist rate about 1.5 times the forward median, scoring at median. Mostly a top-five-league footprint: the first-choice forward who links play as much as he finishes (Kušej)."
+      cs: "Každotýdenní startující — tři čtvrtiny minut sezóny, asistenční podíl zhruba 1,5násobek mediánu útočníků, střelecky na mediánu. Převážně otisk pěti nejsilnějších lig: útočník první volby, který hru spojuje stejně jako zakončuje (Kušej)."
     C1:
-      en: "Every-week starters with a clean disciplinary record — 70 % of minutes, median output, half the card rate of C2. The workhorse forward who carries minutes rather than the scoring (Chorý, Drchal)."
-      cs: "Každotýdenní startující s čistým disciplinárním rejstříkem — 70 % minut, průměrná produkce, poloviční kartový podíl oproti C2. Útočník, který nese minuty, ne skóre (Chorý, Drchal)."
+      en: "Primary scorers — non-penalty goal rate nearly double the forward median on starter minutes (56 %). The finishing forward of a first-choice line (Schick, Patrák, Chorý, Kuchta)."
+      cs: "Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta)."
     C2:
-      en: "Rotation forwards whose signature is physical engagement — card rate three times the group's, minutes around a third, output at median. Pressing and duel-heavy roles rather than finishing (Kliment)."
-      cs: "Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl trojnásobný oproti skupině, minutáž kolem třetiny, produkce průměrná. Presink a souboje spíš než zakončení (Kliment)."
+      en: "Experienced forwards on managed minutes — median age 31, about 40 % of minutes, output at median. The impact or target forward used in rotation (Chramosta, Poznar, Jurečka, Pilař)."
+      cs: "Zkušení útočníci s řízenou minutáží — medián věku 31, zhruba 40 % minut, produkce na mediánu. Impaktový nebo cílový útočník v rotaci (Chramosta, Poznar, Jurečka, Pilař)."
     C3:
-      en: "The development tier and the largest forward cluster — median age 23, under 30 % of minutes, output just below median. Where most young Czech forwards sit."
-      cs: "Rozvojová vrstva a největší cluster útočníků — medián věku 23, pod 30 % minut, produkce těsně pod mediánem. Tady sedí většina mladých českých útočníků."
+      en: "Rotation forwards whose signature is physical engagement — card rate roughly three times the forward median, a third of minutes, output at median. Pressing and duel-heavy roles rather than finishing (Mašek, Pulkrab, Vojta)."
+      cs: "Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl zhruba trojnásobný oproti mediánu útočníků, třetina minut, produkce průměrná. Presink a souboje spíš než zakončení (Mašek, Pulkrab, Vojta)."
     C4:
-      en: "Primary scorers — non-penalty goal rate double the group median on starter minutes (60 %). The finishing forward of a first-choice line (Schick, Vecheta, Chytil)."
-      cs: "Hlavní střelci — podíl gólů ze hry dvojnásobný oproti mediánu skupiny při startovací minutáži (60 %). Zakončující útočník první volby (Schick, Vecheta, Chytil)."
-    C5:
-      en: "Creators from the front line — assist rate nearly three times the group median with average scoring. Consistent with wide forwards and second strikers who feed the box rather than occupy it (Provod, Ladra, Kušej)."
-      cs: "Tvůrci z útočné řady — asistenční podíl skoro trojnásobný oproti mediánu, střelecky průměrní. Odpovídá křídelníkům a druhým útočníkům, kteří vápno zásobují, nikoli obsazují (Provod, Ladra, Kušej)."
+      en: "The development tier and the largest forward cluster — median age 23, under 30 % of minutes, output just below median. Where most young Czech forwards sit (Zlatohlávek, Juroška, Čvančara)."
+      cs: "Rozvojová vrstva a největší cluster útočníků — medián věku 23, pod 30 % minut, produkce těsně pod mediánem. Tady sedí většina mladých českých útočníků (Zlatohlávek, Juroška, Čvančara)."
   MF:
     C0:
-      en: "Starting playmakers — assist rate three times the midfield median on 60 % of minutes, average scoring. The creative hub of the middle third (Zorvan, Kalvach, Hlavatý)."
-      cs: "Startující tvůrci hry — asistenční podíl trojnásobný oproti mediánu záložníků při 60 % minut, střelecky průměrní. Kreativní centrum střední třetiny (Zorvan, Kalvach, Hlavatý)."
+      en: "Starting playmakers — assist rate three times the midfield median on 62 % of minutes, scoring nearly double. The creative hub of the middle third (Provod, Vlkanova, Ladra, Černý)."
+      cs: "Startující tvůrci hry — asistenční podíl trojnásobný oproti mediánu záložníků při 62 % minut, střelecky skoro dvojnásobní. Kreativní centrum střední třetiny (Provod, Vlkanova, Ladra, Černý)."
     C1:
-      en: "Ball-winning, duel-heavy midfielders — the card rate (0.47 per 90) is the defining feature, production at the floor of the group. The destroyer profile, often in a double pivot (Suchomel, Kohút)."
-      cs: "Záložníci na zisk míče a souboje — kartový podíl (0,47 na 90 min) je určující znak, produkce na dně skupiny. Profil „ničitele“, často ve dvojici před obranou (Suchomel, Kohút)."
+      en: "Veteran rotation midfielders — median age 30 on managed minutes (40 %), output at median, card rate above it. Experience kept in the squad rather than on the pitch every week (Souček, Trávník, Daníček, Zorvan)."
+      cs: "Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden (Souček, Trávník, Daníček, Zorvan)."
     C2:
-      en: "Development midfielders — the largest cluster in the whole corpus and the one with the most Czech players: median age 22, under a third of minutes, output below median. The pipeline's waiting room."
-      cs: "Rozvojoví záložníci — největší cluster celého korpusu a ten s nejvíc Čechy: medián věku 22, pod třetinu minut, produkce pod mediánem. Čekárna pipeline."
+      en: "Development midfielders — the largest Czech midfield group: median age 22, under a third of minutes, output at median. The pipeline's waiting room (Daněk, Křišťan, Mikulenka, Sojka)."
+      cs: "Rozvojoví záložníci — největší česká záložnická skupina: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline (Daněk, Křišťan, Mikulenka, Sojka)."
     C3:
-      en: "The engine room — nearly 80 % of minutes with median output: holding and box-to-box midfielders whose value is continuity and structure, not numbers (Beran, Douděra, Hůlka)."
-      cs: "Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Beran, Douděra, Hůlka)."
+      en: "Ball-winning, duel-heavy midfielders — the card rate (about 2.5 times the midfield median) is the defining feature, production at the floor of the group. The destroyer profile, often in a double pivot (Ryneš, Langhamer, Smrž)."
+      cs: "Záložníci na zisk míče a souboje — kartový podíl (zhruba 2,5násobek mediánu záložníků) je určující znak, produkce na dně skupiny. Profil „ničitele“, často ve dvojici před obranou (Ryneš, Langhamer, Smrž)."
     C4:
-      en: "Veteran rotation midfielders — median age 30 on managed minutes (43 %), output at median. Mostly in the Chance Liga: experience kept in the squad rather than on the pitch (Schwarz, Breite, Vacek)."
-      cs: "Veteránští rotační záložníci — medián věku 30 při řízené minutáži (43 %), produkce průměrná. Převážně v Chance Lize: zkušenost držená v kádru spíš než na hřišti (Schwarz, Breite, Vacek)."
+      en: "The engine room — nearly 80 % of minutes with median output: holding and box-to-box midfielders whose value is continuity and structure, not numbers (Hellebrand, Horák, Čermák, Červ)."
+      cs: "Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák, Červ)."
     C5:
-      en: "Goal-scoring attacking midfielders — non-penalty goal rate three to four times the midfield median on starter minutes. The number 8/10 who arrives in the box (Šulc, Souček)."
-      cs: "Střílející ofenzivní záložníci — podíl gólů ze hry tři- až čtyřnásobný oproti mediánu záložníků při startovací minutáži. Osmička/desítka, která dobíhá do vápna (Šulc, Souček)."
+      en: "Goal-scoring attacking midfielders — non-penalty goal rate three times the midfield median on starter minutes (56 %). The number 8/10 who arrives in the box (Darida, Ševčík, Višinský, Mareček)."
+      cs: "Střílející ofenzivní záložníci — podíl gólů ze hry trojnásobný oproti mediánu záložníků při startovací minutáži (56 %). Osmička/desítka, která dobíhá do vápna (Darida, Ševčík, Višinský, Mareček)."
   DF:
     C0:
-      en: "The defensive core — 85 % of minutes, output at the DF floor. Availability and continuity are the signal; production is not (Stronati, Pojezný, Hadaš)."
-      cs: "Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Stronati, Pojezný, Hadaš)."
+      en: "Set-piece threats — defenders scoring at five times the DF median on 60 % of minutes. Aerial presence in both boxes (Chaloupek, Bořil, Lischka)."
+      cs: "Hrozby ze standardek — obránci střílející pětinásobek mediánu obránců při 60 % minut. Přítomnost ve vzduchu v obou vápnech (Chaloupek, Bořil, Lischka)."
     C1:
-      en: "Development defenders — median age 23, about a third of minutes; the largest Czech defender group. The tier the 23–25 cohort draws from."
-      cs: "Rozvojoví obránci — medián věku 23, zhruba třetina minut; největší česká obranná skupina. Vrstva, ze které kohorta 23–25 čerpá."
+      en: "Attacking full-backs — assist rate seven times the DF median on starter minutes (65 %). The wide defender whose job ends in the final third (Coufal, Icha, Hadaš, Zelený)."
+      cs: "Ofenzivní krajní obránci — asistenční podíl sedminásobný oproti mediánu obránců při startovací minutáži (65 %). Krajní obránce, jehož práce končí v útočné třetině (Coufal, Icha, Hadaš, Zelený)."
     C2:
-      en: "Duel-heavy defenders — card rate 2.5 times the DF median with rotation minutes. The physical stopper profile (Petrášek, Vondra)."
-      cs: "Soubojoví obránci — kartový podíl 2,5násobek mediánu obránců při rotační minutáži. Profil fyzického stopera (Petrášek, Vondra)."
+      en: "Experienced defenders on managed minutes — median age 31, 44 % of minutes, output at the floor. Leadership and cover rather than a starting role (Novák, Brabec, Fleišman, Holeš)."
+      cs: "Zkušení obránci s řízenou minutáží — medián věku 31, 44 % minut, produkce na dně. Vedení a krytí spíš než startovací role (Novák, Brabec, Fleišman, Holeš)."
     C3:
-      en: "Set-piece threats — centre-backs scoring at four times the DF median on more than half the minutes. Aerial presence in both boxes (Martinec, Vitík, Spáčil)."
-      cs: "Hrozby ze standardek — stopeři střílející čtyřnásobek mediánu obránců při víc než polovině minut. Přítomnost ve vzduchu v obou vápnech (Martinec, Vitík, Spáčil)."
+      en: "The defensive core — 85 % of minutes, output at the DF floor. Availability and continuity are the signal; production is not (Hůlka, Halinský, Cedidla, Chlumecký)."
+      cs: "Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký)."
     C4:
-      en: "Experienced defenders on managed minutes — median age 31, 44 % of minutes, output at the floor. Leadership and cover rather than a starting role (Suchý, Fleišman, Jugas)."
-      cs: "Zkušení obránci s řízenou minutáží — medián věku 31, 44 % minut, produkce na dně. Vedení a krytí spíš než startovací role (Suchý, Fleišman, Jugas)."
+      en: "Development defenders — median age 22, about a third of minutes, output at the floor. The tier the 23–25 cohort draws from (Konečný, Kolář, Prebsl)."
+      cs: "Rozvojoví obránci — medián věku 22, zhruba třetina minut, produkce na dně. Vrstva, ze které kohorta 23–25 čerpá (Konečný, Kolář, Prebsl)."
     C5:
-      en: "Attacking full-backs — assist rate six times the DF median on starter minutes (62 %). The wide defender whose job ends in the final third (Kovařík, Bořil, Zelený)."
-      cs: "Ofenzivní krajní obránci — asistenční podíl šestinásobný oproti mediánu obránců při startovací minutáži (62 %). Krajní obránce, jehož práce končí v útočné třetině (Kovařík, Bořil, Zelený)."
+      en: "Duel-heavy defenders — card rate 2.5 times the DF median with rotation minutes (46 %). The physical stopper profile (Pojezný, Chaluš, Čihák)."
+      cs: "Soubojoví obránci — kartový podíl 2,5násobek mediánu obránců při rotační minutáži (46 %). Profil fyzického stopera (Pojezný, Chaluš, Čihák)."
