@@ -284,9 +284,13 @@
     if (card) closeCard(card);
   });
   const openFromHash = () => {
-    if (!location.hash.startsWith('#card-')) return;
-    const card = document.getElementById(location.hash.slice(1));
-    if (card) openCard(card, { scroll: true });
+    if (!location.hash) return;
+    const target = document.getElementById(location.hash.slice(1));
+    if (!target) return;
+    // a deep link into a folded "Explore" block opens the fold first
+    const fold = target.closest('details.fold');
+    if (fold && !fold.open) { fold.open = true; target.scrollIntoView({ block: 'start' }); }
+    if (location.hash.startsWith('#card-')) openCard(target, { scroll: true });
   };
   window.addEventListener('hashchange', openFromHash);
   openFromHash();

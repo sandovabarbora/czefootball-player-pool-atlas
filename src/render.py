@@ -680,7 +680,7 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
         buckets = sorted(
             [{
                 "bucket": b["bucket"], "label": DESTINATION_LABELS.get(b["bucket"], b["bucket"]),
-                "n": int(b["n"]), "share_of_abroad": round(float(b.get("share_of_abroad") or 0), 3),
+                "n": int(b["n"]), "share_of_abroad": float(b.get("share_of_abroad") or 0),  # rounded once, at display time
                 "median_multiplier": _opt_float(b.get("median_multiplier"), 3),
                 "examples": list((dest_raw.get("examples") or {}).get(b["bucket"], [])),
             } for b in dest_raw.get("buckets", [])],
@@ -688,7 +688,7 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
         destinations = {
             "n_total": int(dest_raw.get("n_total") or 0), "n_abroad": int(dest_raw.get("n_abroad") or 0),
             "buckets": buckets,
-            "sideways_share": round(float(dest_raw.get("sideways_share") or 0), 3),
+            "sideways_share": float(dest_raw.get("sideways_share") or 0),  # rounded once, at display time
             "sideways_definition": str(dest_raw.get("sideways_definition") or ""),
         }
 
@@ -809,7 +809,7 @@ def _country_sideways_share(features_all: pd.DataFrame, league_quality: dict, le
         return None
     multipliers = abroad["league"].map(mult)
     sideways = multipliers.notna() & (multipliers <= domestic_multiplier)
-    return round(float(sideways.sum()) / len(abroad), 3)
+    return float(sideways.sum()) / len(abroad)
 
 
 def _build_peer_compare(per_capita: list[dict], pathways: dict, squad_lens: dict, big5_series: dict,
