@@ -10,4 +10,14 @@ peers:
   DEN: {name: Denmark,     population_m: 5.96}
   SUI: {name: Switzerland, population_m: 8.96}
   NOR: {name: Norway,      population_m: 5.55}
-# NB: FBref uses CRO/DEN/SUI, not ISO HRV/DNK/CHE. Keep FBref codes here.
+  # England peers (Task 14a), Eurostat 2024-01-01 estimates (demo_pjan),
+  # same source as the rows above.
+  ENG: {name: England,     population_m: 57.7}   # ONS mid-2023 estimate (not Eurostat -- England isn't its own Eurostat unit)
+  FRA: {name: France,      population_m: 68.17}
+  GER: {name: Germany,     population_m: 83.60}
+  ESP: {name: Spain,       population_m: 48.62}
+  ITA: {name: Italy,       population_m: 58.99}
+  NED: {name: Netherlands, population_m: 17.98}
+  POR: {name: Portugal,    population_m: 10.64}
+  BEL: {name: Belgium,     population_m: 11.79}
+# NB: FBref uses CRO/DEN/SUI/ENG/GER, not ISO HRV/DNK/CHE/GBR/DEU. Keep FBref codes here.

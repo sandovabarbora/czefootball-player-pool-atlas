@@ -1,24 +1,38 @@
 #!/bin/zsh
 # Build the published site from the two rendered pages (`make render`):
-#   docs/index.html        English (outputs/index.html)
-#   docs/cs/index.html     Czech   (outputs/cs/index.html, assets via ../)
-#   docs/*.svg, style.css  copied from outputs/
+#   docs/index.html        English (outputs/<NATION>/index.html)
+#   docs/cs/index.html     Czech   (outputs/<NATION>/cs/index.html, assets via ../)
+#   docs/*.svg, style.css  copied from outputs/<NATION>/
 #   docs/cs/*.svg          Czech figure labels (svg_labels.py)
 #   docs/atlas_meta.json   interaction metadata for atlas.js (atlas_meta.py)
 # enrich_index.py applies the site layer (top bar, photos, folds, search) to
 # each page; every script asserts its match counts and fails loudly when the
 # render changed under it.
 #
-# usage: site/build.sh [OUT_DIR]     (default: docs/ -- the published site)
+# NATION (env var, default cze) picks the source run (outputs/$NATION/) and,
+# when OUT_DIR isn't given explicitly, the default site output dir: docs/ for
+# cze (the published site keeps its original, un-prefixed layout), docs/
+# $NATION/ for any other nation.
+#
+# usage: site/build.sh [OUT_DIR]     (default: docs/ for cze, docs/$NATION/ otherwise)
+#        NATION=eng site/build.sh    (build England into docs/eng/)
 # With another OUT_DIR the static assets that only live in docs/ (modern.css,
 # atlas.js, CNAME, .nojekyll, img/) are copied there too, so a test can build
 # a complete site into a temp dir without touching the committed docs/.
 set -e
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 S="$ROOT/site"
-D="${1:-$ROOT/docs}"
+NATION="${NATION:-cze}"
+export NATION
+if [ -n "${1:-}" ]; then
+  D="$1"
+elif [ "$NATION" = "cze" ]; then
+  D="$ROOT/docs"
+else
+  D="$ROOT/docs/$NATION"
+fi
 D=$(mkdir -p "$D" && cd "$D" && pwd)
-O="$ROOT/outputs"
+O="$ROOT/outputs/$NATION"
 PY=${PYTHON:-python3}
 if command -v uv >/dev/null 2>&1 && [ -f "$ROOT/pyproject.toml" ]; then PY="uv run --project $ROOT python"; fi
 

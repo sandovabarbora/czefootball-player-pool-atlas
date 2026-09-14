@@ -1,0 +1,43 @@
+# Home-nation configuration for a (future) England run. Not fetched or
+# rendered by Task 14a -- only `config.nation()` needs to load this file
+# without error; a live England run is a later task.
+code: ENG
+name: England
+adjective: English
+population_m: 57.7             # ONS mid-2023 estimate, England only
+fbref_country_page: https://fbref.com/en/country/players/ENG/England-Football-Players
+fbref_country_cache: country_eng.html
+wikidata_citizenship: Q145     # United Kingdom (English footballers carry P27 = Q145)
+domestic_league: ENG-Premier League
+
+# countries.yaml codes, home nation excluded
+peers: [FRA, GER, ESP, ITA, NED, POR, BEL]
+
+# Every country in the benchmark set, home nation included first (see
+# cze.yaml's comment on this field).
+cohort_countries: [ENG, FRA, GER, ESP, ITA, NED, POR, BEL]
+
+# Peers shown alongside the home nation in render.py's cohort exhibit table
+# (editorial subset; see cze.yaml's comment on this field).
+cohort_exhibit: [FRA, GER, ESP, ITA]
+
+# Thin contrast lines in the Big-5 series
+series_contrast: [FRA, GER]
+
+# Extra peers shown next to the home nation in the peer-compare slide
+compare: [FRA, ESP]
+
+squads:
+  nt_core_event: "2026 FIFA World Cup"
+  events:
+    - {team: A, event: "UEFA Euro 2024", year: 2024, url: "https://en.wikipedia.org/wiki/UEFA_Euro_2024_squads", section: "England"}
+    - {team: A, event: "2026 FIFA World Cup", year: 2026, url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads", section: "England"}
+    - {team: U21, event: "UEFA European Under-21 Championship 2025", year: 2025, url: "https://en.wikipedia.org/wiki/2025_UEFA_European_Under-21_Championship_squads", section: "England"}
+  peer_squads:
+    - {country: FRA, section: "France"}
+    - {country: GER, section: "Germany"}
+    - {country: ESP, section: "Spain"}
+    - {country: ITA, section: "Italy"}
+    - {country: NED, section: "Netherlands"}
+    - {country: POR, section: "Portugal"}
+    - {country: BEL, section: "Belgium"}

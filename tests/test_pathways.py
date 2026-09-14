@@ -202,7 +202,7 @@ def test_destinations_buckets_one_player_each():
         "season": ["2024-2025"] * 5,
         "pos_group": ["FW"] * 5,
         "nation": ["CZE"] * 5,
-        "czech_eligible": [True] * 5,
+        "home_eligible": [True] * 5,
         "min": [2000, 1800, 1200, 900, 500],
     })
     league_quality = {"multipliers": {
@@ -243,7 +243,7 @@ def test_destinations_excludes_below_min_minutes():
     feats = pd.DataFrame({
         "player": ["Benchwarmer"], "player_key": ["bw"],
         "league": ["ENG-Premier League"], "season": ["2024-2025"], "pos_group": ["FW"],
-        "nation": ["CZE"], "czech_eligible": [True], "min": [200],
+        "nation": ["CZE"], "home_eligible": [True], "min": [200],
     })
     league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0}}
     cfg = {"domestic": "CZE-First League", "headline": ["ENG-Premier League"],
@@ -262,7 +262,7 @@ def test_destinations_counts_a_player_once_per_position_group():
         "season": ["2024-2025"] * 4,
         "pos_group": ["FW", "MF", "MF", "DF"],
         "nation": ["CZE"] * 4,
-        "czech_eligible": [True] * 4,
+        "home_eligible": [True] * 4,
         "min": [1000, 600, 500, 300],
     })
     league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0,
@@ -286,7 +286,7 @@ def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
         "player_key": ["a"], "player": ["Test Player"], "nation": ["CZE"],
         "league": ["ENG-Premier League"], "season": ["2024-2025"], "pos_group": ["FW"],
         "npg_p90_quality": [0.3], "ast_p90_quality": [0.1],
-        "czech_eligible": [True], "min": [1800],
+        "home_eligible": [True], "min": [1800],
     })
     league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0}}
     cfg = {
@@ -337,7 +337,7 @@ def test_destinations_sideways_counts_equal_multiplier_as_sideways():
         "season": ["2024-2025"] * 2,
         "pos_group": ["FW"] * 2,
         "nation": ["CZE"] * 2,
-        "czech_eligible": [True] * 2,
+        "home_eligible": [True] * 2,
         "min": [1000, 1000],
     })
     league_quality = {"multipliers": {"CZE-First League": 0.434, "AUT-Bundesliga": 0.434,

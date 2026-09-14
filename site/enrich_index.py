@@ -11,17 +11,20 @@
 - folds: limitations, analog lists, card analog sections, appendix tables
 - cluster accordion; mobile contents panel; clamps; player-index search
 
-Portraits come from site/players.json (fbref_id -> player_key, image); the
-template puts `data-player-key` / `data-fbref-id` on every element that can
-carry one, so matching is exact. Every substitution asserts its match count
-and the script fails loudly when the page changed under it.
+Portraits come from site/players.<NATION>.json (fbref_id -> player_key,
+image; NATION env var, default "cze"); the template puts `data-player-key` /
+`data-fbref-id` on every element that can carry one, so matching is exact.
+Every substitution asserts its match count and the script fails loudly when
+the page changed under it.
 
 usage: enrich_index.py docs/index.html --lang en
        enrich_index.py docs/cs/index.html --lang cs
+       NATION=eng enrich_index.py docs/eng/index.html --lang en
 """
 import argparse
 import datetime as _dt
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -34,8 +37,9 @@ args = ap.parse_args()
 
 SRC: Path = args.page
 LANG: str = args.lang
+NATION = os.environ.get("NATION", "cze").lower()
 P = "" if LANG == "en" else "../"          # asset prefix relative to the page
-PLAYERS = json.load(open(Path(__file__).with_name("players.json"), encoding="utf-8"))
+PLAYERS = json.load(open(Path(__file__).with_name(f"players.{NATION}.json"), encoding="utf-8"))
 BY_KEY = {v["player_key"]: dict(v, fbref_id=k) for k, v in PLAYERS.items()}
 SITE = "https://football.datasimply.eu/"
 html = SRC.read_text(encoding="utf-8")

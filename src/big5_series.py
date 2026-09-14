@@ -32,7 +32,7 @@ from src.utils import read_parquet, season_label
 
 LOG = logging.getLogger(__name__)
 
-MID_TONE_COUNTRIES = ["DEN", "CRO"]
+MID_TONE_COUNTRIES = list(config.nation()["series_contrast"])
 
 
 def build_series(history: pd.DataFrame, peers: dict[str, dict], min_minutes: int = 450) -> dict:
@@ -62,7 +62,7 @@ def build_series(history: pd.DataFrame, peers: dict[str, dict], min_minutes: int
             minutes_share_list.append(round(nation_min / total_min, 4) if total_min > 0 else 0.0)
         countries[code] = {"n": n_list, "per_million": per_million_list, "minutes_share": minutes_share_list}
 
-    cze_n = countries["CZE"]["n"]
+    cze_n = countries[config.HOME]["n"]
     peak_idx = max(range(len(seasons)), key=lambda i: (cze_n[i], -i))
     low_idx = min(range(len(seasons)), key=lambda i: (cze_n[i], i))
     cze_peak = {"season": seasons[peak_idx], "n": cze_n[peak_idx]}
@@ -72,7 +72,7 @@ def build_series(history: pd.DataFrame, peers: dict[str, dict], min_minutes: int
     golden = []
     for i in golden_idx:
         season = seasons[i]
-        cze_season = history[(history["season"] == season) & (history["nation"] == "CZE")]
+        cze_season = history[(history["season"] == season) & (history["nation"] == config.HOME)]
         by_player = (
             cze_season.groupby("player_key")
             .agg(player=("player", "first"), min=("min", "sum"))
@@ -104,7 +104,7 @@ def render_series(series: dict, out_path: Path) -> None:
     fig.patch.set_facecolor(CREAM)
 
     for code, data in countries.items():
-        if code == "CZE":
+        if code == config.HOME:
             continue
         color = MUTED if code in MID_TONE_COUNTRIES else "#d4cfc3"
         lw = 1.4 if code in MID_TONE_COUNTRIES else 1.0
@@ -116,8 +116,8 @@ def render_series(series: dict, out_path: Path) -> None:
                 color=color, va="center",
             )
 
-    cze_n = countries["CZE"]["n"]
-    ax_n.plot(years, cze_n, color=NAVY, lw=2.6, zorder=5, label="Czechia")
+    cze_n = countries[config.HOME]["n"]
+    ax_n.plot(years, cze_n, color=NAVY, lw=2.6, zorder=5, label=config.nation()["name"])
 
     peak, low = series["cze_peak"], series["cze_low"]
     last_season, last_n = seasons[-1], cze_n[-1]
@@ -139,11 +139,11 @@ def render_series(series: dict, out_path: Path) -> None:
     for spine in ("top", "right"):
         ax_n.spines[spine].set_visible(False)
 
-    for code in ("CZE", "DEN", "CRO"):
+    for code in [config.HOME, *MID_TONE_COUNTRIES]:
         if code not in countries:
             continue
-        color = NAVY if code == "CZE" else MUTED
-        lw = 2.2 if code == "CZE" else 1.4
+        color = NAVY if code == config.HOME else MUTED
+        lw = 2.2 if code == config.HOME else 1.4
         ax_pm.plot(years, countries[code]["per_million"], color=color, lw=lw, label=code)
         ax_pm.annotate(
             code, xy=(years[-1], countries[code]["per_million"][-1]), xytext=(6, 0),
@@ -172,7 +172,7 @@ def main() -> None:
     config.ensure_dirs()
 
     history = read_parquet(config.PROCESSED_DIR / "big5_history.parquet")
-    peers = config.countries()["peers"]
+    peers = config.peers_meta()
     series = build_series(history, peers)
 
     out_json = config.PROCESSED_DIR / "big5_series.json"
@@ -183,7 +183,7 @@ def main() -> None:
 
     peak, low = series["cze_peak"], series["cze_low"]
     last_season = series["seasons"][-1]
-    last_n = series["countries"]["CZE"]["n"][-1]
+    last_n = series["countries"][config.HOME]["n"][-1]
     LOG.info(
         "CZE peak %s (%d), low %s (%d), last %s (%d)",
         peak["season"], peak["n"], low["season"], low["n"], last_season, last_n,

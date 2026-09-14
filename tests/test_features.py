@@ -114,8 +114,8 @@ def test_attach_flags_matches_by_player_key_and_guards_namesakes(tmp_path, monke
     })
     out = _attach_flags(df).set_index("player_key")
 
-    assert out.loc["jan kuchta|1997", "czech_eligible"] == True  # noqa: E712 (nation)
-    assert out.loc["foreign player|2000", "czech_eligible"] == True  # noqa: E712 (pool match)
+    assert out.loc["jan kuchta|1997", "home_eligible"] == True  # noqa: E712 (nation)
+    assert out.loc["foreign player|2000", "home_eligible"] == True  # noqa: E712 (pool match)
     assert out.loc["jan novak|1990", "nt_flag"] == True  # noqa: E712
     assert out.loc["jan novak|1990", "nt_events"] == "UEFA Euro 2024"
     # Namesake with a different birth year must NOT be flagged.

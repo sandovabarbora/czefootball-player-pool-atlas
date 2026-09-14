@@ -18,7 +18,7 @@ def _row(player_key, season, min_, npg_q, ast_q, **kw):
         "season": season,
         "league": "Fortuna Liga",
         "nation": "CZE",
-        "czech_eligible": True,
+        "home_eligible": True,
         "nt_flag": False,
         "pos_group": "FW",
         "min": min_,
@@ -73,7 +73,7 @@ def test_compute_trajectory_output_columns():
     features = pd.DataFrame(rows)
     out = compute_trajectory(features, "FW")
     expected = {
-        "player_key", "player", "league", "nation", "czech_eligible", "nt_flag",
+        "player_key", "player", "league", "nation", "home_eligible", "nt_flag",
         "min_prev", "min_curr", "npg_ast_quality_prev", "npg_ast_quality_curr",
         "delta", "direction",
     }

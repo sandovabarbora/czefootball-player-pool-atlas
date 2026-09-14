@@ -101,7 +101,7 @@ def _fill_missing_age(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _attach_flags(df: pd.DataFrame) -> pd.DataFrame:
-    """Attach czech_eligible / nt_flag / nt_events.
+    """Attach home_eligible / nt_flag / nt_events.
 
     Join key for pool membership is `player_key` (normalized name + birth
     year), not `fbref_id` -- FBref player-season tables carry no id, and
@@ -115,7 +115,7 @@ def _attach_flags(df: pd.DataFrame) -> pd.DataFrame:
     pool = read_parquet(config.PROCESSED_DIR / "pool.parquet")
     nt = read_parquet(config.PROCESSED_DIR / "nt_flags.parquet")
     out = df.copy()
-    out["czech_eligible"] = out["nation"].eq("CZE") | out["player_key"].isin(pool.player_key)
+    out["home_eligible"] = out["nation"].eq(config.HOME) | out["player_key"].isin(pool.player_key)
     out["player_norm"] = out["player"].map(normalize_name)
 
     candidates = (
@@ -153,7 +153,7 @@ def main() -> None:
             "%s: %d player-seasons, %d Czech, %d NT-flagged",
             group,
             len(sub),
-            int(sub.czech_eligible.sum()),
+            int(sub.home_eligible.sum()),
             int(sub.nt_flag.sum()),
         )
 

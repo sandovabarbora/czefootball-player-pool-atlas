@@ -225,7 +225,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
                     ax.text(j, i + 0.20, f"{val:.2f}", ha="center", va="center",
                             fontsize=9, color=text_color, fontfamily="serif", weight="normal")
 
-        cz_idx = country_order.index("CZE") if "CZE" in country_order else None
+        cz_idx = country_order.index(config.HOME) if config.HOME in country_order else None
         if cz_idx is not None:
             ax.add_patch(plt.Rectangle(
                 (-0.5, cz_idx - 0.5), n_cohorts, 1,
@@ -233,8 +233,8 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
             ))
 
     fig.canvas.draw()
-    if "CZE" in country_order:
-        cz_idx = country_order.index("CZE")
+    if config.HOME in country_order:
+        cz_idx = country_order.index(config.HOME)
         for ax in axes:
             labels = ax.get_yticklabels()
             if cz_idx < len(labels):
@@ -280,11 +280,11 @@ def build_narrative(pc: pd.DataFrame, coh: pd.DataFrame) -> str:
         )
     lines.append("")
 
-    cze_row = pc[pc.country == "CZE"]
+    cze_row = pc[pc.country == config.HOME]
     if not cze_row.empty:
         r = cze_row.iloc[0]
         lines.append(
-            f"CZE ranks {int(r['rank'])} of {len(pc)} peer countries, with "
+            f"{config.HOME} ranks {int(r['rank'])} of {len(pc)} peer countries, with "
             f"{int(r['n_players'])} players ({r['per_million']:.2f} per million)."
         )
         lines.append("")
@@ -292,23 +292,24 @@ def build_narrative(pc: pd.DataFrame, coh: pd.DataFrame) -> str:
     lines.append("## Cohort gaps")
     lines.append("")
     lines.append(
-        "For each position group x age cohort, CZE's player count (n) compared "
+        f"For each position group x age cohort, {config.HOME}'s player count (n) compared "
         "with the median n across the other peer countries in that cohort. The "
-        "three cohorts with the largest shortfall (CZE n minus peer median n) "
+        f"three cohorts with the largest shortfall ({config.HOME} n minus peer median n) "
         "are listed below."
     )
     lines.append("")
 
     if not coh.empty:
-        # Zero-fill symmetrically: the median is over the 8 non-CZE peers
-        # from `pc` (which always has one row per configured peer, CZE
-        # included), not just the peers that happen to have a row in this
-        # (pos_group, cohort) — a peer absent from `coh` for a cohort has 0
-        # qualifying players there, same as CZE would if it were absent.
-        other_peers = [c for c in pc["country"].tolist() if c != "CZE"]
+        # Zero-fill symmetrically: the median is over the other peers from
+        # `pc` (which always has one row per configured peer, the home
+        # nation included), not just the peers that happen to have a row in
+        # this (pos_group, cohort) — a peer absent from `coh` for a cohort
+        # has 0 qualifying players there, same as the home nation would if
+        # it were absent.
+        other_peers = [c for c in pc["country"].tolist() if c != config.HOME]
         gaps = []
         for (group, cohort), g in coh.groupby(["pos_group", "cohort"]):
-            cze_n = g[g.country == "CZE"]["n"]
+            cze_n = g[g.country == config.HOME]["n"]
             cze_n_val = int(cze_n.iloc[0]) if not cze_n.empty else 0
             n_by_country = g.set_index("country")["n"]
             peer_n = pd.Series([int(n_by_country.get(c, 0)) for c in other_peers])
@@ -343,7 +344,7 @@ def main() -> None:
     logging_setup()
     config.ensure_dirs()
 
-    peers = config.countries()["peers"]
+    peers = config.peers_meta()
     tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
     pc = per_capita(tables, peers, config.HEADLINE_LEAGUES, config.seasons()["metrics"])
     write_parquet(pc, config.PROCESSED_DIR / "per_capita.parquet")

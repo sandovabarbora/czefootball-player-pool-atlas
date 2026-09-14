@@ -26,7 +26,7 @@ Inputs:
 Outputs:
   data/processed/coords_{FW,MF,DF}.parquet
       player_key, player, season, league, team, born, pos_group,
-      czech_eligible, nt_flag, min,
+      home_eligible, nt_flag, min,
       pc1_style, pc2_style, pc1_quality, pc2_quality
   data/processed/pca_loadings.parquet
       One row per (position, projection, pc) with explained_variance and
@@ -54,7 +54,7 @@ PROJECTIONS: tuple[tuple[str, str], ...] = (("style", "shrunk"), ("quality", "qu
 
 META_COLS: list[str] = [
     "player_key", "player", "season", "league", "team", "born",
-    "pos_group", "czech_eligible", "nt_flag", "min",
+    "pos_group", "home_eligible", "nt_flag", "min",
 ]
 
 MIN_FIT_ROWS = 4

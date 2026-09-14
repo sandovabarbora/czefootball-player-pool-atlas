@@ -1,9 +1,9 @@
 """Render the English report of the Czech football player pool atlas.
 
-Reads only `data/processed/*` (falling back to the committed `data/snapshot/`
-copy of any missing file), `config/*.yaml`, `site/players.json` and
-`outputs/intl_cohort_heatmap.svg` (redrawn from the processed tables when
-missing); never touches the network.
+Reads only `data/processed/<NATION>/*` (falling back to the committed
+`data/snapshot/<NATION>/` copy of any missing file), `config/*.yaml`,
+`site/players.<NATION>.json` and `outputs/<NATION>/intl_cohort_heatmap.svg`
+(redrawn from the processed tables when missing); never touches the network.
 
 Output:
   outputs/atlas_FW.svg, outputs/atlas_MF.svg, outputs/atlas_DF.svg
@@ -50,7 +50,9 @@ LOG = logging.getLogger(__name__)
 GROUPS = ["FW", "MF", "DF"]
 GROUP_TITLES = {"FW": "Forwards", "MF": "Midfielders", "DF": "Defenders"}
 COHORT_ORDER = ["U22", "23-25", "26-29", "30+"]
-COHORT_COUNTRIES = ["CZE", "DEN", "CRO", "AUT", "SUI"]
+# Home nation + the editorial subset of peers shown in the cohort exhibit
+# table (config/nations/<NATION>.yaml::cohort_exhibit).
+COHORT_COUNTRIES = [config.HOME, *config.nation()["cohort_exhibit"]]
 TIER_ORDER = ["domestic", "stepping_stone", "top9", "other"]
 TIER_LABELS = {
     "domestic": "domestic league",
@@ -105,7 +107,7 @@ CARD_ANALOGS = 3
 CLUSTER_TOP_N = 5
 ATLAS_NAMES_N = 10
 MOVERS_N = 5
-SITE_PLAYERS = config.ROOT_DIR / "site" / "players.json"
+SITE_PLAYERS = config.ROOT_DIR / "site" / f"players.{config.NATION}.json"
 
 # Palette aligned with templates/style.css (OKLCH tokens converted to sRGB hex
 # for matplotlib). Navy load-bearing, oxblood for highlights, warm neutrals.
@@ -253,7 +255,7 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
     ]
     cur = cur.merge(feat, on="player_key", how="left")
     cur["q"] = cur["npg_p90_quality"].fillna(0) + cur["ast_p90_quality"].fillna(0)
-    cz = cur[cur["czech_eligible"]].copy()
+    cz = cur[cur["home_eligible"]].copy()
 
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(13, 6.5))
     fig.patch.set_facecolor(CREAM)
@@ -355,13 +357,13 @@ def _cohort_gaps(coh: pd.DataFrame, peers: list[str]) -> list[dict]:
     Same zero-filling rule as international_benchmark.build_narrative: a peer
     without a row in a cohort has 0 qualifying players there.
     """
-    others = [c for c in peers if c != "CZE"]
+    others = [c for c in peers if c != config.HOME]
     gaps = []
     for group in GROUPS:
         for cohort in COHORT_ORDER:
             g = coh[(coh.pos_group == group) & (coh.cohort == cohort)]
             n_by_country = g.set_index("country")["n"] if not g.empty else pd.Series(dtype=int)
-            cze_n = int(n_by_country.get("CZE", 0))
+            cze_n = int(n_by_country.get(config.HOME, 0))
             peer_median = float(pd.Series([int(n_by_country.get(c, 0)) for c in others]).median())
             gaps.append({
                 "pos_group": group, "group_title": GROUP_TITLES[group], "cohort": cohort,
@@ -385,7 +387,7 @@ def _build_clusters(coords: pd.DataFrame, features: pd.DataFrame, labels: dict,
     for cid in sorted(cur["cluster_style"].dropna().map(_cluster_id).unique()):
         key = f"C{cid}"
         members = cur[cur["cluster_style"] == key]
-        cz = members[members["czech_eligible"]].sort_values("min", ascending=False)
+        cz = members[members["home_eligible"]].sort_values("min", ascending=False)
         rows.append({
             "id": key,
             "label": tr.term(style_labels[key]) if key in style_labels else f"Cluster {key}",
@@ -420,7 +422,7 @@ def _build_movers(traj: pd.DataFrame, n: int = MOVERS_N) -> dict[str, list[dict]
     """Czech-eligible movers up / down by quality-adjusted npG+A per 90 delta."""
     if traj.empty:
         return {"up": [], "down": [], "n_czech": 0, "directions": {}}
-    cz = traj[traj["czech_eligible"]]
+    cz = traj[traj["home_eligible"]]
 
     def _row(r) -> dict:
         return {
@@ -660,8 +662,8 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
                 sub = prof[(prof.tier == tier) & (prof.pos_group == group)]
                 if sub.empty:
                     continue
-                cze = sub[sub.country == "CZE"]
-                others = sub[sub.country != "CZE"]
+                cze = sub[sub.country == config.HOME]
+                others = sub[sub.country != config.HOME]
                 profile.append({
                     "tier": tier, "tier_label": TIER_LABELS.get(tier, tier), "pos_group": group,
                     "cze_n": int(cze.iloc[0]["n"]) if not cze.empty else 0,
@@ -696,12 +698,12 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
         "destinations": destinations,
         "youth": youth, "export": export, "fare_min": fare_min, "fare_goals": fare_goals,
         "club_strength_proxy": proxy, "profile": profile,
-        "youth_cze": _find(youth, "CZE"), "youth_top": next((r for r in youth if r["share_u21"] is not None), None),
-        "export_cze": _find(export, "CZE"), "export_den": _find(export, "DEN"),
-        "fare_min_cze": _find(fare_min, "CZE"), "fare_goals_cze": _find(fare_goals, "CZE"),
-        "fare_min_rank": next((i + 1 for i, r in enumerate(fare_min) if r["country"] == "CZE"), None),
-        "fare_goals_rank": next((i + 1 for i, r in enumerate(fare_goals) if r["country"] == "CZE"), None),
-        "youth_rank": next((i + 1 for i, r in enumerate(youth) if r["country"] == "CZE"), None),
+        "youth_cze": _find(youth, config.HOME), "youth_top": next((r for r in youth if r["share_u21"] is not None), None),
+        "export_cze": _find(export, config.HOME), "export_den": _find(export, PEER_COMPARE_COUNTRIES[-1]),
+        "fare_min_cze": _find(fare_min, config.HOME), "fare_goals_cze": _find(fare_goals, config.HOME),
+        "fare_min_rank": next((i + 1 for i, r in enumerate(fare_min) if r["country"] == config.HOME), None),
+        "fare_goals_rank": next((i + 1 for i, r in enumerate(fare_goals) if r["country"] == config.HOME), None),
+        "youth_rank": next((i + 1 for i, r in enumerate(youth) if r["country"] == config.HOME), None),
         "n_countries": len(peers),
     }
 
@@ -716,9 +718,9 @@ def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
     countries = lens.get("countries") or []
     if not countries:
         return {}
-    cze = next((c for c in countries if c["country"] == "CZE"), None)
+    cze = next((c for c in countries if c["country"] == config.HOME), None)
     others = sorted(
-        (c for c in countries if c["country"] != "CZE"),
+        (c for c in countries if c["country"] != config.HOME),
         key=lambda c: -c["tiers"].get("top9", 0),
     )
     ordered = ([cze] if cze else []) + others
@@ -759,7 +761,7 @@ def _build_big5(big5_series: dict) -> dict:
     seasons = big5_series["seasons"]
     peak, low = big5_series["cze_peak"], big5_series["cze_low"]
     last_season = seasons[-1]
-    last_n = big5_series["countries"]["CZE"]["n"][-1]
+    last_n = big5_series["countries"][config.HOME]["n"][-1]
     golden = "; ".join(
         f"{season_label(g['season'])}: {', '.join(g['players'])}" for g in big5_series.get("golden", [])
     )
@@ -774,7 +776,7 @@ def _build_big5(big5_series: dict) -> dict:
     }
 
 
-PEER_COMPARE_COUNTRIES = ["CZE", "NOR", "DEN"]
+PEER_COMPARE_COUNTRIES = [config.HOME] + list(config.nation().get("compare", config.nation()["peers"][:2]))
 
 
 def _country_sideways_share(features_all: pd.DataFrame, league_quality: dict, leagues_cfg: dict,
@@ -783,7 +785,7 @@ def _country_sideways_share(features_all: pd.DataFrame, league_quality: dict, le
     league multiplier <= the country's own domestic-league multiplier).
 
     `src.pathways.destinations()`/`_summarize_destinations()` compute this
-    for Czechia only (`czech_eligible`, a Czech-specific column); slide 8
+    for Czechia only (`home_eligible`, a Czech-specific column); slide 8
     needs the same number for Norway and Denmark, so this reapplies the
     identical rule — MIN_MINUTES_DESTINATIONS, one row per (player_key,
     season, pos_group) — to any country with a domestic league on file in
@@ -793,7 +795,7 @@ def _country_sideways_share(features_all: pd.DataFrame, league_quality: dict, le
     from src.pathways import MIN_MINUTES_DESTINATIONS, _dedupe_player_season
 
     domestic_by_country = {v["country"]: k for k, v in leagues_cfg["peer_domestic"].items()}
-    domestic_by_country["CZE"] = leagues_cfg["domestic"]
+    domestic_by_country[config.HOME] = leagues_cfg["domestic"]
     domestic_league = domestic_by_country.get(country)
     mult = league_quality["multipliers"]
     domestic_multiplier = mult.get(domestic_league) if domestic_league else None
@@ -868,8 +870,8 @@ def _build_peer_compare(per_capita: list[dict], pathways: dict, squad_lens: dict
         "countries": countries,
         "names": {c: names.get(c, c) for c in countries},
         "rows": rows,
-        "nor_u21": _val("u21_share", "NOR"), "cze_u21": _val("u21_share", "CZE"),
-        "nor_top9": _val("wc_top9", "NOR"), "cze_top9": _val("wc_top9", "CZE"),
+        "nor_u21": _val("u21_share", PEER_COMPARE_COUNTRIES[1]), "cze_u21": _val("u21_share", config.HOME),
+        "nor_top9": _val("wc_top9", PEER_COMPARE_COUNTRIES[1]), "cze_top9": _val("wc_top9", config.HOME),
     }
 
 
@@ -956,7 +958,7 @@ def _build_observations(hero: dict, per_capita: list[dict], gaps: list[dict],
     tr = tr or Translator("en")
     top = per_capita[0]
     n_other_peers = len(per_capita) - 1
-    cze = next(r for r in per_capita if r["country"] == "CZE")
+    cze = next(r for r in per_capita if r["country"] == config.HOME)
     above = [r for r in per_capita if r["rank"] < cze["rank"]]
     below = [r for r in per_capita if r["rank"] > cze["rank"]]
     nearest_above = above[-1] if above else None
@@ -1029,7 +1031,7 @@ def _build_player_index(features: dict[str, pd.DataFrame], coords: dict[str, pd.
     rows = []
     for group in GROUPS:
         feat = _metrics_rows(features[group], season)
-        feat = feat[feat["czech_eligible"]]
+        feat = feat[feat["home_eligible"]]
         co = _metrics_rows(coords[group], season).set_index("player_key")
         style_labels = labels.get(group, {}).get("style", {})
         for r in feat.itertuples():
@@ -1106,7 +1108,7 @@ def load_data() -> dict[str, Any]:
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.load_yaml("cluster_labels.yaml"),
         "league_quality": config.league_quality(),
-        "countries": config.countries()["peers"],
+        "countries": config.peers_meta(),
         "seasons": config.seasons(),
         "feature_defs": config.features(),
         "leagues": config.leagues(),
@@ -1141,7 +1143,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     names = {c: v["name"] for c, v in data["countries"].items()}
 
     per_capita = _build_per_capita(data["per_capita"])
-    cze = next(r for r in per_capita if r["country"] == "CZE")
+    cze = next(r for r in per_capita if r["country"] == config.HOME)
     cohorts = _build_cohorts(data["cohorts"], COHORT_COUNTRIES)
     gaps = _cohort_gaps(data["cohorts"], peers)
 
@@ -1153,7 +1155,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                          data["trajectory"], data["pool"], data["cluster_labels"], data["photos"], metrics,
                          seasons_raw["current"], tr,
                          current_table=data["fbref_players"] if not data["fbref_players"].empty else None)
-    nt_core_event = config.load_yaml("squads.yaml").get("nt_core_event")
+    nt_core_event = config.squads().get("nt_core_event")
     pathways = _build_pathways(data["pathways"], names, peers)
     squad_lens = _build_squad_lens(data["squad_lens"], names)
     player_index = _build_player_index(data["features"], data["coords"], data["pool"],
@@ -1165,7 +1167,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     n_leagues = len({*lg["headline"], lg["domestic"], *lg.get("custom", {}), *lg.get("peer_domestic", {})})
     pool = data["pool"]
     cz_cur = {g: _metrics_rows(data["features"][g], metrics) for g in GROUPS}
-    cz_cur = {g: df[df["czech_eligible"]] for g, df in cz_cur.items()}
+    cz_cur = {g: df[df["home_eligible"]] for g, df in cz_cur.items()}
     n_with_metrics = sum(len(df) for df in cz_cur.values())
     n_nt_flagged = sum(int(df["nt_flag"].sum()) for df in cz_cur.values())
     nt_events = sorted({e for df in cz_cur.values() for s in df["nt_events"].dropna()

@@ -16,7 +16,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-RENDERED = ROOT / "outputs" / "index.html"
+RENDERED = ROOT / "outputs" / "cze" / "index.html"
 
 pytestmark = pytest.mark.skipif(not RENDERED.exists(), reason="no render in outputs/ (run `make render`)")
 

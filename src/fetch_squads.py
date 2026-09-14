@@ -79,7 +79,7 @@ def parse_squad_section(html: str, section: str) -> pd.DataFrame:
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     frames = []
-    for ev in config.load_yaml("squads.yaml")["events"]:
+    for ev in config.squads()["events"]:
         cache_key = f"wiki_{ev['year']}_{ev['team']}_{normalize_name(ev['event']).replace(' ', '_')}"
         html = _fetch_html(ev["url"], cache_key)
         df = parse_squad_section(html, ev["section"])
@@ -91,13 +91,13 @@ def main() -> None:
     ]
     write_parquet(out, config.PROCESSED_DIR / "nt_flags.parquet")
 
-    # Exhibit F (squad_lens): the Czech nt_core_event squad plus its peer
-    # squads from the same Wikipedia page (config/squads.yaml::peer_squads).
-    cfg = config.load_yaml("squads.yaml")
+    # Exhibit F (squad_lens): the home nation's nt_core_event squad plus its
+    # peer squads from the same Wikipedia page (nation()["squads"]::peer_squads).
+    cfg = config.squads()
     core = next(e for e in cfg["events"] if e["event"] == cfg["nt_core_event"])
     cache_key = f"wiki_{core['year']}_{core['team']}_{normalize_name(core['event']).replace(' ', '_')}"
     core_html = _fetch_html(core["url"], cache_key)
-    peers = [parse_squad_section(core_html, core["section"]).assign(country="CZE")]
+    peers = [parse_squad_section(core_html, core["section"]).assign(country=config.HOME)]
     for p in cfg.get("peer_squads", []):
         try:
             peers.append(parse_squad_section(core_html, p["section"]).assign(country=p["country"]))

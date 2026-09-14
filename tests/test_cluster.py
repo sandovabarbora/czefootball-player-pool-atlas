@@ -37,7 +37,7 @@ def _toy_features(n: int = 60, season: str = config.seasons()["metrics"]) -> pd.
         "team": "T",
         "born": 1998,
         "pos_group": "FW",
-        "czech_eligible": False,
+        "home_eligible": False,
         "nt_flag": False,
         "min": 1500,
     })

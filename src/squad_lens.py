@@ -1,5 +1,5 @@
 """Exhibit F: the national-team squad of `nt_core_event` by league tier, cohort and minutes,
-next to the peer squads on the same Wikipedia page (`config/squads.yaml::peer_squads`).
+next to the peer squads on the same Wikipedia page (`nation()["squads"]["peer_squads"]`).
 Descriptive only -- no player-selection recommendation.
 
 Inputs:
@@ -101,7 +101,7 @@ def main() -> None:
     # country, tier}); the league -> country map needs the "country" field,
     # not the dict itself.
     peer_domestic = {lg: v["country"] for lg, v in cfg.get("peer_domestic", {}).items()}
-    peer_domestic[cfg["domestic"]] = "CZE"
+    peer_domestic[config.DOMESTIC_LEAGUE] = config.HOME
     out = build_squad_lens(squads, tables, list(cfg["headline"]), list(cfg.get("stepping_stone", [])),
                            peer_domestic, config.seasons()["metrics"], lq["multipliers"])
     (config.PROCESSED_DIR / "squad_lens.json").write_text(

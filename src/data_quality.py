@@ -36,11 +36,11 @@ from src.utils import collapse_player_seasons, normalize_name, read_parquet
 LOG = logging.getLogger(__name__)
 
 # soccerdata's own cache location for the FBref country page (see
-# `src.pool.fetch_country_page`: `fb.data_dir / "country_cze.html"`, where
-# `fb.data_dir` resolves to `~/soccerdata/data/FBref/`). Read directly
+# `src.pool.fetch_country_page`: `fb.data_dir / nation()["fbref_country_cache"]`,
+# where `fb.data_dir` resolves to `~/soccerdata/data/FBref/`). Read directly
 # rather than instantiating `soccerdata.FBref` -- this module never touches
 # the network.
-COUNTRY_PAGE_CACHE = Path.home() / "soccerdata" / "data" / "FBref" / "country_cze.html"
+COUNTRY_PAGE_CACHE = Path.home() / "soccerdata" / "data" / "FBref" / config.nation()["fbref_country_cache"]
 
 GROUPS = ("FW", "MF", "DF")
 _PLAYER_LINK = re.compile(r"^/en/players/[0-9a-f]{8}/")
@@ -101,8 +101,8 @@ def _nt_unmatched_count(nt_flags: pd.DataFrame, features_by_group: dict[str, pd.
         f = df.copy()
         if "player_norm" not in f.columns:
             f["player_norm"] = f["player"].map(normalize_name)
-        if "czech_eligible" in f.columns:
-            f = f[f["czech_eligible"]]
+        if "home_eligible" in f.columns:
+            f = f[f["home_eligible"]]
         if "born" not in f.columns:
             f["born"] = pd.NA
         frames.append(f[["player_norm", "born"]].rename(columns={"born": "born_feat"}))
@@ -143,7 +143,7 @@ def compute_checks(
         {"id": "split_seasons", "count": _split_seasons_count(features_by_group), "unit": "rows"},
         {"id": "nt_unmatched", "count": _nt_unmatched_count(nt_flags, features_by_group), "unit": "names"},
         {"id": "missing_born",
-         "count": int(tables.loc[tables["nation"] == "CZE", "born"].isna().sum()), "unit": "rows"},
+         "count": int(tables.loc[tables["nation"] == config.HOME, "born"].isna().sum()), "unit": "rows"},
     ]
 
 

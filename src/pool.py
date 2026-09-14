@@ -28,7 +28,7 @@ from src import config
 from src.utils import normalize_name, player_key, read_parquet, write_parquet
 
 LOG = logging.getLogger(__name__)
-COUNTRY_URL = "https://fbref.com/en/country/players/CZE/Czechia-Football-Players"
+COUNTRY_URL = config.nation()["fbref_country_page"]
 ENTRY = re.compile(r"^(?P<span>\d{4}(?:-\d{4})?)\s*·\s*(?P<pos>[A-Z,]+)(?:\s*·\s*(?P<clubs>.*))?$")
 
 
@@ -82,7 +82,8 @@ def parse_country_page(html: str, current_start_year: int) -> pd.DataFrame:
 def fetch_country_page() -> str:
     import soccerdata as sd
     fb = sd.FBref(leagues=["ENG-Premier League"], seasons=[config.seasons()["current"]], headless=True)
-    return fb.get(COUNTRY_URL, fb.data_dir / "country_cze.html").read().decode("utf-8")
+    cache_name = config.nation()["fbref_country_cache"]
+    return fb.get(COUNTRY_URL, fb.data_dir / cache_name).read().decode("utf-8")
 
 
 def unmatched_clubs(pool: pd.DataFrame, tables: pd.DataFrame) -> pd.DataFrame:
@@ -129,7 +130,7 @@ def build_pool() -> pd.DataFrame:
     current_year = int(config.seasons()["current"][:4])
     disc = parse_country_page(fetch_country_page(), current_year)
     tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
-    cze = tables[tables.nation == "CZE"].copy()
+    cze = tables[tables.nation == config.HOME].copy()
     cze["player_norm"] = cze.player.map(normalize_name)
     cand_by_norm = _born_candidates_by_norm(cze)
     pool = disc.copy()
@@ -140,7 +141,8 @@ def build_pool() -> pd.DataFrame:
     pool["born"] = pool["born"].astype("Int64")
     pool["player_key"] = [player_key(n, b) for n, b in zip(pool.player, pool.born, strict=True)]
     pool["pos_group"] = pool.pos.map(pos_group)
-    pool["club_current"] = pool.clubs.map(lambda c: next((x for x in c if x != "Czechia"), ""))
+    home_name = config.nation()["name"]
+    pool["club_current"] = pool.clubs.map(lambda c: next((x for x in c if x != home_name), ""))
     pool["in_fbref_tables"] = pool.player_norm.isin(set(cze.player_norm))
     for _, row in pool[pool.active].iterrows():
         cands = cand_by_norm.get(row.player_norm, [])

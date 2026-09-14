@@ -135,7 +135,7 @@ def main() -> None:
     feats_by_group = {}
     for g in cfg["groups"]:
         df = read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet")
-        sub = df[(df.season == seasons_cfg["metrics"]) & df.czech_eligible].copy()
+        sub = df[(df.season == seasons_cfg["metrics"]) & df.home_eligible].copy()
         n_before = len(sub)
         sub = collapse_player_seasons(sub, rate_cols=["npg_p90_shrunk", "ast_p90_shrunk"])
         if len(sub) != n_before:

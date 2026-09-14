@@ -29,7 +29,7 @@ from src.utils import cached_text, normalize_name, read_parquet
 LOG = logging.getLogger(__name__)
 UA = {"User-Agent": "czefootball-player-pool-atlas/1.0 (barbora@datasimply.eu)"}
 IMG_DIR = config.ROOT_DIR / "docs" / "img" / "players"
-WIKIDATA_CACHE_DIR = config.RAW_DIR / "wikidata"
+WIKIDATA_CACHE_DIR = config.RAW_DIR / "wikidata" / config.NATION
 LICENSE_NOTE = "Wikimedia Commons — see file page for the licence"
 BATCH_SIZE = 40
 SPARQL_URL = "https://query.wikidata.org/sparql"
@@ -45,12 +45,14 @@ def _sparql_escape(text: str) -> str:
 
 
 def sparql_for(names: list[str]) -> str:
-    """Build a SPARQL query matching any of `names` who are Czech citizens (wd:Q213)
-    and association football players (wd:Q937857)."""
+    """Build a SPARQL query matching any of `names` who carry the home nation's
+    P27 citizenship value (`nation()["wikidata_citizenship"]`, wd:Q213 for
+    Czechia) and are association football players (wd:Q937857)."""
+    citizenship = config.nation()["wikidata_citizenship"]
     values = " ".join(f'"{_sparql_escape(n)}"@en' for n in names)
     return f"""SELECT ?p ?pLabel ?dob ?img WHERE {{
   VALUES ?name {{ {values} }}
-  ?p rdfs:label ?name ; wdt:P27 wd:Q213 ; wdt:P106 wd:Q937857 .
+  ?p rdfs:label ?name ; wdt:P27 wd:{citizenship} ; wdt:P106 wd:Q937857 .
   OPTIONAL {{ ?p wdt:P569 ?dob }} OPTIONAL {{ ?p wdt:P18 ?img }}
   SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }} }}"""
 
@@ -256,7 +258,7 @@ def main() -> None:
 
     site_dir = config.ROOT_DIR / "site"
     site_dir.mkdir(parents=True, exist_ok=True)
-    (site_dir / "players.json").write_text(json.dumps(out, indent=1, ensure_ascii=False))
+    (site_dir / f"players.{config.NATION}.json").write_text(json.dumps(out, indent=1, ensure_ascii=False))
     LOG.info(
         "photos: matched %d, downloaded %d, failed %d, of %d eligible pool players",
         len(matched), downloaded, failed, len(pool),

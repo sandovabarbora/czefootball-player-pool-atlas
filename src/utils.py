@@ -187,7 +187,7 @@ def collapse_player_seasons(
         only one row has a value, the collapsed result is exactly that
         row's value.
       - every other column (`league`, `team`, `nation`, `born`, `age`,
-        `nt_flag`, `nt_events`, `czech_eligible`, `league_multiplier`, ...)
+        `nt_flag`, `nt_events`, `home_eligible`, `league_multiplier`, ...)
         is taken from the row with the most minutes (that club/league is
         where most of the player's season was spent)
 

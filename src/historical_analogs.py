@@ -163,7 +163,7 @@ def showcase_ids(
         seen.add(row.player_key)
 
     for group, df in feats_by_group.items():
-        cz = df[(df.season == metrics_season) & df.czech_eligible & (df["min"] >= SHOWCASE_MIN_MINUTES)].copy()
+        cz = df[(df.season == metrics_season) & df.home_eligible & (df["min"] >= SHOWCASE_MIN_MINUTES)].copy()
         if cz.empty:
             continue
         cz["q"] = cz.npg_p90_quality + cz.ast_p90_quality
@@ -172,7 +172,7 @@ def showcase_ids(
         if top.player_key not in seen:
             _add(top, group, f"highest quality-adjusted npG+A per 90 among {group}")
 
-        young = df[(df.season == metrics_season) & df.czech_eligible & (df["min"] >= YOUNGEST_MIN_MINUTES)]
+        young = df[(df.season == metrics_season) & df.home_eligible & (df["min"] >= YOUNGEST_MIN_MINUTES)]
         nt = young[young.nt_flag].sort_values("born", ascending=False)
         if len(nt) and nt.iloc[0].player_key not in seen:
             _add(nt.iloc[0], group, f"youngest national-team call-up among {group}")
@@ -229,10 +229,10 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO)
     cfg = config.features()
     seasons_cfg = config.seasons()
-    squads_cfg = config.load_yaml("squads.yaml")
+    squads_cfg = config.squads()
     nt_core_event = squads_cfg.get("nt_core_event")
     assert nt_core_event in {e["event"] for e in squads_cfg["events"]}, (
-        f"squads.yaml nt_core_event {nt_core_event!r} is not one of the configured events")
+        f"nation()['squads'] nt_core_event {nt_core_event!r} is not one of the configured events")
 
     feats_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in cfg["groups"]}
     for g, df in feats_by_group.items():

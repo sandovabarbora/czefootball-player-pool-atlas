@@ -1,33 +1,44 @@
-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity pathways data-quality render all clean test lint check snapshot restore-snapshot pages
+.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity pathways data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
+
+# NATION selects the home nation for every target below (default: cze) --
+# it is read straight from the environment by src/config.py, so
+# `NATION=eng make features` (or `export NATION=eng` first) is enough to
+# point every target at config/nations/eng.yaml and the eng/ data dirs; no
+# target here hardcodes a nation. `NATION ?=` only fixes the value this
+# Makefile itself falls back to and reports in `snapshot`/`restore-snapshot`/
+# `share-tables`'s paths below.
+NATION ?= cze
+export NATION
 
 PYTHON ?= python
 VENV   ?= .venv
 ACT    := source $(VENV)/bin/activate &&
 
 help:
-	@echo "Targets:"
+	@echo "Targets (NATION=<code> selects the home nation, default cze):"
 	@echo "  install          Create .venv, install deps with uv (or pip fallback)"
 	@echo "  fetch            Run the data fetchers (leagues setup, FBref, Elo, squads)"
 	@echo "  fetch-big5       Fetch the 26-season Big-5 player-standard history"
-	@echo "  pool             Build the Czech-eligible player pool"
+	@echo "  pool             Build the home-nation-eligible player pool"
 	@echo "  photos           Fetch Wikimedia portraits for the pool (needs pool.parquet)"
 	@echo "  features         Build position-specific feature vectors + season trajectories"
 	@echo "  reduce           Run PCA + UMAP + KMeans"
 	@echo "  benchmark        Per-capita benchmark, cohort table and heatmap"
-	@echo "  series           26-season Big-5 series (Czech players vs peers) exhibit"
+	@echo "  series           26-season Big-5 series (home nation vs peers) exhibit"
 	@echo "  analogs          Showcase players and historical analogs"
 	@echo "  sensitivity      League-multiplier sensitivity table"
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
 	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> pathways -> data-quality -> render"
-	@echo "  pages            render, then build docs/ with site/build.sh"
+	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
 	@echo "  test             Run pytest"
 	@echo "  lint             Run ruff check"
 	@echo "  check            lint + test"
-	@echo "  snapshot         Copy processed parquet/json files into data/snapshot/"
-	@echo "  restore-snapshot Copy data/snapshot/ into data/processed/ (never overwrites newer files)"
-	@echo "  clean            Remove processed data and outputs (keeps raw)"
+	@echo "  snapshot         Copy data/processed/\$$(NATION)/ parquet+json into data/snapshot/\$$(NATION)/"
+	@echo "  restore-snapshot Copy data/snapshot/\$$(NATION)/ into data/processed/\$$(NATION)/ (never overwrites newer files)"
+	@echo "  share-tables     Copy fbref_players.parquet + big5_history.parquet from data/processed/cze/ when absent for NATION (nation-independent raw tables; no refetch)"
+	@echo "  clean            Remove processed data and outputs for \$$(NATION) (keeps raw)"
 
 install:
 	@if command -v uv >/dev/null 2>&1; then \
@@ -92,22 +103,35 @@ lint:
 check: lint test
 
 snapshot:
-	mkdir -p data/snapshot && cp data/processed/*.parquet data/processed/*.json data/snapshot/
+	mkdir -p data/snapshot/$(NATION) && cp data/processed/$(NATION)/*.parquet data/processed/$(NATION)/*.json data/snapshot/$(NATION)/
 
-# Copies every snapshot file that is missing from data/processed/ or older
-# than the snapshot copy; a processed file newer than its snapshot is kept.
+# Copies every snapshot file that is missing from data/processed/$(NATION)/ or
+# older than the snapshot copy; a processed file newer than its snapshot is kept.
 restore-snapshot:
-	@mkdir -p data/processed
-	@for f in data/snapshot/*; do \
-		dest="data/processed/$$(basename "$$f")"; \
+	@mkdir -p data/processed/$(NATION)
+	@for f in data/snapshot/$(NATION)/*; do \
+		dest="data/processed/$(NATION)/$$(basename "$$f")"; \
 		if [ ! -e "$$dest" ] || [ "$$f" -nt "$$dest" ]; then \
 			cp "$$f" "$$dest" && echo "restored $$dest"; \
 		fi; \
 	done
 
+# The two raw FBref tables are nation-independent (every fetched player,
+# every nation); a run for a nation other than cze can reuse cze's copy
+# instead of refetching, when its own hasn't been fetched yet.
+share-tables:
+	@mkdir -p data/processed/$(NATION)
+	@for f in fbref_players.parquet big5_history.parquet; do \
+		src="data/processed/cze/$$f"; dest="data/processed/$(NATION)/$$f"; \
+		if [ -e "$$dest" ]; then echo "$$dest already present, skipped"; \
+		elif [ -e "$$src" ]; then cp "$$src" "$$dest" && echo "copied $$dest from $$src"; \
+		else echo "$$src not found; fetch it first" >&2; exit 1; \
+		fi; \
+	done
+
 clean:
-	rm -rf data/processed/* outputs/*.html outputs/*.pdf outputs/*.svg outputs/*.png
-	@echo "Cleaned processed/ and outputs/ (raw/ preserved)"
+	rm -rf data/processed/$(NATION)/* outputs/$(NATION)/*.html outputs/$(NATION)/*.pdf outputs/$(NATION)/*.svg outputs/$(NATION)/*.png
+	@echo "Cleaned processed/$(NATION) and outputs/$(NATION) (raw/ preserved)"
 
 pages: render
-	./site/build.sh
+	@if [ "$(NATION)" = "cze" ]; then ./site/build.sh; else ./site/build.sh docs/$(NATION); fi

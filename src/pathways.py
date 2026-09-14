@@ -40,7 +40,7 @@ Five independent exhibits. A-D are restricted to the peer countries
         but not CZE's). Answers "does production differ by tier, for a
         given country".
 
-    destinations: for Czech-eligible players (`czech_eligible`, from
+    destinations: for Czech-eligible players (`home_eligible`, from
         `features_{FW,MF,DF}.parquet`) with >= 450 minutes in the metrics
         season, which kind of league they play in — `domestic`
         (CZE-First League), `top9` (headline), `stepping_stone`,
@@ -416,7 +416,7 @@ def destinations(
 ) -> list[dict]:
     """Bucket each Czech-eligible player-season into a destination league type.
 
-    Restricted to `czech_eligible` rows (from `features_{FW,MF,DF}.parquet`,
+    Restricted to `home_eligible` rows (from `features_{FW,MF,DF}.parquet`,
     concatenated) in `metrics_season` with `min >= 450`, deduped to one row
     per (player_key, season, pos_group) via `_dedupe_player_season` -- the
     same unit every other count on the page uses (the hero's "with metrics"
@@ -451,7 +451,7 @@ def destinations(
 
     f = features_all_groups[
         (features_all_groups.season == metrics_season)
-        & features_all_groups.czech_eligible
+        & features_all_groups.home_eligible
         & (features_all_groups["min"] >= MIN_MINUTES_DESTINATIONS)
     ]
     f = _dedupe_player_season(f, key_cols=("player_key", "season", "pos_group"))
@@ -543,7 +543,7 @@ def build_pathways(
     without reading parquet files: `main()` only handles reading inputs and
     writing the result.
     """
-    peer_domestic = {k: v["country"] for k, v in cfg["peer_domestic"].items()} | {cfg["domestic"]: "CZE"}
+    peer_domestic = {k: v["country"] for k, v in cfg["peer_domestic"].items()} | {config.DOMESTIC_LEAGUE: config.HOME}
     dest_rows = destinations(feats, league_quality, cfg, seasons["metrics"])
     domestic_multiplier = league_quality["multipliers"].get(cfg["domestic"])
     return {

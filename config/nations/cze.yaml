@@ -1,0 +1,56 @@
+# Home-nation configuration for the Czech run (Task 14a). Every value here is
+# what the pipeline hardcoded before this file existed -- see task-14a-brief.md.
+code: CZE                      # FBref nation code
+name: Czechia                  # country name (English), matches countries.yaml
+adjective: Czech
+population_m: 10.90
+fbref_country_page: https://fbref.com/en/country/players/CZE/Czechia-Football-Players
+fbref_country_cache: country_cze.html
+wikidata_citizenship: Q213     # P27 value for the photo query
+domestic_league: CZE-First League
+
+# countries.yaml codes, home nation excluded
+peers: [SVK, AUT, HUN, POL, CRO, DEN, SUI, NOR]
+
+# Today's config.PEER_COUNTRIES order (countries.yaml::peers insertion order,
+# home nation included first) -- used wherever the pipeline needs "every
+# country in the benchmark set, home included" (src.pathways' youth_exposure /
+# export_route / fare / profile).
+cohort_countries: [CZE, SVK, AUT, HUN, POL, CRO, DEN, SUI, NOR]
+
+# Peers shown alongside the home nation in render.py's cohort exhibit table
+# (src.render.COHORT_COUNTRIES) -- an editorial subset (space in the table),
+# not derived from `peers` or `cohort_countries`.
+cohort_exhibit: [DEN, CRO, AUT, SUI]
+
+# Thin contrast lines in the Big-5 series (src.big5_series.MID_TONE_COUNTRIES)
+series_contrast: [DEN, CRO]
+
+# Extra peers shown next to the home nation in the peer-compare slide
+# (src.render.PEER_COMPARE_COUNTRIES = [HOME] + compare)
+compare: [NOR, DEN]
+
+# Moved verbatim from config/squads.yaml
+squads:
+  # Fifth card rule (national-team core): most top-9 minutes among this
+  # event's squad, per position group. Must equal one of the events[].event
+  # values below.
+  nt_core_event: "2026 FIFA World Cup"
+
+  # Wikipedia pages with a Czech squad table (wikitable with "Player" and
+  # "Date of birth" columns).
+  events:
+    - {team: A,   event: "UEFA Euro 2024",                  year: 2024, url: "https://en.wikipedia.org/wiki/UEFA_Euro_2024_squads", section: "Czech Republic"}
+    - {team: A,   event: "2024–25 Nations League",          year: 2025, url: "https://en.wikipedia.org/wiki/Czech_Republic_national_football_team", section: "Current squad"}
+    - {team: A,   event: "2026 World Cup qualification",    year: 2025, url: "https://en.wikipedia.org/wiki/Czech_Republic_national_football_team", section: "Recent call-ups"}
+    - {team: U21, event: "UEFA European Under-21 Championship 2025", year: 2025, url: "https://en.wikipedia.org/wiki/2025_UEFA_European_Under-21_Championship_squads", section: "Czech Republic"}
+    - {team: A,   event: "2026 FIFA World Cup",              year: 2026, url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads", section: "Czech Republic"}
+
+  # Exhibit F (squad_lens): peer squads on the same nt_core_event Wikipedia
+  # page, compared against the Czech squad above.
+  peer_squads:   # same page, other sections; the lens compares these squads with the Czech one
+    # Denmark, Poland, Hungary and Slovakia have no 2026 squad section (not at the tournament).
+    - {country: CRO, section: "Croatia"}
+    - {country: NOR, section: "Norway"}
+    - {country: AUT, section: "Austria"}
+    - {country: SUI, section: "Switzerland"}

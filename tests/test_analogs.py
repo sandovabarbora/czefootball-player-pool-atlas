@@ -48,7 +48,7 @@ def _showcase_toy():
         "league": ["ENG-Premier League", "CZE-First League", "CZE-First League", "ITA-Serie A",
                    "GER-Bundesliga", "CZE-First League", "CZE-First League", "CZE-First League",
                    "CZE-First League", "CZE-First League"],
-        "czech_eligible": [True] * 10,
+        "home_eligible": [True] * 10,
         "min": [1200, 1000, 950, 500, 1100, 3000, 2900, 2000, 1500, 2500],
         "npg_p90_quality": [0.9, 0.4, 0.3, 5.0, 0.2, 0.3, 0.2, 0.2, 0.2, 0.2],
         "ast_p90_quality": [0.2, 0.1, 0.1, 5.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
@@ -58,7 +58,7 @@ def _showcase_toy():
     # an earlier season abroad for the returnee: rules it out of (d)
     fw = pd.concat([fw, pd.DataFrame({
         "player_key": ["fw_home_u23_returnee"], "player": ["FW Home U23 Returnee"],
-        "season": ["2022-2023"], "league": ["FRA-Ligue 1"], "czech_eligible": [True],
+        "season": ["2022-2023"], "league": ["FRA-Ligue 1"], "home_eligible": [True],
         "min": [700], "npg_p90_quality": [0.1], "ast_p90_quality": [0.0], "nt_flag": [False],
         "born": [2002],
     })], ignore_index=True)
@@ -67,7 +67,7 @@ def _showcase_toy():
         "player": ["MF Best And Youngest"],
         "season": ["2024-2025"],
         "league": ["CZE-First League"],
-        "czech_eligible": [True],
+        "home_eligible": [True],
         "min": [1500],
         "npg_p90_quality": [0.6],
         "ast_p90_quality": [0.6],
@@ -144,7 +144,7 @@ def test_rule_e_picks_wc_squad_member_with_most_top9_minutes_per_group():
     # FW: A (chosen by rule a), B in WC squad with 1800 top-9 min, C in WC squad 900 min
     fw = pd.DataFrame({
         "player_key": ["a|1", "b|2", "c|3"], "player": ["A", "B", "C"], "season": ["2025-2026"] * 3,
-        "czech_eligible": [True] * 3, "min": [2000, 1800, 900], "born": [1996, 1998, 2001],
+        "home_eligible": [True] * 3, "min": [2000, 1800, 900], "born": [1996, 1998, 2001],
         "league": ["GER-Bundesliga", "ENG-Premier League", "ITA-Serie A"],
         "npg_p90_quality": [1.0, 0.3, 0.2], "ast_p90_quality": [0.5, 0.1, 0.1],
         "nt_flag": [False, True, True],

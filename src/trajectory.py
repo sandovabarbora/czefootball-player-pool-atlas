@@ -19,7 +19,7 @@ Inputs:
 
 Output:
   data/processed/trajectory_{FW,MF,DF}.parquet
-      player_key, player, league (metrics season), nation, czech_eligible,
+      player_key, player, league (metrics season), nation, home_eligible,
       nt_flag, min_prev, min_curr, npg_ast_quality_prev,
       npg_ast_quality_curr, delta, direction
 """
@@ -42,7 +42,7 @@ DIRECTION_THRESHOLD = 0.05
 RATE_COLS: list[str] = ["npg_p90_quality", "ast_p90_quality"]
 
 OUTPUT_COLS: list[str] = [
-    "player_key", "player", "league", "nation", "czech_eligible", "nt_flag",
+    "player_key", "player", "league", "nation", "home_eligible", "nt_flag",
     "min_prev", "min_curr", "npg_ast_quality_prev", "npg_ast_quality_curr",
     "delta", "direction",
 ]
@@ -75,7 +75,7 @@ def compute_trajectory(features: pd.DataFrame, group: str) -> pd.DataFrame:
         columns={"min": "min_prev", "npg_ast_quality": "npg_ast_quality_prev"}
     )
     metrics_keep = f_metrics[
-        ["player_key", "player", "league", "nation", "czech_eligible", "nt_flag",
+        ["player_key", "player", "league", "nation", "home_eligible", "nt_flag",
          "min", "npg_ast_quality"]
     ].rename(columns={"min": "min_curr", "npg_ast_quality": "npg_ast_quality_curr"})
 
@@ -103,7 +103,7 @@ def main() -> None:
         write_parquet(traj, config.PROCESSED_DIR / f"trajectory_{group}.parquet")
 
         LOG.info("=== %s trajectory summary ===", group)
-        LOG.info("rows: %d, czech_eligible: %d", len(traj), int(traj["czech_eligible"].sum()) if len(traj) else 0)
+        LOG.info("rows: %d, home_eligible: %d", len(traj), int(traj["home_eligible"].sum()) if len(traj) else 0)
         if traj.empty:
             continue
         LOG.info("by direction: %s", traj["direction"].value_counts().to_dict())

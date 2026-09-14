@@ -117,7 +117,7 @@ def test_build_cards_reads_current_club_from_raw_table_not_features():
         "player_key": "p|2000", "player": "P", "season": season, "league": "CZE-First League",
         "team": "Karviná", "born": 2000, "age": 24, "min": 1800, "min_share": 0.6, "npg": 5, "ast": 2,
         "npg_p90": 0.25, "ast_p90": 0.1, "npg_p90_quality": 0.11, "ast_p90_quality": 0.04,
-        "nt_flag": False, "nt_events": "", "czech_eligible": True,
+        "nt_flag": False, "nt_events": "", "home_eligible": True,
     }])
     coords = pd.DataFrame([{"player_key": "p|2000", "season": season, "min": 1800,
                             "cluster_style": "C0", "cluster_quality": "C0"}])
@@ -327,3 +327,33 @@ def test_template_renders_with_real_context():
     current = season_label(config.seasons()["current"])
     assert all(c["club_label"] in (current, "latest known") for c in ctx["cards"])
     assert len(ctx["per_capita"]) == 9
+
+
+@pytest.mark.skipif(config.NATION != "cze", reason="golden fixture only covers NATION=cze")
+@pytest.mark.skipif(not (config.PROCESSED_DIR / "per_capita.parquet").exists(),
+                    reason="data/processed not present")
+def test_context_matches_golden_fixture_for_cze():
+    """Task 14a: the Czech run's context must stay byte-identical to the
+    pre-refactor pipeline. `tests/fixtures/context_cze_golden.json` was
+    captured from `build_context(load_data())` on main before the home-nation
+    refactor landed; this compares the same (nation-configurable) subset
+    today, for NATION=cze.
+    """
+    import json
+    from pathlib import Path
+
+    ctx = build_context(load_data(), lang="en")
+    cards = [{"player_key": c["player_key"], "reason": c["reason"]} for c in ctx["cards"]]
+    actual = {
+        "hero": ctx["hero"],
+        "per_capita": ctx["per_capita"],
+        "cards": cards,
+        "squad_lens_rows": ctx["squad_lens"].get("rows", []),
+        "peer_compare": ctx["peer_compare"],
+    }
+    actual_json = json.loads(json.dumps(actual, sort_keys=True, default=str))
+
+    golden_path = Path(__file__).parent / "fixtures" / "context_cze_golden.json"
+    expected_json = json.loads(golden_path.read_text(encoding="utf-8"))
+
+    assert actual_json == expected_json
