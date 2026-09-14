@@ -25,16 +25,28 @@ h3 { font-size: clamp(1.35rem, 1.15rem + 0.8vw, 1.75rem); line-height: 1.15; }
 h4 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
 em { font-style: italic; }
 
-/* machine-made labels: mono micro caps, tracked — the only caps on the page */
-.masthead-kicker, .hero-kicker, .role-kicker, .cluster-tactical-label,
-.cycle-section-label, .analog-label, .roadmap-label, .llm-brief-heading,
-.toc-sticky .toc-heading, .cluster-meta-inline, .masthead-meta dt,
-.cycle-stats dt, .video-poc-metrics dt, .analog-cohort, .cycle-cluster-tag, th,
-.analog-traj-label, .cycle-traj-dir, .toc-mobile summary, .tile-club, .tile-pos, .tile-stat {
+/* mono stays only for source lines, footnotes, the masthead credibility
+   line, table numbers and code (task 12, mono discipline) */
+th {
   font-family: var(--font-mono);
   font-size: var(--t-micro);
   font-weight: 500;
   letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* everything else that reads as a "kicker" is sans small caps, not mono —
+   metric shorthand and codes belong in chapter IV or a title tooltip, not
+   in the typeface used to signal "a machine produced this" */
+.masthead-kicker, .hero-kicker, .role-kicker, .cluster-tactical-label,
+.cycle-section-label, .analog-label, .roadmap-label, .llm-brief-heading,
+.toc-sticky .toc-heading, .cluster-meta-inline, .masthead-meta dt,
+.cycle-stats dt, .video-poc-metrics dt, .analog-cohort, .cycle-cluster-tag,
+.analog-traj-label, .cycle-traj-dir, .toc-mobile summary, .tile-club, .tile-pos {
+  font-family: var(--font-sans);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -55,8 +67,8 @@ a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
 
 /* ---- square everything (bust-style circles only for people) ---- */
 .hero, .hero-stamp, .chapter-divider, .capita, .capita-bar, .capita-bar-fill, table, .observation,
-.cluster-list dt .cluster-id, .cluster-tactical, .llm-brief, .analog-target, .analog-list, .analog-rank,
-.cycle-card, .cycle-stats, .cycle-cluster-pill, .cycle-traj-delta, .video-poc, .video-poc img,
+.cluster-tactical, .llm-brief, .analog-target, .analog-list, .analog-rank,
+.cycle-card, .cycle-stats, .cycle-traj-delta, .video-poc, .video-poc img,
 .video-poc-metrics, .roadmap-mockup, .limitations, .toc-sticky, .toc-mobile, .toc-toggle, footer .role-block,
 .cycle-analog-country, .analog-row-country, figure.figure-bleed img, .lang-switch, .lang-switch a, .lang-switch span,
 .pchip, .cast, .topbar-links a { border-radius: 0 !important; }
@@ -180,7 +192,6 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .observation:nth-child(2) { border-top-color: var(--oxblood-700); }
 .observation:nth-child(3) { border-top-color: var(--navy-300); }
 
-.cluster-list dt .cluster-id { font-weight: 500; }
 .cluster-tactical { font-style: normal; font-family: var(--font-sans); padding: var(--space-3) var(--space-4); border-left: 3px solid var(--navy-700); }
 
 /* =========================================================================
@@ -423,16 +434,16 @@ details.fold-lim > p { margin: 0 0 var(--space-3) 1.7rem; max-width: 62ch; }
 /* clusters as accordion */
 .cluster-list { border-top: 1px solid var(--rule); }
 details.cluster { border-bottom: 1px solid var(--rule); }
-details.cluster > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--space-3); row-gap: var(--space-2); align-items: start; padding: var(--space-3) 0; }
-details.cluster > summary::after { content: "+"; grid-column: 3; grid-row: 1; font-family: var(--font-mono); font-size: 1rem; line-height: 1.4; color: var(--muted); width: 1.4rem; height: 1.4rem; border: 1px solid var(--rule); display: grid; place-items: center; }
+details.cluster > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-3); row-gap: var(--space-2); align-items: start; padding: var(--space-3) 0; }
+details.cluster > summary::after { content: "+"; grid-column: 2; grid-row: 1; font-family: var(--font-mono); font-size: 1rem; line-height: 1.4; color: var(--muted); width: 1.4rem; height: 1.4rem; border: 1px solid var(--rule); display: grid; place-items: center; }
 details.cluster[open] > summary::after { content: "−"; }
-.cluster-head .cluster-id { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; color: var(--oxblood-700); background: var(--oxblood-200); padding: 0.18rem 0.55rem; margin-top: 0.15rem; }
+/* the cluster code (e.g. "C3") lives in .cluster-name's title tooltip, not as
+   visible text — abbreviations stay out of sight before chapter IV */
 details.cluster > summary::-webkit-details-marker { display: none; }
-details.cluster > summary > .cluster-id { margin-top: 0.15rem; }
-details.cluster > summary > span:nth-of-type(2) { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
+details.cluster > summary .cluster-name { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
 details.cluster > summary .cluster-meta-inline { display: block; margin-top: 0.15rem; }
-details.cluster > summary .cluster-top { grid-column: 2 / -1; margin: 0; }
-details.cluster > summary:hover > span:nth-of-type(2) { color: var(--oxblood-700); }
+details.cluster > summary .cluster-top { grid-column: 1 / -1; margin: 0; }
+details.cluster > summary:hover .cluster-name { color: var(--oxblood-700); }
 .cluster-body { padding: 0 0 var(--space-4); }
 @media (min-width: 900px) {
   .cluster-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); column-gap: var(--space-5); align-items: start; }
@@ -520,7 +531,7 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
    ========================================================================= */
 /* card rows: one mono kicker per selection rule */
 .cycle-row-kicker {
-  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 500; letter-spacing: 0.16em;
+  font-family: var(--font-sans); font-size: var(--t-micro); font-weight: 600; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--oxblood-700); margin: var(--space-5) 0 var(--space-2);
   padding-top: var(--space-3); border-top: 1px solid var(--rule);
 }
@@ -585,7 +596,6 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
 .player-index-table td:nth-child(2), .player-index-table td:nth-child(5) { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .player-index-table td:nth-child(3), .player-index-table td:nth-child(6), .player-index-table td:nth-child(7) { font-family: var(--font-mono); font-size: 0.8rem; text-align: right; white-space: nowrap; }
 .player-index-table th:nth-child(3), .player-index-table th:nth-child(6), .player-index-table th:nth-child(7) { text-align: right; }
-.player-index-table td:nth-child(8) .cluster-id { font-family: var(--font-mono); font-size: 0.7rem; color: var(--oxblood-700); margin-right: 0.3rem; }
 .player-index-table td:nth-child(9) { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--oxblood-700); }
 .player-index-table tr[hidden] { display: none; }
 .player-index-table a { color: var(--ink); border-bottom: 1px solid var(--rule); }
@@ -649,8 +659,17 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   background: var(--cream-100); border: 1px solid var(--rule); padding: 0.1rem 0.4rem;
 }
 .tile-pos { flex: none; }
-.tile-stat { color: var(--navy-700); }
+/* stat: the number in the figure style, the unit as a plain (not mono) small
+   label with the long form in its title tooltip — no "NPG+A/90 Q" shorthand
+   on the roster before chapter IV */
+.tile-stat { display: inline-flex; align-items: baseline; gap: 0.3rem; }
+.tile-stat-figure {
+  font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+  letter-spacing: -0.01em; color: var(--navy-700); font-feature-settings: "tnum", "lnum";
+}
+.tile-stat-label { font-family: var(--font-sans); font-size: 0.74rem; font-weight: 400; color: var(--ink-soft); text-transform: none; letter-spacing: 0; }
 .tile-traj { font-family: var(--font-sans); font-size: 0.8rem; color: var(--ink-soft); text-transform: none; letter-spacing: 0; }
+.tile-traj-none { color: var(--muted); }
 .tile-more {
   grid-column: 2; grid-row: 4; justify-self: start; margin-top: 0.15rem;
   border: 1px solid var(--ink); background: none; padding: 0.35rem 0.7rem;

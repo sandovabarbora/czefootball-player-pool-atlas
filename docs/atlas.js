@@ -10,13 +10,13 @@
   const metaUrl = script.src.replace(/atlas\.js(\?.*)?$/, 'atlas_meta.json');
   const cs = document.documentElement.lang === 'cs';
   const T = cs ? {
-    ringOnly: 'Jen reprezentace', reset: 'Reset', players: 'hráčů', hint: 'Najeď na bod → PC1/PC2 · klik na jméno → karta hráče',
+    ringOnly: 'Jen reprezentace', reset: 'Reset', players: 'hráčů', hint: 'Najeď na bod → souřadnice v mapě · klik na jméno → karta hráče',
     median: 'medián npG+A/90', nodata: 'bez dat', ring: 'Reprezentace 2024–26', open: 'Otevřít kartu', cluster: 'cluster', all: 'vše',
-    styleMap: 'Style mapa', qualityMap: 'Kvalitou upravená mapa',
+    styleMap: 'Style mapa', qualityMap: 'Kvalitou upravená mapa', coords: 'pozice v mapě',
   } : {
-    ringOnly: 'NT pool only', reset: 'Reset', players: 'players', hint: 'Hover a point → PC1/PC2 · click a name → player card',
+    ringOnly: 'NT pool only', reset: 'Reset', players: 'players', hint: 'Hover a point → coordinates in the map · click a name → player card',
     median: 'median npG+A/90', nodata: 'no data', ring: 'NT 2024–26', open: 'Open card', cluster: 'cluster', all: 'all',
-    styleMap: 'Style map', qualityMap: 'Quality-adjusted map',
+    styleMap: 'Style map', qualityMap: 'Quality-adjusted map', coords: 'map position',
   };
   const ascii = (s) => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const fmt = (v) => (Math.round(v * 100) / 100).toFixed(2);
@@ -84,9 +84,12 @@
     try { byProj = JSON.parse(fig.dataset.clusterNames || '{}'); } catch (e) { byProj = {}; }
     if (!byProj.style || !Object.keys(byProj.style).length) {
       byProj.style = {};
+      // the cluster code (e.g. "C3") is a title tooltip on .cluster-name, not
+      // visible text (task 12: no abbreviations before chapter IV)
       document.querySelectorAll(`.cluster-list[data-atlas-clusters="${key}"] .cluster-head`).forEach((dt) => {
-        const id = dt.querySelector('.cluster-id')?.textContent.trim();
-        const lab = dt.querySelector(':scope > span:nth-of-type(2)')?.childNodes[0]?.textContent.trim();
+        const nameEl = dt.querySelector(':scope > .cluster-name');
+        const id = nameEl?.title.trim();
+        const lab = nameEl?.childNodes[0]?.textContent.trim();
         if (id && lab) byProj.style[id] = lab;
       });
     }
@@ -163,7 +166,7 @@
       const nm2 = nameOf(p, c.label);
       const lab = nm2 ? `${c.label} · ${nm2}` : c.label;
       tip.innerHTML = `${nm ? `<strong>${nm.text}</strong>` : ''}<span><i style="background:${c.color}"></i>${lab}</span>` +
-        `<span class="mono">PC1 ${fmt(pc1)} · PC2 ${fmt(pc2)}</span>${ring ? `<span class="ring-tag">${T.ring}</span>` : ''}`;
+        `<span class="mono">${T.coords}: ${fmt(pc1)} · ${fmt(pc2)}</span>${ring ? `<span class="ring-tag">${T.ring}</span>` : ''}`;
       hl.setAttribute('cx', x); hl.setAttribute('cy', y); hl.style.display = '';
       placeTip(wrap, svg, tip, x, y);
     };
@@ -242,23 +245,49 @@
   figs.forEach((f) => io.observe(f));
 })();
 
-/* cycle-card tiles (task 10): the roster of compact tiles expands one card
- * at a time via its "Full card" button; Esc closes whichever is open. Runs
- * unconditionally (unlike the atlas setup above, cards exist on every page). */
+/* cycle-card tiles (task 10): each card's "Full card" button toggles that
+ * card open independently — more than one can be open at once, this is not
+ * a "one card at a time" accordion. A #card-<id> link (player index, cast
+ * strip) opens the matching card on load and on hashchange, scrolling it
+ * into view; Esc closes the most recently opened card (task 12), tracked in
+ * `openOrder` rather than "whichever is open" (there can be several). */
 (() => {
+  const openOrder = [];
+  const openCard = (card, { scroll = false } = {}) => {
+    if (!card.classList.contains('is-open')) {
+      card.classList.add('is-open');
+      card.querySelector('.tile-more')?.setAttribute('aria-expanded', 'true');
+      openOrder.push(card);
+    }
+    if (scroll) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.add('flash');
+      setTimeout(() => card.classList.remove('flash'), 1600);
+    }
+  };
+  const closeCard = (card) => {
+    card.classList.remove('is-open');
+    card.querySelector('.tile-more')?.setAttribute('aria-expanded', 'false');
+    const i = openOrder.indexOf(card);
+    if (i !== -1) openOrder.splice(i, 1);
+  };
   document.querySelectorAll('.cycle-card').forEach((card) => {
     const btn = card.querySelector('.tile-more');
     if (!btn) return;
     btn.addEventListener('click', () => {
-      const open = card.classList.toggle('is-open');
-      btn.setAttribute('aria-expanded', String(open));
+      if (card.classList.contains('is-open')) closeCard(card); else openCard(card);
     });
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    const open = document.querySelector('.cycle-card.is-open');
-    if (!open) return;
-    open.classList.remove('is-open');
-    open.querySelector('.tile-more')?.setAttribute('aria-expanded', 'false');
+    const card = openOrder[openOrder.length - 1];
+    if (card) closeCard(card);
   });
+  const openFromHash = () => {
+    if (!location.hash.startsWith('#card-')) return;
+    const card = document.getElementById(location.hash.slice(1));
+    if (card) openCard(card, { scroll: true });
+  };
+  window.addEventListener('hashchange', openFromHash);
+  openFromHash();
 })();

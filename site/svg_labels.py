@@ -41,8 +41,6 @@ T = {
     "Midfielders  ·  median npG+A per 90 (quality-adjusted)": "Záložníci  ·  medián npG+A na 90 (kvalitou upravené)",
     "Defenders  ·  median npG+A per 90 (quality-adjusted)": "Obránci  ·  medián npG+A na 90 (kvalitou upravené)",
     f"International cohort benchmark  ·  UEFA top-9 leagues {METRICS}": f"Mezinárodní kohortový benchmark  ·  top-9 ligy UEFA {METRICS}",
-    "Cell: player count and median npG+A per 90. Rows ordered by per-capita rank (top first); highlighted row = CZE.":
-        "Buňka: počet hráčů a medián npG+A na 90. Řádky seřazené podle pořadí na milion obyvatel (nejvyšší nahoře); zvýrazněný řádek = CZE.",
 }
 # the PCA caption carries the corpus counts, so it is matched by pattern
 CAPTION_EN = re.compile(

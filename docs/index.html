@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609141509">
-  <link rel="stylesheet" href="modern.css?v=202609141509">
+  <link rel="stylesheet" href="style.css?v=202609141542">
+  <link rel="stylesheet" href="modern.css?v=202609141542">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609141509"></script>
+  <script defer src="atlas.js?v=202609141542"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -72,9 +72,9 @@
 
 <header class="report-header">
   <div class="container">
-    <p class="masthead-kicker">Czech football &middot; football intelligence brief &middot; 2026/27</p>
+    <p class="masthead-kicker">National player-pool intelligence &middot; public data &middot; reproducible</p>
     <h1>Atlas of the <em>player pool</em></h1>
-    <p class="masthead-subtitle">A structured view of the Czech professional pool, read from a football intelligence perspective: how big and how deep it is compared with peer countries, and where the structural gaps sit. No predictions, no selection recommendations.</p>
+    <p class="masthead-subtitle">A federation-grade view of one country's professional pool: how it compares with peers per head, where the pathway abroad leaks, how the tournament squad is sourced, and each player's season against a European corpus.</p>
     <dl class="masthead-meta">
       <div><dt>Pool</dt> <dd><strong>440</strong> players</dd></div>
       <div><dt>With 2025/26 metrics</dt> <dd><strong>192</strong></dd></div>
@@ -85,7 +85,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 138 tests · every number computed from the run · rulings logged</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 138 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -107,13 +107,13 @@
       </div>
       <div class="hero-lead">
         <p>
-          A federation-grade view of one country's professional pool, built from FBref, Wikipedia and Wikidata: how it compares with peer countries per head, where its development pathway leaks, how its tournament squad is sourced, and what each player's season looks like against a European corpus. Czechia is the worked example; the pipeline takes a nationality code and a peer set.
+          A federation-grade view of one country's professional pool: how it compares with peers per head, where the pathway abroad leaks, how the tournament squad is sourced, and each player's season against a European corpus.
         </p>
         <details class="fold fold-hero"><summary>In context</summary>
         <p class="hero-sublead">
           The largest cohort gap is in <strong>midfielders aged 23-25</strong>: 2 Czech players in the top-9 leagues against a peer median of 6.
           A recent Czech export first reached a top-9 roster at a median age of 22; a Danish one at 22.
-          Football people recognise these numbers player by player; there is no place where they are aggregated.
+          Built from FBref, Wikipedia and Wikidata. Czechia is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.
         </p>
         </details>
       </div>
@@ -181,7 +181,7 @@
       </a></li>
       <li class="fed-tile"><a href="#methodology">
         <span class="fed-tile-title">Models, validated</span>
-        <span class="fed-tile-body">Shrinkage, league multipliers with a sensitivity table, cluster archetypes, historical analogs; every number recomputed on each run, a data-quality log, and the review ledger in the repo.</span>
+        <span class="fed-tile-body">Shrinkage, league multipliers with a sensitivity table, cluster archetypes, analogs — every number recomputed each run; data-quality log and review ledger in the repo.</span>
       </a></li>
     </ul>
     <p class="fed-note">Run for England: <code>nation: ENG</code>, a peer set (e.g. FRA · GER · ESP · ITA · NED · POR · BEL), the same league list. Event or tracking features enter as extra columns of the feature vector; outputs are flat parquet that loads into BigQuery unchanged.</p>
@@ -191,7 +191,7 @@
 
 <section class="exec-summary">
   <div class="container">
-    <p class="framing lede">A map of the 192 Czech-eligible professionals with a complete 2025/26 season in a league FBref covers, segmented by position group and statistical profile, and benchmarked against 8 peer countries. A methodological tool for mapping the pool across a national-team cycle, not a selection recommendation.</p>
+    <p class="framing lede">A map of 192 Czech-eligible professionals in a covered 2025/26 league, by position group and profile, benchmarked against 8 peer countries.</p>
 
     <h3 id="benchmark">Structural benchmark vs peer countries</h3>
     <p>Football intuition recognises the Czech pool player by player. <strong>Its structural position among the peer countries needs an aggregation nobody holds in one place.</strong> Three numbers below that are usually not collected together.</p>
@@ -303,10 +303,10 @@
       * Numerator: players with the country's FBref nationality on a 2025/26 roster of the 9 headline leagues (ENG-Premier League, ITA-Serie A, ESP-La Liga, GER-Bundesliga, FRA-Ligue 1, NED-Eredivisie, POR-Primeira Liga, BEL-Pro League, TUR-Süper Lig); denominator: Eurostat 2024 population. Czechia: 26 players ÷ 10.90 M = 2.39, rank 7 of 9.
     </p>
 
-    <figure class="figure-bleed" data-atlas="heatmap">
+    <figure class="figure-bleed" data-atlas="heatmap" title="Each cell: player count and the median value; rows ordered by per-capita rank, Czechia highlighted.">
       <img src="intl_cohort_heatmap.svg"
-           alt="Heatmap of the international cohort benchmark: 9 countries by position group and age cohort, 2025/26 season. Each cell carries the player count and the median non-penalty goals plus assists per 90 minutes; the Czech row is outlined.">
-      <figcaption>Median non-penalty goals + assists per 90 by country, position group and age cohort, 2025/26. The outlined row is Czechia; each cell shows the player count and the median.</figcaption>
+           alt="Heatmap of the international cohort benchmark: 9 countries by position group and age cohort, 2025/26 season; the Czech row is outlined.">
+      <figcaption>Median non-penalty goals + assists per 90 by country, position group and age cohort, 2025/26; the outlined row is Czechia.</figcaption>
     </figure>
 
     
@@ -859,24 +859,27 @@
     
 
     <h3 id="observations">Observations</h3>
-    <div class="observations">
-      
-      <div class="observation">
-        <h4>Per capita: rank 7 of 9</h4>
-        <p>26 Czech players on 2025/26 rosters of the nine strongest leagues give 2.39 per million inhabitants, rank 7 of 9. Denmark leads with 12.58, 5.3 times the Czech density; Slovakia sits one place above with 3.14 from 17 players and a population 2.0 times smaller. Below Czechia: Hungary, Poland.</p>
+    <details class="fold">
+      <summary>Per capita: rank 7 of 9 · The largest cohort gap: midfielders 23-25 · Trajectories 2024/25 → 2025/26: mostly stable</summary>
+      <div class="observations">
+        
+        <div class="observation">
+          <h4>Per capita: rank 7 of 9</h4>
+          <p>26 Czech players on 2025/26 rosters of the nine strongest leagues give 2.39 per million inhabitants, rank 7 of 9. Denmark leads with 12.58, 5.3 times the Czech density; Slovakia sits one place above with 3.14 from 17 players and a population 2.0 times smaller. Below Czechia: Hungary, Poland.</p>
+        </div>
+        
+        <div class="observation">
+          <h4>The largest cohort gap: midfielders 23-25</h4>
+          <p>Counting 2025/26 top-9 players by position group and age cohort and comparing the Czech count with the median of the other eight peers, the three largest shortfalls are midfielders 23-25 — 2 Czech against a peer median of 6; midfielders 26-29 — 3 Czech against a peer median of 6; midfielders 30+ — 1 Czech against a peer median of 3.5. The cohort tables above show the medians behind the counts.</p>
+        </div>
+        
+        <div class="observation">
+          <h4>Trajectories 2024/25 → 2025/26: mostly stable</h4>
+          <p>92 Czech-eligible players had at least 900 minutes in both 2024/25 and 2025/26: forwards 13 (5 up, 6 stable, 2 down); midfielders 43 (3 up, 31 stable, 9 down); defenders 36 (1 up, 34 stable, 1 down). A move counts as up or down when quality-adjusted npG+A per 90 changed by more than 0.05; 71 of 92 stayed within that band. These are season-over-season deltas, not projections.</p>
+        </div>
+        
       </div>
-      
-      <div class="observation">
-        <h4>The largest cohort gap: midfielders 23-25</h4>
-        <p>Counting 2025/26 top-9 players by position group and age cohort and comparing the Czech count with the median of the other eight peers, the three largest shortfalls are midfielders 23-25 — 2 Czech against a peer median of 6; midfielders 26-29 — 3 Czech against a peer median of 6; midfielders 30+ — 1 Czech against a peer median of 3.5. The cohort tables above show the medians behind the counts.</p>
-      </div>
-      
-      <div class="observation">
-        <h4>Trajectories 2024/25 → 2025/26: mostly stable</h4>
-        <p>92 Czech-eligible players had at least 900 minutes in both 2024/25 and 2025/26: forwards 13 (5 up, 6 stable, 2 down); midfielders 43 (3 up, 31 stable, 9 down); defenders 36 (1 up, 34 stable, 1 down). A move counts as up or down when quality-adjusted npG+A per 90 changed by more than 0.05; 71 of 92 stayed within that band. These are season-over-season deltas, not projections.</p>
-      </div>
-      
-    </div>
+    </details>
 
     <h3 id="clusters">Cluster archetypes (style projection)</h3>
     <p>Clusters are fitted on the whole corpus of 2025/26 player-seasons and read here through their Czech members. The label describes the cluster's median footprint; the count is Czech members of the corpus cluster; names are the Czech members with the most minutes.</p>
@@ -884,8 +887,7 @@
     <h4>Forwards</h4>
     <div class="cluster-list" data-atlas-clusters="fw">
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C0</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C0">
           High-minutes starting forwards
           <span class="cluster-meta-inline">
             1 Czech of 153 · NT pool 1 · median born 2000
@@ -894,8 +896,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Every-week starters — three quarters of the season&#39;s minutes, assist rate about 1.5 times the forward median, scoring at median. Mostly a top-five-league footprint: the first-choice forward who links play as much as he finishes (Kušej).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C1</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C1">
           Primary scorers
           <span class="cluster-meta-inline">
             8 Czech of 123 · NT pool 7 · median born 1997
@@ -904,8 +905,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Primary scorers — non-penalty goal rate nearly double the forward median on starter minutes (56 %). The finishing forward of a first-choice line (Schick, Patrák, Chorý, Kuchta).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C2</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C2">
           Older forwards with moderate playing time
           <span class="cluster-meta-inline">
             10 Czech of 154 · NT pool 2 · median born 1991
@@ -914,8 +914,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Experienced forwards on managed minutes — median age 31, about 40 % of minutes, output at median. The impact or target forward used in rotation (Chramosta, Poznar, Jurečka, Pilař).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C3</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C3">
           Duel-heavy rotation forwards
           <span class="cluster-meta-inline">
             8 Czech of 159 · NT pool 3 · median born 2002
@@ -924,8 +923,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Rotation forwards whose signature is physical engagement — card rate roughly three times the forward median, a third of minutes, output at median. Pressing and duel-heavy roles rather than finishing (Mašek, Pulkrab, Vojta).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C4</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C4">
           Young low-minute forwards
           <span class="cluster-meta-inline">
             4 Czech of 282 · NT pool 0 · median born 2000
@@ -939,8 +937,7 @@
     <h4>Midfielders</h4>
     <div class="cluster-list" data-atlas-clusters="mf">
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C0</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C0">
           High-minutes creative midfielders
           <span class="cluster-meta-inline">
             10 Czech of 278 · NT pool 7 · median born 1997
@@ -949,8 +946,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Starting playmakers — assist rate three times the midfield median on 62 % of minutes, scoring nearly double. The creative hub of the middle third (Provod, Vlkanova, Ladra, Černý).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C1</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C1">
           Older rotation midfielders
           <span class="cluster-meta-inline">
             26 Czech of 415 · NT pool 2 · median born 1993
@@ -959,8 +955,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Veteran rotation midfielders — median age 30 on managed minutes (40 %), output at median, card rate above it. Experience kept in the squad rather than on the pitch every week (Souček, Trávník, Daníček, Zorvan).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C2</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C2">
           Young low-minute midfielders
           <span class="cluster-meta-inline">
             30 Czech of 599 · NT pool 5 · median born 2003
@@ -969,8 +964,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Development midfielders — the largest Czech midfield group: median age 22, under a third of minutes, output at median. The pipeline&#39;s waiting room (Daněk, Křišťan, Mikulenka, Sojka).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C3</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C3">
           High-card-rate midfielders
           <span class="cluster-meta-inline">
             5 Czech of 380 · NT pool 2 · median born 2000
@@ -979,8 +973,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Ball-winning, duel-heavy midfielders — the card rate (about 2.5 times the midfield median) is the defining feature, production at the floor of the group. The destroyer profile, often in a double pivot (Ryneš, Langhamer, Smrž).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C4</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C4">
           Everyday starting midfielders, low scoring output
           <span class="cluster-meta-inline">
             21 Czech of 570 · NT pool 8 · median born 1999
@@ -989,8 +982,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>The engine room — nearly 80 % of minutes with median output: holding and box-to-box midfielders whose value is continuity and structure, not numbers (Hellebrand, Horák, Čermák, Červ).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C5</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C5">
           High-scoring attacking midfielders
           <span class="cluster-meta-inline">
             10 Czech of 292 · NT pool 4 · median born 2000
@@ -1004,8 +996,7 @@
     <h4>Defenders</h4>
     <div class="cluster-list" data-atlas-clusters="df">
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C0</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C0">
           Goal-scoring defenders
           <span class="cluster-meta-inline">
             4 Czech of 215 · NT pool 1 · median born 1999
@@ -1014,8 +1005,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Set-piece threats — defenders scoring at five times the DF median on 60 % of minutes. Aerial presence in both boxes (Chaloupek, Bořil, Lischka).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C1</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C1">
           High-assist defenders with high playing time
           <span class="cluster-meta-inline">
             5 Czech of 214 · NT pool 3 · median born 1994
@@ -1024,8 +1014,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Attacking full-backs — assist rate seven times the DF median on starter minutes (65 %). The wide defender whose job ends in the final third (Coufal, Icha, Hadaš, Zelený).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C2</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C2">
           Older defenders
           <span class="cluster-meta-inline">
             18 Czech of 336 · NT pool 2 · median born 1993
@@ -1034,8 +1023,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Experienced defenders on managed minutes — median age 31, 44 % of minutes, output at the floor. Leadership and cover rather than a starting role (Novák, Brabec, Fleišman, Holeš).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C3</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C3">
           Everyday starting defenders
           <span class="cluster-meta-inline">
             12 Czech of 395 · NT pool 5 · median born 1999
@@ -1044,8 +1032,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>The defensive core — 85 % of minutes, output at the DF floor. Availability and continuity are the signal; production is not (Hůlka, Halinský, Cedidla, Chlumecký).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C4</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C4">
           Young low-minute defenders
           <span class="cluster-meta-inline">
             12 Czech of 400 · NT pool 6 · median born 2003
@@ -1054,8 +1041,7 @@
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Tactical read</span>Development defenders — median age 22, about a third of minutes, output at the floor. The tier the 23–25 cohort draws from (Konečný, Kolář, Prebsl).</span></div></details>
       
-      <details class="cluster"><summary class="cluster-head"><span class="cluster-id">C5</span>
-        <span>
+      <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C5">
           High-card-rate defenders
           <span class="cluster-meta-inline">
             8 Czech of 275 · NT pool 2 · median born 2000
@@ -1074,9 +1060,9 @@
     <h4>Forwards — 13 players: 5 up, 6 stable, 2 down</h4>
     <div class="movers-grid">
       <div class="movers-col">
-        <h4>Moving up (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>Moving up &middot; G+A / 90 adj.</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Δ</th></tr></thead>
+          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Change</th></tr></thead>
           <tbody>
             
             <tr>
@@ -1118,9 +1104,9 @@
         </table>
       </div>
       <div class="movers-col">
-        <h4>Moving down (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>Moving down &middot; G+A / 90 adj.</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Δ</th></tr></thead>
+          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Change</th></tr></thead>
           <tbody>
             
             <tr>
@@ -1146,9 +1132,9 @@
     <h4>Midfielders — 43 players: 3 up, 31 stable, 9 down</h4>
     <div class="movers-grid">
       <div class="movers-col">
-        <h4>Moving up (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>Moving up &middot; G+A / 90 adj.</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Δ</th></tr></thead>
+          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Change</th></tr></thead>
           <tbody>
             
             <tr>
@@ -1176,9 +1162,9 @@
         </table>
       </div>
       <div class="movers-col">
-        <h4>Moving down (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>Moving down &middot; G+A / 90 adj.</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Δ</th></tr></thead>
+          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Change</th></tr></thead>
           <tbody>
             
             <tr>
@@ -1225,9 +1211,9 @@
     <h4>Defenders — 36 players: 1 up, 34 stable, 1 down</h4>
     <div class="movers-grid">
       <div class="movers-col">
-        <h4>Moving up (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>Moving up &middot; G+A / 90 adj.</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Δ</th></tr></thead>
+          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Change</th></tr></thead>
           <tbody>
             
             <tr>
@@ -1241,9 +1227,9 @@
         </table>
       </div>
       <div class="movers-col">
-        <h4>Moving down (Δ npG+A/90, quality-adjusted)</h4>
+        <h4>Moving down &middot; G+A / 90 adj.</h4>
         <table class="movers-table">
-          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Δ</th></tr></thead>
+          <thead><tr><th>Player</th><th>League</th><th>Min 2024/25 / 2025/26</th><th>Change</th></tr></thead>
           <tbody>
             
             <tr>
@@ -1275,7 +1261,7 @@
 <section class="ai-layer">
   <div class="container">
     <h2 id="pathways">Why does the train leave?</h2>
-    <p class="framing lede">Pathways and differences between Czechia and the 8 peer countries, computed from the same league tables: exposure at home, export route, how the exports fare, and the profile of those who made it.</p>
+    <p class="framing lede">Four exhibits comparing Czechia with 8 peer countries: youth exposure at home, export route, how exports fare, and who made it.</p>
 
     <h3>Exhibit A — youth exposure at home</h3>
     <p>
@@ -2083,14 +2069,14 @@
 <section class="ai-layer">
   <div class="container">
     <h2 id="cards">Player cards</h2>
-    <p class="framing lede">One tile per showcase player: 2025/26 stats, cluster placement, trajectory and analogs, expanded on demand. The stats are 2025/26; the club shown is 2026/27.</p>
+    <p class="framing lede">One tile per showcase player: 2025/26 stats, cluster placement, trajectory and analogs, expanded on demand.</p>
     <details class="fold">
       <summary>How the 17 cards were chosen</summary>
       <p class="capita-note">Why these cards: one card per position group per rule, applied in this order — (a) highest quality-adjusted npG+A per 90, (b) youngest national-team call-up, (c) most top-9 minutes among the 2026 FIFA World Cup squad, (d) most domestic-league minutes among the 2026 FIFA World Cup squad, (e) most top-9 minutes, (f) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure. Rows group the six rules; the national-team core row holds two of them.</p>
     </details>
     <p class="cycle-row-kicker">Highest quality-adjusted production</p>
     <div class="cycle-grid">
-      <article class="cycle-card" id="card-5d4f7d61" data-player-key="patrik schick|1996" data-fbref-id="5d4f7d61" data-rule="highest quality-adjusted npG+A per 90 among FW" data-pos="FW" data-club="Leverkusen"><div class="cycle-tile"><img class="tile-mug" src="img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Patrik Schick</span><span class="tile-meta"><span class="tile-club">Leverkusen</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat">0.49 npG+A/90 q</span><span class="tile-traj">Δ -0.198 npG+A/90 declining</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      <article class="cycle-card" id="card-5d4f7d61" data-player-key="patrik schick|1996" data-fbref-id="5d4f7d61" data-rule="highest quality-adjusted npG+A per 90 among FW" data-pos="FW" data-club="Leverkusen"><div class="cycle-tile"><img class="tile-mug" src="img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Patrik Schick</span><span class="tile-meta"><span class="tile-club">Leverkusen</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.49</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">↓ declining &middot; -0.20 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/5d4f7d61.jpg')">
           <img class="cycle-card-mug" src="img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">FW</span>
@@ -2105,20 +2091,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Leverkusen &middot; GER-Bundesliga</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.49</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.54 / 0.14</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.49</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.54 / 0.14</dd></div>
           <div><dt>Minutes</dt><dd>1988 (67 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Primary scorers</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">High-volume scorers in top-five leagues</span>
           </span>
         </div>
@@ -2134,8 +2118,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ -0.198 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">↓</span>
             <span class="cycle-traj-dir">declining</span>
+            <span class="cycle-traj-delta">-0.20</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">1684 min &rarr; 1988 min</span>
           </p>
         </div>
@@ -2178,7 +2164,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
         
         <p class="muted small">Selected as: highest quality-adjusted npG+A per 90 among FW.</p>
-      </article><article class="cycle-card" id="card-bb1cf301" data-player-key="vaclav cerny|1997" data-fbref-id="bb1cf301" data-rule="highest quality-adjusted npG+A per 90 among MF" data-pos="MF" data-club="Beşiktaş"><div class="cycle-tile"><img class="tile-mug" src="img/players/bb1cf301.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Václav Černý</span><span class="tile-meta"><span class="tile-club">Beşiktaş</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat">0.22 npG+A/90 q</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-bb1cf301" data-player-key="vaclav cerny|1997" data-fbref-id="bb1cf301" data-rule="highest quality-adjusted npG+A per 90 among MF" data-pos="MF" data-club="Beşiktaş"><div class="cycle-tile"><img class="tile-mug" src="img/players/bb1cf301.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Václav Černý</span><span class="tile-meta"><span class="tile-club">Beşiktaş</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.22</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj tile-traj-none">—</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/bb1cf301.jpg')">
           <img class="cycle-card-mug" src="img/players/bb1cf301.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2193,20 +2179,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Beşiktaş &middot; TUR-Süper Lig</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.22</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.23 / 0.36</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.22</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.23 / 0.36</dd></div>
           <div><dt>Minutes</dt><dd>1991 (74 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C0</span>
+          <span class="cycle-cluster-row" title="C0">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">High-minutes creative midfielders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C2</span>
+          <span class="cycle-cluster-row" title="C2">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Productive midfielders in top-five leagues</span>
           </span>
         </div>
@@ -2257,7 +2241,7 @@
         <p class="cycle-card-meta">2026 World Cup qualification · UEFA Euro 2024</p>
         
         <p class="muted small">Selected as: highest quality-adjusted npG+A per 90 among MF.</p>
-      </article><article class="cycle-card" id="card-fdf3cb77" data-player-key="vladimir coufal|1992" data-fbref-id="fdf3cb77" data-rule="highest quality-adjusted npG+A per 90 among DF" data-pos="DF" data-club="Hoffenheim"><div class="cycle-tile"><img class="tile-mug" src="img/players/fdf3cb77.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Vladimír Coufal</span><span class="tile-meta"><span class="tile-club">Hoffenheim</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat">0.18 npG+A/90 q</span><span class="tile-traj">Δ +0.152 npG+A/90 improving</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-fdf3cb77" data-player-key="vladimir coufal|1992" data-fbref-id="fdf3cb77" data-rule="highest quality-adjusted npG+A per 90 among DF" data-pos="DF" data-club="Hoffenheim"><div class="cycle-tile"><img class="tile-mug" src="img/players/fdf3cb77.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Vladimír Coufal</span><span class="tile-meta"><span class="tile-club">Hoffenheim</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.18</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">↑ improving &middot; +0.15 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/fdf3cb77.jpg')">
           <img class="cycle-card-mug" src="img/players/fdf3cb77.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2272,20 +2256,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Hoffenheim &middot; GER-Bundesliga</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.18</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.03 / 0.24</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.18</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.03 / 0.24</dd></div>
           <div><dt>Minutes</dt><dd>3012 (98 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">High-assist defenders with high playing time</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">High-assist defenders in top-five leagues</span>
           </span>
         </div>
@@ -2301,8 +2283,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ +0.152 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">↑</span>
             <span class="cycle-traj-dir">improving</span>
+            <span class="cycle-traj-delta">+0.15</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">1067 min &rarr; 3012 min</span>
           </p>
         </div>
@@ -2350,7 +2334,7 @@
     
     <p class="cycle-row-kicker">National-team core — 2026 FIFA World Cup squad: most top-9 minutes, most home-league minutes</p>
     <div class="cycle-grid">
-      <article class="cycle-card" id="card-e9b893af" data-player-key="pavel sulc|2000" data-fbref-id="e9b893af" data-rule="most top-9 minutes among 2026 FIFA World Cup squad FW" data-pos="FW" data-club="Lyon"><div class="cycle-tile"><img class="tile-mug" src="img/players/e9b893af.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Pavel Šulc</span><span class="tile-meta"><span class="tile-club">Lyon</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat">0.46 npG+A/90 q</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      <article class="cycle-card" id="card-e9b893af" data-player-key="pavel sulc|2000" data-fbref-id="e9b893af" data-rule="most top-9 minutes among 2026 FIFA World Cup squad FW" data-pos="FW" data-club="Lyon"><div class="cycle-tile"><img class="tile-mug" src="img/players/e9b893af.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Pavel Šulc</span><span class="tile-meta"><span class="tile-club">Lyon</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.46</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj tile-traj-none">—</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/e9b893af.jpg')">
           <img class="cycle-card-mug" src="img/players/e9b893af.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">FW</span>
@@ -2365,20 +2349,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Lyon &middot; FRA-Ligue 1</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.46</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.63 / 0.17</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.46</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.63 / 0.17</dd></div>
           <div><dt>Minutes</dt><dd>1566 (54 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Primary scorers</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">High-volume scorers in top-five leagues</span>
           </span>
         </div>
@@ -2429,7 +2411,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
         
         <p class="muted small">Selected as: most top-9 minutes among 2026 FIFA World Cup squad FW.</p>
-      </article><article class="cycle-card" id="card-6613c819" data-player-key="tomas soucek|1995" data-fbref-id="6613c819" data-rule="most top-9 minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="West Ham United"><div class="cycle-tile"><img class="tile-mug" src="img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Souček</span><span class="tile-meta"><span class="tile-club">West Ham United</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat">0.21 npG+A/90 q</span><span class="tile-traj">Δ -0.109 npG+A/90 declining</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-6613c819" data-player-key="tomas soucek|1995" data-fbref-id="6613c819" data-rule="most top-9 minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="West Ham United"><div class="cycle-tile"><img class="tile-mug" src="img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Souček</span><span class="tile-meta"><span class="tile-club">West Ham United</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.21</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">↓ declining &middot; -0.11 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/6613c819.jpg')">
           <img class="cycle-card-mug" src="img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2444,20 +2426,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; West Ham &middot; ENG-Premier League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.21</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.20 / 0.00</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.21</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.20 / 0.00</dd></div>
           <div><dt>Minutes</dt><dd>2200 (64 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Older rotation midfielders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C2</span>
+          <span class="cycle-cluster-row" title="C2">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Productive midfielders in top-five leagues</span>
           </span>
         </div>
@@ -2473,8 +2453,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ -0.109 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">↓</span>
             <span class="cycle-traj-dir">declining</span>
+            <span class="cycle-traj-delta">-0.11</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">2567 min &rarr; 2200 min</span>
           </p>
         </div>
@@ -2517,7 +2499,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
         
         <p class="muted small">Selected as: most top-9 minutes among 2026 FIFA World Cup squad MF.</p>
-      </article><article class="cycle-card" id="card-5b5c2228" data-player-key="ladislav krejci|1999" data-fbref-id="5b5c2228" data-rule="most top-9 minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Wolverhampton Wanderers"><div class="cycle-tile"><img class="tile-mug" src="img/players/5b5c2228.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Ladislav Krejčí</span><span class="tile-meta"><span class="tile-club">Wolverhampton Wanderers</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat">0.10 npG+A/90 q</span><span class="tile-traj">Δ +0.049 npG+A/90 stable</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-5b5c2228" data-player-key="ladislav krejci|1999" data-fbref-id="5b5c2228" data-rule="most top-9 minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Wolverhampton Wanderers"><div class="cycle-tile"><img class="tile-mug" src="img/players/5b5c2228.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Ladislav Krejčí</span><span class="tile-meta"><span class="tile-club">Wolverhampton Wanderers</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.10</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">→ stable &middot; +0.05 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/5b5c2228.jpg')">
           <img class="cycle-card-mug" src="img/players/5b5c2228.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2532,20 +2514,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Wolves &middot; ENG-Premier League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.10</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.08 / 0.04</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.10</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.08 / 0.04</dd></div>
           <div><dt>Minutes</dt><dd>2356 (75 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Everyday starting defenders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Goal-scoring defenders in top-five leagues</span>
           </span>
         </div>
@@ -2561,8 +2541,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ +0.049 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">→</span>
             <span class="cycle-traj-dir">stable</span>
+            <span class="cycle-traj-delta">+0.05</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">2440 min &rarr; 2356 min</span>
           </p>
         </div>
@@ -2605,7 +2587,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
         
         <p class="muted small">Selected as: most top-9 minutes among 2026 FIFA World Cup squad DF.</p>
-      </article><article class="cycle-card" id="card-163bbd4a" data-player-key="tomas chory|1995" data-fbref-id="163bbd4a" data-rule="most domestic minutes among 2026 FIFA World Cup squad FW" data-pos="FW" data-club="Slavia Prague"><div class="cycle-tile"><img class="tile-mug" src="img/players/163bbd4a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Chorý</span><span class="tile-meta"><span class="tile-club">Slavia Prague</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat">0.30 npG+A/90 q</span><span class="tile-traj">Δ +0.074 npG+A/90 improving</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-163bbd4a" data-player-key="tomas chory|1995" data-fbref-id="163bbd4a" data-rule="most domestic minutes among 2026 FIFA World Cup squad FW" data-pos="FW" data-club="Slavia Prague"><div class="cycle-tile"><img class="tile-mug" src="img/players/163bbd4a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Chorý</span><span class="tile-meta"><span class="tile-club">Slavia Prague</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.30</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">↑ improving &middot; +0.07 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/163bbd4a.jpg')">
           <img class="cycle-card-mug" src="img/players/163bbd4a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">FW</span>
@@ -2620,20 +2602,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Slavia Prague &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.30</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.54 / 0.24</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.30</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.54 / 0.24</dd></div>
           <div><dt>Minutes</dt><dd>1838 (70 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Primary scorers</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">High-minutes starting forwards</span>
           </span>
         </div>
@@ -2649,8 +2629,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ +0.074 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">↑</span>
             <span class="cycle-traj-dir">improving</span>
+            <span class="cycle-traj-delta">+0.07</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">2123 min &rarr; 1838 min</span>
           </p>
         </div>
@@ -2693,7 +2675,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
         
         <p class="muted small">Selected as: most domestic minutes among 2026 FIFA World Cup squad FW.</p>
-      </article><article class="cycle-card" id="card-3eb0f2df" data-player-key="vladimir darida|1990" data-fbref-id="3eb0f2df" data-rule="most domestic minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="Hradec Králové"><div class="cycle-tile"><img class="tile-mug" src="img/players/3eb0f2df.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Vladimír Darida</span><span class="tile-meta"><span class="tile-club">Hradec Králové</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat">0.16 npG+A/90 q</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-3eb0f2df" data-player-key="vladimir darida|1990" data-fbref-id="3eb0f2df" data-rule="most domestic minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="Hradec Králové"><div class="cycle-tile"><img class="tile-mug" src="img/players/3eb0f2df.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Vladimír Darida</span><span class="tile-meta"><span class="tile-club">Hradec Králové</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.16</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj tile-traj-none">—</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/3eb0f2df.jpg')">
           <img class="cycle-card-mug" src="img/players/3eb0f2df.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2708,20 +2690,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Hradec Králové &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.16</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.29 / 0.13</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.16</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.29 / 0.13</dd></div>
           <div><dt>Minutes</dt><dd>2764 (90 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C5</span>
+          <span class="cycle-cluster-row" title="C5">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">High-scoring attacking midfielders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C0</span>
+          <span class="cycle-cluster-row" title="C0">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Everyday starting midfielders, low scoring output</span>
           </span>
         </div>
@@ -2772,7 +2752,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup</p>
         
         <p class="muted small">Selected as: most domestic minutes among 2026 FIFA World Cup squad MF.</p>
-      </article><article class="cycle-card" id="card-e03c2d97" data-player-key="tomas holes|1993" data-fbref-id="e03c2d97" data-rule="most domestic minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Slavia Prague"><div class="cycle-tile"><img class="tile-mug" src="img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Holeš</span><span class="tile-meta"><span class="tile-club">Slavia Prague</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat">0.06 npG+A/90 q</span><span class="tile-traj">Δ +0.002 npG+A/90 stable</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-e03c2d97" data-player-key="tomas holes|1993" data-fbref-id="e03c2d97" data-rule="most domestic minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Slavia Prague"><div class="cycle-tile"><img class="tile-mug" src="img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Holeš</span><span class="tile-meta"><span class="tile-club">Slavia Prague</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.06</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">→ stable &middot; +0.00 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/e03c2d97.jpg')">
           <img class="cycle-card-mug" src="img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2787,20 +2767,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Slavia Prague &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.06</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.09 / 0.09</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.06</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.09 / 0.09</dd></div>
           <div><dt>Minutes</dt><dd>2003 (77 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C2</span>
+          <span class="cycle-cluster-row" title="C2">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Older defenders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C0</span>
+          <span class="cycle-cluster-row" title="C0">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Older defenders</span>
           </span>
         </div>
@@ -2816,8 +2794,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ +0.002 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">→</span>
             <span class="cycle-traj-dir">stable</span>
+            <span class="cycle-traj-delta">+0.00</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">2454 min &rarr; 2003 min</span>
           </p>
         </div>
@@ -2865,7 +2845,7 @@
     
     <p class="cycle-row-kicker">Youngest national-team call-up</p>
     <div class="cycle-grid">
-      <article class="cycle-card" id="card-7678f6c0" data-player-key="christophe kabongo|2003" data-fbref-id="7678f6c0" data-rule="youngest national-team call-up among FW" data-pos="FW" data-club="Viktoria Plzeň"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">CK</span><span class="tile-name">Christophe Kabongo</span><span class="tile-meta"><span class="tile-club">Viktoria Plzeň</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat">0.25 npG+A/90 q</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      <article class="cycle-card" id="card-7678f6c0" data-player-key="christophe kabongo|2003" data-fbref-id="7678f6c0" data-rule="youngest national-team call-up among FW" data-pos="FW" data-club="Viktoria Plzeň"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">CK</span><span class="tile-name">Christophe Kabongo</span><span class="tile-meta"><span class="tile-club">Viktoria Plzeň</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.25</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj tile-traj-none">—</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">CK</span>
           <span class="cycle-card-pos" aria-hidden="true">FW</span>
@@ -2880,20 +2860,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Mladá Boleslav &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.25</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.45 / 0.22</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.25</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.45 / 0.22</dd></div>
           <div><dt>Minutes</dt><dd>803 (27 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Duel-heavy rotation forwards</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C4</span>
+          <span class="cycle-cluster-row" title="C4">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">High-card-rate forwards</span>
           </span>
         </div>
@@ -2944,7 +2922,7 @@
         <p class="cycle-card-meta">2026 World Cup qualification</p>
         
         <p class="muted small">Selected as: youngest national-team call-up among FW.</p>
-      </article><article class="cycle-card" id="card-c75bba87" data-player-key="hugo sochurek|2008" data-fbref-id="c75bba87" data-rule="youngest national-team call-up among MF" data-pos="MF" data-club="Sparta Prague"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">HS</span><span class="tile-name">Hugo Sochůrek</span><span class="tile-meta"><span class="tile-club">Sparta Prague</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat">0.10 npG+A/90 q</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-c75bba87" data-player-key="hugo sochurek|2008" data-fbref-id="c75bba87" data-rule="youngest national-team call-up among MF" data-pos="MF" data-club="Sparta Prague"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">HS</span><span class="tile-name">Hugo Sochůrek</span><span class="tile-meta"><span class="tile-club">Sparta Prague</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.10</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj tile-traj-none">—</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">HS</span>
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2959,20 +2937,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Sparta Prague &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.10</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.00 / 0.35</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.10</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.00 / 0.35</dd></div>
           <div><dt>Minutes</dt><dd>510 (17 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C2</span>
+          <span class="cycle-cluster-row" title="C2">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Young low-minute midfielders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C1</span>
+          <span class="cycle-cluster-row" title="C1">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Young low-minute midfielders</span>
           </span>
         </div>
@@ -3023,7 +2999,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup</p>
         
         <p class="muted small">Selected as: youngest national-team call-up among MF.</p>
-      </article><article class="cycle-card" id="card-9c87af24" data-player-key="jan paluska|2005" data-fbref-id="9c87af24" data-rule="youngest national-team call-up among DF" data-pos="DF" data-club="Viktoria Plzeň"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">JP</span><span class="tile-name">Jan Paluska</span><span class="tile-meta"><span class="tile-club">Viktoria Plzeň</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat">0.01 npG+A/90 q</span><span class="tile-traj">Δ -0.011 npG+A/90 stable</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-9c87af24" data-player-key="jan paluska|2005" data-fbref-id="9c87af24" data-rule="youngest national-team call-up among DF" data-pos="DF" data-club="Viktoria Plzeň"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">JP</span><span class="tile-name">Jan Paluska</span><span class="tile-meta"><span class="tile-club">Viktoria Plzeň</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.01</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">→ stable &middot; -0.01 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">JP</span>
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -3038,20 +3014,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Viktoria Plzeň &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.01</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.00 / 0.00</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.01</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.00 / 0.00</dd></div>
           <div><dt>Minutes</dt><dd>1045 (36 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C4</span>
+          <span class="cycle-cluster-row" title="C4">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Young low-minute defenders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C2</span>
+          <span class="cycle-cluster-row" title="C2">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Young low-minute defenders</span>
           </span>
         </div>
@@ -3067,8 +3041,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ -0.011 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">→</span>
             <span class="cycle-traj-dir">stable</span>
+            <span class="cycle-traj-delta">-0.01</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">919 min &rarr; 1045 min</span>
           </p>
         </div>
@@ -3116,7 +3092,7 @@
     
     <p class="cycle-row-kicker">Most top-9 minutes</p>
     <div class="cycle-grid">
-      <article class="cycle-card" id="card-69b2bb80" data-player-key="roman kvet|1997" data-fbref-id="69b2bb80" data-rule="most top-9 league minutes among MF" data-pos="MF" data-club="Bohemians 1905"><div class="cycle-tile"><img class="tile-mug" src="img/players/69b2bb80.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Roman Květ</span><span class="tile-meta"><span class="tile-club">Bohemians 1905</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat">0.10 npG+A/90 q</span><span class="tile-traj">Δ -0.039 npG+A/90 stable</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      <article class="cycle-card" id="card-69b2bb80" data-player-key="roman kvet|1997" data-fbref-id="69b2bb80" data-rule="most top-9 league minutes among MF" data-pos="MF" data-club="Bohemians 1905"><div class="cycle-tile"><img class="tile-mug" src="img/players/69b2bb80.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Roman Květ</span><span class="tile-meta"><span class="tile-club">Bohemians 1905</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.10</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">→ stable &middot; -0.04 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual" style="--hero: url('img/players/69b2bb80.jpg')">
           <img class="cycle-card-mug" src="img/players/69b2bb80.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -3131,20 +3107,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Dender &middot; BEL-Pro League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.10</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.18 / 0.00</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.10</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.18 / 0.00</dd></div>
           <div><dt>Minutes</dt><dd>2545 (81 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C4</span>
+          <span class="cycle-cluster-row" title="C4">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Everyday starting midfielders, low scoring output</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C0</span>
+          <span class="cycle-cluster-row" title="C0">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Everyday starting midfielders, low scoring output</span>
           </span>
         </div>
@@ -3160,8 +3134,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ -0.039 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">→</span>
             <span class="cycle-traj-dir">stable</span>
+            <span class="cycle-traj-delta">-0.04</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">2733 min &rarr; 2545 min</span>
           </p>
         </div>
@@ -3202,7 +3178,7 @@
 
         
         <p class="muted small">Selected as: most top-9 league minutes among MF.</p>
-      </article><article class="cycle-card" id="card-95d5aea2" data-player-key="robin hranac|2000" data-fbref-id="95d5aea2" data-rule="most top-9 league minutes among DF" data-pos="DF" data-club="Hoffenheim"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">RH</span><span class="tile-name">Robin Hranáč</span><span class="tile-meta"><span class="tile-club">Hoffenheim</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat">0.04 npG+A/90 q</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-95d5aea2" data-player-key="robin hranac|2000" data-fbref-id="95d5aea2" data-rule="most top-9 league minutes among DF" data-pos="DF" data-club="Hoffenheim"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">RH</span><span class="tile-name">Robin Hranáč</span><span class="tile-meta"><span class="tile-club">Hoffenheim</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.04</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj tile-traj-none">—</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">RH</span>
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -3217,20 +3193,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Hoffenheim &middot; GER-Bundesliga</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.04</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.04 / 0.00</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.04</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.04 / 0.00</dd></div>
           <div><dt>Minutes</dt><dd>2251 (74 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Everyday starting defenders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C5</span>
+          <span class="cycle-cluster-row" title="C5">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Everyday starting defenders</span>
           </span>
         </div>
@@ -3286,7 +3260,7 @@
     
     <p class="cycle-row-kicker">Most domestic minutes under 23, no top-9 season yet</p>
     <div class="cycle-grid">
-      <article class="cycle-card" id="card-048481fb" data-player-key="lukas masek|2004" data-fbref-id="048481fb" data-rule="most domestic-league minutes among under-23 FW without a top-9 season" data-pos="FW" data-club="Slovan Liberec"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">LM</span><span class="tile-name">Lukáš Mašek</span><span class="tile-meta"><span class="tile-club">Slovan Liberec</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat">0.16 npG+A/90 q</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      <article class="cycle-card" id="card-048481fb" data-player-key="lukas masek|2004" data-fbref-id="048481fb" data-rule="most domestic-league minutes among under-23 FW without a top-9 season" data-pos="FW" data-club="Slovan Liberec"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">LM</span><span class="tile-name">Lukáš Mašek</span><span class="tile-meta"><span class="tile-club">Slovan Liberec</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.16</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj tile-traj-none">—</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">LM</span>
           <span class="cycle-card-pos" aria-hidden="true">FW</span>
@@ -3301,20 +3275,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Slovan Liberec &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.16</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.30 / 0.00</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.16</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.30 / 0.00</dd></div>
           <div><dt>Minutes</dt><dd>1806 (57 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Duel-heavy rotation forwards</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C4</span>
+          <span class="cycle-cluster-row" title="C4">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">High-card-rate forwards</span>
           </span>
         </div>
@@ -3363,7 +3335,7 @@
 
         
         <p class="muted small">Selected as: most domestic-league minutes among under-23 FW without a top-9 season.</p>
-      </article><article class="cycle-card" id="card-79bb9bfb" data-player-key="vojtech stransky|2003" data-fbref-id="79bb9bfb" data-rule="most domestic-league minutes among under-23 MF without a top-9 season" data-pos="MF" data-club="Slovan Liberec"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">VS</span><span class="tile-name">Vojtech Stransky</span><span class="tile-meta"><span class="tile-club">Slovan Liberec</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat">0.07 npG+A/90 q</span><span class="tile-traj">Δ -0.001 npG+A/90 stable</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-79bb9bfb" data-player-key="vojtech stransky|2003" data-fbref-id="79bb9bfb" data-rule="most domestic-league minutes among under-23 MF without a top-9 season" data-pos="MF" data-club="Slovan Liberec"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">VS</span><span class="tile-name">Vojtech Stransky</span><span class="tile-meta"><span class="tile-club">Slovan Liberec</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.07</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">→ stable &middot; -0.00 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">VS</span>
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -3378,20 +3350,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Slovan Liberec &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.07</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.07 / 0.10</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.07</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.07 / 0.10</dd></div>
           <div><dt>Minutes</dt><dd>2634 (84 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C4</span>
+          <span class="cycle-cluster-row" title="C4">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Everyday starting midfielders, low scoring output</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C0</span>
+          <span class="cycle-cluster-row" title="C0">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Everyday starting midfielders, low scoring output</span>
           </span>
         </div>
@@ -3407,8 +3377,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ -0.001 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">→</span>
             <span class="cycle-traj-dir">stable</span>
+            <span class="cycle-traj-delta">-0.00</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">2017 min &rarr; 2634 min</span>
           </p>
         </div>
@@ -3451,7 +3423,7 @@
         <p class="cycle-card-meta">UEFA European Under-21 Championship 2025</p>
         
         <p class="muted small">Selected as: most domestic-league minutes among under-23 MF without a top-9 season.</p>
-      </article><article class="cycle-card" id="card-32821d05" data-player-key="denis halinsky|2003" data-fbref-id="32821d05" data-rule="most domestic-league minutes among under-23 DF without a top-9 season" data-pos="DF" data-club="Pardubice"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">DH</span><span class="tile-name">Denis Halinský</span><span class="tile-meta"><span class="tile-club">Pardubice</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat">0.01 npG+A/90 q</span><span class="tile-traj">Δ -0.028 npG+A/90 stable</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
+      </article><article class="cycle-card" id="card-32821d05" data-player-key="denis halinsky|2003" data-fbref-id="32821d05" data-rule="most domestic-league minutes among under-23 DF without a top-9 season" data-pos="DF" data-club="Pardubice"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">DH</span><span class="tile-name">Denis Halinský</span><span class="tile-meta"><span class="tile-club">Pardubice</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0.01</span><span class="tile-stat-label" title="goals + assists per 90, league-adjusted">G+A / 90 adj.</span></span><span class="tile-traj">→ stable &middot; -0.03 G+A / 90 adj.</span></span><button type="button" class="tile-more" aria-expanded="false">Full card</button></div>
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">DH</span>
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -3466,20 +3438,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Teplice &middot; CZE-First League</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0.01</dd></div>
-          <div><dt>npG / A per 90</dt><dd>0.00 / 0.03</dd></div>
+          <div><dt title="goals + assists per 90, league-adjusted">G+A / 90 adj.</dt><dd>0.01</dd></div>
+          <div><dt>Non-penalty goals / assists per 90</dt><dd>0.00 / 0.03</dd></div>
           <div><dt>Minutes</dt><dd>2790 (91 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C3</span>
+          <span class="cycle-cluster-row" title="C3">
+            <span class="cycle-cluster-tag">Style map</span>
             <span class="cycle-cluster-label">Everyday starting defenders</span>
           </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C5</span>
+          <span class="cycle-cluster-row" title="C5">
+            <span class="cycle-cluster-tag">Quality map</span>
             <span class="cycle-cluster-label">Everyday starting defenders</span>
           </span>
         </div>
@@ -3495,8 +3465,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">Trajectory 2024/25 &rarr; 2025/26</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ -0.028 npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">→</span>
             <span class="cycle-traj-dir">stable</span>
+            <span class="cycle-traj-delta">-0.03</span>
+            <span class="cycle-traj-unit">G+A / 90 adj.</span>
             <span class="cycle-traj-detail">1752 min &rarr; 2790 min</span>
           </p>
         </div>
@@ -5681,7 +5653,7 @@
         <tr>
           <th>Player</th><th>Pos</th><th>Age</th>
           <th>Club</th><th>League</th><th>Min</th>
-          <th>npG+A/90 q</th><th>Style cluster</th><th>NT</th>
+          <th title="goals + assists per 90, league-adjusted">G+A / 90 adj.</th><th>Style cluster</th><th>NT</th>
         </tr>
       </thead>
       <tbody>
@@ -5694,7 +5666,7 @@
           <td class="muted">POL-Ekstraklasa</td>
           <td>1860</td>
           <td>0.12</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -5706,7 +5678,7 @@
           <td class="muted">CZE-First League</td>
           <td>1401</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -5718,7 +5690,7 @@
           <td class="muted">CZE-First League</td>
           <td>2059</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -5730,7 +5702,7 @@
           <td class="muted">CZE-First League</td>
           <td>1754</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C0</span> Goal-scoring defenders</td>
+          <td title="C0">Goal-scoring defenders</td>
           <td></td>
         </tr>
         
@@ -5742,7 +5714,7 @@
           <td class="muted">CZE-First League</td>
           <td>2538</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -5754,7 +5726,7 @@
           <td class="muted">POR-Primeira Liga</td>
           <td>2151</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -5766,7 +5738,7 @@
           <td class="muted">CZE-First League</td>
           <td>1012</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -5778,7 +5750,7 @@
           <td class="muted">CZE-First League</td>
           <td>1058</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -5790,7 +5762,7 @@
           <td class="muted">CZE-First League</td>
           <td>862</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -5802,7 +5774,7 @@
           <td class="muted">CZE-First League</td>
           <td>2321</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td></td>
         </tr>
         
@@ -5814,7 +5786,7 @@
           <td class="muted">CZE-First League</td>
           <td>2652</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td>NT</td>
         </tr>
         
@@ -5826,7 +5798,7 @@
           <td class="muted">CZE-First League</td>
           <td>2534</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -5838,7 +5810,7 @@
           <td class="muted">CZE-First League</td>
           <td>2752</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -5850,7 +5822,7 @@
           <td class="muted">CZE-First League</td>
           <td>833</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -5862,7 +5834,7 @@
           <td class="muted">TUR-Süper Lig</td>
           <td>1991</td>
           <td>0.22</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -5874,7 +5846,7 @@
           <td class="muted">CZE-First League</td>
           <td>2649</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -5886,7 +5858,7 @@
           <td class="muted">CZE-First League</td>
           <td>1815</td>
           <td>0.12</td>
-          <td><span class="cluster-id">C0</span> Goal-scoring defenders</td>
+          <td title="C0">Goal-scoring defenders</td>
           <td>NT</td>
         </tr>
         
@@ -5898,7 +5870,7 @@
           <td class="muted">CZE-First League</td>
           <td>2163</td>
           <td>0.00</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td></td>
         </tr>
         
@@ -5910,7 +5882,7 @@
           <td class="muted">HUN-NB I</td>
           <td>2491</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td></td>
         </tr>
         
@@ -5922,7 +5894,7 @@
           <td class="muted">CZE-First League</td>
           <td>1838</td>
           <td>0.30</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td>NT</td>
         </tr>
         
@@ -5934,7 +5906,7 @@
           <td class="muted">CZE-First League</td>
           <td>1501</td>
           <td>0.21</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td>NT</td>
         </tr>
         
@@ -5946,7 +5918,7 @@
           <td class="muted">CZE-First League</td>
           <td>1486</td>
           <td>0.26</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td>NT</td>
         </tr>
         
@@ -5958,7 +5930,7 @@
           <td class="muted">CZE-First League</td>
           <td>1127</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td></td>
         </tr>
         
@@ -5970,7 +5942,7 @@
           <td class="muted">CZE-First League</td>
           <td>2059</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td></td>
         </tr>
         
@@ -5982,7 +5954,7 @@
           <td class="muted">GER-Bundesliga</td>
           <td>3012</td>
           <td>0.18</td>
-          <td><span class="cluster-id">C1</span> High-assist defenders with high playing time</td>
+          <td title="C1">High-assist defenders with high playing time</td>
           <td>NT</td>
         </tr>
         
@@ -5994,7 +5966,7 @@
           <td class="muted">TUR-Süper Lig</td>
           <td>525</td>
           <td>0.17</td>
-          <td><span class="cluster-id">C4</span> Young low-minute forwards</td>
+          <td title="C4">Young low-minute forwards</td>
           <td></td>
         </tr>
         
@@ -6006,7 +5978,7 @@
           <td class="muted">AUT-Bundesliga</td>
           <td>1369</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6018,7 +5990,7 @@
           <td class="muted">CZE-First League</td>
           <td>1760</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6030,7 +6002,7 @@
           <td class="muted">CZE-First League</td>
           <td>2764</td>
           <td>0.16</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6042,7 +6014,7 @@
           <td class="muted">CZE-First League</td>
           <td>935</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td></td>
         </tr>
         
@@ -6054,7 +6026,7 @@
           <td class="muted">CZE-First League</td>
           <td>1421</td>
           <td>0.11</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6066,7 +6038,7 @@
           <td class="muted">CZE-First League</td>
           <td>1682</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -6078,7 +6050,7 @@
           <td class="muted">CZE-First League</td>
           <td>2065</td>
           <td>0.00</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -6090,7 +6062,7 @@
           <td class="muted">CZE-First League</td>
           <td>689</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6102,7 +6074,7 @@
           <td class="muted">CZE-First League</td>
           <td>1667</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -6114,7 +6086,7 @@
           <td class="muted">CZE-First League</td>
           <td>2137</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td></td>
         </tr>
         
@@ -6126,7 +6098,7 @@
           <td class="muted">CZE-First League</td>
           <td>1080</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C0</span> Goal-scoring defenders</td>
+          <td title="C0">Goal-scoring defenders</td>
           <td></td>
         </tr>
         
@@ -6138,7 +6110,7 @@
           <td class="muted">CZE-First League</td>
           <td>594</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6150,7 +6122,7 @@
           <td class="muted">CZE-First League</td>
           <td>1806</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C1</span> High-assist defenders with high playing time</td>
+          <td title="C1">High-assist defenders with high playing time</td>
           <td>NT</td>
         </tr>
         
@@ -6162,7 +6134,7 @@
           <td class="muted">CZE-First League</td>
           <td>2790</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td>NT</td>
         </tr>
         
@@ -6174,7 +6146,7 @@
           <td class="muted">CZE-First League</td>
           <td>672</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6186,7 +6158,7 @@
           <td class="muted">TUR-Süper Lig</td>
           <td>1356</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -6198,7 +6170,7 @@
           <td class="muted">CZE-First League</td>
           <td>1243</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -6210,7 +6182,7 @@
           <td class="muted">CZE-First League</td>
           <td>1104</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6222,7 +6194,7 @@
           <td class="muted">CZE-First League</td>
           <td>462</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -6234,7 +6206,7 @@
           <td class="muted">CZE-First League</td>
           <td>2633</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -6246,7 +6218,7 @@
           <td class="muted">CZE-First League</td>
           <td>578</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6258,7 +6230,7 @@
           <td class="muted">POL-Ekstraklasa</td>
           <td>2859</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -6270,7 +6242,7 @@
           <td class="muted">CZE-First League</td>
           <td>1163</td>
           <td>0.11</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td></td>
         </tr>
         
@@ -6282,7 +6254,7 @@
           <td class="muted">CZE-First League</td>
           <td>2003</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td>NT</td>
         </tr>
         
@@ -6294,7 +6266,7 @@
           <td class="muted">CZE-First League</td>
           <td>1474</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6306,7 +6278,7 @@
           <td class="muted">CZE-First League</td>
           <td>2766</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -6318,7 +6290,7 @@
           <td class="muted">CZE-First League</td>
           <td>552</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6330,7 +6302,7 @@
           <td class="muted">GER-Bundesliga</td>
           <td>2251</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td>NT</td>
         </tr>
         
@@ -6342,7 +6314,7 @@
           <td class="muted">CZE-First League</td>
           <td>2820</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td></td>
         </tr>
         
@@ -6354,7 +6326,7 @@
           <td class="muted">CZE-First League</td>
           <td>1879</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td></td>
         </tr>
         
@@ -6366,7 +6338,7 @@
           <td class="muted">CZE-First League</td>
           <td>1350</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -6378,7 +6350,7 @@
           <td class="muted">CZE-First League</td>
           <td>2434</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C1</span> High-assist defenders with high playing time</td>
+          <td title="C1">High-assist defenders with high playing time</td>
           <td></td>
         </tr>
         
@@ -6390,7 +6362,7 @@
           <td class="muted">CZE-First League</td>
           <td>784</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6402,7 +6374,7 @@
           <td class="muted">CZE-First League</td>
           <td>746</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6414,7 +6386,7 @@
           <td class="muted">CZE-First League</td>
           <td>619</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6426,7 +6398,7 @@
           <td class="muted">CZE-First League</td>
           <td>1768</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td>NT</td>
         </tr>
         
@@ -6438,7 +6410,7 @@
           <td class="muted">CZE-First League</td>
           <td>654</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -6450,7 +6422,7 @@
           <td class="muted">CZE-First League</td>
           <td>1210</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6462,7 +6434,7 @@
           <td class="muted">CZE-First League</td>
           <td>1266</td>
           <td>0.14</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6474,7 +6446,7 @@
           <td class="muted">TUR-Süper Lig</td>
           <td>638</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td>NT</td>
         </tr>
         
@@ -6486,7 +6458,7 @@
           <td class="muted">CZE-First League</td>
           <td>1274</td>
           <td>0.23</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -6498,7 +6470,7 @@
           <td class="muted">CZE-First League</td>
           <td>751</td>
           <td>0.14</td>
-          <td><span class="cluster-id">C4</span> Young low-minute forwards</td>
+          <td title="C4">Young low-minute forwards</td>
           <td></td>
         </tr>
         
@@ -6510,7 +6482,7 @@
           <td class="muted">CZE-First League</td>
           <td>803</td>
           <td>0.25</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td>NT</td>
         </tr>
         
@@ -6522,7 +6494,7 @@
           <td class="muted">CZE-First League</td>
           <td>873</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6534,7 +6506,7 @@
           <td class="muted">CZE-First League</td>
           <td>1362</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6546,7 +6518,7 @@
           <td class="muted">CZE-First League</td>
           <td>814</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6558,7 +6530,7 @@
           <td class="muted">FRA-Ligue 1</td>
           <td>922</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6570,7 +6542,7 @@
           <td class="muted">CZE-First League</td>
           <td>1237</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C1</span> High-assist defenders with high playing time</td>
+          <td title="C1">High-assist defenders with high playing time</td>
           <td></td>
         </tr>
         
@@ -6582,7 +6554,7 @@
           <td class="muted">CZE-First League</td>
           <td>586</td>
           <td>0.15</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td>NT</td>
         </tr>
         
@@ -6594,7 +6566,7 @@
           <td class="muted">CZE-First League</td>
           <td>872</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C3</span> High-card-rate midfielders</td>
+          <td title="C3">High-card-rate midfielders</td>
           <td></td>
         </tr>
         
@@ -6606,7 +6578,7 @@
           <td class="muted">CZE-First League</td>
           <td>1724</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td></td>
         </tr>
         
@@ -6618,7 +6590,7 @@
           <td class="muted">CZE-First League</td>
           <td>1183</td>
           <td>0.16</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td></td>
         </tr>
         
@@ -6630,7 +6602,7 @@
           <td class="muted">CZE-First League</td>
           <td>1812</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td></td>
         </tr>
         
@@ -6642,7 +6614,7 @@
           <td class="muted">CZE-First League</td>
           <td>2310</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -6654,7 +6626,7 @@
           <td class="muted">CZE-First League</td>
           <td>912</td>
           <td>0.12</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6666,7 +6638,7 @@
           <td class="muted">CZE-First League</td>
           <td>999</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6678,7 +6650,7 @@
           <td class="muted">CZE-First League</td>
           <td>1124</td>
           <td>0.21</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td></td>
         </tr>
         
@@ -6690,7 +6662,7 @@
           <td class="muted">CZE-First League</td>
           <td>1010</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td>NT</td>
         </tr>
         
@@ -6702,7 +6674,7 @@
           <td class="muted">CZE-First League</td>
           <td>1616</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td></td>
         </tr>
         
@@ -6714,7 +6686,7 @@
           <td class="muted">GER-Bundesliga</td>
           <td>459</td>
           <td>0.12</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6726,7 +6698,7 @@
           <td class="muted">CZE-First League</td>
           <td>1876</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td></td>
         </tr>
         
@@ -6738,7 +6710,7 @@
           <td class="muted">CZE-First League</td>
           <td>685</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6750,7 +6722,7 @@
           <td class="muted">ENG-Premier League</td>
           <td>2356</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td>NT</td>
         </tr>
         
@@ -6762,7 +6734,7 @@
           <td class="muted">CZE-First League</td>
           <td>2287</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -6774,7 +6746,7 @@
           <td class="muted">CZE-First League</td>
           <td>1171</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -6786,7 +6758,7 @@
           <td class="muted">CZE-First League</td>
           <td>827</td>
           <td>0.13</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -6798,7 +6770,7 @@
           <td class="muted">CZE-First League</td>
           <td>691</td>
           <td>0.17</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td></td>
         </tr>
         
@@ -6810,7 +6782,7 @@
           <td class="muted">CZE-First League</td>
           <td>1435</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6822,7 +6794,7 @@
           <td class="muted">CZE-First League</td>
           <td>1593</td>
           <td>0.34</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td>NT</td>
         </tr>
         
@@ -6834,7 +6806,7 @@
           <td class="muted">CZE-First League</td>
           <td>1558</td>
           <td>0.22</td>
-          <td><span class="cluster-id">C0</span> High-minutes starting forwards</td>
+          <td title="C0">High-minutes starting forwards</td>
           <td>NT</td>
         </tr>
         
@@ -6846,7 +6818,7 @@
           <td class="muted">BEL-Pro League</td>
           <td>2545</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -6858,7 +6830,7 @@
           <td class="muted">CZE-First League</td>
           <td>1987</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -6870,7 +6842,7 @@
           <td class="muted">CZE-First League</td>
           <td>2020</td>
           <td>0.17</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6882,7 +6854,7 @@
           <td class="muted">CZE-First League</td>
           <td>1276</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C3</span> High-card-rate midfielders</td>
+          <td title="C3">High-card-rate midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -6894,7 +6866,7 @@
           <td class="muted">CZE-First League</td>
           <td>1200</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C0</span> Goal-scoring defenders</td>
+          <td title="C0">Goal-scoring defenders</td>
           <td></td>
         </tr>
         
@@ -6906,7 +6878,7 @@
           <td class="muted">CZE-First League</td>
           <td>2233</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -6918,7 +6890,7 @@
           <td class="muted">CZE-First League</td>
           <td>1146</td>
           <td>0.15</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td></td>
         </tr>
         
@@ -6930,7 +6902,7 @@
           <td class="muted">CZE-First League</td>
           <td>1642</td>
           <td>0.12</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td></td>
         </tr>
         
@@ -6942,7 +6914,7 @@
           <td class="muted">CZE-First League</td>
           <td>1197</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6954,7 +6926,7 @@
           <td class="muted">CZE-First League</td>
           <td>841</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td></td>
         </tr>
         
@@ -6966,7 +6938,7 @@
           <td class="muted">CZE-First League</td>
           <td>1806</td>
           <td>0.16</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td></td>
         </tr>
         
@@ -6978,7 +6950,7 @@
           <td class="muted">CZE-First League</td>
           <td>1606</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -6990,7 +6962,7 @@
           <td class="muted">CZE-First League</td>
           <td>879</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C3</span> High-card-rate midfielders</td>
+          <td title="C3">High-card-rate midfielders</td>
           <td></td>
         </tr>
         
@@ -7002,7 +6974,7 @@
           <td class="muted">CZE-First League</td>
           <td>1184</td>
           <td>0.28</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td>NT</td>
         </tr>
         
@@ -7014,7 +6986,7 @@
           <td class="muted">CZE-First League</td>
           <td>1290</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7026,7 +6998,7 @@
           <td class="muted">CZE-First League</td>
           <td>1096</td>
           <td>0.11</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7038,7 +7010,7 @@
           <td class="muted">CZE-First League</td>
           <td>943</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7050,7 +7022,7 @@
           <td class="muted">CZE-First League</td>
           <td>619</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7062,7 +7034,7 @@
           <td class="muted">CZE-First League</td>
           <td>2276</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7074,7 +7046,7 @@
           <td class="muted">CZE-First League</td>
           <td>1045</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td>NT</td>
         </tr>
         
@@ -7086,7 +7058,7 @@
           <td class="muted">CZE-First League</td>
           <td>920</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7098,7 +7070,7 @@
           <td class="muted">CZE-First League</td>
           <td>1847</td>
           <td>0.22</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td>NT</td>
         </tr>
         
@@ -7110,7 +7082,7 @@
           <td class="muted">CZE-First League</td>
           <td>1035</td>
           <td>0.12</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7122,7 +7094,7 @@
           <td class="muted">SUI-Super League</td>
           <td>955</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7134,7 +7106,7 @@
           <td class="muted">CZE-First League</td>
           <td>481</td>
           <td>0.13</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -7146,7 +7118,7 @@
           <td class="muted">CZE-First League</td>
           <td>516</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7158,7 +7130,7 @@
           <td class="muted">CZE-First League</td>
           <td>1955</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7170,7 +7142,7 @@
           <td class="muted">CZE-First League</td>
           <td>679</td>
           <td>0.14</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -7182,7 +7154,7 @@
           <td class="muted">CZE-First League</td>
           <td>1242</td>
           <td>0.20</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -7194,7 +7166,7 @@
           <td class="muted">CZE-First League</td>
           <td>1970</td>
           <td>0.11</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -7206,7 +7178,7 @@
           <td class="muted">CZE-First League</td>
           <td>976</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td></td>
         </tr>
         
@@ -7218,7 +7190,7 @@
           <td class="muted">HUN-NB I</td>
           <td>1023</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7230,7 +7202,7 @@
           <td class="muted">CZE-First League</td>
           <td>2392</td>
           <td>0.00</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td></td>
         </tr>
         
@@ -7242,7 +7214,7 @@
           <td class="muted">CZE-First League</td>
           <td>961</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7254,7 +7226,7 @@
           <td class="muted">CZE-First League</td>
           <td>1409</td>
           <td>0.22</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -7266,7 +7238,7 @@
           <td class="muted">CZE-First League</td>
           <td>1549</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td>NT</td>
         </tr>
         
@@ -7278,7 +7250,7 @@
           <td class="muted">CZE-First League</td>
           <td>2401</td>
           <td>0.22</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7290,7 +7262,7 @@
           <td class="muted">CZE-First League</td>
           <td>1265</td>
           <td>0.25</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td></td>
         </tr>
         
@@ -7302,7 +7274,7 @@
           <td class="muted">CZE-First League</td>
           <td>904</td>
           <td>0.17</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -7314,7 +7286,7 @@
           <td class="muted">CZE-First League</td>
           <td>2516</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -7326,7 +7298,7 @@
           <td class="muted">CZE-First League</td>
           <td>1102</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7338,7 +7310,7 @@
           <td class="muted">CZE-First League</td>
           <td>704</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7350,7 +7322,7 @@
           <td class="muted">CZE-First League</td>
           <td>665</td>
           <td>0.14</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td></td>
         </tr>
         
@@ -7362,7 +7334,7 @@
           <td class="muted">CZE-First League</td>
           <td>1807</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C3</span> High-card-rate midfielders</td>
+          <td title="C3">High-card-rate midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7374,7 +7346,7 @@
           <td class="muted">POL-Ekstraklasa</td>
           <td>739</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7386,7 +7358,7 @@
           <td class="muted">POL-Ekstraklasa</td>
           <td>1077</td>
           <td>0.17</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7398,7 +7370,7 @@
           <td class="muted">CZE-First League</td>
           <td>2049</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -7410,7 +7382,7 @@
           <td class="muted">GER-Bundesliga</td>
           <td>1988</td>
           <td>0.49</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td>NT</td>
         </tr>
         
@@ -7422,7 +7394,7 @@
           <td class="muted">CZE-First League</td>
           <td>1708</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -7434,7 +7406,7 @@
           <td class="muted">CZE-First League</td>
           <td>792</td>
           <td>0.20</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td>NT</td>
         </tr>
         
@@ -7446,7 +7418,7 @@
           <td class="muted">CZE-First League</td>
           <td>1997</td>
           <td>0.16</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td></td>
         </tr>
         
@@ -7458,7 +7430,7 @@
           <td class="muted">CZE-First League</td>
           <td>1449</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td>NT</td>
         </tr>
         
@@ -7470,7 +7442,7 @@
           <td class="muted">CZE-First League</td>
           <td>1659</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -7482,7 +7454,7 @@
           <td class="muted">NED-Eredivisie</td>
           <td>550</td>
           <td>0.15</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7494,7 +7466,7 @@
           <td class="muted">CZE-First League</td>
           <td>1131</td>
           <td>0.15</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td></td>
         </tr>
         
@@ -7506,7 +7478,7 @@
           <td class="muted">CZE-First League</td>
           <td>1610</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td></td>
         </tr>
         
@@ -7518,7 +7490,7 @@
           <td class="muted">CZE-First League</td>
           <td>916</td>
           <td>0.19</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td></td>
         </tr>
         
@@ -7530,7 +7502,7 @@
           <td class="muted">CZE-First League</td>
           <td>1099</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C3</span> High-card-rate midfielders</td>
+          <td title="C3">High-card-rate midfielders</td>
           <td></td>
         </tr>
         
@@ -7542,7 +7514,7 @@
           <td class="muted">CZE-First League</td>
           <td>510</td>
           <td>0.10</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7554,7 +7526,7 @@
           <td class="muted">CZE-First League</td>
           <td>1090</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7566,7 +7538,7 @@
           <td class="muted">CZE-First League</td>
           <td>592</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7578,7 +7550,7 @@
           <td class="muted">CZE-First League</td>
           <td>1409</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7590,7 +7562,7 @@
           <td class="muted">ENG-Premier League</td>
           <td>2200</td>
           <td>0.21</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7602,7 +7574,7 @@
           <td class="muted">CZE-First League</td>
           <td>1349</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td>NT</td>
         </tr>
         
@@ -7614,7 +7586,7 @@
           <td class="muted">CZE-First League</td>
           <td>612</td>
           <td>0.04</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7626,7 +7598,7 @@
           <td class="muted">CZE-First League</td>
           <td>2634</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td>NT</td>
         </tr>
         
@@ -7638,7 +7610,7 @@
           <td class="muted">HUN-NB I</td>
           <td>1350</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7650,7 +7622,7 @@
           <td class="muted">CZE-First League</td>
           <td>709</td>
           <td>0.19</td>
-          <td><span class="cluster-id">C2</span> Older forwards with moderate playing time</td>
+          <td title="C2">Older forwards with moderate playing time</td>
           <td></td>
         </tr>
         
@@ -7662,7 +7634,7 @@
           <td class="muted">CZE-First League</td>
           <td>810</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7674,7 +7646,7 @@
           <td class="muted">FRA-Ligue 1</td>
           <td>1566</td>
           <td>0.46</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td>NT</td>
         </tr>
         
@@ -7686,7 +7658,7 @@
           <td class="muted">CZE-First League</td>
           <td>486</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td></td>
         </tr>
         
@@ -7698,7 +7670,7 @@
           <td class="muted">CZE-First League</td>
           <td>1807</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7710,7 +7682,7 @@
           <td class="muted">CZE-First League</td>
           <td>1205</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7722,7 +7694,7 @@
           <td class="muted">CZE-First League</td>
           <td>581</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7734,7 +7706,7 @@
           <td class="muted">CZE-First League</td>
           <td>2174</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7746,7 +7718,7 @@
           <td class="muted">CZE-First League</td>
           <td>1118</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
@@ -7758,7 +7730,7 @@
           <td class="muted">CZE-First League</td>
           <td>842</td>
           <td>0.08</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7770,7 +7742,7 @@
           <td class="muted">CZE-First League</td>
           <td>1061</td>
           <td>0.25</td>
-          <td><span class="cluster-id">C1</span> Primary scorers</td>
+          <td title="C1">Primary scorers</td>
           <td></td>
         </tr>
         
@@ -7782,7 +7754,7 @@
           <td class="muted">CZE-First League</td>
           <td>2475</td>
           <td>0.03</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td></td>
         </tr>
         
@@ -7794,7 +7766,7 @@
           <td class="muted">CZE-First League</td>
           <td>713</td>
           <td>0.19</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td>NT</td>
         </tr>
         
@@ -7806,7 +7778,7 @@
           <td class="muted">CZE-First League</td>
           <td>1662</td>
           <td>0.16</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7818,7 +7790,7 @@
           <td class="muted">ITA-Serie A</td>
           <td>1325</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C4</span> Young low-minute defenders</td>
+          <td title="C4">Young low-minute defenders</td>
           <td>NT</td>
         </tr>
         
@@ -7830,7 +7802,7 @@
           <td class="muted">CZE-First League</td>
           <td>802</td>
           <td>0.05</td>
-          <td><span class="cluster-id">C5</span> High-card-rate defenders</td>
+          <td title="C5">High-card-rate defenders</td>
           <td>NT</td>
         </tr>
         
@@ -7842,7 +7814,7 @@
           <td class="muted">CZE-First League</td>
           <td>2172</td>
           <td>0.15</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td></td>
         </tr>
         
@@ -7854,7 +7826,7 @@
           <td class="muted">CZE-First League</td>
           <td>1146</td>
           <td>0.22</td>
-          <td><span class="cluster-id">C3</span> Duel-heavy rotation forwards</td>
+          <td title="C3">Duel-heavy rotation forwards</td>
           <td></td>
         </tr>
         
@@ -7866,7 +7838,7 @@
           <td class="muted">CZE-First League</td>
           <td>1732</td>
           <td>0.01</td>
-          <td><span class="cluster-id">C2</span> Older defenders</td>
+          <td title="C2">Older defenders</td>
           <td></td>
         </tr>
         
@@ -7878,7 +7850,7 @@
           <td class="muted">CZE-First League</td>
           <td>1148</td>
           <td>0.20</td>
-          <td><span class="cluster-id">C5</span> High-scoring attacking midfielders</td>
+          <td title="C5">High-scoring attacking midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7890,7 +7862,7 @@
           <td class="muted">CZE-First League</td>
           <td>1402</td>
           <td>0.17</td>
-          <td><span class="cluster-id">C0</span> High-minutes creative midfielders</td>
+          <td title="C0">High-minutes creative midfielders</td>
           <td>NT</td>
         </tr>
         
@@ -7902,7 +7874,7 @@
           <td class="muted">NED-Eredivisie</td>
           <td>1724</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C4</span> Everyday starting midfielders, low scoring output</td>
+          <td title="C4">Everyday starting midfielders, low scoring output</td>
           <td></td>
         </tr>
         
@@ -7914,7 +7886,7 @@
           <td class="muted">CZE-First League</td>
           <td>1691</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C1</span> High-assist defenders with high playing time</td>
+          <td title="C1">High-assist defenders with high playing time</td>
           <td>NT</td>
         </tr>
         
@@ -7926,7 +7898,7 @@
           <td class="muted">CZE-First League</td>
           <td>1767</td>
           <td>0.02</td>
-          <td><span class="cluster-id">C3</span> Everyday starting defenders</td>
+          <td title="C3">Everyday starting defenders</td>
           <td>NT</td>
         </tr>
         
@@ -7938,7 +7910,7 @@
           <td class="muted">CZE-First League</td>
           <td>930</td>
           <td>0.06</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7950,7 +7922,7 @@
           <td class="muted">CZE-First League</td>
           <td>790</td>
           <td>0.13</td>
-          <td><span class="cluster-id">C4</span> Young low-minute forwards</td>
+          <td title="C4">Young low-minute forwards</td>
           <td></td>
         </tr>
         
@@ -7962,7 +7934,7 @@
           <td class="muted">POL-Ekstraklasa</td>
           <td>559</td>
           <td>0.12</td>
-          <td><span class="cluster-id">C4</span> Young low-minute forwards</td>
+          <td title="C4">Young low-minute forwards</td>
           <td></td>
         </tr>
         
@@ -7974,7 +7946,7 @@
           <td class="muted">CZE-First League</td>
           <td>522</td>
           <td>0.07</td>
-          <td><span class="cluster-id">C2</span> Young low-minute midfielders</td>
+          <td title="C2">Young low-minute midfielders</td>
           <td></td>
         </tr>
         
@@ -7986,14 +7958,14 @@
           <td class="muted">CZE-First League</td>
           <td>1622</td>
           <td>0.09</td>
-          <td><span class="cluster-id">C1</span> Older rotation midfielders</td>
+          <td title="C1">Older rotation midfielders</td>
           <td></td>
         </tr>
         
       </tbody>
     </table>
     </details>
-    <p class="capita-note">* 2025/26 season, at least 450 minutes; the club is the one with the most minutes that season. npG+A/90 q = quality-adjusted non-penalty goals + assists per 90. NT = national-team call-up 2024–26.</p>
+    <p class="capita-note">* 2025/26 season, at least 450 minutes; the club is the one with the most minutes that season. NT = national-team call-up 2024–26.</p>
   </div>
 </section>
 
@@ -8785,7 +8757,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-14 15:09</p>
+    <p class="rendered-at">Rendered: 2026-09-14 15:42</p>
   </div>
 </footer>
 

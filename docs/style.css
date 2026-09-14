@@ -462,7 +462,12 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
    hairline family as .argument (no boxes, no shadows), plus one mono line
    on what it takes to run the pipeline for another country
    ========================================================================= */
+/* the tile count depends on the .container's own width (narrowed by the TOC
+   rail past 1280px, to ~700-900px), not the viewport — a viewport-width media
+   query would force 4-up into that narrow column, so this uses a container
+   query scoped to .for-federation's .container instead */
 .for-federation { padding: 0 0 var(--space-6); }
+.for-federation .container { container-type: inline-size; }
 .for-federation h3 { margin: 0 0 var(--space-4); }
 .fed-grid {
   display: grid;
@@ -472,19 +477,19 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   list-style: none;
   border-top: 1px solid var(--rule);
 }
-@media (min-width: 640px) {
+@container (min-width: 480px) {
   .fed-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (min-width: 960px) {
+@container (min-width: 1100px) {
   .fed-grid { grid-template-columns: repeat(4, 1fr); }
 }
 .fed-tile { border-top: 1px solid var(--rule); }
 .fed-grid > .fed-tile:first-child { border-top: none; }
-@media (min-width: 640px) {
+@container (min-width: 480px) {
   .fed-tile { border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
   .fed-grid > .fed-tile:nth-child(odd) { border-left: none; }
 }
-@media (min-width: 960px) {
+@container (min-width: 1100px) {
   .fed-grid > .fed-tile:nth-child(odd) { border-left: 1px solid var(--rule); }
   .fed-grid > .fed-tile:first-child { border-left: none; }
 }
@@ -840,10 +845,6 @@ figcaption {
   gap: 0;
 }
 .cluster-list dt {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: baseline;
-  gap: var(--space-3);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.15rem;
@@ -853,17 +854,8 @@ figcaption {
   border-top: 1px solid var(--rule);
 }
 .cluster-list dt:first-child { border-top: 2px solid var(--ink); }
-.cluster-list dt .cluster-id {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--oxblood-700);
-  background: var(--oxblood-200);
-  padding: 0.18rem 0.55rem;
-  border-radius: 1px;
-  align-self: center;
-}
+/* the cluster code (e.g. "C3") is a title tooltip on .cluster-name, not
+   visible text — abbreviations stay out of sight before chapter IV */
 .cluster-meta-inline {
   display: block;
   font-family: var(--font-sans);
@@ -1533,7 +1525,7 @@ li strong { font-family: var(--font-display); font-weight: 600; }
 }
 .cycle-cluster-row {
   display: grid;
-  grid-template-columns: 3.4rem 2.6rem 1fr;
+  grid-template-columns: 5.6rem 1fr;
   align-items: baseline;
   gap: var(--space-2);
 }
@@ -1545,17 +1537,7 @@ li strong { font-family: var(--font-display); font-weight: 600; }
   text-transform: uppercase;
   color: var(--muted);
 }
-.cycle-cluster-pill {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--oxblood-700);
-  background: var(--oxblood-200);
-  padding: 0.15rem 0.45rem;
-  border-radius: 1px;
-  text-align: center;
-}
+/* the cluster code (e.g. "C3") is a title tooltip on .cycle-cluster-row */
 .cycle-cluster-label {
   font-family: var(--font-display);
   font-weight: 500;
@@ -1600,10 +1582,21 @@ li strong { font-family: var(--font-display); font-weight: 600; }
   font-size: 0.88rem;
   max-width: none;
 }
+.cycle-traj-arrow {
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--oxblood-700);
+}
 .cycle-traj-delta {
   font-family: var(--font-mono);
   font-weight: 600;
   color: var(--ink);
+}
+.cycle-traj-unit {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
 }
 .cycle-traj-dir {
   font-family: var(--font-sans);

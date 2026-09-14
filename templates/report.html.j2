@@ -12,6 +12,8 @@
 {%- macro pct(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.0f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
 {%- macro pct1(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.1f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
 {%- macro signed(x) -%}{%- if x is none -%}—{%- else -%}{{ '%+.3f' | format(x) }}{%- endif -%}{%- endmacro -%}
+{%- macro signed2(x) -%}{%- if x is none -%}—{%- else -%}{{ '%+.2f' | format(x) }}{%- endif -%}{%- endmacro -%}
+{%- macro trend_arrow(dir) -%}{%- if dir == 'improving' -%}↑{%- elif dir == 'declining' -%}↓{%- else -%}→{%- endif -%}{%- endmacro -%}
 {%- set topn = headline_leagues | length -%}
 {%- set cze = per_capita | selectattr('country', 'equalto', 'CZE') | list | first -%}
 {%- set gt = {} -%}
@@ -70,7 +72,7 @@
 
 <header class="report-header">
   <div class="container">
-    <p class="masthead-kicker">{{ t('mast.kicker', season=seasons.current) }}</p>
+    <p class="masthead-kicker">{{ t('mast.kicker') }}</p>
     <h1>{{ t('mast.title') }}</h1>
     <p class="masthead-subtitle">{{ t('mast.subtitle') }}</p>
     <dl class="masthead-meta">
@@ -204,7 +206,7 @@
            pop=('%.2f' | format(cze.population_m)), pm=f2(cze.per_million), rank=cze.rank, total=per_capita | length) }}
     </p>
 
-    <figure class="figure-bleed" data-atlas="heatmap">
+    <figure class="figure-bleed" data-atlas="heatmap" title="{{ t('ch1.heatmap.note') }}">
       <img src="{{ assets }}intl_cohort_heatmap.svg"
            alt="{{ t('ch1.heatmap.alt', n=hero.n_peers, season=seasons.metrics) }}">
       <figcaption>{{ t('ch1.heatmap.caption', season=seasons.metrics) }}</figcaption>
@@ -255,14 +257,17 @@
     {% endfor %}
 
     <h3 id="observations">{{ t('ch1.observations.h3') }}</h3>
-    <div class="observations">
-      {% for obs in observations %}
-      <div class="observation">
-        <h4>{{ obs.title }}</h4>
-        <p>{{ obs.body }}</p>
+    <details class="fold">
+      <summary>{{ observations | map(attribute='title') | join(' · ') }}</summary>
+      <div class="observations">
+        {% for obs in observations %}
+        <div class="observation">
+          <h4>{{ obs.title }}</h4>
+          <p>{{ obs.body }}</p>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
+    </details>
 
     <h3 id="clusters">{{ t('ch1.clusters.h3') }}</h3>
     <p>{{ t('ch1.clusters.p', season=seasons.metrics) }}</p>
@@ -271,8 +276,7 @@
     <dl class="cluster-list" data-atlas-clusters="{{ grp | lower }}">
       {% for c in clusters[grp] %}
       <dt>
-        <span class="cluster-id">{{ c.id }}</span>
-        <span>
+        <span class="cluster-name" title="{{ c.id }}">
           {{ c.label }}
           <span class="cluster-meta-inline">
             {{ t('ch1.clusters.meta', n=c.n, corpus=c.n_corpus, nt=c.nt_pool, born=('—' if c.median_born is none else c.median_born)) }}
@@ -297,9 +301,9 @@
     <h4>{{ t('ch1.traj.h4', group=gt[grp], n=m.n_czech, up=m.directions.improving, stable=m.directions.stable, down=m.directions.declining) }}</h4>
     <div class="movers-grid">
       <div class="movers-col">
-        <h4>{{ t('ch1.traj.up') }}</h4>
+        <h4>{{ t('ch1.traj.up', metric=t('metric.prod.short')) }}</h4>
         <table class="movers-table">
-          <thead><tr><th>{{ t('ch1.traj.th.player') }}</th><th>{{ t('ch1.traj.th.league') }}</th><th>{{ t('ch1.traj.th.min', previous=seasons.previous, metrics=seasons.metrics) }}</th><th>Δ</th></tr></thead>
+          <thead><tr><th>{{ t('ch1.traj.th.player') }}</th><th>{{ t('ch1.traj.th.league') }}</th><th>{{ t('ch1.traj.th.min', previous=seasons.previous, metrics=seasons.metrics) }}</th><th>{{ t('ch1.traj.th.delta') }}</th></tr></thead>
           <tbody>
             {% for r in m.up %}
             <tr>
@@ -315,9 +319,9 @@
         </table>
       </div>
       <div class="movers-col">
-        <h4>{{ t('ch1.traj.down') }}</h4>
+        <h4>{{ t('ch1.traj.down', metric=t('metric.prod.short')) }}</h4>
         <table class="movers-table">
-          <thead><tr><th>{{ t('ch1.traj.th.player') }}</th><th>{{ t('ch1.traj.th.league') }}</th><th>{{ t('ch1.traj.th.min', previous=seasons.previous, metrics=seasons.metrics) }}</th><th>Δ</th></tr></thead>
+          <thead><tr><th>{{ t('ch1.traj.th.player') }}</th><th>{{ t('ch1.traj.th.league') }}</th><th>{{ t('ch1.traj.th.min', previous=seasons.previous, metrics=seasons.metrics) }}</th><th>{{ t('ch1.traj.th.delta') }}</th></tr></thead>
           <tbody>
             {% for r in m.down %}
             <tr>
@@ -588,7 +592,7 @@
 <section class="ai-layer">
   <div class="container">
     <h2 id="cards">{{ t('ch3.cards.h2') }}</h2>
-    <p class="framing lede">{{ t('ch3.cards.framing', metrics=seasons.metrics, previous=seasons.previous, n=(cards[0].analogs | length if cards else 0), current=seasons.current) }}</p>
+    <p class="framing lede">{{ t('ch3.cards.framing', metrics=seasons.metrics) }}</p>
     <details class="fold">
       <summary>{{ t('ch3.cards.rules.summary', n=cards | length) }}</summary>
       <p class="capita-note">{{ t('ch3.cards.rules', event=nt_core_event) }}</p>
@@ -604,20 +608,18 @@
 
         <p class="cycle-card-meta cycle-stats-head">{{ seasons.metrics }} &middot; {{ p.club_season }} &middot; {{ p.league }}</p>
         <dl class="cycle-stats">
-          <div><dt>{{ t('ch3.card.stat.q') }}</dt><dd>{{ f2(p.stats.npg_ast_q) }}</dd></div>
+          <div><dt title="{{ t('metric.prod') }}">{{ t('metric.prod.short') }}</dt><dd>{{ f2(p.stats.npg_ast_q) }}</dd></div>
           <div><dt>{{ t('ch3.card.stat.rates') }}</dt><dd>{{ f2(p.stats.npg_p90) }} / {{ f2(p.stats.ast_p90) }}</dd></div>
           <div><dt>{{ t('ch3.card.stat.min') }}</dt><dd>{{ p.stats.min }} ({{ pct(p.stats.min_share) }})</dd></div>
         </dl>
 
         <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
+          <span class="cycle-cluster-row" title="{{ p.clusters.style.id }}">
             <span class="cycle-cluster-tag">{{ t('ch3.card.style') }}</span>
-            <span class="cycle-cluster-pill">{{ p.clusters.style.id }}</span>
             <span class="cycle-cluster-label">{{ p.clusters.style.label }}</span>
           </span>
-          <span class="cycle-cluster-row">
+          <span class="cycle-cluster-row" title="{{ p.clusters.quality.id }}">
             <span class="cycle-cluster-tag">{{ t('ch3.card.quality') }}</span>
-            <span class="cycle-cluster-pill">{{ p.clusters.quality.id }}</span>
             <span class="cycle-cluster-label">{{ p.clusters.quality.label }}</span>
           </span>
         </div>
@@ -633,8 +635,10 @@
         <div class="cycle-section">
           <p class="cycle-section-label">{{ t('ch3.card.traj', previous=seasons.previous, metrics=seasons.metrics) }}</p>
           <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ {{ signed(p.trajectory.delta) }} npG+A/90</span>
+            <span class="cycle-traj-arrow" aria-hidden="true">{{ trend_arrow(p.trajectory.direction) }}</span>
             <span class="cycle-traj-dir">{{ term(p.trajectory.direction) }}</span>
+            <span class="cycle-traj-delta">{{ signed2(p.trajectory.delta) }}</span>
+            <span class="cycle-traj-unit">{{ t('metric.prod.short') }}</span>
             <span class="cycle-traj-detail">{{ p.trajectory.min_prev }} {{ t('ch3.card.min') }} &rarr; {{ p.trajectory.min_curr }} {{ t('ch3.card.min') }}</span>
           </p>
         </div>
@@ -736,7 +740,7 @@
         <tr>
           <th>{{ t('pi.th.player') }}</th><th>{{ t('pi.th.pos') }}</th><th>{{ t('pi.th.age') }}</th>
           <th>{{ t('pi.th.club') }}</th><th>{{ t('pi.th.league') }}</th><th>{{ t('pi.th.min') }}</th>
-          <th>{{ t('pi.th.q') }}</th><th>{{ t('pi.th.cluster') }}</th><th>{{ t('pi.th.nt') }}</th>
+          <th title="{{ t('metric.prod') }}">{{ t('metric.prod.short') }}</th><th>{{ t('pi.th.cluster') }}</th><th>{{ t('pi.th.nt') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -749,7 +753,7 @@
           <td class="muted">{{ r.league }}</td>
           <td>{{ r.min }}</td>
           <td>{{ f2(r.npg_ast_q) }}</td>
-          <td><span class="cluster-id">{{ r.cluster_style }}</span> {{ r.cluster_label }}</td>
+          <td title="{{ r.cluster_style }}">{{ r.cluster_label }}</td>
           <td>{% if r.nt_flag %}{{ t('pi.nt_yes') }}{% endif %}</td>
         </tr>
         {% endfor %}

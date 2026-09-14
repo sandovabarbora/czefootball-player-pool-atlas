@@ -50,6 +50,12 @@ S = {
         "analog_fold": "{n} nearest analogs and what followed",
         "loadings": "Loadings table", "scenarios": "Scenario table",
         "full_card": "Full card",
+        # roster-tile plain-language metric labels (task 12; matches
+        # metric.prod / metric.prod.short in src/i18n.py — duplicated here
+        # since this script runs standalone, without the report's i18n)
+        "metric_short": "G+A / 90 adj.",
+        "metric_long": "goals + assists per 90, league-adjusted",
+        "no_trend": "—",
     },
     "cs": {
         "nav_aria": "Navigace", "brand": "Český fotbal <span>Atlas</span>",
@@ -59,6 +65,9 @@ S = {
         "analog_fold": "{n} nejbližších analogů a jejich pokračování",
         "loadings": "Tabulka loadings", "scenarios": "Tabulka scénářů",
         "full_card": "Celá karta",
+        "metric_short": "G+A / 90 upr.",
+        "metric_long": "góly + asistence na 90 min, upravené o ligu",
+        "no_trend": "—",
     },
 }[LANG]
 
@@ -203,7 +212,10 @@ TILE_ARTICLE_RE = re.compile(
     r'data-rule="[^"]*" data-pos="(?P<pos>[A-Z]+)" data-club="(?P<club>[^"]*)">)(?P<body>.*?)(?=</article>)',
     re.S)
 _STAT_Q_RE = re.compile(r'<dd>([^<]+)</dd>')
-_TRAJ_RE = re.compile(r'<span class="cycle-traj-delta">([^<]+)</span>\s*<span class="cycle-traj-dir">([^<]+)</span>')
+_TRAJ_RE = re.compile(
+    r'<span class="cycle-traj-arrow"[^>]*>([^<]*)</span>\s*'
+    r'<span class="cycle-traj-dir">([^<]+)</span>\s*'
+    r'<span class="cycle-traj-delta">([^<]+)</span>')
 _NAME_RE = re.compile(r'<h4 class="cycle-card-name">([^<]+)</h4>')
 
 
@@ -216,10 +228,20 @@ def tile_repl(m: re.Match) -> str:
         mug = f'<img class="tile-mug" src="{P}{p["image"]}" alt="" {IMG_ATTRS}>'
     else:
         mug = f'<span class="tile-mono" aria-hidden="true">{initials(name)}</span>'
+    # "0.49 NPG+A/90 Q" -> the number in the figure style + a plain (not
+    # mono) short label, long form in the tooltip (task 12)
     q_m = _STAT_Q_RE.search(body)
-    stat = f'<span class="tile-stat">{q_m.group(1)} npG+A/90 q</span>' if q_m else ""
+    stat = (f'<span class="tile-stat"><span class="tile-stat-figure">{q_m.group(1)}</span>'
+            f'<span class="tile-stat-label" title="{S["metric_long"]}">{S["metric_short"]}</span></span>'
+            if q_m else "")
+    # "Δ -0.198 npG+A/90 declining" -> arrow + word + value, house style "—"
+    # when the card has no trajectory (task 12 / carry-over from task 10)
     traj_m = _TRAJ_RE.search(body)
-    traj = f'<span class="tile-traj">{traj_m.group(1)} {traj_m.group(2)}</span>' if traj_m else ""
+    if traj_m:
+        arrow, direction, delta = traj_m.groups()
+        traj = f'<span class="tile-traj">{arrow} {direction} &middot; {delta} {S["metric_short"]}</span>'
+    else:
+        traj = f'<span class="tile-traj tile-traj-none">{S["no_trend"]}</span>'
     tile = (f'<div class="cycle-tile">{mug}'
             f'<span class="tile-name">{name}</span>'
             f'<span class="tile-meta">'

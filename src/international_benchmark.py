@@ -245,13 +245,11 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
         f"International cohort benchmark  ·  UEFA top-9 leagues {season_label(config.seasons()['metrics'])}",
         fontsize=14, fontfamily="serif", color=INK, x=0.02, ha="left", y=1.04, weight="normal",
     )
-    fig.text(
-        0.02, 0.985,
-        "Cell: player count and median npG+A per 90. Rows ordered by per-capita rank "
-        "(top first); highlighted row = CZE.",
-        ha="left", fontsize=9, color=MUTED, fontfamily="sans-serif",
-    )
-    plt.subplots_adjust(top=0.86, wspace=0.08)
+    # the cell-reading note used to be baked into the figure here; it now
+    # lives in the HTML <figure title="..."> tooltip (ch1.heatmap.note in
+    # src/i18n.py, set on the figure in templates/report.html.j2) so the
+    # image itself stays uncluttered
+    plt.subplots_adjust(top=0.9, wspace=0.08)
     plt.savefig(out_path, bbox_inches="tight", format="svg", facecolor=CREAM, edgecolor="none")
     plt.close(fig)
     LOG.info("wrote %s", out_path)
