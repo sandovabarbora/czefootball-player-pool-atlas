@@ -156,7 +156,6 @@ EN: dict[str, str] = {
     "fed.squad.body": "A named squad by league tier, minutes and age, next to the peers at the same tournament.",
     "fed.models.title": "Models, validated",
     "fed.models.body": "Shrinkage, league multipliers with a sensitivity table, cluster archetypes, analogs — every number recomputed each run; data-quality log and review ledger in the repo.",
-    "fed.note": "Run for England: <code>nation: ENG</code>, a peer set (e.g. FRA · GER · ESP · ITA · NED · POR · BEL), the same league list. Event or tracking features enter as extra columns of the feature vector; outputs are flat parquet that loads into BigQuery unchanged.",
 
     # ---- plain-language metric labels (used everywhere outside chapter IV;
     # chapter IV keeps "npG+A/90 q" and explains it once)

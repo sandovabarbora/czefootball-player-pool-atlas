@@ -133,7 +133,6 @@ strings:
   fed.squad.body: "Jmenovaná nominace podle ligové úrovně, minut a věku, vedle peer zemí na stejném turnaji."
   fed.models.title: "Validované modely"
   fed.models.body: "Shrinkage, ligové násobičky s tabulkou citlivosti, cluster archetypy, analogy — každé číslo přepočítané při každém běhu; log kvality dat a review ledger v repozitáři."
-  fed.note: "Spuštěno pro Anglii: <code>nation: ENG</code>, sada peer zemí (např. FRA · GER · ESP · ITA · NED · POR · BEL), stejný seznam lig. Event nebo tracking featury vstupují jako další sloupce feature vektoru; výstupy jsou ploché parquet soubory, které se beze změny nahrají do BigQuery."
 
   # ---- plain-language metric labels (všude mimo kapitolu IV; ta si nechává
   # "npG+A/90 q" a vysvětlí ho jednou)
