@@ -81,7 +81,7 @@ def parse_country_page(html: str, current_start_year: int) -> pd.DataFrame:
 
 def fetch_country_page() -> str:
     import soccerdata as sd
-    fb = sd.FBref(leagues=["ENG-Premier League"], seasons=[config.seasons()["current"]])
+    fb = sd.FBref(leagues=["ENG-Premier League"], seasons=[config.seasons()["current"]], headless=True)
     return fb.get(COUNTRY_URL, fb.data_dir / "country_cze.html").read().decode("utf-8")
 
 

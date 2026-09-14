@@ -122,7 +122,9 @@ def fetch_player_page(league: str, season: str, stat_type: str = "standard") -> 
     """Cached page for (league, season). On a season mismatch the stale index
     and page are discarded; on a squads-only page (FBref serves one now and
     then) just the page is; either way one refetch, then give up."""
-    fb = sd.FBref(leagues=[league], seasons=[season])
+    # headless: FBref's Cloudflare gate lets the undetected driver through without
+    # a visible window (verified 2026-09-14), and a window per page steals focus
+    fb = sd.FBref(leagues=[league], seasons=[season], headless=True)
     skey = fb.seasons[0]
     page_path: Path = fb.data_dir / f"players_{league}_{skey}_{stat_type}.html"
     index_path: Path = fb.data_dir / f"seasons_{league}.html"
