@@ -241,3 +241,24 @@
   }, { rootMargin: '400px 0px' });
   figs.forEach((f) => io.observe(f));
 })();
+
+/* cycle-card tiles (task 10): the roster of compact tiles expands one card
+ * at a time via its "Full card" button; Esc closes whichever is open. Runs
+ * unconditionally (unlike the atlas setup above, cards exist on every page). */
+(() => {
+  document.querySelectorAll('.cycle-card').forEach((card) => {
+    const btn = card.querySelector('.tile-more');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const open = card.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const open = document.querySelector('.cycle-card.is-open');
+    if (!open) return;
+    open.classList.remove('is-open');
+    open.querySelector('.tile-more')?.setAttribute('aria-expanded', 'false');
+  });
+})();

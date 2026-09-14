@@ -748,13 +748,16 @@ def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
 
 def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: dict,
                     seasons: dict, tr: Translator) -> list[dict]:
-    """Five one-line findings for the summary, each `{"figure", "text", "foot"}`.
+    """Five one-line findings for the summary argument, each
+    `{"figure", "text", "foot", "anchor"}`.
 
-    `figure` is the finding's headline number, rendered as the big tile
-    figure in the findings grid; `text` is the same full sentence as before
-    (still ending in "*"), `foot` the source note. Every number traces to
-    `hero`, `gaps`, `pathways` or `squad_lens` — all already built elsewhere
-    in `build_context`. A finding whose source is missing is skipped rather
+    `figure` is the finding's headline number, rendered as the big left-hand
+    figure of the argument list; `text` is the full sentence (still ending
+    in "*"); `foot` is the source note, rendered as the small link at the
+    end of the row; `anchor` is the in-page id that link jumps to (the
+    exhibit the number comes from). Every number traces to `hero`, `gaps`,
+    `pathways` or `squad_lens` — all already built elsewhere in
+    `build_context`. A finding whose source is missing is skipped rather
     than rendered with a placeholder number.
     """
     findings: list[dict] = []
@@ -771,6 +774,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
                 ratio=f"{top['per_million'] / hero['per_million']:.1f}",
             )),
             "foot": tr.raw("finding.1.foot", season=seasons["metrics"]),
+            "anchor": "#benchmark",
         })
 
     # (2) largest cohort gap
@@ -784,6 +788,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
                 peer=f"{g['peer_median_n']:g}",
             )),
             "foot": tr.raw("finding.2.foot"),
+            "anchor": "#observations",
         })
 
     # (3) recent export age, CZE vs DEN
@@ -797,6 +802,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
                 den=f"{export_den['median_export_age_recent']:g}",
             )),
             "foot": tr.raw("finding.3.foot"),
+            "anchor": "#pathways",
         })
 
     # (4) exhibit C minutes share: CZE vs the peer whose share differs most
@@ -812,6 +818,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
                 extreme=tr.term(extreme["name"]), extreme_value=f"{extreme['value'] * 100:.0f}",
             )),
             "foot": tr.raw("finding.4.foot"),
+            "anchor": "#pathways",
         })
 
     # (5) WC squad top-9 share, CZE vs peers; fallback: exhibit E sideways share
@@ -827,6 +834,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
                 peer=tr.term(top_peer["name"]), peer_pct=f"{top_peer['top9_pct']:.0f}",
             )),
             "foot": tr.raw("finding.5.squad.foot", event=squad_lens["event"]),
+            "anchor": "#pathways",
         })
     else:
         dest = pathways.get("destinations")
@@ -835,6 +843,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
                 "figure": f"{dest['sideways_share'] * 100:.0f} %",
                 "text": tr.num(tr.raw("finding.5.sideways", share=f"{dest['sideways_share'] * 100:.0f}")),
                 "foot": tr.raw("finding.5.sideways.foot"),
+                "anchor": "#pathways",
             })
 
     return findings

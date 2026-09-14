@@ -71,7 +71,16 @@ def test_site_layer_is_applied_to_both_pages(built):
         # one card per position group per showcase rule (currently 5 rules, 3
         # groups); a rule can miss a group, so the count is a range.
         assert 12 <= html.count('class="cycle-card-visual') <= 18
+        # task 10: one compact tile per card, first child, "Full card" toggle
+        n_visuals = html.count('class="cycle-card-visual')
+        assert html.count('class="cycle-tile"') == n_visuals
+        assert html.count('class="tile-more"') == n_visuals
+        assert '<article class="cycle-card"' in html
+        assert html.index('class="cycle-tile"') < html.index('class="cycle-card-visual')
         assert 'class="cast"' in html and 'class="hero-cutout"' in html
+        # cast strip is above the fold: eager, not lazy
+        cast_block = html.split('class="cast"')[1].split("</a>")[0]
+        assert 'loading="eager"' in cast_block and 'loading="lazy"' not in cast_block
         assert 'id="player-search"' in html and 'class="player-index-table"' in html
         assert html.count("<details class=\"cluster\">") >= 12
         assert "data-tex=" in html and "katex" in html

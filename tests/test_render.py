@@ -188,6 +188,27 @@ def test_findings_have_a_figure_field_for_the_tile_headline():
     assert all(f.get("figure") for f in ctx["findings"])
 
 
+def test_hero_shows_its_numbers_once_not_in_tiles_and_a_meta_strip_too():
+    """Task 10: hero.tiles/hero.meta are gone; the argument list carries those
+    numbers instead, and every chapter-opening framing paragraph gets the
+    two-line lede treatment."""
+    ctx = build_context_from_fixtures("en")
+    html = _render(ctx)
+    assert 'class="hero-tiles"' not in html and 'class="hero-meta"' not in html
+    assert 'class="argument"' in html
+    assert html.count('class="framing lede"') == 3
+    assert 'class="cards-more"' not in html
+
+
+def test_findings_have_an_anchor_into_the_exhibit_they_source():
+    ctx = build_context_from_fixtures("en")
+    html = _render(ctx)
+    assert all(f.get("anchor", "").startswith("#") for f in ctx["findings"])
+    # every anchor lands on an id that actually exists in the page
+    ids = set(re.findall(r'id="([^"]+)"', html))
+    assert all(f["anchor"][1:] in ids for f in ctx["findings"])
+
+
 def test_card_rows_merge_the_national_team_core_rules_into_one_row():
     from src.render import _card_rows
 

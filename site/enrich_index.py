@@ -49,6 +49,7 @@ S = {
         "cast": "{n} player profiles", "in_context": "In context",
         "analog_fold": "{n} nearest analogs and what followed",
         "loadings": "Loadings table", "scenarios": "Scenario table",
+        "full_card": "Full card",
     },
     "cs": {
         "nav_aria": "Navigace", "brand": "Český fotbal <span>Atlas</span>",
@@ -57,6 +58,7 @@ S = {
         "cast": "{n} profilů hráčů", "in_context": "Souvislosti",
         "analog_fold": "{n} nejbližších analogů a jejich pokračování",
         "loadings": "Tabulka loadings", "scenarios": "Tabulka scénářů",
+        "full_card": "Celá karta",
     },
 }[LANG]
 
@@ -76,6 +78,8 @@ def photo(key: str) -> dict | None:
 
 IMG_ATTRS = ('loading="lazy" decoding="async" '
              'onerror="this.closest(\'.pchip\')?.classList.add(\'pchip-mono\'); this.remove()"')
+# cast strip portraits sit above the fold (in the masthead), so they load eager
+CAST_IMG_ATTRS = IMG_ATTRS.replace('loading="lazy"', 'loading="eager"')
 
 
 def chip(key: str, name: str, size: str = "") -> str:
@@ -149,7 +153,7 @@ if not (12 <= len(CARDS) <= 18):
 def cast_item(c: dict) -> str:
     p = photo(c["key"])
     if p:
-        return f'<img src="{P}{p["image"]}" alt="{c["name"]}" {IMG_ATTRS}>'
+        return f'<img src="{P}{p["image"]}" alt="{c["name"]}" {CAST_IMG_ATTRS}>'
     return f'<span class="cast-mono" aria-label="{c["name"]}">{initials(c["name"])}</span>'
 
 cast_html = (f'\n    <a class="cast" href="#cards">\n      <span class="cast-stack">{"".join(cast_item(c) for c in CARDS)}</span>\n'
@@ -187,6 +191,48 @@ def card_repl(m):
     return f'{head}{visual}{ws1}<header class="cycle-card-head">{ws2}<h4 class="cycle-card-name">{d["name"]}</h4>'
 
 sub(CARD_RE.pattern, card_repl, len(CARDS))
+
+# ---------------------------------------------------------------- cycle cards: compact tile (task 10)
+# One roster tile per card, inserted as the article's first child; the rest of
+# the card (visual header, stats, cluster, tactical read, trajectory, analogs)
+# is the "card body" and stays hidden (docs/modern.css) until the tile's
+# button opens it. The tile reads its stat and trajectory straight out of the
+# markup already rendered for the card body, rather than recomputing anything.
+TILE_ARTICLE_RE = re.compile(
+    r'(<article class="cycle-card" id="card-[^"]*" data-player-key="(?P<key>[^"]+)" data-fbref-id="[^"]*" '
+    r'data-rule="[^"]*" data-pos="(?P<pos>[A-Z]+)" data-club="(?P<club>[^"]*)">)(?P<body>.*?)(?=</article>)',
+    re.S)
+_STAT_Q_RE = re.compile(r'<dd>([^<]+)</dd>')
+_TRAJ_RE = re.compile(r'<span class="cycle-traj-delta">([^<]+)</span>\s*<span class="cycle-traj-dir">([^<]+)</span>')
+_NAME_RE = re.compile(r'<h4 class="cycle-card-name">([^<]+)</h4>')
+
+
+def tile_repl(m: re.Match) -> str:
+    open_tag, body, d = m.group(1), m.group("body"), m.groupdict()
+    name_m = _NAME_RE.search(body)
+    name = name_m.group(1) if name_m else ""
+    p = photo(d["key"])
+    if p:
+        mug = f'<img class="tile-mug" src="{P}{p["image"]}" alt="" {IMG_ATTRS}>'
+    else:
+        mug = f'<span class="tile-mono" aria-hidden="true">{initials(name)}</span>'
+    q_m = _STAT_Q_RE.search(body)
+    stat = f'<span class="tile-stat">{q_m.group(1)} npG+A/90 q</span>' if q_m else ""
+    traj_m = _TRAJ_RE.search(body)
+    traj = f'<span class="tile-traj">{traj_m.group(1)} {traj_m.group(2)}</span>' if traj_m else ""
+    tile = (f'<div class="cycle-tile">{mug}'
+            f'<span class="tile-name">{name}</span>'
+            f'<span class="tile-meta">'
+            f'<span class="tile-club">{d["club"]}</span>'
+            f'<span class="tile-pos">{d["pos"]}</span>'
+            f'</span>'
+            f'<span class="tile-numbers">{stat}{traj}</span>'
+            f'<button type="button" class="tile-more" aria-expanded="false">{S["full_card"]}</button>'
+            f'</div>')
+    return open_tag + tile + body
+
+
+sub(TILE_ARTICLE_RE.pattern, tile_repl, len(CARDS), re.S)
 
 # ---------------------------------------------------------------- analog targets: portrait
 def analog_repl(m):
@@ -265,12 +311,19 @@ JS = """<script>
       toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
     }
-    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM)
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM);
+    // chapter ledes (p.framing.lede) always clamp to two lines regardless of
+    // length, so every chapter opens with a fast-scan preview
     const cs = document.documentElement.lang === 'cs';
     const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
-    document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote), .container > .muted.small').forEach((p) => {
+    const clampCandidates = [
+      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote), .container > .muted.small'),
+      ...document.querySelectorAll('.container > p.framing.lede'),
+    ];
+    clampCandidates.forEach((p) => {
+      const lede = p.classList.contains('lede');
       const narrow = matchMedia('(max-width: 719px)').matches;
-      if (p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      if (!lede && p.textContent.trim().length < (narrow ? 360 : 480)) return;
       p.classList.add('clamp');
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');

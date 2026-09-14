@@ -28,9 +28,9 @@ em { font-style: italic; }
 /* machine-made labels: mono micro caps, tracked — the only caps on the page */
 .masthead-kicker, .hero-kicker, .role-kicker, .cluster-tactical-label,
 .cycle-section-label, .analog-label, .roadmap-label, .llm-brief-heading,
-.toc-sticky .toc-heading, .cluster-meta-inline, .hero-meta dt, .masthead-meta dt,
+.toc-sticky .toc-heading, .cluster-meta-inline, .masthead-meta dt,
 .cycle-stats dt, .video-poc-metrics dt, .analog-cohort, .cycle-cluster-tag, th,
-.analog-traj-label, .cycle-traj-dir, .toc-mobile summary {
+.analog-traj-label, .cycle-traj-dir, .toc-mobile summary, .tile-club, .tile-pos, .tile-stat {
   font-family: var(--font-mono);
   font-size: var(--t-micro);
   font-weight: 500;
@@ -38,7 +38,7 @@ em { font-style: italic; }
   text-transform: uppercase;
   color: var(--muted);
 }
-.hero-kicker, .hero-meta dt { color: var(--cream-on-navy-muted); }
+.hero-kicker { color: var(--cream-on-navy-muted); }
 .cluster-tactical-label, .cycle-section-label, .llm-brief-heading, .analog-label, .roadmap-label { color: var(--navy-700); }
 .masthead-kicker::before, .hero-kicker::before { display: none; }
 .masthead-kicker, .hero-kicker { padding-left: 0; }
@@ -227,7 +227,7 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .cycle-grid { gap: var(--space-4); }
 .cycle-card { position: relative; padding: 0; overflow: hidden; transition: transform 0.2s; }
 .cycle-card:hover { transform: translateY(-2px); }
-.cycle-card > :not(.cycle-card-visual) { margin-left: var(--space-4); margin-right: var(--space-4); }
+.cycle-card > :not(.cycle-card-visual):not(.cycle-tile) { margin-left: var(--space-4); margin-right: var(--space-4); }
 .cycle-card > .cycle-section:last-child { margin-bottom: var(--space-4); }
 .cycle-card-visual {
   position: relative; height: 190px; isolation: isolate;
@@ -296,7 +296,6 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 /* hero layout: text keeps the left 60 %, the cut-out owns the right */
 @media (min-width: 1100px) {
   .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); padding-right: 300px; }
-  .hero-meta { margin-right: 300px; }
   .hero-lead p { font-size: 1.2rem; }
   .hero-cutout { height: min(64%, 380px); right: calc((100vw - var(--container)) / 2 - 1rem); }
 }
@@ -416,13 +415,6 @@ details.fold-lim > p { margin: 0 0 var(--space-3) 1.7rem; max-width: 62ch; }
 /* =========================================================================
    UX pass 2026-09-12 (b): numbers over prose, folds, mobile
    ========================================================================= */
-/* hero tiles */
-.hero-tiles { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--navy-divider); border: 1px solid var(--navy-divider); }
-.hero-tiles li { background: oklch(0.155 0.05 252); padding: 0.8rem 0.9rem; display: flex; flex-direction: column; gap: 0.2rem; }
-.hero-tiles strong { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 1.2rem + 1.4vw, 2.4rem); line-height: 1; letter-spacing: -0.04em; color: var(--cream-on-navy); }
-.hero-tiles strong span { font-size: 0.55em; color: var(--cream-on-navy-muted); letter-spacing: 0; margin-left: 0.1em; }
-.hero-tile-label { font-family: var(--font-sans); font-size: 0.78rem; line-height: 1.3; color: var(--cream-on-navy-soft); }
-.hero-tile-label em { display: block; font-style: normal; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.08em; color: var(--cream-on-navy-muted); margin-top: 0.15rem; }
 .fold-hero { border-top-color: var(--navy-divider); }
 .fold-hero > summary { color: var(--cream-on-navy-muted); }
 .fold-hero > summary:hover { color: var(--cream-on-navy); }
@@ -479,16 +471,11 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .masthead-meta strong { font-size: 1.15rem; }
   .masthead-meta dt { font-size: 0.6rem; letter-spacing: 0.1em; }
   .hero { padding-top: var(--space-6); }
-  .hero-meta { grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-top: var(--space-5); }
-  .hero-meta dd { font-size: 1rem; }
   .hero-cutout { display: none; }
   .hero-stamp { display: none; }
   .capita-value { white-space: nowrap; }  /* "13,2 %" must not wrap in the exhibit rows */
   .capita-country { min-width: 0; overflow-wrap: anywhere; }  /* raw league keys shrink instead of pushing the value */
-  .hero-tiles { grid-template-columns: 1fr; }
-  .hero-tiles li { flex-direction: row; align-items: baseline; gap: var(--space-3); }
-  .hero-tiles strong { min-width: 3.2rem; }
-  .hero-tile-label em { display: inline; margin-left: 0.4rem; }
+  .argument li { grid-template-columns: 1fr; row-gap: 0.2rem; }
   .cast { width: 100%; flex-wrap: wrap; }
   .cast-stack > :nth-child(n+7) { display: none; }  /* twelve portraits do not fit a phone row */
   .cast-caption { font-size: 0; }
@@ -505,11 +492,8 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .report-header h1 { font-size: 2.8rem; }
 }
 
-/* mobile: card carousel, scrolling tables, tighter clamp */
+/* mobile: scrolling tables, tighter clamp (cards are compact tiles now, no carousel needed) */
 @media (max-width: 719px) {
-  .cycle-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--space-3); padding: 0 0 var(--space-3); margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; scrollbar-width: thin; }
-  .cycle-card { flex: 0 0 86vw; scroll-snap-align: start; }
-  .cycle-grid::after { content: ""; flex: 0 0 0.5rem; }
   .movers-table { display: block; overflow-x: auto; }
   .movers-table .pchip-name { white-space: normal; }
   p.clamp { -webkit-line-clamp: 3; }
@@ -530,12 +514,6 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .analog-list { grid-template-columns: minmax(0, 1fr); }
   .analog-row-trajectory { display: flex; flex-wrap: wrap; gap: 0.15rem 0.8rem; }
 }
-.hero-tiles { margin-top: var(--space-5); }
-@media (min-width: 1100px) { .hero-tiles { margin-right: 300px; } .hero-tiles li { flex-direction: row; align-items: baseline; gap: var(--space-3); padding: 1rem 1.1rem; } .hero-tiles strong { min-width: 3rem; } }
-.hero-tiles { background: transparent; gap: 0; }
-.hero-tiles li + li { border-left: 1px solid var(--navy-divider); }
-@media (max-width: 719px) { .hero-tiles li + li { border-left: 0; border-top: 1px solid var(--navy-divider); } }
-
 /* =========================================================================
    Football atlas 2026-09: card kickers, position glyph, monogram cards,
    cast strip with monograms, exhibit E examples, player index
@@ -617,3 +595,75 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .player-index-fold > table { display: block; overflow-x: auto; }
   .player-index-table td:nth-child(8) { white-space: nowrap; }
 }
+
+/* =========================================================================
+   Task 10 de-clutter: cards as a roster of compact tiles, expanded on
+   demand; chapter ledes clamped to a fast-scan two lines.
+   ========================================================================= */
+/* the roster: 3-up desktop, 2-up tablet, 1-up phone; an open card takes the
+   full row so the expanded body has room */
+.cycle-grid { grid-template-columns: 1fr; }
+@media (min-width: 620px) { .cycle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .cycle-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cycle-card.is-open { grid-column: 1 / -1; }
+
+/* collapsed by default: only the tile shows until its button opens the card;
+   each child's open display matches its own layout (grid/flex/block) rather
+   than a blanket "block", so the stats grid and cluster rows keep working */
+.cycle-card > :not(.cycle-tile) { display: none; }
+.cycle-card.is-open > .cycle-card-visual,
+.cycle-card.is-open > .cycle-card-head,
+.cycle-card.is-open > p { display: block; }
+.cycle-card.is-open > .cycle-stats,
+.cycle-card.is-open > .cycle-cluster { display: grid; }
+.cycle-card.is-open > .cycle-section { display: flex; }
+.cycle-card.is-open > details.cycle-section { display: block; }
+
+/* every child gets an explicit cell — grid auto-placement would otherwise
+   pack a text row into the button's column instead of under the name. The
+   button sits on its own full-width row rather than a third column, so the
+   name/club/numbers column keeps the full card width to work with (a real
+   club name like "Wolverhampton Wanderers" needs it). */
+.cycle-tile {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto;
+  column-gap: var(--space-3);
+  row-gap: 0.25rem;
+  padding: var(--space-3);
+}
+.tile-mug, .tile-mono {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  width: 56px; height: 56px; border-radius: 50%; flex: none;
+  object-fit: cover; object-position: 50% 12%; background: var(--navy-100);
+}
+.tile-mono { display: grid; place-items: center; font-family: var(--font-mono); font-size: 1rem; font-weight: 500; color: var(--navy-700); }
+.tile-name { grid-column: 2; grid-row: 1; align-self: center; display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.015em; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* meta (club + position) stays one line: the club chip shrinks and truncates
+   rather than wrapping its own text, so it never grows the row's height */
+.tile-meta { grid-column: 2; grid-row: 2; display: flex; flex-wrap: nowrap; align-items: baseline; gap: 0.4rem; min-width: 0; }
+.tile-numbers { grid-column: 2; grid-row: 3; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; min-width: 0; }
+.tile-club {
+  flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  background: var(--cream-100); border: 1px solid var(--rule); padding: 0.1rem 0.4rem;
+}
+.tile-pos { flex: none; }
+.tile-stat { color: var(--navy-700); }
+.tile-traj { font-family: var(--font-sans); font-size: 0.8rem; color: var(--ink-soft); text-transform: none; letter-spacing: 0; }
+.tile-more {
+  grid-column: 2; grid-row: 4; justify-self: start; margin-top: 0.15rem;
+  border: 1px solid var(--ink); background: none; padding: 0.35rem 0.7rem;
+  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink); cursor: pointer; white-space: nowrap;
+}
+.tile-more:hover { background: var(--ink); color: var(--cream-50); }
+.cycle-card.is-open .tile-more { background: var(--ink); color: var(--cream-50); }
+@media (max-width: 480px) {
+  .cycle-tile { grid-template-columns: 44px minmax(0, 1fr); }
+  .tile-mug, .tile-mono { width: 44px; height: 44px; }
+}
+
+/* chapter ledes: two-line preview with the existing More/Less clamp control */
+.framing.lede { margin-bottom: 0; }
+.framing.lede.clamp { -webkit-line-clamp: 2; }
