@@ -12,6 +12,9 @@ events:
 
 # Exhibit F (squad_lens): peer squads on the same nt_core_event Wikipedia page,
 # compared against the Czech squad above.
-peer_squads:
+peer_squads:   # same page, other sections; the lens compares these squads with the Czech one
+  # Denmark, Poland, Hungary and Slovakia have no 2026 squad section (not at the tournament).
   - {country: CRO, section: "Croatia"}
-  - {country: DEN, section: "Denmark"}
+  - {country: NOR, section: "Norway"}
+  - {country: AUT, section: "Austria"}
+  - {country: SUI, section: "Switzerland"}
