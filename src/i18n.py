@@ -219,7 +219,7 @@ EN: dict[str, str] = {
     "ch3.synopsis": "{n} player cards chosen by rules, not picks — per position group the highest quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the top-{topn} leagues, and the most domestic minutes among players under 23 without a top-{topn} season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.",
     "ch3.cards.h2": "Player cards",
     "ch3.cards.framing": "One integrated card per showcase player, one row per selection rule: {metrics} production, cluster placement in both projections, the cluster's tactical read, the {previous} → {metrics} trajectory and the {n} nearest analogs. The club on the name line is the {current} club; the stats block is {metrics}. Description, not prediction.",
-    "ch3.cards.rules": "Why these cards: one card per position group per rule, applied in this order — (a) highest quality-adjusted npG+A per 90, (b) youngest national-team call-up, (c) most top-9 minutes among the {event} squad, (d) most top-9 minutes, (e) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure.",
+    "ch3.cards.rules": "Why these cards: one card per position group per rule, applied in this order — (a) highest quality-adjusted npG+A per 90, (b) youngest national-team call-up, (c) most top-9 minutes among the {event} squad, (d) most domestic-league minutes among the {event} squad, (e) most top-9 minutes, (f) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure.",
     "ch3.card.nt": "NT {nt_years}",
     "ch3.card.latest_known": "latest known",
     "ch3.card.stat.q": "npG+A/90 quality",
@@ -360,6 +360,7 @@ EN: dict[str, str] = {
     "kicker.top9": "Most top-9 minutes",
     "kicker.domestic": "Most domestic minutes under 23, no top-9 season yet",
     "kicker.ntcore": "National-team core — most top-9 minutes in the {event} squad",
+    "kicker.ntcore_home": "National-team core at home — most domestic-league minutes in the {event} squad",
     "kicker.other": "Other rules",
 
     # ---- generated: limitations
@@ -408,6 +409,7 @@ TERMS_EN: tuple[str, ...] = (
     "most top-9 league minutes among {pos}",
     "most domestic-league minutes among under-23 {pos} without a top-9 season",
     "most top-9 minutes among 2026 FIFA World Cup squad {pos}",
+    "most domestic minutes among 2026 FIFA World Cup squad {pos}",
     "destination league multiplier <= the domestic league's multiplier",
     "goals-scored percentile within league",
     "entries", "players", "rows", "names", "leagues", "portraits",

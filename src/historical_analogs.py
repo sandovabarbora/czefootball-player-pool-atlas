@@ -137,6 +137,8 @@ def showcase_ids(
             most minutes in the domestic league, and no season in any
             headline league anywhere in the fetched history (across all
             position groups); already chosen players are skipped.
+        (f) most domestic-league minutes among the `nt_core_event` squad
+            (the squad's home-league core); already chosen players are skipped.
     Rules, not picks: the reason string is descriptive.
     """
     headline = list(config.HEADLINE_LEAGUES if headline_leagues is None else headline_leagues)
@@ -184,6 +186,16 @@ def showcase_ids(
                 row = core[core.player_key == key].iloc[0]
                 _add(row, group, f"most top-9 minutes among {nt_core_event} squad {group}")
                 break
+            # (f) the squad's domestic core: most domestic-league minutes among the
+            # same squad — the national team is also built from the home league
+            home_core = cz[cz.nt_events.fillna("").str.contains(nt_core_event, regex=False) & (cz.league == domestic)]
+            home_core_min = home_core.groupby("player_key")["min"].sum().sort_values(ascending=False)
+            for key in home_core_min.index:
+                if key in seen:
+                    continue
+                row = home_core[home_core.player_key == key].iloc[0]
+                _add(row, group, f"most domestic minutes among {nt_core_event} squad {group}")
+                break
 
         if "league" in cz.columns:
             abroad = cz[cz.league.isin(headline)]
@@ -207,7 +219,7 @@ def showcase_ids(
                 _add(row, group,
                      f"most domestic-league minutes among under-23 {group} without a top-9 season")
                 break
-    return showcase[:15]
+    return showcase[:18]
 
 
 def main() -> None:

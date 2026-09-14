@@ -142,7 +142,7 @@ CARDS = [m.groupdict() for m in CARD_RE.finditer(html)]
 # One card per position group per showcase rule (currently 5 rules, 3 groups);
 # a rule can miss a group (e.g. no player meets it), so the count is a range,
 # not a fixed number.
-if not (12 <= len(CARDS) <= 15):
+if not (12 <= len(CARDS) <= 18):
     fails.append(("cycle cards found", len(CARDS), "12-15"))
 
 # ---------------------------------------------------------------- masthead cast strip

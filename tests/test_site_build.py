@@ -70,7 +70,7 @@ def test_site_layer_is_applied_to_both_pages(built):
         assert 'hreflang="cs" href="https://football.datasimply.eu/cs/"' in html
         # one card per position group per showcase rule (currently 5 rules, 3
         # groups); a rule can miss a group, so the count is a range.
-        assert 12 <= html.count('class="cycle-card-visual') <= 15
+        assert 12 <= html.count('class="cycle-card-visual') <= 18
         assert 'class="cast"' in html and 'class="hero-cutout"' in html
         assert 'id="player-search"' in html and 'class="player-index-table"' in html
         assert html.count("<details class=\"cluster\">") >= 12

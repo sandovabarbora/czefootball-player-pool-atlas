@@ -71,6 +71,7 @@ RULE_KICKERS = [
     ("highest quality-adjusted", "Highest quality-adjusted production"),
     ("youngest national-team", "Youngest national-team call-up"),
     ("most top-9 minutes among", "National-team core"),   # row order = the order the rules are applied
+    ("most domestic minutes among", "National-team core at home"),
     ("most top-9 league minutes", "Most top-9 minutes"),
     ("most domestic-league minutes", "Most domestic minutes under 23, no top-9 season yet"),
 ]
@@ -80,6 +81,7 @@ RULE_KICKER_KEYS = {
     "most top-9 league minutes": "kicker.top9",
     "most domestic-league minutes": "kicker.domestic",
     "most top-9 minutes among": "kicker.ntcore",
+    "most domestic minutes among": "kicker.ntcore_home",
 }
 DESTINATION_LABELS = {
     "domestic": "domestic", "top9": "top-9", "stepping_stone": "stepping stone",
