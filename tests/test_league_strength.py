@@ -281,3 +281,15 @@ def test_uefa_ratio_direction_stronger_league_means_lower_raw_rate():
     r = uefa_ratio(moves, {"ENG-Premier League": 1.0, "CZE-First League": 0.434})
     assert r.iloc[0] < 1 and abs(r.iloc[0] - 0.434) < 1e-9     # up to the PL: fewer goals expected
     assert r.iloc[1] > 1                                       # down to the Czech league: more
+
+
+def test_oos_candidates_use_the_shrunk_previous_rate_when_available():
+    from src.league_strength import build_oos_candidates
+    movers = pd.DataFrame({
+        "player_key": ["p", "p"], "season": ["2024-2025", "2025-2026"], "league": ["A", "B"],
+        "pos_group": ["FW", "FW"], "npg": [0, 3], "ast": [0, 1], "min": [900, 1800],
+        "npg_p90_shrunk": [0.12, 0.2], "ast_p90_shrunk": [0.05, 0.1],
+        "y": [0, 4], "exposure": [10.0, 20.0], "age_c": [0.0, 0.2],
+    })
+    out = build_oos_candidates(movers, "2025-2026")
+    assert len(out) == 1 and abs(out.iloc[0]["prev_rate"] - 0.17) < 1e-9   # not the raw 0.0

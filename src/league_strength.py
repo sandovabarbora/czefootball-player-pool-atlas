@@ -136,7 +136,8 @@ def build_movers(features_by_group: dict[str, pd.DataFrame]) -> pd.DataFrame:
             sub["pos_group"] = g
         frames.append(sub)
     corpus = pd.concat(frames, ignore_index=True)
-    corpus = collapse_player_seasons(corpus, rate_cols=[])
+    shrunk = [c for c in ("npg_p90_shrunk", "ast_p90_shrunk") if c in corpus.columns]
+    corpus = collapse_player_seasons(corpus, rate_cols=shrunk)
 
     leagues_per_player = corpus.groupby("player_key")["league"].nunique()
     mover_keys = set(leagues_per_player[leagues_per_player >= 2].index)
@@ -414,7 +415,15 @@ def build_oos_candidates(movers: pd.DataFrame, metrics_season: str) -> pd.DataFr
         prev, cur = g.loc[i - 1], g.loc[i]
         if prev["league"] == cur["league"]:
             continue  # not a league change landing in the metrics season
-        prev_rate = (prev["npg"] + prev["ast"]) / (prev["min"] / 90.0)
+        # the baselines start from the pipeline's own shrunk rate (empirical
+        # Bayes toward the league median, K minutes) when it is available: a raw
+        # zero-goal season would otherwise predict a rate of zero and the
+        # Poisson log score would punish the baselines for that, not for the
+        # league adjustment under test
+        if "npg_p90_shrunk" in g.columns and pd.notna(prev.get("npg_p90_shrunk")):
+            prev_rate = float(prev["npg_p90_shrunk"]) + float(prev.get("ast_p90_shrunk", 0.0) or 0.0)
+        else:
+            prev_rate = (prev["npg"] + prev["ast"]) / (prev["min"] / 90.0)
         rows.append({
             "player_key": key, "pos_group": cur["pos_group"],
             "prev_league": prev["league"], "prev_rate": float(prev_rate),
