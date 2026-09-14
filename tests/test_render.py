@@ -31,7 +31,7 @@ from src.render import (
 SECTION_IDS = (
     "summary", "findings", "benchmark", "observations", "clusters", "trajectories", "pathways",
     "cards", "analogs", "methodology", "multipliers", "shrinkage", "pca-loadings",
-    "sensitivity", "limitations", "how-built", "reproducibility", "photo-credits",
+    "sensitivity", "data-quality", "limitations", "how-built", "reproducibility", "photo-credits",
 )
 
 

@@ -91,7 +91,7 @@ strings:
   finding.5.sideways: "{share} % českých exportů v zahraničí přešlo do ligy, která není silnější než domácí — boční přesun.*"
   finding.5.sideways.foot: "Zdroj: Exhibit E — kam české exporty míří."
   method.note.title: "Poznámka k metodě — co je přenositelné"
-  method.note.body: "Nic zde není specifické pro český fotbal: pipeline bere kód národnosti, sadu peer zemí a seznam lig. Spuštěná pro Anglii by vyprodukovala stejné exhibity pro anglické hráče v zahraničí i doma. Její data jsou tabulky FBref v bezplatné úrovni; stejná cesta kódu přijme bohatší event nebo tracking featury jako další sloupce feature vektoru."
+  method.note.body: "Nic v metodě není specifické pro český fotbal: vstupem je kód národnosti (dnes konstanta v několika modulech, zatím ne klíč v configu), sada peer zemí a seznam lig. Spuštěná pro Anglii by vyprodukovala stejné exhibity pro anglické hráče v zahraničí i doma. Její data jsou tabulky FBref v bezplatné úrovni; stejná cesta kódu přijme bohatší event nebo tracking featury jako další sloupce feature vektoru."
 
   # ---- chapter I
   ch1.framing: "Mapa {n} profesionálů s českou příslušností a kompletní sezónou {season} v lize, kterou pokrývá FBref, rozdělená podle postů a statistického profilu a srovnaná s {peers} peer zeměmi. Metodologický nástroj pro mapování fondu napříč reprezentačním cyklem, ne nominační doporučení."

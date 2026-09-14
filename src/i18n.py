@@ -113,7 +113,7 @@ EN: dict[str, str] = {
     "finding.5.sideways": "{share} % of Czech exports abroad made a sideways move, to a league no stronger than the domestic one.*",
     "finding.5.sideways.foot": "Source: Exhibit E — where Czech exports go.",
     "method.note.title": "Method note — what transfers",
-    "method.note.body": "Nothing here is specific to Czech football: the pipeline takes a nationality code, a peer set and a league list. Run for England it would produce the same exhibits for English players abroad and at home. Its data are free-tier FBref tables; the same code path accepts richer event or tracking features as extra columns of the feature vector.",
+    "method.note.body": "Nothing in the method is specific to Czech football: the inputs are a nationality code (today a constant in a handful of modules, not yet a config key), a peer set and a league list. Run for England it would produce the same exhibits for English players abroad and at home. Its data are free-tier FBref tables; the same code path accepts richer event or tracking features as extra columns of the feature vector.",
 
     # ---- chapter I
     "ch1.framing": "A map of the {n} Czech-eligible professionals with a complete {season} season in a league FBref covers, segmented by position group and statistical profile, and benchmarked against {peers} peer countries. A methodological tool for mapping the pool across a national-team cycle, not a selection recommendation.",
