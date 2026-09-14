@@ -1,4 +1,4 @@
-.PHONY: help install fetch pool photos features reduce benchmark analogs sensitivity pathways render all clean test lint check snapshot restore-snapshot pages
+.PHONY: help install fetch pool photos features reduce benchmark analogs sensitivity pathways data-quality render all clean test lint check snapshot restore-snapshot pages
 
 PYTHON ?= python
 VENV   ?= .venv
@@ -16,8 +16,9 @@ help:
 	@echo "  analogs          Showcase players and historical analogs"
 	@echo "  sensitivity      League-multiplier sensitivity table"
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
+	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
-	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> analogs -> sensitivity -> pathways -> render"
+	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> analogs -> sensitivity -> pathways -> data-quality -> render"
 	@echo "  pages            render, then build docs/ with site/build.sh"
 	@echo "  test             Run pytest"
 	@echo "  lint             Run ruff check"
@@ -66,10 +67,13 @@ sensitivity:
 pathways:
 	$(ACT) python -m src.pathways
 
-render:
+data-quality:
+	$(ACT) python -m src.data_quality
+
+render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark analogs sensitivity pathways render
+all: fetch pool photos features reduce benchmark analogs sensitivity pathways data-quality render
 
 test:
 	$(ACT) pytest

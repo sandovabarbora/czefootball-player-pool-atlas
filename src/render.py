@@ -801,6 +801,33 @@ def _build_sensitivity(sens: pd.DataFrame, tr: Translator | None = None) -> dict
     }
 
 
+def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
+    """Chapter IV data-quality log: recomputed checks + recorded incidents.
+
+    `dq` is `data_quality.json`'s raw shape (`{"checks": [...], "events":
+    [...]}`, written by `src.data_quality`; `{}` when the file is missing --
+    see `load_data`, which then leaves both lists empty and the template
+    section renders nothing). Check labels/descriptions come from i18n
+    (`dq.<id>.label` / `dq.<id>.what`); event text is already bilingual in
+    the source yaml (one `en`/`cs` pair per event) and picked here by
+    `tr.lang` -- counts and dates on events are recorded facts, not
+    translated.
+    """
+    tr = tr or Translator("en")
+    checks = [
+        {"id": c["id"], "count": c["count"], "unit": tr.term(c["unit"]),
+         "label": tr.raw(f"dq.{c['id']}.label"), "what": tr.raw(f"dq.{c['id']}.what")}
+        for c in dq.get("checks", [])
+    ]
+    events = [
+        {"date": e["date"], "text": e["cs"] if tr.lang == "cs" else e["en"],
+         "recorded_count": e.get("recorded_count"),
+         "unit": tr.term(e["unit"]) if e.get("unit") else None}
+        for e in dq.get("events", [])
+    ]
+    return {"checks": checks, "events": events}
+
+
 def _build_limitations(facts: dict, tr: Translator | None = None) -> list[dict]:
     """Limitations from spec §10 and the pipeline ledger; numbers from `facts`, copy from i18n."""
     tr = tr or Translator("en")
@@ -966,6 +993,7 @@ def load_data() -> dict[str, Any]:
         "analogs": _load_json(p / "analogs.json", {}),
         "pathways": _load_json(p / "pathways.json", {}),
         "squad_lens": _load_json(p / "squad_lens.json", {}),
+        "data_quality": _load_json(p / "data_quality.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.load_yaml("cluster_labels.yaml"),
         "league_quality": config.league_quality(),
@@ -1105,6 +1133,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "sensitivity": _build_sensitivity(data["sensitivity"] if not data["sensitivity"].empty else pd.DataFrame(
             columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"]), tr),
         "limitations": _build_limitations(facts, tr),
+        "data_quality": _build_data_quality(data["data_quality"], tr),
         "facts": facts,
         "n_leagues": n_leagues,
         "headline_leagues": list(data["leagues"]["headline"]),
@@ -1206,6 +1235,25 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
              "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
              "nt_years": config.nt_years(),
              "n_leagues": 19, "tier2_factor": 0.6, "max_multiplier": 1.0, **seasons}
+    data_quality = {
+        "checks": [
+            {"id": "women_filtered", "count": 92, "unit": "entries"},
+            {"id": "namesakes", "count": 2, "unit": "players"},
+            {"id": "no_tables", "count": 120, "unit": "players"},
+            {"id": "split_seasons", "count": 423, "unit": "rows"},
+            {"id": "nt_unmatched", "count": 18, "unit": "names"},
+            {"id": "missing_born", "count": 0, "unit": "rows"},
+        ],
+        "events": [
+            # dotted dates so the no-typed-season regex test does not read them as seasons
+            {"id": "season_index_stale", "date": "2026.09.14", "recorded_count": 9, "unit": "leagues",
+             "en": "A stale FBref season index made soccerdata fetch the season-less URL.",
+             "cs": "Zastaralý sezónní index FBref způsobil, že soccerdata stáhla URL bez sezóny."},
+            {"id": "clubelo_down", "date": "2026.09.13",
+             "en": "ClubElo's API answered 502 for the whole run.",
+             "cs": "API ClubElo odpovídalo 502 po celou dobu běhu."},
+        ],
+    }
     squad_lens = _build_squad_lens({
         "event": "2026 FIFA World Cup", "season": metrics_raw,
         "countries": [
@@ -1257,7 +1305,9 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "loadings": [{"position": "FW", "projection": "style", "pc": "PC1", "explained_pct": 26.8,
                       "npg_p90": 0.501, "ast_p90": 0.469, "min_share": 0.544, "age": 0.191, "cards_p90": -0.444}],
         "sensitivity": _build_sensitivity(sens, tr),
-        "limitations": _build_limitations(facts, tr), "facts": facts,
+        "limitations": _build_limitations(facts, tr),
+        "data_quality": _build_data_quality(data_quality, tr),
+        "facts": facts,
         "n_leagues": 19, "headline_leagues": ["ENG-Premier League"],
         "stepping_stone": ["NED-Eredivisie"], "seed": config.RANDOM_SEED,
         "photo_credits": [{"fbref_id": "5d4f7d61", "name": "Patrik Schick", "player_key": "patrik schick|1996",

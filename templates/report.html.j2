@@ -62,6 +62,7 @@
         <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
         <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
         <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
+        <li><a href="#data-quality">{{ t('toc.data_quality') }}</a></li>
         <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
         <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
       </ol>
@@ -804,6 +805,14 @@
       </tbody>
     </table>
     <p class="capita-note">{{ t('ch4.sens.note') }}</p>
+
+    {% if data_quality.checks or data_quality.events %}
+    <h3 id="data-quality">{{ t('ch4.dq.h3') }}</h3>
+    <p>{{ t('ch4.dq.p') }}</p>
+    <table class="dq-table"><thead><tr><th>{{ t('ch4.dq.col.check') }}</th><th>{{ t('ch4.dq.col.count') }}</th><th>{{ t('ch4.dq.col.what') }}</th></tr></thead>
+    <tbody>{% for r in data_quality.checks %}<tr><td>{{ r.label }}</td><td class="num">{{ r.count if r.count is not none else '—' }} {{ r.unit }}</td><td>{{ r.what }}</td></tr>{% endfor %}</tbody></table>
+    <ul class="dq-events">{% for e in data_quality.events %}<li><span class="mono">{{ e.date }}</span> {{ e.text }}{% if e.recorded_count %} <span class="mono">({{ t('ch4.dq.recorded', n=e.recorded_count, unit=e.unit) }})</span>{% endif %}</li>{% endfor %}</ul>
+    {% endif %}
 
     <h3 id="limitations">{{ t('ch4.lim.h3') }}</h3>
     <div class="limitations">
