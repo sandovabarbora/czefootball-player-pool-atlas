@@ -155,6 +155,41 @@ Each item gets a visible, honest counterpart in the report:
 - **AI coding agents:** the "How this was built" section already documents the
   agentic workflow; add the model/tool split and the review gates as a diagram.
 
+## 4c. The Senior Insights brief (the second vacancy) — what it adds
+
+That brief stresses: translating football problems into well-defined analytical
+questions; analytical products that shape selection/development/performance
+decisions; wrangling, EDA and feature engineering on uncleaned data; visualisation
+and web apps; stakeholder communication; GCP/BigQuery; time series & forecasting;
+Bayesian inference/MCMC. On top of §4b:
+
+- **Football question → analytical question, every time.** Each mechanism M1–M5
+  and the GK chapter opens with two lines: the question as a technical director
+  would ask it ("Do we sell our best 21-year-olds too late?") and the analytical
+  formulation the report answers ("production in the first two top-9 seasons as a
+  function of export age, given origin league and age, with a country effect").
+  The findings list at the top carries the football-question phrasing.
+- **Analytical products, named.** The squad lens (exhibit F) is presented as the
+  selection-side product ("the squad by where its players play, next to the peers
+  at the tournament"), the pathway exhibits as the development-side product, the
+  cards and player index as the player-read product — each with a one-line "who
+  would use it for what" that stays descriptive (no recommendation).
+- **Wrangling, EDA and feature engineering shown, not claimed.** A chapter IV
+  section "From raw tables to a feature vector": the raw FBref row, the cleaning
+  steps (identity key, women's entries, split seasons, season guard — pointing at
+  the data-quality log), the per-90 features and why exactly five, what was tried
+  and rejected (e.g. cards/90 kept, minutes share vs. starts), and the EDA plots
+  that decided it (distributions per league, shrinkage effect on low-minute
+  players). Two figures, one table.
+- **Time series with a backtested forecast.** M4's local-level model gets a
+  rolling-origin backtest on the country-level Big-5 series (one-step-ahead, 2010
+  → 2025) with coverage of its intervals; one forecast of the next season for the
+  Czech and peer series shown *as a methods demonstration* with the interval and
+  the sentence "a count of players, not a statement about any player". Ruling:
+  this is the one forecast the stance allows — aggregate, backtested, labelled.
+- **Bayesian/MCMC visible:** M1/M2 posterior plots, priors stated, convergence
+  table, posterior predictive checks — in the validation section, not hidden.
+
 ## 5. Report structure after v1.2
 
 Hero → six findings → **I. Why the train leaves** (M1–M5) → **II. Where it works:
