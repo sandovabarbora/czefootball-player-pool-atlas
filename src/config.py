@@ -85,6 +85,12 @@ def features() -> dict[str, Any]:
     return load_yaml("feature_definitions.yaml")
 
 
+def nt_years() -> str:
+    """'2024–26': span of the squad events in config/squads.yaml (national-team flag window)."""
+    years = [int(e["year"]) for e in load_yaml("squads.yaml")["events"]]
+    return f"{min(years)}–{str(max(years))[-2:]}"
+
+
 HEADLINE_LEAGUES: list[str] = list(leagues()["headline"])
 DOMESTIC_LEAGUE: str = leagues()["domestic"]
 PEER_COUNTRIES: list[str] = list(countries()["peers"])

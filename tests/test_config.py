@@ -27,3 +27,9 @@ def test_seasons_are_unambiguous():
 
 def test_snapshot_dir_is_inside_data():
     assert config.SNAPSHOT_DIR.parent == config.DATA_DIR
+
+
+def test_nt_years_span_from_squads_yaml():
+    from src import config
+    years = [e["year"] for e in config.load_yaml("squads.yaml")["events"]]
+    assert config.nt_years() == f"{min(years)}–{str(max(years))[-2:]}"

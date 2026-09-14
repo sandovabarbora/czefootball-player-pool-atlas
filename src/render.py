@@ -40,7 +40,7 @@ from src import config
 from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
-from src.utils import normalize_name, read_parquet, resolve_processed
+from src.utils import normalize_name, read_parquet, resolve_processed, season_label
 
 matplotlib.use("Agg")
 
@@ -64,7 +64,7 @@ ORIGIN_LABELS = {
     "not_covered": "not covered",
 }
 ORIGIN_ORDER = ["domestic", "stepping_stone", "other_top9", "not_covered"]
-NT_LABEL = "NT 2024–26"
+NT_LABEL = f"NT {config.nt_years()}"
 # showcase rule -> row kicker (descriptive; order = row order on the page)
 RULE_KICKERS = [
     ("highest quality-adjusted", "Highest quality-adjusted production"),
@@ -126,12 +126,6 @@ plt.rcParams["text.color"] = INK
 # =============================================================================
 
 
-def season_label(season: str) -> str:
-    """'2024-2025' -> '2024/25'."""
-    start, end = season.split("-")
-    return f"{start}/{end[-2:]}"
-
-
 NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
                 "ten", "eleven", "twelve"]
 
@@ -191,7 +185,7 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
                   season: str, out_path: Path) -> dict[str, int]:
     """Two-panel atlas (style / quality) for one position group.
 
-    The whole 2024/25 corpus is drawn as a rasterised grey background; the
+    The whole metrics-season corpus is drawn as a rasterised grey background; the
     Czech-eligible players are vector points coloured by cluster, with
     oxblood rings for the national-team flag and the top Czech names by
     quality-adjusted npG+A per 90 annotated. Returns counts for the caption.
@@ -252,7 +246,7 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
         f"PCA of the five-feature vector (npG/90, A/90, minutes share, age, cards/90), "
         f"{season_label(season)}. Grey: the whole corpus (n = {len(cur)}); coloured: "
         f"Czech-eligible players by cluster (n = {len(cz)}). Oxblood rings: national-team "
-        f"call-up 2024–26.",
+        f"call-up {config.nt_years()}.",
         ha="left", fontsize=8.2, color=MUTED, fontfamily="sans-serif",
     )
     plt.tight_layout()
@@ -429,7 +423,7 @@ def _current_club(key: str, current_by_key: pd.DataFrame, pool_row: pd.Series | 
     """(club, league, source, label) for the card's name line.
 
     The club comes from the current-season table row with the most minutes
-    (label = the season, e.g. "2025/26"); a player without a current-season
+    (label = the season, formatted through season_label()); a player without a current-season
     row falls back to the pool's country-page club, labelled "latest known"
     because that page carries no season.
     """
@@ -698,7 +692,7 @@ def _build_observations(hero: dict, per_capita: list[dict], gaps: list[dict],
     below = [r for r in per_capita if r["rank"] > cze["rank"]]
     nearest_above = above[-1] if above else None
     obs1_body = tr.raw(
-        "obs.1.body", cze_n=cze["n_players"], season=seasons["current"],
+        "obs.1.body", cze_n=cze["n_players"], season=seasons["metrics"],
         topn=tr.number_word(n_headline, NUMBER_WORDS), pm=f"{cze['per_million']:.2f}",
         rank=cze["rank"], n=len(per_capita), top=tr.term(top["name"]), top_pm=f"{top['per_million']:.2f}",
         ratio=f"{top['per_million'] / cze['per_million']:.1f}",
@@ -909,6 +903,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "n_nt_flagged": n_nt_flagged,
         "nt_events": ", ".join(nt_events),
         "n_photos": len(data["photos"]),
+        "nt_years": config.nt_years(),
         "n_leagues": n_leagues,
         "tier2_factor": float(lq.get("tier2_factor", 0)),
         "max_multiplier": max(float(v) for v in lq["multipliers"].values()),
@@ -987,7 +982,10 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     pathways row per exhibit. Shapes mirror `build_context()`.
     """
     tr = Translator(lang)
-    seasons = {"metrics": "2024/25", "previous": "2023/24", "current": "2025/26", "history_start": "2020/21"}
+    metrics_raw, previous_raw, current_raw, history_raw = "2024-2025", "2023-2024", "2025-2026", "2020-2021"
+    analog_raw, analog_next_raw = "2020-2021", "2021-2022"
+    seasons = {"metrics": season_label(metrics_raw), "previous": season_label(previous_raw),
+               "current": season_label(current_raw), "history_start": season_label(history_raw)}
     per_capita = [
         {"country": "DEN", "name": "Denmark", "n_players": 59, "population_m": 5.96, "per_million": 9.9, "rank": 1},
         {"country": "CZE", "name": "Czechia", "n_players": 18, "population_m": 10.9, "per_million": 1.65, "rank": 2},
@@ -1009,13 +1007,15 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "down": [], "n_czech": 1, "directions": {"improving": 1, "stable": 0, "declining": 0},
     }}
     analog = {"rank": 1, "player_key": "alvaro morata|1992", "name": "Álvaro Morata", "nation": "ESP",
-              "league": "ITA-Serie A", "season": "2020/21", "min": 2014, "npg_ast_q": 0.63, "distance": 0.7,
-              "followed": [{"season": "2021/22", "league": "ITA-Serie A", "min": 2302, "npg_ast_q": 0.4}]}
+              "league": "ITA-Serie A", "season": season_label(analog_raw), "min": 2014, "npg_ast_q": 0.63,
+              "distance": 0.7,
+              "followed": [{"season": season_label(analog_next_raw), "league": "ITA-Serie A", "min": 2302,
+                            "npg_ast_q": 0.4}]}
     cards = [{
         "player_key": "patrik schick|1996", "fbref_id": "5d4f7d61", "name": "Patrik Schick", "pos": "FW",
         "pos_title": "Forwards", "born": 1996, "age": 28, "league": "GER-Bundesliga", "club_season": "Leverkusen",
         "club": "Leverkusen", "club_league": "GER-Bundesliga", "club_source": "tables",
-        "club_label": "2025/26", "age_current": 29,
+        "club_label": season_label(current_raw), "age_current": 29,
         "moved": False, "nt_flag": True, "nt_events": ["UEFA Euro 2024"],
         "reason": "highest quality-adjusted npG+A per 90 among FW",
         "stats": {"npg_ast_q": 0.68, "npg_p90": 0.8, "ast_p90": 0.06, "min": 1684, "min_share": 0.55, "npg": 15, "ast": 1},
@@ -1029,7 +1029,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     }]
     analog_blocks = [{
         "player_key": "patrik schick|1996", "pos_group": "FW",
-        "target": {"name": "Patrik Schick", "age": 29, "league": "GER-Bundesliga", "season": "2024/25",
+        "target": {"name": "Patrik Schick", "age": 29, "league": "GER-Bundesliga", "season": season_label(metrics_raw),
                    "min": 1684, "npg_ast_q": 0.68},
         "analogs": [analog],
     }]
@@ -1060,7 +1060,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "fare_goals_rank": 1, "youth_rank": 1, "n_countries": 2,
     }
     facts = {"n_pool": 475, "n_no_tables": 120, "n_with_metrics": 206, "n_nt_flagged": 63,
-             "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": "2023/24",
+             "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
+             "nt_years": config.nt_years(),
              "n_leagues": 19, "tier2_factor": 0.6, "max_multiplier": 1.0, **seasons}
     hero = {"per_million": 1.65, "rank": 2, "n_peers": 2, "n_players": 18, "population_m": 10.9,
             "top": per_capita[0], "gap": gaps[0], "export_cze": export[0], "export_den": export[0]}
@@ -1101,7 +1102,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "photo_credits": [{"fbref_id": "5d4f7d61", "name": "Patrik Schick", "player_key": "patrik schick|1996",
                            "image": "img/players/5d4f7d61.jpg", "credit": "Patrik Schick (cropped).jpg",
                            "license": "Wikimedia Commons"}],
-        "rendered_at": "2026-09-13 00:00",
+        "rendered_at": "2026.09.13 00:00",
         "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
     }
 

@@ -76,7 +76,7 @@
     <dl class="masthead-meta">
       <div><dt>{{ t('mast.pool') }}</dt> <dd>{{ t('mast.pool_value', n=facts.n_pool) }}</dd></div>
       <div><dt>{{ t('mast.with_metrics', season=seasons.metrics) }}</dt> <dd><strong>{{ facts.n_with_metrics }}</strong></dd></div>
-      <div><dt>{{ t('mast.nt') }}</dt> <dd><strong>{{ facts.n_nt_flagged }}</strong></dd></div>
+      <div><dt>{{ t('mast.nt', nt_years=facts.nt_years) }}</dt> <dd><strong>{{ facts.n_nt_flagged }}</strong></dd></div>
     </dl>
 
     <details class="toc-mobile" open>
@@ -105,7 +105,7 @@
     <div class="hero-grid">
       <div class="hero-num">
         <span class="hero-num-figure">{{ '%.2f' | format(hero.per_million) }}<span class="ast" aria-hidden="true">*</span></span>
-        <span class="hero-num-unit">{{ t('hero.unit', topn=topn, season=seasons.current) }}</span>
+        <span class="hero-num-unit">{{ t('hero.unit', topn=topn, season=seasons.metrics) }}</span>
       </div>
       <div class="hero-lead">
         <p>
@@ -125,10 +125,10 @@
       {% if hero.gap %}<li><strong>{{ hero.gap.cze_n }}</strong><span class="hero-tile-label">{{ t('hero.tile.gap', group=gt[hero.gap.pos_group] | lower, cohort=hero.gap.cohort, topn=topn, peer=g(hero.gap.peer_median_n)) }}</span></li>{% endif %}
       {% if hero.export_cze and hero.export_den %}<li><strong>{{ g(hero.export_cze.median_export_age_recent) }}</strong><span class="hero-tile-label">{{ t('hero.tile.export', den=g(hero.export_den.median_export_age_recent)) }}</span></li>{% endif %}
     </ul>
-    <p class="hero-footnote">{{ t('hero.footnote', n=hero.n_players, season=seasons.current, topn=topn, pop=('%.1f' | format(hero.population_m))) }}</p>
+    <p class="hero-footnote">{{ t('hero.footnote', n=hero.n_players, season=seasons.metrics, topn=topn, pop=('%.1f' | format(hero.population_m))) }}</p>
     <dl class="hero-meta">
       <div><dt>{{ t('hero.meta.pool') }}</dt> <dd>{{ t('hero.meta.pool_value', n=facts.n_with_metrics, season=seasons.metrics) }}</dd></div>
-      <div><dt>{{ t('hero.meta.nt') }}</dt> <dd>{{ t('hero.meta.nt_value', n=facts.n_nt_flagged) }}</dd></div>
+      <div><dt>{{ t('hero.meta.nt', nt_years=facts.nt_years) }}</dt> <dd>{{ t('hero.meta.nt_value', n=facts.n_nt_flagged) }}</dd></div>
       <div><dt>{{ t('hero.meta.frame') }}</dt> <dd>{{ t('hero.meta.frame_value', previous=seasons.previous, metrics=seasons.metrics, current=seasons.current) }}</dd></div>
     </dl>
   </div>
@@ -210,7 +210,7 @@
     <figure class="figure-bleed" data-atlas="{{ grp | lower }}" data-cluster-names='{{ cluster_names.get(grp, {}) | tojson }}'>
       <img src="{{ assets }}atlas_{{ grp }}.svg"
            alt="{{ t('ch1.atlas.alt', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt) }}">
-      <figcaption>{{ t('ch1.atlas.caption', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt) }}</figcaption>
+      <figcaption>{{ t('ch1.atlas.caption', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt, nt_years=facts.nt_years) }}</figcaption>
     </figure>
     {% endfor %}
 
@@ -495,7 +495,7 @@
         <header class="cycle-card-head">
           <h4 class="cycle-card-name">{{ p.name }}</h4>
           <p class="cycle-card-meta">
-            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ t('ch3.card.latest_known') if p.club_label == 'latest known' else p.club_label }}){% if p.nt_flag %} &middot; {{ t('ch3.card.nt') }}{% endif %}
+            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ t('ch3.card.latest_known') if p.club_label == 'latest known' else p.club_label }}){% if p.nt_flag %} &middot; {{ t('ch3.card.nt', nt_years=facts.nt_years) }}{% endif %}
           </p>
         </header>
 
@@ -649,7 +649,7 @@
       </tbody>
     </table>
     </details>
-    <p class="capita-note">{{ t('pi.note', season=seasons.metrics, min=feature_defs.min_minutes) }}</p>
+    <p class="capita-note">{{ t('pi.note', season=seasons.metrics, min=feature_defs.min_minutes, nt_years=facts.nt_years) }}</p>
   </div>
 </section>
 

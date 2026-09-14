@@ -172,6 +172,15 @@ def test_observations_derive_counts_and_titles_from_context():
     assert "rosters of the nine strongest leagues" in flipped[0]["body"]
 
 
+def test_no_typed_season_in_render_or_i18n_module():
+    import re
+    from pathlib import Path
+    for f in ("src/render.py", "src/i18n.py", "src/international_benchmark.py", "site/svg_labels.py"):
+        src = Path(f).read_text(encoding="utf-8")
+        body = "\n".join(l for l in src.splitlines() if not l.strip().startswith(("#", '"""', "'''")))
+        assert not re.search(r"20\d\d[/–-]\d\d\b", body.replace("2024–26", "")), f
+
+
 @pytest.mark.skipif(not (config.PROCESSED_DIR / "per_capita.parquet").exists(),
                     reason="data/processed not present")
 def test_template_renders_with_real_context():

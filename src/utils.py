@@ -26,6 +26,12 @@ from src import config
 LOG = logging.getLogger(__name__)
 
 
+def season_label(season: str) -> str:
+    """'2024-2025' -> '2024/25'."""
+    start, end = season.split("-")
+    return f"{start}/{end[-2:]}"
+
+
 def normalize_name(name: str) -> str:
     """Canonicalize a player name for cross-source matching.
 

@@ -3,7 +3,7 @@
 Two independent deliverables:
 
     per-capita: distinct players (by `player_key`) with `nation` == peer on
-    `current`-season rosters of the UEFA top-9 headline leagues, divided by
+    `metrics`-season rosters of the UEFA top-9 headline leagues, divided by
     population (millions). Answers "how many top-9-league players does each
     peer country field, relative to its population".
 
@@ -43,7 +43,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 from src import config
 from src.logging_setup import setup as logging_setup
-from src.utils import read_parquet, write_parquet
+from src.utils import read_parquet, season_label, write_parquet
 
 LOG = logging.getLogger(__name__)
 
@@ -242,7 +242,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
                 labels[cz_idx].set_weight("bold")
 
     fig.suptitle(
-        "International cohort benchmark  ·  UEFA top-9 leagues 2024/25",
+        f"International cohort benchmark  ·  UEFA top-9 leagues {season_label(config.seasons()['metrics'])}",
         fontsize=14, fontfamily="serif", color=INK, x=0.02, ha="left", y=1.04, weight="normal",
     )
     fig.text(
@@ -267,7 +267,7 @@ def build_narrative(pc: pd.DataFrame, coh: pd.DataFrame) -> str:
     lines = [
         "# International cohort benchmark",
         "",
-        f"UEFA top-9 leagues, {config.seasons()['current']} rosters "
+        f"UEFA top-9 leagues, {config.seasons()['metrics']} rosters "
         f"(per-capita) and {config.seasons()['metrics']} season (cohorts).",
         "",
         "## Per-capita ranking (headline-league players per million population)",
@@ -347,7 +347,7 @@ def main() -> None:
 
     peers = config.countries()["peers"]
     tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
-    pc = per_capita(tables, peers, config.HEADLINE_LEAGUES, config.seasons()["current"])
+    pc = per_capita(tables, peers, config.HEADLINE_LEAGUES, config.seasons()["metrics"])
     write_parquet(pc, config.PROCESSED_DIR / "per_capita.parquet")
 
     feats = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in config.features()["groups"]}

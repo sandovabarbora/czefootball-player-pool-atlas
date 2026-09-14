@@ -20,20 +20,27 @@ from pathlib import Path
 DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg"]
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src import config
+from src.utils import season_label
+
+METRICS = season_label(config.seasons()["metrics"])
+NT_YEARS = config.nt_years()
+
 T = {
     # scatter atlases
     "Style map (no league multipliers)": "Style mapa (bez ligových násobiček)",
     "Quality-adjusted map": "Kvalitou upravená mapa",
-    "Czech football · Forwards 2024/25": "Český fotbal · Útočníci 2024/25",
-    "Czech football · Midfielders 2024/25": "Český fotbal · Záložníci 2024/25",
-    "Czech football · Defenders 2024/25": "Český fotbal · Obránci 2024/25",
+    f"Czech football · Forwards {METRICS}": f"Český fotbal · Útočníci {METRICS}",
+    f"Czech football · Midfielders {METRICS}": f"Český fotbal · Záložníci {METRICS}",
+    f"Czech football · Defenders {METRICS}": f"Český fotbal · Obránci {METRICS}",
     "corpus": "korpus",
-    "NT 2024–26": "Reprezentace",   # the years are in the caption; the legend sits at the panel edge
+    f"NT {NT_YEARS}": "Reprezentace",   # the years are in the caption; the legend sits at the panel edge
     # heatmap
     "Forwards  ·  median npG+A per 90 (quality-adjusted)": "Útočníci  ·  medián npG+A na 90 (kvalitou upravené)",
     "Midfielders  ·  median npG+A per 90 (quality-adjusted)": "Záložníci  ·  medián npG+A na 90 (kvalitou upravené)",
     "Defenders  ·  median npG+A per 90 (quality-adjusted)": "Obránci  ·  medián npG+A na 90 (kvalitou upravené)",
-    "International cohort benchmark  ·  UEFA top-9 leagues 2024/25": "Mezinárodní kohortový benchmark  ·  top-9 ligy UEFA 2024/25",
+    f"International cohort benchmark  ·  UEFA top-9 leagues {METRICS}": f"Mezinárodní kohortový benchmark  ·  top-9 ligy UEFA {METRICS}",
     "Cell: player count and median npG+A per 90. Rows ordered by per-capita rank (top first); highlighted row = CZE.":
         "Buňka: počet hráčů a medián npG+A na 90. Řádky seřazené podle pořadí na milion obyvatel (nejvyšší nahoře); zvýrazněný řádek = CZE.",
 }
