@@ -20,7 +20,7 @@ from src.utils import player_key, write_parquet
 LOG = logging.getLogger(__name__)
 COLS = ["league", "season", "team", "player", "player_key", "nation", "pos", "born", "age",
         "mp", "min", "gls", "ast", "pk", "crdy", "crdr"]
-SEASON_RE = re.compile(r"(\d{4}-\d{4})")
+SEASON_RE = re.compile(r"(\d{4}-\d{4}|\b(?:19|20)\d{2}\b)")   # "2025-2026" or a calendar-year league's "2025"
 # FBref's URL segment per soccerdata stat_type (same mapping as soccerdata's reader)
 PAGE_FOR_STAT = {"standard": "stats", "keeper": "keepers", "shooting": "shooting",
                  "playing_time": "playingtime", "misc": "misc"}
@@ -54,7 +54,8 @@ def parse_player_page(page_html: str, league: str, season: str, stat_type: str) 
     a whole league-season.
     """
     found = page_season(page_html)
-    if found != season:
+    # calendar-year leagues (Norway, …) label the page with the start year only
+    if found not in (season, season[:4]):
         raise SeasonMismatch(f"{league}: asked for {season}, page says {found}")
     tree = html.fromstring(page_html)
     for elem in tree.xpath("//td[@data-stat='comp_level']//span"):

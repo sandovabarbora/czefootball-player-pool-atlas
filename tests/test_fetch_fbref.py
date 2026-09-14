@@ -124,3 +124,11 @@ def test_parse_player_page_reports_squads_only_page():
     page = "<html><body><h1>2026-2027 NB I Stats</h1><table id='stats_squads_standard_for'></table></body></html>"
     with pytest.raises(MissingTable):
         parse_player_page(page, "HUN-NB I", "2026-2027", "standard")
+
+
+def test_calendar_year_league_page_matches_the_start_year():
+    from src.fetch_fbref import page_season
+    page = "<html><body><h1>2025 Eliteserien Stats</h1><!-- <div id='div_stats_standard'></div> --></body></html>"
+    assert page_season(page) == "2025"
+    with pytest.raises(Exception, match="no player"):   # season accepted (start year), table missing
+        parse_player_page(page, "NOR-Eliteserien", "2025-2026", "standard")
