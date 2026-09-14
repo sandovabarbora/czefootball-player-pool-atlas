@@ -12,6 +12,7 @@ exact licence.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import io
 import json
@@ -33,6 +34,15 @@ WIKIDATA_CACHE_DIR = config.RAW_DIR / "wikidata" / config.NATION
 LICENSE_NOTE = "Wikimedia Commons — see file page for the licence"
 BATCH_SIZE = 40
 SPARQL_URL = "https://query.wikidata.org/sparql"
+# Above this pool size, the Wikipedia second pass (one to two HTTP requests
+# per unmatched player, uncached on a first run) defaults to only the
+# players who will actually appear on the site -- those with metrics
+# (`pool.in_fbref_tables`; cards/the player index need a features row, which
+# only exists for players FBref's league tables actually tracked). A small
+# home nation (e.g. Czechia, ~440 pool entries) can afford the full pass;
+# England's ~3,500-entry country page cannot -- most of those thousands are
+# lower-league players with no metrics and, so, no page to render them on.
+ONLY_WITH_METRICS_POOL_THRESHOLD = 1000
 
 
 def _sparql_escape(text: str) -> str:
@@ -211,18 +221,54 @@ def wikipedia_lookup(name: str, born) -> tuple[str, str] | None:
     return None
 
 
-def main() -> None:
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser()
+    p.add_argument(
+        "--only-with-metrics",
+        dest="only_with_metrics",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help=(
+            "Restrict the Wikipedia second pass to pool players with metrics "
+            "(pool.in_fbref_tables) -- those are the only ones that can appear "
+            "on a card or in the player index. Default: on automatically once "
+            f"the pool exceeds {ONLY_WITH_METRICS_POOL_THRESHOLD} players; off "
+            "for a smaller pool. Pass explicitly to override either way."
+        ),
+    )
+    return p.parse_args(argv)
+
+
+def _resolve_only_with_metrics(explicit: bool | None, pool_size: int) -> bool:
+    """`--only-with-metrics`/`--no-only-with-metrics` wins when given; otherwise
+    on automatically once the pool exceeds `ONLY_WITH_METRICS_POOL_THRESHOLD`."""
+    return explicit if explicit is not None else pool_size > ONLY_WITH_METRICS_POOL_THRESHOLD
+
+
+def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO)
+    args = _parse_args(argv)
     pool = read_parquet(config.PROCESSED_DIR / "pool.parquet")
     # Players with no pos_group (goalkeepers/unknown) are not shown on the site.
     pool = pool[pool.pos_group.notna()].reset_index(drop=True)
+
+    only_with_metrics = _resolve_only_with_metrics(args.only_with_metrics, len(pool))
 
     bindings = _fetch_batches(pool.player.tolist())
     matched = match_images(bindings, pool).drop_duplicates("fbref_id")
 
     # second pass: Wikipedia infobox images for players Wikidata's P18 missed
+    second_pass_pool = pool[~pool.fbref_id.isin(matched.fbref_id)]
+    if only_with_metrics:
+        excluded = len(second_pass_pool) - int(second_pass_pool.in_fbref_tables.sum())
+        second_pass_pool = second_pass_pool[second_pass_pool.in_fbref_tables]
+        LOG.info(
+            "photos: --only-with-metrics active (pool=%d > %d), skipping Wikipedia "
+            "lookup for %d players with no metrics",
+            len(pool), ONLY_WITH_METRICS_POOL_THRESHOLD, excluded,
+        )
     extra = []
-    for r in pool[~pool.fbref_id.isin(matched.fbref_id)].itertuples():
+    for r in second_pass_pool.itertuples():
         try:
             hit = wikipedia_lookup(r.player, r.born)
         except Exception as exc:  # one lookup failing must not kill the run

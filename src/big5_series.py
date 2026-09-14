@@ -186,8 +186,8 @@ def main() -> None:
     last_season = series["seasons"][-1]
     last_n = series["countries"][config.HOME]["n"][-1]
     LOG.info(
-        "CZE peak %s (%d), low %s (%d), last %s (%d)",
-        peak["season"], peak["n"], low["season"], low["n"], last_season, last_n,
+        "%s peak %s (%d), low %s (%d), last %s (%d)",
+        config.HOME, peak["season"], peak["n"], low["season"], low["n"], last_season, last_n,
     )
 
 

@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 import src.fetch_photos as fp
-from src.fetch_photos import _batch_cache_key, _fetch_batches, match_images, sparql_for
+from src.fetch_photos import _batch_cache_key, _fetch_batches, _parse_args, _resolve_only_with_metrics, match_images, sparql_for
 
 FIX = json.loads((Path(__file__).parent / "fixtures" / "wikidata_sample.json").read_text())
 BINDINGS = FIX["results"]["bindings"]
@@ -92,6 +92,23 @@ def test_fetch_batches_caches_by_name_content_not_batch_position(tmp_path, monke
     assert len(seen_paths) == 2
     assert seen_paths[0] != seen_paths[1]  # different names -> different cache file
     assert all(p.parent == tmp_path for p in seen_paths)
+
+
+def test_only_with_metrics_defaults_on_above_threshold_off_below():
+    assert _resolve_only_with_metrics(None, fp.ONLY_WITH_METRICS_POOL_THRESHOLD + 1) is True
+    assert _resolve_only_with_metrics(None, fp.ONLY_WITH_METRICS_POOL_THRESHOLD) is False
+    assert _resolve_only_with_metrics(None, 10) is False
+
+
+def test_only_with_metrics_explicit_flag_overrides_the_threshold():
+    assert _resolve_only_with_metrics(False, fp.ONLY_WITH_METRICS_POOL_THRESHOLD + 1) is False
+    assert _resolve_only_with_metrics(True, 10) is True
+
+
+def test_only_with_metrics_cli_flags_parse():
+    assert _parse_args(["--only-with-metrics"]).only_with_metrics is True
+    assert _parse_args(["--no-only-with-metrics"]).only_with_metrics is False
+    assert _parse_args([]).only_with_metrics is None
 
 
 # --- Wikipedia page-image fallback -----------------------------------------

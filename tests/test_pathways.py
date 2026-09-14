@@ -216,7 +216,7 @@ def test_destinations_buckets_one_player_each():
         "stepping_stone": ["GER-2. Bundesliga"],
         "peer_domestic": {"AUT-Bundesliga": {"country": "AUT"}},
     }
-    rows = destinations(feats, league_quality, cfg, "2024-2025")
+    rows = destinations(feats, league_quality, cfg, "2024-2025", ["CZE", "AUT"])
     by_player = {r["player"]: r["bucket"] for r in rows}
     assert by_player == {
         "Domestic Dan": "domestic",
@@ -239,6 +239,23 @@ def test_destinations_buckets_one_player_each():
     assert summary["examples"]["peer_domestic"] == ["Peer Pavel"]
 
 
+def test_destinations_peer_domestic_league_of_a_non_peer_country_falls_to_other():
+    # Task 14c: cfg["peer_domestic"] (config/leagues.yaml) is one shared,
+    # nation-independent registry -- AUT-Bundesliga is a real entry in it,
+    # but when this run's own `peers` doesn't include AUT (an England-shaped
+    # run, say), a player there must bucket as "other", not "peer_domestic".
+    feats = pd.DataFrame({
+        "player": ["Peer Pavel"], "player_key": ["pavel"],
+        "league": ["AUT-Bundesliga"], "season": ["2024-2025"], "pos_group": ["FW"],
+        "nation": ["CZE"], "home_eligible": [True], "min": [900],
+    })
+    league_quality = {"multipliers": {"CZE-First League": 0.434, "AUT-Bundesliga": 0.268}}
+    cfg = {"domestic": "CZE-First League", "headline": [], "stepping_stone": [],
+           "peer_domestic": {"AUT-Bundesliga": {"country": "AUT"}}}
+    rows = destinations(feats, league_quality, cfg, "2024-2025", ["CZE", "FRA"])  # AUT not a peer here
+    assert rows[0]["bucket"] == "other"
+
+
 def test_destinations_excludes_below_min_minutes():
     feats = pd.DataFrame({
         "player": ["Benchwarmer"], "player_key": ["bw"],
@@ -248,7 +265,7 @@ def test_destinations_excludes_below_min_minutes():
     league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0}}
     cfg = {"domestic": "CZE-First League", "headline": ["ENG-Premier League"],
            "stepping_stone": [], "peer_domestic": {}}
-    assert destinations(feats, league_quality, cfg, "2024-2025") == []
+    assert destinations(feats, league_quality, cfg, "2024-2025", []) == []
 
 
 def test_destinations_counts_a_player_once_per_position_group():
@@ -269,9 +286,40 @@ def test_destinations_counts_a_player_once_per_position_group():
                                       "ITA-Serie A": 0.9}}
     cfg = {"domestic": "CZE-First League", "headline": ["ENG-Premier League", "ITA-Serie A"],
            "stepping_stone": [], "peer_domestic": {}}
-    rows = destinations(feats, league_quality, cfg, "2024-2025")
+    rows = destinations(feats, league_quality, cfg, "2024-2025", [])
     assert sorted(r["min"] for r in rows) == [1000, 1100]  # FW row + collapsed MF rows; DF < 450
     assert _summarize_destinations(rows, 0.434)["n_total"] == 2
+
+
+def test_build_pathways_drops_peer_domestic_leagues_of_non_peer_countries():
+    # cfg["peer_domestic"] (config/leagues.yaml) is one shared, nation-
+    # independent registry (Task 14c). AUT-Bundesliga is not in this run's
+    # own `peers` list -- it must not surface as a youth_exposure row at
+    # all; only the home nation's own domestic league (config.DOMESTIC_LEAGUE,
+    # merged unconditionally regardless of `peers`) does.
+    from src import config
+    tables = pd.DataFrame({
+        "player_key": ["a"], "nation": [config.HOME], "league": [config.DOMESTIC_LEAGUE],
+        "season": ["2024-2025"], "team": ["Home FC"], "born": [2000], "min": [1800],
+        "mp": [20], "gls": [10],
+    })
+    feats = pd.DataFrame(columns=["player_key", "player", "nation", "league", "season", "pos_group",
+                                  "npg_p90_quality", "ast_p90_quality", "home_eligible", "min"])
+    league_quality = {"multipliers": {config.DOMESTIC_LEAGUE: 1.0}}
+    cfg = {
+        "headline": ["ENG-Premier League"],
+        "stepping_stone": [],
+        "domestic": config.DOMESTIC_LEAGUE,
+        "peer_domestic": {"AUT-Bundesliga": {"country": "AUT"}},
+    }
+    seasons = {"metrics": "2024-2025", "current": "2024-2025"}
+    # "AUT" deliberately excluded from `peers` -- exercises the filter
+    # regardless of whether the test process's own NATION happens to be cze
+    # (whose real peers do include AUT) or something else.
+    out = build_pathways(tables, feats, league_quality, cfg, seasons, ["ENG", "FRA"])
+    leagues = {r["league"] for r in out["youth_exposure"]}
+    assert "AUT-Bundesliga" not in leagues
+    assert leagues == {config.DOMESTIC_LEAGUE}
 
 
 def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
@@ -344,7 +392,7 @@ def test_destinations_sideways_counts_equal_multiplier_as_sideways():
                                       "POL-Ekstraklasa": 0.435}}
     cfg = {"domestic": "CZE-First League", "headline": [], "stepping_stone": [],
            "peer_domestic": {"AUT-Bundesliga": {"country": "AUT"}, "POL-Ekstraklasa": {"country": "POL"}}}
-    rows = destinations(feats, league_quality, cfg, "2024-2025")
+    rows = destinations(feats, league_quality, cfg, "2024-2025", ["CZE", "AUT", "POL"])
     summary = _summarize_destinations(rows, league_quality["multipliers"][cfg["domestic"]])
     assert summary["n_abroad"] == 2
     assert abs(summary["sideways_share"] - 0.5) < 1e-9

@@ -157,8 +157,8 @@ def build_pool() -> pd.DataFrame:
         LOG.warning("active players sharing a normalised name: %s", sorted(pool[pool.active][dup].player.unique()))
     miss = unmatched_clubs(pool, tables)
     if len(miss):
-        LOG.warning("active Czech players at clubs outside fetched leagues (extend config/leagues.yaml):\n%s",
-                    miss.head(30).to_string(index=False))
+        LOG.warning("active %s players at clubs outside fetched leagues (extend config/leagues.yaml):\n%s",
+                    config.nation()["adjective"].lower(), miss.head(30).to_string(index=False))
     out = pool[pool.active][["player_key", "fbref_id", "player", "born", "pos_group", "club_current", "in_fbref_tables"]].reset_index(drop=True)
     write_parquet(out, config.PROCESSED_DIR / "pool.parquet")
     LOG.info("pool: %d active players, %d with metrics", len(out), int(out.in_fbref_tables.sum()))

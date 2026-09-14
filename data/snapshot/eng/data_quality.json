@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "id": "women_filtered",
+      "count": 0,
+      "unit": "entries"
+    },
+    {
+      "id": "namesakes",
+      "count": 51,
+      "unit": "players"
+    },
+    {
+      "id": "no_tables",
+      "count": 3063,
+      "unit": "players"
+    },
+    {
+      "id": "split_seasons",
+      "count": 441,
+      "unit": "rows"
+    },
+    {
+      "id": "nt_unmatched",
+      "count": 13,
+      "unit": "names"
+    },
+    {
+      "id": "missing_born",
+      "count": 0,
+      "unit": "rows"
+    }
+  ],
+  "events": [
+    {
+      "id": "season_index_stale",
+      "date": "2026-09-14",
+      "recorded_count": 9,
+      "unit": "leagues",
+      "en": "A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues' 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page's own heading against the requested season.",
+      "cs": "Zastaralý sezónní index FBref způsobil, že soccerdata stáhla URL bez sezóny, kterou FBref servíruje jako běžící sezónu: tabulky 2025/26 devíti lig byly po čtyřech kolech 2026/27. Opraveno kontrolou vlastního nadpisu stránky proti požadované sezóně."
+    },
+    {
+      "id": "squads_only_page",
+      "date": "2026-09-14",
+      "en": "FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.",
+      "cs": "FBref občas servírovala jen soupisku (bez sezónní tabulky) pro sezónu, která ještě probíhá. Opraveno jedním opakovaným stažením v téže kontrole nadpisu stránky."
+    },
+    {
+      "id": "clubelo_down",
+      "date": "2026-09-13",
+      "en": "ClubElo's API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.",
+      "cs": "API ClubElo odpovídalo 502 po celou dobu běhu; ligové násobičky spadly zpět na koeficienty asociací UEFA."
+    },
+    {
+      "id": "photo_occupation",
+      "date": "2026-09-13",
+      "recorded_count": 7,
+      "unit": "portraits",
+      "en": "The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added.",
+      "cs": "Dotaz na portréty ve Wikidatech spároval jen podle jména, občanství a data narození; sedm portrétů patřilo jmenovcům z jiných sportů, dokud nebyl přidán filtr na povolání."
+    },
+    {
+      "id": "svk_top_flight_missing",
+      "date": "2026-09-13",
+      "en": "Slovakia's top flight is not on FBref at all; this report's Slovak exhibits rest entirely on players abroad.",
+      "cs": "Slovenská nejvyšší soutěž na FBref vůbec není; slovenské exhibity v tomto reportu proto stojí jen na hráčích v zahraničí."
+    }
+  ]
+}

@@ -413,8 +413,9 @@ def destinations(
     league_quality: dict,
     cfg: dict,
     metrics_season: str,
+    peers: list[str],
 ) -> list[dict]:
-    """Bucket each Czech-eligible player-season into a destination league type.
+    """Bucket each home-eligible player-season into a destination league type.
 
     Restricted to `home_eligible` rows (from `features_{FW,MF,DF}.parquet`,
     concatenated) in `metrics_season` with `min >= 450`, deduped to one row
@@ -424,7 +425,9 @@ def destinations(
     position groups counts once in each here too. Each returned row is
     `{player, player_key, league, min, bucket, multiplier}`:
 
-        bucket: `domestic` (the CZE-First League itself), `top9` (a
+        bucket: `domestic` (the home nation's own domestic league,
+            `cfg["domestic"]` -- see `config.leagues()`'s comment on why
+            this is never Czechia's for a NATION=eng run), `top9` (a
             headline league — checked BEFORE `stepping_stone`, since four
             of the five stepping-stone leagues — NED-Eredivisie,
             BEL-Pro League, POR-Primeira Liga, TUR-Süper Lig — are
@@ -432,10 +435,14 @@ def destinations(
             precedence matches `profile`'s own top9-before-stepping_stone
             order), `stepping_stone` (in practice, in the live data, only
             GER-2. Bundesliga — the one stepping-stone league that isn't
-            also headline), `peer_domestic` (one of the eight peer
-            countries' own domestic leagues, e.g. a Czech international
-            playing in Poland's Ekstraklasa), or `other` (any other
-            tracked league).
+            also headline), `peer_domestic` (one of THIS RUN's own peer
+            countries' domestic leagues, restricted to `peers` — e.g. a
+            Czech international playing in Poland's Ekstraklasa, for a
+            NATION=cze run where Poland is a configured peer; `peers`
+            keeps a league belonging to some other nation's peer registry,
+            e.g. Poland for a NATION=eng run, out of this bucket), or
+            `other` (any other tracked league, including a peer-domestic
+            league that belongs to a country not in `peers`).
         multiplier: that league's quality multiplier from
             `league_quality["multipliers"]` (config/league_quality.yaml),
             or None if the league has no multiplier on file.
@@ -446,7 +453,7 @@ def destinations(
     domestic_league = cfg["domestic"]
     headline = set(cfg["headline"])
     stepping = set(cfg["stepping_stone"])
-    peer_leagues = set(cfg["peer_domestic"].keys())
+    peer_leagues = {lg for lg, meta in cfg["peer_domestic"].items() if meta["country"] in peers}
     mult = league_quality["multipliers"]
 
     f = features_all_groups[
@@ -543,8 +550,18 @@ def build_pathways(
     without reading parquet files: `main()` only handles reading inputs and
     writing the result.
     """
-    peer_domestic = {k: v["country"] for k, v in cfg["peer_domestic"].items()} | {config.DOMESTIC_LEAGUE: config.HOME}
-    dest_rows = destinations(feats, league_quality, cfg, seasons["metrics"])
+    # `cfg["peer_domestic"]` (config/leagues.yaml) is one shared, nation-
+    # independent registry -- entries for a country not in this run's own
+    # `peers` (e.g. Czechia's peer set: SVK/AUT/HUN/POL/CRO/DEN/SUI/NOR)
+    # must not leak into a different nation's exhibits (Task 14c: England's
+    # `peers` are FRA/GER/ESP/ITA/NED/POR/BEL, none of which appear in that
+    # registry at all -- every one of their own domestic leagues is already
+    # a headline league, fetched and classified as `top9` elsewhere, never
+    # `domestic` -- so this correctly leaves England with an empty
+    # peer_domestic set, not eight irrelevant countries' bars).
+    peer_domestic = ({k: v["country"] for k, v in cfg["peer_domestic"].items() if v["country"] in peers}
+                     | {config.DOMESTIC_LEAGUE: config.HOME})
+    dest_rows = destinations(feats, league_quality, cfg, seasons["metrics"], peers)
     domestic_multiplier = league_quality["multipliers"].get(cfg["domestic"])
     return {
         "youth_exposure": youth_exposure(tables, seasons["metrics"], peer_domestic).to_dict("records"),

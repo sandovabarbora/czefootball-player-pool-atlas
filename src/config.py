@@ -68,8 +68,36 @@ def load_yaml(name: str) -> dict[str, Any]:
 
 
 def leagues() -> dict[str, Any]:
-    """Return the leagues.yaml config dict."""
-    return load_yaml("leagues.yaml")
+    """Return the leagues.yaml config dict.
+
+    `leagues.yaml`'s own `domestic:` key is a fetch-scope literal ("which
+    league did Task 2 originally point the fetcher at"), still hardcoded to
+    "CZE-First League" -- it predates Task 14a's nation configuration and
+    was never updated to track it. Every caller that reads `leagues()
+    ["domestic"]` actually wants "this run's home nation's domestic
+    league" (`config.DOMESTIC_LEAGUE`, from `nation()["domestic_league"]`,
+    correctly "ENG-Premier League" under NATION=eng): `src.pathways.
+    destinations()`'s tier bucketing, its `domestic_multiplier` for the
+    sideways definition, `src.render._country_sideways_share`'s slide-8
+    column for the home nation's own row, and `src.fetch_fbref`'s
+    fetch-list. Left as the stale literal, every one of those silently
+    computed against Czechia's domestic league under NATION=eng: the
+    England run's own top-flight players were never recognised as
+    "domestic" at all (indistinguishable from `headline`, itself checked
+    first) and every "sideways" share was measured against a 0.434
+    multiplier instead of the Premier League's own 1.0 -- discovered via a
+    6.25% "moved sideways" figure that made no sense once England's
+    multiplier IS the highest in the table (nothing can be sideways from
+    it under the wrong threshold, everything is under the right one).
+    Overridden here, once, so every caller gets the right value without
+    a per-call-site fix.
+    """
+    cfg = load_yaml("leagues.yaml")
+    # nation()["domestic_league"], not the module-level DOMESTIC_LEAGUE
+    # constant below -- this function is called at import time (by
+    # HEADLINE_LEAGUES, below) before that constant exists.
+    cfg["domestic"] = nation()["domestic_league"]
+    return cfg
 
 
 def league_quality() -> dict[str, Any]:

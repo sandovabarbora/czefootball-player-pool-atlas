@@ -37,7 +37,7 @@ log = logging.getLogger(__name__)
 # for sentence-initial use. Allowed anywhere by `check_placeholders` (a
 # string can use or drop any of these regardless of what the other language's
 # entry does) since they are not part of the translator's own contract.
-_AUTO_NAMES = {"nation", "adj", "Adj", "code", "home_league"}
+_AUTO_NAMES = {"nation", "adj", "Adj", "code", "home_league", "leagues_note"}
 
 
 def _capitalize(s: str) -> str:
@@ -53,6 +53,7 @@ def _auto_params() -> dict[str, str]:
         "Adj": n["adjective"],  # English nationality adjectives are always capitalised
         "code": n["code"],
         "home_league": n["home_league"],
+        "leagues_note": n.get("leagues_note", ""),
     }
     for key, val in n.get("cs", {}).items():
         out[f"cs_{key}"] = val
@@ -76,7 +77,7 @@ EN: dict[str, str] = {
     "toc.q5": "How they fare",
     "toc.q6": "World Cup squad",
     "toc.q7": "When the train left",
-    "toc.q8": "Norway and Denmark",
+    "toc.q8": "{a} and {b}",
     "toc.q9": "Who the players are",
     "toc.explore": "Explore the data",
     "toc.benchmark": "Benchmark vs peer countries",
@@ -123,7 +124,7 @@ EN: dict[str, str] = {
     "hero.sublead.gap": "The largest cohort gap is in <strong>{group} aged {cohort}</strong>: {cze_n} {adj} player{s} in the top-{topn} leagues against a peer median of {peer}.",
     "hero.sublead.export": "A recent {adj} export first reached a top-{topn} roster at a median age of {cze}; a Danish one at {den}.",
     "hero.sublead.close": "Built from FBref, Wikipedia and Wikidata. {nation} is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.",
-    "hero.footnote": "* {n} players with FBref nationality CZE on {season} rosters of the UEFA top-{topn} leagues ÷ {pop} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href=\"#methodology\">Methodology</a>.",
+    "hero.footnote": "* {n} players with FBref nationality {code} on {season} rosters of the UEFA top-{topn} leagues ÷ {pop} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href=\"#methodology\">Methodology</a>.",
 
     # ---- slides (Task 13b): nine questions between the hero and "for a
     # federation", each q (h2) / a (one sentence, headline number in
@@ -163,7 +164,7 @@ EN: dict[str, str] = {
     # ---- slide 2 proof: compact cohort-gap table (top 5 rows)
     "cohortgap.th.group": "Group",
     "cohortgap.th.cohort": "Cohort",
-    "cohortgap.th.cze": "CZE",
+    "cohortgap.th.cze": "{code}",
     "cohortgap.th.peer": "Peer median",
 
     # ---- slide 8 proof: table.peer-compare (CZE / NOR / DEN, six numbers + Big-5 count now)
@@ -258,8 +259,8 @@ EN: dict[str, str] = {
     "ch2.d.summary": "Profile table by tier and position group",
     "ch2.d.th.tier": "Tier",
     "ch2.d.th.group": "Group",
-    "ch2.d.th.cze_n": "CZE n",
-    "ch2.d.th.cze_median": "CZE median",
+    "ch2.d.th.cze_n": "{code} n",
+    "ch2.d.th.cze_median": "{code} median",
     "ch2.d.th.peer_n": "Peer median n",
     "ch2.d.th.peer_median": "Peer median",
     "ch2.d.note": "* Tier = the league of the player's own {season} season. Peer median n and peer median are medians across the peer countries present in that tier and group; a tier a country has no player in is absent, not zero.",
@@ -384,7 +385,7 @@ EN: dict[str, str] = {
     "dq.nt_unmatched.label": "Unmatched call-up names",
     "dq.nt_unmatched.what": "National-team squad-table names that match no {adj}-eligible row in the feature tables.",
     "dq.missing_born.label": "Missing birth years",
-    "dq.missing_born.what": "Season-table rows of nation CZE with no birth year, which cannot form a player_key.",
+    "dq.missing_born.what": "Season-table rows of nation {code} with no birth year, which cannot form a player_key.",
     "ch4.lim.h3": "Limitations of this analysis",
     "ch4.repro.h3": "Reproducibility",
     "ch4.repro.p": "The full pipeline is public: <a href=\"{url}\">{url_short}</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed {seed} for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.",
@@ -434,7 +435,7 @@ EN: dict[str, str] = {
 
     # ---- generated: limitations
     "lim.leagues.title": "Leagues without metrics",
-    "lim.leagues.body": "The pipeline fetches {n_leagues} competitions from FBref; the {adj} second tier and the Slovak top flight are not on FBref at all. {n_no_tables} of the {n_pool} {adj} professionals found on FBref's country page play in a league without season tables and carry no metrics; they are listed by name and club only. Slovakia's exhibits in chapter II therefore rest on its players abroad.",
+    "lim.leagues.body": "The pipeline fetches {n_leagues} competitions from FBref. {n_no_tables} of the {n_pool} {adj} professionals found on FBref's country page play in a league without season tables and carry no metrics; they are listed by name and club only.{leagues_note}",
     "lim.features.title": "Free-tier feature set",
     "lim.features.body": "The feature vector is five basic columns per 90 minutes: non-penalty goals, assists, minutes share, age and cards. No expected goals, no progressive passes, no tackles — the rule was one identical vector across every league in the corpus, and only the basic table is available for all of them. Defensive and creative contributions beyond assists are invisible to the map.",
     "lim.nt.title": "National-team flag source",
@@ -450,7 +451,7 @@ EN: dict[str, str] = {
     "lim.identity.title": "Player identity",
     "lim.identity.body": "FBref's season tables carry no player id, so players are joined on normalised name plus birth year across leagues and seasons; two players sharing both would collapse into one. A mid-season transfer produces two club rows that are collapsed into one minutes-weighted row before ranking.",
     "lim.women.title": "Women's entries and the -ová heuristic",
-    "lim.women.body": "FBref's country page mixes men's and women's competitions. Entries whose surname ends in -ová were dropped from the pool; a woman with a different surname ending would survive the filter, and a man with that ending would not.",
+    "lim.women.body": "FBref's country page mixes men's and women's competitions. Entries whose surname ends in -ová were dropped from the pool; a woman with a different surname ending would survive the filter, and a man with that ending would not. The suffix is specific to Czech feminine surnames, so for a nation whose naming convention doesn't use it (English, for one) the filter catches close to none of the contamination it targets; the \"Women's entries filtered\" count in the data-quality log below says how many it caught this run.",
     "lim.scope.title": "No market values, no scouting",
     "lim.scope.body": "Transfer fees, market values, video and scouting reports are outside the public sources used here. The map describes statistical footprints and counts; selection and development decisions require the federation's own data and expertise, which this method does not have.",
     "lim.tracking.title": "No event or tracking data",

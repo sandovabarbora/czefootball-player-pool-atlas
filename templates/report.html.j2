@@ -89,6 +89,13 @@
 {%- set cze = per_capita | selectattr('country', 'equalto', home_code) | list | first -%}
 {%- set gt = {} -%}
 {%- for grp in groups %}{% set _ = gt.update({grp: term(group_titles[grp])}) %}{% endfor -%}
+{#- slide 8's compare-country names (Task 14c: hoisted here, not just inside
+   the slide-8 section, so the TOC's toc.q8 entry -- rendered much earlier in
+   the page -- can name the actual configured pair (e.g. "France and Spain"
+   for NATION=eng) instead of a hardcoded "Norway and Denmark" left over
+   from the cze-only original -#}
+{%- set pc_a = term(peer_compare.names[peer_compare.countries[1]]) -%}
+{%- set pc_b = term(peer_compare.names[peer_compare.countries[2]]) -%}
 <!DOCTYPE html>
 <html lang="{{ lang }}">
 <head>
@@ -119,7 +126,7 @@
     <li><a href="#q5">{{ t('toc.q5') }}</a></li>
     <li><a href="#q6">{{ t('toc.q6') }}</a></li>
     <li><a href="#q7">{{ t('toc.q7') }}</a></li>
-    <li><a href="#q8">{{ t('toc.q8') }}</a></li>
+    <li><a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a></li>
     <li><a href="#q9">{{ t('toc.q9') }}</a></li>
     <li><a href="#explore">{{ t('toc.explore') }}</a></li>
     <li><a href="#methodology">{{ t('toc.methodology') }}</a>
@@ -150,7 +157,7 @@
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
-        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8') }}</a> · <a href="#q9">{{ t('toc.q9') }}</a></li>
+        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a> · <a href="#q9">{{ t('toc.q9') }}</a></li>
         <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a></li>
       </ol>
     </details>
@@ -383,8 +390,6 @@
   </div>
 </section>
 
-{% set pc_a = term(peer_compare.names[peer_compare.countries[1]]) %}
-{% set pc_b = term(peer_compare.names[peer_compare.countries[2]]) %}
 <section class="slide" id="q8">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8.q', a=pc_a, b=pc_b) }}</h2>

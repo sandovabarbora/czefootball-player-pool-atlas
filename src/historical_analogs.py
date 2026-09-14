@@ -138,7 +138,12 @@ def showcase_ids(
         (d) under 23 in the metrics season (season start year - born < 23),
             most minutes in the domestic league, and no season in any
             headline league anywhere in the fetched history (across all
-            position groups); already chosen players are skipped.
+            position groups); already chosen players are skipped. Skipped
+            entirely when the domestic league is itself one of the headline
+            (top-9) leagues -- there, (c)'s "most top-9 minutes" already
+            draws from the same domestic-minutes pool, so (d) would only
+            duplicate or fall through past (c)'s pick rather than add a
+            distinct name.
         (f) most domestic-league minutes among the `nt_core_event` squad
             (the squad's home-league core); already chosen players are skipped.
     Rules, not picks: the reason string is descriptive.
@@ -212,16 +217,24 @@ def showcase_ids(
                 _add(row, group, f"most top-9 league minutes among {group}")
                 break
 
-            home = cz[(cz.league == domestic) & ((season_start - cz.born) < 23)
-                      & ~cz.player_key.isin(ever_abroad)]
-            home_min = home.groupby("player_key")["min"].sum().sort_values(ascending=False)
-            for key in home_min.index:
-                if key in seen:
-                    continue
-                row = home[home.player_key == key].iloc[0]
-                _add(row, group,
-                     f"most domestic-league minutes among under-23 {group} without a top-9 season")
-                break
+            # Rule (d) is skipped when the domestic league is itself a headline
+            # (top-9) league: in that case rule (c) ("most top-9 league minutes")
+            # already draws from the same domestic-minutes pool, so a player
+            # picked by (d) would almost always duplicate (c)'s pick and just
+            # push the fall-through to the next-best player instead of adding a
+            # distinct "produced at home, never left" name — nothing left for
+            # (d) to say that (c) hasn't already said.
+            if domestic not in headline:
+                home = cz[(cz.league == domestic) & ((season_start - cz.born) < 23)
+                          & ~cz.player_key.isin(ever_abroad)]
+                home_min = home.groupby("player_key")["min"].sum().sort_values(ascending=False)
+                for key in home_min.index:
+                    if key in seen:
+                        continue
+                    row = home[home.player_key == key].iloc[0]
+                    _add(row, group,
+                         f"most domestic-league minutes among under-23 {group} without a top-9 season")
+                    break
     return showcase[:18]
 
 

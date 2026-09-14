@@ -11,6 +11,17 @@ wikidata_citizenship: Q145     # United Kingdom (English footballers carry P27 =
 domestic_league: ENG-Premier League
 home_league: Premier League     # EN display name for {home_league} in src/i18n.py copy
 
+# Nation-specific coverage caveat appended to `lim.leagues.body` (Task 14c) --
+# see cze.yaml's comment on this field. England's second tier, unlike
+# Czechia's, is fully tracked by FBref; it is simply outside this pipeline's
+# fetched competition list (config/leagues.yaml has no ENG-Championship
+# entry), a scope choice rather than a data-availability gap. None of
+# England's peers (FRA/GER/ESP/ITA/NED/POR/BEL) has an un-fetchable own top
+# flight the way Slovakia does for Czechia -- every one of their domestic
+# leagues is already a headline league -- so there is no Slovakia-style
+# second sentence needed here.
+leagues_note: " The English second tier (the Championship) is itself tracked by FBref; it sits outside this pipeline's fetched competitions by scope, not because the data is unavailable."
+
 # Czech-language forms of the nation's name/adjective (see cze.yaml's comment
 # on this field for what each key is for).
 cs:
@@ -22,6 +33,7 @@ cs:
   adj_pl: angličtí
   players: angličtí hráči
   home_league: Premier League
+  leagues_note: " Anglická druhá liga (Championship) je na FBref vedená; mimo stahované soutěže tohoto pipeline je jen rozsahem, ne nedostupností dat."
 
 # countries.yaml codes, home nation excluded
 peers: [FRA, GER, ESP, ITA, NED, POR, BEL]

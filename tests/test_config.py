@@ -89,6 +89,47 @@ def test_nation_carries_home_league_and_cs_forms():
             assert cs[key], (code, key)
 
 
+def test_leagues_domestic_key_tracks_the_home_nation_not_the_yaml_literal(monkeypatch):
+    """Task 14c: config/leagues.yaml's own `domestic:` key is a stale
+    "CZE-First League" literal predating Task 14a's nation configuration.
+    config.leagues()["domestic"] must override it with nation()
+    ["domestic_league"] so every caller (src.pathways.destinations()'s tier
+    bucketing and sideways-multiplier lookup, src.render.
+    _country_sideways_share's slide-8 home-nation column, src.fetch_fbref's
+    fetch list) gets the running nation's own domestic league, not
+    Czechia's -- under NATION=eng this silently broke all of the above
+    (England's own Premier League rows were never recognised as
+    "domestic", and every "sideways" share was measured against Czechia's
+    0.434 multiplier instead of the Premier League's own 1.0)."""
+    raw = config.load_yaml("leagues.yaml")
+    assert raw["domestic"] == "CZE-First League"  # the stale literal itself, unchanged in the file
+    assert config.leagues()["domestic"] == config.nation()["domestic_league"]
+    monkeypatch.setenv("NATION", "eng")
+    try:
+        eng_config = importlib.reload(config)
+        assert eng_config.leagues()["domestic"] == "ENG-Premier League"
+    finally:
+        monkeypatch.delenv("NATION", raising=False)
+        importlib.reload(config)
+
+
+def test_nation_carries_a_distinct_leagues_note():
+    """Task 14c: `lim.leagues.body`'s nation-specific coverage caveat
+    (`leagues_note`, EN and `cs.leagues_note`) is set for both nations and
+    differs between them -- cze's second tier and its peer Slovakia's top
+    flight are both genuinely absent from FBref, England's second tier is
+    merely out of this pipeline's fetch scope, and the two notes must not
+    read the same."""
+    cze = config.load_yaml("nations/cze.yaml")
+    eng = config.load_yaml("nations/eng.yaml")
+    assert cze["leagues_note"] and eng["leagues_note"]
+    assert cze["leagues_note"] != eng["leagues_note"]
+    assert cze["cs"]["leagues_note"] and eng["cs"]["leagues_note"]
+    assert cze["cs"]["leagues_note"] != eng["cs"]["leagues_note"]
+    # cze's real second-tier/Slovak-top-flight gap must not leak into eng's note
+    assert "Slovak" not in eng["leagues_note"] and "Slovakia" not in eng["leagues_note"]
+
+
 def test_cluster_labels_defaults_to_the_shared_file():
     """config.cluster_labels() loads the shared config/cluster_labels.yaml
     unless nation() sets an override; cze/eng share one fit (Task 14b)."""

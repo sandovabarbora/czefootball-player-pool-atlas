@@ -21,7 +21,7 @@ strings:
   toc.q5: "Jak se jim daří"
   toc.q6: "Nominace na MS"
   toc.q7: "Kdy vlak odjel"
-  toc.q8: "Norsko a Dánsko"
+  toc.q8: "{a} a {b}"
   toc.q9: "Kdo jsou hráči"
   toc.explore: "Prozkoumat data"
   toc.benchmark: "Benchmark vs peer země"
@@ -68,7 +68,7 @@ strings:
   hero.sublead.gap: "Největší kohortová mezera: <strong>{group} {cohort}</strong> — {cze_n} hráčů {cs_gen} v top-{topn} ligách proti peer mediánu {peer}."
   hero.sublead.export: "Nedávný {cs_adj_m} export se poprvé dostal na soupisku top-{topn} ligy v mediánovém věku {cze}; dánský v {den}."
   hero.sublead.close: "Postaveno na FBref, Wikipedii a Wikidatech. {cs_Name} je pracovní příklad; pipeline bere kód národnosti a sadu peer zemí. Lidé z fotbalu tato čísla znají hráč po hráči; agregovaná na jednom místě nejsou nikde."
-  hero.footnote: "* {n} hráčů s národností CZE podle FBref na soupiskách {season} top-{topn} lig UEFA ÷ {pop} mil. obyvatel (Eurostat 2024); peer země počítány stejně. <a href=\"#methodology\">Metodologie</a>."
+  hero.footnote: "* {n} hráčů s národností {code} podle FBref na soupiskách {season} top-{topn} lig UEFA ÷ {pop} mil. obyvatel (Eurostat 2024); peer země počítány stejně. <a href=\"#methodology\">Metodologie</a>."
 
   # ---- slidy (Task 13b): devět otázek mezi hero a "pro federaci", každý
   # q (h2) / a (jedna věta, hlavní číslo v <strong>) / proof (jeden exhibit,
@@ -107,7 +107,7 @@ strings:
   # ---- proof slidu 2: kompaktní tabulka kohortových mezer (top 5 řádků)
   cohortgap.th.group: "Skupina"
   cohortgap.th.cohort: "Kohorta"
-  cohortgap.th.cze: "CZE"
+  cohortgap.th.cze: "{code}"
   cohortgap.th.peer: "Peer medián"
 
   # ---- proof slidu 8: table.peer-compare (CZE / NOR / DEN, šest čísel + počet v Big-5 teď)
@@ -202,8 +202,8 @@ strings:
   ch2.d.summary: "Tabulka profilu podle úrovně a postu"
   ch2.d.th.tier: "Úroveň"
   ch2.d.th.group: "Skupina"
-  ch2.d.th.cze_n: "CZE n"
-  ch2.d.th.cze_median: "CZE medián"
+  ch2.d.th.cze_n: "{code} n"
+  ch2.d.th.cze_median: "{code} medián"
   ch2.d.th.peer_n: "Peer medián n"
   ch2.d.th.peer_median: "Peer medián"
   ch2.d.note: "* Úroveň = liga vlastní sezóny {season} hráče. Peer medián n a peer medián jsou mediány přes peer země přítomné v dané úrovni a skupině; úroveň, kde země nemá hráče, chybí, není nula."
@@ -328,7 +328,7 @@ strings:
   dq.nt_unmatched.label: "Nespárovaná jména z nominací"
   dq.nt_unmatched.what: "Jména z tabulek reprezentačních nominací, která neodpovídají žádnému řádku {cs_gen} ve featurových tabulkách."
   dq.missing_born.label: "Chybějící ročník narození"
-  dq.missing_born.what: "Řádky sezónních tabulek národnosti CZE bez ročníku narození, ze kterých nejde sestavit player_key."
+  dq.missing_born.what: "Řádky sezónních tabulek národnosti {code} bez ročníku narození, ze kterých nejde sestavit player_key."
   ch4.lim.h3: "Limitace této analýzy"
   ch4.repro.h3: "Reprodukovatelnost"
   ch4.repro.p: "Celá pipeline je veřejná: <a href=\"{url}\">{url_short}</a>. Licence MIT. Z čistého klonu <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> vykreslí tento report z commitnutého datového snapshotu a <code>make pages</code> sestaví web; <code>make all</code> vše znovu stáhne a spustí celou pipeline. Náhodný seed {seed} pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě."
@@ -378,7 +378,7 @@ strings:
 
   # ---- generated: limitations
   lim.leagues.title: "Ligy bez metrik"
-  lim.leagues.body: "Pipeline stahuje z FBref {n_leagues} soutěží; {cs_adj_f} druhá liga a slovenská nejvyšší soutěž na FBref vůbec nejsou. {n_no_tables} z {n_pool} profesionálů {cs_gen} nalezených na stránce země FBref hraje v lize bez sezónních tabulek a nenese žádné metriky; jsou uvedeni jen jménem a klubem. Slovenské exhibity v kapitole II proto stojí na jeho hráčích v zahraničí."
+  lim.leagues.body: "Pipeline stahuje z FBref {n_leagues} soutěží. {n_no_tables} z {n_pool} profesionálů {cs_gen} nalezených na stránce země FBref hraje v lize bez sezónních tabulek a nenese žádné metriky; jsou uvedeni jen jménem a klubem.{cs_leagues_note}"
   lim.features.title: "Featury z bezplatné vrstvy"
   lim.features.body: "Vektor featur je pět základních sloupců na 90 minut: góly ze hry, asistence, podíl minut, věk a karty. Žádné očekávané góly, žádné progresivní přihrávky, žádné skluzy — pravidlem byl jeden identický vektor napříč každou ligou korpusu a pro všechny je dostupná jen základní tabulka. Defenzivní a kreativní příspěvek nad rámec asistencí je pro mapu neviditelný."
   lim.nt.title: "Zdroj reprezentačního příznaku"
@@ -394,7 +394,7 @@ strings:
   lim.identity.title: "Identita hráče"
   lim.identity.body: "Sezónní tabulky FBref nenesou id hráče, takže hráči se spojují podle normalizovaného jména a ročníku narození napříč ligami a sezónami; dva hráči sdílející obojí by se sloučili do jednoho. Přestup uprostřed sezóny vytvoří dvě klubové řádky, které se před řazením sloučí do jedné vážené minutami."
   lim.women.title: "Ženské položky a heuristika -ová"
-  lim.women.body: "Stránka země FBref míchá mužské a ženské soutěže. Položky s příjmením končícím na -ová byly z fondu vypuštěny; žena s jinou koncovkou příjmení by filtrem prošla a muž s touhle koncovkou ne."
+  lim.women.body: "Stránka země FBref míchá mužské a ženské soutěže. Položky s příjmením končícím na -ová byly z fondu vypuštěny; žena s jinou koncovkou příjmení by filtrem prošla a muž s touhle koncovkou ne. Koncovka je specifická pro česká ženská příjmení, takže u národnosti, jejíž konvence pojmenování ji nepoužívá (například anglická), filtr zachytí jen zlomek kontaminace, na kterou cílí; počet u \"Vyfiltrované ženské položky\" v logu kvality dat níže udává, kolik jich zachytil při tomto běhu."
   lim.scope.title: "Žádné tržní hodnoty, žádný skauting"
   lim.scope.body: "Přestupové částky, tržní hodnoty, video a skautské zprávy jsou mimo zde použité veřejné zdroje. Mapa popisuje statistické otisky a počty; nominační a rozvojová rozhodnutí vyžadují vlastní data a expertizu svazu, které tato metoda nemá."
   lim.tracking.title: "Žádná eventová ani trackingová data"

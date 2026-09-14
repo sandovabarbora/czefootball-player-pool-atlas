@@ -140,6 +140,19 @@ def test_showcase_fourth_rule_domestic_u23_without_top9_season():
     assert reasons2["fw_home_u23_2nd"].startswith("most domestic-league minutes among under-23 FW")
 
 
+def test_showcase_fourth_rule_skipped_when_domestic_league_is_headline():
+    # Same toy data, but the domestic league is now one of the headline (top-9)
+    # leagues (e.g. England's Premier League) -- rule (d) must not fire at all,
+    # even though fw_home_u23 would otherwise qualify under it.
+    out = showcase_ids(_showcase_toy(), "2024-2025",
+                       headline_leagues=["CZE-First League", "GER-Bundesliga", "ITA-Serie A",
+                                         "FRA-Ligue 1"],
+                       domestic_league="CZE-First League")
+    reasons = {s["player_key"]: s["reason"] for s in out}
+    assert not any(r.startswith("most domestic-league minutes among under-23") for r in reasons.values())
+    assert "fw_home_u23" not in reasons
+
+
 def test_rule_e_picks_wc_squad_member_with_most_top9_minutes_per_group():
     # FW: A (chosen by rule a), B in WC squad with 1800 top-9 min, C in WC squad 900 min
     fw = pd.DataFrame({
