@@ -191,6 +191,9 @@ def _count_tests() -> int:
 def _count_rulings() -> int:
     """Lines containing `Ruling:` in the v1 pipeline ledger — one per dated controller decision."""
     ledger = config.ROOT_DIR / LEDGER_PATH
+    if not ledger.exists():
+        LOG.warning("ledger %s missing; rulings count rendered as 0", ledger)
+        return 0
     return sum(1 for line in ledger.read_text(encoding="utf-8").splitlines() if "Ruling:" in line)
 
 
