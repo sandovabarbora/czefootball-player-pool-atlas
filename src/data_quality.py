@@ -112,11 +112,9 @@ def _nt_unmatched_count(nt_flags: pd.DataFrame, features_by_group: dict[str, pd.
 
     nt = nt_flags.reset_index(drop=True).reset_index()
     candidates = nt.merge(combined, on="player_norm", how="inner")
-    born_ok = (
-        candidates["born_feat"].isna()
-        | candidates["born"].isna()
-        | (candidates["born_feat"] == candidates["born"])
-    )
+    # same rule as features._attach_flags: a missing birth year is forgiven on
+    # the squad-table side only
+    born_ok = candidates["born"].isna() | (candidates["born_feat"] == candidates["born"])
     matched = set(candidates.loc[born_ok, "index"])
     return len(nt) - len(matched)
 
