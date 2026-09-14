@@ -199,7 +199,7 @@ def test_nine_slides_each_carry_question_answer_proof_and_how():
 def test_for_a_federation_stays_after_the_slides_before_explore():
     ctx = build_context_from_fixtures("en")
     html = _render(ctx)
-    assert 'class="for-federation"' in html and "Run for England" in html
+    assert 'class="for-federation"' in html and "Run for England" not in html
     q9_pos = html.index('id="q9"')
     fed_pos = html.index('class="for-federation"')
     explore_pos = html.index('id="explore"')
