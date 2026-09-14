@@ -26,14 +26,17 @@ from src.utils import season_label
 
 METRICS = season_label(config.seasons()["metrics"])
 NT_YEARS = config.nt_years()
+ADJ_EN = config.nation()["adjective"]
+ADJ_CS = config.nation().get("cs", {}).get("adj_m", "český")
+ADJ_CS_PL = config.nation().get("cs", {}).get("adj_pl", "čeští")
 
 T = {
     # scatter atlases
     "Style map (no league multipliers)": "Style mapa (bez ligových násobiček)",
     "Quality-adjusted map": "Kvalitou upravená mapa",
-    f"Czech football · Forwards {METRICS}": f"Český fotbal · Útočníci {METRICS}",
-    f"Czech football · Midfielders {METRICS}": f"Český fotbal · Záložníci {METRICS}",
-    f"Czech football · Defenders {METRICS}": f"Český fotbal · Obránci {METRICS}",
+    f"{ADJ_EN} football · Forwards {METRICS}": f"{ADJ_CS.capitalize()} fotbal · Útočníci {METRICS}",
+    f"{ADJ_EN} football · Midfielders {METRICS}": f"{ADJ_CS.capitalize()} fotbal · Záložníci {METRICS}",
+    f"{ADJ_EN} football · Defenders {METRICS}": f"{ADJ_CS.capitalize()} fotbal · Obránci {METRICS}",
     "corpus": "korpus",
     f"NT {NT_YEARS}": "Reprezentace",   # the years are in the caption; the legend sits at the panel edge
     # heatmap
@@ -46,17 +49,18 @@ T = {
     "Per million population": "Na milion obyvatel",
     "Season start year": "Počáteční rok sezóny",
 }
+CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern
 CAPTION_EN = re.compile(
-    r"PCA of the five-feature vector \(npG/90, A/90, minutes share, age, cards/90\), (?P<season>\S+)\. "
-    r"Grey: the whole corpus \(n = (?P<corpus>\d+)\); coloured: Czech-eligible players by cluster \(n = (?P<czech>\d+)\)\. "
-    r"Oxblood rings: national-team call-up (?P<nt>[\d–-]+)\.")
+    rf"PCA of the five-feature vector \(npG/90, A/90, minutes share, age, cards/90\), (?P<season>\S+)\. "
+    rf"Grey: the whole corpus \(n = (?P<corpus>\d+)\); coloured: {re.escape(ADJ_EN)}-eligible players by cluster \(n = (?P<czech>\d+)\)\. "
+    rf"Oxblood rings: national-team call-up (?P<nt>[\d–-]+)\.")
 CAPTION_CS = ("PCA pětiprvkového vektoru (npG/90, A/90, podíl minut, věk, karty/90), {season}. "
-              "Šedě: celý korpus (n = {corpus}); barevně: hráči s českou příslušností podle clusteru (n = {czech}). "
+              "Šedě: celý korpus (n = {corpus}); barevně: hráči s příslušností " + CS_GEN + " podle clusteru (n = {czech}). "
               "Oxbloodové kroužky: reprezentační nominace {nt}.")
 # the big5_series suptitle carries the season span, so it is matched by pattern too
-BIG5_TITLE_EN = re.compile(r"Czech players in the Big-5 leagues, (?P<start>\S+) → (?P<end>\S+)")
-BIG5_TITLE_CS = "Čeští hráči v ligách Big-5, {start} → {end}"
+BIG5_TITLE_EN = re.compile(rf"{re.escape(ADJ_EN)} players in the Big-5 leagues, (?P<start>\S+) → (?P<end>\S+)")
+BIG5_TITLE_CS = f"{ADJ_CS_PL.capitalize()} hráči v ligách Big-5, " + "{start} → {end}"
 # labels that stay as they are (axis names, cluster codes, cohorts, countries, numbers, surnames,
 # and the big5_series point annotations "YYYY/YY: N", identical in both languages)
 KEEP = re.compile(r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d\d\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+|\d{4}/\d\d: \d+)$")

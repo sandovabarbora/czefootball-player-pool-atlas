@@ -21,16 +21,49 @@ from typing import Any
 import yaml
 from markupsafe import Markup, escape
 
+from src import config
+
 ROOT_DIR = Path(__file__).resolve().parent.parent
 CS_PATH = ROOT_DIR / "config" / "i18n" / "cs.yaml"
 LANGS = ("en", "cs")
 log = logging.getLogger(__name__)
 
+# Names auto-injected into every t()/raw() call from config.nation() (Task
+# 14b) -- a nation word or number that appears in the report's copy without
+# the template or a render builder having to name it explicitly. `nation`,
+# `adj`, `Adj`, `code`, `home_league` are the English forms; every `cs_*`
+# name comes from the home nation's `cs:` block (config/nations/<NATION>.yaml)
+# -- one entry per key there, plus a capitalised variant (`cs_Adj_m`, ...)
+# for sentence-initial use. Allowed anywhere by `check_placeholders` (a
+# string can use or drop any of these regardless of what the other language's
+# entry does) since they are not part of the translator's own contract.
+_AUTO_NAMES = {"nation", "adj", "Adj", "code", "home_league"}
+
+
+def _capitalize(s: str) -> str:
+    return s[:1].upper() + s[1:] if s else s
+
+
+def _auto_params() -> dict[str, str]:
+    """Nation-word placeholders available in every string, from `config.nation()`."""
+    n = config.nation()
+    out = {
+        "nation": n["name"],
+        "adj": n["adjective"],
+        "Adj": n["adjective"],  # English nationality adjectives are always capitalised
+        "code": n["code"],
+        "home_league": n["home_league"],
+    }
+    for key, val in n.get("cs", {}).items():
+        out[f"cs_{key}"] = val
+        out[f"cs_{_capitalize(key)}"] = _capitalize(val)
+    return out
+
 # fmt: off
 EN: dict[str, str] = {
     # ---- head / chrome
-    "meta.title": "Czech football · Player pool atlas",
-    "meta.description": "Structural benchmark of the Czech professional football player pool against {n} peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.",
+    "meta.title": "{adj} football · Player pool atlas",
+    "meta.description": "Structural benchmark of the {adj} professional football player pool against {n} peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.",
     "skip": "Skip to content",
     "toc.aria": "Report contents",
     "toc.hide": "Hide contents",
@@ -87,9 +120,9 @@ EN: dict[str, str] = {
     "hero.h2": "How deep is a national player pool — and why",
     "hero.unit": "players in Europe's {topn} strongest leagues per million inhabitants, {season} rosters",
     "hero.lead": "A federation-grade view of one country's professional pool: how it compares with peers per head, where the pathway abroad leaks, how the tournament squad is sourced, and each player's season against a European corpus.",
-    "hero.sublead.gap": "The largest cohort gap is in <strong>{group} aged {cohort}</strong>: {cze_n} Czech player{s} in the top-{topn} leagues against a peer median of {peer}.",
-    "hero.sublead.export": "A recent Czech export first reached a top-{topn} roster at a median age of {cze}; a Danish one at {den}.",
-    "hero.sublead.close": "Built from FBref, Wikipedia and Wikidata. Czechia is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.",
+    "hero.sublead.gap": "The largest cohort gap is in <strong>{group} aged {cohort}</strong>: {cze_n} {adj} player{s} in the top-{topn} leagues against a peer median of {peer}.",
+    "hero.sublead.export": "A recent {adj} export first reached a top-{topn} roster at a median age of {cze}; a Danish one at {den}.",
+    "hero.sublead.close": "Built from FBref, Wikipedia and Wikidata. {nation} is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.",
     "hero.footnote": "* {n} players with FBref nationality CZE on {season} rosters of the UEFA top-{topn} leagues ÷ {pop} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href=\"#methodology\">Methodology</a>.",
 
     # ---- slides (Task 13b): nine questions between the hero and "for a
@@ -97,30 +130,31 @@ EN: dict[str, str] = {
     # <strong>) / proof (one exhibit, markup in the template) / how (mono
     # sourcing line, shared "How we know" label below)
     "slide.how_label": "How we know",
-    "slide.1.q": "Is the Czech pool thin?",
-    "slide.1.a": "Czechia ranks <strong>{rank} of {n}</strong> countries at {pm} per million; {top} leads at {top_pm}.",
+    "slide.1.q": "Is the {adj} pool thin?",
+    "slide.1.a": "{nation} ranks <strong>{rank} of {n}</strong> countries at {pm} per million; {top} leads at {top_pm}.",
     "slide.1.how": "Distinct players with ≥ {min} minutes on {season} rosters of the {topn} strongest leagues ÷ population (Eurostat 2024); every country counted the same way.",
     "slide.2.q": "Where exactly is it thin?",
-    "slide.2.a": "The largest cohort gap: <strong>{group} aged {cohort}</strong>, {cze} Czech players vs a peer median of {peer}.",
+    "slide.2.a": "The largest cohort gap: <strong>{group} aged {cohort}</strong>, {cze} {adj} players vs a peer median of {peer}.",
     "slide.2.how": "Age at season start; cohorts U22 / 23–25 / 26–29 / 30+; ≥ {min} minutes.",
     "slide.3.q": "Do young players get minutes at home?",
     "slide.3.a": "U21 share of domestic-league minutes <strong>{cze_pct} %</strong> vs {best_name} {best_pct} % (best peer).",
     "slide.3.how": "Share of all league minutes played by players aged ≤ 21 at season start, {season}, per domestic top flight.",
-    "slide.4.q": "Where do Czech players go when they leave?",
-    "slide.4.a": "<strong>{abroad} of {total}</strong> play abroad; {top9_pct} % in the {topn} strongest leagues, {sideways_pct} % moved sideways (to a league no stronger than the Czech one).",
-    "slide.4.how": "Destination league of every Czech-eligible player's {season} row; sideways = destination multiplier ≤ Czech league multiplier.",
+    "slide.4.q": "Where do {adj} players go when they leave?",
+    "slide.4.a": "<strong>{abroad} of {total}</strong> play abroad; {top9_pct} % in the {topn} strongest leagues, {sideways_pct} % moved sideways (to a league no stronger than the {adj} one).",
+    "slide.4.how": "Destination league of every {adj}-eligible player's {season} row; sideways = destination multiplier ≤ {adj} league multiplier.{home_note}",
     "slide.5.q": "How do they fare there?",
-    "slide.5.a": "Czech exports keep <strong>{cze} %</strong> of their club's minutes ({rank} of {n}).",
-    "slide.5.how": "Median share of club minutes for players abroad, per country of origin.",
+    "slide.5.a": "{Adj} exports keep <strong>{cze} %</strong> of their club's minutes ({rank} of {n}).",
+    "slide.5.how": "Median share of club minutes for players abroad, per country of origin.{home_note}",
+    "slide.home_note": " {home_league} is itself one of Europe's top-{topn} leagues; here 'abroad' means the other {topn_minus_1}.",
     "slide.6.q": "What is the World Cup squad built from?",
     "slide.6.a": "<strong>{cze_pct} %</strong> of the {event} squad plays in the {topn} strongest leagues; {best_name} {best_pct} %.",
     "slide.6.how": "Wikipedia squad lists matched to {season} league rows; tier = league of the most-minutes row.",
     "slide.7.q": "When did the train leave?",
-    "slide.7.a": "Czech players with ≥ {min} minutes in the Big-5 leagues peaked at <strong>{peak_n}</strong> in {peak_season}, fell to {low_n} in {low_season}, {last_n} in {last_season}.",
-    "slide.7.how": "FBref Big-5 player tables {first_season} → {last_season}; peers on the same rule; the golden-generation names are the most-minutes Czech players of each peak season: {golden}.",
-    "slide.7.alt": "Line chart: Czech players with at least {min} minutes in the Big-5 leagues, {start} to {end}, against eight peer countries; a lower panel shows per-million rates for Czechia, Denmark and Croatia.",
-    "slide.8.q": "How do Norway and Denmark do it?",
-    "slide.8.a": "On the same six numbers Norway gives U21 players <strong>{nor_u21} %</strong> of domestic minutes against {cze_u21} % and sends {nor_top9} % of its squad to the {topn} strongest leagues against {cze_top9} %.",
+    "slide.7.a": "{Adj} players with ≥ {min} minutes in the Big-5 leagues peaked at <strong>{peak_n}</strong> in {peak_season}, fell to {low_n} in {low_season}, {last_n} in {last_season}.",
+    "slide.7.how": "FBref Big-5 player tables {first_season} → {last_season}; peers on the same rule; the golden-generation names are the most-minutes {adj} players of each peak season: {golden}.",
+    "slide.7.alt": "Line chart: {adj} players with at least {min} minutes in the Big-5 leagues, {start} to {end}, against eight peer countries; a lower panel shows per-million rates for {nation}, {a} and {b}.",
+    "slide.8.q": "How do {a} and {b} do it?",
+    "slide.8.a": "On the same six numbers {a} gives U21 players <strong>{nor_u21} %</strong> of domestic minutes against {cze_u21} % and sends {nor_top9} % of its squad to the {topn} strongest leagues against {cze_top9} %.",
     "slide.8.how": "Same definitions, same seasons; a comparison, not a causal claim.",
     "slide.9.q": "Who are the players?",
     "slide.9.a": "<strong>{n} cards</strong> chosen by six rules.",
@@ -133,7 +167,7 @@ EN: dict[str, str] = {
     "cohortgap.th.peer": "Peer median",
 
     # ---- slide 8 proof: table.peer-compare (CZE / NOR / DEN, six numbers + Big-5 count now)
-    "peer_compare.aria": "Czechia, Norway and Denmark on six same-definition pathway numbers",
+    "peer_compare.aria": "{nation}, {a} and {b} on six same-definition pathway numbers",
     "peer_compare.th.metric": "Metric",
     "peer_compare.per_million": "Players per million",
     "peer_compare.u21_share": "U21 share of domestic minutes",
@@ -164,25 +198,25 @@ EN: dict[str, str] = {
 
     # ---- chapter I
     "ch1.benchmark.h3": "Structural benchmark vs peer countries",
-    "ch1.benchmark.p": "Football intuition recognises the Czech pool player by player. <strong>Its structural position among the peer countries needs an aggregation nobody holds in one place.</strong> Three numbers below that are usually not collected together.",
+    "ch1.benchmark.p": "Football intuition recognises the {adj} pool player by player. <strong>Its structural position among the peer countries needs an aggregation nobody holds in one place.</strong> Three numbers below that are usually not collected together.",
     "ch1.capita.aria": "Per-capita density of top-league players by country",
-    "ch1.heatmap.alt": "Heatmap of the international cohort benchmark: {n} countries by position group and age cohort, {season} season; the Czech row is outlined.",
-    "ch1.heatmap.caption": "Median non-penalty goals + assists per 90 by country, position group and age cohort, {season}; the outlined row is Czechia.",
-    "ch1.heatmap.note": "Each cell: player count and the median value; rows ordered by per-capita rank, Czechia highlighted.",
+    "ch1.heatmap.alt": "Heatmap of the international cohort benchmark: {n} countries by position group and age cohort, {season} season; the {adj} row is outlined.",
+    "ch1.heatmap.caption": "Median non-penalty goals + assists per 90 by country, position group and age cohort, {season}; the outlined row is {nation}.",
+    "ch1.heatmap.note": "Each cell: player count and the median value; rows ordered by per-capita rank, {nation} highlighted.",
     "ch1.cohorts.h4": "Cohort gaps — {group}",
     "ch1.cohorts.th": "Cohort",
     "ch1.cohorts.none": "no player",
-    "ch1.cohorts.note": "* Count and median npG+A per 90 of players with the country's nationality in a top-{topn} league, {season}, at least {min} minutes; cohort by age at the season's calendar turn (start year + 1 − birth year). {shown} of the {n} countries are shown; the heatmap above carries all of them. Largest Czech shortfalls against the peer median count: {gaps}.",
+    "ch1.cohorts.note": "* Count and median npG+A per 90 of players with the country's nationality in a top-{topn} league, {season}, at least {min} minutes; cohort by age at the season's calendar turn (start year + 1 − birth year). {shown} of the {n} countries are shown; the heatmap above carries all of them. Largest {adj} shortfalls against the peer median count: {gaps}.",
     "ch1.cohorts.gap_item": "{group} {cohort} ({cze} vs {peer})",
-    "ch1.atlas.alt": "Two-panel atlas of {group} {season} in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of {corpus} players; coloured points are the {czech} Czech-eligible players by cluster; oxblood rings mark the {nt} with a national-team call-up {nt_years}.",
-    "ch1.atlas.caption": "Atlas of {group} {season} in both projections: {czech} Czech-eligible players in colour against a corpus of {corpus}. Oxblood rings mark the national-team pool (call-up {nt_years}, {nt} players).",
+    "ch1.atlas.alt": "Two-panel atlas of {group} {season} in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of {corpus} players; coloured points are the {czech} {adj}-eligible players by cluster; oxblood rings mark the {nt} with a national-team call-up {nt_years}.",
+    "ch1.atlas.caption": "Atlas of {group} {season} in both projections: {czech} {adj}-eligible players in colour against a corpus of {corpus}. Oxblood rings mark the national-team pool (call-up {nt_years}, {nt} players).",
     "ch1.observations.h3": "Observations",
     "ch1.clusters.h3": "Cluster archetypes (style projection)",
-    "ch1.clusters.p": "Clusters are fitted on the whole corpus of {season} player-seasons and read here through their Czech members. The label describes the cluster's median footprint; the count is Czech members of the corpus cluster; names are the Czech members with the most minutes.",
-    "ch1.clusters.meta": "{n} Czech of {corpus} · NT pool {nt} · median born {born}",
+    "ch1.clusters.p": "Clusters are fitted on the whole corpus of {season} player-seasons and read here through their {adj} members. The label describes the cluster's median footprint; the count is {adj} members of the corpus cluster; names are the {adj} members with the most minutes.",
+    "ch1.clusters.meta": "{n} {adj} of {corpus} · NT pool {nt} · median born {born}",
     "ch1.clusters.medians": "Corpus medians: {npg} non-penalty goals and {ast} assists per 90, {share} of the club's minutes, age {age}, {cards} cards per 90.",
     "ch1.clusters.tactical": "Tactical read",
-    "ch1.traj.h3": "Trajectories {previous} → {metrics} (Czech-eligible, ≥ {min} minutes in both seasons)",
+    "ch1.traj.h3": "Trajectories {previous} → {metrics} ({adj}-eligible, ≥ {min} minutes in both seasons)",
     "ch1.traj.p": "Season-over-season change in goals + assists per 90, league-adjusted. A move counts as up or down beyond ± {band}; everything inside that band is stable and not listed.",
     "ch1.traj.h4": "{group} — {n} players: {up} up, {stable} stable, {down} down",
     "ch1.traj.up": "Moving up &middot; {metric}",
@@ -191,11 +225,11 @@ EN: dict[str, str] = {
     "ch1.traj.th.league": "League",
     "ch1.traj.th.min": "Min {previous} / {metrics}",
     "ch1.traj.th.delta": "Change",
-    "ch1.traj.none_up": "No Czech player moved up beyond the band.",
-    "ch1.traj.none_down": "No Czech player moved down beyond the band.",
+    "ch1.traj.none_up": "No {adj} player moved up beyond the band.",
+    "ch1.traj.none_down": "No {adj} player moved down beyond the band.",
 
     # ---- chapter II
-    "ch2.framing": "Four exhibits comparing Czechia with {n} peer countries: youth exposure at home, export route, how exports fare, and who made it.",
+    "ch2.framing": "Four exhibits comparing {nation} with {n} peer countries: youth exposure at home, export route, how exports fare, and who made it.",
     "ch2.a.h3": "Exhibit A — youth exposure at home",
     "ch2.a.p": "Share of a domestic league's total minutes played by its own nationals aged 21 or under, {season}.",
     "ch2.a.aria": "Share of domestic-league minutes played by own under-21 nationals",
@@ -203,7 +237,7 @@ EN: dict[str, str] = {
     "ch2.a.note": "* Σ minutes of players with the league country's nationality and age ≤ 21 at the season's start ÷ Σ minutes of all players in the league, {season}. Under-23 shares: {u23}. A league without a bar is not covered by FBref.",
     "ch2.b.h3": "Exhibit B — export route",
     "ch2.b.p": "For every peer-country player on a {current} top-{topn} roster: the age at the first top-{topn} season (full roster, and recent entrants only) and, for recent entrants, the league of the season before it.",
-    "ch2.b.cze": "Czech exports: {n} players, median export age {age} (recent entrants {n_recent}, median {age_recent}), {domestic} of the recent ones straight from the Czech First League*.",
+    "ch2.b.cze": "{Adj} exports: {n} players, median export age {age} (recent entrants {n_recent}, median {age_recent}), {domestic} of the recent ones straight from the {home_league}*.",
     "ch2.b.th.country": "Country",
     "ch2.b.th.recent": "Recent",
     "ch2.b.th.age_all": "Export age (all)",
@@ -220,7 +254,7 @@ EN: dict[str, str] = {
     "ch2.c.aria.goals": "Median club goals-scored percentile of exports' clubs, by country",
     "ch2.c.note": "* Minutes share = player minutes ÷ (club matches × 90), {season}, one row per player-season. Club strength proxy: {proxy} — clubs ranked by the goals their own roster scored that season (ClubElo was unreachable at run time). Both are medians over the country's exports; n per country in the bars.",
     "ch2.d.h3": "Exhibit D — profile of those who made it",
-    "ch2.d.p": "Goals + assists per 90, league-adjusted, in {season} by the tier of the player's own league: domestic, stepping stone, top-{topn}, or another covered league. Czech count and median against the median of the peer countries' values.",
+    "ch2.d.p": "Goals + assists per 90, league-adjusted, in {season} by the tier of the player's own league: domestic, stepping stone, top-{topn}, or another covered league. {Adj} count and median against the median of the peer countries' values.",
     "ch2.d.summary": "Profile table by tier and position group",
     "ch2.d.th.tier": "Tier",
     "ch2.d.th.group": "Group",
@@ -229,9 +263,9 @@ EN: dict[str, str] = {
     "ch2.d.th.peer_n": "Peer median n",
     "ch2.d.th.peer_median": "Peer median",
     "ch2.d.note": "* Tier = the league of the player's own {season} season. Peer median n and peer median are medians across the peer countries present in that tier and group; a tier a country has no player in is absent, not zero.",
-    "ch2.e.h3": "Exhibit E — where Czech exports go",
-    "ch2.e.p": "Of the {total} mapped Czech players, {abroad} play outside the Czech First League.",
-    "ch2.e.aria": "Czech players abroad by destination bucket",
+    "ch2.e.h3": "Exhibit E — where {adj} exports go",
+    "ch2.e.p": "Of the {total} mapped {adj} players, {abroad} play outside the {home_league}.",
+    "ch2.e.aria": "{Adj} players abroad by destination bucket",
     "ch2.e.median_mult": "median multiplier {m}",
     "ch2.e.note": "* Buckets by the league of the player's own {season} season; a player is counted once per position group, like everywhere else on the page, so one with rows in two groups counts in each; the number in front of each bar is the player count, the median multiplier is the bucket's median league multiplier. Sideways: {definition}.",
     "ch2.f.h3": "F · The {event} squad by league tier",
@@ -279,7 +313,7 @@ EN: dict[str, str] = {
 
     # ---- player index
     "pi.h2": "Player index",
-    "pi.framing": "Every Czech-eligible player with a complete {season} season in a covered league — {n} players — with the numbers behind the atlases. Names with a card link to it.",
+    "pi.framing": "Every {adj}-eligible player with a complete {season} season in a covered league — {n} players — with the numbers behind the atlases. Names with a card link to it.",
     "pi.search": "Search by name",
     "pi.search.placeholder": "Name…",
     "pi.summary": "Table of {n} players",
@@ -300,7 +334,7 @@ EN: dict[str, str] = {
     "ch4.synopsis": "A replicable pipeline: data sources, league multipliers, Bayesian shrinkage, PCA loadings, sensitivity analysis. Limitations and reproducibility.",
     "ch4.h2": "How it is built, validated and where it stops",
     "ch4.sources.h3": "Data sources",
-    "ch4.sources.fbref": "<strong>FBref</strong> (via <code>soccerdata</code>): player season tables (standard, playing time) for the {topn} headline leagues, the Czech First League, the peer domestic leagues and the German second tier; the country page \"Players from Czechia\" for pool discovery; the nationality column for peer counts",
+    "ch4.sources.fbref": "<strong>FBref</strong> (via <code>soccerdata</code>): player season tables (standard, playing time) for the {topn} headline leagues, the {home_league}, the peer domestic leagues and the German second tier; the country page \"Players from {nation}\" for pool discovery; the nationality column for peer counts",
     "ch4.sources.wikipedia": "<strong>Wikipedia</strong>: national-team squad tables ({events}) for the call-up flag",
     "ch4.sources.wikidata": "<strong>Wikidata / Wikimedia Commons</strong>: player portraits (P18) matched on name, citizenship and date of birth; credits in the footer",
     "ch4.sources.uefa": "<strong>UEFA association coefficients</strong> (via Wikipedia) as the league-strength source, ClubElo being unreachable at run time",
@@ -324,7 +358,7 @@ EN: dict[str, str] = {
     "ch4.pca.th.share": "min share",
     "ch4.pca.th.age": "age",
     "ch4.sens.h3": "Sensitivity analysis (±20 % multipliers)",
-    "ch4.sens.p": "For each scenario the quality-adjusted ranking of Czech-eligible players within each position group was recomputed and compared with the baseline; \"top-10\" is the union of the {groups} groups' own top tens ({base} players at baseline). Of the {n} scenarios, {zero} change nobody in that set; the largest churn is {churn}{worst}*.",
+    "ch4.sens.p": "For each scenario the quality-adjusted ranking of {adj}-eligible players within each position group was recomputed and compared with the baseline; \"top-10\" is the union of the {groups} groups' own top tens ({base} players at baseline). Of the {n} scenarios, {zero} change nobody in that set; the largest churn is {churn}{worst}*.",
     "ch4.sens.worst": " ({description}, mean rank shift {delta} in the top twenty)",
     "ch4.sens.th.scenario": "Scenario",
     "ch4.sens.th.description": "Description",
@@ -344,11 +378,11 @@ EN: dict[str, str] = {
     "dq.namesakes.label": "Namesakes in the pool",
     "dq.namesakes.what": "Active pool players sharing a normalised name (e.g. father and son), disambiguated by club.",
     "dq.no_tables.label": "Pool players without season tables",
-    "dq.no_tables.what": "Czech professionals on FBref's country page who play in a league without season tables and carry no metrics.",
+    "dq.no_tables.what": "{Adj} professionals on FBref's country page who play in a league without season tables and carry no metrics.",
     "dq.split_seasons.label": "Split-season rows collapsed",
     "dq.split_seasons.what": "Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).",
     "dq.nt_unmatched.label": "Unmatched call-up names",
-    "dq.nt_unmatched.what": "National-team squad-table names that match no Czech-eligible row in the feature tables.",
+    "dq.nt_unmatched.what": "National-team squad-table names that match no {adj}-eligible row in the feature tables.",
     "dq.missing_born.label": "Missing birth years",
     "dq.missing_born.what": "Season-table rows of nation CZE with no birth year, which cannot form a player_key.",
     "ch4.lim.h3": "Limitations of this analysis",
@@ -372,21 +406,21 @@ EN: dict[str, str] = {
 
     # ---- generated: observations
     "obs.1.title": "Per capita: rank {rank} of {n}",
-    "obs.1.body": "{cze_n} Czech players on {season} rosters of the {topn} strongest leagues give {pm} per million inhabitants, rank {rank} of {n}. {top} leads with {top_pm}, {ratio} times the Czech density",
+    "obs.1.body": "{cze_n} {adj} players on {season} rosters of the {topn} strongest leagues give {pm} per million inhabitants, rank {rank} of {n}. {top} leads with {top_pm}, {ratio} times the {adj} density",
     "obs.1.above": "; {name} sits one place above with {pm} from {players} players and a population {size}",
     "obs.1.smaller": "{ratio} times smaller",
     "obs.1.larger": "{ratio} times larger",
-    "obs.1.below": "Below Czechia: {names}.",
+    "obs.1.below": "Below {nation}: {names}.",
     "obs.1.none_below": "No peer sits below.",
     "obs.2.title": "The largest cohort gap: {group} {cohort}",
     "obs.2.title_empty": "Cohort gaps",
-    "obs.2.gap": "{group} {cohort} — {cze} Czech against a peer median of {peer}",
-    "obs.2.body": "Counting {season} top-{topn} players by position group and age cohort and comparing the Czech count with the median of the other {peers} peer{s}, the {k} largest shortfall{plural} {gaps}. The cohort tables above show the medians behind the counts.",
+    "obs.2.gap": "{group} {cohort} — {cze} {adj} against a peer median of {peer}",
+    "obs.2.body": "Counting {season} top-{topn} players by position group and age cohort and comparing the {adj} count with the median of the other {peers} peer{s}, the {k} largest shortfall{plural} {gaps}. The cohort tables above show the medians behind the counts.",
     "obs.3.title": "Trajectories {previous} → {metrics}: {verdict}",
     "obs.3.stable": "mostly stable",
     "obs.3.mixed": "mixed",
     "obs.3.part": "{group} {n} ({up} up, {stable} stable, {down} down)",
-    "obs.3.body": "{n} Czech-eligible players had at least {min} minutes in both {previous} and {metrics}: {parts}. A move counts as up or down when league-adjusted goals + assists per 90 changed by more than {band}; {stable} of {n} stayed within that band. These are season-over-season deltas, not projections.",
+    "obs.3.body": "{n} {adj}-eligible players had at least {min} minutes in both {previous} and {metrics}: {parts}. A move counts as up or down when league-adjusted goals + assists per 90 changed by more than {band}; {stable} of {n} stayed within that band. These are season-over-season deltas, not projections.",
 
     # ---- generated: card row kickers
     "kicker.highest": "Highest quality-adjusted production",
@@ -400,7 +434,7 @@ EN: dict[str, str] = {
 
     # ---- generated: limitations
     "lim.leagues.title": "Leagues without metrics",
-    "lim.leagues.body": "The pipeline fetches {n_leagues} competitions from FBref; the Czech second tier and the Slovak top flight are not on FBref at all. {n_no_tables} of the {n_pool} Czech professionals found on FBref's country page play in a league without season tables and carry no metrics; they are listed by name and club only. Slovakia's exhibits in chapter II therefore rest on its players abroad.",
+    "lim.leagues.body": "The pipeline fetches {n_leagues} competitions from FBref; the {adj} second tier and the Slovak top flight are not on FBref at all. {n_no_tables} of the {n_pool} {adj} professionals found on FBref's country page play in a league without season tables and carry no metrics; they are listed by name and club only. Slovakia's exhibits in chapter II therefore rest on its players abroad.",
     "lim.features.title": "Free-tier feature set",
     "lim.features.body": "The feature vector is five basic columns per 90 minutes: non-penalty goals, assists, minutes share, age and cards. No expected goals, no progressive passes, no tackles — the rule was one identical vector across every league in the corpus, and only the basic table is available for all of them. Defensive and creative contributions beyond assists are invisible to the map.",
     "lim.nt.title": "National-team flag source",
@@ -410,7 +444,7 @@ EN: dict[str, str] = {
     "lim.seasons.title": "Season split",
     "lim.seasons.body": "The headline per-capita count and every metric use the complete {metrics} season; trajectories run {previous} → {metrics}; the club on a card is the {current} club (season in progress at build time).",
     "lim.multipliers.title": "League multipliers",
-    "lim.multipliers.body": "ClubElo was unreachable at run time, so the multipliers are UEFA association coefficients scaled to the strongest league = {max_multiplier}, and second-tier leagues are set to {tier2_factor} × the first tier of the same country by assumption. The club-strength proxy in chapter II is the club's goals-scored percentile within its league, not an Elo rating. The sensitivity table shows how far a ±20 % error in any one multiplier moves the Czech ranking.",
+    "lim.multipliers.body": "ClubElo was unreachable at run time, so the multipliers are UEFA association coefficients scaled to the strongest league = {max_multiplier}, and second-tier leagues are set to {tier2_factor} × the first tier of the same country by assumption. The club-strength proxy in chapter II is the club's goals-scored percentile within its league, not an Elo rating. The sensitivity table shows how far a ±20 % error in any one multiplier moves the {adj} ranking.",
     "lim.origins.title": "Export origins from recent entrants only",
     "lim.origins.body": "The origin league of an export is known only when the season before the first top-9 season was fetched: {history_start} onwards for the headline leagues, {coverage_start} onwards for the peer domestic leagues. Origin shares and the recent export age are therefore computed over players whose first top-9 season is {metrics} or {current}; earlier entrants count towards the full export age but not the origin mix, and a first appearance already in {history_start} is censored (the censored share is shown).",
     "lim.identity.title": "Player identity",
@@ -439,6 +473,7 @@ TERMS_EN: tuple[str, ...] = (
     "domestic", "top-9", "stepping stone", "peer country league", "other",
     "Czechia", "Slovakia", "Austria", "Hungary", "Poland", "Croatia", "Denmark",
     "Switzerland", "Norway",
+    "England", "France", "Germany", "Spain", "Italy", "Netherlands", "Portugal", "Belgium",
     "highest quality-adjusted npG+A per 90 among {pos}",
     "youngest national-team call-up among {pos}",
     "most top-9 league minutes among {pos}",
@@ -475,18 +510,29 @@ def placeholders(s: str) -> set[str]:
     return set(re.findall(r"(?<!\{)\{([a-z_0-9]+)\}", s))
 
 
+def _is_auto_name(name: str) -> bool:
+    """True for a name auto-injected by `_auto_params` (nation, adj, Adj, code,
+    home_league, and any cs_*) -- allowed in either language's string
+    regardless of whether the other one also uses it."""
+    return name in _AUTO_NAMES or name.startswith("cs_")
+
+
 def check_placeholders(cs: dict[str, dict[str, str]]) -> list[str]:
     """Keys whose Czech placeholders differ from the English ones (a subset is allowed).
 
     A Czech string that drops a placeholder is legal (word order, a count
     folded into the sentence) but worth a look, so it is logged by key.
+    Auto-injected nation-word names (see `_auto_params`) are exempt from
+    this comparison in both directions -- a string in either language may
+    use or drop any of them independently of the other.
     """
     bad = []
     for key, en in EN.items():
         cz = cs["strings"].get(key)
         if cz is None:
             continue
-        cz_ph, en_ph = placeholders(cz), placeholders(en)
+        cz_ph = {p for p in placeholders(cz) if not _is_auto_name(p)}
+        en_ph = {p for p in placeholders(en) if not _is_auto_name(p)}
         if not cz_ph <= en_ph:
             bad.append(key)
         elif cz_ph < en_ph:
@@ -503,6 +549,7 @@ class Translator:
         self.lang = lang
         self.strings: dict[str, str] = EN
         self.terms: dict[str, str] = {}
+        self.auto: dict[str, str] = _auto_params()
         if lang == "cs":
             cs = cs or load_cs()
             check_complete(cs)
@@ -515,16 +562,15 @@ class Translator:
         if key not in EN:
             raise KeyError(f"unknown i18n key {key!r}")
         s = self.strings[key]
-        return s.format(**params) if params else s.replace("{{", "{").replace("}}", "}")
+        return s.format(**{**self.auto, **params})
 
     def __call__(self, key: str, **params: Any) -> Markup:
         """HTML-safe: the authored string is trusted, the parameters are escaped."""
         if key not in EN:
             raise KeyError(f"unknown i18n key {key!r}")
         s = self.strings[key]
-        if not params:
-            return Markup(s.replace("{{", "{").replace("}}", "}"))
-        safe = {k: (v if isinstance(v, Markup) else escape(v)) for k, v in params.items()}
+        merged = {**self.auto, **params}
+        safe = {k: (v if isinstance(v, Markup) else escape(v)) for k, v in merged.items()}
         return Markup(s.format(**safe))
 
     # -- data labels -----------------------------------------------------

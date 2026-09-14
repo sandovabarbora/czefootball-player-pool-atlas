@@ -78,6 +78,24 @@ def test_nation_env_var_selects_the_config_file(monkeypatch):
         importlib.reload(config)
 
 
+def test_nation_carries_home_league_and_cs_forms():
+    """Task 14b: every home nation config has an EN display name for its
+    domestic league and a `cs` block of Czech-language nation-word forms."""
+    for code in ("cze", "eng"):
+        cfg = config.load_yaml(f"nations/{code}.yaml")
+        assert cfg["home_league"]
+        cs = cfg["cs"]
+        for key in ("name", "gen", "adj_m", "adj_f", "adj_n", "adj_pl"):
+            assert cs[key], (code, key)
+
+
+def test_cluster_labels_defaults_to_the_shared_file():
+    """config.cluster_labels() loads the shared config/cluster_labels.yaml
+    unless nation() sets an override; cze/eng share one fit (Task 14b)."""
+    assert "cluster_labels" not in config.nation()
+    assert config.cluster_labels() == config.load_yaml("cluster_labels.yaml")
+
+
 def test_unconfigured_nation_fails_loudly(monkeypatch):
     """config.HOME is resolved from nation() at import time, so a typo'd or
     unconfigured NATION fails loudly as soon as the module loads."""

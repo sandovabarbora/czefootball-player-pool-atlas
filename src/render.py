@@ -160,6 +160,51 @@ def _last_name(name: str) -> str:
     return str(name).split()[-1] if str(name).strip() else ""
 
 
+def _cluster_top_surnames(coords: pd.DataFrame, season: str, style_id: str, n: int = 3) -> list[str]:
+    """Surnames of the `n` home-eligible players with the most metrics-season
+    minutes in one style cluster -- the tactical read's computed examples
+    (Task 14b), right for any nation and any refit (the hand-typed name
+    lists config/cluster_labels.yaml used to carry were not)."""
+    needed = {"cluster_style", "home_eligible", "player", "min", "season", "player_key"}
+    if not needed <= set(coords.columns):
+        return []
+    cur = _metrics_rows(coords, season)
+    members = cur[cur["cluster_style"] == style_id]
+    cz = members[members["home_eligible"]].sort_values("min", ascending=False)
+    return [_last_name(nm) for nm in cz["player"].head(n).tolist()]
+
+
+def _with_tactical_examples(base: str, examples: list[str]) -> str:
+    """Append the computed "(Surname, Surname, Surname)" to a tactical read's
+    base text (which now ends without one -- see `_cluster_top_surnames`)."""
+    if not base:
+        return ""
+    return f"{base} ({', '.join(examples)})." if examples else f"{base}."
+
+
+def _home_per_capita_row(per_capita: list[dict]) -> dict:
+    """The home nation's own row in the per-capita benchmark.
+
+    In a real run this is always present (the pipeline computed the table
+    for this NATION). It can be missing only in the offline smoke-test setup
+    of Task 14b's brief -- another nation's processed data copied verbatim
+    under a different NATION, e.g. `data/processed/cze/*` copied into
+    `data/processed/eng/` with no fetch/pipeline re-run -- in which case a
+    zero-count placeholder keeps the render from crashing rather than the
+    report silently mis-attributing a peer's numbers to the home nation.
+    """
+    row = next((r for r in per_capita if r["country"] == config.HOME), None)
+    if row is not None:
+        return row
+    LOG.warning("%s has no per-capita row (mismatched NATION=%s vs. the processed data); "
+                "using a zero-count placeholder", config.HOME, config.NATION)
+    return {
+        "country": config.HOME, "name": config.nation()["name"],
+        "n_players": 0, "population_m": config.nation()["population_m"],
+        "per_million": 0.001, "rank": len(per_capita) + 1,  # not 0: some callers divide by it
+    }
+
+
 def _cluster_id(label: object) -> int:
     """'C3' -> 3; -1 when missing."""
     if label is None or (isinstance(label, float) and pd.isna(label)):
@@ -297,14 +342,15 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
         for txt in leg.get_texts():
             txt.set_fontfamily("sans-serif")
 
-    fig.suptitle(f"Czech football · {GROUP_TITLES[group]} {season_label(season)}",
+    adj = config.nation()["adjective"]
+    fig.suptitle(f"{adj} football · {GROUP_TITLES[group]} {season_label(season)}",
                  fontsize=14, fontfamily="serif", color=INK, y=1.02, x=0.02, ha="left",
                  weight="normal")
     fig.text(
         0.02, -0.025,
         f"PCA of the five-feature vector (npG/90, A/90, minutes share, age, cards/90), "
         f"{season_label(season)}. Grey: the whole corpus (n = {len(cur)}); coloured: "
-        f"Czech-eligible players by cluster (n = {len(cz)}). Oxblood rings: national-team "
+        f"{adj}-eligible players by cluster (n = {len(cz)}). Oxblood rings: national-team "
         f"call-up {config.nt_years()}.",
         ha="left", fontsize=8.2, color=MUTED, fontfamily="sans-serif",
     )
@@ -388,6 +434,15 @@ def _build_clusters(coords: pd.DataFrame, features: pd.DataFrame, labels: dict,
         key = f"C{cid}"
         members = cur[cur["cluster_style"] == key]
         cz = members[members["home_eligible"]].sort_values("min", ascending=False)
+        # Tactical read (Task 14b): the author's text ends without its
+        # examples (config/cluster_labels.yaml's tactical.<group>.<key> no
+        # longer carries a hand-typed "(Name, Name)" tail); the three
+        # home-eligible players with the most metrics-season minutes in this
+        # cluster are appended here instead, by surname -- correct for any
+        # nation and any refit, where the hand-picked list was not.
+        tactical_base = (tactical.get(key) or {}).get(tr.lang, "")
+        examples = [_last_name(n) for n in cz["player"].head(3).tolist()]
+        tactical_text = _with_tactical_examples(tactical_base, examples)
         rows.append({
             "id": key,
             "label": tr.term(style_labels[key]) if key in style_labels else f"Cluster {key}",
@@ -402,7 +457,7 @@ def _build_clusters(coords: pd.DataFrame, features: pd.DataFrame, labels: dict,
                 "age": _opt_float(members["age"].median(), 0),
                 "cards_p90": _opt_float(members["cards_p90_shrunk"].median()),
             },
-            "tactical": (tactical.get(key) or {}).get(tr.lang, ""),
+            "tactical": tactical_text,
             "top": cz["player"].head(CLUSTER_TOP_N).tolist(),
             "top_keys": cz["player_key"].head(CLUSTER_TOP_N).tolist(),
         })
@@ -607,7 +662,8 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
                 "style": {"id": style_id, "label": tr.term(style_labels[style_id]) if style_id in style_labels else style_id},
                 "quality": {"id": quality_id, "label": tr.term(quality_labels[quality_id]) if quality_id in quality_labels else quality_id},
             },
-            "tactical": tactical.get(tr.lang, ""),
+            "tactical": _with_tactical_examples(
+                tactical.get(tr.lang, ""), _cluster_top_surnames(coords[group], season, style_id)),
             "trajectory": trajectory,
             "analog_age": analog_age,
             "analogs": [_analog_row(a) for a in block.get("analogs", [])[:CARD_ANALOGS]],
@@ -761,7 +817,11 @@ def _build_big5(big5_series: dict) -> dict:
     seasons = big5_series["seasons"]
     peak, low = big5_series["cze_peak"], big5_series["cze_low"]
     last_season = seasons[-1]
-    last_n = big5_series["countries"][config.HOME]["n"][-1]
+    home_series = big5_series["countries"].get(config.HOME)
+    if home_series is None:
+        LOG.warning("%s has no Big-5 series (mismatched NATION=%s vs. the processed data)",
+                    config.HOME, config.NATION)
+    last_n = home_series["n"][-1] if home_series else 0
     golden = "; ".join(
         f"{season_label(g['season'])}: {', '.join(g['players'])}" for g in big5_series.get("golden", [])
     )
@@ -958,7 +1018,7 @@ def _build_observations(hero: dict, per_capita: list[dict], gaps: list[dict],
     tr = tr or Translator("en")
     top = per_capita[0]
     n_other_peers = len(per_capita) - 1
-    cze = next(r for r in per_capita if r["country"] == config.HOME)
+    cze = _home_per_capita_row(per_capita)
     above = [r for r in per_capita if r["rank"] < cze["rank"]]
     below = [r for r in per_capita if r["rank"] > cze["rank"]]
     nearest_above = above[-1] if above else None
@@ -1106,7 +1166,7 @@ def load_data() -> dict[str, Any]:
         "big5_series": _load_json(p / "big5_series.json", {}),
         "data_quality": _load_json(p / "data_quality.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
-        "cluster_labels": config.load_yaml("cluster_labels.yaml"),
+        "cluster_labels": config.cluster_labels(),
         "league_quality": config.league_quality(),
         "countries": config.peers_meta(),
         "seasons": config.seasons(),
@@ -1140,10 +1200,16 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     }
     metrics = seasons_raw["metrics"]
     peers = list(data["countries"])
-    names = {c: v["name"] for c, v in data["countries"].items()}
+    # Display-name lookup: the full countries.yaml registry as a base (so a
+    # country code that turns up in the processed data but isn't in this
+    # NATION's own peer set -- e.g. Task 14b's offline smoke test, another
+    # nation's data copied verbatim -- still resolves to a real name term()
+    # can translate, not the raw code), the nation-scoped peers overriding it.
+    names = {**{c: v["name"] for c, v in config.countries()["peers"].items()},
+             **{c: v["name"] for c, v in data["countries"].items()}}
 
     per_capita = _build_per_capita(data["per_capita"])
-    cze = next(r for r in per_capita if r["country"] == config.HOME)
+    cze = _home_per_capita_row(per_capita)
     cohorts = _build_cohorts(data["cohorts"], COHORT_COUNTRIES)
     gaps = _cohort_gaps(data["cohorts"], peers)
 
@@ -1208,6 +1274,11 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
 
     features_all = pd.concat(data["features"].values(), ignore_index=True)
     big5 = _build_big5(data["big5_series"])
+    # English names of the Big-5 chart's lower-panel contrast countries
+    # (src.big5_series.MID_TONE_COUNTRIES = nation()["series_contrast"]), for
+    # slide.7.alt's alt text; term()-translated in the template like every
+    # other data-sourced country name.
+    big5["contrast_names"] = [names[c] for c in config.nation()["series_contrast"]]
     peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
                                        features_all, lq, lg, metrics, names)
 
@@ -1258,8 +1329,10 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "limitations": _build_limitations(facts, tr),
         "data_quality": _build_data_quality(data["data_quality"], tr),
         "facts": facts,
+        "home_code": config.HOME,
         "n_leagues": n_leagues,
         "headline_leagues": list(data["leagues"]["headline"]),
+        "domestic_league_code": config.DOMESTIC_LEAGUE,
         "stepping_stone": list(data["leagues"].get("stepping_stone", [])),
         "seed": config.RANDOM_SEED,
         "photo_credits": _photo_credits(data["photos"], used_keys),
@@ -1404,6 +1477,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "low_n": 6, "low_season": season_label(big5_seasons_raw[2]),
         "last_n": 10, "last_season": season_label(big5_seasons_raw[3]),
         "golden": f"{season_label(big5_seasons_raw[1])}: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera",
+        "contrast_names": ["Denmark", "Croatia"],
     }
     peer_compare = {
         "countries": ["CZE", "NOR", "DEN"],
@@ -1466,7 +1540,9 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "limitations": _build_limitations(facts, tr),
         "data_quality": _build_data_quality(data_quality, tr),
         "facts": facts,
+        "home_code": "CZE",
         "n_leagues": 19, "headline_leagues": ["ENG-Premier League"],
+        "domestic_league_code": "CZE-First League",
         "stepping_stone": ["NED-Eredivisie"], "seed": config.RANDOM_SEED,
         "photo_credits": [{"fbref_id": "5d4f7d61", "name": "Patrik Schick", "player_key": "patrik schick|1996",
                            "image": "img/players/5d4f7d61.jpg", "credit": "Patrik Schick (cropped).jpg",

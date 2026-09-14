@@ -1,5 +1,5 @@
 {#- ---------------------------------------------------------------------------
-   Czech football · Player pool atlas — report template, rendered once per
+   Player pool atlas — report template, rendered once per home nation and
    language (`lang`, `t()` and `term()` come from src/i18n.py; every static
    string goes through t(), every data label through term()).
    Structure and class names follow the hockey report (docs/style.css,
@@ -86,7 +86,7 @@
   </article>
 {%- endmacro -%}
 {%- set topn = headline_leagues | length -%}
-{%- set cze = per_capita | selectattr('country', 'equalto', 'CZE') | list | first -%}
+{%- set cze = per_capita | selectattr('country', 'equalto', home_code) | list | first -%}
 {%- set gt = {} -%}
 {%- for grp in groups %}{% set _ = gt.update({grp: term(group_titles[grp])}) %}{% endfor -%}
 <!DOCTYPE html>
@@ -191,8 +191,8 @@
 </section>
 
 {% set pw = pathways %}
-{% set squad_peer_rows = (squad_lens.rows | rejectattr('country', 'equalto', 'CZE') | list) if (squad_lens and squad_lens.rows) else [] %}
-{% set squad_cze_row = ((squad_lens.rows | selectattr('country', 'equalto', 'CZE') | list | first)) if (squad_lens and squad_lens.rows) else none %}
+{% set squad_peer_rows = (squad_lens.rows | rejectattr('country', 'equalto', home_code) | list) if (squad_lens and squad_lens.rows) else [] %}
+{% set squad_cze_row = ((squad_lens.rows | selectattr('country', 'equalto', home_code) | list | first)) if (squad_lens and squad_lens.rows) else none %}
 {% set squad_best_row = (squad_peer_rows | sort(attribute='top9_pct', reverse=true) | first) if squad_peer_rows else none %}
 {# =============================================================================
    SLIDES — nine questions, each one answer sentence + one proof exhibit +
@@ -208,7 +208,7 @@
       <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
         {% for r in per_capita %}
         <div class="capita-row" role="listitem"
-             {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
+             {% if r.country == home_code %}data-highlight="cze"{% endif %}
              style="--value: {{ r.per_million }}; --max: {{ max_per_million }};">
           <div class="capita-country">
             <span class="capita-code">{{ r.country }}</span>
@@ -259,7 +259,7 @@
       <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
         {% for r in pw.youth %}
         <div class="capita-row" role="listitem"
-             {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
+             {% if r.country == home_code %}data-highlight="cze"{% endif %}
              style="--value: {{ r.share_u21 if r.share_u21 is not none else 0 }}; --max: {{ youth_max }};">
           <div class="capita-country">
             <span class="capita-code">{{ r.country }}</span>
@@ -302,7 +302,7 @@
       {% endif %}
     </div>
     {% endif %}
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4.how', season=seasons.metrics) }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4.how', season=seasons.metrics, home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
   </div>
 </section>
 
@@ -315,7 +315,7 @@
       <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
         {% for r in pw.fare_min %}
         <div class="capita-row" role="listitem"
-             {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
+             {% if r.country == home_code %}data-highlight="cze"{% endif %}
              style="--value: {{ r.value }}; --max: {{ fare_min_max }};">
           <div class="capita-country">
             <span class="capita-code">{{ r.country }}</span>
@@ -327,7 +327,7 @@
         {% endfor %}
       </div>
     </div>
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how') }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how', home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
   </div>
 </section>
 
@@ -346,7 +346,7 @@
       </ul>
       <div class="tier-bars" role="list" aria-label="{{ t('ch2.f.h3', event=squad_lens.event) }}">
         {% for r in squad_lens.rows %}
-        <div class="tier-bar-row" role="listitem"{% if r.country == 'CZE' %} data-highlight="cze"{% endif %}>
+        <div class="tier-bar-row" role="listitem"{% if r.country == home_code %} data-highlight="cze"{% endif %}>
           <div class="tier-bar-head">
             <span class="capita-code">{{ r.country }}</span> {{ term(r.name) }}
             <span class="muted small">{{ t('ch2.f.th.squad') }} {{ r.n }}</span>
@@ -375,7 +375,7 @@
     <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season) }}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5">
-        <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season) }}">
+        <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden) }}</p>
@@ -383,15 +383,17 @@
   </div>
 </section>
 
+{% set pc_a = term(peer_compare.names[peer_compare.countries[1]]) %}
+{% set pc_b = term(peer_compare.names[peer_compare.countries[2]]) %}
 <section class="slide" id="q8">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.8.q') }}</h2>
-    <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
+    <h2 class="slide-q">{{ t('slide.8.q', a=pc_a, b=pc_b) }}</h2>
+    <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', a=pc_a, nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
                             nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
-      <table class="kv-table peer-compare" aria-label="{{ t('peer_compare.aria') }}">
+      <table class="kv-table peer-compare" aria-label="{{ t('peer_compare.aria', a=pc_a, b=pc_b) }}">
         <thead>
-          <tr><th>{{ t('peer_compare.th.metric') }}</th>{% for c in peer_compare.countries %}<th{% if c == 'CZE' %} class="cohort-cze"{% endif %}>{{ c }}</th>{% endfor %}</tr>
+          <tr><th>{{ t('peer_compare.th.metric') }}</th>{% for c in peer_compare.countries %}<th{% if c == home_code %} class="cohort-cze"{% endif %}>{{ c }}</th>{% endfor %}</tr>
         </thead>
         <tbody>
           {% for r in peer_compare.rows %}
@@ -399,7 +401,7 @@
             <td>{{ t(r.label_key) }}</td>
             {% for c in peer_compare.countries %}
             {% set cell = r.by_country[c] %}
-            <td{% if c == 'CZE' %} class="cohort-cze"{% endif %}>
+            <td{% if c == home_code %} class="cohort-cze"{% endif %}>
               {%- if cell.value is none -%}<span class="muted">—</span>
               {%- elif cell.fmt == 'f2' -%}{{ f2(cell.value) }}
               {%- elif cell.fmt == 'pct1' -%}{{ pct1(cell.value) }}
@@ -494,7 +496,7 @@
       <thead>
         <tr>
           <th>{{ t('ch1.cohorts.th') }}</th>
-          {% for cc in cohort_countries %}<th{% if cc == 'CZE' %} class="cohort-cze"{% endif %}>{{ cc }}</th>{% endfor %}
+          {% for cc in cohort_countries %}<th{% if cc == home_code %} class="cohort-cze"{% endif %}>{{ cc }}</th>{% endfor %}
         </tr>
       </thead>
       <tbody>
@@ -503,7 +505,7 @@
           <td>{{ r.cohort }}</td>
           {% for cc in cohort_countries %}
             {% set cell = r.cells[cc] %}
-            <td{% if cc == 'CZE' %} class="cohort-cze"{% endif %}>
+            <td{% if cc == home_code %} class="cohort-cze"{% endif %}>
               {% if cell.n > 0 %}
                 <span class="cohort-cell-n">{{ cell.n }}</span><span class="cohort-cell-median">{{ f2(cell.median) }}</span>
               {% else %}
@@ -658,7 +660,7 @@
       </thead>
       <tbody>
         {% for r in pw.export %}
-        <tr{% if r.country == 'CZE' %} class="cohort-cze"{% endif %}>
+        <tr{% if r.country == home_code %} class="cohort-cze"{% endif %}>
           <td><span class="capita-code">{{ r.country }}</span> {{ term(r.name) }}</td>
           <td>{{ r.n }}</td>
           <td>{{ r.n_recent }}</td>
@@ -683,7 +685,7 @@
     <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.goals') }}">
       {% for r in pw.fare_goals %}
       <div class="capita-row" role="listitem"
-           {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
+           {% if r.country == home_code %}data-highlight="cze"{% endif %}
            style="--value: {{ r.value }}; --max: {{ fare_goals_max }};">
         <div class="capita-country">
           <span class="capita-code">{{ r.country }}</span>
@@ -740,7 +742,7 @@
     {% set squad_peer_names = [] %}
     {% for r in squad_peer_rows %}{% set _ = squad_peer_names.append(term(r.name)) %}{% endfor %}
     <p>
-      {{ t('ch2.f.p', n=squad_cze_row.n, event=squad_lens.event, season=squad_lens.season_label, peers=squad_peer_names | join(', ')) }}
+      {{ t('ch2.f.p', n=(squad_cze_row.n if squad_cze_row else 0), event=squad_lens.event, season=squad_lens.season_label, peers=squad_peer_names | join(', ')) }}
     </p>
     <details class="fold fold-table">
       <summary>{{ t('ch2.f.detail') }}</summary>
@@ -755,7 +757,7 @@
         </thead>
         <tbody>
           {% for r in squad_lens.rows %}
-          <tr{% if r.country == 'CZE' %} class="cohort-cze"{% endif %}>
+          <tr{% if r.country == home_code %} class="cohort-cze"{% endif %}>
             <td><span class="capita-code">{{ r.country }}</span> {{ term(r.name) }}</td>
             <td>{{ g(r.median_minutes) }}</td>
             <td>{{ f3(r.median_multiplier) }}</td>

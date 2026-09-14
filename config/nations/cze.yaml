@@ -8,6 +8,22 @@ fbref_country_page: https://fbref.com/en/country/players/CZE/Czechia-Football-Pl
 fbref_country_cache: country_cze.html
 wikidata_citizenship: Q213     # P27 value for the photo query
 domestic_league: CZE-First League
+home_league: Czech First League  # EN display name for {home_league} in src/i18n.py copy
+
+# Czech-language forms of the nation's name/adjective, for cs.yaml's
+# {cs_name}/{cs_adj_m}/... placeholders (Task 14b). Adjective agreement:
+# m/f/n/pl; gen = genitive of the nation noun; players = a ready-made
+# "<adj_pl> hráči" idiom; home_league = the CS display name of the domestic
+# league (informal media name, left undeclined in running text).
+cs:
+  name: Česko
+  gen: Česka
+  adj_m: český
+  adj_f: česká
+  adj_n: české
+  adj_pl: čeští
+  players: čeští hráči
+  home_league: Chance Liga
 
 # countries.yaml codes, home nation excluded
 peers: [SVK, AUT, HUN, POL, CRO, DEN, SUI, NOR]

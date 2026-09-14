@@ -158,7 +158,8 @@ def render_series(series: dict, out_path: Path) -> None:
         ax_pm.spines[spine].set_visible(False)
 
     fig.suptitle(
-        f"Czech players in the Big-5 leagues, {season_label(seasons[0])} → {season_label(seasons[-1])}",
+        f"{config.nation()['adjective']} players in the Big-5 leagues, "
+        f"{season_label(seasons[0])} → {season_label(seasons[-1])}",
         fontsize=15, fontfamily="serif", color=INK, x=0.02, ha="left", y=0.98, weight="normal",
     )
     plt.subplots_adjust(top=0.92, hspace=0.12)

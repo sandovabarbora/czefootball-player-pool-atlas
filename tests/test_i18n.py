@@ -102,6 +102,52 @@ def test_fixture_context_renders_in_czech():
     assert 'data-rule="highest quality-adjusted npG+A per 90 among FW"' in cs  # machine attribute stays English
 
 
+def test_auto_injected_nation_words_fill_in_without_an_explicit_param():
+    """Task 14b: nation, adj, Adj, code, home_league and every cs_* name come
+    from config.nation() automatically -- a caller never passes them."""
+    en, cs = Translator("en"), Translator("cs")
+    assert en.raw("meta.title") == "Czech football · Player pool atlas"
+    assert cs.raw("meta.title") == "Český fotbal · Atlas hráčského fondu"
+    assert en.auto["nation"] == "Czechia" and en.auto["adj"] == "Czech" and en.auto["code"] == "CZE"
+    assert en.auto["home_league"] == "Czech First League"
+    assert cs.auto["cs_name"] == "Česko" and cs.auto["cs_adj_pl"] == "čeští" and cs.auto["cs_Adj_pl"] == "Čeští"
+    # an explicit param still wins over an auto one of the same name
+    assert en.raw("slide.4.how", season="2025/26", home_note="", adj="Overridden") == \
+        "Destination league of every Overridden-eligible player's 2025/26 row; " \
+        "sideways = destination multiplier ≤ Overridden league multiplier."
+
+
+def test_check_placeholders_allows_auto_names_in_either_language_only():
+    """cs.yaml may use a cs_* placeholder the English string never names (and
+    vice versa for nation/adj/Adj/code/home_league) without tripping the
+    subset check -- these are auto-injected, not part of the pair's contract."""
+    cs = load_cs()
+    assert check_placeholders(cs) == []
+    # EN names {adj} (not {code}); CS names {cs_adj_m} and {cs_home_league}
+    # (neither in EN) -- an auto name on either side, alone, is not a
+    # mismatch: it is exempt from the subset check in both directions.
+    probe_en = dict(EN, **{"__probe__": "needs {adj}"})
+    probe_cs = dict(cs["strings"], **{"__probe__": "potřebuje {cs_adj_m} a {cs_home_league}"})
+    import src.i18n as i18n_mod
+    old_en = dict(i18n_mod.EN)
+    try:
+        i18n_mod.EN.update(probe_en)
+        bad = check_placeholders({"strings": probe_cs, "terms": cs["terms"]})
+        assert "__probe__" not in bad
+    finally:
+        i18n_mod.EN.clear()
+        i18n_mod.EN.update(old_en)
+
+
+def test_terms_cover_both_configured_nations_peer_countries():
+    """TERMS_EN/cs.yaml's country terms cover cze's cohort (Czechia..Norway)
+    and eng's (England..Belgium) -- either NATION can render in Czech."""
+    cs_terms = load_cs()["terms"]
+    for name in ("Czechia", "Norway", "England", "France", "Germany", "Spain",
+                 "Italy", "Netherlands", "Portugal", "Belgium"):
+        assert name in TERMS_EN and name in cs_terms
+
+
 def test_every_template_key_has_an_english_default_and_a_czech_entry():
     template = (config.TEMPLATES_DIR / "report.html.j2").read_text(encoding="utf-8")
     used = set(re.findall(r"""\bt\(\s*['"]([a-z0-9_.]+)['"]""", template))

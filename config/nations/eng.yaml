@@ -9,6 +9,19 @@ fbref_country_page: https://fbref.com/en/country/players/ENG/England-Football-Pl
 fbref_country_cache: country_eng.html
 wikidata_citizenship: Q145     # United Kingdom (English footballers carry P27 = Q145)
 domestic_league: ENG-Premier League
+home_league: Premier League     # EN display name for {home_league} in src/i18n.py copy
+
+# Czech-language forms of the nation's name/adjective (see cze.yaml's comment
+# on this field for what each key is for).
+cs:
+  name: Anglie
+  gen: Anglie
+  adj_m: anglický
+  adj_f: anglická
+  adj_n: anglické
+  adj_pl: angličtí
+  players: angličtí hráči
+  home_league: Premier League
 
 # countries.yaml codes, home nation excluded
 peers: [FRA, GER, ESP, ITA, NED, POR, BEL]

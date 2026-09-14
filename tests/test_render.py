@@ -357,3 +357,47 @@ def test_context_matches_golden_fixture_for_cze():
     expected_json = json.loads(golden_path.read_text(encoding="utf-8"))
 
     assert actual_json == expected_json
+
+
+def test_cluster_top_surnames_are_computed_not_hand_typed():
+    """Task 14b: the tactical read's "(Name, Name, Name)" is the three
+    home-eligible players with the most metrics-season minutes in the style
+    cluster, by surname -- correct for any nation/refit, unlike a hand-typed
+    list in config/cluster_labels.yaml."""
+    from src.render import _cluster_top_surnames, _with_tactical_examples
+
+    coords = pd.DataFrame([
+        {"player_key": "a|2000", "player": "Jan Novak", "season": "2025-2026",
+         "cluster_style": "C0", "home_eligible": True, "min": 900},
+        {"player_key": "b|2001", "player": "Petr Svoboda", "season": "2025-2026",
+         "cluster_style": "C0", "home_eligible": True, "min": 2000},
+        {"player_key": "c|2002", "player": "Foreign Player", "season": "2025-2026",
+         "cluster_style": "C0", "home_eligible": False, "min": 3000},
+        {"player_key": "d|2003", "player": "Karel Dvorak", "season": "2025-2026",
+         "cluster_style": "C1", "home_eligible": True, "min": 2500},
+    ])
+    names = _cluster_top_surnames(coords, "2025-2026", "C0")
+    assert names == ["Svoboda", "Novak"]  # sorted by minutes, foreign player excluded, other cluster excluded
+    assert _with_tactical_examples("Base read", names) == "Base read (Svoboda, Novak)."
+    assert _with_tactical_examples("Base read", []) == "Base read."
+    assert _with_tactical_examples("", names) == ""
+    # a fixture lacking the needed columns degrades to no examples, not a KeyError
+    assert _cluster_top_surnames(pd.DataFrame([{"player_key": "x", "season": "2025-2026"}]), "2025-2026", "C0") == []
+
+
+def test_slide4_and_5_how_gain_a_home_league_note_only_when_it_is_inside_the_topn():
+    """Task 14b: slide.4.how/slide.5.how's {home_note} is the empty string
+    (identical to the pre-14b text) when the home domestic league is outside
+    the top-N leagues (Czechia's case), and a clarifying sentence when it is
+    inside them (a future England run's case) -- computed in the template
+    from `domestic_league_code` / `headline_leagues`, never hardcoded."""
+    ctx = build_context_from_fixtures("en")
+    assert ctx["domestic_league_code"] not in ctx["headline_leagues"]
+    html = _render(ctx)
+    how = re.search(r'id="q4">.*?slide-how">(.*?)</p>', html, re.S).group(1)
+    assert "is itself one of Europe's top" not in how
+
+    ctx2 = dict(ctx, domestic_league_code="ENG-Premier League", headline_leagues=["ENG-Premier League"])
+    html2 = _render(ctx2)
+    how2 = re.search(r'id="q4">.*?slide-how">(.*?)</p>', html2, re.S).group(1)
+    assert "is itself one of Europe's top" in how2

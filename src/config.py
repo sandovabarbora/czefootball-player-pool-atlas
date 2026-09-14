@@ -129,6 +129,19 @@ def squads() -> dict[str, Any]:
     return nation()["squads"]
 
 
+def cluster_labels() -> dict[str, Any]:
+    """Return the cluster-labels config (Task 14b).
+
+    `nation()["cluster_labels"]` may point a home nation at its own labels
+    file (e.g. "config/cluster_labels.eng.yaml"); the default is the shared
+    `config/cluster_labels.yaml` -- the cluster fit is on the all-nationality
+    corpus, so the archetypes themselves are nation-independent and only a
+    nation that wants a different editorial read needs an override.
+    """
+    rel = nation().get("cluster_labels", "cluster_labels.yaml")
+    return load_yaml(rel.removeprefix("config/"))
+
+
 HOME: str = nation()["code"]
 
 

@@ -36,21 +36,35 @@ O="$ROOT/outputs/$NATION"
 PY=${PYTHON:-python3}
 if command -v uv >/dev/null 2>&1 && [ -f "$ROOT/pyproject.toml" ]; then PY="uv run --project $ROOT python"; fi
 
-for f in index.html cs/index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.svg big5_series.svg style.css; do
+for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.svg big5_series.svg style.css; do
   [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`)" >&2; exit 1; }
 done
+if [ "$NATION" = "cze" ]; then
+  [ -f "$O/cs/index.html" ] || { echo "missing $O/cs/index.html — run \`make render\` first" >&2; exit 1; }
+fi
 
-mkdir -p "$D/cs"
 if [ "$D" != "$ROOT/docs" ]; then
   for a in modern.css atlas.js CNAME .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done
   [ -d "$ROOT/docs/img" ] && [ ! -e "$D/img" ] && cp -R "$ROOT/docs/img" "$D/img"
 fi
 cp "$O/index.html" "$D/index.html"
-cp "$O/cs/index.html" "$D/cs/index.html"
 cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap.svg" "$O/big5_series.svg" "$O/style.css" "$D/"
 
 ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
-${=PY} "$S/enrich_index.py" "$D/cs/index.html" --lang cs
-${=PY} "$S/svg_labels.py" "$D" >/dev/null
+if [ "$NATION" = "cze" ]; then
+  # CS pass: `src.render` writes a cs/index.html for every NATION (the
+  # translator's cs_* placeholders work for any of them -- see
+  # src/i18n.py's Task 14b auto-injection), but the *published* site is
+  # Czech-only for the home nation this repository was written for; any
+  # other NATION publishes English only (Task 14b brief).
+  mkdir -p "$D/cs"
+  cp "$O/cs/index.html" "$D/cs/index.html"
+  ${=PY} "$S/enrich_index.py" "$D/cs/index.html" --lang cs
+  ${=PY} "$S/svg_labels.py" "$D" >/dev/null
+fi
 ${=PY} "$S/atlas_meta.py" "$D" >/dev/null
-echo "built $D/index.html (en) + $D/cs/index.html (cs), cs/*.svg, atlas_meta.json"
+if [ "$NATION" = "cze" ]; then
+  echo "built $D/index.html (en) + $D/cs/index.html (cs), cs/*.svg, atlas_meta.json"
+else
+  echo "built $D/index.html (en, NATION=$NATION), atlas_meta.json"
+fi

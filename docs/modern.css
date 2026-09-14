@@ -71,6 +71,7 @@ a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
 .cycle-card, .cycle-stats, .cycle-traj-delta, .video-poc, .video-poc img,
 .video-poc-metrics, .roadmap-mockup, .limitations, .toc-sticky, .toc-mobile, .toc-toggle, footer .role-block,
 .cycle-analog-country, .analog-row-country, figure.figure-bleed img, .lang-switch, .lang-switch a, .lang-switch span,
+.atlas-switch, .atlas-switch a, .atlas-switch span,
 .pchip, .cast, .topbar-links a { border-radius: 0 !important; }
 
 /* =========================================================================
@@ -92,14 +93,16 @@ a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
 .topbar-links a { color: var(--ink-soft); font-size: 0.9rem; font-weight: 500; padding: 0.35rem 0.7rem; }
 .topbar-links a:hover { background: var(--ink); color: var(--cream-50); text-decoration: none; }
 @media (min-width: 720px) { .topbar-links { display: flex; } }
-.lang-switch {
-  margin-left: auto; display: inline-flex;
+.atlas-switch, .lang-switch {
+  display: inline-flex;
   border: 1px solid var(--ink);
   font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
 }
-.lang-switch a, .lang-switch span { padding: 0.4rem 0.75rem; color: var(--ink); line-height: 1; }
-.lang-switch span[aria-current] { background: var(--ink); color: var(--cream-50); }
-.lang-switch a:hover { background: var(--cream-200); text-decoration: none; }
+.atlas-switch { margin-left: auto; }
+.lang-switch { margin-left: 0.4rem; }
+.atlas-switch a, .atlas-switch span, .lang-switch a, .lang-switch span { padding: 0.4rem 0.75rem; color: var(--ink); line-height: 1; }
+.atlas-switch span[aria-current], .lang-switch span[aria-current] { background: var(--ink); color: var(--cream-50); }
+.atlas-switch a:hover, .lang-switch a:hover { background: var(--cream-200); text-decoration: none; }
 
 /* =========================================================================
    Masthead
@@ -464,7 +467,8 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
 .toc-btn[aria-expanded="true"] { background: var(--ink); color: var(--cream-50); }
 @media (max-width: 1279px) {
   .toc-btn { display: inline-block; }
-  .lang-switch { margin-left: 0; }
+  .atlas-switch { margin-left: 0; }
+  .lang-switch { margin-left: 0.4rem; }
   body.toc-open .toc-sticky { display: block; position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 70; max-height: calc(100vh - var(--topbar-h)); overflow: auto; padding: var(--space-3) clamp(1rem, 3vw, 2rem) var(--space-4); background: var(--cream-50); border-bottom: 1px solid var(--ink); font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.6; }
   body.toc-open .toc-sticky .toc-toggle { display: none; }
   body.toc-open .toc-sticky ol { list-style: none; padding: 0; margin: 0; }
@@ -478,6 +482,7 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
 @media (max-width: 719px) {
   .topbar { gap: var(--space-2); padding: 0 1rem; }
   .topbar-brand { font-size: 0.95rem; }
+  .atlas-switch { display: none; }  /* keep the phone top bar to brand + contents + EN/CS */
   .masthead-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
   .masthead-meta strong { font-size: 1.15rem; }
   .masthead-meta dt { font-size: 0.6rem; letter-spacing: 0.1em; }

@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Český fotbal · Atlas hráčského fondu</title>
-  <meta name="description" content="Strukturální benchmark českého fondu profesionálních fotbalistů proti 8 peer zemím: hustota na obyvatele v nejsilnějších ligách Evropy, kohortové mezery, PCA atlasy podle postů, cesty do zahraničí. Popisné, reprodukovatelné, jen veřejná data.">
+  <meta name="description" content="Strukturální benchmark fondu profesionálních fotbalistů Česka proti 8 peer zemím: hustota na obyvatele v nejsilnějších ligách Evropy, kohortové mezery, PCA atlasy podle postů, cesty do zahraničí. Popisné, reprodukovatelné, jen veřejná data.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609141720">
-  <link rel="stylesheet" href="../modern.css?v=202609141720">
+  <link rel="stylesheet" href="../style.css?v=202609142015">
+  <link rel="stylesheet" href="../modern.css?v=202609142015">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609141720"></script>
+  <script defer src="../atlas.js?v=202609142015"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -27,6 +27,9 @@
     <a href="#methodology">Metodologie</a>
   </div>
   <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Obsah</button>
+  <div class="atlas-switch" aria-label="Atlas">
+    <span aria-current="page">CZE</span> · <a href="/eng/">ENG</a>
+  </div>
   <div class="lang-switch" aria-label="Jazyk">
     <a href="../" hreflang="en" lang="en">EN</a><span aria-current="page" lang="cs">CS</span>
   </div>
@@ -79,7 +82,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 142 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 155 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -105,7 +108,7 @@
         </p>
         <details class="fold fold-hero"><summary>Souvislosti</summary>
         <p class="hero-sublead">
-          Největší kohortová mezera: <strong>záložníci 23-25</strong> — 2 za Česko v top-9 ligách proti peer mediánu 6.
+          Největší kohortová mezera: <strong>záložníci 23-25</strong> — 2 hráčů Česka v top-9 ligách proti peer mediánu 6.
           Nedávný český export se poprvé dostal na soupisku top-9 ligy v mediánovém věku 22; dánský v 22.
           Postaveno na FBref, Wikipedii a Wikidatech. Česko je pracovní příklad; pipeline bere kód národnosti a sadu peer zemí. Lidé z fotbalu tato čísla znají hráč po hráči; agregovaná na jednom místě nejsou nikde.
         </p>
@@ -237,7 +240,7 @@
   <div class="container">
     <h2 class="slide-q">Kde přesně?</h2>
     
-    <p class="slide-a">Největší kohortová mezera: <strong>Záložníci 23-25</strong>, 2 českých hráčů proti peer mediánu 6.</p>
+    <p class="slide-a">Největší kohortová mezera: <strong>Záložníci 23-25</strong>, 2 hráčů Česka proti peer mediánu 6.</p>
     <div class="slide-proof">
       <table class="kv-table cohort-gap-table">
         <thead>
@@ -434,7 +437,7 @@
       
     </div>
     
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Cílová liga poslední sezóny 2025/26 každého hráče s českou příslušností; do strany = násobička cíle ≤ násobička české ligy.</p>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Cílová liga poslední sezóny 2025/26 každého hráče s příslušností Česka; do strany = násobička cíle ≤ násobička české ligy.</p>
   </div>
 </section>
 
@@ -662,6 +665,8 @@
   </div>
 </section>
 
+
+
 <section class="slide" id="q8">
   <div class="container">
     <h2 class="slide-q">Jak to dělají Norsko a Dánsko?</h2>
@@ -824,7 +829,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta).</p>
+      <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrak, Chorý).</p>
     </div>
     
 
@@ -912,7 +917,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Startující tvůrci hry — asistenční podíl trojnásobný oproti mediánu záložníků při 62 % minut, střelecky skoro dvojnásobní. Kreativní centrum střední třetiny (Provod, Vlkanova, Ladra, Černý).</p>
+      <p class="cycle-tactical">Startující tvůrci hry — asistenční podíl trojnásobný oproti mediánu záložníků při 62 % minut, střelecky skoro dvojnásobní. Kreativní centrum střední třetiny (Provod, Vlkanova, Ladra).</p>
     </div>
     
 
@@ -989,7 +994,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Ofenzivní krajní obránci — asistenční podíl sedminásobný oproti mediánu obránců při startovací minutáži (65 %). Krajní obránce, jehož práce končí v útočné třetině (Coufal, Icha, Hadaš, Zelený).</p>
+      <p class="cycle-tactical">Ofenzivní krajní obránci — asistenční podíl sedminásobný oproti mediánu obránců při startovací minutáži (65 %). Krajní obránce, jehož práce končí v útočné třetině (Coufal, Icha, Hadaš).</p>
     </div>
     
 
@@ -1082,7 +1087,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta).</p>
+      <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrak, Chorý).</p>
     </div>
     
 
@@ -1159,7 +1164,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden (Souček, Trávník, Daníček, Zorvan).</p>
+      <p class="cycle-tactical">Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden (Souček, Trávník, Daníček).</p>
     </div>
     
 
@@ -1247,7 +1252,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký).</p>
+      <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla).</p>
     </div>
     
 
@@ -1335,7 +1340,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta).</p>
+      <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrak, Chorý).</p>
     </div>
     
 
@@ -1423,7 +1428,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Střílející ofenzivní záložníci — podíl gólů ze hry trojnásobný oproti mediánu záložníků při startovací minutáži (56 %). Osmička/desítka, která dobíhá do vápna (Darida, Ševčík, Višinský, Mareček).</p>
+      <p class="cycle-tactical">Střílející ofenzivní záložníci — podíl gólů ze hry trojnásobný oproti mediánu záložníků při startovací minutáži (56 %). Osmička/desítka, která dobíhá do vápna (Darida, Ševčík, Višinský).</p>
     </div>
     
 
@@ -1500,7 +1505,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Zkušení obránci s řízenou minutáží — medián věku 31, 44 % minut, produkce na dně. Vedení a krytí spíš než startovací role (Novák, Brabec, Fleišman, Holeš).</p>
+      <p class="cycle-tactical">Zkušení obránci s řízenou minutáží — medián věku 31, 44 % minut, produkce na dně. Vedení a krytí spíš než startovací role (Novák, Brabec, Fleišman).</p>
     </div>
     
 
@@ -1593,7 +1598,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl zhruba trojnásobný oproti mediánu útočníků, třetina minut, produkce průměrná. Presink a souboje spíš než zakončení (Mašek, Vojta, Kabongo).</p>
+      <p class="cycle-tactical">Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl zhruba trojnásobný oproti mediánu útočníků, třetina minut, produkce průměrná. Presink a souboje spíš než zakončení (Mašek, Vojta, Kozak).</p>
     </div>
     
 
@@ -1670,7 +1675,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Rozvojoví záložníci — největší česká záložnická skupina: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline (Daněk, Křišťan, Mikulenka, Sojka).</p>
+      <p class="cycle-tactical">Rozvojoví záložníci — největší česká záložnická skupina: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline (Daněk, Křišťan, Mikulenka).</p>
     </div>
     
 
@@ -1747,7 +1752,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Rozvojoví obránci — medián věku 22, zhruba třetina minut, produkce na dně. Vrstva, ze které kohorta 23–25 čerpá (Konečný, Kolář, Prebsl).</p>
+      <p class="cycle-tactical">Rozvojoví obránci — medián věku 22, zhruba třetina minut, produkce na dně. Vrstva, ze které kohorta 23–25 čerpá (Konečný, Kolar, Prebsl).</p>
     </div>
     
 
@@ -1840,7 +1845,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák, Červ).</p>
+      <p class="cycle-tactical">Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák).</p>
     </div>
     
 
@@ -1926,7 +1931,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký).</p>
+      <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla).</p>
     </div>
     
 
@@ -2008,7 +2013,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl zhruba trojnásobný oproti mediánu útočníků, třetina minut, produkce průměrná. Presink a souboje spíš než zakončení (Mašek, Vojta, Kabongo).</p>
+      <p class="cycle-tactical">Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl zhruba trojnásobný oproti mediánu útočníků, třetina minut, produkce průměrná. Presink a souboje spíš než zakončení (Mašek, Vojta, Kozak).</p>
     </div>
     
 
@@ -2083,7 +2088,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák, Červ).</p>
+      <p class="cycle-tactical">Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák).</p>
     </div>
     
 
@@ -2171,7 +2176,7 @@
     
     <div class="cycle-section">
       <p class="cycle-section-label">Taktické čtení</p>
-      <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký).</p>
+      <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla).</p>
     </div>
     
 
@@ -2809,17 +2814,17 @@
         
         <div class="observation">
           <h4>Na obyvatele: pořadí 7 z 9</h4>
-          <p>26 českých hráčů na soupiskách 2025/26 v 9 nejsilnějších ligách dává 2,39 na milion obyvatel, pořadí 7 z 9. Dánsko vede s 12,58, 5,3krát vyšší hustotou než česká; Slovensko sedí o místo výš s 3,14 z 17 hráčů a populací 2,0krát menší. Pod Českem: Maďarsko, Polsko.</p>
+          <p>26 hráčů Česka na soupiskách 2025/26 v 9 nejsilnějších ligách dává 2,39 na milion obyvatel, pořadí 7 z 9. Dánsko vede s 12,58, 5,3krát vyšší hustotou než česká; Slovensko sedí o místo výš s 3,14 z 17 hráčů a populací 2,0krát menší. Níž než Česko: Maďarsko, Polsko.</p>
         </div>
         
         <div class="observation">
           <h4>Největší kohortová mezera: záložníci 23-25</h4>
-          <p>Při počítání hráčů top-9 lig 2025/26 podle postu a věkové kohorty a srovnání českého počtu s mediánem ostatních 8 peer zemí jsou 3 největší propady tyto: záložníci 23-25 — 2 za Česko proti peer mediánu 6; záložníci 26-29 — 3 za Česko proti peer mediánu 6; záložníci 30+ — 1 za Česko proti peer mediánu 3,5. Kohortové tabulky výše ukazují mediány za těmi počty.</p>
+          <p>Při počítání hráčů top-9 lig 2025/26 podle postu a věkové kohorty a srovnání počtu Česka s mediánem ostatních 8 peer zemí jsou 3 největší propady tyto: záložníci 23-25 — 2 hráčů Česka proti peer mediánu 6; záložníci 26-29 — 3 hráčů Česka proti peer mediánu 6; záložníci 30+ — 1 hráčů Česka proti peer mediánu 3,5. Kohortové tabulky výše ukazují mediány za těmi počty.</p>
         </div>
         
         <div class="observation">
           <h4>Trajektorie 2024/25 → 2025/26: převážně stabilní</h4>
-          <p>92 hráčů s českou příslušností mělo aspoň 900 minut v obou sezónách 2024/25 a 2025/26: útočníci 13 (5 nahoru, 6 stabilně, 2 dolů); záložníci 43 (3 nahoru, 31 stabilně, 9 dolů); obránci 36 (1 nahoru, 34 stabilně, 1 dolů). Posun nahoru nebo dolů = změna gólů + asistencí na 90 minut (upravených o ligu) o víc než 0,05; 71 z 92 zůstalo v tomto pásmu. Jde o meziroční rozdíly, ne projekce.</p>
+          <p>92 hráčů s příslušností Česka mělo aspoň 900 minut v obou sezónách 2024/25 a 2025/26: útočníci 13 (5 nahoru, 6 stabilně, 2 dolů); záložníci 43 (3 nahoru, 31 stabilně, 9 dolů); obránci 36 (1 nahoru, 34 stabilně, 1 dolů). Posun nahoru nebo dolů = změna gólů + asistencí na 90 minut (upravených o ligu) o víc než 0,05; 71 z 92 zůstalo v tomto pásmu. Jde o meziroční rozdíly, ne projekce.</p>
         </div>
         
       </div>
@@ -2836,22 +2841,22 @@
     
     <figure class="figure-bleed" data-atlas="fw" data-cluster-names='{"quality": {"C0": "\u00dato\u010dn\u00edci s vysok\u00fdm pod\u00edlem asistenc\u00ed v top-5 lig\u00e1ch", "C1": "\u00dato\u010dn\u00edci z\u00e1kladn\u00ed sestavy s vysokou minut\u00e1\u017e\u00ed", "C2": "Star\u0161\u00ed \u00fato\u010dn\u00edci se st\u0159edn\u00ed minut\u00e1\u017e\u00ed", "C3": "Mlad\u00ed \u00fato\u010dn\u00edci s n\u00edzkou minut\u00e1\u017e\u00ed", "C4": "St\u0159elci s vysok\u00fdm objemem v top-5 lig\u00e1ch", "C5": "\u00dato\u010dn\u00edci s vysok\u00fdm kartov\u00fdm pod\u00edlem"}, "style": {"C0": "\u00dato\u010dn\u00edci s vysok\u00fdm pod\u00edlem asistenc\u00ed", "C1": "Soubojov\u00ed rota\u010dn\u00ed \u00fato\u010dn\u00edci", "C2": "\u00dato\u010dn\u00edci z\u00e1kladn\u00ed sestavy s vysokou minut\u00e1\u017e\u00ed", "C3": "Star\u0161\u00ed \u00fato\u010dn\u00edci se st\u0159edn\u00ed minut\u00e1\u017e\u00ed", "C4": "Mlad\u00ed \u00fato\u010dn\u00edci s n\u00edzkou minut\u00e1\u017e\u00ed", "C5": "Hlavn\u00ed st\u0159elci"}}'>
       <img src="atlas_FW.svg"
-           alt="Dvoupanelový atlas skupiny útočníci 2025/26 v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus 924 hráčů; barevné body jsou 31 hráčů s českou příslušností podle clusteru; oxbloodové kroužky značí 13 s reprezentační nominací 2024–26.">
-      <figcaption>Atlas skupiny útočníci 2025/26 v obou projekcích: 31 hráčů s českou příslušností barevně proti korpusu 924. Oxbloodové kroužky značí reprezentační fond (nominace 2024–26, 13 hráčů).</figcaption>
+           alt="Dvoupanelový atlas skupiny útočníci 2025/26 v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus 924 hráčů; barevné body jsou 31 hráčů s příslušností Česka podle clusteru; oxbloodové kroužky značí 13 s reprezentační nominací 2024–26.">
+      <figcaption>Atlas skupiny útočníci 2025/26 v obou projekcích: 31 hráčů s příslušností Česka barevně proti korpusu 924. Oxbloodové kroužky značí reprezentační fond (nominace 2024–26, 13 hráčů).</figcaption>
     </figure>
     
     
     <figure class="figure-bleed" data-atlas="mf" data-cluster-names='{"quality": {"C0": "Mlad\u00ed z\u00e1lo\u017en\u00edci s n\u00edzkou minut\u00e1\u017e\u00ed", "C1": "Star\u0161\u00ed rota\u010dn\u00ed z\u00e1lo\u017en\u00edci", "C2": "Produktivn\u00ed z\u00e1lo\u017en\u00edci v top-5 lig\u00e1ch", "C3": "Z\u00e1lo\u017en\u00edci z\u00e1kladn\u00ed sestavy s n\u00edzkou st\u0159eleckou produkc\u00ed"}, "style": {"C0": "Z\u00e1lo\u017en\u00edci s vysok\u00fdm kartov\u00fdm pod\u00edlem", "C1": "Star\u0161\u00ed rota\u010dn\u00ed z\u00e1lo\u017en\u00edci", "C2": "Mlad\u00ed z\u00e1lo\u017en\u00edci s n\u00edzkou minut\u00e1\u017e\u00ed", "C3": "Z\u00e1lo\u017en\u00edci z\u00e1kladn\u00ed sestavy s n\u00edzkou st\u0159eleckou produkc\u00ed", "C4": "Ofenzivn\u00ed z\u00e1lo\u017en\u00edci s vysokou st\u0159eleckou produkc\u00ed", "C5": "Kreativn\u00ed z\u00e1lo\u017en\u00edci s vysokou minut\u00e1\u017e\u00ed"}}'>
       <img src="atlas_MF.svg"
-           alt="Dvoupanelový atlas skupiny záložníci 2025/26 v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus 2648 hráčů; barevné body jsou 102 hráčů s českou příslušností podle clusteru; oxbloodové kroužky značí 28 s reprezentační nominací 2024–26.">
-      <figcaption>Atlas skupiny záložníci 2025/26 v obou projekcích: 102 hráčů s českou příslušností barevně proti korpusu 2648. Oxbloodové kroužky značí reprezentační fond (nominace 2024–26, 28 hráčů).</figcaption>
+           alt="Dvoupanelový atlas skupiny záložníci 2025/26 v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus 2648 hráčů; barevné body jsou 102 hráčů s příslušností Česka podle clusteru; oxbloodové kroužky značí 28 s reprezentační nominací 2024–26.">
+      <figcaption>Atlas skupiny záložníci 2025/26 v obou projekcích: 102 hráčů s příslušností Česka barevně proti korpusu 2648. Oxbloodové kroužky značí reprezentační fond (nominace 2024–26, 28 hráčů).</figcaption>
     </figure>
     
     
     <figure class="figure-bleed" data-atlas="df" data-cluster-names='{"quality": {"C0": "St\u0159\u00edlej\u00edc\u00ed obr\u00e1nci v top-5 lig\u00e1ch", "C1": "Obr\u00e1nci s vysok\u00fdm kartov\u00fdm pod\u00edlem", "C2": "Obr\u00e1nci s vysok\u00fdm pod\u00edlem asistenc\u00ed v top-5 lig\u00e1ch", "C3": "Star\u0161\u00ed obr\u00e1nci", "C4": "Mlad\u00ed obr\u00e1nci s n\u00edzkou minut\u00e1\u017e\u00ed", "C5": "Obr\u00e1nci z\u00e1kladn\u00ed sestavy"}, "style": {"C0": "Obr\u00e1nci z\u00e1kladn\u00ed sestavy", "C1": "Obr\u00e1nci s vysok\u00fdm kartov\u00fdm pod\u00edlem", "C2": "Mlad\u00ed obr\u00e1nci s n\u00edzkou minut\u00e1\u017e\u00ed", "C3": "St\u0159\u00edlej\u00edc\u00ed obr\u00e1nci", "C4": "Star\u0161\u00ed obr\u00e1nci", "C5": "Obr\u00e1nci s vysok\u00fdm pod\u00edlem asistenc\u00ed a vysokou minut\u00e1\u017e\u00ed"}}'>
       <img src="atlas_DF.svg"
-           alt="Dvoupanelový atlas skupiny obránci 2025/26 v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus 1947 hráčů; barevné body jsou 59 hráčů s českou příslušností podle clusteru; oxbloodové kroužky značí 19 s reprezentační nominací 2024–26.">
-      <figcaption>Atlas skupiny obránci 2025/26 v obou projekcích: 59 hráčů s českou příslušností barevně proti korpusu 1947. Oxbloodové kroužky značí reprezentační fond (nominace 2024–26, 19 hráčů).</figcaption>
+           alt="Dvoupanelový atlas skupiny obránci 2025/26 v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus 1947 hráčů; barevné body jsou 59 hráčů s příslušností Česka podle clusteru; oxbloodové kroužky značí 19 s reprezentační nominací 2024–26.">
+      <figcaption>Atlas skupiny obránci 2025/26 v obou projekcích: 59 hráčů s příslušností Česka barevně proti korpusu 1947. Oxbloodové kroužky značí reprezentační fond (nominace 2024–26, 19 hráčů).</figcaption>
     </figure>
     
     
@@ -2874,7 +2879,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LM</span><span class="pchip-name">Lukáš Mašek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MV</span><span class="pchip-name">Matyas Vojta</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MK</span><span class="pchip-name">Matyas Kozak</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">CK</span><span class="pchip-name">Christophe Kabongo</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,30 gólů ze hry a 0,10 asistencí na 90 minut, 33 % minut klubu, věk 24, 0,29 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl zhruba trojnásobný oproti mediánu útočníků, třetina minut, produkce průměrná. Presink a souboje spíš než zakončení (Mašek, Vojta, Kabongo).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rotační útočníci, jejichž podpisem je fyzický souboj — kartový podíl zhruba trojnásobný oproti mediánu útočníků, třetina minut, produkce průměrná. Presink a souboje spíš než zakončení (Mašek, Vojta, Kozak).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C2">
           Útočníci základní sestavy s vysokou minutáží
@@ -2883,7 +2888,7 @@
           </span>
         </span></summary><div class="cluster-body">Mediány korpusu: 0,30 gólů ze hry a 0,13 asistencí na 90 minut, 76 % minut klubu, věk 24, 0,14 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Každotýdenní startující — tři čtvrtiny minut sezóny, asistenční podíl zhruba 1,5násobek mediánu útočníků, střelecky na mediánu. Převážně otisk pěti nejsilnějších lig: útočník první volby, který hru spojuje stejně jako zakončuje (Chorý, Chytil).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Každotýdenní startující — tři čtvrtiny minut sezóny, asistenční podíl zhruba 1,5násobek mediánu útočníků, střelecky na mediánu. Převážně otisk pěti nejsilnějších lig: útočník první volby, který hru spojuje stejně jako zakončuje.</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C3">
           Starší útočníci se střední minutáží
@@ -2892,7 +2897,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JC</span><span class="pchip-name">Jan Chramosta</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TP</span><span class="pchip-name">Tomáš Poznar</span></span><span class="pchip"><img class="pchip-img" src="../img/players/b5b2e1ba.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">VP</span><span class="pchip-name">Václav Pilař</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DP</span><span class="pchip-name">David Puškáč</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,28 gólů ze hry a 0,08 asistencí na 90 minut, 46 % minut klubu, věk 32, 0,17 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Zkušení útočníci s řízenou minutáží — medián věku 31, zhruba 40 % minut, produkce na mediánu. Impaktový nebo cílový útočník v rotaci (Chramosta, Poznar, Pilař, Puškáč).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Zkušení útočníci s řízenou minutáží — medián věku 31, zhruba 40 % minut, produkce na mediánu. Impaktový nebo cílový útočník v rotaci (Chramosta, Poznar, Pilař).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C4">
           Mladí útočníci s nízkou minutáží
@@ -2901,7 +2906,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TZ</span><span class="pchip-name">Tomás Zlatohlávek</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">PJ</span><span class="pchip-name">Pavel Juroska</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">OZ</span><span class="pchip-name">Ondřej Zmrzlý</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,27 gólů ze hry a 0,08 asistencí na 90 minut, 29 % minut klubu, věk 23, 0,13 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rozvojová vrstva a největší cluster útočníků — medián věku 23, pod 30 % minut, produkce těsně pod mediánem. Tady sedí většina mladých českých útočníků (Zlatohlávek, Juroška, Čvančara).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rozvojová vrstva a největší cluster útočníků — medián věku 23, pod 30 % minut, produkce těsně pod mediánem. Tady sedí většina mladých českých útočníků (Zlatohlávek, Juroska, Zmrzlý).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C5">
           Hlavní střelci
@@ -2910,7 +2915,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">PS</span><span class="pchip-name">Patrik Schick</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">VP</span><span class="pchip-name">Vojtech Patrak</span></span><span class="pchip"><img class="pchip-img" src="../img/players/163bbd4a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TC</span><span class="pchip-name">Tomáš Chorý</span></span><span class="pchip"><img class="pchip-img" src="../img/players/4bce9c16.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">JK</span><span class="pchip-name">Jan Kuchta</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,50 gólů ze hry a 0,10 asistencí na 90 minut, 51 % minut klubu, věk 25, 0,16 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrak, Chorý).</span></div></details>
       
     </div>
     
@@ -2933,7 +2938,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TS</span><span class="pchip-name">Tomáš Souček</span></span><span class="pchip"><img class="pchip-img" src="../img/players/f301f363.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MT</span><span class="pchip-name">Michal Trávník</span></span><span class="pchip"><img class="pchip-img" src="../img/players/57735db1.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">VD</span><span class="pchip-name">Vlastimil Daníček</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FZ</span><span class="pchip-name">Filip Zorvan</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,08 gólů ze hry a 0,10 asistencí na 90 minut, 39 % minut klubu, věk 30, 0,21 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden (Souček, Trávník, Daníček, Zorvan).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden (Souček, Trávník, Daníček).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C2">
           Mladí záložníci s nízkou minutáží
@@ -2942,7 +2947,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/6b07e743.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">KD</span><span class="pchip-name">Kryštof Daněk</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JK</span><span class="pchip-name">Jakub Křišťan</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MM</span><span class="pchip-name">Matěj Mikulenka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AS</span><span class="pchip-name">Alexandr Sojka</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,08 gólů ze hry a 0,09 asistencí na 90 minut, 29 % minut klubu, věk 22, 0,17 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rozvojoví záložníci — největší česká záložnická skupina: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline (Daněk, Křišťan, Mikulenka, Sojka).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rozvojoví záložníci — největší česká záložnická skupina: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline (Daněk, Křišťan, Mikulenka).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C3">
           Záložníci základní sestavy s nízkou střeleckou produkcí
@@ -2951,7 +2956,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">PH</span><span class="pchip-name">Patrik Hellebrand</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DH</span><span class="pchip-name">Daniel Horák</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Marcel Čermák</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LC</span><span class="pchip-name">Lukáš Červ</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,08 gólů ze hry a 0,09 asistencí na 90 minut, 79 % minut klubu, věk 25, 0,18 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák, Červ).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C4">
           Ofenzivní záložníci s vysokou střeleckou produkcí
@@ -2960,7 +2965,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/3eb0f2df.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">VD</span><span class="pchip-name">Vladimír Darida</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MS</span><span class="pchip-name">Michal Ševčík</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DV</span><span class="pchip-name">Denis Višinský</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DM</span><span class="pchip-name">Daniel Mareček</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,25 gólů ze hry a 0,13 asistencí na 90 minut, 54 % minut klubu, věk 24, 0,17 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Střílející ofenzivní záložníci — podíl gólů ze hry trojnásobný oproti mediánu záložníků při startovací minutáži (56 %). Osmička/desítka, která dobíhá do vápna (Darida, Ševčík, Višinský, Mareček).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Střílející ofenzivní záložníci — podíl gólů ze hry trojnásobný oproti mediánu záložníků při startovací minutáži (56 %). Osmička/desítka, která dobíhá do vápna (Darida, Ševčík, Višinský).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C5">
           Kreativní záložníci s vysokou minutáží
@@ -2969,7 +2974,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LP</span><span class="pchip-name">Lukáš Provod</span></span><span class="pchip"><img class="pchip-img" src="../img/players/aed44b64.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">AV</span><span class="pchip-name">Adam Vlkanova</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">TL</span><span class="pchip-name">Tomáš Ladra</span></span><span class="pchip"><img class="pchip-img" src="../img/players/bb1cf301.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">VC</span><span class="pchip-name">Václav Černý</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,14 gólů ze hry a 0,22 asistencí na 90 minut, 59 % minut klubu, věk 24, 0,17 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Startující tvůrci hry — asistenční podíl trojnásobný oproti mediánu záložníků při 62 % minut, střelecky skoro dvojnásobní. Kreativní centrum střední třetiny (Provod, Vlkanova, Ladra, Černý).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Startující tvůrci hry — asistenční podíl trojnásobný oproti mediánu záložníků při 62 % minut, střelecky skoro dvojnásobní. Kreativní centrum střední třetiny (Provod, Vlkanova, Ladra).</span></div></details>
       
     </div>
     
@@ -2983,7 +2988,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/08299b06.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">LH</span><span class="pchip-name">Lukáš Hůlka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DH</span><span class="pchip-name">Denis Halinský</span></span><span class="pchip"><img class="pchip-img" src="../img/players/54b2f056.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Martin Cedidla</span></span><span class="pchip"><img class="pchip-img" src="../img/players/3028e991.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Martin Chlumecký</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,03 gólů ze hry a 0,03 asistencí na 90 minut, 84 % minut klubu, věk 25, 0,18 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C1">
           Obránci s vysokým kartovým podílem
@@ -3001,7 +3006,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MK</span><span class="pchip-name">Mikuláš Konečný</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">JK</span><span class="pchip-name">Jakub Kolar</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FP</span><span class="pchip-name">Filip Prebsl</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">AS</span><span class="pchip-name">Adam Sevinsky</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,02 gólů ze hry a 0,02 asistencí na 90 minut, 34 % minut klubu, věk 22, 0,18 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rozvojoví obránci — medián věku 22, zhruba třetina minut, produkce na dně. Vrstva, ze které kohorta 23–25 čerpá (Konečný, Kolář, Prebsl).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Rozvojoví obránci — medián věku 22, zhruba třetina minut, produkce na dně. Vrstva, ze které kohorta 23–25 čerpá (Konečný, Kolar, Prebsl).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C3">
           Střílející obránci
@@ -3019,7 +3024,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/e0f613ad.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">FN</span><span class="pchip-name">Filip Novák</span></span><span class="pchip"><img class="pchip-img" src="../img/players/341e14aa.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">JB</span><span class="pchip-name">Jakub Brabec</span></span><span class="pchip"><img class="pchip-img" src="../img/players/9213f119.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">JF</span><span class="pchip-name">Jiří Fleišman</span></span><span class="pchip"><img class="pchip-img" src="../img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TH</span><span class="pchip-name">Tomáš Holeš</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,02 gólů ze hry a 0,02 asistencí na 90 minut, 44 % minut klubu, věk 31, 0,20 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Zkušení obránci s řízenou minutáží — medián věku 31, 44 % minut, produkce na dně. Vedení a krytí spíš než startovací role (Novák, Brabec, Fleišman, Holeš).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Zkušení obránci s řízenou minutáží — medián věku 31, 44 % minut, produkce na dně. Vedení a krytí spíš než startovací role (Novák, Brabec, Fleišman).</span></div></details>
       
       <details class="cluster"><summary class="cluster-head"><span class="cluster-name" title="C5">
           Obránci s vysokým podílem asistencí a vysokou minutáží
@@ -3028,7 +3033,7 @@
           </span>
         </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/fdf3cb77.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">VC</span><span class="pchip-name">Vladimír Coufal</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MI</span><span class="pchip-name">Marek Icha</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MH</span><span class="pchip-name">Matěj Hadaš</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,04 gólů ze hry a 0,12 asistencí na 90 minut, 64 % minut klubu, věk 25, 0,20 karet na 90 minut.
         
-        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Ofenzivní krajní obránci — asistenční podíl sedminásobný oproti mediánu obránců při startovací minutáži (65 %). Krajní obránce, jehož práce končí v útočné třetině (Coufal, Icha, Hadaš, Zelený).</span></div></details>
+        <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Ofenzivní krajní obránci — asistenční podíl sedminásobný oproti mediánu obránců při startovací minutáži (65 %). Krajní obránce, jehož práce končí v útočné třetině (Coufal, Icha, Hadaš).</span></div></details>
       
     </div>
     
@@ -3248,7 +3253,7 @@
     <h4>Exhibit B — exportní trasa</h4>
     <p>
       Pro každého hráče peer země na soupisce top-9 ligy 2026/27: věk v první sezóně v top-9 lize (celá soupiska a jen nedávní příchozí) a u nedávných příchozích liga sezóny před ní.
-      České exporty: 15 hráčů, mediánový věk exportu 23 (nedávní příchozí 7, medián 22), 71 % nedávných přímo z Chance Ligy*.
+      České exporty: 15 hráčů, mediánový věk exportu 23 (nedávní příchozí 7, medián 22), 71 % nedávných přímo z ligy Chance Liga*.
     </p>
     <table class="kv-table">
       <thead>
@@ -3617,7 +3622,7 @@
     
     
     <h4>Exhibit E — kam české exporty míří</h4>
-    <p>Z 192 zmapovaných českých hráčů hraje 27 mimo Chance Ligu.</p>
+    <p>Z 192 zmapovaných hráčů Česka hraje 27 mimo ligu Chance Liga.</p>
     
     <ul class="small dest-examples">
       
@@ -5808,7 +5813,7 @@
       <summary>Rejstřík hráčů</summary>
       <div class="explore-block">
     <h3 id="players">Rejstřík hráčů</h3>
-    <p class="framing">Každý hráč s českou příslušností a kompletní sezónou 2025/26 v pokryté lize — 192 hráčů — s čísly za atlasy. Jména s kartou na ni odkazují.</p>
+    <p class="framing">Každý hráč s příslušností Česka a kompletní sezónou 2025/26 v pokryté lize — 192 hráčů — s čísly za atlasy. Jména s kartou na ni odkazují.</p>
     <div class="player-index-tools">
       <label for="player-search">Hledat podle jména</label>
       <input type="search" id="player-search" placeholder="Jméno…" autocomplete="off" spellcheck="false">
@@ -8154,7 +8159,7 @@
 
     <h3 id="data-sources">Zdroje dat</h3>
     <ul>
-      <li><strong>FBref</strong> (přes <code>soccerdata</code>): sezónní tabulky hráčů (standard, playing time) pro 9 hlavních lig, Chance Ligu, domácí ligy peer zemí a německou druhou ligu; stránka země „Players from Czechia“ pro nalezení fondu; sloupec národnosti pro počty peer zemí</li>
+      <li><strong>FBref</strong> (přes <code>soccerdata</code>): sezónní tabulky hráčů (standard, playing time) pro 9 hlavních lig, ligu Chance Liga, domácí ligy peer zemí a německou druhou ligu; stránka země „Players from Czechia“ pro nalezení fondu; sloupec národnosti pro počty peer zemí</li>
       <li><strong>Wikipedia</strong>: tabulky reprezentačních nominací (2024–25 Nations League, 2026 FIFA World Cup, 2026 World Cup qualification, UEFA Euro 2024, UEFA European Under-21 Championship 2025) pro příznak nominace</li>
       <li><strong>Wikidata / Wikimedia Commons</strong>: portréty hráčů (P18) spárované podle jména, občanství a data narození; kredity v patičce</li>
       <li><strong>Koeficienty asociací UEFA</strong> (přes Wikipedii) jako zdroj síly lig, ClubElo bylo v době běhu nedostupné</li>
@@ -8374,7 +8379,7 @@
 
     <h3 id="sensitivity">Analýza citlivosti (násobičky ±20 %)</h3>
     <p>
-      Pro každý scénář bylo přepočítáno kvalitou upravené pořadí hráčů s českou příslušností v rámci každého postu a srovnáno se základem; „top-10“ je sjednocení vlastních prvních desítek 3 skupin (30 hráčů v základu). Z 41 scénářů 37 nemění v této množině nikoho; největší churn je 1 (násobička CZE-First League −20 %, průměrný posun pořadí 0,88 v první dvacítce)*.
+      Pro každý scénář bylo přepočítáno kvalitou upravené pořadí hráčů s příslušností Česka v rámci každého postu a srovnáno se základem; „top-10“ je sjednocení vlastních prvních desítek 3 skupin (30 hráčů v základu). Z 41 scénářů 37 nemění v této množině nikoho; největší churn je 1 (násobička CZE-First League −20 %, průměrný posun pořadí 0,88 v první dvacítce)*.
     </p>
     <details class="fold fold-table"><summary>Tabulka scénářů</summary><table class="sensitivity-table">
       <thead>
@@ -8723,7 +8728,7 @@
       <summary>6 přepočítaných kontrol · 5 zaznamenaných incidentů</summary>
       <p>Každé rozhodnutí při čištění dat, které změnilo nějaký počet, s tím počtem. První blok je přepočítán při každém běhu; druhý je záznam incidentů (data a počty tak, jak byly zaznamenány).</p>
       <table class="dq-table"><thead><tr><th>Kontrola</th><th>Počet</th><th>Co počítá</th></tr></thead>
-      <tbody><tr><td>Odfiltrované ženské položky</td><td class="num">92 položek</td><td>Položky na stránce země FBref vypuštěné pro příjmení končící na -ová (viz Limitace).</td></tr><tr><td>Jmenovci ve fondu</td><td class="num">2 hráčů</td><td>Aktivní hráči fondu sdílející normalizované jméno (např. otec a syn), rozlišení podle klubu.</td></tr><tr><td>Hráči fondu bez sezónních tabulek</td><td class="num">125 hráčů</td><td>Čeští profesionálové ze stránky země FBref hrající v lize bez sezónních tabulek, bez jakýchkoli metrik.</td></tr><tr><td>Sloučené rozdělené sezóny</td><td class="num">441 řádků</td><td>Řádky hráč-sezóna-post sloučené do jednoho po přestupu uprostřed sezóny (minuty sečteny, míry vážené minutami).</td></tr><tr><td>Nespárovaná jména z nominací</td><td class="num">18 jmen</td><td>Jména z tabulek reprezentačních nominací, která neodpovídají žádnému českému řádku ve featurových tabulkách.</td></tr><tr><td>Chybějící ročník narození</td><td class="num">0 řádků</td><td>Řádky sezónních tabulek národnosti CZE bez ročníku narození, ze kterých nejde sestavit player_key.</td></tr></tbody></table>
+      <tbody><tr><td>Odfiltrované ženské položky</td><td class="num">92 položek</td><td>Položky na stránce země FBref vypuštěné pro příjmení končící na -ová (viz Limitace).</td></tr><tr><td>Jmenovci ve fondu</td><td class="num">2 hráčů</td><td>Aktivní hráči fondu sdílející normalizované jméno (např. otec a syn), rozlišení podle klubu.</td></tr><tr><td>Hráči fondu bez sezónních tabulek</td><td class="num">125 hráčů</td><td>Čeští profesionálové ze stránky země FBref hrající v lize bez sezónních tabulek, bez jakýchkoli metrik.</td></tr><tr><td>Sloučené rozdělené sezóny</td><td class="num">441 řádků</td><td>Řádky hráč-sezóna-post sloučené do jednoho po přestupu uprostřed sezóny (minuty sečteny, míry vážené minutami).</td></tr><tr><td>Nespárovaná jména z nominací</td><td class="num">18 jmen</td><td>Jména z tabulek reprezentačních nominací, která neodpovídají žádnému řádku Česka ve featurových tabulkách.</td></tr><tr><td>Chybějící ročník narození</td><td class="num">0 řádků</td><td>Řádky sezónních tabulek národnosti CZE bez ročníku narození, ze kterých nejde sestavit player_key.</td></tr></tbody></table>
       <ul class="dq-events"><li><span class="mono">2026-09-14</span> Zastaralý sezónní index FBref způsobil, že soccerdata stáhla URL bez sezóny, kterou FBref servíruje jako běžící sezónu: tabulky 2025/26 devíti lig byly po čtyřech kolech 2026/27. Opraveno kontrolou vlastního nadpisu stránky proti požadované sezóně. <span class="mono">(9 lig, zaznamenáno)</span></li><li><span class="mono">2026-09-14</span> FBref občas servírovala jen soupisku (bez sezónní tabulky) pro sezónu, která ještě probíhá. Opraveno jedním opakovaným stažením v téže kontrole nadpisu stránky.</li><li><span class="mono">2026-09-13</span> API ClubElo odpovídalo 502 po celou dobu běhu; ligové násobičky spadly zpět na koeficienty asociací UEFA.</li><li><span class="mono">2026-09-13</span> Dotaz na portréty ve Wikidatech spároval jen podle jména, občanství a data narození; sedm portrétů patřilo jmenovcům z jiných sportů, dokud nebyl přidán filtr na povolání. <span class="mono">(7 portrétů, zaznamenáno)</span></li><li><span class="mono">2026-09-13</span> Slovenská nejvyšší soutěž na FBref vůbec není; slovenské exhibity v tomto reportu proto stojí jen na hráčích v zahraničí.</li></ul>
     </details>
     
@@ -8731,7 +8736,7 @@
     <h3 id="limitations">Limitace této analýzy</h3>
     <div class="limitations">
       
-      <details class="fold fold-lim" open><summary>Ligy bez metrik</summary><p>Pipeline stahuje z FBref 19 soutěží; česká druhá liga a slovenská nejvyšší soutěž na FBref vůbec nejsou. 125 z 440 českých profesionálů nalezených na stránce země FBref hraje v lize bez sezónních tabulek a nenese žádné metriky; jsou uvedeni jen jménem a klubem. Slovenské exhibity v kapitole II proto stojí na jeho hráčích v zahraničí.</p></details>
+      <details class="fold fold-lim" open><summary>Ligy bez metrik</summary><p>Pipeline stahuje z FBref 19 soutěží; česká druhá liga a slovenská nejvyšší soutěž na FBref vůbec nejsou. 125 z 440 profesionálů Česka nalezených na stránce země FBref hraje v lize bez sezónních tabulek a nenese žádné metriky; jsou uvedeni jen jménem a klubem. Slovenské exhibity v kapitole II proto stojí na jeho hráčích v zahraničí.</p></details>
       
       <details class="fold fold-lim"><summary>Featury z bezplatné vrstvy</summary><p>Vektor featur je pět základních sloupců na 90 minut: góly ze hry, asistence, podíl minut, věk a karty. Žádné očekávané góly, žádné progresivní přihrávky, žádné skluzy — pravidlem byl jeden identický vektor napříč každou ligou korpusu a pro všechny je dostupná jen základní tabulka. Defenzivní a kreativní příspěvek nad rámec asistencí je pro mapu neviditelný.</p></details>
       
@@ -8760,8 +8765,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 142 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 142 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 155 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 155 testy.</p>
       <ol class="build-flow">
         <li>Specifikace</li>
         <li>Plán</li>
@@ -8932,7 +8937,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-14 17:20</p>
+    <p class="rendered-at">Vykresleno: 2026-09-14 20:15</p>
   </div>
 </footer>
 

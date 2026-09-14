@@ -1,4 +1,5 @@
-"""Site layer over one rendered page (English or Czech — `--lang` picks the strings):
+"""Site layer over one rendered page (English or the home nation's language —
+`--lang` picks the strings; only the home nation `cze` has a `cs` page):
 
 - head: Space Grotesk + JetBrains Mono, modern.css, hreflang alternates,
   KaTeX, atlas.js (cache-busted with ?v=)
@@ -39,15 +40,31 @@ SRC: Path = args.page
 LANG: str = args.lang
 NATION = os.environ.get("NATION", "cze").lower()
 P = "" if LANG == "en" else "../"          # asset prefix relative to the page
-PLAYERS = json.load(open(Path(__file__).with_name(f"players.{NATION}.json"), encoding="utf-8"))
+_PLAYERS_PATH = Path(__file__).with_name(f"players.{NATION}.json")
+# A nation without a photo run yet (no fetch_photos output) still builds --
+# chip()/photo() already fall back to initials-only monograms for any key
+# missing from PLAYERS, so an empty dict here just means every player does.
+PLAYERS = json.load(open(_PLAYERS_PATH, encoding="utf-8")) if _PLAYERS_PATH.exists() else {}
 BY_KEY = {v["player_key"]: dict(v, fbref_id=k) for k, v in PLAYERS.items()}
 SITE = "https://football.datasimply.eu/"
+# Home-nation words the site layer needs outside the report's own i18n
+# (this script runs standalone -- see the module docstring). Reads
+# config/nations/<NATION>.yaml directly rather than importing src.config so
+# `python site/enrich_index.py ...` keeps working from any cwd with NATION set.
+_NATION_YAML = Path(__file__).resolve().parent.parent / "config" / "nations" / f"{NATION}.yaml"
+if _NATION_YAML.exists():
+    import yaml as _yaml
+    _nation_cfg = _yaml.safe_load(_NATION_YAML.read_text(encoding="utf-8"))
+else:
+    _nation_cfg = {"adjective": "Czech", "cs": {"adj_m": "Český"}}
+ADJ_EN = _nation_cfg["adjective"]
+ADJ_CS = _nation_cfg.get("cs", {}).get("adj_m", "Český").capitalize()
 html = SRC.read_text(encoding="utf-8")
 fails: list[tuple] = []
 
 S = {
     "en": {
-        "nav_aria": "Navigation", "brand": "Czech Football <span>Atlas</span>",
+        "nav_aria": "Navigation", "brand": f"{ADJ_EN} Football <span>Atlas</span>",
         "nav": [("#summary", "Summary"), ("#pathways", "Pathways"), ("#q9", "Cards"), ("#methodology", "Methodology")],
         "lang_aria": "Language", "contents": "Contents",
         "cast": "{n} player profiles", "in_context": "In context",
@@ -62,7 +79,7 @@ S = {
         "no_trend": "—",
     },
     "cs": {
-        "nav_aria": "Navigace", "brand": "Český fotbal <span>Atlas</span>",
+        "nav_aria": "Navigace", "brand": f"{ADJ_CS} fotbal <span>Atlas</span>",
         "nav": [("#summary", "Shrnutí"), ("#pathways", "Cesty"), ("#q9", "Karty"), ("#methodology", "Metodologie")],
         "lang_aria": "Jazyk", "contents": "Obsah",
         "cast": "{n} profilů hráčů", "in_context": "Souvislosti",
@@ -129,20 +146,38 @@ sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
     f'  <script defer src="{P}atlas.js"></script>',
     1)
 
-# ---------------------------------------------------------------- Czech page: the translated SVGs sit next to it in docs/cs/
+# ---------------------------------------------------------------- cs/ page: the translated SVGs sit next to it in docs/cs/
 if LANG == "cs":
     sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg)"', r'<img src="\1"', 5)
 
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])
-switch = ('<span aria-current="page" lang="en">EN</span><a href="cs/" hreflang="cs" lang="cs">CS</a>' if LANG == "en"
-          else '<a href="../" hreflang="en" lang="en">EN</a><span aria-current="page" lang="cs">CS</span>')
+# EN/CS: only the home nation `cze` has a `cs` page (site/build.sh skips the
+# CS pass for any other NATION) -- the toggle is EN-only there.
+if NATION == "cze":
+    switch = ('<span aria-current="page" lang="en">EN</span><a href="cs/" hreflang="cs" lang="cs">CS</a>' if LANG == "en"
+              else '<a href="../" hreflang="en" lang="en">EN</a><span aria-current="page" lang="cs">CS</span>')
+else:
+    switch = '<span aria-current="page" lang="en">EN</span>'
+# Atlas switch: which home nation this run is ("CZE · ENG"), current nation
+# plain, the other(s) linking to their published root (docs/ for cze, docs/
+# <nation>/ for any other -- see site/build.sh); root-relative so it works
+# from any page depth (index.html or cs/index.html).
+ATLAS_ROOTS = {"cze": "/", "eng": "/eng/"}
+atlas_switch = " · ".join(
+    f'<span aria-current="page">{code.upper()}</span>' if code == NATION
+    else f'<a href="{root}">{code.upper()}</a>'
+    for code, root in ATLAS_ROOTS.items()
+)
 TOPBAR = f'''<nav class="topbar" aria-label="{S["nav_aria"]}">
   <a class="topbar-brand" href="#top">{S["brand"]}</a>
   <div class="topbar-links">
 {links}
   </div>
   <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">{S["contents"]}</button>
+  <div class="atlas-switch" aria-label="Atlas">
+    {atlas_switch}
+  </div>
   <div class="lang-switch" aria-label="{S["lang_aria"]}">
     {switch}
   </div>
