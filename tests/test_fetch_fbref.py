@@ -71,3 +71,35 @@ def test_player_key_uses_normalized_name_and_int_born():
 def test_player_key_uses_x_when_born_missing():
     assert player_key("Bukayo Saka", None) == "bukayo saka|x"
     assert player_key("Bukayo Saka", float("nan")) == "bukayo saka|x"
+
+
+# --- page-level reader: season guard + tolerance to a finished season's table ---
+from pathlib import Path
+
+import pytest
+
+from src.fetch_fbref import SeasonMismatch, page_season, parse_player_page
+
+FIX = Path(__file__).parent / "fixtures" / "fbref_players_pol_2526_standard.html"
+
+
+def test_page_season_reads_the_h1():
+    assert page_season(FIX.read_text(encoding="utf-8")) == "2025-2026"
+
+
+def test_parse_player_page_without_matches_column():
+    # a finished season's FBref table has no "Matches" link column; soccerdata's
+    # reader raises KeyError on it, ours must not
+    out = parse_player_page(FIX.read_text(encoding="utf-8"), "POL-Ekstraklasa", "2025-2026", "standard")
+    assert len(out) == 3
+    assert out.index.get_level_values("season").unique().tolist() == ["2025-2026"]
+    assert "Abbati Abdullahi" in out.index.get_level_values("player")  # sorted by team
+    flat = normalize_player_table(out, "POL-Ekstraklasa", "2025-2026")
+    assert list(flat.columns) == ["league", "season", "team", "player", "player_key", "nation",
+                                  "pos", "born", "age", "mp", "min", "gls", "ast", "pk", "crdy", "crdr"]
+    assert flat["min"].gt(0).any() and flat.born.notna().all()
+
+
+def test_parse_player_page_rejects_wrong_season():
+    with pytest.raises(SeasonMismatch, match="2026-2027"):
+        parse_player_page(FIX.read_text(encoding="utf-8"), "POL-Ekstraklasa", "2026-2027", "standard")

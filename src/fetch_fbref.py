@@ -6,9 +6,13 @@ Raw HTML is cached by soccerdata itself under ~/soccerdata/data/FBref.
 from __future__ import annotations
 
 import logging
+import re
+from pathlib import Path
 
 import pandas as pd
 import soccerdata as sd
+from lxml import etree, html
+from soccerdata.fbref import FBREF_API, _fix_nation_col, _parse_table
 
 from src import config, leagues_setup
 from src.utils import player_key, write_parquet
@@ -16,6 +20,54 @@ from src.utils import player_key, write_parquet
 LOG = logging.getLogger(__name__)
 COLS = ["league", "season", "team", "player", "player_key", "nation", "pos", "born", "age",
         "mp", "min", "gls", "ast", "pk", "crdy", "crdr"]
+SEASON_RE = re.compile(r"(\d{4}-\d{4})")
+
+
+class SeasonMismatch(RuntimeError):
+    """The page FBref served is not the season that was asked for."""
+
+
+def page_season(page_html: str) -> str | None:
+    """Season named in the page's <h1> ("2025-2026 Ekstraklasa Stats"), or None."""
+    tree = html.fromstring(page_html)
+    h1 = tree.xpath("//h1")
+    m = SEASON_RE.search(h1[0].text_content()) if h1 else None
+    return m.group(1) if m else None
+
+
+def parse_player_page(page_html: str, league: str, season: str, stat_type: str) -> pd.DataFrame:
+    """Parse one FBref league-season player page into soccerdata's frame shape.
+
+    Two reasons not to use `FBref.read_player_season_stats` for the parse:
+    (1) a completed season's table has no "Matches" link column and
+    soccerdata's fixed `.drop("Matches")` raises KeyError on it; (2) the
+    season index page can be stale — FBref then serves the *current* season
+    at the season-less URL — so the page's own <h1> is checked against
+    `season` and a mismatch raises `SeasonMismatch` instead of mislabelling
+    a whole league-season.
+    """
+    found = page_season(page_html)
+    if found != season:
+        raise SeasonMismatch(f"{league}: asked for {season}, page says {found}")
+    tree = html.fromstring(page_html)
+    for elem in tree.xpath("//td[@data-stat='comp_level']//span"):
+        elem.getparent().remove(elem)
+    (el,) = tree.xpath(f"//comment()[contains(.,'div_stats_{stat_type}')]")
+    parser = etree.HTMLParser(recover=True)
+    (table,) = etree.fromstring(el.text, parser).xpath(f"//table[contains(@id, 'stats_{stat_type}')]")
+    df = _parse_table(table)
+    df[("Unnamed: league", "league")] = league
+    df[("Unnamed: season", "season")] = season
+    df = _fix_nation_col(df)
+    # header rows repeated inside the table body, and the columns soccerdata drops
+    df = df[df[("Unnamed: 1_level_0", "Player")] != "Player"]
+    df = df.drop(columns=[c for c in df.columns if c[1] in ("Rk", "Matches")])
+    rename = {"Squad": "team", "Player": "player", "Nation": "nation", "Pos": "pos",
+              "Age": "age", "Born": "born", "league": "league", "season": "season"}
+    # single-level columns arrive as ("Unnamed: N", name): flatten them to (name, "")
+    df.columns = pd.MultiIndex.from_tuples(
+        [(rename.get(b, b), "") if str(a).startswith("Unnamed") else (a, b) for a, b in df.columns])
+    return df.set_index(["league", "season", "team", "player"]).sort_index()
 
 
 def _col(df: pd.DataFrame, *names: tuple) -> pd.Series:
@@ -48,10 +100,37 @@ def normalize_player_table(df: pd.DataFrame, league: str, season: str) -> pd.Dat
     return out[COLS]
 
 
-def fetch_league(league: str, season: str) -> pd.DataFrame:
+def _season_page_url(fb: sd.FBref, league: str, season: str, stat_type: str) -> str:
+    """URL of the league-season player page, from the league's season index page."""
+    seasons = fb.read_seasons()
+    (row,) = [r for (lk, sk), r in seasons.iterrows() if lk == league]
+    parts = row.url.split("/")
+    return FBREF_API + "/".join(parts[:-1]) + f"/{stat_type}/" + parts[-1]
+
+
+def fetch_player_page(league: str, season: str, stat_type: str = "standard") -> pd.DataFrame:
+    """Cached page for (league, season); on a season mismatch the stale index
+    and page are discarded and fetched once more before giving up."""
     fb = sd.FBref(leagues=[league], seasons=[season])
-    raw = fb.read_player_season_stats(stat_type="standard")
-    return normalize_player_table(raw, league, season)
+    skey = fb.seasons[0]
+    page_path: Path = fb.data_dir / f"players_{league}_{skey}_{stat_type}.html"
+    index_path: Path = fb.data_dir / f"seasons_{league}.html"
+    for attempt in (1, 2):
+        url = _season_page_url(fb, league, season, stat_type)
+        page_html = fb.get(url, page_path).read().decode("utf-8", errors="ignore")
+        try:
+            return parse_player_page(page_html, league, season, stat_type)
+        except SeasonMismatch as exc:
+            if attempt == 2:
+                raise
+            LOG.warning("%s; discarding cached index + page and refetching", exc)
+            for p in (page_path, index_path):
+                p.unlink(missing_ok=True)
+    raise AssertionError("unreachable")
+
+
+def fetch_league(league: str, season: str) -> pd.DataFrame:
+    return normalize_player_table(fetch_player_page(league, season, "standard"), league, season)
 
 
 def main() -> None:
