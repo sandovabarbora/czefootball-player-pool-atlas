@@ -459,6 +459,15 @@ def attach_model_predictions(oos: pd.DataFrame, point: dict[str, Any]) -> pd.Dat
     return out
 
 
+def uefa_ratio(moves: pd.DataFrame, multipliers: dict[str, float]) -> pd.Series:
+    """m_prev / m_new for each move — the factor a conserved PL-equivalent rate
+    implies for the raw rate in the new league."""
+    return moves.apply(
+        lambda r: multipliers.get(r["prev_league"], np.nan) / multipliers.get(r["new_league"], np.nan),
+        axis=1,
+    )
+
+
 def run_oos_validation(
     movers: pd.DataFrame, metrics_season: str, uefa_multipliers: dict[str, float],
     *, draws: int = 500, tune: int = 500, chains: int = 2, target_accept: float = 0.9,
@@ -483,11 +492,10 @@ def run_oos_validation(
     point = _model_point_estimates(train_idata)
     scored = attach_model_predictions(candidates, point)
     scored["rate_naive"] = scored["prev_rate"]
-    ratio = scored.apply(
-        lambda r: uefa_multipliers.get(r["new_league"], np.nan) / uefa_multipliers.get(r["prev_league"], np.nan),
-        axis=1,
-    )
-    scored["rate_uefa"] = scored["prev_rate"] * ratio
+    # multiplier convention (features.py): quality_rate = raw_rate_L × m_L, so a
+    # player whose PL-equivalent rate is conserved across a move scores
+    # raw_new = raw_prev × m_prev / m_new (more in a weaker league, less in a stronger one)
+    scored["rate_uefa"] = scored["prev_rate"] * uefa_ratio(scored, uefa_multipliers)
     scored = scored.dropna(subset=["rate_uefa"])
 
     table = score_predictions(scored, {"naive": "rate_naive", "uefa": "rate_uefa", "model": "rate_model"})

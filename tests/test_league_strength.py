@@ -272,3 +272,12 @@ def test_config_refs_yaml_file_is_well_formed_and_verifiable():
     for r in raw:
         assert r.get("authors") and r.get("year") and r.get("title")
         assert r.get("doi") or r.get("url")
+
+
+def test_uefa_ratio_direction_stronger_league_means_lower_raw_rate():
+    from src.league_strength import uefa_ratio
+    moves = pd.DataFrame({"prev_league": ["CZE-First League", "ENG-Premier League"],
+                          "new_league": ["ENG-Premier League", "CZE-First League"]})
+    r = uefa_ratio(moves, {"ENG-Premier League": 1.0, "CZE-First League": 0.434})
+    assert r.iloc[0] < 1 and abs(r.iloc[0] - 0.434) < 1e-9     # up to the PL: fewer goals expected
+    assert r.iloc[1] > 1                                       # down to the Czech league: more

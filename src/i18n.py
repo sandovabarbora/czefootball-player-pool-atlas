@@ -396,6 +396,7 @@ EN: dict[str, str] = {
     "ch4.strength.spearman": "Against {n} leagues in common, the model's medians and the UEFA multipliers correlate at Spearman's rho = {rho}.",
     "ch4.strength.disagreement": "{league}: model rank {model_rank} vs UEFA rank {uefa_rank} (m_L {model_median} vs multiplier {uefa}).",
     "ch4.strength.diagnostics": "R-hat ≤ {rhat}, minimum bulk ESS {ess}, {div} divergent transitions across {rows} player-seasons from {players} movers; fit in {runtime} s.",
+    "ch4.strength.selection": "What the movers do not show: they are not a random sample — players tend to move up when they are good and down when they are older — so the within-player contrast describes the league difference for the kind of player who moves, and the age term absorbs only the part of that selection that is age. The interval is the model's uncertainty, not the selection's.",
     "ch4.strength.ranking": "The report's rankings keep the UEFA-coefficient multiplier throughout; the model above is shown alongside it as a check on that multiplier's own assumption — that continental results track player-level strength — not as a replacement for it.",
     "ch4.strength.ppc.summary": "Posterior predictive check",
     "ch4.strength.ppc.p": "Observed vs. replicated non-penalty goals plus assists per player-season {cite_ppc}: {obs_zero} vs {rep_zero} share of zeros, mean {obs_mean} vs {rep_mean}, 90th percentile {obs_p90} vs {rep_p90}.",

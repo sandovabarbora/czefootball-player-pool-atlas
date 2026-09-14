@@ -339,6 +339,7 @@ strings:
   ch4.strength.spearman: "Na {n} společných ligách korelují modelové mediány a násobičky UEFA se Spearmanovým rho = {rho}."
   ch4.strength.disagreement: "{league}: pořadí modelu {model_rank} vs. pořadí UEFA {uefa_rank} (m_L {model_median} vs. násobička {uefa})."
   ch4.strength.diagnostics: "R-hat ≤ {rhat}, minimální bulk ESS {ess}, {div} divergentních tranzicí napříč {rows} hráčskými sezónami od {players} moverů; fit za {runtime} s."
+  ch4.strength.selection: "Co movers neukazují: nejsou náhodný vzorek — hráči obvykle odcházejí nahoru, když jsou dobří, a dolů, když stárnou — takže vnitrohráčský kontrast popisuje rozdíl lig pro typ hráče, který ligu mění, a věkový člen absorbuje jen tu část selekce, která je věk. Interval je nejistota modelu, ne selekce."
   ch4.strength.ranking: "Žebříčky reportu drží násobičku UEFA koeficientu po celou dobu; model výše je ukázaný vedle ní jako kontrola vlastního předpokladu té násobičky — že kontinentální výsledky sledují sílu hráčů — ne jako její náhrada."
   ch4.strength.ppc.summary: "Posteriorní prediktivní kontrola"
   ch4.strength.ppc.p: "Pozorované vs. replikované neproniknuté góly plus asistence na hráčskou sezónu {cite_ppc}: podíl nul {obs_zero} vs. {rep_zero}, průměr {obs_mean} vs. {rep_mean}, 90. percentil {obs_p90} vs. {rep_p90}."
