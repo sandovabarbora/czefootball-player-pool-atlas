@@ -110,6 +110,51 @@ nine headline leagues back to 2020/21), unless stated.
 - The findings tiles at the top become the five mechanism findings + the GK
   counter-example (six tiles), each with its interval.
 
+## 4b. R&D evidence layer (the FA "Research & Development Data Scientist" brief)
+
+The vacancy asks for: world-leading statistical/ML models validated with rigour;
+novel methodology; evaluating emerging methods and literature; AI coding agents;
+monitoring model performance over time; a peer-review culture; pipelines whose
+outputs others can use (cloud, documented, professional code); visualisations and
+web apps for stakeholders to explore model outputs; tracking/event-data
+experience (strongly desirable); GCP, GitHub, deep learning (e.g. GNNs) beneficial.
+Each item gets a visible, honest counterpart in the report:
+
+- **Model comparison, not one model.** The M1 question ("what does a season predict
+  about the next one, given export age, league and age?") is answered by three
+  models on the same rolling-origin task — the hierarchical Bayesian model (M2
+  effects), a gradient-boosted baseline, and a small neural player-season
+  embedding — scored out of sample per season (2021/22 → 2025/26). One table, one
+  chart, the honest winner named; the neural model is kept only if it earns its
+  place. This is the "monitor performance over time" exhibit as well: the same
+  scores per origin season, with drift called out.
+- **Related methods** (chapter IV): a short annotated list — Efron–Morris shrinkage,
+  plus-minus/RAPM-style player effects, league strength from transfers (the
+  movers-identified design used in M2), Bayesian change-point (M4), Shapley/Oaxaca
+  decompositions (M5), player embeddings / graph methods (the transfer network as a
+  graph; GNN named as the natural next step, not claimed) — one sentence each on
+  what was taken and what was left out and why.
+- **Novel piece, stated as such:** league strength identified from the transfer
+  graph with partial pooling, combined with the age-at-export curve — the pair
+  turns "we export late" from an observation into an estimated cost with an
+  interval.
+- **Peer review culture:** the two-stage review per task and the ledger of
+  rulings are shown as the project's peer review, with the counts; the ledger is
+  in the repo.
+- **Pipelines others can use:** `infra/bigquery/` with the parquet schemas and a
+  `bq load` script; model outputs saved as parquet + JSON with a documented
+  contract ("what the wider team would read"); the README's portability section
+  points at it.
+- **Stakeholder web app:** the interactive layers (atlas filters/tooltips,
+  expandable cards, the sensitivity slider from the old §2E — reinstated as the
+  last block) are the "explore model outputs" surface; vanilla JS, stated plainly
+  (no React claimed).
+- **Tracking-data readiness:** one paragraph with the concrete feature-vector
+  extension (what columns an event/tracking feed would add and where in
+  `features.py` they enter) plus the links to the author's tracking PoCs.
+- **AI coding agents:** the "How this was built" section already documents the
+  agentic workflow; add the model/tool split and the review gates as a diagram.
+
 ## 5. Report structure after v1.2
 
 Hero → six findings → **I. Why the train leaves** (M1–M5) → **II. Where it works:
@@ -122,6 +167,14 @@ data-quality log, how built, limitations, reproducibility).
 
 Causal claims; recommendations; forecasts; event/tracking data (linked only);
 the interactive sensitivity slider (deferred; may return as a last block).
+
+## 6b. Definition of "world-leading" here
+
+Public data, one country, one person: the claim the report makes is *rigour and
+transferability*, not scale. Every model has an out-of-sample score, an interval,
+a stated failure mode and a literature anchor; every number is recomputed on each
+run; the whole thing runs for another nation by changing a code. That is the
+standard the page holds itself to, and says so.
 
 ## 7. Order of work
 
