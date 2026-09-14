@@ -55,6 +55,7 @@ from src.utils import collapse_player_seasons, read_parquet
 LOG = logging.getLogger(__name__)
 
 SHOWCASE_MIN_MINUTES = 900
+YOUNGEST_MIN_MINUTES = 450   # rule (b): the metrics floor — a teenager with half a season is the point of the rule
 CORPUS_MIN_MINUTES = 450
 
 
@@ -123,7 +124,8 @@ def showcase_ids(
 
     Among Czech-eligible players in `metrics_season` with `min >= 900`:
         (a) highest npg_p90_quality + ast_p90_quality
-        (b) youngest nt_flag player (skipped if already chosen)
+        (b) youngest nt_flag player with min >= 450 — the metrics floor, not the
+            900 of the other rules (skipped if already chosen)
         (e) when `nt_core_event` is given: most top-9-league minutes among
             players whose `nt_events` lists that event (the national-team
             core for it) — already-chosen players are skipped and the rule
@@ -170,7 +172,8 @@ def showcase_ids(
         if top.player_key not in seen:
             _add(top, group, f"highest quality-adjusted npG+A per 90 among {group}")
 
-        nt = cz[cz.nt_flag].sort_values("born", ascending=False)
+        young = df[(df.season == metrics_season) & df.czech_eligible & (df["min"] >= YOUNGEST_MIN_MINUTES)]
+        nt = young[young.nt_flag].sort_values("born", ascending=False)
         if len(nt) and nt.iloc[0].player_key not in seen:
             _add(nt.iloc[0], group, f"youngest national-team call-up among {group}")
 
