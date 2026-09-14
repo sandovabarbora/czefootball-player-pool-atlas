@@ -175,7 +175,7 @@ def showcase_ids(
         # Rule (e) runs before the general top-9-minutes rule (c) so the WC-squad
         # core is not systematically pre-empted by (c) whenever the pool's overall
         # top9-minutes leader is also in that squad (the common case).
-        if nt_core_event and "nt_events" in cz.columns:
+        if nt_core_event and "nt_events" in cz.columns and "league" in cz.columns:
             core = cz[cz.nt_events.fillna("").str.contains(nt_core_event, regex=False) & cz.league.isin(headline)]
             core_min = core.groupby("player_key")["min"].sum().sort_values(ascending=False)
             for key in core_min.index:
