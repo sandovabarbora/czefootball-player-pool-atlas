@@ -163,7 +163,7 @@ of report text. **A Czech string or term missing from `config/i18n/cs.yaml`
 fails the build loudly** rather than shipping an untranslated sentence —
 there is no silent fallback to English in the Czech render.
 
-Up to fifteen showcase cards are picked by five rules (one per position group per rule); exhibits A–F live in the
+Up to eighteen showcase cards are picked by six rules (one per position group per rule); exhibits A–F live in the
 "Where the train leaves" chapter. See `docs/superpowers/specs/` for the
 full design and its "Deviations from the design" section for where the
 shipped v1 departs from the original plan.
