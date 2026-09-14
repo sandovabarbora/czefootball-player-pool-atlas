@@ -190,7 +190,10 @@ def test_template_renders_with_real_context():
     _check(html, GROUPS)
     n_rules = len(RULE_KICKERS)
     assert 3 * (n_rules - 1) <= len(ctx["cards"]) <= 3 * n_rules   # one card per group per rule, last rule may miss a group
-    assert [r["kicker"] for r in ctx["card_rows"]] == [k for _, k in RULE_KICKERS][:len(ctx["card_rows"])]
+    # kicker.ntcore's label carries a formatted {event}, so it only *starts with*
+    # its short RULE_KICKERS label rather than matching it exactly.
+    expected = [k for _, k in RULE_KICKERS][:len(ctx["card_rows"])]
+    assert [r["kicker"].startswith(k) for r, k in zip(ctx["card_rows"], expected, strict=True)] == [True] * len(expected)
     assert all(c["club"] and c["age_current"] for c in ctx["cards"])
     current = season_label(config.seasons()["current"])
     assert all(c["club_label"] in (current, "latest known") for c in ctx["cards"])

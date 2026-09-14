@@ -140,6 +140,24 @@ def test_showcase_fourth_rule_domestic_u23_without_top9_season():
     assert reasons2["fw_home_u23_2nd"].startswith("most domestic-league minutes among under-23 FW")
 
 
+def test_rule_e_picks_wc_squad_member_with_most_top9_minutes_per_group():
+    # FW: A (chosen by rule a), B in WC squad with 1800 top-9 min, C in WC squad 900 min
+    fw = pd.DataFrame({
+        "player_key": ["a|1", "b|2", "c|3"], "player": ["A", "B", "C"], "season": ["2025-2026"] * 3,
+        "czech_eligible": [True] * 3, "min": [2000, 1800, 900], "born": [1996, 1998, 2001],
+        "league": ["GER-Bundesliga", "ENG-Premier League", "ITA-Serie A"],
+        "npg_p90_quality": [1.0, 0.3, 0.2], "ast_p90_quality": [0.5, 0.1, 0.1],
+        "nt_flag": [False, True, True],
+        "nt_events": ["", "2026 FIFA World Cup", "UEFA Euro 2024 · 2026 FIFA World Cup"],
+    })
+    out = showcase_ids({"FW": fw}, "2025-2026", headline_leagues=["GER-Bundesliga", "ENG-Premier League", "ITA-Serie A"],
+                       domestic_league="CZE-First League", nt_core_event="2026 FIFA World Cup")
+    reasons = {s["player_key"]: s["reason"] for s in out}
+    assert reasons["a|1"].startswith("highest quality-adjusted")
+    assert reasons["c|3"].startswith("youngest national-team")      # rule (b) → C (born 2001)
+    assert reasons["b|2"] == "most top-9 minutes among 2026 FIFA World Cup squad FW"
+
+
 def test_find_analogs_targets_metrics_season_not_latest():
     corpus = _corpus()
     # "t" has a 2025-2026 row too; the target must be the 2024-2025 (metrics) row

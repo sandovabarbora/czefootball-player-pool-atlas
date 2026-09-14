@@ -1,3 +1,7 @@
+# Fifth card rule (national-team core): most top-9 minutes among this event's
+# squad, per position group. Must equal one of the events[].event values below.
+nt_core_event: "2026 FIFA World Cup"
+
 # Wikipedia pages with a Czech squad table (wikitable with "Player" and "Date of birth" columns).
 events:
   - {team: A,   event: "UEFA Euro 2024",                  year: 2024, url: "https://en.wikipedia.org/wiki/UEFA_Euro_2024_squads", section: "Czech Republic"}

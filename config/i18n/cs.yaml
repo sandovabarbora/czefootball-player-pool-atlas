@@ -162,6 +162,7 @@ strings:
   ch3.synopsis: "{n} karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší kvalitou upravené npG+A na 90 minut, nejmladší reprezentační nominace, nejvíc minut v top-{topn} ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-{topn} lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností."
   ch3.cards.h2: "Karty hráčů"
   ch3.cards.framing: "Jedna integrovaná karta na hráče, jedna řada na výběrové pravidlo: produkce {metrics}, umístění v clusteru v obou projekcích, taktické čtení clusteru, trajektorie {previous} → {metrics} a {n} nejbližší analogy. Klub na řádku se jménem je klub {current}; blok statistik je {metrics}. Popis, ne predikce."
+  ch3.cards.rules: "Proč tyto karty: jedna karta na post na pravidlo — (a) nejvyšší kvalitou upravené npG+A na 90 minut, (b) nejmladší reprezentační nominace, (c) nejvíc minut v top-9 ligách, (d) nejvíc domácích minut do 23 let bez sezóny v top-9 lize, (e) nejvíc minut v top-9 ligách mezi nominovanými na {event}. Už vybraní hráči propadají na další jméno."
   ch3.card.nt: "reprezentace {nt_years}"
   ch3.card.latest_known: "poslední známý"
   ch3.card.stat.q: "npG+A/90 quality"
@@ -275,6 +276,7 @@ strings:
   kicker.youngest: "Nejmladší reprezentační nominace"
   kicker.top9: "Nejvíc minut v top-9 ligách"
   kicker.domestic: "Nejvíc domácích minut do 23 let, zatím bez sezóny v top-9 lize"
+  kicker.ntcore: "Jádro reprezentace — nejvíc minut v top-9 ligách mezi nominovanými na {event}"
   kicker.other: "Jiná pravidla"
 
   # ---- generated: limitations
@@ -339,6 +341,7 @@ terms:
   "youngest national-team call-up among {pos}": "nejmladší reprezentační nominace mezi {pos}"
   "most top-9 league minutes among {pos}": "nejvíc minut v top-9 ligách mezi {pos}"
   "most domestic-league minutes among under-23 {pos} without a top-9 season": "nejvíc minut v domácí lize mezi {pos} do 23 let bez sezóny v top-9 lize"
+  "most top-9 minutes among 2026 FIFA World Cup squad {pos}": "nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 ({pos})"
   # pathways definitions
   "destination league multiplier <= the domestic league's multiplier": "násobička cílové ligy ≤ násobička domácí ligy"
   "goals-scored percentile within league": "percentil vstřelených gólů v rámci ligy"

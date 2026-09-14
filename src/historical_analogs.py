@@ -117,15 +117,22 @@ def showcase_ids(
     metrics_season: str,
     headline_leagues: list[str] | None = None,
     domestic_league: str | None = None,
+    nt_core_event: str | None = None,
 ) -> list[dict]:
-    """Pick up to 4 showcase players per position group (up to 12 total).
+    """Pick up to 5 showcase players per position group (up to 15 total).
 
     Among Czech-eligible players in `metrics_season` with `min >= 900`:
         (a) highest npg_p90_quality + ast_p90_quality
         (b) youngest nt_flag player (skipped if already chosen)
+        (e) when `nt_core_event` is given: most top-9-league minutes among
+            players whose `nt_events` lists that event (the national-team
+            core for it) — already-chosen players are skipped and the rule
+            falls through to the next player by minutes. Runs before (c) so
+            the WC-squad core is not routinely pre-empted by the broader
+            top-9-minutes rule below.
         (c) most minutes in the headline (top-9) leagues — the "established
-            export"; players already chosen by (a) or (b) are skipped and
-            the rule falls through to the next player by minutes.
+            export"; players already chosen by (a), (b) or (e) are skipped
+            and the rule falls through to the next player by minutes.
         (d) under 23 in the metrics season (season start year - born < 23),
             most minutes in the domestic league, and no season in any
             headline league anywhere in the fetched history (across all
@@ -165,6 +172,19 @@ def showcase_ids(
         if len(nt) and nt.iloc[0].player_key not in seen:
             _add(nt.iloc[0], group, f"youngest national-team call-up among {group}")
 
+        # Rule (e) runs before the general top-9-minutes rule (c) so the WC-squad
+        # core is not systematically pre-empted by (c) whenever the pool's overall
+        # top9-minutes leader is also in that squad (the common case).
+        if nt_core_event and "nt_events" in cz.columns:
+            core = cz[cz.nt_events.fillna("").str.contains(nt_core_event, regex=False) & cz.league.isin(headline)]
+            core_min = core.groupby("player_key")["min"].sum().sort_values(ascending=False)
+            for key in core_min.index:
+                if key in seen:
+                    continue
+                row = core[core.player_key == key].iloc[0]
+                _add(row, group, f"most top-9 minutes among {nt_core_event} squad {group}")
+                break
+
         if "league" in cz.columns:
             abroad = cz[cz.league.isin(headline)]
             # minutes summed per player across headline-league rows (a mid-season
@@ -187,13 +207,17 @@ def showcase_ids(
                 _add(row, group,
                      f"most domestic-league minutes among under-23 {group} without a top-9 season")
                 break
-    return showcase[:12]
+    return showcase[:15]
 
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     cfg = config.features()
     seasons_cfg = config.seasons()
+    squads_cfg = config.load_yaml("squads.yaml")
+    nt_core_event = squads_cfg.get("nt_core_event")
+    assert nt_core_event in {e["event"] for e in squads_cfg["events"]}, (
+        f"squads.yaml nt_core_event {nt_core_event!r} is not one of the configured events")
 
     feats_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in cfg["groups"]}
     for g, df in feats_by_group.items():
@@ -212,7 +236,7 @@ def main() -> None:
     LOG.info("analog corpus: %d player-seasons (%d dropped: <%d min or missing born), seasons=%s",
               len(corpus), n_before - len(corpus), CORPUS_MIN_MINUTES, sorted(corpus.season.unique()))
 
-    showcase = showcase_ids(feats_by_group, seasons_cfg["metrics"])
+    showcase = showcase_ids(feats_by_group, seasons_cfg["metrics"], nt_core_event=nt_core_event)
 
     analogs_out: dict[str, dict] = {}
     for s in showcase:

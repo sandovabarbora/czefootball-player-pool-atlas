@@ -71,12 +71,14 @@ RULE_KICKERS = [
     ("youngest national-team", "Youngest national-team call-up"),
     ("most top-9 league minutes", "Most top-9 minutes"),
     ("most domestic-league minutes", "Most domestic minutes under 23, no top-9 season yet"),
+    ("most top-9 minutes among", "National-team core"),
 ]
 RULE_KICKER_KEYS = {
     "highest quality-adjusted": "kicker.highest",
     "youngest national-team": "kicker.youngest",
     "most top-9 league minutes": "kicker.top9",
     "most domestic-league minutes": "kicker.domestic",
+    "most top-9 minutes among": "kicker.ntcore",
 }
 DESTINATION_LABELS = {
     "domestic": "domestic", "top9": "top-9", "stepping_stone": "stepping stone",
@@ -434,14 +436,21 @@ def _current_club(key: str, current_by_key: pd.DataFrame, pool_row: pd.Series | 
     return club, "", "country page", "latest known"
 
 
-def _card_rows(cards: list[dict], tr: Translator | None = None) -> list[dict]:
-    """Group cards by showcase rule, one row per rule, in RULE_KICKERS order."""
+def _card_rows(cards: list[dict], tr: Translator | None = None,
+               nt_core_event: str | None = None) -> list[dict]:
+    """Group cards by showcase rule, one row per rule, in RULE_KICKERS order.
+
+    The `kicker.ntcore` row carries the `{event}` placeholder (the national-team
+    core rule names the event it was drawn from); every other kicker is plain.
+    """
     tr = tr or Translator("en")
     rows = []
     for prefix, _kicker in RULE_KICKERS:
         members = [c for c in cards if c["reason"].startswith(prefix)]
         if members:
-            rows.append({"kicker": tr.raw(RULE_KICKER_KEYS[prefix]), "cards": members})
+            key = RULE_KICKER_KEYS[prefix]
+            kicker = tr.raw(key, event=nt_core_event) if key == "kicker.ntcore" else tr.raw(key)
+            rows.append({"kicker": kicker, "cards": members})
     rest = [c for c in cards if not any(c["reason"].startswith(p) for p, _ in RULE_KICKERS)]
     if rest:
         rows.append({"kicker": tr.raw("kicker.other"), "cards": rest})
@@ -881,6 +890,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                          data["trajectory"], data["pool"], data["cluster_labels"], data["photos"], metrics,
                          seasons_raw["current"], tr,
                          current_table=data["fbref_players"] if not data["fbref_players"].empty else None)
+    nt_core_event = config.load_yaml("squads.yaml").get("nt_core_event")
     pathways = _build_pathways(data["pathways"], names, peers)
     player_index = _build_player_index(data["features"], data["coords"], data["pool"],
                                        data["cluster_labels"], cards, metrics, tr)
@@ -952,7 +962,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "thresholds": thresholds,
         "pathways": pathways,
         "cards": cards,
-        "card_rows": _card_rows(cards, tr),
+        "card_rows": _card_rows(cards, tr, nt_core_event=nt_core_event),
+        "nt_core_event": nt_core_event,
         "player_index": player_index,
         "analog_blocks": analog_blocks,
         "atlas_notes": atlas_notes or {g: {"n_corpus": 0, "n_czech": 0, "n_nt": 0} for g in GROUPS},
@@ -1086,7 +1097,10 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                                             thresholds, seasons, n_headline=1, tr=tr),
         "clusters": clusters, "cluster_names": {"FW": {"style": {"C0": tr.term("High-volume scorers")}, "quality": {"C2": tr.term("High-volume scorers in top-five leagues")}}},
         "movers": movers, "thresholds": thresholds,
-        "pathways": pathways, "cards": cards, "card_rows": _card_rows(cards, tr), "player_index": player_index,
+        "pathways": pathways, "cards": cards,
+        "card_rows": _card_rows(cards, tr, nt_core_event="2026 FIFA World Cup"),
+        "nt_core_event": "2026 FIFA World Cup",
+        "player_index": player_index,
         "analog_blocks": analog_blocks,
         "atlas_notes": {"FW": {"n_corpus": 926, "n_czech": 39, "n_nt": 18}},
         "multipliers": [{"league": "ENG-Premier League", "value": 1.0}, {"league": "CZE-First League", "value": 0.434}],

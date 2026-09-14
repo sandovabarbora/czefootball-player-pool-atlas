@@ -487,6 +487,7 @@
   <div class="container">
     <h2 id="cards">{{ t('ch3.cards.h2') }}</h2>
     <p class="framing">{{ t('ch3.cards.framing', metrics=seasons.metrics, previous=seasons.previous, n=(cards[0].analogs | length if cards else 0), current=seasons.current) }}</p>
+    <p class="capita-note">{{ t('ch3.cards.rules', event=nt_core_event) }}</p>
     {% for row in card_rows %}
     <p class="cycle-row-kicker">{{ row.kicker }}</p>
     <div class="cycle-grid">
