@@ -145,7 +145,7 @@ EN: dict[str, str] = {
     "ch1.clusters.medians": "Corpus medians: {npg} non-penalty goals and {ast} assists per 90, {share} of the club's minutes, age {age}, {cards} cards per 90.",
     "ch1.clusters.tactical": "Tactical read",
     "ch1.traj.h3": "Trajectories {previous} → {metrics} (Czech-eligible, ≥ {min} minutes in both seasons)",
-    "ch1.traj.p": "Season-over-season change in quality-adjusted npG+A per 90. A move counts as up or down beyond ± {band}; everything inside that band is stable and not listed.",
+    "ch1.traj.p": "Season-over-season change in goals + assists per 90, league-adjusted. A move counts as up or down beyond ± {band}; everything inside that band is stable and not listed.",
     "ch1.traj.h4": "{group} — {n} players: {up} up, {stable} stable, {down} down",
     "ch1.traj.up": "Moving up &middot; {metric}",
     "ch1.traj.down": "Moving down &middot; {metric}",
@@ -190,7 +190,7 @@ EN: dict[str, str] = {
     "ch2.c.aria.goals": "Median club goals-scored percentile of exports' clubs, by country",
     "ch2.c.note": "* Minutes share = player minutes ÷ (club matches × 90), {season}, one row per player-season. Club strength proxy: {proxy} — clubs ranked by the goals their own roster scored that season (ClubElo was unreachable at run time). Both are medians over the country's exports; n per country in the bars.",
     "ch2.d.h3": "Exhibit D — profile of those who made it",
-    "ch2.d.p": "Quality-adjusted npG+A per 90 in {season} by the tier of the player's own league: domestic, stepping stone, top-{topn}, or another covered league. Czech count and median against the median of the peer countries' values.",
+    "ch2.d.p": "Goals + assists per 90, league-adjusted, in {season} by the tier of the player's own league: domestic, stepping stone, top-{topn}, or another covered league. Czech count and median against the median of the peer countries' values.",
     "ch2.d.summary": "Profile table by tier and position group",
     "ch2.d.th.tier": "Tier",
     "ch2.d.th.group": "Group",
@@ -225,7 +225,7 @@ EN: dict[str, str] = {
     # ---- chapter III
     "ch3.aria": "Chapter III",
     "ch3.title": "What does a player-level read look like?",
-    "ch3.synopsis": "{n} player cards chosen by rules, not picks — per position group the highest quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the top-{topn} leagues, and the most domestic minutes among players under 23 without a top-{topn} season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.",
+    "ch3.synopsis": "{n} player cards chosen by rules, not picks — per position group the highest league-adjusted goals + assists per 90, the youngest national-team call-up, the most minutes in the top-{topn} leagues, and the most domestic minutes among players under 23 without a top-{topn} season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.",
     "ch3.cards.h2": "Player cards",
     "ch3.cards.framing": "One tile per showcase player: {metrics} stats, cluster placement, trajectory and analogs, expanded on demand.",
     "ch3.cards.rules.summary": "How the {n} cards were chosen",
@@ -362,7 +362,7 @@ EN: dict[str, str] = {
     "obs.3.stable": "mostly stable",
     "obs.3.mixed": "mixed",
     "obs.3.part": "{group} {n} ({up} up, {stable} stable, {down} down)",
-    "obs.3.body": "{n} Czech-eligible players had at least {min} minutes in both {previous} and {metrics}: {parts}. A move counts as up or down when quality-adjusted npG+A per 90 changed by more than {band}; {stable} of {n} stayed within that band. These are season-over-season deltas, not projections.",
+    "obs.3.body": "{n} Czech-eligible players had at least {min} minutes in both {previous} and {metrics}: {parts}. A move counts as up or down when league-adjusted goals + assists per 90 changed by more than {band}; {stable} of {n} stayed within that band. These are season-over-season deltas, not projections.",
 
     # ---- generated: card row kickers
     "kicker.highest": "Highest quality-adjusted production",

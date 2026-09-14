@@ -123,7 +123,7 @@ strings:
   ch1.clusters.medians: "Mediány korpusu: {npg} gólů ze hry a {ast} asistencí na 90 minut, {share} minut klubu, věk {age}, {cards} karet na 90 minut."
   ch1.clusters.tactical: "Taktické čtení"
   ch1.traj.h3: "Trajektorie {previous} → {metrics} (česká příslušnost, ≥ {min} minut v obou sezónách)"
-  ch1.traj.p: "Meziroční změna kvalitou upraveného npG+A na 90 minut. Posun nahoru nebo dolů se počítá nad ± {band}; všechno uvnitř pásma je stabilní a v seznamu není."
+  ch1.traj.p: "Meziroční změna gólů + asistencí na 90 minut, upravených o ligu. Posun nahoru nebo dolů se počítá nad ± {band}; všechno uvnitř pásma je stabilní a v seznamu není."
   ch1.traj.h4: "{group} — {n} hráčů: {up} nahoru, {stable} stabilně, {down} dolů"
   ch1.traj.up: "Nahoru &middot; {metric}"
   ch1.traj.down: "Dolů &middot; {metric}"
@@ -168,7 +168,7 @@ strings:
   ch2.c.aria.goals: "Mediánový percentil vstřelených gólů klubů exportů podle země"
   ch2.c.note: "* Podíl minut = minuty hráče ÷ (zápasy klubu × 90), {season}, jedna řádka na hráčskou sezónu. Proxy síly klubu: {proxy} — kluby seřazené podle gólů, které jejich vlastní soupiska v sezóně vstřelila (ClubElo bylo v době běhu nedostupné). Obojí jsou mediány přes exporty země; n na zemi ve sloupcích."
   ch2.d.h3: "Exhibit D — profil těch, kteří to dokázali"
-  ch2.d.p: "Kvalitou upravené npG+A na 90 minut v sezóně {season} podle úrovně vlastní ligy hráče: domácí, odrazová, top-{topn} nebo jiná pokrytá liga. Český počet a medián proti mediánu hodnot peer zemí."
+  ch2.d.p: "Góly + asistence na 90 minut, upravené o ligu, v sezóně {season} podle úrovně vlastní ligy hráče: domácí, odrazová, top-{topn} nebo jiná pokrytá liga. Český počet a medián proti mediánu hodnot peer zemí."
   ch2.d.summary: "Tabulka profilu podle úrovně a postu"
   ch2.d.th.tier: "Úroveň"
   ch2.d.th.group: "Skupina"
@@ -203,7 +203,7 @@ strings:
   # ---- chapter III
   ch3.aria: "Kapitola III"
   ch3.title: "Jak vypadá čtení na úrovni hráče?"
-  ch3.synopsis: "{n} karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší kvalitou upravené npG+A na 90 minut, nejmladší reprezentační nominace, nejvíc minut v top-{topn} ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-{topn} lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností."
+  ch3.synopsis: "{n} karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší góly + asistence na 90 minut upravené o ligu, nejmladší reprezentační nominace, nejvíc minut v top-{topn} ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-{topn} lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností."
   ch3.cards.h2: "Karty hráčů"
   ch3.cards.framing: "Jedna dlaždice na hráče: statistiky {metrics}, umístění v clusteru, trajektorie a analogy, rozbalené na vyžádání."
   ch3.cards.rules.summary: "Jak bylo vybráno {n} karet"
@@ -340,7 +340,7 @@ strings:
   obs.3.stable: "převážně stabilní"
   obs.3.mixed: "smíšené"
   obs.3.part: "{group} {n} ({up} nahoru, {stable} stabilně, {down} dolů)"
-  obs.3.body: "{n} hráčů s českou příslušností mělo aspoň {min} minut v obou sezónách {previous} a {metrics}: {parts}. Posun nahoru nebo dolů = změna kvalitou upraveného npG+A na 90 minut o víc než {band}; {stable} z {n} zůstalo v tomto pásmu. Jde o meziroční rozdíly, ne projekce."
+  obs.3.body: "{n} hráčů s českou příslušností mělo aspoň {min} minut v obou sezónách {previous} a {metrics}: {parts}. Posun nahoru nebo dolů = změna gólů + asistencí na 90 minut (upravených o ligu) o víc než {band}; {stable} z {n} zůstalo v tomto pásmu. Jde o meziroční rozdíly, ne projekce."
 
   # ---- generated: card row kickers
   kicker.highest: "Nejvyšší kvalitou upravená produkce"

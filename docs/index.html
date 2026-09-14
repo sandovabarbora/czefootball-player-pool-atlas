@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609141542">
-  <link rel="stylesheet" href="modern.css?v=202609141542">
+  <link rel="stylesheet" href="style.css?v=202609141600">
+  <link rel="stylesheet" href="modern.css?v=202609141600">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609141542"></script>
+  <script defer src="atlas.js?v=202609141600"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -875,7 +875,7 @@
         
         <div class="observation">
           <h4>Trajectories 2024/25 → 2025/26: mostly stable</h4>
-          <p>92 Czech-eligible players had at least 900 minutes in both 2024/25 and 2025/26: forwards 13 (5 up, 6 stable, 2 down); midfielders 43 (3 up, 31 stable, 9 down); defenders 36 (1 up, 34 stable, 1 down). A move counts as up or down when quality-adjusted npG+A per 90 changed by more than 0.05; 71 of 92 stayed within that band. These are season-over-season deltas, not projections.</p>
+          <p>92 Czech-eligible players had at least 900 minutes in both 2024/25 and 2025/26: forwards 13 (5 up, 6 stable, 2 down); midfielders 43 (3 up, 31 stable, 9 down); defenders 36 (1 up, 34 stable, 1 down). A move counts as up or down when league-adjusted goals + assists per 90 changed by more than 0.05; 71 of 92 stayed within that band. These are season-over-season deltas, not projections.</p>
         </div>
         
       </div>
@@ -1054,7 +1054,7 @@
     
 
     <h3 id="trajectories">Trajectories 2024/25 → 2025/26 (Czech-eligible, ≥ 900 minutes in both seasons)</h3>
-    <p>Season-over-season change in quality-adjusted npG+A per 90. A move counts as up or down beyond ± 0.05; everything inside that band is stable and not listed.</p>
+    <p>Season-over-season change in goals + assists per 90, league-adjusted. A move counts as up or down beyond ± 0.05; everything inside that band is stable and not listed.</p>
     
     
     <h4>Forwards — 13 players: 5 up, 6 stable, 2 down</h4>
@@ -1730,7 +1730,7 @@
     <p class="capita-note">* Minutes share = player minutes ÷ (club matches × 90), 2025/26, one row per player-season. Club strength proxy: goals-scored percentile within league — clubs ranked by the goals their own roster scored that season (ClubElo was unreachable at run time). Both are medians over the country's exports; n per country in the bars.</p>
 
     <h3>Exhibit D — profile of those who made it</h3>
-    <p>Quality-adjusted npG+A per 90 in 2025/26 by the tier of the player's own league: domestic, stepping stone, top-9, or another covered league. Czech count and median against the median of the peer countries' values.</p>
+    <p>Goals + assists per 90, league-adjusted, in 2025/26 by the tier of the player's own league: domestic, stepping stone, top-9, or another covered league. Czech count and median against the median of the peer countries' values.</p>
     <details class="fold fold-table">
       <summary>Profile table by tier and position group</summary>
       <table class="kv-table">
@@ -2063,7 +2063,7 @@
   <p class="chapter-numeral">III</p>
   <span class="chapter-mark" aria-hidden="true"></span>
   <p class="chapter-title">What does a player-level read look like?</p>
-  <p class="chapter-synopsis">17 player cards chosen by rules, not picks — per position group the highest quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the top-9 leagues, and the most domestic minutes among players under 23 without a top-9 season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.</p>
+  <p class="chapter-synopsis">17 player cards chosen by rules, not picks — per position group the highest league-adjusted goals + assists per 90, the youngest national-team call-up, the most minutes in the top-9 leagues, and the most domestic minutes among players under 23 without a top-9 season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.</p>
 </aside>
 
 <section class="ai-layer">
@@ -8757,7 +8757,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-14 15:42</p>
+    <p class="rendered-at">Rendered: 2026-09-14 15:59</p>
   </div>
 </footer>
 
