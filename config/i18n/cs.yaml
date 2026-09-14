@@ -15,6 +15,7 @@ strings:
   toc.show: "Zobrazit obsah"
   toc.heading: "Obsah"
   toc.summary: "Shrnutí"
+  toc.findings: "Zjištění"
   toc.benchmark: "Benchmark vs peer země"
   toc.observations: "Pozorování"
   toc.clusters: "Cluster archetypy"
@@ -72,6 +73,23 @@ strings:
   hero.meta.nt_value: "{n} hráčů"
   hero.meta.frame: "Datový rámec"
   hero.meta.frame_value: "{previous} → {metrics}, soupisky {current}"
+
+  # ---- findings (počítané jednořádkové poznatky hned za hero)
+  findings.h3: "Pět zjištění"
+  finding.1: "Hustota na obyvatele řadí český fond na {rank} místo z {n} peer zemí s {pm} na milion; {top} vede s {top_pm} na milion, {ratio}krát vyšší hustotou.*"
+  finding.1.foot: "Zdroj: hustota na obyvatele, § Benchmark vs peer země, soupisky {season}."
+  finding.2: "Největší kohortová mezera je {group} {cohort}: {cze} v Česku proti peer mediánu {peer}.*"
+  finding.2.foot: "Zdroj: pořadí kohortových mezer, § Benchmark vs peer země."
+  finding.3: "Nedávný český export se poprvé dostal na soupisku sledované ligy v mediánovém věku {cze}; dánský v {den}.*"
+  finding.3.foot: "Zdroj: Exhibit B — exportní trasa."
+  finding.4: "České exporty mají {cze} % klubových minut — {rank} místo z {n} peer zemí; nejvzdálenější peer, {extreme}, je na {extreme_value} %.*"
+  finding.4.foot: "Zdroj: Exhibit C — jak se exportům daří."
+  finding.5.squad: "{cze} % nominace {event} hraje za klub top-9 ligy; nejvýš z peer zemí je {peer} s {peer_pct} %.*"
+  finding.5.squad.foot: "Zdroj: F · nominace {event} podle ligové úrovně."
+  finding.5.sideways: "{share} % českých exportů v zahraničí přešlo do ligy, která není silnější než domácí — boční přesun.*"
+  finding.5.sideways.foot: "Zdroj: Exhibit E — kam české exporty míří."
+  method.note.title: "Poznámka k metodě — co je přenositelné"
+  method.note.body: "Nic zde není specifické pro český fotbal: pipeline bere kód národnosti, sadu peer zemí a seznam lig. Spuštěná pro Anglii by vyprodukovala stejné exhibity pro anglické hráče v zahraničí i doma. Její data jsou tabulky FBref v bezplatné úrovni; stejná cesta kódu přijme bohatší event nebo tracking featury jako další sloupce feature vektoru."
 
   # ---- chapter I
   ch1.framing: "Mapa {n} profesionálů s českou příslušností a kompletní sezónou {season} v lize, kterou pokrývá FBref, rozdělená podle postů a statistického profilu a srovnaná s {peers} peer zeměmi. Metodologický nástroj pro mapování fondu napříč reprezentačním cyklem, ne nominační doporučení."

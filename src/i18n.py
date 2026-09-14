@@ -37,6 +37,7 @@ EN: dict[str, str] = {
     "toc.show": "Show contents",
     "toc.heading": "Contents",
     "toc.summary": "Summary",
+    "toc.findings": "Findings",
     "toc.benchmark": "Benchmark vs peer countries",
     "toc.observations": "Observations",
     "toc.clusters": "Cluster archetypes",
@@ -94,6 +95,23 @@ EN: dict[str, str] = {
     "hero.meta.nt_value": "{n} players",
     "hero.meta.frame": "Data frame",
     "hero.meta.frame_value": "{previous} → {metrics}, rosters {current}",
+
+    # ---- findings (computed one-liners right after the hero)
+    "findings.h3": "Five findings",
+    "finding.1": "Per-capita density places the Czech pool {rank} of {n} peer countries at {pm} per million; {top} leads at {top_pm} per million, {ratio} times denser.*",
+    "finding.1.foot": "Source: per-capita density, § Benchmark vs peer countries, {season} rosters.",
+    "finding.2": "The largest cohort gap sits in {group} aged {cohort}: {cze} Czech player{s} against a peer median of {peer}.*",
+    "finding.2.foot": "Source: cohort gap ranking, § Benchmark vs peer countries.",
+    "finding.3": "A recent Czech export first reached a tracked-league roster at a median age of {cze}; a Danish one at {den}.*",
+    "finding.3.foot": "Source: Exhibit B — export route.",
+    "finding.4": "Czech exports keep {cze} % of their club's minutes — rank {rank} of {n} peer countries; the furthest peer, {extreme}, sits at {extreme_value} %.*",
+    "finding.4.foot": "Source: Exhibit C — how the exports fare.",
+    "finding.5.squad": "{cze} % of the Czech {event} squad play at a top-9-league club; {peer} leads the peer set at {peer_pct} %.*",
+    "finding.5.squad.foot": "Source: F · the {event} squad by league tier.",
+    "finding.5.sideways": "{share} % of Czech exports abroad made a sideways move, to a league no stronger than the domestic one.*",
+    "finding.5.sideways.foot": "Source: Exhibit E — where Czech exports go.",
+    "method.note.title": "Method note — what transfers",
+    "method.note.body": "Nothing here is specific to Czech football: the pipeline takes a nationality code, a peer set and a league list. Run for England it would produce the same exhibits for English players abroad and at home. Its data are free-tier FBref tables; the same code path accepts richer event or tracking features as extra columns of the feature vector.",
 
     # ---- chapter I
     "ch1.framing": "A map of the {n} Czech-eligible professionals with a complete {season} season in a league FBref covers, segmented by position group and statistical profile, and benchmarked against {peers} peer countries. A methodological tool for mapping the pool across a national-team cycle, not a selection recommendation.",

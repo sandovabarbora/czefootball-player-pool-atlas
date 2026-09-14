@@ -47,6 +47,7 @@
         <li><a href="#trajectories">{{ t('toc.trajectories') }}</a></li>
       </ol>
     </li>
+    <li><a href="#findings">{{ t('toc.findings') }}</a></li>
     <li><a href="#pathways">{{ t('toc.pathways') }}</a></li>
     <li><a href="#cards">{{ t('toc.cards_chapter') }}</a>
       <ol>
@@ -83,7 +84,7 @@
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
         <li><a href="#summary">{{ t('toc.summary') }}</a> · <a href="#benchmark">{{ t('toc.short.benchmark') }}</a> · <a href="#observations">{{ t('toc.observations') }}</a> · <a href="#clusters">{{ t('toc.clusters') }}</a> · <a href="#trajectories">{{ t('toc.trajectories') }}</a></li>
-        <li><a href="#pathways">{{ t('toc.pathways') }}</a> · <a href="#cards">{{ t('toc.short.cards') }}</a> · <a href="#analogs">{{ t('toc.short.analogs') }}</a> · <a href="#players">{{ t('toc.players') }}</a></li>
+        <li><a href="#findings">{{ t('toc.findings') }}</a> · <a href="#pathways">{{ t('toc.pathways') }}</a> · <a href="#cards">{{ t('toc.short.cards') }}</a> · <a href="#analogs">{{ t('toc.short.analogs') }}</a> · <a href="#players">{{ t('toc.players') }}</a></li>
         <li><a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a></li>
       </ol>
     </details>
@@ -131,6 +132,22 @@
       <div><dt>{{ t('hero.meta.nt', nt_years=facts.nt_years) }}</dt> <dd>{{ t('hero.meta.nt_value', n=facts.n_nt_flagged) }}</dd></div>
       <div><dt>{{ t('hero.meta.frame') }}</dt> <dd>{{ t('hero.meta.frame_value', previous=seasons.previous, metrics=seasons.metrics, current=seasons.current) }}</dd></div>
     </dl>
+  </div>
+</section>
+
+{# =============================================================================
+   FINDINGS — five computed one-liners + a method note, right after the hero
+   ============================================================================= #}
+<section class="findings" id="findings">
+  <div class="container">
+    <h3>{{ t('findings.h3') }}</h3>
+    <ol class="findings-list">
+      {% for f in findings %}<li><p>{{ f.text }}</p><p class="mono-foot">{{ f.foot }}</p></li>{% endfor %}
+    </ol>
+    <aside class="method-note">
+      <h4>{{ t('method.note.title') }}</h4>
+      <p>{{ t('method.note.body') }}</p>
+    </aside>
   </div>
 </section>
 

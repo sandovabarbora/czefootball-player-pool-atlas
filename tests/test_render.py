@@ -19,6 +19,7 @@ from src.utils import season_label
 from src.render import (
     GROUPS,
     RULE_KICKERS,
+    _build_findings,
     _build_observations,
     _current_club,
     build_context,
@@ -27,7 +28,7 @@ from src.render import (
 )
 
 SECTION_IDS = (
-    "summary", "benchmark", "observations", "clusters", "trajectories", "pathways",
+    "summary", "findings", "benchmark", "observations", "clusters", "trajectories", "pathways",
     "cards", "analogs", "methodology", "multipliers", "shrinkage", "pca-loadings",
     "sensitivity", "limitations", "reproducibility", "photo-credits",
 )
@@ -171,6 +172,24 @@ def test_observations_derive_counts_and_titles_from_context():
     assert flipped[2]["title"].endswith(": mostly stable")
     assert "9 of 12 stayed within that band" in flipped[2]["body"]
     assert "rosters of the nine strongest leagues" in flipped[0]["body"]
+
+
+def test_findings_are_five_and_each_ends_with_asterisk():
+    ctx = build_context_from_fixtures("en")
+    assert len(ctx["findings"]) == 5
+    assert all(f["text"].endswith("*") and f["foot"] for f in ctx["findings"])
+    html = _render(ctx)
+    assert 'class="findings"' in html and "Method note" in html
+
+
+def test_findings_use_squad_lens_when_present_and_fall_back_otherwise():
+    ctx = build_context_from_fixtures("en")
+    squad_text = ctx["findings"][4]["text"]
+    assert "top-9" in squad_text or "top9" in squad_text.lower()
+    # empty squad_lens -> the fifth finding falls back to the exhibit E sideways share
+    no_lens = _build_findings(ctx["hero"], ctx["cohort_gaps"], ctx["pathways"], {}, ctx["seasons"], ctx["t"])
+    assert len(no_lens) == 5
+    assert "sideways" in no_lens[4]["text"].lower()
 
 
 def test_no_typed_season_in_render_or_i18n_module():

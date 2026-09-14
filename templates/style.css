@@ -418,6 +418,74 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
 }
 
 /* =========================================================================
+   Findings — five computed one-liners + method note, right after the hero
+   ========================================================================= */
+.findings { padding: var(--space-6) 0 var(--space-5); }
+.findings h3 { margin: 0 0 var(--space-4); }
+.findings-list {
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  list-style: none;
+  counter-reset: finding;
+  display: grid;
+  gap: var(--space-4);
+}
+.findings-list li {
+  counter-increment: finding;
+  padding: var(--space-3) 0 var(--space-3) 2.6rem;
+  border-top: 1px solid var(--rule);
+  position: relative;
+}
+.findings-list li:first-child { border-top: 2px solid var(--navy-700); }
+.findings-list li::before {
+  content: counter(finding, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--oxblood-700);
+}
+.findings-list li p:first-child {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: var(--measure-wide);
+}
+.mono-foot {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+}
+.method-note {
+  background: var(--cream-100);
+  border-left: 3px solid var(--navy-700);
+  padding: var(--space-4) var(--space-5);
+  max-width: var(--measure-wide);
+}
+.method-note h4 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--navy-700);
+}
+.method-note p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: none;
+}
+
+/* =========================================================================
    Chapter divider — page-break between major sections
    Long-form intelligence briefs use chapters; we use them only between
    sections that mark a real shift in subject (II = AI vrstva, III =

@@ -682,6 +682,91 @@ def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
     }
 
 
+def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: dict,
+                    seasons: dict, tr: Translator) -> list[dict]:
+    """Five one-line findings for the summary, each `{"text", "foot"}`.
+
+    Every number traces to `hero`, `gaps`, `pathways` or `squad_lens` — all
+    already built elsewhere in `build_context`. A finding whose source is
+    missing is skipped rather than rendered with a placeholder number.
+    """
+    findings: list[dict] = []
+
+    # (1) per-capita rank + density vs the leader
+    top = hero.get("top")
+    if top and hero.get("per_million"):
+        findings.append({
+            "text": tr.num(tr.raw(
+                "finding.1", rank=tr.ordinal(hero["rank"]), n=hero["n_peers"],
+                pm=f"{hero['per_million']:.2f}", top=tr.term(top["name"]),
+                top_pm=f"{top['per_million']:.2f}",
+                ratio=f"{top['per_million'] / hero['per_million']:.1f}",
+            )),
+            "foot": tr.raw("finding.1.foot", season=seasons["metrics"]),
+        })
+
+    # (2) largest cohort gap
+    if gaps:
+        g = gaps[0]
+        findings.append({
+            "text": tr.num(tr.raw(
+                "finding.2", group=tr.term(g["group_title"]).lower(), cohort=g["cohort"],
+                cze=g["cze_n"], s=("" if g["cze_n"] == 1 or tr.lang != "en" else "s"),
+                peer=f"{g['peer_median_n']:g}",
+            )),
+            "foot": tr.raw("finding.2.foot"),
+        })
+
+    # (3) recent export age, CZE vs DEN
+    export_cze, export_den = pathways.get("export_cze"), pathways.get("export_den")
+    if (export_cze and export_den and export_cze.get("median_export_age_recent") is not None
+            and export_den.get("median_export_age_recent") is not None):
+        findings.append({
+            "text": tr.num(tr.raw(
+                "finding.3", cze=f"{export_cze['median_export_age_recent']:g}",
+                den=f"{export_den['median_export_age_recent']:g}",
+            )),
+            "foot": tr.raw("finding.3.foot"),
+        })
+
+    # (4) exhibit C minutes share: CZE vs the peer whose share differs most
+    fare_min, fare_cze = pathways.get("fare_min") or [], pathways.get("fare_min_cze")
+    fare_others = [r for r in fare_min if r["country"] != "CZE"]
+    if fare_cze and fare_others and pathways.get("fare_min_rank"):
+        extreme = max(fare_others, key=lambda r: abs(r["value"] - fare_cze["value"]))
+        findings.append({
+            "text": tr.num(tr.raw(
+                "finding.4", cze=f"{fare_cze['value'] * 100:.0f}",
+                rank=tr.ordinal(pathways["fare_min_rank"]), n=len(fare_min),
+                extreme=tr.term(extreme["name"]), extreme_value=f"{extreme['value'] * 100:.0f}",
+            )),
+            "foot": tr.raw("finding.4.foot"),
+        })
+
+    # (5) WC squad top-9 share, CZE vs peers; fallback: exhibit E sideways share
+    rows = (squad_lens or {}).get("rows") or []
+    cze_row = next((r for r in rows if r["country"] == "CZE"), None)
+    peer_rows = [r for r in rows if r["country"] != "CZE"]
+    if cze_row and peer_rows:
+        top_peer = max(peer_rows, key=lambda r: r["top9_pct"])
+        findings.append({
+            "text": tr.num(tr.raw(
+                "finding.5.squad", event=squad_lens["event"], cze=f"{cze_row['top9_pct']:.0f}",
+                peer=tr.term(top_peer["name"]), peer_pct=f"{top_peer['top9_pct']:.0f}",
+            )),
+            "foot": tr.raw("finding.5.squad.foot", event=squad_lens["event"]),
+        })
+    else:
+        dest = pathways.get("destinations")
+        if dest and dest.get("sideways_share") is not None:
+            findings.append({
+                "text": tr.num(tr.raw("finding.5.sideways", share=f"{dest['sideways_share'] * 100:.0f}")),
+                "foot": tr.raw("finding.5.sideways.foot"),
+            })
+
+    return findings
+
+
 def _build_loadings(loadings: pd.DataFrame) -> list[dict]:
     rows = []
     for r in loadings.itertuples():
@@ -974,6 +1059,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     }
     observations = _build_observations(hero, per_capita, gaps, movers, thresholds, seasons,
                                        len(data["leagues"]["headline"]), tr)
+    findings = _build_findings(hero, gaps, pathways, squad_lens, seasons, tr)
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -991,6 +1077,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "groups": GROUPS,
         "group_titles": GROUP_TITLES,
         "hero": hero,
+        "findings": findings,
         "per_capita": per_capita,
         "max_per_million": max(r["per_million"] for r in per_capita),
         "cohorts": cohorts,
@@ -1093,8 +1180,10 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                "median_export_age_recent": 24.0,
                "origin": {"domestic": 0.667, "stepping_stone": 0.0, "other_top9": 0.0, "not_covered": 0.333},
                "censored_share": 0.2}]
-    fare_min = [{"country": "CZE", "name": "Czechia", "n": 24, "value": 0.338}]
-    fare_goals = [{"country": "CZE", "name": "Czechia", "n": 24, "value": 0.513}]
+    fare_min = [{"country": "DEN", "name": "Denmark", "n": 40, "value": 0.455},
+                {"country": "CZE", "name": "Czechia", "n": 24, "value": 0.338}]
+    fare_goals = [{"country": "DEN", "name": "Denmark", "n": 40, "value": 0.556},
+                  {"country": "CZE", "name": "Czechia", "n": 24, "value": 0.513}]
     pathways = {
         "destinations": {
             "n_total": 199, "n_abroad": 40,
@@ -1110,8 +1199,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "profile": [{"tier": "top9", "tier_label": "top-9 league", "pos_group": "FW", "cze_n": 4,
                      "cze_median": 0.38, "peer_median_n": 6.0, "peer_median": 0.31, "peer_countries": 8}],
         "youth_cze": youth[0], "youth_top": youth[0], "export_cze": export[0], "export_den": export[0],
-        "fare_min_cze": fare_min[0], "fare_goals_cze": fare_goals[0], "fare_min_rank": 1,
-        "fare_goals_rank": 1, "youth_rank": 1, "n_countries": 2,
+        "fare_min_cze": fare_min[1], "fare_goals_cze": fare_goals[1], "fare_min_rank": 2,
+        "fare_goals_rank": 2, "youth_rank": 1, "n_countries": 2,
     }
     facts = {"n_pool": 475, "n_no_tables": 120, "n_with_metrics": 206, "n_nt_flagged": 63,
              "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
@@ -1146,7 +1235,9 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     }]
     return {
         **_translator_context(tr), "seasons": seasons, "groups": ["FW"], "group_titles": GROUP_TITLES,
-        "hero": hero, "per_capita": per_capita, "max_per_million": 9.9,
+        "hero": hero,
+        "findings": _build_findings(hero, gaps, pathways, squad_lens, seasons, tr),
+        "per_capita": per_capita, "max_per_million": 9.9,
         "cohorts": cohorts, "cohort_countries": ["CZE", "DEN"], "cohort_names": {"CZE": "Czechia", "DEN": "Denmark"},
         "cohort_gaps": gaps,
         "observations": _build_observations(hero, per_capita, gaps, movers | {"MF": movers["FW"], "DF": movers["FW"]},
