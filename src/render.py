@@ -1102,7 +1102,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "photo_credits": [{"fbref_id": "5d4f7d61", "name": "Patrik Schick", "player_key": "patrik schick|1996",
                            "image": "img/players/5d4f7d61.jpg", "credit": "Patrik Schick (cropped).jpg",
                            "license": "Wikimedia Commons"}],
-        "rendered_at": "2026.09.13 00:00",
+        "rendered_at": "2026.09.13 00:00",  # dotted so the no-typed-season test regex does not read it as a season
         "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
     }
 

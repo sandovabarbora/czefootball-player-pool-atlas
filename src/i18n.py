@@ -109,7 +109,7 @@ EN: dict[str, str] = {
     "ch1.cohorts.none": "no player",
     "ch1.cohorts.note": "* Count and median npG+A per 90 of players with the country's nationality in a top-{topn} league, {season}, at least {min} minutes; cohort by age at the season's calendar turn (start year + 1 − birth year). {shown} of the {n} countries are shown; the heatmap above carries all of them. Largest Czech shortfalls against the peer median count: {gaps}.",
     "ch1.cohorts.gap_item": "{group} {cohort} ({cze} vs {peer})",
-    "ch1.atlas.alt": "Two-panel atlas of {group} {season} in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of {corpus} players; coloured points are the {czech} Czech-eligible players by cluster; oxblood rings mark the {nt} with a national-team call-up since 2024.",
+    "ch1.atlas.alt": "Two-panel atlas of {group} {season} in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of {corpus} players; coloured points are the {czech} Czech-eligible players by cluster; oxblood rings mark the {nt} with a national-team call-up {nt_years}.",
     "ch1.atlas.caption": "Atlas of {group} {season} in both projections: {czech} Czech-eligible players in colour against a corpus of {corpus}. Oxblood rings mark the national-team pool (call-up {nt_years}, {nt} players).",
     "ch1.observations.h3": "Observations",
     "ch1.clusters.h3": "Cluster archetypes (style projection)",

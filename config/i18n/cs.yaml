@@ -87,7 +87,7 @@ strings:
   ch1.cohorts.none: "žádný hráč"
   ch1.cohorts.note: "* Počet a medián npG+A na 90 minut hráčů s národností země v top-{topn} lize, {season}, aspoň {min} minut; kohorta podle věku na kalendářním přelomu sezóny (počáteční rok + 1 − rok narození). Zobrazeno {shown} z {n} zemí; heatmapa výše nese všechny. Největší české propady proti peer mediánu počtu: {gaps}."
   ch1.cohorts.gap_item: "{group} {cohort} ({cze} vs {peer})"
-  ch1.atlas.alt: "Dvoupanelový atlas skupiny {group} {season} v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus {corpus} hráčů; barevné body jsou {czech} hráčů s českou příslušností podle clusteru; oxbloodové kroužky značí {nt} s reprezentační nominací od roku 2024."
+  ch1.atlas.alt: "Dvoupanelový atlas skupiny {group} {season} v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus {corpus} hráčů; barevné body jsou {czech} hráčů s českou příslušností podle clusteru; oxbloodové kroužky značí {nt} s reprezentační nominací {nt_years}."
   ch1.atlas.caption: "Atlas skupiny {group} {season} v obou projekcích: {czech} hráčů s českou příslušností barevně proti korpusu {corpus}. Oxbloodové kroužky značí reprezentační fond (nominace {nt_years}, {nt} hráčů)."
   ch1.observations.h3: "Pozorování"
   ch1.clusters.h3: "Cluster archetypy (style projekce)"
