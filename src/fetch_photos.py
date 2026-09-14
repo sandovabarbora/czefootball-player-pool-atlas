@@ -35,10 +35,19 @@ BATCH_SIZE = 40
 SPARQL_URL = "https://query.wikidata.org/sparql"
 
 
+def _sparql_escape(text: str) -> str:
+    """Escape a value for a double-quoted SPARQL string literal.
+
+    Backslash first, then the quote, so a name like `O"Brien` or one with a
+    stray backslash cannot break out of the literal (or the whole query).
+    """
+    return text.replace("\\", "\\\\").replace('"', '\\"')
+
+
 def sparql_for(names: list[str]) -> str:
     """Build a SPARQL query matching any of `names` who are Czech citizens (wd:Q213)
     and association football players (wd:Q937857)."""
-    values = " ".join(f'"{n}"@en' for n in names)
+    values = " ".join(f'"{_sparql_escape(n)}"@en' for n in names)
     return f"""SELECT ?p ?pLabel ?dob ?img WHERE {{
   VALUES ?name {{ {values} }}
   ?p rdfs:label ?name ; wdt:P27 wd:Q213 ; wdt:P106 wd:Q937857 .

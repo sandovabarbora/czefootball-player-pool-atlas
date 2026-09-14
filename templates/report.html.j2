@@ -566,7 +566,7 @@
     <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
 
     <h3 id="analogs">{{ t('ch3.analogs.h3') }}</h3>
-    <p>{{ t('ch3.analogs.p', n=(analog_blocks[0].analogs | length if analog_blocks else 0), topn=topn, start=seasons.history_start) }}</p>
+    <p>{{ t('ch3.analogs.p', n=(analog_blocks[0].analogs | length if analog_blocks else 0), topn=topn, start=seasons.history_start, coverage=facts.coverage_start) }}</p>
     {% for tb in analog_blocks %}
     <div class="analog-block" data-player-key="{{ tb.player_key }}">
       <div class="analog-target">
@@ -606,7 +606,7 @@
       </ol>
     </div>
     {% endfor %}
-    <p class="capita-note">{{ t('ch3.analogs.note', min=feature_defs.min_minutes, start=seasons.history_start, current=seasons.current) }}</p>
+    <p class="capita-note">{{ t('ch3.analogs.note', min=feature_defs.min_minutes, start=seasons.history_start, current=seasons.current, coverage=facts.coverage_start) }}</p>
   </div>
 </section>
 

@@ -1,4 +1,5 @@
-"""Tests for src.trajectory: min-minutes gate and direction thresholds."""
+"""Tests for src.trajectory: min-minutes gate, direction thresholds and the
+mid-season-transfer collapse."""
 
 from __future__ import annotations
 
@@ -16,6 +17,7 @@ def _row(player_key, season, min_, npg_q, ast_q, **kw):
         "nation": "CZE",
         "czech_eligible": True,
         "nt_flag": False,
+        "pos_group": "FW",
         "min": min_,
         "npg_p90_quality": npg_q,
         "ast_p90_quality": ast_q,
@@ -80,3 +82,27 @@ def test_compute_trajectory_empty_when_no_overlap():
     features = pd.DataFrame(rows)
     out = compute_trajectory(features, "FW")
     assert out.empty
+
+
+def test_compute_trajectory_collapses_mid_season_transfers():
+    rows = [
+        # Split season: 500 + 500 minutes across two clubs passes the 900 gate
+        # only once the two rows are collapsed into the season total.
+        _row("split", "2023-2024", 500, 0.20, 0.00, team="A"),
+        _row("split", "2023-2024", 500, 0.40, 0.00, team="B"),
+        _row("split", "2024-2025", 1000, 0.30, 0.00, team="B"),
+        # Duplicated in the metrics season too: must appear exactly once, and
+        # the join must not fan out into two trajectory rows.
+        _row("dup", "2023-2024", 1000, 0.30, 0.00, team="A"),
+        _row("dup", "2024-2025", 900, 0.30, 0.00, team="A"),
+        _row("dup", "2024-2025", 300, 0.30, 0.00, team="B"),
+    ]
+    out = compute_trajectory(pd.DataFrame(rows), "FW").set_index("player_key")
+
+    assert set(out.index) == {"split", "dup"}
+    assert out.loc["split", "min_prev"] == 1000
+    # minutes-weighted rate over the two stints: (0.20 * 500 + 0.40 * 500) / 1000
+    assert out.loc["split", "npg_ast_quality_prev"] == 0.30
+    assert out.loc["split", "direction"] == "stable"
+    assert out.loc["dup", "min_curr"] == 1200
+    assert len(out) == 2

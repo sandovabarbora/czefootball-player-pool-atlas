@@ -107,7 +107,7 @@ EN: dict[str, str] = {
     "ch1.cohorts.h4": "Cohort gaps — {group}",
     "ch1.cohorts.th": "Cohort",
     "ch1.cohorts.none": "no player",
-    "ch1.cohorts.note": "* Count and median npG+A per 90 of players with the country's nationality in a top-{topn} league, {season}, at least {min} minutes; cohort by age at the season's start. {shown} of the {n} countries are shown; the heatmap above carries all of them. Largest Czech shortfalls against the peer median count: {gaps}.",
+    "ch1.cohorts.note": "* Count and median npG+A per 90 of players with the country's nationality in a top-{topn} league, {season}, at least {min} minutes; cohort by age at the season's calendar turn (start year + 1 − birth year). {shown} of the {n} countries are shown; the heatmap above carries all of them. Largest Czech shortfalls against the peer median count: {gaps}.",
     "ch1.cohorts.gap_item": "{group} {cohort} ({cze} vs {peer})",
     "ch1.atlas.alt": "Two-panel atlas of {group} {season} in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of {corpus} players; coloured points are the {czech} Czech-eligible players by cluster; oxblood rings mark the {nt} with a national-team call-up since 2024.",
     "ch1.atlas.caption": "Atlas of {group} {season} in both projections: {czech} Czech-eligible players in colour against a corpus of {corpus}. Oxblood rings mark the national-team pool (call-up 2024–26, {nt} players).",
@@ -176,7 +176,7 @@ EN: dict[str, str] = {
     "ch2.e.buckets": "Their leagues by bucket, as a share of those abroad: {buckets}. <strong>{sideways}</strong> of the moves are sideways* — {definition}.",
     "ch2.e.aria": "Czech players abroad by destination bucket",
     "ch2.e.median_mult": "median multiplier {m}",
-    "ch2.e.note": "* Buckets by the league of the player's own {season} season; the number in front of each bar is the player count, the median multiplier is the bucket's median league multiplier. Sideways: {definition}.",
+    "ch2.e.note": "* Buckets by the league of the player's own {season} season; a player is counted once per position group, like everywhere else on the page, so one with rows in two groups counts in each; the number in front of each bar is the player count, the median multiplier is the bucket's median league multiplier. Sideways: {definition}.",
 
     # ---- chapter III
     "ch3.aria": "Chapter III",
@@ -198,7 +198,7 @@ EN: dict[str, str] = {
     "ch3.card.selected": "Selected as: {reason}.",
     "ch3.cards.note": "* Each card renders the existing dataset; no computation beyond the join. Age on the name line is the {current} season-start age (start year − birth year); the club is from the {current} tables, or — labelled \"{latest}\" — from FBref's country page where the player has no {current} row. Age on the analog line follows the analog finder's convention (season start year + 1 − birth year).",
     "ch3.analogs.h3": "Historical analogs",
-    "ch3.analogs.p": "For each showcase player the finder takes the nearest {n} player-seasons at the same age across the whole corpus of the {topn} headline leagues back to {start}, all nationalities. Distance is computed on three standardised features: <code>npG+A/90 (quality-adjusted)</code>, <code>minutes</code>, <code>league multiplier</code>. For every analog the following seasons are shown as they happened. <strong>Description, not prediction</strong>: the reader sees the spread of paths; the method imposes none.",
+    "ch3.analogs.p": "For each showcase player the finder takes the nearest {n} player-seasons at the same age across the whole corpus of every fetched league — the {topn} headline leagues back to {start}, the rest from {coverage} — all nationalities. Distance is computed on three standardised features: <code>npG+A/90 (quality-adjusted)</code>, <code>minutes</code>, <code>league multiplier</code>. For every analog the following seasons are shown as they happened. <strong>Description, not prediction</strong>: the reader sees the spread of paths; the method imposes none.",
     "ch3.analogs.target": "Target",
     "ch3.analogs.age": "age",
     "ch3.analogs.target_stats": "{group} &middot; age {age} &middot; {league} {season} &middot; {min} min &middot; {q} npG+A/90 quality",
@@ -206,7 +206,7 @@ EN: dict[str, str] = {
     "ch3.analogs.row": "{league} {season} &middot; {min} min &middot; {q} npG+A/90 &middot; d&nbsp;=&nbsp;{d}",
     "ch3.analogs.followed": "Followed by:",
     "ch3.analogs.none": "No later season in the corpus.",
-    "ch3.analogs.note": "* Corpus: player-seasons with at least {min} minutes in the headline leagues, {start} → {current}; the target's own seasons are excluded. A path that ends early means the player left the covered leagues, not that the career ended.",
+    "ch3.analogs.note": "* Corpus: player-seasons with at least {min} minutes in any fetched league — headline leagues {start} → {current}, the other leagues {coverage} → {current}; the target's own seasons are excluded. A path that ends early means the player left the covered leagues, not that the career ended.",
 
     # ---- player index
     "pi.h2": "Player index",
@@ -266,7 +266,7 @@ EN: dict[str, str] = {
     "ch4.sens.note": "* Churn = baseline top-10 members that leave the set under the scenario; mean Δ rank = mean absolute rank change over the baseline top-20 union. Scenarios: baseline, every league ±20 % on its own, and all leagues ±20 % at once.",
     "ch4.lim.h3": "Limitations of this analysis",
     "ch4.repro.h3": "Reproducibility",
-    "ch4.repro.p": "The full pipeline is public: <a href=\"{url}\">{url_short}</a>. MIT licence. From a clean clone with the data snapshot present, <code>make install &amp;&amp; make all</code> renders this report; <code>make pages</code> builds the site. Random seed {seed} for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.",
+    "ch4.repro.p": "The full pipeline is public: <a href=\"{url}\">{url_short}</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed {seed} for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.",
 
     # ---- footer
     "foot.kicker": "Football intelligence consultant",

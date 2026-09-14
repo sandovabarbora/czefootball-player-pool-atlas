@@ -1,7 +1,9 @@
 """Render the English report of the Czech football player pool atlas.
 
-Reads only `data/processed/*`, `config/*.yaml`, `site/players.json` and
-`outputs/intl_cohort_heatmap.svg` (Task 8); never touches the network.
+Reads only `data/processed/*` (falling back to the committed `data/snapshot/`
+copy of any missing file), `config/*.yaml`, `site/players.json` and
+`outputs/intl_cohort_heatmap.svg` (redrawn from the processed tables when
+missing); never touches the network.
 
 Output:
   outputs/atlas_FW.svg, outputs/atlas_MF.svg, outputs/atlas_DF.svg
@@ -36,8 +38,9 @@ from jinja2 import Environment, FileSystemLoader
 
 from src import config
 from src.i18n import LANGS, Translator, localize_html_numbers
+from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
-from src.utils import normalize_name, read_parquet
+from src.utils import normalize_name, read_parquet, resolve_processed
 
 matplotlib.use("Agg")
 
@@ -802,6 +805,8 @@ def _photo_credits(photos: dict, used_keys: set[str]) -> list[dict]:
 
 
 def _load_json(path: Path, default: Any) -> Any:
+    """Read a JSON file (snapshot fallback for processed files) or return `default`."""
+    path = resolve_processed(path)
     if not path.exists():
         LOG.warning("missing %s", path)
         return default
@@ -809,6 +814,7 @@ def _load_json(path: Path, default: Any) -> Any:
 
 
 def _load_parquet_or_empty(path: Path) -> pd.DataFrame:
+    path = resolve_processed(path)
     if not path.exists():
         LOG.warning("missing %s", path)
         return pd.DataFrame()
@@ -1120,7 +1126,11 @@ def main() -> None:
     }
     heatmap = config.OUTPUTS_DIR / "intl_cohort_heatmap.svg"
     if not heatmap.exists():
-        LOG.warning("%s missing — run src.international_benchmark first", heatmap)
+        # outputs/*.svg is gitignored; the heatmap is a pure function of two
+        # processed tables the report already loads, so redraw it here rather
+        # than requiring a src.international_benchmark run (no network).
+        LOG.info("%s missing; redrawing it from per_capita + cohorts", heatmap)
+        render_cohort_heatmap(data["per_capita"], data["cohorts"], heatmap)
 
     for lang in LANGS:
         context = build_context(data, atlas_notes, lang=lang)

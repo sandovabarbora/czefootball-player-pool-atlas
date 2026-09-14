@@ -16,6 +16,12 @@ def test_sparql_embeds_names_and_czech_citizenship():
     assert "wd:Q937857" in q  # association football player (occupation constraint)
 
 
+def test_sparql_escapes_quotes_and_backslashes_in_names():
+    q = sparql_for(['Jan "Honza" Novák', "back\\slash"])
+    assert '"Jan \\"Honza\\" Novák"@en' in q
+    assert '"back\\\\slash"@en' in q
+
+
 def test_match_by_name_and_birth_year():
     pool = pd.DataFrame({"fbref_id": ["x1"], "player": ["Patrik Schick"], "born": [1996]})
     out = match_images(BINDINGS, pool)

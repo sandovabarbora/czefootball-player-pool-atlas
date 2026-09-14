@@ -4,7 +4,10 @@ A player qualifies for trajectory analysis when they played >= 900 minutes
 in BOTH the previous season (`config.seasons()["previous"]`) and the
 metrics season (`config.seasons()["metrics"]`), joined on `player_key`.
 Below that threshold, two data points cannot distinguish a trend from
-noise.
+noise. Each season frame is first collapsed to one row per
+(player_key, season, pos_group) with `src.utils.collapse_player_seasons`
+(minutes summed, rates minutes-weighted), so a mid-season transfer neither
+fails the gate on a split season nor yields two trajectory rows.
 
 Metric: `npg_p90_quality + ast_p90_quality` (league-quality-adjusted
 non-penalty-goal + assist rate). `delta` = metrics-season value minus
@@ -30,12 +33,13 @@ import pandas as pd
 
 from src import config
 from src.logging_setup import setup as logging_setup
-from src.utils import read_parquet, write_parquet
+from src.utils import collapse_player_seasons, read_parquet, write_parquet
 
 LOG = logging.getLogger(__name__)
 
 MIN_MINUTES = 900
 DIRECTION_THRESHOLD = 0.05
+RATE_COLS: list[str] = ["npg_p90_quality", "ast_p90_quality"]
 
 OUTPUT_COLS: list[str] = [
     "player_key", "player", "league", "nation", "czech_eligible", "nt_flag",
@@ -53,6 +57,13 @@ def compute_trajectory(features: pd.DataFrame, group: str) -> pd.DataFrame:
     f_metrics = features[features["season"] == metrics_season].copy()
     LOG.info("%s: trajectory %s -> %s (%d rows prev, %d rows metrics)",
               group, prev_season, metrics_season, len(f_prev), len(f_metrics))
+
+    # A mid-season transfer gives one player two rows per season (one per
+    # club). Collapse them first so the minutes gate sees the season total
+    # (500 + 500 passes; it wouldn't as two rows) and so the player_key join
+    # below cannot fan out into duplicate trajectory rows.
+    f_prev = collapse_player_seasons(f_prev, rate_cols=RATE_COLS)
+    f_metrics = collapse_player_seasons(f_metrics, rate_cols=RATE_COLS)
 
     f_prev = f_prev[f_prev["min"] >= MIN_MINUTES].copy()
     f_metrics = f_metrics[f_metrics["min"] >= MIN_MINUTES].copy()

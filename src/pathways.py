@@ -114,7 +114,9 @@ def _age(born, season: str) -> float:
     return int(season[:4]) - int(born)
 
 
-def _dedupe_player_season(df: pd.DataFrame) -> pd.DataFrame:
+def _dedupe_player_season(
+    df: pd.DataFrame, key_cols: tuple[str, ...] = ("player_key", "season")
+) -> pd.DataFrame:
     """Collapse (player_key, season) duplicates from mid-season transfers.
 
     `fbref_players.parquet` has one row per player-team-season; a player
@@ -128,8 +130,10 @@ def _dedupe_player_season(df: pd.DataFrame) -> pd.DataFrame:
     was spent, so it decides league/team/nation/born/etc for the season)
     and sum `min` across the group. Groups of size 1 pass through
     unchanged, so it is safe to call on any (player_key, season) subset.
+    `key_cols` widens the group key when the caller counts per position
+    group as well (`destinations` uses (player_key, season, pos_group)).
     """
-    key_cols = ["player_key", "season"]
+    key_cols = list(key_cols)
     sizes = df.groupby(key_cols)["min"].transform("size")
     singles, dup_rows = df[sizes == 1], df[sizes > 1]
     if dup_rows.empty:
@@ -414,7 +418,10 @@ def destinations(
 
     Restricted to `czech_eligible` rows (from `features_{FW,MF,DF}.parquet`,
     concatenated) in `metrics_season` with `min >= 450`, deduped to one row
-    per player-season via `_dedupe_player_season`. Each returned row is
+    per (player_key, season, pos_group) via `_dedupe_player_season` -- the
+    same unit every other count on the page uses (the hero's "with metrics"
+    count, the player index, `profile`), so a player who has rows in two
+    position groups counts once in each here too. Each returned row is
     `{player, player_key, league, min, bucket, multiplier}`:
 
         bucket: `domestic` (the CZE-First League itself), `top9` (a
@@ -447,7 +454,7 @@ def destinations(
         & features_all_groups.czech_eligible
         & (features_all_groups["min"] >= MIN_MINUTES_DESTINATIONS)
     ]
-    f = _dedupe_player_season(f)
+    f = _dedupe_player_season(f, key_cols=("player_key", "season", "pos_group"))
 
     def _bucket(league: str) -> str:
         if league == domestic_league:

@@ -21,6 +21,8 @@ from tenacity import (
 )
 from unidecode import unidecode
 
+from src import config
+
 LOG = logging.getLogger(__name__)
 
 
@@ -121,8 +123,31 @@ def write_parquet(df: pd.DataFrame, path: Path) -> None:
     LOG.info("wrote %s rows to %s", len(df), path)
 
 
+def resolve_processed(path: Path) -> Path:
+    """Return `path`, or its `config.SNAPSHOT_DIR` twin when `path` is missing.
+
+    `data/processed/` is gitignored while `data/snapshot/` (the same
+    parquet/json files) is committed, so a clean clone can render without
+    refetching: any reader of a processed file goes through this helper and
+    silently (INFO log) picks the snapshot copy when the processed one is
+    absent. Only files that live directly in `config.PROCESSED_DIR` are
+    redirected; anything else is returned unchanged.
+    """
+    if path.exists():
+        return path
+    if path.parent != config.PROCESSED_DIR:
+        return path
+    fallback = config.SNAPSHOT_DIR / path.name
+    if fallback.exists():
+        LOG.info("%s missing; using snapshot copy %s", path, fallback)
+        return fallback
+    return path
+
+
 def read_parquet(path: Path) -> pd.DataFrame:
-    """Read a parquet file; clear error if it does not exist."""
+    """Read a parquet file, falling back to the snapshot copy (see
+    `resolve_processed`); clear error if neither exists."""
+    path = resolve_processed(path)
     if not path.exists():
         raise FileNotFoundError(f"Expected parquet not found: {path}. Run upstream fetcher first.")
     return pd.read_parquet(path)

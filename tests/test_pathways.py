@@ -200,6 +200,7 @@ def test_destinations_buckets_one_player_each():
         "league": ["CZE-First League", "ENG-Premier League", "GER-2. Bundesliga",
                    "AUT-Bundesliga", "SOMEWHERE-Unknown League"],
         "season": ["2024-2025"] * 5,
+        "pos_group": ["FW"] * 5,
         "nation": ["CZE"] * 5,
         "czech_eligible": [True] * 5,
         "min": [2000, 1800, 1200, 900, 500],
@@ -241,13 +242,36 @@ def test_destinations_buckets_one_player_each():
 def test_destinations_excludes_below_min_minutes():
     feats = pd.DataFrame({
         "player": ["Benchwarmer"], "player_key": ["bw"],
-        "league": ["ENG-Premier League"], "season": ["2024-2025"],
+        "league": ["ENG-Premier League"], "season": ["2024-2025"], "pos_group": ["FW"],
         "nation": ["CZE"], "czech_eligible": [True], "min": [200],
     })
     league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0}}
     cfg = {"domestic": "CZE-First League", "headline": ["ENG-Premier League"],
            "stepping_stone": [], "peer_domestic": {}}
     assert destinations(feats, league_quality, cfg, "2024-2025") == []
+
+
+def test_destinations_counts_a_player_once_per_position_group():
+    # Same player_key in FW and MF (the features frames are concatenated):
+    # counted in each group, like every other count on the page. A
+    # mid-season transfer within one group (two MF rows) collapses to one.
+    feats = pd.DataFrame({
+        "player": ["Dual Dan"] * 4,
+        "player_key": ["dan"] * 4,
+        "league": ["ENG-Premier League", "ENG-Premier League", "ENG-Premier League", "ITA-Serie A"],
+        "season": ["2024-2025"] * 4,
+        "pos_group": ["FW", "MF", "MF", "DF"],
+        "nation": ["CZE"] * 4,
+        "czech_eligible": [True] * 4,
+        "min": [1000, 600, 500, 300],
+    })
+    league_quality = {"multipliers": {"CZE-First League": 0.434, "ENG-Premier League": 1.0,
+                                      "ITA-Serie A": 0.9}}
+    cfg = {"domestic": "CZE-First League", "headline": ["ENG-Premier League", "ITA-Serie A"],
+           "stepping_stone": [], "peer_domestic": {}}
+    rows = destinations(feats, league_quality, cfg, "2024-2025")
+    assert sorted(r["min"] for r in rows) == [1000, 1100]  # FW row + collapsed MF rows; DF < 450
+    assert _summarize_destinations(rows, 0.434)["n_total"] == 2
 
 
 def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
@@ -311,6 +335,7 @@ def test_destinations_sideways_counts_equal_multiplier_as_sideways():
         "player_key": ["eda", "ales"],
         "league": ["AUT-Bundesliga", "POL-Ekstraklasa"],
         "season": ["2024-2025"] * 2,
+        "pos_group": ["FW"] * 2,
         "nation": ["CZE"] * 2,
         "czech_eligible": [True] * 2,
         "min": [1000, 1000],

@@ -85,7 +85,7 @@ strings:
   ch1.cohorts.h4: "Kohortové mezery — {group}"
   ch1.cohorts.th: "Kohorta"
   ch1.cohorts.none: "žádný hráč"
-  ch1.cohorts.note: "* Počet a medián npG+A na 90 minut hráčů s národností země v top-{topn} lize, {season}, aspoň {min} minut; kohorta podle věku na začátku sezóny. Zobrazeno {shown} z {n} zemí; heatmapa výše nese všechny. Největší české propady proti peer mediánu počtu: {gaps}."
+  ch1.cohorts.note: "* Počet a medián npG+A na 90 minut hráčů s národností země v top-{topn} lize, {season}, aspoň {min} minut; kohorta podle věku na kalendářním přelomu sezóny (počáteční rok + 1 − rok narození). Zobrazeno {shown} z {n} zemí; heatmapa výše nese všechny. Největší české propady proti peer mediánu počtu: {gaps}."
   ch1.cohorts.gap_item: "{group} {cohort} ({cze} vs {peer})"
   ch1.atlas.alt: "Dvoupanelový atlas skupiny {group} {season} v PCA projekci. Levý panel: style mapa bez ligových násobiček; pravý panel: kvalitou upravená mapa. Šedé body jsou celý korpus {corpus} hráčů; barevné body jsou {czech} hráčů s českou příslušností podle clusteru; oxbloodové kroužky značí {nt} s reprezentační nominací od roku 2024."
   ch1.atlas.caption: "Atlas skupiny {group} {season} v obou projekcích: {czech} hráčů s českou příslušností barevně proti korpusu {corpus}. Oxbloodové kroužky značí reprezentační fond (nominace 2024–26, {nt} hráčů)."
@@ -154,7 +154,7 @@ strings:
   ch2.e.buckets: "Jejich ligy podle koše, jako podíl těch v zahraničí: {buckets}. <strong>{sideways}</strong> přestupů je do strany* — {definition}."
   ch2.e.aria: "Čeští hráči v zahraničí podle cílového koše"
   ch2.e.median_mult: "medián násobičky {m}"
-  ch2.e.note: "* Koše podle ligy vlastní sezóny {season} hráče; číslo před sloupcem je počet hráčů, medián násobičky je mediánová ligová násobička koše. Do strany: {definition}."
+  ch2.e.note: "* Koše podle ligy vlastní sezóny {season} hráče; hráč se počítá jednou za každý post, stejně jako všude jinde na stránce, takže hráč s řádky ve dvou postech se počítá v obou; číslo před sloupcem je počet hráčů, medián násobičky je mediánová ligová násobička koše. Do strany: {definition}."
 
   # ---- chapter III
   ch3.aria: "Kapitola III"
@@ -176,7 +176,7 @@ strings:
   ch3.card.selected: "Vybrán jako: {reason}."
   ch3.cards.note: "* Každá karta vykresluje existující dataset; žádný výpočet nad rámec spojení. Věk na řádku se jménem je věk na začátku sezóny {current} (rok začátku − rok narození); klub je z tabulek {current}, nebo — označený „{latest}“ — ze stránky země na FBref, kde hráč nemá řádku {current}. Věk na řádku analogu sleduje konvenci hledače analogů (rok začátku sezóny + 1 − rok narození)."
   ch3.analogs.h3: "Historické analogy"
-  ch3.analogs.p: "Pro každého hráče z karet bere hledač {n} nejbližších hráčských sezón ve stejném věku napříč celým korpusem {topn} hlavních lig zpět do {start}, všechny národnosti. Vzdálenost se počítá na třech standardizovaných featurách: <code>npG+A/90 (kvalitou upravené)</code>, <code>minuty</code>, <code>ligová násobička</code>. U každého analogu jsou následující sezóny zobrazené tak, jak se staly. <strong>Popis, ne predikce</strong>: čtenář vidí rozptyl cest; metoda žádnou nevnucuje."
+  ch3.analogs.p: "Pro každého hráče z karet bere hledač {n} nejbližších hráčských sezón ve stejném věku napříč celým korpusem všech stažených lig — {topn} hlavních lig zpět do {start}, ostatní od {coverage} — všechny národnosti. Vzdálenost se počítá na třech standardizovaných featurách: <code>npG+A/90 (kvalitou upravené)</code>, <code>minuty</code>, <code>ligová násobička</code>. U každého analogu jsou následující sezóny zobrazené tak, jak se staly. <strong>Popis, ne predikce</strong>: čtenář vidí rozptyl cest; metoda žádnou nevnucuje."
   ch3.analogs.target: "Cíl"
   ch3.analogs.age: "věk"
   ch3.analogs.target_stats: "{group} &middot; věk {age} &middot; {league} {season} &middot; {min} min &middot; {q} npG+A/90 quality"
@@ -184,7 +184,7 @@ strings:
   ch3.analogs.row: "{league} {season} &middot; {min} min &middot; {q} npG+A/90 &middot; d&nbsp;=&nbsp;{d}"
   ch3.analogs.followed: "Pokračování:"
   ch3.analogs.none: "Žádná pozdější sezóna v korpusu."
-  ch3.analogs.note: "* Korpus: hráčské sezóny s aspoň {min} minutami v hlavních ligách, {start} → {current}; vlastní sezóny cíle jsou vyloučené. Cesta, která končí brzy, znamená, že hráč opustil pokryté ligy, ne že skončila kariéra."
+  ch3.analogs.note: "* Korpus: hráčské sezóny s aspoň {min} minutami v kterékoli stažené lize — hlavní ligy {start} → {current}, ostatní ligy {coverage} → {current}; vlastní sezóny cíle jsou vyloučené. Cesta, která končí brzy, znamená, že hráč opustil pokryté ligy, ne že skončila kariéra."
 
   # ---- player index
   pi.h2: "Rejstřík hráčů"
@@ -244,7 +244,7 @@ strings:
   ch4.sens.note: "* Churn = členové základní top-10, kteří ve scénáři z množiny vypadnou; průměrná Δ pořadí = průměrná absolutní změna pořadí přes sjednocení základní top-20. Scénáře: základ, každá liga ±20 % zvlášť a všechny ligy ±20 % najednou."
   ch4.lim.h3: "Limitace této analýzy"
   ch4.repro.h3: "Reprodukovatelnost"
-  ch4.repro.p: "Celá pipeline je veřejná: <a href=\"{url}\">{url_short}</a>. Licence MIT. Z čistého klonu s přítomným datovým snapshotem <code>make install &amp;&amp; make all</code> vykreslí tento report; <code>make pages</code> sestaví web. Náhodný seed {seed} pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě."
+  ch4.repro.p: "Celá pipeline je veřejná: <a href=\"{url}\">{url_short}</a>. Licence MIT. Z čistého klonu <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> vykreslí tento report z commitnutého datového snapshotu a <code>make pages</code> sestaví web; <code>make all</code> vše znovu stáhne a spustí celou pipeline. Náhodný seed {seed} pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě."
 
   # ---- footer
   foot.kicker: "Football intelligence konzultantka"

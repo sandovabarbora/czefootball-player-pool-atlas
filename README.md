@@ -29,18 +29,31 @@ fetched data, not typed in by hand.*
 
 ```bash
 make install            # uv venv + deps
-make all                # fetch -> pool -> features -> reduce -> render
-make pages              # build docs/index.html (en) + docs/cs/index.html (cs)
+make all                # fetch -> pool -> photos -> features -> reduce -> benchmark
+                        #   -> analogs -> sensitivity -> pathways -> render
+make pages              # render, then build docs/index.html (en) + docs/cs/index.html (cs)
 ```
+
+Each stage is its own target (`make fetch`, `make pool`, `make photos`,
+`make features` — features + trajectory, `make reduce` — PCA/UMAP + KMeans,
+`make benchmark`, `make analogs`, `make sensitivity`, `make pathways`,
+`make render`); `make -n all` prints the full order.
 
 ### Rebuild from snapshot
 
-`data/snapshot/` holds the processed parquet/json files, so the report can be
-rebuilt without refetching anything:
+`data/snapshot/` (committed) holds the processed parquet/json files, while
+`data/processed/` is gitignored — so a clean clone rebuilds the report
+without refetching anything:
 
 ```bash
-uv sync && make render && make pages
+uv sync && make restore-snapshot && make render && make pages
 ```
+
+`make restore-snapshot` copies the snapshot into `data/processed/` without
+overwriting a newer processed file. Plain `make render` also works on a
+clean clone: every reader of a processed file falls back to the snapshot
+copy when the processed one is missing, and the cohort heatmap is redrawn
+from the tables when `outputs/intl_cohort_heatmap.svg` is absent.
 
 `make fetch` (part of `make all`) opens a real Chrome window per FBref page
 (`soccerdata`'s undetected-Chrome mode) and takes roughly an hour cold — only

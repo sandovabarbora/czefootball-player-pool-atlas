@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 import pandas as pd
+import pytest
 
 from src import utils
 
@@ -109,3 +110,39 @@ def test_collapse_player_seasons_keeps_other_columns_from_max_minutes_row():
     row = out.iloc[0]
     assert row.nt_flag == False  # noqa: E712 -- from the 1800-minute row, not the 600-minute one
     assert row.league == "L2"
+
+
+def test_read_parquet_falls_back_to_snapshot_dir(tmp_path, monkeypatch, caplog):
+    processed, snapshot = tmp_path / "processed", tmp_path / "snapshot"
+    processed.mkdir()
+    snapshot.mkdir()
+    monkeypatch.setattr(utils.config, "PROCESSED_DIR", processed)
+    monkeypatch.setattr(utils.config, "SNAPSHOT_DIR", snapshot)
+    pd.DataFrame({"a": [1, 2]}).to_parquet(snapshot / "pool.parquet", index=False)
+
+    with caplog.at_level("INFO", logger="src.utils"):
+        got = utils.read_parquet(processed / "pool.parquet")
+
+    assert got["a"].tolist() == [1, 2]
+    assert "snapshot" in caplog.text
+    # resolve_processed only redirects files that live directly in PROCESSED_DIR
+    assert utils.resolve_processed(tmp_path / "elsewhere.parquet") == tmp_path / "elsewhere.parquet"
+
+
+def test_read_parquet_prefers_processed_over_snapshot(tmp_path, monkeypatch):
+    processed, snapshot = tmp_path / "processed", tmp_path / "snapshot"
+    processed.mkdir()
+    snapshot.mkdir()
+    monkeypatch.setattr(utils.config, "PROCESSED_DIR", processed)
+    monkeypatch.setattr(utils.config, "SNAPSHOT_DIR", snapshot)
+    pd.DataFrame({"a": [0]}).to_parquet(snapshot / "pool.parquet", index=False)
+    pd.DataFrame({"a": [9]}).to_parquet(processed / "pool.parquet", index=False)
+
+    assert utils.read_parquet(processed / "pool.parquet")["a"].tolist() == [9]
+
+
+def test_read_parquet_still_errors_when_neither_exists(tmp_path, monkeypatch):
+    monkeypatch.setattr(utils.config, "PROCESSED_DIR", tmp_path / "processed")
+    monkeypatch.setattr(utils.config, "SNAPSHOT_DIR", tmp_path / "snapshot")
+    with pytest.raises(FileNotFoundError):
+        utils.read_parquet(tmp_path / "processed" / "pool.parquet")
