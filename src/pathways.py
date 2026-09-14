@@ -561,10 +561,19 @@ def build_pathways(
     # peer_domestic set, not eight irrelevant countries' bars).
     peer_domestic = ({k: v["country"] for k, v in cfg["peer_domestic"].items() if v["country"] in peers}
                      | {config.DOMESTIC_LEAGUE: config.HOME})
+    # Exhibit A needs every peer's own top flight, including peers whose top
+    # flight is a headline league (England's peers: FRA, GER, ESP, ITA, NED,
+    # POR, BEL) — those carry their country in the league key prefix or in
+    # the `custom` registry. For Czechia's peers this adds nothing.
+    tier1_by_country = {v["country"]: k for k, v in {**cfg.get("custom", {}), **cfg["peer_domestic"]}.items()
+                        if v.get("tier", 1) == 1}
+    tier1_by_country.update({k.split("-", 1)[0]: k for k in cfg["headline"] if k.split("-", 1)[0] not in tier1_by_country})
+    youth_leagues = {config.DOMESTIC_LEAGUE: config.HOME}
+    youth_leagues.update({tier1_by_country[c]: c for c in peers if c in tier1_by_country})
     dest_rows = destinations(feats, league_quality, cfg, seasons["metrics"], peers)
     domestic_multiplier = league_quality["multipliers"].get(cfg["domestic"])
     return {
-        "youth_exposure": youth_exposure(tables, seasons["metrics"], peer_domestic).to_dict("records"),
+        "youth_exposure": youth_exposure(tables, seasons["metrics"], youth_leagues).to_dict("records"),
         "export_route": export_route(
             tables, cfg["headline"], cfg["stepping_stone"], peer_domestic, peers,
             seasons["current"], seasons["metrics"],

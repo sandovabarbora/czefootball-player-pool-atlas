@@ -319,7 +319,8 @@ def test_build_pathways_drops_peer_domestic_leagues_of_non_peer_countries():
     out = build_pathways(tables, feats, league_quality, cfg, seasons, ["ENG", "FRA"])
     leagues = {r["league"] for r in out["youth_exposure"]}
     assert "AUT-Bundesliga" not in leagues
-    assert leagues == {config.DOMESTIC_LEAGUE}
+    # a peer whose top flight is a headline league (ENG) still gets its exhibit-A row
+    assert leagues == {config.DOMESTIC_LEAGUE, "ENG-Premier League"}
 
 
 def test_build_pathways_fare_is_flat_list_with_proxy_per_record():
