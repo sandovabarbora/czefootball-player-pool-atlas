@@ -36,18 +36,18 @@ EN: dict[str, str] = {
     "toc.hide": "Hide contents",
     "toc.show": "Show contents",
     "toc.heading": "Contents",
-    "toc.summary": "Summary",
+    "toc.summary": "How big and how deep is the pool?",
     "toc.findings": "Findings",
     "toc.benchmark": "Benchmark vs peer countries",
     "toc.observations": "Observations",
     "toc.clusters": "Cluster archetypes",
     "toc.trajectories": "Trajectories",
-    "toc.pathways": "Where the train leaves",
-    "toc.cards_chapter": "Cards and analogs",
+    "toc.pathways": "Why does the train leave?",
+    "toc.cards_chapter": "What does a player-level read look like?",
     "toc.cards": "Player cards",
     "toc.analogs": "Historical analogs",
     "toc.players": "Player index",
-    "toc.methodology": "Methodology",
+    "toc.methodology": "How it is built, validated and where it stops",
     "toc.multipliers": "League multipliers",
     "toc.shrinkage": "Bayesian shrinkage",
     "toc.pca": "PCA loadings",
@@ -73,16 +73,17 @@ EN: dict[str, str] = {
     "mast.pool_value": "<strong>{n}</strong> players",
     "mast.with_metrics": "With {season} metrics",
     "mast.nt": "NT call-up {nt_years}",
+    "mast.facts": "{n_leagues} leagues · {n_seasons} seasons · {n_tests} tests · every number computed from the run · rulings logged",
 
     # ---- hero
     "hero.stamp.report": "Report",
     "hero.stamp.atlas": "Atlas · {season}",
     "hero.stamp.edition": "first edition · MIT",
     "hero.stamp.aria": "Document identification",
-    "hero.kicker": "Summary — structural benchmark vs peer countries",
-    "hero.h2": "Summary",
+    "hero.kicker": "National player-pool intelligence · public data · reproducible",
+    "hero.h2": "How deep is a national player pool — and why",
     "hero.unit": "players in Europe's {topn} strongest leagues per million inhabitants, {season} rosters",
-    "hero.lead": "Per-capita density of top-{topn} league players puts the Czech pool <span class=\"hero-pull\">{rank} of {n}</span> countries in the peer set. {top} leads with <strong>{top_pm}</strong> per million, {ratio} times the Czech density.",
+    "hero.lead": "A federation-grade view of one country's professional pool, built from FBref, Wikipedia and Wikidata: how it compares with peer countries per head, where its development pathway leaks, how its tournament squad is sourced, and what each player's season looks like against a European corpus. Czechia is the worked example; the pipeline takes a nationality code and a peer set.",
     "hero.sublead.gap": "The largest cohort gap is in <strong>{group} aged {cohort}</strong>: {cze_n} Czech player{s} in the top-{topn} leagues against a peer median of {peer}.",
     "hero.sublead.export": "A recent Czech export first reached a top-{topn} roster at a median age of {cze}; a Danish one at {den}.",
     "hero.sublead.close": "Football people recognise these numbers player by player; there is no place where they are aggregated.",
@@ -90,7 +91,7 @@ EN: dict[str, str] = {
 
     # ---- findings (computed argument list right after the hero)
     "findings.h3": "The argument in five numbers",
-    "finding.1": "The Czech pool ranks {rank} of {n} peer countries at {pm} per million; {top} leads at {ratio} times the density.*",
+    "finding.1": "The Czech pool ranks {rank} of {n} countries in the peer set at {pm} per million; {top} leads at {ratio} times the density.*",
     "finding.1.foot": "Source: per-capita density, § Benchmark vs peer countries, {season} rosters.",
     "finding.2": "The largest cohort gap sits in {group} aged {cohort}: {cze} Czech player{s} against a peer median of {peer}.*",
     "finding.2.foot": "Source: cohort gap ranking, § Benchmark vs peer countries.",
@@ -102,8 +103,18 @@ EN: dict[str, str] = {
     "finding.5.squad.foot": "Source: F · the {event} squad by league tier.",
     "finding.5.sideways": "{share} % of Czech exports abroad made a sideways move, to a league no stronger than the domestic one.*",
     "finding.5.sideways.foot": "Source: Exhibit E — where Czech exports go.",
-    "method.note.title": "Method note — what transfers",
-    "method.note.body": "Nothing in the method is specific to Czech football: the inputs are a nationality code (today a constant in a handful of modules, not yet a config key), a peer set and a league list. Run for England it would produce the same exhibits for English players abroad and at home. Its data are free-tier FBref tables; the same code path accepts richer event or tracking features as extra columns of the feature vector.",
+
+    # ---- for a federation (what transfers, right after the argument list)
+    "fed.h3": "For a federation",
+    "fed.benchmark.title": "Benchmark",
+    "fed.benchmark.body": "Top-league players per million against a chosen peer set, by position and age cohort.",
+    "fed.pathways.title": "Pathways",
+    "fed.pathways.body": "Youth minutes at home, export age and route, how exports fare, where they land — six exhibits.",
+    "fed.squad.title": "Tournament squad lens",
+    "fed.squad.body": "A named squad by league tier, minutes and age, next to the peers at the same tournament.",
+    "fed.models.title": "Models, validated",
+    "fed.models.body": "Shrinkage, league multipliers with a sensitivity table, cluster archetypes, historical analogs; every number recomputed on each run, a data-quality log, and the review ledger in the repo.",
+    "fed.note": "Run for England: <code>nation: ENG</code>, a peer set (e.g. FRA · GER · ESP · ITA · NED · POR · BEL), the same league list. Event or tracking features enter as extra columns of the feature vector; outputs are flat parquet that loads into BigQuery unchanged.",
 
     # ---- chapter I
     "ch1.framing": "A map of the {n} Czech-eligible professionals with a complete {season} season in a league FBref covers, segmented by position group and statistical profile, and benchmarked against {peers} peer countries. A methodological tool for mapping the pool across a national-team cycle, not a selection recommendation.",
@@ -141,7 +152,7 @@ EN: dict[str, str] = {
 
     # ---- chapter II
     "ch2.aria": "Chapter II",
-    "ch2.title": "Where the train leaves",
+    "ch2.title": "Why does the train leave?",
     "ch2.synopsis": "Four exhibits on the road from a domestic league to a top-{topn} roster: minutes given to a league's own under-21s, the age and door of the export, how the exports fare at the new club, and the production profile by tier. Each names a difference; none names a remedy.",
     "ch2.framing": "Pathways and differences between Czechia and the {n} peer countries, computed from the same league tables: exposure at home, export route, how the exports fare, and the profile of those who made it.",
     "ch2.a.h3": "Exhibit A — youth exposure at home",
@@ -206,7 +217,7 @@ EN: dict[str, str] = {
 
     # ---- chapter III
     "ch3.aria": "Chapter III",
-    "ch3.title": "Cards and analogs",
+    "ch3.title": "What does a player-level read look like?",
     "ch3.synopsis": "{n} player cards chosen by rules, not picks — per position group the highest quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the top-{topn} leagues, and the most domestic minutes among players under 23 without a top-{topn} season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.",
     "ch3.cards.h2": "Player cards",
     "ch3.cards.framing": "One tile per showcase player: {metrics} stats, cluster placement, trajectory and analogs, expanded on demand. The stats are {metrics}; the club shown is {current}.",
@@ -256,9 +267,9 @@ EN: dict[str, str] = {
 
     # ---- chapter IV
     "ch4.aria": "Chapter IV",
-    "ch4.title": "Methodology",
+    "ch4.title": "How it is built, validated and where it stops",
     "ch4.synopsis": "A replicable pipeline: data sources, league multipliers, Bayesian shrinkage, PCA loadings, sensitivity analysis. Limitations and reproducibility.",
-    "ch4.h2": "Methodology",
+    "ch4.h2": "How it is built, validated and where it stops",
     "ch4.sources.h3": "Data sources",
     "ch4.sources.fbref": "<strong>FBref</strong> (via <code>soccerdata</code>): player season tables (standard, playing time) for the {topn} headline leagues, the Czech First League, the peer domestic leagues and the German second tier; the country page \"Players from Czechia\" for pool discovery; the nationality column for peer counts",
     "ch4.sources.wikipedia": "<strong>Wikipedia</strong>: national-team squad tables ({events}) for the call-up flag",
@@ -325,8 +336,8 @@ EN: dict[str, str] = {
     "ch4.built.p2": "Spec: <a href=\"{spec}\">design</a> · plan: <a href=\"{plan}\">tasks</a> · ledger: <a href=\"{ledger}\">rulings</a>.",
 
     # ---- footer
-    "foot.kicker": "Football intelligence consultant",
-    "foot.body": "Data science, video tracking and tactical reading of the game in one method. I work with public statistical sources of European professional leagues and combine them with a structural view of the player pool, scouting signals and a roadmap for football analytics. The methodology, code and data of this analysis are public and reproducible.",
+    "foot.kicker": "Built by Barbora Šandová — data &amp; cloud engineer",
+    "foot.body": "Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.",
     "foot.credits": "Photo credits ({n} portraits, Wikimedia Commons)",
     "foot.rendered": "Rendered: {at}",
 

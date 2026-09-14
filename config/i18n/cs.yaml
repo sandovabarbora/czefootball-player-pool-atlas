@@ -14,18 +14,18 @@ strings:
   toc.hide: "Skrýt obsah"
   toc.show: "Zobrazit obsah"
   toc.heading: "Obsah"
-  toc.summary: "Shrnutí"
+  toc.summary: "Jak velký a jak hluboký je fond?"
   toc.findings: "Zjištění"
   toc.benchmark: "Benchmark vs peer země"
   toc.observations: "Pozorování"
   toc.clusters: "Cluster archetypy"
   toc.trajectories: "Trajektorie"
-  toc.pathways: "Odkud odjíždí vlak"
-  toc.cards_chapter: "Karty a analogy"
+  toc.pathways: "Kde nám ujíždí vlak?"
+  toc.cards_chapter: "Jak vypadá čtení na úrovni hráče?"
   toc.cards: "Karty hráčů"
   toc.analogs: "Historické analogy"
   toc.players: "Rejstřík hráčů"
-  toc.methodology: "Metodologie"
+  toc.methodology: "Jak je to postavené, validované a kde to končí"
   toc.multipliers: "Ligové násobičky"
   toc.shrinkage: "Bayesovský shrinkage"
   toc.pca: "PCA loadings"
@@ -51,16 +51,17 @@ strings:
   mast.pool_value: "<strong>{n}</strong> hráčů"
   mast.with_metrics: "S metrikami {season}"
   mast.nt: "Reprezentace {nt_years}"
+  mast.facts: "{n_leagues} lig · {n_seasons} sezón · {n_tests} testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná"
 
   # ---- hero
   hero.stamp.report: "Report"
   hero.stamp.atlas: "Atlas · {season}"
   hero.stamp.edition: "první vydání · MIT"
   hero.stamp.aria: "Identifikace dokumentu"
-  hero.kicker: "Shrnutí — strukturální benchmark vs peer země"
-  hero.h2: "Shrnutí"
+  hero.kicker: "Zpravodajství o národním hráčském fondu · veřejná data · reprodukovatelné"
+  hero.h2: "Jak hluboký je národní hráčský fond — a proč"
   hero.unit: "hráčů v {topn} nejsilnějších ligách Evropy na milion obyvatel, soupisky {season}"
-  hero.lead: "Hustota hráčů top-{topn} lig na obyvatele řadí český fond na <span class=\"hero-pull\">{rank} místo z {n}</span> zemí v peer sadě. {top} vede s <strong>{top_pm}</strong> na milion, {ratio}krát vyšší hustotou než česká."
+  hero.lead: "Pohled na profesionální fond jedné země v kvalitě pro federaci, postavený na FBref, Wikipedii a Wikidatech: jak si stojí v přepočtu na obyvatele proti peer zemím, kde je děravá jeho vývojová cesta, jak je poskládaná jeho turnajová nominace a jak vypadá sezóna každého hráče proti evropskému korpusu. Česko je pracovní příklad; pipeline bere kód národnosti a sadu peer zemí."
   hero.sublead.gap: "Největší kohortová mezera: <strong>{group} {cohort}</strong> — {cze_n} za Česko v top-{topn} ligách proti peer mediánu {peer}."
   hero.sublead.export: "Nedávný český export se poprvé dostal na soupisku top-{topn} ligy v mediánovém věku {cze}; dánský v {den}."
   hero.sublead.close: "Lidé z fotbalu tato čísla znají hráč po hráči; agregovaná na jednom místě nejsou nikde."
@@ -80,8 +81,18 @@ strings:
   finding.5.squad.foot: "Zdroj: F · nominace {event} podle ligové úrovně."
   finding.5.sideways: "{share} % českých exportů v zahraničí přešlo do ligy, která není silnější než domácí — boční přesun.*"
   finding.5.sideways.foot: "Zdroj: Exhibit E — kam české exporty míří."
-  method.note.title: "Poznámka k metodě — co je přenositelné"
-  method.note.body: "Nic v metodě není specifické pro český fotbal: vstupem je kód národnosti (dnes konstanta v několika modulech, zatím ne klíč v configu), sada peer zemí a seznam lig. Spuštěná pro Anglii by vyprodukovala stejné exhibity pro anglické hráče v zahraničí i doma. Její data jsou tabulky FBref v bezplatné úrovni; stejná cesta kódu přijme bohatší event nebo tracking featury jako další sloupce feature vektoru."
+
+  # ---- pro federaci (co je přenositelné, hned za argumentem)
+  fed.h3: "Pro federaci"
+  fed.benchmark.title: "Benchmark"
+  fed.benchmark.body: "Hráči top lig na milion obyvatel proti zvolené sadě peer zemí, podle postu a věkové kohorty."
+  fed.pathways.title: "Cesty"
+  fed.pathways.body: "Minuty mládeže doma, věk a trasa exportu, jak se exportům daří, kam míří — šest exhibitů."
+  fed.squad.title: "Pohled na nominaci"
+  fed.squad.body: "Jmenovaná nominace podle ligové úrovně, minut a věku, vedle peer zemí na stejném turnaji."
+  fed.models.title: "Validované modely"
+  fed.models.body: "Shrinkage, ligové násobičky s tabulkou citlivosti, cluster archetypy, historické analogy; každé číslo přepočítané při každém běhu, log kvality dat a review ledger v repozitáři."
+  fed.note: "Spuštěno pro Anglii: <code>nation: ENG</code>, sada peer zemí (např. FRA · GER · ESP · ITA · NED · POR · BEL), stejný seznam lig. Event nebo tracking featury vstupují jako další sloupce feature vektoru; výstupy jsou ploché parquet soubory, které se beze změny nahrají do BigQuery."
 
   # ---- chapter I
   ch1.framing: "Mapa {n} profesionálů s českou příslušností a kompletní sezónou {season} v lize, kterou pokrývá FBref, rozdělená podle postů a statistického profilu a srovnaná s {peers} peer zeměmi. Metodologický nástroj pro mapování fondu napříč reprezentačním cyklem, ne nominační doporučení."
@@ -119,7 +130,7 @@ strings:
 
   # ---- chapter II
   ch2.aria: "Kapitola II"
-  ch2.title: "Odkud odjíždí vlak"
+  ch2.title: "Kde nám ujíždí vlak?"
   ch2.synopsis: "Čtyři exhibity o cestě z domácí ligy na soupisku top-{topn} ligy: minuty pro vlastní hráče do 21 let, věk a dveře exportu, jak se exportům daří v novém klubu a produkční profil podle úrovně. Každý jmenuje rozdíl; žádný nejmenuje lék."
   ch2.framing: "Cesty a rozdíly mezi Českem a {n} peer zeměmi, spočítané ze stejných ligových tabulek: expozice doma, exportní trasa, jak se exportům daří a profil těch, kteří to dokázali."
   ch2.a.h3: "Exhibit A — expozice mládeže doma"
@@ -184,7 +195,7 @@ strings:
 
   # ---- chapter III
   ch3.aria: "Kapitola III"
-  ch3.title: "Karty a analogy"
+  ch3.title: "Jak vypadá čtení na úrovni hráče?"
   ch3.synopsis: "{n} karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší kvalitou upravené npG+A na 90 minut, nejmladší reprezentační nominace, nejvíc minut v top-{topn} ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-{topn} lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností."
   ch3.cards.h2: "Karty hráčů"
   ch3.cards.framing: "Jedna dlaždice na hráče: statistiky {metrics}, umístění v clusteru, trajektorie a analogy, rozbalené na vyžádání. Statistiky jsou {metrics}; zobrazený klub je {current}."
@@ -234,9 +245,9 @@ strings:
 
   # ---- chapter IV
   ch4.aria: "Kapitola IV"
-  ch4.title: "Metodologie"
+  ch4.title: "Jak je to postavené, validované a kde to končí"
   ch4.synopsis: "Replikovatelná pipeline: zdroje dat, ligové násobičky, bayesovský shrinkage, PCA loadings, analýza citlivosti. Limitace a reprodukovatelnost."
-  ch4.h2: "Metodologie"
+  ch4.h2: "Jak je to postavené, validované a kde to končí"
   ch4.sources.h3: "Zdroje dat"
   ch4.sources.fbref: "<strong>FBref</strong> (přes <code>soccerdata</code>): sezónní tabulky hráčů (standard, playing time) pro {topn} hlavních lig, Chance Ligu, domácí ligy peer zemí a německou druhou ligu; stránka země „Players from Czechia“ pro nalezení fondu; sloupec národnosti pro počty peer zemí"
   ch4.sources.wikipedia: "<strong>Wikipedia</strong>: tabulky reprezentačních nominací ({events}) pro příznak nominace"
@@ -303,8 +314,8 @@ strings:
   ch4.built.p2: "Specifikace: <a href=\"{spec}\">návrh</a> · plán: <a href=\"{plan}\">úkoly</a> · ledger: <a href=\"{ledger}\">rulingy</a>."
 
   # ---- footer
-  foot.kicker: "Football intelligence konzultantka"
-  foot.body: "Data science, video tracking a taktické čtení hry v jedné metodě. Pracuji s veřejnými statistickými zdroji evropských profesionálních lig a kombinuji je se strukturálním pohledem na hráčský fond, skautskými signály a roadmapou pro fotbalovou analytiku. Metodologie, kód i data této analýzy jsou veřejné a reprodukovatelné."
+  foot.kicker: "Vytvořila Barbora Šandová — data &amp; cloud engineerka"
+  foot.body: "Tracking-data PoCs pro fotbal a hokej. Tahle stránka je ten výstup: pipeline, modely, validace i report jsou jeden repozitář."
   foot.credits: "Kredity fotografií ({n} portrétů, Wikimedia Commons)"
   foot.rendered: "Vykresleno: {at}"
 

@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609141451">
-  <link rel="stylesheet" href="../modern.css?v=202609141451">
+  <link rel="stylesheet" href="../style.css?v=202609141509">
+  <link rel="stylesheet" href="../modern.css?v=202609141509">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609141451"></script>
+  <script defer src="../atlas.js?v=202609141509"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -41,7 +41,7 @@
   </button>
   <p class="toc-heading">Obsah</p>
   <ol>
-    <li><a href="#summary">Shrnutí</a>
+    <li><a href="#summary">Jak velký a jak hluboký je fond?</a>
       <ol>
         <li><a href="#benchmark">Benchmark vs peer země</a></li>
         <li><a href="#observations">Pozorování</a></li>
@@ -49,15 +49,15 @@
         <li><a href="#trajectories">Trajektorie</a></li>
       </ol>
     </li>
-    <li><a href="#pathways">Odkud odjíždí vlak</a></li>
-    <li><a href="#cards">Karty a analogy</a>
+    <li><a href="#pathways">Kde nám ujíždí vlak?</a></li>
+    <li><a href="#cards">Jak vypadá čtení na úrovni hráče?</a>
       <ol>
         <li><a href="#cards">Karty hráčů</a></li>
         <li><a href="#analogs">Historické analogy</a></li>
         <li><a href="#players">Rejstřík hráčů</a></li>
       </ol>
     </li>
-    <li><a href="#methodology">Metodologie</a>
+    <li><a href="#methodology">Jak je to postavené, validované a kde to končí</a>
       <ol>
         <li><a href="#multipliers">Ligové násobičky</a></li>
         <li><a href="#shrinkage">Bayesovský shrinkage</a></li>
@@ -85,6 +85,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
+    <p class="masthead-facts">19 lig · 7 sezón · 138 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná</p>
   </div>
 </header>
 
@@ -97,8 +98,8 @@
     <p class="hero-stamp-line">první vydání · MIT</p>
   </aside>
   <div class="container">
-    <p class="hero-kicker">Shrnutí — strukturální benchmark vs peer země</p>
-    <h2>Shrnutí</h2>
+    <p class="hero-kicker">Zpravodajství o národním hráčském fondu · veřejná data · reprodukovatelné</p>
+    <h2>Jak hluboký je národní hráčský fond — a proč</h2>
     <div class="hero-grid">
       <div class="hero-num">
         <span class="hero-num-figure">2,39<span class="ast" aria-hidden="true">*</span></span>
@@ -106,7 +107,7 @@
       </div>
       <div class="hero-lead">
         <p>
-          Hustota hráčů top-9 lig na obyvatele řadí český fond na <span class="hero-pull">7. místo z 9</span> zemí v peer sadě. Dánsko vede s <strong>12,58</strong> na milion, 5,3krát vyšší hustotou než česká.
+          Pohled na profesionální fond jedné země v kvalitě pro federaci, postavený na FBref, Wikipedii a Wikidatech: jak si stojí v přepočtu na obyvatele proti peer zemím, kde je děravá jeho vývojová cesta, jak je poskládaná jeho turnajová nominace a jak vypadá sezóna každého hráče proti evropskému korpusu. Česko je pracovní příklad; pipeline bere kód národnosti a sadu peer zemí.
         </p>
         <details class="fold fold-hero"><summary>Souvislosti</summary>
         <p class="hero-sublead">
@@ -158,10 +159,32 @@
       </li>
       
     </ol>
-    <details class="fold method-note">
-      <summary>Poznámka k metodě — co je přenositelné</summary>
-      <p>Nic v metodě není specifické pro český fotbal: vstupem je kód národnosti (dnes konstanta v několika modulech, zatím ne klíč v configu), sada peer zemí a seznam lig. Spuštěná pro Anglii by vyprodukovala stejné exhibity pro anglické hráče v zahraničí i doma. Její data jsou tabulky FBref v bezplatné úrovni; stejná cesta kódu přijme bohatší event nebo tracking featury jako další sloupce feature vektoru.</p>
-    </details>
+  </div>
+</section>
+
+
+<section class="for-federation" id="for-federation">
+  <div class="container">
+    <h3>Pro federaci</h3>
+    <ul class="fed-grid">
+      <li class="fed-tile"><a href="#benchmark">
+        <span class="fed-tile-title">Benchmark</span>
+        <span class="fed-tile-body">Hráči top lig na milion obyvatel proti zvolené sadě peer zemí, podle postu a věkové kohorty.</span>
+      </a></li>
+      <li class="fed-tile"><a href="#pathways">
+        <span class="fed-tile-title">Cesty</span>
+        <span class="fed-tile-body">Minuty mládeže doma, věk a trasa exportu, jak se exportům daří, kam míří — šest exhibitů.</span>
+      </a></li>
+      <li class="fed-tile"><a href="#exhibit-f">
+        <span class="fed-tile-title">Pohled na nominaci</span>
+        <span class="fed-tile-body">Jmenovaná nominace podle ligové úrovně, minut a věku, vedle peer zemí na stejném turnaji.</span>
+      </a></li>
+      <li class="fed-tile"><a href="#methodology">
+        <span class="fed-tile-title">Validované modely</span>
+        <span class="fed-tile-body">Shrinkage, ligové násobičky s tabulkou citlivosti, cluster archetypy, historické analogy; každé číslo přepočítané při každém běhu, log kvality dat a review ledger v repozitáři.</span>
+      </a></li>
+    </ul>
+    <p class="fed-note">Spuštěno pro Anglii: <code>nation: ENG</code>, sada peer zemí (např. FRA · GER · ESP · ITA · NED · POR · BEL), stejný seznam lig. Event nebo tracking featury vstupují jako další sloupce feature vektoru; výstupy jsou ploché parquet soubory, které se beze změny nahrají do BigQuery.</p>
   </div>
 </section>
 
@@ -1245,13 +1268,13 @@
 <aside class="chapter-divider" role="separator" aria-label="Kapitola II">
   <p class="chapter-numeral">II</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Odkud odjíždí vlak</p>
+  <p class="chapter-title">Kde nám ujíždí vlak?</p>
   <p class="chapter-synopsis">Čtyři exhibity o cestě z domácí ligy na soupisku top-9 ligy: minuty pro vlastní hráče do 21 let, věk a dveře exportu, jak se exportům daří v novém klubu a produkční profil podle úrovně. Každý jmenuje rozdíl; žádný nejmenuje lék.</p>
 </aside>
 
 <section class="ai-layer">
   <div class="container">
-    <h2 id="pathways">Odkud odjíždí vlak</h2>
+    <h2 id="pathways">Kde nám ujíždí vlak?</h2>
     <p class="framing lede">Cesty a rozdíly mezi Českem a 8 peer zeměmi, spočítané ze stejných ligových tabulek: expozice doma, exportní trasa, jak se exportům daří a profil těch, kteří to dokázali.</p>
 
     <h3>Exhibit A — expozice mládeže doma</h3>
@@ -1890,7 +1913,7 @@
     
     
     
-    <h3>F · Soupiska 2026 FIFA World Cup podle ligové úrovně</h3>
+    <h3 id="exhibit-f">F · Soupiska 2026 FIFA World Cup podle ligové úrovně</h3>
     <p>
       Kde v sezóně 2025/26 hráli hráči nominovaní na 2026 FIFA World Cup (26 jmen), a totéž pro peer země na turnaji: Švýcarsko, Chorvatsko, Norsko, Rakousko. Úroveň = liga hráčovy sezóny 2025/26 s nejvíce minutami.
     </p>
@@ -2053,7 +2076,7 @@
 <aside class="chapter-divider" role="separator" aria-label="Kapitola III">
   <p class="chapter-numeral">III</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Karty a analogy</p>
+  <p class="chapter-title">Jak vypadá čtení na úrovni hráče?</p>
   <p class="chapter-synopsis">17 karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší kvalitou upravené npG+A na 90 minut, nejmladší reprezentační nominace, nejvíc minut v top-9 ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-9 lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností.</p>
 </aside>
 
@@ -7978,13 +8001,13 @@
 <aside class="chapter-divider" role="separator" aria-label="Kapitola IV">
   <p class="chapter-numeral">IV</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Metodologie</p>
+  <p class="chapter-title">Jak je to postavené, validované a kde to končí</p>
   <p class="chapter-synopsis">Replikovatelná pipeline: zdroje dat, ligové násobičky, bayesovský shrinkage, PCA loadings, analýza citlivosti. Limitace a reprodukovatelnost.</p>
 </aside>
 
 <section class="methodology">
   <div class="container">
-    <h2 id="methodology">Metodologie</h2>
+    <h2 id="methodology">Jak je to postavené, validované a kde to končí</h2>
 
     <h3 id="data-sources">Zdroje dat</h3>
     <ul>
@@ -8594,8 +8617,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 136 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 136 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 138 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 138 testy.</p>
       <ol class="build-flow">
         <li>Specifikace</li>
         <li>Plán</li>
@@ -8611,8 +8634,8 @@
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Football intelligence konzultantka</p>
-      <p class="role-body">Data science, video tracking a taktické čtení hry v jedné metodě. Pracuji s veřejnými statistickými zdroji evropských profesionálních lig a kombinuji je se strukturálním pohledem na hráčský fond, skautskými signály a roadmapou pro fotbalovou analytiku. Metodologie, kód i data této analýzy jsou veřejné a reprodukovatelné.</p>
+      <p class="role-kicker">Vytvořila Barbora Šandová — data &amp; cloud engineerka</p>
+      <p class="role-body">Tracking-data PoCs pro fotbal a hokej. Tahle stránka je ten výstup: pipeline, modely, validace i report jsou jeden repozitář.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -8762,7 +8785,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-14 14:47</p>
+    <p class="rendered-at">Vykresleno: 2026-09-14 15:09</p>
   </div>
 </footer>
 

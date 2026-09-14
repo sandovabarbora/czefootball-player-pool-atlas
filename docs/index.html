@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609141451">
-  <link rel="stylesheet" href="modern.css?v=202609141451">
+  <link rel="stylesheet" href="style.css?v=202609141509">
+  <link rel="stylesheet" href="modern.css?v=202609141509">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609141451"></script>
+  <script defer src="atlas.js?v=202609141509"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -41,7 +41,7 @@
   </button>
   <p class="toc-heading">Contents</p>
   <ol>
-    <li><a href="#summary">Summary</a>
+    <li><a href="#summary">How big and how deep is the pool?</a>
       <ol>
         <li><a href="#benchmark">Benchmark vs peer countries</a></li>
         <li><a href="#observations">Observations</a></li>
@@ -49,15 +49,15 @@
         <li><a href="#trajectories">Trajectories</a></li>
       </ol>
     </li>
-    <li><a href="#pathways">Where the train leaves</a></li>
-    <li><a href="#cards">Cards and analogs</a>
+    <li><a href="#pathways">Why does the train leave?</a></li>
+    <li><a href="#cards">What does a player-level read look like?</a>
       <ol>
         <li><a href="#cards">Player cards</a></li>
         <li><a href="#analogs">Historical analogs</a></li>
         <li><a href="#players">Player index</a></li>
       </ol>
     </li>
-    <li><a href="#methodology">Methodology</a>
+    <li><a href="#methodology">How it is built, validated and where it stops</a>
       <ol>
         <li><a href="#multipliers">League multipliers</a></li>
         <li><a href="#shrinkage">Bayesian shrinkage</a></li>
@@ -85,6 +85,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
+    <p class="masthead-facts">19 leagues · 7 seasons · 138 tests · every number computed from the run · rulings logged</p>
   </div>
 </header>
 
@@ -97,8 +98,8 @@
     <p class="hero-stamp-line">first edition · MIT</p>
   </aside>
   <div class="container">
-    <p class="hero-kicker">Summary — structural benchmark vs peer countries</p>
-    <h2>Summary</h2>
+    <p class="hero-kicker">National player-pool intelligence · public data · reproducible</p>
+    <h2>How deep is a national player pool — and why</h2>
     <div class="hero-grid">
       <div class="hero-num">
         <span class="hero-num-figure">2.39<span class="ast" aria-hidden="true">*</span></span>
@@ -106,7 +107,7 @@
       </div>
       <div class="hero-lead">
         <p>
-          Per-capita density of top-9 league players puts the Czech pool <span class="hero-pull">7th of 9</span> countries in the peer set. Denmark leads with <strong>12.58</strong> per million, 5.3 times the Czech density.
+          A federation-grade view of one country's professional pool, built from FBref, Wikipedia and Wikidata: how it compares with peer countries per head, where its development pathway leaks, how its tournament squad is sourced, and what each player's season looks like against a European corpus. Czechia is the worked example; the pipeline takes a nationality code and a peer set.
         </p>
         <details class="fold fold-hero"><summary>In context</summary>
         <p class="hero-sublead">
@@ -129,7 +130,7 @@
       
       <li>
         <strong class="argument-figure">7/9</strong>
-        <span class="argument-line">The Czech pool ranks 7th of 9 peer countries at 2.39 per million; Denmark leads at 5.3 times the density.</span>
+        <span class="argument-line">The Czech pool ranks 7th of 9 countries in the peer set at 2.39 per million; Denmark leads at 5.3 times the density.</span>
         <a class="argument-source" href="#benchmark">Source: per-capita density, § Benchmark vs peer countries, 2025/26 rosters.</a>
       </li>
       
@@ -158,10 +159,32 @@
       </li>
       
     </ol>
-    <details class="fold method-note">
-      <summary>Method note — what transfers</summary>
-      <p>Nothing in the method is specific to Czech football: the inputs are a nationality code (today a constant in a handful of modules, not yet a config key), a peer set and a league list. Run for England it would produce the same exhibits for English players abroad and at home. Its data are free-tier FBref tables; the same code path accepts richer event or tracking features as extra columns of the feature vector.</p>
-    </details>
+  </div>
+</section>
+
+
+<section class="for-federation" id="for-federation">
+  <div class="container">
+    <h3>For a federation</h3>
+    <ul class="fed-grid">
+      <li class="fed-tile"><a href="#benchmark">
+        <span class="fed-tile-title">Benchmark</span>
+        <span class="fed-tile-body">Top-league players per million against a chosen peer set, by position and age cohort.</span>
+      </a></li>
+      <li class="fed-tile"><a href="#pathways">
+        <span class="fed-tile-title">Pathways</span>
+        <span class="fed-tile-body">Youth minutes at home, export age and route, how exports fare, where they land — six exhibits.</span>
+      </a></li>
+      <li class="fed-tile"><a href="#exhibit-f">
+        <span class="fed-tile-title">Tournament squad lens</span>
+        <span class="fed-tile-body">A named squad by league tier, minutes and age, next to the peers at the same tournament.</span>
+      </a></li>
+      <li class="fed-tile"><a href="#methodology">
+        <span class="fed-tile-title">Models, validated</span>
+        <span class="fed-tile-body">Shrinkage, league multipliers with a sensitivity table, cluster archetypes, historical analogs; every number recomputed on each run, a data-quality log, and the review ledger in the repo.</span>
+      </a></li>
+    </ul>
+    <p class="fed-note">Run for England: <code>nation: ENG</code>, a peer set (e.g. FRA · GER · ESP · ITA · NED · POR · BEL), the same league list. Event or tracking features enter as extra columns of the feature vector; outputs are flat parquet that loads into BigQuery unchanged.</p>
   </div>
 </section>
 
@@ -1245,13 +1268,13 @@
 <aside class="chapter-divider" role="separator" aria-label="Chapter II">
   <p class="chapter-numeral">II</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Where the train leaves</p>
+  <p class="chapter-title">Why does the train leave?</p>
   <p class="chapter-synopsis">Four exhibits on the road from a domestic league to a top-9 roster: minutes given to a league's own under-21s, the age and door of the export, how the exports fare at the new club, and the production profile by tier. Each names a difference; none names a remedy.</p>
 </aside>
 
 <section class="ai-layer">
   <div class="container">
-    <h2 id="pathways">Where the train leaves</h2>
+    <h2 id="pathways">Why does the train leave?</h2>
     <p class="framing lede">Pathways and differences between Czechia and the 8 peer countries, computed from the same league tables: exposure at home, export route, how the exports fare, and the profile of those who made it.</p>
 
     <h3>Exhibit A — youth exposure at home</h3>
@@ -1890,7 +1913,7 @@
     
     
     
-    <h3>F · The 2026 FIFA World Cup squad by league tier</h3>
+    <h3 id="exhibit-f">F · The 2026 FIFA World Cup squad by league tier</h3>
     <p>
       Where the 26 players named to the 2026 FIFA World Cup squad played in 2025/26, next to Switzerland, Croatia, Norway, Austria. Tier = the league of the player's most-minutes 2025/26 row.
     </p>
@@ -2053,7 +2076,7 @@
 <aside class="chapter-divider" role="separator" aria-label="Chapter III">
   <p class="chapter-numeral">III</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Cards and analogs</p>
+  <p class="chapter-title">What does a player-level read look like?</p>
   <p class="chapter-synopsis">17 player cards chosen by rules, not picks — per position group the highest quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the top-9 leagues, and the most domestic minutes among players under 23 without a top-9 season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.</p>
 </aside>
 
@@ -7978,13 +8001,13 @@
 <aside class="chapter-divider" role="separator" aria-label="Chapter IV">
   <p class="chapter-numeral">IV</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">Methodology</p>
+  <p class="chapter-title">How it is built, validated and where it stops</p>
   <p class="chapter-synopsis">A replicable pipeline: data sources, league multipliers, Bayesian shrinkage, PCA loadings, sensitivity analysis. Limitations and reproducibility.</p>
 </aside>
 
 <section class="methodology">
   <div class="container">
-    <h2 id="methodology">Methodology</h2>
+    <h2 id="methodology">How it is built, validated and where it stops</h2>
 
     <h3 id="data-sources">Data sources</h3>
     <ul>
@@ -8594,8 +8617,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 136 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 136 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 138 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 138 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -8611,8 +8634,8 @@
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Football intelligence consultant</p>
-      <p class="role-body">Data science, video tracking and tactical reading of the game in one method. I work with public statistical sources of European professional leagues and combine them with a structural view of the player pool, scouting signals and a roadmap for football analytics. The methodology, code and data of this analysis are public and reproducible.</p>
+      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
+      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -8762,7 +8785,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-14 14:47</p>
+    <p class="rendered-at">Rendered: 2026-09-14 15:09</p>
   </div>
 </footer>
 

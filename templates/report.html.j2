@@ -78,6 +78,7 @@
       <div><dt>{{ t('mast.with_metrics', season=seasons.metrics) }}</dt> <dd><strong>{{ facts.n_with_metrics }}</strong></dd></div>
       <div><dt>{{ t('mast.nt', nt_years=facts.nt_years) }}</dt> <dd><strong>{{ facts.n_nt_flagged }}</strong></dd></div>
     </dl>
+    <p class="masthead-facts">{{ t('mast.facts', n_leagues=facts.n_leagues, n_seasons=facts.n_seasons, n_tests=facts.n_tests) }}</p>
 
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
@@ -109,8 +110,7 @@
       </div>
       <div class="hero-lead">
         <p>
-          {{ t('hero.lead', topn=topn, rank=ordinal(hero.rank), n=hero.n_peers, top=term(hero.top.name),
-               top_pm=f2(hero.top.per_million), ratio=('%.1f' | format(hero.top.per_million / hero.per_million))) }}
+          {{ t('hero.lead') }}
         </p>
         <p class="hero-sublead">
           {% if hero.gap %}{{ t('hero.sublead.gap', group=gt[hero.gap.pos_group] | lower, cohort=hero.gap.cohort, cze_n=hero.gap.cze_n,
@@ -126,7 +126,7 @@
 
 {# =============================================================================
    ARGUMENT — the five findings as a computed list, one row per number, each
-   sourced to its exhibit; the method note stays a closed fold under it
+   sourced to its exhibit
    ============================================================================= #}
 <section class="findings" id="findings">
   <div class="container">
@@ -140,10 +140,37 @@
       </li>
       {% endfor %}
     </ol>
-    <details class="fold method-note">
-      <summary>{{ t('method.note.title') }}</summary>
-      <p>{{ t('method.note.body') }}</p>
-    </details>
+  </div>
+</section>
+
+{# =============================================================================
+   FOR A FEDERATION — what a federation gets from this method, right after the
+   argument list; the tiles are quiet (same hairline tokens as the argument
+   rows), and the mono line under them states what transfers to run it for
+   another country (this used to be the "method note" fold under the argument)
+   ============================================================================= #}
+<section class="for-federation" id="for-federation">
+  <div class="container">
+    <h3>{{ t('fed.h3') }}</h3>
+    <ul class="fed-grid">
+      <li class="fed-tile"><a href="#benchmark">
+        <span class="fed-tile-title">{{ t('fed.benchmark.title') }}</span>
+        <span class="fed-tile-body">{{ t('fed.benchmark.body') }}</span>
+      </a></li>
+      <li class="fed-tile"><a href="#pathways">
+        <span class="fed-tile-title">{{ t('fed.pathways.title') }}</span>
+        <span class="fed-tile-body">{{ t('fed.pathways.body') }}</span>
+      </a></li>
+      <li class="fed-tile"><a href="#exhibit-f">
+        <span class="fed-tile-title">{{ t('fed.squad.title') }}</span>
+        <span class="fed-tile-body">{{ t('fed.squad.body') }}</span>
+      </a></li>
+      <li class="fed-tile"><a href="#methodology">
+        <span class="fed-tile-title">{{ t('fed.models.title') }}</span>
+        <span class="fed-tile-body">{{ t('fed.models.body') }}</span>
+      </a></li>
+    </ul>
+    <p class="fed-note">{{ t('fed.note') }}</p>
   </div>
 </section>
 
@@ -489,7 +516,7 @@
     {% set peer_names = [] %}
     {% for r in squad_lens.rows if r.country != 'CZE' %}{% set _ = peer_names.append(term(r.name)) %}{% endfor %}
     {% set total_unmatched = squad_lens.rows | sum(attribute='unmatched') %}
-    <h3>{{ t('ch2.f.h3', event=squad_lens.event) }}</h3>
+    <h3 id="exhibit-f">{{ t('ch2.f.h3', event=squad_lens.event) }}</h3>
     <p>
       {{ t('ch2.f.p', n=cze_row.n, event=squad_lens.event, season=squad_lens.season_label, peers=peer_names | join(', ')) }}
     </p>

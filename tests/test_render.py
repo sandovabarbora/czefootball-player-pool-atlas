@@ -180,7 +180,10 @@ def test_findings_are_five_and_each_ends_with_asterisk():
     assert len(ctx["findings"]) == 5
     assert all(f["text"].endswith("*") and f["foot"] for f in ctx["findings"])
     html = _render(ctx)
-    assert 'class="findings"' in html and "Method note" in html
+    # Task 11: the method note fold is gone; its content is the mono line
+    # under the "For a federation" tiles, right after the argument list.
+    assert 'class="findings"' in html
+    assert 'class="for-federation"' in html and "Run for England" in html
 
 
 def test_findings_have_a_figure_field_for_the_tile_headline():

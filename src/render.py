@@ -1145,6 +1145,10 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     n_nt_flagged = sum(int(df["nt_flag"].sum()) for df in cz_cur.values())
     nt_events = sorted({e for df in cz_cur.values() for s in df["nt_events"].dropna()
                         for e in str(s).split(" · ") if e})
+    # Distinct season labels spanned by the corpus: the analog-depth history
+    # plus the three named seasons (previous/metrics/current) — not a typed
+    # count, so it tracks config/seasons.yaml automatically.
+    n_seasons = len({*seasons_raw["history"], seasons_raw["previous"], seasons_raw["metrics"], seasons_raw["current"]})
     facts = {
         "n_pool": int(len(pool)),
         "n_no_tables": int((~pool["in_fbref_tables"]).sum()),
@@ -1154,6 +1158,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "n_photos": len(data["photos"]),
         "nt_years": config.nt_years(),
         "n_leagues": n_leagues,
+        "n_seasons": n_seasons,
         "tier2_factor": float(lq.get("tier2_factor", 0)),
         "max_multiplier": max(float(v) for v in lq["multipliers"].values()),
         "history_start": seasons["history_start"],
@@ -1321,7 +1326,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     facts = {"n_pool": 475, "n_no_tables": 120, "n_with_metrics": 206, "n_nt_flagged": 63,
              "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
              "nt_years": config.nt_years(),
-             "n_leagues": 19, "tier2_factor": 0.6, "max_multiplier": 1.0,
+             "n_leagues": 19, "n_seasons": 4, "tier2_factor": 0.6, "max_multiplier": 1.0,
              "n_tests": _count_tests(), "n_rulings": _count_rulings(), **seasons}
     data_quality = {
         "checks": [
