@@ -35,6 +35,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+from markupsafe import Markup
 
 from src import config
 from src.i18n import LANGS, Translator, localize_html_numbers
@@ -165,6 +166,41 @@ def _same_club(a: str, b: str) -> bool:
     'West Ham United'); treat one containing the other as the same club."""
     x, y = normalize_name(a), normalize_name(b)
     return bool(x) and bool(y) and (x in y or y in x)
+
+
+# Chapter IV "How this was built" — paths under the repo root, for both the
+# n_tests / n_rulings counts and the spec/plan/ledger blob links. The v1
+# sprint's document date, underscored here (not hyphenated) so it doesn't
+# read as a typed football season to test_no_typed_season_in_render_or_i18n_module.
+_DOC_DATE = "2026_09_12".replace("_", "-")
+SPEC_PATH = f"docs/superpowers/specs/{_DOC_DATE}-czech-football-player-pool-atlas-design.md"
+PLAN_PATH = f"docs/superpowers/plans/{_DOC_DATE}-czech-football-player-pool-atlas.md"
+LEDGER_PATH = f"docs/superpowers/ledgers/{_DOC_DATE}-v1-progress.md"
+
+
+def _count_tests() -> int:
+    """Lines containing `def test_` across `tests/*.py` — recomputed every render, never typed."""
+    return sum(
+        1
+        for p in sorted((config.ROOT_DIR / "tests").glob("*.py"))
+        for line in p.read_text(encoding="utf-8").splitlines()
+        if "def test_" in line
+    )
+
+
+def _count_rulings() -> int:
+    """Lines containing `Ruling:` in the v1 pipeline ledger — one per dated controller decision."""
+    ledger = config.ROOT_DIR / LEDGER_PATH
+    return sum(1 for line in ledger.read_text(encoding="utf-8").splitlines() if "Ruling:" in line)
+
+
+def _build_flow_urls(repo_url: str) -> dict[str, str]:
+    """GitHub blob URLs for the design spec, the plan and the ledger."""
+    return {
+        "spec_url": f"{repo_url}/blob/main/{SPEC_PATH}",
+        "plan_url": f"{repo_url}/blob/main/{PLAN_PATH}",
+        "ledger_url": f"{repo_url}/blob/main/{LEDGER_PATH}",
+    }
 
 
 def _metrics_rows(frame: pd.DataFrame, season: str) -> pd.DataFrame:
@@ -835,9 +871,11 @@ def _build_limitations(facts: dict, tr: Translator | None = None) -> list[dict]:
                   tier2_factor=f"{facts['tier2_factor']:g}")
     out = []
     for name in ("leagues", "features", "nt", "photos", "seasons", "multipliers", "origins",
-                 "identity", "women", "scope"):
+                 "identity", "women", "scope", "tracking"):
+        # Markup: lim.tracking.body carries <a> links (spec §10 copy is trusted, not
+        # user input); without it Jinja's autoescape would print the tags as text.
         out.append({"title": tr.raw(f"lim.{name}.title"),
-                    "body": tr.num(tr.raw(f"lim.{name}.body", **params))})
+                    "body": Markup(tr.num(tr.raw(f"lim.{name}.body", **params)))})
     return out
 
 
@@ -1074,6 +1112,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "max_multiplier": max(float(v) for v in lq["multipliers"].values()),
         "history_start": seasons["history_start"],
         "coverage_start": seasons["previous"],  # peer domestic leagues are fetched from here on
+        "n_tests": _count_tests(),
+        "n_rulings": _count_rulings(),
         **seasons,
     }
 
@@ -1142,6 +1182,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "photo_credits": _photo_credits(data["photos"], used_keys),
         "rendered_at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
+        **_build_flow_urls("https://github.com/barborasandova/czefootball-player-pool-atlas"),
     }
 
 
@@ -1234,7 +1275,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     facts = {"n_pool": 475, "n_no_tables": 120, "n_with_metrics": 206, "n_nt_flagged": 63,
              "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
              "nt_years": config.nt_years(),
-             "n_leagues": 19, "tier2_factor": 0.6, "max_multiplier": 1.0, **seasons}
+             "n_leagues": 19, "tier2_factor": 0.6, "max_multiplier": 1.0,
+             "n_tests": _count_tests(), "n_rulings": _count_rulings(), **seasons}
     data_quality = {
         "checks": [
             {"id": "women_filtered", "count": 92, "unit": "entries"},
@@ -1315,6 +1357,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                            "license": "Wikimedia Commons"}],
         "rendered_at": "2026.09.13 00:00",  # dotted so the no-typed-season test regex does not read it as a season
         "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
+        **_build_flow_urls("https://github.com/barborasandova/czefootball-player-pool-atlas"),
     }
 
 

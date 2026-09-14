@@ -55,6 +55,7 @@ EN: dict[str, str] = {
     "toc.data_quality": "Data-quality log",
     "toc.limitations": "Limitations",
     "toc.reproducibility": "Reproducibility",
+    "toc.how_built": "How this was built",
     "toc.short.benchmark": "Benchmark",
     "toc.short.cards": "Cards",
     "toc.short.analogs": "Analogs",
@@ -320,6 +321,14 @@ EN: dict[str, str] = {
     "ch4.lim.h3": "Limitations of this analysis",
     "ch4.repro.h3": "Reproducibility",
     "ch4.repro.p": "The full pipeline is public: <a href=\"{url}\">{url_short}</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed {seed} for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.",
+    "ch4.built.h3": "How this was built",
+    "ch4.built.p1": "The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — {n_rulings} for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under {n_tests} tests.",
+    "ch4.built.flow.spec": "Spec",
+    "ch4.built.flow.plan": "Plan",
+    "ch4.built.flow.agent": "Task agent",
+    "ch4.built.flow.review": "Reviews",
+    "ch4.built.flow.ledger": "Ledger",
+    "ch4.built.p2": "Spec: <a href=\"{spec}\">design</a> · plan: <a href=\"{plan}\">tasks</a> · ledger: <a href=\"{ledger}\">rulings</a>.",
 
     # ---- footer
     "foot.kicker": "Football intelligence consultant",
@@ -374,6 +383,8 @@ EN: dict[str, str] = {
     "lim.women.body": "FBref's country page mixes men's and women's competitions. Entries whose surname ends in -ová were dropped from the pool; a woman with a different surname ending would survive the filter, and a man with that ending would not.",
     "lim.scope.title": "No market values, no scouting",
     "lim.scope.body": "Transfer fees, market values, video and scouting reports are outside the public sources used here. The map describes statistical footprints and counts; selection and development decisions require the federation's own data and expertise, which this method does not have.",
+    "lim.tracking.title": "No event or tracking data",
+    "lim.tracking.body": "Every feature here is a season aggregate from free FBref tables. The author's tracking work lives elsewhere: <a href=\"https://github.com/sandovabarbora/tactical-cz\">tactical-cz</a> (broadcast-video player tracking for Czech football) and the hockey video PoC linked from <a href=\"https://hockey.datasimply.eu\">hockey.datasimply.eu</a>.",
 
     # ---- generated: sensitivity descriptions
     "sens.baseline": "current multipliers from config/league_quality.yaml",

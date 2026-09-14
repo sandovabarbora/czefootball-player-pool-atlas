@@ -214,7 +214,7 @@ sub(r'<td data-player-key="([^"]+)">([^<]+)</td>', lambda m: f'<td>{chip(m.group
 def lim_fold(m):
     title, text = m.group(1), m.group(2).strip()
     return f'<details class="fold fold-lim"><summary>{title}</summary><p>{text}</p></details>'
-sub(r'<p><strong>([^<]+?)\.?</strong>\s*(.*?)</p>', lim_fold, 10, re.S)
+sub(r'<p><strong>([^<]+?)\.?</strong>\s*(.*?)</p>', lim_fold, 11, re.S)
 sub(r'(<div class="limitations">\s*)<details class="fold fold-lim">', r'\1<details class="fold fold-lim" open>', 1)
 
 # historical analogs: each list folds; the first target stays open

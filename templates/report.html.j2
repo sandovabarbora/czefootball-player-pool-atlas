@@ -65,6 +65,7 @@
         <li><a href="#data-quality">{{ t('toc.data_quality') }}</a></li>
         <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
         <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
+        <li><a href="#how-built">{{ t('toc.how_built') }}</a></li>
       </ol>
     </li>
   </ol>
@@ -823,6 +824,17 @@
 
     <h3 id="reproducibility">{{ t('ch4.repro.h3') }}</h3>
     <p>{{ t('ch4.repro.p', url=repo_url, url_short=repo_url | replace('https://', ''), seed=seed) }}</p>
+
+    <h3 id="how-built">{{ t('ch4.built.h3') }}</h3>
+    <p>{{ t('ch4.built.p1', n_rulings=facts.n_rulings, n_tests=facts.n_tests) }}</p>
+    <ol class="build-flow">
+      <li>{{ t('ch4.built.flow.spec') }}</li>
+      <li>{{ t('ch4.built.flow.plan') }}</li>
+      <li>{{ t('ch4.built.flow.agent') }}</li>
+      <li>{{ t('ch4.built.flow.review') }}</li>
+      <li>{{ t('ch4.built.flow.ledger') }}</li>
+    </ol>
+    <p>{{ t('ch4.built.p2', spec=spec_url, plan=plan_url, ledger=ledger_url) }}</p>
   </div>
 </section>
 

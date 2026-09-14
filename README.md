@@ -168,6 +168,22 @@ Twelve showcase cards are picked by four rules; exhibits A–E live in the
 full design and its "Deviations from the design" section for where the
 shipped v1 departs from the original plan.
 
+## Portability
+
+`data/processed/*.parquet` are flat, one-row-per-entity tables, not nested
+documents: the player-level ones (`features_*.parquet`, `trajectory_*.parquet`)
+key on `player_key`, `league` and `season`; the country-level ones
+(`per_capita.parquet`, `cohorts.parquet`) key on `country`. Either way they
+load into BigQuery unchanged (`bq load --source_format=PARQUET`), so the
+benchmark, cohort-gap and cluster exhibits in this report could run as SQL
+over a warehouse instead of this pandas/Jinja2 pipeline. The peer country
+set for the per-capita benchmark is config-driven (`config/countries.yaml`);
+retargeting the pool itself at another federation means pointing
+`src/pool.py`'s FBref country-page fetch and the `nation == "CZE"`
+eligibility filters (`src/features.py`, `src/fetch_squads.py`) at a
+different country — the table schema and every downstream exhibit stay the
+same.
+
 ## Licence
 
 Code: MIT, see [LICENSE](LICENSE). Player portraits: Wikimedia Commons,

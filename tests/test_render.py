@@ -25,12 +25,13 @@ from src.render import (
     build_context,
     build_context_from_fixtures,
     load_data,
+    render_html,
 )
 
 SECTION_IDS = (
     "summary", "findings", "benchmark", "observations", "clusters", "trajectories", "pathways",
     "cards", "analogs", "methodology", "multipliers", "shrinkage", "pca-loadings",
-    "sensitivity", "limitations", "reproducibility", "photo-credits",
+    "sensitivity", "limitations", "how-built", "reproducibility", "photo-credits",
 )
 
 
@@ -190,6 +191,12 @@ def test_findings_use_squad_lens_when_present_and_fall_back_otherwise():
     no_lens = _build_findings(ctx["hero"], ctx["cohort_gaps"], ctx["pathways"], {}, ctx["seasons"], ctx["t"])
     assert len(no_lens) == 5
     assert "sideways" in no_lens[4]["text"].lower()
+
+
+def test_how_built_section_counts_tests_and_rulings():
+    ctx = build_context_from_fixtures("en")
+    html = render_html(ctx)
+    assert 'id="how-built"' in html and str(ctx["facts"]["n_tests"]) in html
 
 
 def test_no_typed_season_in_render_or_i18n_module():
