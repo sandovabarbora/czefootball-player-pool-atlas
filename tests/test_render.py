@@ -183,6 +183,43 @@ def test_findings_are_five_and_each_ends_with_asterisk():
     assert 'class="findings"' in html and "Method note" in html
 
 
+def test_findings_have_a_figure_field_for_the_tile_headline():
+    ctx = build_context_from_fixtures("en")
+    assert all(f.get("figure") for f in ctx["findings"])
+
+
+def test_card_rows_merge_the_national_team_core_rules_into_one_row():
+    from src.render import _card_rows
+
+    def card(reason: str, key: str) -> dict:
+        return {"player_key": key, "reason": reason}
+
+    cards = [
+        card("highest quality-adjusted npG+A per 90 among FW", "a"),
+        card("most top-9 minutes among 2026 FIFA World Cup squad FW", "b"),
+        card("most domestic minutes among 2026 FIFA World Cup squad FW", "c"),
+        card("youngest national-team call-up among FW", "d"),
+    ]
+    rows = _card_rows(cards, nt_core_event="2026 FIFA World Cup")
+    assert [c["player_key"] for c in rows[0]["cards"]] == ["a"]
+    # merged row: top-9 trio then home trio, one kicker
+    assert [c["player_key"] for c in rows[1]["cards"]] == ["b", "c"]
+    assert rows[1]["kicker"].startswith("National-team core")
+    assert [c["player_key"] for c in rows[2]["cards"]] == ["d"]
+
+
+def test_toc_drops_findings_data_quality_how_built_but_ids_remain():
+    ctx = build_context_from_fixtures("en")
+    html = _render(ctx)
+    toc_sticky = html.split('<nav class="toc-sticky"')[1].split("</nav>")[0]
+    toc_mobile = html.split('<details class="toc-mobile"')[1].split("</details>")[0]
+    for frag in (toc_sticky, toc_mobile):
+        assert 'href="#findings"' not in frag
+        assert 'href="#data-quality"' not in frag
+        assert 'href="#how-built"' not in frag
+    assert 'id="findings"' in html and 'id="data-quality"' in html and 'id="how-built"' in html
+
+
 def test_findings_use_squad_lens_when_present_and_fall_back_otherwise():
     ctx = build_context_from_fixtures("en")
     squad_text = ctx["findings"][4]["text"]
@@ -216,9 +253,11 @@ def test_template_renders_with_real_context():
     _check(html, GROUPS)
     n_rules = len(RULE_KICKERS)
     assert 3 * (n_rules - 1) <= len(ctx["cards"]) <= 3 * n_rules   # one card per group per rule, last rule may miss a group
-    # kicker.ntcore's label carries a formatted {event}, so it only *starts with*
-    # its short RULE_KICKERS label rather than matching it exactly.
-    expected = [k for _, k in RULE_KICKERS][:len(ctx["card_rows"])]
+    # Display rows (task 9) merge the two national-team-core rules into one
+    # row; a merged or {event}-carrying kicker only *starts with* its short
+    # label rather than matching it exactly.
+    expected = ["Highest quality-adjusted production", "National-team core", "Youngest national-team call-up",
+                "Most top-9 minutes", "Most domestic minutes under 23, no top-9 season yet"][:len(ctx["card_rows"])]
     assert [r["kicker"].startswith(k) for r, k in zip(ctx["card_rows"], expected, strict=True)] == [True] * len(expected)
     assert all(c["club"] and c["age_current"] for c in ctx["cards"])
     current = season_label(config.seasons()["current"])

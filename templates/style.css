@@ -418,42 +418,51 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
 }
 
 /* =========================================================================
-   Findings — five computed one-liners + method note, right after the hero
+   Findings — five computed tiles + method note, right after the hero
+   (task 9 "de-clutter": a grid of number tiles replaces the numbered
+   sentence list; footnotes collapse into one line under the grid)
    ========================================================================= */
 .findings { padding: var(--space-6) 0 var(--space-5); }
 .findings h3 { margin: 0 0 var(--space-4); }
-.findings-list {
-  margin: 0 0 var(--space-5);
+.findings-grid {
+  margin: 0 0 var(--space-3);
   padding: 0;
   list-style: none;
-  counter-reset: finding;
   display: grid;
-  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
 }
-.findings-list li {
-  counter-increment: finding;
-  padding: var(--space-3) 0 var(--space-3) 2.6rem;
-  border-top: 1px solid var(--rule);
-  position: relative;
+@media (min-width: 640px) {
+  .findings-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-.findings-list li:first-child { border-top: 2px solid var(--navy-700); }
-.findings-list li::before {
-  content: counter(finding, decimal-leading-zero);
-  position: absolute;
-  left: 0;
-  top: var(--space-3);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--oxblood-700);
+@media (min-width: 1100px) {
+  .findings-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
-.findings-list li p:first-child {
-  margin: 0 0 var(--space-2);
+.findings-grid li {
+  background: var(--cream-50);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.finding-figure {
+  display: block;
   font-family: var(--font-display);
-  font-size: 1.08rem;
+  font-weight: 300;
+  font-size: clamp(1.9rem, 1.3rem + 1.6vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--navy-700);
+  font-feature-settings: "tnum", "lnum";
+}
+.finding-line {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
   line-height: 1.5;
-  color: var(--ink);
-  max-width: var(--measure-wide);
+  color: var(--ink-soft);
 }
 .mono-foot {
   margin: 0;
@@ -462,21 +471,24 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   letter-spacing: 0.01em;
   color: var(--ink-soft);
 }
+.findings-foot { margin: 0 0 var(--space-5); line-height: 1.7; }
 .method-note {
   background: var(--cream-100);
   border-left: 3px solid var(--navy-700);
   padding: var(--space-4) var(--space-5);
   max-width: var(--measure-wide);
 }
-.method-note h4 {
-  margin: 0 0 var(--space-2);
+.method-note summary {
+  margin: 0;
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--navy-700);
+  cursor: pointer;
 }
+.method-note[open] summary { margin: 0 0 var(--space-2); }
 .method-note p {
   margin: 0;
   font-size: 0.92rem;
@@ -990,6 +1002,93 @@ table .muted { color: var(--muted); font-size: 0.85rem; }
   font-size: 0.88rem;
   font-weight: 500;
 }
+
+/* =========================================================================
+   Exhibit F — squad-by-tier stacked bars (task 9 "de-clutter": replaces the
+   12-column table; the full table moves into a fold below the bars)
+   ========================================================================= */
+.tier-bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  margin: var(--space-3) 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.tier-bar-legend li { display: inline-flex; align-items: center; gap: 0.45em; }
+.tier-swatch {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border: 1px solid var(--rule);
+}
+.tier-swatch.tier-top9 { background: var(--navy-700); }
+.tier-swatch.tier-stepping { background: var(--oxblood-700); }
+.tier-swatch.tier-domestic { background: var(--cream-200); }
+.tier-swatch.tier-other { background: var(--muted); }
+
+.tier-bars {
+  margin: 0 0 var(--space-3);
+  border-top: 1px solid var(--rule);
+}
+.tier-bar-row {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.tier-bar-row[data-highlight="cze"] {
+  background: linear-gradient(to right, color-mix(in oklch, var(--oxblood-200), transparent 50%), transparent 70%);
+  margin: 0 -0.6rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+.tier-bar-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0 0 0.35rem;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.tier-bar-head .capita-code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-right: 0.3rem;
+  letter-spacing: 0.03em;
+}
+.tier-bar-row[data-highlight="cze"] .tier-bar-head { color: var(--oxblood-700); font-weight: 700; }
+.tier-bar-row[data-highlight="cze"] .tier-bar-head .capita-code { color: var(--oxblood-700); }
+.tier-bar {
+  display: flex;
+  width: 100%;
+  height: 0.8rem;
+  background: var(--cream-100);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+.tier-seg { display: block; height: 100%; }
+.tier-seg.tier-top9 { background: var(--navy-700); }
+.tier-seg.tier-stepping { background: var(--oxblood-700); }
+.tier-seg.tier-domestic { background: var(--cream-200); }
+.tier-seg.tier-other { background: var(--muted); }
+.tier-seg.tier-unmatched {
+  background-color: var(--cream-50);
+  background-image: repeating-linear-gradient(45deg, var(--rule) 0 3px, transparent 3px 6px);
+}
+.tier-bar-value {
+  margin-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum";
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+.tier-bar-row[data-highlight="cze"] .tier-bar-value { color: var(--oxblood-700); font-weight: 700; }
 
 /* =========================================================================
    Cohort gap tables (intl benchmark)

@@ -190,6 +190,7 @@ strings:
   ch2.f.th.c2629: "26–29"
   ch2.f.th.c30plus: "30+"
   ch2.f.note: "* {unmatched} hráčů soupisky nemá řádku {season} v natažených ligách a počítají se jako nespárovaní."
+  ch2.f.detail: "Minuty, násobičky a věkové kohorty podle zemí"
 
   # ---- chapter III
   ch3.aria: "Kapitola III"
@@ -197,7 +198,8 @@ strings:
   ch3.synopsis: "{n} karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší kvalitou upravené npG+A na 90 minut, nejmladší reprezentační nominace, nejvíc minut v top-{topn} ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-{topn} lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností."
   ch3.cards.h2: "Karty hráčů"
   ch3.cards.framing: "Jedna integrovaná karta na hráče, jedna řada na výběrové pravidlo: produkce {metrics}, umístění v clusteru v obou projekcích, taktické čtení clusteru, trajektorie {previous} → {metrics} a {n} nejbližší analogy. Klub na řádku se jménem je klub {current}; blok statistik je {metrics}. Popis, ne predikce."
-  ch3.cards.rules: "Proč tyto karty: jedna karta na post na pravidlo, v tomto pořadí — (a) nejvyšší kvalitou upravené npG+A na 90 minut, (b) nejmladší reprezentační nominace, (c) nejvíc minut v top-9 ligách mezi nominovanými na {event}, (d) nejvíc minut v domácí lize mezi nominovanými na {event}, (e) nejvíc minut v top-9 ligách, (f) nejvíc domácích minut do 23 let bez sezóny v top-9 lize. Hráč vybraný dřívějším pravidlem propadá na další jméno, takže pozdější řada může ukázat druhé jméno podle svého měřítka."
+  ch3.cards.rules: "Proč tyto karty: jedna karta na post na pravidlo, v tomto pořadí — (a) nejvyšší kvalitou upravené npG+A na 90 minut, (b) nejmladší reprezentační nominace, (c) nejvíc minut v top-9 ligách mezi nominovanými na {event}, (d) nejvíc minut v domácí lize mezi nominovanými na {event}, (e) nejvíc minut v top-9 ligách, (f) nejvíc domácích minut do 23 let bez sezóny v top-9 lize. Hráč vybraný dřívějším pravidlem propadá na další jméno, takže pozdější řada může ukázat druhé jméno podle svého měřítka. Řady seskupují šest pravidel; řada jádra reprezentace obsahuje dvě z nich."
+  ch3.cards.more: "Dalších {n} karet — nejmladší nominovaní, nejvíc minut v top-9, domácí do 23 let"
   ch3.card.nt: "reprezentace {nt_years}"
   ch3.card.latest_known: "poslední známý"
   ch3.card.stat.q: "npG+A/90 quality"
@@ -284,6 +286,7 @@ strings:
   ch4.dq.col.count: "Počet"
   ch4.dq.col.what: "Co počítá"
   ch4.dq.recorded: "{n} {unit}, zaznamenáno"
+  ch4.dq.summary: "{n_checks} přepočítaných kontrol · {n_events} zaznamenaných incidentů"
   dq.women_filtered.label: "Odfiltrované ženské položky"
   dq.women_filtered.what: "Položky na stránce země FBref vypuštěné pro příjmení končící na -ová (viz Limitace)."
   dq.namesakes.label: "Jmenovci ve fondu"
@@ -300,6 +303,7 @@ strings:
   ch4.repro.h3: "Reprodukovatelnost"
   ch4.repro.p: "Celá pipeline je veřejná: <a href=\"{url}\">{url_short}</a>. Licence MIT. Z čistého klonu <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> vykreslí tento report z commitnutého datového snapshotu a <code>make pages</code> sestaví web; <code>make all</code> vše znovu stáhne a spustí celou pipeline. Náhodný seed {seed} pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě."
   ch4.built.h3: "Jak report vznikl"
+  ch4.built.summary: "Spec → plán → agenti na tasky → review → ledger · {n_rulings} rozhodnutí · {n_tests} testů"
   ch4.built.p1: "Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — {n_rulings} pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod {n_tests} testy."
   ch4.built.flow.spec: "Specifikace"
   ch4.built.flow.plan: "Plán"
@@ -339,6 +343,7 @@ strings:
   kicker.domestic: "Nejvíc domácích minut do 23 let, zatím bez sezóny v top-9 lize"
   kicker.ntcore: "Jádro reprezentace — nejvíc minut v top-9 ligách mezi nominovanými na {event}"
   kicker.ntcore_home: "Jádro reprezentace doma — nejvíc minut v domácí lize mezi nominovanými na {event}"
+  kicker.ntcore_merged: "Jádro reprezentace — nominace na {event}: nejvíc minut v top-9 ligách, nejvíc minut v domácí lize"
   kicker.other: "Jiná pravidla"
 
   # ---- generated: limitations

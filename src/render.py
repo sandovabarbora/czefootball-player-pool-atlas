@@ -83,6 +83,20 @@ RULE_KICKER_KEYS = {
     "most top-9 minutes among": "kicker.ntcore",
     "most domestic minutes among": "kicker.ntcore_home",
 }
+# Display grouping for the cards section (task 9, "de-clutter"): the two
+# national-team-core rules (top-9 and domestic-league minutes among the event
+# squad) share one row, kicker `kicker.ntcore_merged`, cards in the order
+# top-9 trio then home trio. Row order: highest quality-adjusted, NT core
+# merged, youngest call-up, most top-9 minutes, domestic U23. This is a
+# *display* regrouping of the same six RULE_KICKERS rules above; the card
+# count bound in tests still reasons about the six underlying rules.
+CARD_ROW_ORDER: list[list[str]] = [
+    ["highest quality-adjusted"],
+    ["most top-9 minutes among", "most domestic minutes among"],
+    ["youngest national-team"],
+    ["most top-9 league minutes"],
+    ["most domestic-league minutes"],
+]
 DESTINATION_LABELS = {
     "domestic": "domestic", "top9": "top-9", "stepping_stone": "stepping stone",
     "peer_domestic": "peer country league", "other": "other",
@@ -479,20 +493,29 @@ def _current_club(key: str, current_by_key: pd.DataFrame, pool_row: pd.Series | 
 
 def _card_rows(cards: list[dict], tr: Translator | None = None,
                nt_core_event: str | None = None) -> list[dict]:
-    """Group cards by showcase rule, one row per rule, in RULE_KICKERS order.
+    """Group cards into display rows, in CARD_ROW_ORDER order (task 9).
 
-    The `kicker.ntcore` row carries the `{event}` placeholder (the national-team
-    core rule names the event it was drawn from); every other kicker is plain.
+    A row with two prefixes (the national-team-core row) concatenates their
+    members in prefix order — the top-9 trio then the home trio — and takes
+    the merged kicker `kicker.ntcore_merged`; every other row uses its single
+    rule's kicker. `kicker.ntcore`/`kicker.ntcore_merged` carry the `{event}`
+    placeholder; every other kicker is plain.
     """
     tr = tr or Translator("en")
     rows = []
-    for prefix, _kicker in RULE_KICKERS:
-        members = [c for c in cards if c["reason"].startswith(prefix)]
-        if members:
-            key = RULE_KICKER_KEYS[prefix]
+    matched: set[tuple[str, str]] = set()
+    for prefixes in CARD_ROW_ORDER:
+        members = [c for prefix in prefixes for c in cards if c["reason"].startswith(prefix)]
+        if not members:
+            continue
+        matched.update((c["player_key"], c["reason"]) for c in members)
+        if len(prefixes) > 1:
+            kicker = tr.raw("kicker.ntcore_merged", event=nt_core_event)
+        else:
+            key = RULE_KICKER_KEYS[prefixes[0]]
             kicker = tr.raw(key, event=nt_core_event) if key == "kicker.ntcore" else tr.raw(key)
-            rows.append({"kicker": kicker, "cards": members})
-    rest = [c for c in cards if not any(c["reason"].startswith(p) for p, _ in RULE_KICKERS)]
+        rows.append({"kicker": kicker, "cards": members})
+    rest = [c for c in cards if (c["player_key"], c["reason"]) not in matched]
     if rest:
         rows.append({"kicker": tr.raw("kicker.other"), "cards": rest})
     return rows
@@ -711,7 +734,7 @@ def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
             "n": n, "matched": c["matched"],
             "top9_pct": pct("top9"), "stepping_pct": pct("stepping_stone"),
             "domestic_pct": pct("domestic"), "other_pct": pct("other"),
-            "unmatched": tiers.get("unmatched", 0),
+            "unmatched": tiers.get("unmatched", 0), "unmatched_pct": pct("unmatched"),
             "cohorts": c["cohorts"],
             "median_minutes": c.get("median_minutes"),
             "median_multiplier": c.get("median_multiplier"),
@@ -725,11 +748,14 @@ def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
 
 def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: dict,
                     seasons: dict, tr: Translator) -> list[dict]:
-    """Five one-line findings for the summary, each `{"text", "foot"}`.
+    """Five one-line findings for the summary, each `{"figure", "text", "foot"}`.
 
-    Every number traces to `hero`, `gaps`, `pathways` or `squad_lens` — all
-    already built elsewhere in `build_context`. A finding whose source is
-    missing is skipped rather than rendered with a placeholder number.
+    `figure` is the finding's headline number, rendered as the big tile
+    figure in the findings grid; `text` is the same full sentence as before
+    (still ending in "*"), `foot` the source note. Every number traces to
+    `hero`, `gaps`, `pathways` or `squad_lens` — all already built elsewhere
+    in `build_context`. A finding whose source is missing is skipped rather
+    than rendered with a placeholder number.
     """
     findings: list[dict] = []
 
@@ -737,6 +763,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
     top = hero.get("top")
     if top and hero.get("per_million"):
         findings.append({
+            "figure": f"{hero['rank']}/{hero['n_peers']}",
             "text": tr.num(tr.raw(
                 "finding.1", rank=tr.ordinal(hero["rank"]), n=hero["n_peers"],
                 pm=f"{hero['per_million']:.2f}", top=tr.term(top["name"]),
@@ -750,6 +777,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
     if gaps:
         g = gaps[0]
         findings.append({
+            "figure": str(g["cze_n"]),
             "text": tr.num(tr.raw(
                 "finding.2", group=tr.term(g["group_title"]).lower(), cohort=g["cohort"],
                 cze=g["cze_n"], s=("" if g["cze_n"] == 1 or tr.lang != "en" else "s"),
@@ -763,6 +791,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
     if (export_cze and export_den and export_cze.get("median_export_age_recent") is not None
             and export_den.get("median_export_age_recent") is not None):
         findings.append({
+            "figure": f"{export_cze['median_export_age_recent']:g}",
             "text": tr.num(tr.raw(
                 "finding.3", cze=f"{export_cze['median_export_age_recent']:g}",
                 den=f"{export_den['median_export_age_recent']:g}",
@@ -776,6 +805,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
     if fare_cze and fare_others and pathways.get("fare_min_rank"):
         extreme = max(fare_others, key=lambda r: abs(r["value"] - fare_cze["value"]))
         findings.append({
+            "figure": f"{fare_cze['value'] * 100:.0f} %",
             "text": tr.num(tr.raw(
                 "finding.4", cze=f"{fare_cze['value'] * 100:.0f}",
                 rank=tr.ordinal(pathways["fare_min_rank"]), n=len(fare_min),
@@ -791,6 +821,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
     if cze_row and peer_rows:
         top_peer = max(peer_rows, key=lambda r: r["top9_pct"])
         findings.append({
+            "figure": f"{cze_row['top9_pct']:.0f} %",
             "text": tr.num(tr.raw(
                 "finding.5.squad", event=squad_lens["event"], cze=f"{cze_row['top9_pct']:.0f}",
                 peer=tr.term(top_peer["name"]), peer_pct=f"{top_peer['top9_pct']:.0f}",
@@ -801,6 +832,7 @@ def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: di
         dest = pathways.get("destinations")
         if dest and dest.get("sideways_share") is not None:
             findings.append({
+                "figure": f"{dest['sideways_share'] * 100:.0f} %",
                 "text": tr.num(tr.raw("finding.5.sideways", share=f"{dest['sideways_share'] * 100:.0f}")),
                 "foot": tr.raw("finding.5.sideways.foot"),
             })

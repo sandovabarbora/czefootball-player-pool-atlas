@@ -212,6 +212,7 @@ EN: dict[str, str] = {
     "ch2.f.th.c2629": "26–29",
     "ch2.f.th.c30plus": "30+",
     "ch2.f.note": "* {unmatched} squad players have no {season} row in the fetched leagues and are counted as unmatched.",
+    "ch2.f.detail": "Minutes, multipliers and age cohorts by country",
 
     # ---- chapter III
     "ch3.aria": "Chapter III",
@@ -219,7 +220,8 @@ EN: dict[str, str] = {
     "ch3.synopsis": "{n} player cards chosen by rules, not picks — per position group the highest quality-adjusted npG+A per 90, the youngest national-team call-up, the most minutes in the top-{topn} leagues, and the most domestic minutes among players under 23 without a top-{topn} season — each combining stats, cluster placement, tactical read, trajectory and the nearest historical analogs at the same age from the all-nationality corpus.",
     "ch3.cards.h2": "Player cards",
     "ch3.cards.framing": "One integrated card per showcase player, one row per selection rule: {metrics} production, cluster placement in both projections, the cluster's tactical read, the {previous} → {metrics} trajectory and the {n} nearest analogs. The club on the name line is the {current} club; the stats block is {metrics}. Description, not prediction.",
-    "ch3.cards.rules": "Why these cards: one card per position group per rule, applied in this order — (a) highest quality-adjusted npG+A per 90, (b) youngest national-team call-up, (c) most top-9 minutes among the {event} squad, (d) most domestic-league minutes among the {event} squad, (e) most top-9 minutes, (f) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure.",
+    "ch3.cards.rules": "Why these cards: one card per position group per rule, applied in this order — (a) highest quality-adjusted npG+A per 90, (b) youngest national-team call-up, (c) most top-9 minutes among the {event} squad, (d) most domestic-league minutes among the {event} squad, (e) most top-9 minutes, (f) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure. Rows group the six rules; the national-team core row holds two of them.",
+    "ch3.cards.more": "{n} more cards — youngest call-ups, most top-9 minutes, domestic under-23",
     "ch3.card.nt": "NT {nt_years}",
     "ch3.card.latest_known": "latest known",
     "ch3.card.stat.q": "npG+A/90 quality",
@@ -306,6 +308,7 @@ EN: dict[str, str] = {
     "ch4.dq.col.count": "Count",
     "ch4.dq.col.what": "What it counts",
     "ch4.dq.recorded": "{n} {unit}, recorded",
+    "ch4.dq.summary": "{n_checks} recomputed checks · {n_events} recorded incidents",
     "dq.women_filtered.label": "Women's entries filtered",
     "dq.women_filtered.what": "FBref country-page entries dropped for a surname ending in -ová (see Limitations).",
     "dq.namesakes.label": "Namesakes in the pool",
@@ -322,6 +325,7 @@ EN: dict[str, str] = {
     "ch4.repro.h3": "Reproducibility",
     "ch4.repro.p": "The full pipeline is public: <a href=\"{url}\">{url_short}</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed {seed} for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.",
     "ch4.built.h3": "How this was built",
+    "ch4.built.summary": "Spec → plan → task agents → reviews → ledger · {n_rulings} rulings · {n_tests} tests",
     "ch4.built.p1": "The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — {n_rulings} for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under {n_tests} tests.",
     "ch4.built.flow.spec": "Spec",
     "ch4.built.flow.plan": "Plan",
@@ -361,6 +365,7 @@ EN: dict[str, str] = {
     "kicker.domestic": "Most domestic minutes under 23, no top-9 season yet",
     "kicker.ntcore": "National-team core — most top-9 minutes in the {event} squad",
     "kicker.ntcore_home": "National-team core at home — most domestic-league minutes in the {event} squad",
+    "kicker.ntcore_merged": "National-team core — {event} squad: most top-9 minutes, most home-league minutes",
     "kicker.other": "Other rules",
 
     # ---- generated: limitations

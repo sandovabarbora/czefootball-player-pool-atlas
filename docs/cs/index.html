@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609141206">
-  <link rel="stylesheet" href="../modern.css?v=202609141206">
+  <link rel="stylesheet" href="../style.css?v=202609141325">
+  <link rel="stylesheet" href="../modern.css?v=202609141325">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609141206"></script>
+  <script defer src="../atlas.js?v=202609141325"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -49,7 +49,6 @@
         <li><a href="#trajectories">Trajektorie</a></li>
       </ol>
     </li>
-    <li><a href="#findings">Zjištění</a></li>
     <li><a href="#pathways">Odkud odjíždí vlak</a></li>
     <li><a href="#cards">Karty a analogy</a>
       <ol>
@@ -64,10 +63,8 @@
         <li><a href="#shrinkage">Bayesovský shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Analýza citlivosti</a></li>
-        <li><a href="#data-quality">Log kvality dat</a></li>
         <li><a href="#limitations">Limitace</a></li>
         <li><a href="#reproducibility">Reprodukovatelnost</a></li>
-        <li><a href="#how-built">Jak report vznikl</a></li>
       </ol>
     </li>
   </ol>
@@ -85,8 +82,8 @@
     </dl>
 
     <a class="cast" href="#cards">
-      <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Václav Sejk">VS</span><span class="cast-mono" aria-label="David Planka">DP</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span><span class="cast-mono" aria-label="Pavel Šulc">PS</span><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
-      <span class="cast-caption" data-short="14 profilů hráčů">14 profilů hráčů</span>
+      <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
+      <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
   </div>
 </header>
@@ -134,17 +131,44 @@
   </div>
 </section>
 
-
 <section class="findings" id="findings">
   <div class="container">
     <h3>Pět zjištění</h3>
-    <ol class="findings-list">
-      <li><p>Hustota na obyvatele řadí český fond na 7. místo z 9 zemí v peer sadě s 2,39 na milion; Dánsko vede s 12,58 na milion, 5,3krát vyšší hustotou.*</p><p class="mono-foot">Zdroj: hustota na obyvatele, § Benchmark vs peer země, soupisky 2025/26.</p></li><li><p>Největší kohortová mezera — záložníci 23-25: 2 v Česku proti peer mediánu 6.*</p><p class="mono-foot">Zdroj: pořadí kohortových mezer, § Benchmark vs peer země.</p></li><li><p>Nedávný český export se poprvé dostal na soupisku sledované ligy v mediánovém věku 22; dánský v 22.*</p><p class="mono-foot">Zdroj: Exhibit B — exportní trasa.</p></li><li><p>České exporty mají 50 % klubových minut — 3. místo z 9 zemí v peer sadě; nejvzdálenější peer, Slovensko, je na 76 %.*</p><p class="mono-foot">Zdroj: Exhibit C — jak se exportům daří.</p></li><li><p>35 % nominace 2026 FIFA World Cup hraje za klub top-9 ligy; nejvýš z peer zemí je Švýcarsko s 88 %.*</p><p class="mono-foot">Zdroj: F · nominace 2026 FIFA World Cup podle ligové úrovně.</p></li>
-    </ol>
-    <aside class="method-note">
-      <h4>Poznámka k metodě — co je přenositelné</h4>
+    <ul class="findings-grid">
+      
+      <li>
+        <strong class="finding-figure">7/9</strong>
+        <span class="finding-line">Hustota na obyvatele řadí český fond na 7. místo z 9 zemí v peer sadě s 2,39 na milion; Dánsko vede s 12,58 na milion, 5,3krát vyšší hustotou.¹</span>
+      </li>
+      
+      <li>
+        <strong class="finding-figure">2</strong>
+        <span class="finding-line">Největší kohortová mezera — záložníci 23-25: 2 v Česku proti peer mediánu 6.²</span>
+      </li>
+      
+      <li>
+        <strong class="finding-figure">22</strong>
+        <span class="finding-line">Nedávný český export se poprvé dostal na soupisku sledované ligy v mediánovém věku 22; dánský v 22.³</span>
+      </li>
+      
+      <li>
+        <strong class="finding-figure">50 %</strong>
+        <span class="finding-line">České exporty mají 50 % klubových minut — 3. místo z 9 zemí v peer sadě; nejvzdálenější peer, Slovensko, je na 76 %.⁴</span>
+      </li>
+      
+      <li>
+        <strong class="finding-figure">35 %</strong>
+        <span class="finding-line">35 % nominace 2026 FIFA World Cup hraje za klub top-9 ligy; nejvýš z peer zemí je Švýcarsko s 88 %.⁵</span>
+      </li>
+      
+    </ul>
+    <p class="mono-foot findings-foot">
+      ¹&nbsp;Zdroj: hustota na obyvatele, § Benchmark vs peer země, soupisky 2025/26. &middot; ²&nbsp;Zdroj: pořadí kohortových mezer, § Benchmark vs peer země. &middot; ³&nbsp;Zdroj: Exhibit B — exportní trasa. &middot; ⁴&nbsp;Zdroj: Exhibit C — jak se exportům daří. &middot; ⁵&nbsp;Zdroj: F · nominace 2026 FIFA World Cup podle ligové úrovně.
+    </p>
+    <details class="fold method-note">
+      <summary>Poznámka k metodě — co je přenositelné</summary>
       <p>Nic v metodě není specifické pro český fotbal: vstupem je kód národnosti (dnes konstanta v několika modulech, zatím ne klíč v configu), sada peer zemí a seznam lig. Spuštěná pro Anglii by vyprodukovala stejné exhibity pro anglické hráče v zahraničí i doma. Její data jsou tabulky FBref v bezplatné úrovni; stejná cesta kódu přijme bohatší event nebo tracking featury jako další sloupce feature vektoru.</p>
-    </aside>
+    </details>
   </div>
 </section>
 
@@ -156,7 +180,7 @@
     <h3 id="benchmark">Strukturální benchmark vs peer země</h3>
     <p>Fotbalová intuice zná český fond hráč po hráči. <strong>Jeho strukturální pozice mezi peer zeměmi potřebuje agregaci, kterou nikdo nedrží na jednom místě.</strong> Tři čísla níže se obvykle nesbírají pohromadě.</p>
 
-    <h4>Hustota hráčů top-9 lig na obyvatele (soupisky 2026/27)</h4>
+    <h4>Hustota hráčů top-9 lig na obyvatele (soupisky 2025/26)</h4>
     <div class="capita" role="list" aria-label="Hustota hráčů top lig na obyvatele podle země">
       
       <div class="capita-row" role="listitem"
@@ -260,7 +284,7 @@
       
     </div>
     <p class="capita-note">
-      * Čitatel: hráči s národností země podle FBref na soupisce 2026/27 v 9 hlavních ligách (ENG-Premier League, ITA-Serie A, ESP-La Liga, GER-Bundesliga, FRA-Ligue 1, NED-Eredivisie, POR-Primeira Liga, BEL-Pro League, TUR-Süper Lig); jmenovatel: populace Eurostat 2024. Česko: 26 hráčů ÷ 10,90 mil. = 2,39, pořadí 7 z 9.
+      * Čitatel: hráči s národností země podle FBref na soupisce 2025/26 v 9 hlavních ligách (ENG-Premier League, ITA-Serie A, ESP-La Liga, GER-Bundesliga, FRA-Ligue 1, NED-Eredivisie, POR-Primeira Liga, BEL-Pro League, TUR-Süper Lig); jmenovatel: populace Eurostat 2024. Česko: 26 hráčů ÷ 10,90 mil. = 2,39, pořadí 7 z 9.
     </p>
 
     <figure class="figure-bleed" data-atlas="heatmap">
@@ -1000,7 +1024,7 @@
           <span class="cluster-meta-inline">
             CZE 12 z 395 · repre fond 5 · medián ročníku 1999
           </span>
-        </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">LH</span><span class="pchip-name">Lukáš Hůlka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DH</span><span class="pchip-name">Denis Halinský</span></span><span class="pchip"><img class="pchip-img" src="../img/players/54b2f056.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Martin Cedidla</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Martin Chlumecký</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,03 gólů ze hry a 0,03 asistencí na 90 minut, 84 % minut klubu, věk 25, 0,18 karet na 90 minut.
+        </span><span class="cluster-top"><span class="pchip"><img class="pchip-img" src="../img/players/08299b06.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">LH</span><span class="pchip-name">Lukáš Hůlka</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">DH</span><span class="pchip-name">Denis Halinský</span></span><span class="pchip"><img class="pchip-img" src="../img/players/54b2f056.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Martin Cedidla</span></span><span class="pchip"><img class="pchip-img" src="../img/players/3028e991.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Martin Chlumecký</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,03 gólů ze hry a 0,03 asistencí na 90 minut, 84 % minut klubu, věk 25, 0,18 karet na 90 minut.
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký).</span></div></details>
       
@@ -1020,7 +1044,7 @@
           <span class="cluster-meta-inline">
             CZE 8 z 275 · repre fond 2 · medián ročníku 2000
           </span>
-        </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">KP</span><span class="pchip-name">Karel Pojezný</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Matěj Chaluš</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FC</span><span class="pchip-name">Filip Čihák</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">EH</span><span class="pchip-name">Eric Hunál</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,02 gólů ze hry a 0,02 asistencí na 90 minut, 46 % minut klubu, věk 24, 0,36 karet na 90 minut.
+        </span><span class="cluster-top"><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">KP</span><span class="pchip-name">Karel Pojezný</span></span><span class="pchip"><img class="pchip-img" src="../img/players/254b831b.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">MC</span><span class="pchip-name">Matěj Chaluš</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">FC</span><span class="pchip-name">Filip Čihák</span></span><span class="pchip pchip-mono"><span class="pchip-initials" aria-hidden="true">EH</span><span class="pchip-name">Eric Hunál</span></span></span></summary><div class="cluster-body">Mediány korpusu: 0,02 gólů ze hry a 0,02 asistencí na 90 minut, 46 % minut klubu, věk 24, 0,36 karet na 90 minut.
         
         <span class="cluster-tactical"><span class="cluster-tactical-label">Taktické čtení</span>Soubojoví obránci — kartový podíl 2,5násobek mediánu obránců při rotační minutáži (46 %). Profil fyzického stopera (Pojezný, Chaluš, Čihák).</span></div></details>
       
@@ -1875,98 +1899,158 @@
     
     <h3>F · Soupiska 2026 FIFA World Cup podle ligové úrovně</h3>
     <p>
-      Kde hráli 2025/26 hráči nominovaní na 2026 FIFA World Cup — 26 jich je — vedle Švýcarsko, Chorvatsko, Norsko, Rakousko. Úroveň = liga hráčovy sezóny 2025/26 s nejvíce minutami.
+      Kde v sezóně 2025/26 hráli hráči nominovaní na 2026 FIFA World Cup (26 jmen), a totéž pro peer země na turnaji: Švýcarsko, Chorvatsko, Norsko, Rakousko. Úroveň = liga hráčovy sezóny 2025/26 s nejvíce minutami.
     </p>
-    <table class="kv-table">
-      <thead>
-        <tr>
-          <th>Země</th><th>Soupiska</th>
-          <th>Top-9 %</th><th>Odrazová %</th>
-          <th>Domácí %</th><th>Jiná %</th>
-          <th>Medián minut</th><th>Medián násobičky</th>
-          <th>U22</th><th>23–25</th>
-          <th>26–29</th><th>30+</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-        <tr class="cohort-cze">
-          <td><span class="capita-code">CZE</span> Česko</td>
-          <td>26</td>
-          <td>34,6 %</td>
-          <td>0,0 %</td>
-          <td>65,4 %</td>
-          <td>0,0 %</td>
-          <td>1826,5</td>
-          <td>0,434</td>
-          <td>1</td>
-          <td>6</td>
-          <td>10</td>
-          <td>9</td>
-        </tr>
-        
-        <tr>
-          <td><span class="capita-code">SUI</span> Švýcarsko</td>
-          <td>26</td>
-          <td>88,5 %</td>
-          <td>3,8 %</td>
-          <td>7,7 %</td>
-          <td>0,0 %</td>
-          <td>2132</td>
-          <td>0,788</td>
-          <td>1</td>
-          <td>5</td>
-          <td>10</td>
-          <td>10</td>
-        </tr>
-        
-        <tr>
-          <td><span class="capita-code">CRO</span> Chorvatsko</td>
-          <td>26</td>
-          <td>73,1 %</td>
-          <td>0,0 %</td>
-          <td>7,7 %</td>
-          <td>7,7 %</td>
-          <td>1857</td>
-          <td>0,807</td>
-          <td>1</td>
-          <td>6</td>
-          <td>11</td>
-          <td>8</td>
-        </tr>
-        
-        <tr>
-          <td><span class="capita-code">NOR</span> Norsko</td>
-          <td>26</td>
-          <td>69,2 %</td>
-          <td>0,0 %</td>
-          <td>0,0 %</td>
-          <td>0,0 %</td>
-          <td>1895</td>
-          <td>0,856</td>
-          <td>2</td>
-          <td>6</td>
-          <td>14</td>
-          <td>4</td>
-        </tr>
-        
-        <tr>
-          <td><span class="capita-code">AUT</span> Rakousko</td>
-          <td>26</td>
-          <td>69,2 %</td>
-          <td>3,8 %</td>
-          <td>11,5 %</td>
-          <td>7,7 %</td>
-          <td>1711,5</td>
-          <td>0,788</td>
-          <td>1</td>
-          <td>6</td>
-          <td>10</td>
-          <td>9</td>
-        </tr>
-        
-      </tbody>
-    </table>
+    <ul class="tier-bar-legend">
+      <li><span class="tier-swatch tier-top9" aria-hidden="true"></span>Top-9 %</li>
+      <li><span class="tier-swatch tier-stepping" aria-hidden="true"></span>Odrazová %</li>
+      <li><span class="tier-swatch tier-domestic" aria-hidden="true"></span>Domácí %</li>
+      <li><span class="tier-swatch tier-other" aria-hidden="true"></span>Jiná %</li>
+    </ul>
+    <div class="tier-bars" role="list" aria-label="F · Soupiska 2026 FIFA World Cup podle ligové úrovně">
+      
+      <div class="tier-bar-row" role="listitem" data-highlight="cze">
+        <div class="tier-bar-head">
+          <span class="capita-code">CZE</span> Česko
+          <span class="muted small">Soupiska 26</span>
+        </div>
+        <div class="tier-bar" role="img" aria-label="Česko: Top-9 % 35 %, Odrazová % 0 %, Domácí % 65 %, Jiná % 0 %">
+          <span class="tier-seg tier-top9" style="flex: 34.6 0 0"></span>
+          <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+          <span class="tier-seg tier-domestic" style="flex: 65.4 0 0"></span>
+          <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+          
+        </div>
+        <div class="tier-bar-value">35 %</div>
+      </div>
+      
+      <div class="tier-bar-row" role="listitem">
+        <div class="tier-bar-head">
+          <span class="capita-code">SUI</span> Švýcarsko
+          <span class="muted small">Soupiska 26</span>
+        </div>
+        <div class="tier-bar" role="img" aria-label="Švýcarsko: Top-9 % 88 %, Odrazová % 4 %, Domácí % 8 %, Jiná % 0 %">
+          <span class="tier-seg tier-top9" style="flex: 88.5 0 0"></span>
+          <span class="tier-seg tier-stepping" style="flex: 3.8 0 0"></span>
+          <span class="tier-seg tier-domestic" style="flex: 7.7 0 0"></span>
+          <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+          
+        </div>
+        <div class="tier-bar-value">88 %</div>
+      </div>
+      
+      <div class="tier-bar-row" role="listitem">
+        <div class="tier-bar-head">
+          <span class="capita-code">CRO</span> Chorvatsko
+          <span class="muted small">Soupiska 26</span>
+        </div>
+        <div class="tier-bar" role="img" aria-label="Chorvatsko: Top-9 % 73 %, Odrazová % 0 %, Domácí % 8 %, Jiná % 8 %">
+          <span class="tier-seg tier-top9" style="flex: 73.1 0 0"></span>
+          <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+          <span class="tier-seg tier-domestic" style="flex: 7.7 0 0"></span>
+          <span class="tier-seg tier-other" style="flex: 7.7 0 0"></span>
+          <span class="tier-seg tier-unmatched" style="flex: 11.5 0 0"></span>
+        </div>
+        <div class="tier-bar-value">73 %</div>
+      </div>
+      
+      <div class="tier-bar-row" role="listitem">
+        <div class="tier-bar-head">
+          <span class="capita-code">NOR</span> Norsko
+          <span class="muted small">Soupiska 26</span>
+        </div>
+        <div class="tier-bar" role="img" aria-label="Norsko: Top-9 % 69 %, Odrazová % 0 %, Domácí % 0 %, Jiná % 0 %">
+          <span class="tier-seg tier-top9" style="flex: 69.2 0 0"></span>
+          <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+          <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+          <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+          <span class="tier-seg tier-unmatched" style="flex: 30.8 0 0"></span>
+        </div>
+        <div class="tier-bar-value">69 %</div>
+      </div>
+      
+      <div class="tier-bar-row" role="listitem">
+        <div class="tier-bar-head">
+          <span class="capita-code">AUT</span> Rakousko
+          <span class="muted small">Soupiska 26</span>
+        </div>
+        <div class="tier-bar" role="img" aria-label="Rakousko: Top-9 % 69 %, Odrazová % 4 %, Domácí % 12 %, Jiná % 8 %">
+          <span class="tier-seg tier-top9" style="flex: 69.2 0 0"></span>
+          <span class="tier-seg tier-stepping" style="flex: 3.8 0 0"></span>
+          <span class="tier-seg tier-domestic" style="flex: 11.5 0 0"></span>
+          <span class="tier-seg tier-other" style="flex: 7.7 0 0"></span>
+          <span class="tier-seg tier-unmatched" style="flex: 7.7 0 0"></span>
+        </div>
+        <div class="tier-bar-value">69 %</div>
+      </div>
+      
+    </div>
+    <details class="fold fold-table">
+      <summary>Minuty, násobičky a věkové kohorty podle zemí</summary>
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th>Země</th>
+            <th>Medián minut</th><th>Medián násobičky</th>
+            <th>U22</th><th>23–25</th>
+            <th>26–29</th><th>30+</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr class="cohort-cze">
+            <td><span class="capita-code">CZE</span> Česko</td>
+            <td>1826,5</td>
+            <td>0,434</td>
+            <td>1</td>
+            <td>6</td>
+            <td>10</td>
+            <td>9</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">SUI</span> Švýcarsko</td>
+            <td>2132</td>
+            <td>0,788</td>
+            <td>1</td>
+            <td>5</td>
+            <td>10</td>
+            <td>10</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">CRO</span> Chorvatsko</td>
+            <td>1857</td>
+            <td>0,807</td>
+            <td>1</td>
+            <td>6</td>
+            <td>11</td>
+            <td>8</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">NOR</span> Norsko</td>
+            <td>1895</td>
+            <td>0,856</td>
+            <td>2</td>
+            <td>6</td>
+            <td>14</td>
+            <td>4</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">AUT</span> Rakousko</td>
+            <td>1711,5</td>
+            <td>0,788</td>
+            <td>1</td>
+            <td>6</td>
+            <td>10</td>
+            <td>9</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
     <p class="capita-note">* 13 hráčů soupisky nemá řádku 2025/26 v natažených ligách a počítají se jako nespárovaní.</p>
     
   </div>
@@ -1977,18 +2061,17 @@
   <p class="chapter-numeral">III</p>
   <span class="chapter-mark" aria-hidden="true"></span>
   <p class="chapter-title">Karty a analogy</p>
-  <p class="chapter-synopsis">14 karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší kvalitou upravené npG+A na 90 minut, nejmladší reprezentační nominace, nejvíc minut v top-9 ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-9 lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností.</p>
+  <p class="chapter-synopsis">17 karet hráčů vybraných pravidly, ne výběrem — za každý post nejvyšší kvalitou upravené npG+A na 90 minut, nejmladší reprezentační nominace, nejvíc minut v top-9 ligách a nejvíc domácích minut mezi hráči do 23 let bez sezóny v top-9 lize — každá spojuje statistiky, umístění v clusteru, taktické čtení, trajektorii a nejbližší historické analogy ve stejném věku z korpusu všech národností.</p>
 </aside>
 
 <section class="ai-layer">
   <div class="container">
     <h2 id="cards">Karty hráčů</h2>
     <p class="framing">Jedna integrovaná karta na hráče, jedna řada na výběrové pravidlo: produkce 2025/26, umístění v clusteru v obou projekcích, taktické čtení clusteru, trajektorie 2024/25 → 2025/26 a 3 nejbližší analogy. Klub na řádku se jménem je klub 2026/27; blok statistik je 2025/26. Popis, ne predikce.</p>
-    <p class="capita-note">Proč tyto karty: jedna karta na post na pravidlo, v tomto pořadí — (a) nejvyšší kvalitou upravené npG+A na 90 minut, (b) nejmladší reprezentační nominace, (c) nejvíc minut v top-9 ligách mezi nominovanými na 2026 FIFA World Cup, (d) nejvíc minut v top-9 ligách, (e) nejvíc domácích minut do 23 let bez sezóny v top-9 lize. Hráč vybraný dřívějším pravidlem propadá na další jméno, takže pozdější řada může ukázat druhé jméno podle svého měřítka.</p>
+    <p class="capita-note">Proč tyto karty: jedna karta na post na pravidlo, v tomto pořadí — (a) nejvyšší kvalitou upravené npG+A na 90 minut, (b) nejmladší reprezentační nominace, (c) nejvíc minut v top-9 ligách mezi nominovanými na 2026 FIFA World Cup, (d) nejvíc minut v domácí lize mezi nominovanými na 2026 FIFA World Cup, (e) nejvíc minut v top-9 ligách, (f) nejvíc domácích minut do 23 let bez sezóny v top-9 lize. Hráč vybraný dřívějším pravidlem propadá na další jméno, takže pozdější řada může ukázat druhé jméno podle svého měřítka. Řady seskupují šest pravidel; řada jádra reprezentace obsahuje dvě z nich.</p>
     
     <p class="cycle-row-kicker">Nejvyšší kvalitou upravená produkce</p>
     <div class="cycle-grid">
-      
       <article class="cycle-card" id="card-5d4f7d61" data-player-key="patrik schick|1996" data-fbref-id="5d4f7d61" data-rule="highest quality-adjusted npG+A per 90 among FW" data-pos="FW" data-club="Leverkusen">
         <div class="cycle-card-visual" style="--hero: url('../img/players/5d4f7d61.jpg')">
           <img class="cycle-card-mug" src="../img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
@@ -2077,9 +2160,7 @@
         <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
         
         <p class="muted small">Vybrán jako: nejvyšší kvalitou upravené npG+A na 90 minut mezi FW.</p>
-      </article>
-      
-      <article class="cycle-card" id="card-bb1cf301" data-player-key="vaclav cerny|1997" data-fbref-id="bb1cf301" data-rule="highest quality-adjusted npG+A per 90 among MF" data-pos="MF" data-club="Beşiktaş">
+      </article><article class="cycle-card" id="card-bb1cf301" data-player-key="vaclav cerny|1997" data-fbref-id="bb1cf301" data-rule="highest quality-adjusted npG+A per 90 among MF" data-pos="MF" data-club="Beşiktaş">
         <div class="cycle-card-visual" style="--hero: url('../img/players/bb1cf301.jpg')">
           <img class="cycle-card-mug" src="../img/players/bb1cf301.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2158,9 +2239,7 @@
         <p class="cycle-card-meta">2026 World Cup qualification · UEFA Euro 2024</p>
         
         <p class="muted small">Vybrán jako: nejvyšší kvalitou upravené npG+A na 90 minut mezi MF.</p>
-      </article>
-      
-      <article class="cycle-card" id="card-fdf3cb77" data-player-key="vladimir coufal|1992" data-fbref-id="fdf3cb77" data-rule="highest quality-adjusted npG+A per 90 among DF" data-pos="DF" data-club="Hoffenheim">
+      </article><article class="cycle-card" id="card-fdf3cb77" data-player-key="vladimir coufal|1992" data-fbref-id="fdf3cb77" data-rule="highest quality-adjusted npG+A per 90 among DF" data-pos="DF" data-club="Hoffenheim">
         <div class="cycle-card-visual" style="--hero: url('../img/players/fdf3cb77.jpg')">
           <img class="cycle-card-mug" src="../img/players/fdf3cb77.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2249,30 +2328,548 @@
         
         <p class="muted small">Vybrán jako: nejvyšší kvalitou upravené npG+A na 90 minut mezi DF.</p>
       </article>
-      
     </div>
     
-    <p class="cycle-row-kicker">Nejmladší reprezentační nominace</p>
+    <p class="cycle-row-kicker">Jádro reprezentace — nominace na 2026 FIFA World Cup: nejvíc minut v top-9 ligách, nejvíc minut v domácí lize</p>
     <div class="cycle-grid">
-      
-      <article class="cycle-card" id="card-fde5fc24" data-player-key="vaclav sejk|2002" data-fbref-id="fde5fc24" data-rule="youngest national-team call-up among FW" data-pos="FW" data-club="Sigma Olomouc">
-        <div class="cycle-card-visual cycle-card-visual-mono">
-          <span class="cycle-card-monogram" aria-hidden="true">VS</span>
+      <article class="cycle-card" id="card-e9b893af" data-player-key="pavel sulc|2000" data-fbref-id="e9b893af" data-rule="most top-9 minutes among 2026 FIFA World Cup squad FW" data-pos="FW" data-club="Lyon">
+        <div class="cycle-card-visual" style="--hero: url('../img/players/e9b893af.jpg')">
+          <img class="cycle-card-mug" src="../img/players/e9b893af.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">FW</span>
-          <span class="cycle-card-team">Sigma Olomouc</span>
+          <span class="cycle-card-team">Lyon</span>
         </div>
         <header class="cycle-card-head">
-          <h4 class="cycle-card-name">Václav Sejk</h4>
+          <h4 class="cycle-card-name">Pavel Šulc</h4>
           <p class="cycle-card-meta">
-            FW &middot; 24 &middot; Sigma Olomouc (2026/27) &middot; reprezentace 2024–26
+            FW &middot; 26 &middot; Lyon (2026/27) &middot; reprezentace 2024–26
           </p>
         </header>
 
-        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Sigma Olomouc &middot; CZE-First League</p>
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Lyon &middot; FRA-Ligue 1</p>
         <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0,20</dd></div>
-          <div><dt>npG / A na 90</dt><dd>0,34 / 0,11</dd></div>
-          <div><dt>Minuty</dt><dd>792 (28 %)</dd></div>
+          <div><dt>npG+A/90 quality</dt><dd>0,46</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,63 / 0,17</dd></div>
+          <div><dt>Minuty</dt><dd>1566 (54 %)</dd></div>
+        </dl>
+
+        <div class="cycle-cluster">
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-pill">C1</span>
+            <span class="cycle-cluster-label">Hlavní střelci</span>
+          </span>
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-pill">C3</span>
+            <span class="cycle-cluster-label">Střelci s vysokým objemem v top-5 ligách</span>
+          </span>
+        </div>
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Taktické čtení</p>
+          <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta).</p>
+        </div>
+        
+
+        
+
+        
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 26</summary><ol class="cycle-analogs">
+            
+            <li>
+              <span class="cycle-analog-name">Amine Gouiri</span>
+              <span class="cycle-analog-country">ALG</span>
+              <span class="cycle-analog-stats">
+                FRA-Ligue 1 2025/26 &middot; 1326 min &middot; 0,43 &middot;
+                d&nbsp;=&nbsp;0,41
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Randal Kolo Muani</span>
+              <span class="cycle-analog-country">FRA</span>
+              <span class="cycle-analog-stats">
+                FRA-Ligue 1 2023/24 &middot; 1268 min &middot; 0,43 &middot;
+                d&nbsp;=&nbsp;0,50
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Bamba Dieng</span>
+              <span class="cycle-analog-country">SEN</span>
+              <span class="cycle-analog-stats">
+                FRA-Ligue 1 2025/26 &middot; 1212 min &middot; 0,43 &middot;
+                d&nbsp;=&nbsp;0,56
+              </span>
+            </li>
+            
+          </ol></details>
+        
+
+        
+        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
+        
+        <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 (FW).</p>
+      </article><article class="cycle-card" id="card-6613c819" data-player-key="tomas soucek|1995" data-fbref-id="6613c819" data-rule="most top-9 minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="West Ham United">
+        <div class="cycle-card-visual" style="--hero: url('../img/players/6613c819.jpg')">
+          <img class="cycle-card-mug" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+          <span class="cycle-card-pos" aria-hidden="true">MF</span>
+          <span class="cycle-card-team">West Ham United</span>
+        </div>
+        <header class="cycle-card-head">
+          <h4 class="cycle-card-name">Tomáš Souček</h4>
+          <p class="cycle-card-meta">
+            MF &middot; 31 &middot; West Ham United (poslední známý) &middot; reprezentace 2024–26
+          </p>
+        </header>
+
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; West Ham &middot; ENG-Premier League</p>
+        <dl class="cycle-stats">
+          <div><dt>npG+A/90 quality</dt><dd>0,21</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,20 / 0,00</dd></div>
+          <div><dt>Minuty</dt><dd>2200 (64 %)</dd></div>
+        </dl>
+
+        <div class="cycle-cluster">
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-pill">C1</span>
+            <span class="cycle-cluster-label">Starší rotační záložníci</span>
+          </span>
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-pill">C2</span>
+            <span class="cycle-cluster-label">Produktivní záložníci v top-5 ligách</span>
+          </span>
+        </div>
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Taktické čtení</p>
+          <p class="cycle-tactical">Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden (Souček, Trávník, Daníček, Zorvan).</p>
+        </div>
+        
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
+          <p class="cycle-traj">
+            <span class="cycle-traj-delta">Δ -0,109 npG+A/90</span>
+            <span class="cycle-traj-dir">pokles</span>
+            <span class="cycle-traj-detail">2567 min &rarr; 2200 min</span>
+          </p>
+        </div>
+        
+
+        
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 31</summary><ol class="cycle-analogs">
+            
+            <li>
+              <span class="cycle-analog-name">John McGinn</span>
+              <span class="cycle-analog-country">SCO</span>
+              <span class="cycle-analog-stats">
+                ENG-Premier League 2024/25 &middot; 2223 min &middot; 0,21 &middot;
+                d&nbsp;=&nbsp;0,03
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Rodrigo</span>
+              <span class="cycle-analog-country">ESP</span>
+              <span class="cycle-analog-stats">
+                ENG-Premier League 2021/22 &middot; 2265 min &middot; 0,22 &middot;
+                d&nbsp;=&nbsp;0,14
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Mateusz Klich</span>
+              <span class="cycle-analog-country">POL</span>
+              <span class="cycle-analog-stats">
+                ENG-Premier League 2020/21 &middot; 2393 min &middot; 0,23 &middot;
+                d&nbsp;=&nbsp;0,33
+              </span>
+            </li>
+            
+          </ol></details>
+        
+
+        
+        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
+        
+        <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 (MF).</p>
+      </article><article class="cycle-card" id="card-5b5c2228" data-player-key="ladislav krejci|1999" data-fbref-id="5b5c2228" data-rule="most top-9 minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Wolverhampton Wanderers">
+        <div class="cycle-card-visual" style="--hero: url('../img/players/5b5c2228.jpg')">
+          <img class="cycle-card-mug" src="../img/players/5b5c2228.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+          <span class="cycle-card-pos" aria-hidden="true">DF</span>
+          <span class="cycle-card-team">Wolverhampton Wanderers</span>
+        </div>
+        <header class="cycle-card-head">
+          <h4 class="cycle-card-name">Ladislav Krejčí</h4>
+          <p class="cycle-card-meta">
+            DF &middot; 27 &middot; Wolverhampton Wanderers (poslední známý) &middot; reprezentace 2024–26
+          </p>
+        </header>
+
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Wolves &middot; ENG-Premier League</p>
+        <dl class="cycle-stats">
+          <div><dt>npG+A/90 quality</dt><dd>0,10</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,08 / 0,04</dd></div>
+          <div><dt>Minuty</dt><dd>2356 (75 %)</dd></div>
+        </dl>
+
+        <div class="cycle-cluster">
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-pill">C3</span>
+            <span class="cycle-cluster-label">Obránci základní sestavy</span>
+          </span>
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-pill">C1</span>
+            <span class="cycle-cluster-label">Střílející obránci v top-5 ligách</span>
+          </span>
+        </div>
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Taktické čtení</p>
+          <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký).</p>
+        </div>
+        
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
+          <p class="cycle-traj">
+            <span class="cycle-traj-delta">Δ +0,049 npG+A/90</span>
+            <span class="cycle-traj-dir">stabilní</span>
+            <span class="cycle-traj-detail">2440 min &rarr; 2356 min</span>
+          </p>
+        </div>
+        
+
+        
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 27</summary><ol class="cycle-analogs">
+            
+            <li>
+              <span class="cycle-analog-name">Pau Torres</span>
+              <span class="cycle-analog-country">ESP</span>
+              <span class="cycle-analog-stats">
+                ENG-Premier League 2023/24 &middot; 2464 min &middot; 0,08 &middot;
+                d&nbsp;=&nbsp;0,22
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Pervis Estupiñán</span>
+              <span class="cycle-analog-country">ECU</span>
+              <span class="cycle-analog-stats">
+                ENG-Premier League 2024/25 &middot; 2402 min &middot; 0,07 &middot;
+                d&nbsp;=&nbsp;0,25
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Oleksandr Zinchenko</span>
+              <span class="cycle-analog-country">UKR</span>
+              <span class="cycle-analog-stats">
+                ENG-Premier League 2022/23 &middot; 2118 min &middot; 0,09 &middot;
+                d&nbsp;=&nbsp;0,32
+              </span>
+            </li>
+            
+          </ol></details>
+        
+
+        
+        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
+        
+        <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 (DF).</p>
+      </article><article class="cycle-card" id="card-163bbd4a" data-player-key="tomas chory|1995" data-fbref-id="163bbd4a" data-rule="most domestic minutes among 2026 FIFA World Cup squad FW" data-pos="FW" data-club="Slavia Prague">
+        <div class="cycle-card-visual" style="--hero: url('../img/players/163bbd4a.jpg')">
+          <img class="cycle-card-mug" src="../img/players/163bbd4a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+          <span class="cycle-card-pos" aria-hidden="true">FW</span>
+          <span class="cycle-card-team">Slavia Prague</span>
+        </div>
+        <header class="cycle-card-head">
+          <h4 class="cycle-card-name">Tomáš Chorý</h4>
+          <p class="cycle-card-meta">
+            FW &middot; 31 &middot; Slavia Prague (2026/27) &middot; reprezentace 2024–26
+          </p>
+        </header>
+
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Slavia Prague &middot; CZE-First League</p>
+        <dl class="cycle-stats">
+          <div><dt>npG+A/90 quality</dt><dd>0,30</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,54 / 0,24</dd></div>
+          <div><dt>Minuty</dt><dd>1838 (70 %)</dd></div>
+        </dl>
+
+        <div class="cycle-cluster">
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-pill">C1</span>
+            <span class="cycle-cluster-label">Hlavní střelci</span>
+          </span>
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-pill">C1</span>
+            <span class="cycle-cluster-label">Útočníci základní sestavy s vysokou minutáží</span>
+          </span>
+        </div>
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Taktické čtení</p>
+          <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta).</p>
+        </div>
+        
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
+          <p class="cycle-traj">
+            <span class="cycle-traj-delta">Δ +0,074 npG+A/90</span>
+            <span class="cycle-traj-dir">zlepšení</span>
+            <span class="cycle-traj-detail">2123 min &rarr; 1838 min</span>
+          </p>
+        </div>
+        
+
+        
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 31</summary><ol class="cycle-analogs">
+            
+            <li>
+              <span class="cycle-analog-name">Serdar Dursun</span>
+              <span class="cycle-analog-country">TUR</span>
+              <span class="cycle-analog-stats">
+                TUR-Süper Lig 2021/22 &middot; 1869 min &middot; 0,29 &middot;
+                d&nbsp;=&nbsp;0,25
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Ivi</span>
+              <span class="cycle-analog-country">ESP</span>
+              <span class="cycle-analog-stats">
+                POL-Ekstraklasa 2024/25 &middot; 1759 min &middot; 0,27 &middot;
+                d&nbsp;=&nbsp;0,26
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Mats Seuntjens</span>
+              <span class="cycle-analog-country">NED</span>
+              <span class="cycle-analog-stats">
+                NED-Eredivisie 2022/23 &middot; 1564 min &middot; 0,31 &middot;
+                d&nbsp;=&nbsp;0,54
+              </span>
+            </li>
+            
+          </ol></details>
+        
+
+        
+        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
+        
+        <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi nominovanými na MS 2026 (FW).</p>
+      </article><article class="cycle-card" id="card-3eb0f2df" data-player-key="vladimir darida|1990" data-fbref-id="3eb0f2df" data-rule="most domestic minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="Hradec Králové">
+        <div class="cycle-card-visual" style="--hero: url('../img/players/3eb0f2df.jpg')">
+          <img class="cycle-card-mug" src="../img/players/3eb0f2df.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+          <span class="cycle-card-pos" aria-hidden="true">MF</span>
+          <span class="cycle-card-team">Hradec Králové</span>
+        </div>
+        <header class="cycle-card-head">
+          <h4 class="cycle-card-name">Vladimír Darida</h4>
+          <p class="cycle-card-meta">
+            MF &middot; 36 &middot; Hradec Králové (2026/27) &middot; reprezentace 2024–26
+          </p>
+        </header>
+
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Hradec Králové &middot; CZE-First League</p>
+        <dl class="cycle-stats">
+          <div><dt>npG+A/90 quality</dt><dd>0,16</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,29 / 0,13</dd></div>
+          <div><dt>Minuty</dt><dd>2764 (90 %)</dd></div>
+        </dl>
+
+        <div class="cycle-cluster">
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-pill">C5</span>
+            <span class="cycle-cluster-label">Ofenzivní záložníci s vysokou střeleckou produkcí</span>
+          </span>
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-pill">C0</span>
+            <span class="cycle-cluster-label">Záložníci základní sestavy s nízkou střeleckou produkcí</span>
+          </span>
+        </div>
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Taktické čtení</p>
+          <p class="cycle-tactical">Střílející ofenzivní záložníci — podíl gólů ze hry trojnásobný oproti mediánu záložníků při startovací minutáži (56 %). Osmička/desítka, která dobíhá do vápna (Darida, Ševčík, Višinský, Mareček).</p>
+        </div>
+        
+
+        
+
+        
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 36</summary><ol class="cycle-analogs">
+            
+            <li>
+              <span class="cycle-analog-name">Alexandru Maxim</span>
+              <span class="cycle-analog-country">ROU</span>
+              <span class="cycle-analog-stats">
+                TUR-Süper Lig 2025/26 &middot; 2680 min &middot; 0,12 &middot;
+                d&nbsp;=&nbsp;0,42
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Jesús Imaz</span>
+              <span class="cycle-analog-country">ESP</span>
+              <span class="cycle-analog-stats">
+                POL-Ekstraklasa 2025/26 &middot; 2784 min &middot; 0,23 &middot;
+                d&nbsp;=&nbsp;0,60
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Lucas Biglia</span>
+              <span class="cycle-analog-country">ARG</span>
+              <span class="cycle-analog-stats">
+                TUR-Süper Lig 2021/22 &middot; 2795 min &middot; 0,08 &middot;
+                d&nbsp;=&nbsp;0,66
+              </span>
+            </li>
+            
+          </ol></details>
+        
+
+        
+        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup</p>
+        
+        <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi nominovanými na MS 2026 (MF).</p>
+      </article><article class="cycle-card" id="card-e03c2d97" data-player-key="tomas holes|1993" data-fbref-id="e03c2d97" data-rule="most domestic minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Slavia Prague">
+        <div class="cycle-card-visual" style="--hero: url('../img/players/e03c2d97.jpg')">
+          <img class="cycle-card-mug" src="../img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+          <span class="cycle-card-pos" aria-hidden="true">DF</span>
+          <span class="cycle-card-team">Slavia Prague</span>
+        </div>
+        <header class="cycle-card-head">
+          <h4 class="cycle-card-name">Tomáš Holeš</h4>
+          <p class="cycle-card-meta">
+            DF &middot; 33 &middot; Slavia Prague (2026/27) &middot; reprezentace 2024–26
+          </p>
+        </header>
+
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Slavia Prague &middot; CZE-First League</p>
+        <dl class="cycle-stats">
+          <div><dt>npG+A/90 quality</dt><dd>0,06</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,09 / 0,09</dd></div>
+          <div><dt>Minuty</dt><dd>2003 (77 %)</dd></div>
+        </dl>
+
+        <div class="cycle-cluster">
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-pill">C2</span>
+            <span class="cycle-cluster-label">Starší obránci</span>
+          </span>
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-pill">C0</span>
+            <span class="cycle-cluster-label">Starší obránci</span>
+          </span>
+        </div>
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Taktické čtení</p>
+          <p class="cycle-tactical">Zkušení obránci s řízenou minutáží — medián věku 31, 44 % minut, produkce na dně. Vedení a krytí spíš než startovací role (Novák, Brabec, Fleišman, Holeš).</p>
+        </div>
+        
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
+          <p class="cycle-traj">
+            <span class="cycle-traj-delta">Δ +0,002 npG+A/90</span>
+            <span class="cycle-traj-dir">stabilní</span>
+            <span class="cycle-traj-detail">2454 min &rarr; 2003 min</span>
+          </p>
+        </div>
+        
+
+        
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 33</summary><ol class="cycle-analogs">
+            
+            <li>
+              <span class="cycle-analog-name">Piotr Mroziński</span>
+              <span class="cycle-analog-country">POL</span>
+              <span class="cycle-analog-stats">
+                POL-Ekstraklasa 2024/25 &middot; 1979 min &middot; 0,05 &middot;
+                d&nbsp;=&nbsp;0,07
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Jakub Jugas</span>
+              <span class="cycle-analog-country">CZE</span>
+              <span class="cycle-analog-stats">
+                POL-Ekstraklasa 2024/25 &middot; 2030 min &middot; 0,05 &middot;
+                d&nbsp;=&nbsp;0,08
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Zeki Yavru</span>
+              <span class="cycle-analog-country">TUR</span>
+              <span class="cycle-analog-stats">
+                TUR-Süper Lig 2023/24 &middot; 2017 min &middot; 0,05 &middot;
+                d&nbsp;=&nbsp;0,25
+              </span>
+            </li>
+            
+          </ol></details>
+        
+
+        
+        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
+        
+        <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi nominovanými na MS 2026 (DF).</p>
+      </article>
+    </div>
+    
+    
+    
+    <details class="fold cards-more">
+      <summary>Dalších 8 karet — nejmladší nominovaní, nejvíc minut v top-9, domácí do 23 let</summary>
+      
+      <p class="cycle-row-kicker">Nejmladší reprezentační nominace</p>
+      <div class="cycle-grid">
+        <article class="cycle-card" id="card-7678f6c0" data-player-key="christophe kabongo|2003" data-fbref-id="7678f6c0" data-rule="youngest national-team call-up among FW" data-pos="FW" data-club="Viktoria Plzeň">
+        <div class="cycle-card-visual cycle-card-visual-mono">
+          <span class="cycle-card-monogram" aria-hidden="true">CK</span>
+          <span class="cycle-card-pos" aria-hidden="true">FW</span>
+          <span class="cycle-card-team">Viktoria Plzeň</span>
+        </div>
+        <header class="cycle-card-head">
+          <h4 class="cycle-card-name">Christophe Kabongo</h4>
+          <p class="cycle-card-meta">
+            FW &middot; 23 &middot; Viktoria Plzeň (2026/27) &middot; reprezentace 2024–26
+          </p>
+        </header>
+
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Mladá Boleslav &middot; CZE-First League</p>
+        <dl class="cycle-stats">
+          <div><dt>npG+A/90 quality</dt><dd>0,25</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,45 / 0,22</dd></div>
+          <div><dt>Minuty</dt><dd>803 (27 %)</dd></div>
         </dl>
 
         <div class="cycle-cluster">
@@ -2296,133 +2893,34 @@
         
 
         
-        <div class="cycle-section">
-          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
-          <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ +0,048 npG+A/90</span>
-            <span class="cycle-traj-dir">stabilní</span>
-            <span class="cycle-traj-detail">1836 min &rarr; 1264 min</span>
-          </p>
-        </div>
-        
 
         
-        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 24</summary><ol class="cycle-analogs">
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 23</summary><ol class="cycle-analogs">
             
             <li>
-              <span class="cycle-analog-name">Tomáš Bobček</span>
-              <span class="cycle-analog-country">SVK</span>
+              <span class="cycle-analog-name">Hierman Barkoŭski</span>
+              <span class="cycle-analog-country">BLR</span>
               <span class="cycle-analog-stats">
-                POL-Ekstraklasa 2024/25 &middot; 1248 min &middot; 0,24 &middot;
-                d&nbsp;=&nbsp;0,10
+                POL-Ekstraklasa 2024/25 &middot; 962 min &middot; 0,21 &middot;
+                d&nbsp;=&nbsp;0,36
               </span>
             </li>
             
             <li>
-              <span class="cycle-analog-name">Waniss Taibi</span>
-              <span class="cycle-analog-country">FRA</span>
-              <span class="cycle-analog-stats">
-                GER-2. Bundesliga 2025/26 &middot; 1134 min &middot; 0,21 &middot;
-                d&nbsp;=&nbsp;0,32
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Alexander Lind</span>
+              <span class="cycle-analog-name">Christian Rasmussen</span>
               <span class="cycle-analog-country">DEN</span>
               <span class="cycle-analog-stats">
-                DEN-Superliga 2025/26 &middot; 1309 min &middot; 0,21 &middot;
-                d&nbsp;=&nbsp;0,37
+                GER-2. Bundesliga 2025/26 &middot; 1054 min &middot; 0,24 &middot;
+                d&nbsp;=&nbsp;0,39
               </span>
             </li>
             
-          </ol></details>
-        
-
-        
-        <p class="cycle-card-meta">2026 World Cup qualification · UEFA European Under-21 Championship 2025</p>
-        
-        <p class="muted small">Vybrán jako: nejmladší reprezentační nominace mezi FW.</p>
-      </article>
-      
-      <article class="cycle-card" id="card-1f10d0f6" data-player-key="david planka|2005" data-fbref-id="1f10d0f6" data-rule="youngest national-team call-up among MF" data-pos="MF" data-club="Baník Ostrava">
-        <div class="cycle-card-visual cycle-card-visual-mono">
-          <span class="cycle-card-monogram" aria-hidden="true">DP</span>
-          <span class="cycle-card-pos" aria-hidden="true">MF</span>
-          <span class="cycle-card-team">Baník Ostrava</span>
-        </div>
-        <header class="cycle-card-head">
-          <h4 class="cycle-card-name">David Planka</h4>
-          <p class="cycle-card-meta">
-            MF &middot; 21 &middot; Baník Ostrava (2026/27) &middot; reprezentace 2024–26
-          </p>
-        </header>
-
-        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Baník Ostrava &middot; CZE-First League</p>
-        <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0,11</dd></div>
-          <div><dt>npG / A na 90</dt><dd>0,09 / 0,18</dd></div>
-          <div><dt>Minuty</dt><dd>1970 (66 %)</dd></div>
-        </dl>
-
-        <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C4</span>
-            <span class="cycle-cluster-label">Záložníci základní sestavy s nízkou střeleckou produkcí</span>
-          </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C0</span>
-            <span class="cycle-cluster-label">Záložníci základní sestavy s nízkou střeleckou produkcí</span>
-          </span>
-        </div>
-
-        
-        <div class="cycle-section">
-          <p class="cycle-section-label">Taktické čtení</p>
-          <p class="cycle-tactical">Motor týmu — skoro 80 % minut při průměrné produkci: defenzivní a box-to-box záložníci, jejichž hodnota je kontinuita a struktura, ne čísla (Hellebrand, Horák, Čermák, Červ).</p>
-        </div>
-        
-
-        
-        <div class="cycle-section">
-          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
-          <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ +0,022 npG+A/90</span>
-            <span class="cycle-traj-dir">stabilní</span>
-            <span class="cycle-traj-detail">2211 min &rarr; 1970 min</span>
-          </p>
-        </div>
-        
-
-        
-        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 21</summary><ol class="cycle-analogs">
-            
             <li>
-              <span class="cycle-analog-name">Matěj Mikulenka</span>
+              <span class="cycle-analog-name">Tadeáš Vachoušek</span>
               <span class="cycle-analog-country">CZE</span>
               <span class="cycle-analog-stats">
-                CZE-First League 2024/25 &middot; 1956 min &middot; 0,10 &middot;
-                d&nbsp;=&nbsp;0,02
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Aaron Keller</span>
-              <span class="cycle-analog-country">GER</span>
-              <span class="cycle-analog-stats">
-                GER-2. Bundesliga 2024/25 &middot; 1963 min &middot; 0,10 &middot;
-                d&nbsp;=&nbsp;0,19
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Rafael Lubach</span>
-              <span class="cycle-analog-country">GER</span>
-              <span class="cycle-analog-stats">
-                GER-2. Bundesliga 2025/26 &middot; 2125 min &middot; 0,11 &middot;
-                d&nbsp;=&nbsp;0,29
+                CZE-First League 2026/27 &middot; 502 min &middot; 0,24 &middot;
+                d&nbsp;=&nbsp;0,40
               </span>
             </li>
             
@@ -2432,10 +2930,87 @@
         
         <p class="cycle-card-meta">2026 World Cup qualification</p>
         
+        <p class="muted small">Vybrán jako: nejmladší reprezentační nominace mezi FW.</p>
+      </article><article class="cycle-card" id="card-c75bba87" data-player-key="hugo sochurek|2008" data-fbref-id="c75bba87" data-rule="youngest national-team call-up among MF" data-pos="MF" data-club="Sparta Prague">
+        <div class="cycle-card-visual cycle-card-visual-mono">
+          <span class="cycle-card-monogram" aria-hidden="true">HS</span>
+          <span class="cycle-card-pos" aria-hidden="true">MF</span>
+          <span class="cycle-card-team">Sparta Prague</span>
+        </div>
+        <header class="cycle-card-head">
+          <h4 class="cycle-card-name">Hugo Sochůrek</h4>
+          <p class="cycle-card-meta">
+            MF &middot; 18 &middot; Sparta Prague (2026/27) &middot; reprezentace 2024–26
+          </p>
+        </header>
+
+        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Sparta Prague &middot; CZE-First League</p>
+        <dl class="cycle-stats">
+          <div><dt>npG+A/90 quality</dt><dd>0,10</dd></div>
+          <div><dt>npG / A na 90</dt><dd>0,00 / 0,35</dd></div>
+          <div><dt>Minuty</dt><dd>510 (17 %)</dd></div>
+        </dl>
+
+        <div class="cycle-cluster">
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">style</span>
+            <span class="cycle-cluster-pill">C2</span>
+            <span class="cycle-cluster-label">Mladí záložníci s nízkou minutáží</span>
+          </span>
+          <span class="cycle-cluster-row">
+            <span class="cycle-cluster-tag">quality</span>
+            <span class="cycle-cluster-pill">C1</span>
+            <span class="cycle-cluster-label">Mladí záložníci s nízkou minutáží</span>
+          </span>
+        </div>
+
+        
+        <div class="cycle-section">
+          <p class="cycle-section-label">Taktické čtení</p>
+          <p class="cycle-tactical">Rozvojoví záložníci — největší česká záložnická skupina: medián věku 22, pod třetinu minut, produkce na mediánu. Čekárna pipeline (Daněk, Křišťan, Mikulenka, Sojka).</p>
+        </div>
+        
+
+        
+
+        
+        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 18</summary><ol class="cycle-analogs">
+            
+            <li>
+              <span class="cycle-analog-name">Emirhan İlkhan</span>
+              <span class="cycle-analog-country">TUR</span>
+              <span class="cycle-analog-stats">
+                TUR-Süper Lig 2021/22 &middot; 635 min &middot; 0,09 &middot;
+                d&nbsp;=&nbsp;0,32
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Luis Engelns</span>
+              <span class="cycle-analog-country">GER</span>
+              <span class="cycle-analog-stats">
+                GER-2. Bundesliga 2024/25 &middot; 542 min &middot; 0,06 &middot;
+                d&nbsp;=&nbsp;0,45
+              </span>
+            </li>
+            
+            <li>
+              <span class="cycle-analog-name">Mustafa Hekimoğlu</span>
+              <span class="cycle-analog-country">TUR</span>
+              <span class="cycle-analog-stats">
+                TUR-Süper Lig 2024/25 &middot; 712 min &middot; 0,14 &middot;
+                d&nbsp;=&nbsp;0,47
+              </span>
+            </li>
+            
+          </ol></details>
+        
+
+        
+        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup</p>
+        
         <p class="muted small">Vybrán jako: nejmladší reprezentační nominace mezi MF.</p>
-      </article>
-      
-      <article class="cycle-card" id="card-9c87af24" data-player-key="jan paluska|2005" data-fbref-id="9c87af24" data-rule="youngest national-team call-up among DF" data-pos="DF" data-club="Viktoria Plzeň">
+      </article><article class="cycle-card" id="card-9c87af24" data-player-key="jan paluska|2005" data-fbref-id="9c87af24" data-rule="youngest national-team call-up among DF" data-pos="DF" data-club="Viktoria Plzeň">
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">JP</span>
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2524,13 +3099,11 @@
         
         <p class="muted small">Vybrán jako: nejmladší reprezentační nominace mezi DF.</p>
       </article>
+      </div>
       
-    </div>
-    
-    <p class="cycle-row-kicker">Nejvíc minut v top-9 ligách</p>
-    <div class="cycle-grid">
-      
-      <article class="cycle-card" id="card-69b2bb80" data-player-key="roman kvet|1997" data-fbref-id="69b2bb80" data-rule="most top-9 league minutes among MF" data-pos="MF" data-club="Bohemians 1905">
+      <p class="cycle-row-kicker">Nejvíc minut v top-9 ligách</p>
+      <div class="cycle-grid">
+        <article class="cycle-card" id="card-69b2bb80" data-player-key="roman kvet|1997" data-fbref-id="69b2bb80" data-rule="most top-9 league minutes among MF" data-pos="MF" data-club="Bohemians 1905">
         <div class="cycle-card-visual" style="--hero: url('../img/players/69b2bb80.jpg')">
           <img class="cycle-card-mug" src="../img/players/69b2bb80.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2616,9 +3189,7 @@
 
         
         <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi MF.</p>
-      </article>
-      
-      <article class="cycle-card" id="card-95d5aea2" data-player-key="robin hranac|2000" data-fbref-id="95d5aea2" data-rule="most top-9 league minutes among DF" data-pos="DF" data-club="Hoffenheim">
+      </article><article class="cycle-card" id="card-95d5aea2" data-player-key="robin hranac|2000" data-fbref-id="95d5aea2" data-rule="most top-9 league minutes among DF" data-pos="DF" data-club="Hoffenheim">
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">RH</span>
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2698,13 +3269,11 @@
         
         <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi DF.</p>
       </article>
+      </div>
       
-    </div>
-    
-    <p class="cycle-row-kicker">Nejvíc domácích minut do 23 let, zatím bez sezóny v top-9 lize</p>
-    <div class="cycle-grid">
-      
-      <article class="cycle-card" id="card-048481fb" data-player-key="lukas masek|2004" data-fbref-id="048481fb" data-rule="most domestic-league minutes among under-23 FW without a top-9 season" data-pos="FW" data-club="Slovan Liberec">
+      <p class="cycle-row-kicker">Nejvíc domácích minut do 23 let, zatím bez sezóny v top-9 lize</p>
+      <div class="cycle-grid">
+        <article class="cycle-card" id="card-048481fb" data-player-key="lukas masek|2004" data-fbref-id="048481fb" data-rule="most domestic-league minutes among under-23 FW without a top-9 season" data-pos="FW" data-club="Slovan Liberec">
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">LM</span>
           <span class="cycle-card-pos" aria-hidden="true">FW</span>
@@ -2781,9 +3350,7 @@
 
         
         <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi FW do 23 let bez sezóny v top-9 lize.</p>
-      </article>
-      
-      <article class="cycle-card" id="card-79bb9bfb" data-player-key="vojtech stransky|2003" data-fbref-id="79bb9bfb" data-rule="most domestic-league minutes among under-23 MF without a top-9 season" data-pos="MF" data-club="Slovan Liberec">
+      </article><article class="cycle-card" id="card-79bb9bfb" data-player-key="vojtech stransky|2003" data-fbref-id="79bb9bfb" data-rule="most domestic-league minutes among under-23 MF without a top-9 season" data-pos="MF" data-club="Slovan Liberec">
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">VS</span>
           <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2871,9 +3438,7 @@
         <p class="cycle-card-meta">UEFA European Under-21 Championship 2025</p>
         
         <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi MF do 23 let bez sezóny v top-9 lize.</p>
-      </article>
-      
-      <article class="cycle-card" id="card-32821d05" data-player-key="denis halinsky|2003" data-fbref-id="32821d05" data-rule="most domestic-league minutes among under-23 DF without a top-9 season" data-pos="DF" data-club="Pardubice">
+      </article><article class="cycle-card" id="card-32821d05" data-player-key="denis halinsky|2003" data-fbref-id="32821d05" data-rule="most domestic-league minutes among under-23 DF without a top-9 season" data-pos="DF" data-club="Pardubice">
         <div class="cycle-card-visual cycle-card-visual-mono">
           <span class="cycle-card-monogram" aria-hidden="true">DH</span>
           <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2962,274 +3527,9 @@
         
         <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi DF do 23 let bez sezóny v top-9 lize.</p>
       </article>
+      </div>
       
-    </div>
-    
-    <p class="cycle-row-kicker">Jádro reprezentace — nejvíc minut v top-9 ligách mezi nominovanými na 2026 FIFA World Cup</p>
-    <div class="cycle-grid">
-      
-      <article class="cycle-card" id="card-e9b893af" data-player-key="pavel sulc|2000" data-fbref-id="e9b893af" data-rule="most top-9 minutes among 2026 FIFA World Cup squad FW" data-pos="FW" data-club="Lyon">
-        <div class="cycle-card-visual cycle-card-visual-mono">
-          <span class="cycle-card-monogram" aria-hidden="true">PS</span>
-          <span class="cycle-card-pos" aria-hidden="true">FW</span>
-          <span class="cycle-card-team">Lyon</span>
-        </div>
-        <header class="cycle-card-head">
-          <h4 class="cycle-card-name">Pavel Šulc</h4>
-          <p class="cycle-card-meta">
-            FW &middot; 26 &middot; Lyon (2026/27) &middot; reprezentace 2024–26
-          </p>
-        </header>
-
-        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Lyon &middot; FRA-Ligue 1</p>
-        <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0,46</dd></div>
-          <div><dt>npG / A na 90</dt><dd>0,63 / 0,17</dd></div>
-          <div><dt>Minuty</dt><dd>1566 (54 %)</dd></div>
-        </dl>
-
-        <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C1</span>
-            <span class="cycle-cluster-label">Hlavní střelci</span>
-          </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C3</span>
-            <span class="cycle-cluster-label">Střelci s vysokým objemem v top-5 ligách</span>
-          </span>
-        </div>
-
-        
-        <div class="cycle-section">
-          <p class="cycle-section-label">Taktické čtení</p>
-          <p class="cycle-tactical">Hlavní střelci — podíl gólů ze hry skoro dvojnásobný oproti mediánu útočníků při startovací minutáži (56 %). Zakončující útočník první volby (Schick, Patrák, Chorý, Kuchta).</p>
-        </div>
-        
-
-        
-
-        
-        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 26</summary><ol class="cycle-analogs">
-            
-            <li>
-              <span class="cycle-analog-name">Amine Gouiri</span>
-              <span class="cycle-analog-country">ALG</span>
-              <span class="cycle-analog-stats">
-                FRA-Ligue 1 2025/26 &middot; 1326 min &middot; 0,43 &middot;
-                d&nbsp;=&nbsp;0,41
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Randal Kolo Muani</span>
-              <span class="cycle-analog-country">FRA</span>
-              <span class="cycle-analog-stats">
-                FRA-Ligue 1 2023/24 &middot; 1268 min &middot; 0,43 &middot;
-                d&nbsp;=&nbsp;0,50
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Bamba Dieng</span>
-              <span class="cycle-analog-country">SEN</span>
-              <span class="cycle-analog-stats">
-                FRA-Ligue 1 2025/26 &middot; 1212 min &middot; 0,43 &middot;
-                d&nbsp;=&nbsp;0,56
-              </span>
-            </li>
-            
-          </ol></details>
-        
-
-        
-        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
-        
-        <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 (FW).</p>
-      </article>
-      
-      <article class="cycle-card" id="card-6613c819" data-player-key="tomas soucek|1995" data-fbref-id="6613c819" data-rule="most top-9 minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="West Ham United">
-        <div class="cycle-card-visual" style="--hero: url('../img/players/6613c819.jpg')">
-          <img class="cycle-card-mug" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
-          <span class="cycle-card-pos" aria-hidden="true">MF</span>
-          <span class="cycle-card-team">West Ham United</span>
-        </div>
-        <header class="cycle-card-head">
-          <h4 class="cycle-card-name">Tomáš Souček</h4>
-          <p class="cycle-card-meta">
-            MF &middot; 31 &middot; West Ham United (poslední známý) &middot; reprezentace 2024–26
-          </p>
-        </header>
-
-        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; West Ham &middot; ENG-Premier League</p>
-        <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0,21</dd></div>
-          <div><dt>npG / A na 90</dt><dd>0,20 / 0,00</dd></div>
-          <div><dt>Minuty</dt><dd>2200 (64 %)</dd></div>
-        </dl>
-
-        <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C1</span>
-            <span class="cycle-cluster-label">Starší rotační záložníci</span>
-          </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C2</span>
-            <span class="cycle-cluster-label">Produktivní záložníci v top-5 ligách</span>
-          </span>
-        </div>
-
-        
-        <div class="cycle-section">
-          <p class="cycle-section-label">Taktické čtení</p>
-          <p class="cycle-tactical">Veteránští rotační záložníci — medián věku 30 při řízené minutáži (40 %), produkce průměrná, kartový podíl nad ní. Zkušenost držená v kádru spíš než na hřišti každý týden (Souček, Trávník, Daníček, Zorvan).</p>
-        </div>
-        
-
-        
-        <div class="cycle-section">
-          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
-          <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ -0,109 npG+A/90</span>
-            <span class="cycle-traj-dir">pokles</span>
-            <span class="cycle-traj-detail">2567 min &rarr; 2200 min</span>
-          </p>
-        </div>
-        
-
-        
-        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 31</summary><ol class="cycle-analogs">
-            
-            <li>
-              <span class="cycle-analog-name">John McGinn</span>
-              <span class="cycle-analog-country">SCO</span>
-              <span class="cycle-analog-stats">
-                ENG-Premier League 2024/25 &middot; 2223 min &middot; 0,21 &middot;
-                d&nbsp;=&nbsp;0,03
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Rodrigo</span>
-              <span class="cycle-analog-country">ESP</span>
-              <span class="cycle-analog-stats">
-                ENG-Premier League 2021/22 &middot; 2265 min &middot; 0,22 &middot;
-                d&nbsp;=&nbsp;0,14
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Mateusz Klich</span>
-              <span class="cycle-analog-country">POL</span>
-              <span class="cycle-analog-stats">
-                ENG-Premier League 2020/21 &middot; 2393 min &middot; 0,23 &middot;
-                d&nbsp;=&nbsp;0,33
-              </span>
-            </li>
-            
-          </ol></details>
-        
-
-        
-        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
-        
-        <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 (MF).</p>
-      </article>
-      
-      <article class="cycle-card" id="card-5b5c2228" data-player-key="ladislav krejci|1999" data-fbref-id="5b5c2228" data-rule="most top-9 minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Wolverhampton Wanderers">
-        <div class="cycle-card-visual" style="--hero: url('../img/players/5b5c2228.jpg')">
-          <img class="cycle-card-mug" src="../img/players/5b5c2228.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
-          <span class="cycle-card-pos" aria-hidden="true">DF</span>
-          <span class="cycle-card-team">Wolverhampton Wanderers</span>
-        </div>
-        <header class="cycle-card-head">
-          <h4 class="cycle-card-name">Ladislav Krejčí</h4>
-          <p class="cycle-card-meta">
-            DF &middot; 27 &middot; Wolverhampton Wanderers (poslední známý) &middot; reprezentace 2024–26
-          </p>
-        </header>
-
-        <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; Wolves &middot; ENG-Premier League</p>
-        <dl class="cycle-stats">
-          <div><dt>npG+A/90 quality</dt><dd>0,10</dd></div>
-          <div><dt>npG / A na 90</dt><dd>0,08 / 0,04</dd></div>
-          <div><dt>Minuty</dt><dd>2356 (75 %)</dd></div>
-        </dl>
-
-        <div class="cycle-cluster">
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">style</span>
-            <span class="cycle-cluster-pill">C3</span>
-            <span class="cycle-cluster-label">Obránci základní sestavy</span>
-          </span>
-          <span class="cycle-cluster-row">
-            <span class="cycle-cluster-tag">quality</span>
-            <span class="cycle-cluster-pill">C1</span>
-            <span class="cycle-cluster-label">Střílející obránci v top-5 ligách</span>
-          </span>
-        </div>
-
-        
-        <div class="cycle-section">
-          <p class="cycle-section-label">Taktické čtení</p>
-          <p class="cycle-tactical">Obranné jádro — 85 % minut, produkce na dně skupiny. Signálem je dostupnost a kontinuita, ne čísla (Hůlka, Halinský, Cedidla, Chlumecký).</p>
-        </div>
-        
-
-        
-        <div class="cycle-section">
-          <p class="cycle-section-label">Trajektorie 2024/25 &rarr; 2025/26</p>
-          <p class="cycle-traj">
-            <span class="cycle-traj-delta">Δ +0,049 npG+A/90</span>
-            <span class="cycle-traj-dir">stabilní</span>
-            <span class="cycle-traj-detail">2440 min &rarr; 2356 min</span>
-          </p>
-        </div>
-        
-
-        
-        <details class="fold cycle-section"><summary class="cycle-section-label">Historické analogy ve věku 27</summary><ol class="cycle-analogs">
-            
-            <li>
-              <span class="cycle-analog-name">Pau Torres</span>
-              <span class="cycle-analog-country">ESP</span>
-              <span class="cycle-analog-stats">
-                ENG-Premier League 2023/24 &middot; 2464 min &middot; 0,08 &middot;
-                d&nbsp;=&nbsp;0,22
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Pervis Estupiñán</span>
-              <span class="cycle-analog-country">ECU</span>
-              <span class="cycle-analog-stats">
-                ENG-Premier League 2024/25 &middot; 2402 min &middot; 0,07 &middot;
-                d&nbsp;=&nbsp;0,25
-              </span>
-            </li>
-            
-            <li>
-              <span class="cycle-analog-name">Oleksandr Zinchenko</span>
-              <span class="cycle-analog-country">UKR</span>
-              <span class="cycle-analog-stats">
-                ENG-Premier League 2022/23 &middot; 2118 min &middot; 0,09 &middot;
-                d&nbsp;=&nbsp;0,32
-              </span>
-            </li>
-            
-          </ol></details>
-        
-
-        
-        <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
-        
-        <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 (DF).</p>
-      </article>
-      
-    </div>
+    </details>
     
     <p class="capita-note">* Každá karta vykresluje existující dataset; žádný výpočet nad rámec spojení. Věk na řádku se jménem je věk na začátku sezóny 2026/27 (rok začátku − rok narození); klub je z tabulek 2026/27, nebo — označený „poslední známý“ — ze stránky země na FBref, kde hráč nemá řádku 2026/27. Věk na řádku analogu sleduje konvenci hledače analogů (rok začátku sezóny + 1 − rok narození).</p>
 
@@ -3365,12 +3665,12 @@
       </ol></details>
     </div>
     
-    <div class="analog-block" data-player-key="vaclav sejk|2002">
+    <div class="analog-block" data-player-key="christophe kabongo|2003">
       <div class="analog-target">
         <p class="analog-label">Cíl</p>
-        <p class="analog-name">Václav Sejk</p>
+        <p class="analog-name">Christophe Kabongo</p>
         <p class="analog-stats">
-          FW &middot; věk 24 &middot; CZE-First League 2025/26 &middot; 1264 min &middot; 0,23 npG+A/90 quality
+          FW &middot; věk 23 &middot; CZE-First League 2025/26 &middot; 803 min &middot; 0,25 npG+A/90 quality
         </p>
         <p class="analog-cohort">5 nejbližších ve stejném věku</p>
       </div>
@@ -3379,10 +3679,10 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">1</span>
-            <span class="analog-row-name">Tomáš Bobček</span>
-            <span class="analog-row-country">SVK</span>
+            <span class="analog-row-name">Hierman Barkoŭski</span>
+            <span class="analog-row-country">BLR</span>
             <span class="analog-row-context">
-              POL-Ekstraklasa 2024/25 &middot; 1248 min &middot; 0,24 npG+A/90 &middot; d&nbsp;=&nbsp;0,10
+              POL-Ekstraklasa 2024/25 &middot; 962 min &middot; 0,21 npG+A/90 &middot; d&nbsp;=&nbsp;0,36
             </span>
           </div>
           
@@ -3391,7 +3691,7 @@
             
             <span class="analog-traj-step">
               2025/26&nbsp;
-              <span class="analog-traj-detail">POL-Ekstraklasa&nbsp;&middot;&nbsp;2456&nbsp;min&nbsp;&middot;&nbsp;0,30</span>
+              <span class="analog-traj-detail">POL-Ekstraklasa&nbsp;&middot;&nbsp;1937&nbsp;min&nbsp;&middot;&nbsp;0,10</span>
             </span>
             
           </div>
@@ -3401,10 +3701,10 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">2</span>
-            <span class="analog-row-name">Waniss Taibi</span>
-            <span class="analog-row-country">FRA</span>
+            <span class="analog-row-name">Christian Rasmussen</span>
+            <span class="analog-row-country">DEN</span>
             <span class="analog-row-context">
-              GER-2. Bundesliga 2025/26 &middot; 1134 min &middot; 0,21 npG+A/90 &middot; d&nbsp;=&nbsp;0,32
+              GER-2. Bundesliga 2025/26 &middot; 1054 min &middot; 0,24 npG+A/90 &middot; d&nbsp;=&nbsp;0,39
             </span>
           </div>
           
@@ -3415,10 +3715,10 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">3</span>
-            <span class="analog-row-name">Alexander Lind</span>
-            <span class="analog-row-country">DEN</span>
+            <span class="analog-row-name">Tadeáš Vachoušek</span>
+            <span class="analog-row-country">CZE</span>
             <span class="analog-row-context">
-              DEN-Superliga 2025/26 &middot; 1309 min &middot; 0,21 npG+A/90 &middot; d&nbsp;=&nbsp;0,37
+              CZE-First League 2026/27 &middot; 502 min &middot; 0,24 npG+A/90 &middot; d&nbsp;=&nbsp;0,40
             </span>
           </div>
           
@@ -3429,47 +3729,24 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">4</span>
-            <span class="analog-row-name">Philippe Keny</span>
-            <span class="analog-row-country">SEN</span>
+            <span class="analog-row-name">Szymon Włodarczyk</span>
+            <span class="analog-row-country">POL</span>
             <span class="analog-row-context">
-              TUR-Süper Lig 2022/23 &middot; 1034 min &middot; 0,22 npG+A/90 &middot; d&nbsp;=&nbsp;0,40
+              NED-Eredivisie 2025/26 &middot; 757 min &middot; 0,22 npG+A/90 &middot; d&nbsp;=&nbsp;0,43
             </span>
           </div>
           
-          <div class="analog-row-trajectory">
-            <span class="analog-traj-label">Pokračování:</span>
-            
-            <span class="analog-traj-step">
-              2023/24&nbsp;
-              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;645&nbsp;min&nbsp;&middot;&nbsp;0,15</span>
-            </span>
-            
-            <span class="analog-traj-step">
-              2024/25&nbsp;
-              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;1026&nbsp;min&nbsp;&middot;&nbsp;0,27</span>
-            </span>
-            
-            <span class="analog-traj-step">
-              2025/26&nbsp;
-              <span class="analog-traj-detail">SUI-Super League&nbsp;&middot;&nbsp;2638&nbsp;min&nbsp;&middot;&nbsp;0,13</span>
-            </span>
-            
-            <span class="analog-traj-step">
-              2026/27&nbsp;
-              <span class="analog-traj-detail">SUI-Super League&nbsp;&middot;&nbsp;624&nbsp;min&nbsp;&middot;&nbsp;0,13</span>
-            </span>
-            
-          </div>
+          <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
           
         </li>
         
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">5</span>
-            <span class="analog-row-name">Mohamed Yasser</span>
-            <span class="analog-row-country">EGY</span>
+            <span class="analog-row-name">Lukáš Mašek</span>
+            <span class="analog-row-country">CZE</span>
             <span class="analog-row-context">
-              CZE-First League 2024/25 &middot; 963 min &middot; 0,21 npG+A/90 &middot; d&nbsp;=&nbsp;0,41
+              CZE-First League 2026/27 &middot; 468 min &middot; 0,24 npG+A/90 &middot; d&nbsp;=&nbsp;0,44
             </span>
           </div>
           
@@ -3482,6 +3759,7 @@
     
     <div class="analog-block" data-player-key="pavel sulc|2000">
       <div class="analog-target">
+        <img class="avatar avatar-xl" src="../img/players/e9b893af.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
         <p class="analog-label">Cíl</p>
         <p class="analog-name">Pavel Šulc</p>
         <p class="analog-stats">
@@ -3584,6 +3862,153 @@
           </div>
           
           <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
+          
+        </li>
+        
+      </ol></details>
+    </div>
+    
+    <div class="analog-block" data-player-key="tomas chory|1995">
+      <div class="analog-target">
+        <img class="avatar avatar-xl" src="../img/players/163bbd4a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+        <p class="analog-label">Cíl</p>
+        <p class="analog-name">Tomáš Chorý</p>
+        <p class="analog-stats">
+          FW &middot; věk 31 &middot; CZE-First League 2025/26 &middot; 1838 min &middot; 0,30 npG+A/90 quality
+        </p>
+        <p class="analog-cohort">5 nejbližších ve stejném věku</p>
+      </div>
+      <details class="fold analog-fold"><summary>5 nejbližších analogů a jejich pokračování</summary><ol class="analog-list">
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">1</span>
+            <span class="analog-row-name">Serdar Dursun</span>
+            <span class="analog-row-country">TUR</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2021/22 &middot; 1869 min &middot; 0,29 npG+A/90 &middot; d&nbsp;=&nbsp;0,25
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2023/24&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;812&nbsp;min&nbsp;&middot;&nbsp;0,16</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2025/26&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;1531&nbsp;min&nbsp;&middot;&nbsp;0,19</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">2</span>
+            <span class="analog-row-name">Ivi</span>
+            <span class="analog-row-country">ESP</span>
+            <span class="analog-row-context">
+              POL-Ekstraklasa 2024/25 &middot; 1759 min &middot; 0,27 npG+A/90 &middot; d&nbsp;=&nbsp;0,26
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2025/26&nbsp;
+              <span class="analog-traj-detail">POL-Ekstraklasa&nbsp;&middot;&nbsp;861&nbsp;min&nbsp;&middot;&nbsp;0,12</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">3</span>
+            <span class="analog-row-name">Mats Seuntjens</span>
+            <span class="analog-row-country">NED</span>
+            <span class="analog-row-context">
+              NED-Eredivisie 2022/23 &middot; 1564 min &middot; 0,31 npG+A/90 &middot; d&nbsp;=&nbsp;0,54
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2023/24&nbsp;
+              <span class="analog-traj-detail">NED-Eredivisie&nbsp;&middot;&nbsp;956&nbsp;min&nbsp;&middot;&nbsp;0,19</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2023/24&nbsp;
+              <span class="analog-traj-detail">NED-Eredivisie&nbsp;&middot;&nbsp;813&nbsp;min&nbsp;&middot;&nbsp;0,12</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2024/25&nbsp;
+              <span class="analog-traj-detail">NED-Eredivisie&nbsp;&middot;&nbsp;664&nbsp;min&nbsp;&middot;&nbsp;0,16</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">4</span>
+            <span class="analog-row-name">Duckens Nazon</span>
+            <span class="analog-row-country">HAI</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2024/25 &middot; 1957 min &middot; 0,24 npG+A/90 &middot; d&nbsp;=&nbsp;0,54
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">5</span>
+            <span class="analog-row-name">Wout Weghorst</span>
+            <span class="analog-row-country">NED</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2022/23 &middot; 2219 min &middot; 0,30 npG+A/90 &middot; d&nbsp;=&nbsp;0,56
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2023/24&nbsp;
+              <span class="analog-traj-detail">GER-Bundesliga&nbsp;&middot;&nbsp;1977&nbsp;min&nbsp;&middot;&nbsp;0,33</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2024/25&nbsp;
+              <span class="analog-traj-detail">NED-Eredivisie&nbsp;&middot;&nbsp;1085&nbsp;min&nbsp;&middot;&nbsp;0,34</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2025/26&nbsp;
+              <span class="analog-traj-detail">NED-Eredivisie&nbsp;&middot;&nbsp;1784&nbsp;min&nbsp;&middot;&nbsp;0,27</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2026/27&nbsp;
+              <span class="analog-traj-detail">NED-Eredivisie&nbsp;&middot;&nbsp;516&nbsp;min&nbsp;&middot;&nbsp;0,27</span>
+            </span>
+            
+          </div>
           
         </li>
         
@@ -3853,12 +4278,12 @@
       </ol></details>
     </div>
     
-    <div class="analog-block" data-player-key="david planka|2005">
+    <div class="analog-block" data-player-key="hugo sochurek|2008">
       <div class="analog-target">
         <p class="analog-label">Cíl</p>
-        <p class="analog-name">David Planka</p>
+        <p class="analog-name">Hugo Sochůrek</p>
         <p class="analog-stats">
-          MF &middot; věk 21 &middot; CZE-First League 2025/26 &middot; 1970 min &middot; 0,11 npG+A/90 quality
+          MF &middot; věk 18 &middot; CZE-First League 2025/26 &middot; 510 min &middot; 0,10 npG+A/90 quality
         </p>
         <p class="analog-cohort">5 nejbližších ve stejném věku</p>
       </div>
@@ -3867,10 +4292,10 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">1</span>
-            <span class="analog-row-name">Matěj Mikulenka</span>
-            <span class="analog-row-country">CZE</span>
+            <span class="analog-row-name">Emirhan İlkhan</span>
+            <span class="analog-row-country">TUR</span>
             <span class="analog-row-context">
-              CZE-First League 2024/25 &middot; 1956 min &middot; 0,10 npG+A/90 &middot; d&nbsp;=&nbsp;0,02
+              TUR-Süper Lig 2021/22 &middot; 635 min &middot; 0,09 npG+A/90 &middot; d&nbsp;=&nbsp;0,32
             </span>
           </div>
           
@@ -3878,8 +4303,13 @@
             <span class="analog-traj-label">Pokračování:</span>
             
             <span class="analog-traj-step">
+              2023/24&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;1052&nbsp;min&nbsp;&middot;&nbsp;0,09</span>
+            </span>
+            
+            <span class="analog-traj-step">
               2025/26&nbsp;
-              <span class="analog-traj-detail">CZE-First League&nbsp;&middot;&nbsp;1096&nbsp;min&nbsp;&middot;&nbsp;0,11</span>
+              <span class="analog-traj-detail">ITA-Serie A&nbsp;&middot;&nbsp;1001&nbsp;min&nbsp;&middot;&nbsp;0,19</span>
             </span>
             
           </div>
@@ -3889,10 +4319,10 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">2</span>
-            <span class="analog-row-name">Aaron Keller</span>
+            <span class="analog-row-name">Luis Engelns</span>
             <span class="analog-row-country">GER</span>
             <span class="analog-row-context">
-              GER-2. Bundesliga 2024/25 &middot; 1963 min &middot; 0,10 npG+A/90 &middot; d&nbsp;=&nbsp;0,19
+              GER-2. Bundesliga 2024/25 &middot; 542 min &middot; 0,06 npG+A/90 &middot; d&nbsp;=&nbsp;0,45
             </span>
           </div>
           
@@ -3901,7 +4331,7 @@
             
             <span class="analog-traj-step">
               2025/26&nbsp;
-              <span class="analog-traj-detail">GER-2. Bundesliga&nbsp;&middot;&nbsp;1835&nbsp;min&nbsp;&middot;&nbsp;0,08</span>
+              <span class="analog-traj-detail">GER-2. Bundesliga&nbsp;&middot;&nbsp;572&nbsp;min&nbsp;&middot;&nbsp;0,08</span>
             </span>
             
           </div>
@@ -3911,10 +4341,10 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">3</span>
-            <span class="analog-row-name">Rafael Lubach</span>
-            <span class="analog-row-country">GER</span>
+            <span class="analog-row-name">Mustafa Hekimoğlu</span>
+            <span class="analog-row-country">TUR</span>
             <span class="analog-row-context">
-              GER-2. Bundesliga 2025/26 &middot; 2125 min &middot; 0,11 npG+A/90 &middot; d&nbsp;=&nbsp;0,29
+              TUR-Süper Lig 2024/25 &middot; 712 min &middot; 0,14 npG+A/90 &middot; d&nbsp;=&nbsp;0,47
             </span>
           </div>
           
@@ -3925,10 +4355,10 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">4</span>
-            <span class="analog-row-name">El Hadji Malick Diouf</span>
-            <span class="analog-row-country">SEN</span>
+            <span class="analog-row-name">Luca Oyen</span>
+            <span class="analog-row-country">BEL</span>
             <span class="analog-row-context">
-              CZE-First League 2024/25 &middot; 2050 min &middot; 0,14 npG+A/90 &middot; d&nbsp;=&nbsp;0,32
+              BEL-Pro League 2020/21 &middot; 516 min &middot; 0,10 npG+A/90 &middot; d&nbsp;=&nbsp;0,68
             </span>
           </div>
           
@@ -3936,8 +4366,18 @@
             <span class="analog-traj-label">Pokračování:</span>
             
             <span class="analog-traj-step">
+              2021/22&nbsp;
+              <span class="analog-traj-detail">BEL-Pro League&nbsp;&middot;&nbsp;643&nbsp;min&nbsp;&middot;&nbsp;0,22</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2023/24&nbsp;
+              <span class="analog-traj-detail">BEL-Pro League&nbsp;&middot;&nbsp;635&nbsp;min&nbsp;&middot;&nbsp;0,13</span>
+            </span>
+            
+            <span class="analog-traj-step">
               2025/26&nbsp;
-              <span class="analog-traj-detail">ENG-Premier League&nbsp;&middot;&nbsp;2707&nbsp;min&nbsp;&middot;&nbsp;0,14</span>
+              <span class="analog-traj-detail">NED-Eredivisie&nbsp;&middot;&nbsp;471&nbsp;min&nbsp;&middot;&nbsp;0,13</span>
             </span>
             
           </div>
@@ -3947,32 +4387,14 @@
         <li class="analog-row">
           <div class="analog-row-head">
             <span class="analog-rank">5</span>
-            <span class="analog-row-name">Gaetano Oristanio</span>
-            <span class="analog-row-country">ITA</span>
+            <span class="analog-row-name">Youssef Hamdaoui</span>
+            <span class="analog-row-country">BEL</span>
             <span class="analog-row-context">
-              NED-Eredivisie 2022/23 &middot; 1947 min &middot; 0,10 npG+A/90 &middot; d&nbsp;=&nbsp;0,38
+              BEL-Pro League 2025/26 &middot; 593 min &middot; 0,13 npG+A/90 &middot; d&nbsp;=&nbsp;0,74
             </span>
           </div>
           
-          <div class="analog-row-trajectory">
-            <span class="analog-traj-label">Pokračování:</span>
-            
-            <span class="analog-traj-step">
-              2023/24&nbsp;
-              <span class="analog-traj-detail">ITA-Serie A&nbsp;&middot;&nbsp;1104&nbsp;min&nbsp;&middot;&nbsp;0,26</span>
-            </span>
-            
-            <span class="analog-traj-step">
-              2024/25&nbsp;
-              <span class="analog-traj-detail">ITA-Serie A&nbsp;&middot;&nbsp;2315&nbsp;min&nbsp;&middot;&nbsp;0,24</span>
-            </span>
-            
-            <span class="analog-traj-step">
-              2025/26&nbsp;
-              <span class="analog-traj-detail">ITA-Serie A&nbsp;&middot;&nbsp;859&nbsp;min&nbsp;&middot;&nbsp;0,20</span>
-            </span>
-            
-          </div>
+          <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
           
         </li>
         
@@ -4115,6 +4537,115 @@
           </div>
           
           <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
+          
+        </li>
+        
+      </ol></details>
+    </div>
+    
+    <div class="analog-block" data-player-key="vladimir darida|1990">
+      <div class="analog-target">
+        <img class="avatar avatar-xl" src="../img/players/3eb0f2df.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+        <p class="analog-label">Cíl</p>
+        <p class="analog-name">Vladimír Darida</p>
+        <p class="analog-stats">
+          MF &middot; věk 36 &middot; CZE-First League 2025/26 &middot; 2764 min &middot; 0,16 npG+A/90 quality
+        </p>
+        <p class="analog-cohort">5 nejbližších ve stejném věku</p>
+      </div>
+      <details class="fold analog-fold"><summary>5 nejbližších analogů a jejich pokračování</summary><ol class="analog-list">
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">1</span>
+            <span class="analog-row-name">Alexandru Maxim</span>
+            <span class="analog-row-country">ROU</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2025/26 &middot; 2680 min &middot; 0,12 npG+A/90 &middot; d&nbsp;=&nbsp;0,42
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">2</span>
+            <span class="analog-row-name">Jesús Imaz</span>
+            <span class="analog-row-country">ESP</span>
+            <span class="analog-row-context">
+              POL-Ekstraklasa 2025/26 &middot; 2784 min &middot; 0,23 npG+A/90 &middot; d&nbsp;=&nbsp;0,60
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">3</span>
+            <span class="analog-row-name">Lucas Biglia</span>
+            <span class="analog-row-country">ARG</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2021/22 &middot; 2795 min &middot; 0,08 npG+A/90 &middot; d&nbsp;=&nbsp;0,66
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2022/23&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;1638&nbsp;min&nbsp;&middot;&nbsp;0,04</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">4</span>
+            <span class="analog-row-name">Max Gradel</span>
+            <span class="analog-row-country">CIV</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2022/23 &middot; 2257 min &middot; 0,14 npG+A/90 &middot; d&nbsp;=&nbsp;0,72
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2023/24&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;1705&nbsp;min&nbsp;&middot;&nbsp;0,12</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">5</span>
+            <span class="analog-row-name">Dušan Tadić</span>
+            <span class="analog-row-country">SRB</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2023/24 &middot; 3142 min &middot; 0,22 npG+A/90 &middot; d&nbsp;=&nbsp;0,75
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2024/25&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;2485&nbsp;min&nbsp;&middot;&nbsp;0,30</span>
+            </span>
+            
+          </div>
           
         </li>
         
@@ -4745,6 +5276,120 @@
       </ol></details>
     </div>
     
+    <div class="analog-block" data-player-key="tomas holes|1993">
+      <div class="analog-target">
+        <img class="avatar avatar-xl" src="../img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+        <p class="analog-label">Cíl</p>
+        <p class="analog-name">Tomáš Holeš</p>
+        <p class="analog-stats">
+          DF &middot; věk 33 &middot; CZE-First League 2025/26 &middot; 2003 min &middot; 0,06 npG+A/90 quality
+        </p>
+        <p class="analog-cohort">5 nejbližších ve stejném věku</p>
+      </div>
+      <details class="fold analog-fold"><summary>5 nejbližších analogů a jejich pokračování</summary><ol class="analog-list">
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">1</span>
+            <span class="analog-row-name">Piotr Mroziński</span>
+            <span class="analog-row-country">POL</span>
+            <span class="analog-row-context">
+              POL-Ekstraklasa 2024/25 &middot; 1979 min &middot; 0,05 npG+A/90 &middot; d&nbsp;=&nbsp;0,07
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">2</span>
+            <span class="analog-row-name">Jakub Jugas</span>
+            <span class="analog-row-country">CZE</span>
+            <span class="analog-row-context">
+              POL-Ekstraklasa 2024/25 &middot; 2030 min &middot; 0,05 npG+A/90 &middot; d&nbsp;=&nbsp;0,08
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2025/26&nbsp;
+              <span class="analog-traj-detail">CZE-First League&nbsp;&middot;&nbsp;654&nbsp;min&nbsp;&middot;&nbsp;0,01</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">3</span>
+            <span class="analog-row-name">Zeki Yavru</span>
+            <span class="analog-row-country">TUR</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2023/24 &middot; 2017 min &middot; 0,05 npG+A/90 &middot; d&nbsp;=&nbsp;0,25
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2024/25&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;2882&nbsp;min&nbsp;&middot;&nbsp;0,11</span>
+            </span>
+            
+            <span class="analog-traj-step">
+              2025/26&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;2008&nbsp;min&nbsp;&middot;&nbsp;0,02</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">4</span>
+            <span class="analog-row-name">Nélson Semedo</span>
+            <span class="analog-row-country">POR</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2025/26 &middot; 1933 min &middot; 0,07 npG+A/90 &middot; d&nbsp;=&nbsp;0,27
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory"><span class="analog-traj-label">Žádná pozdější sezóna v korpusu.</span></div>
+          
+        </li>
+        
+        <li class="analog-row">
+          <div class="analog-row-head">
+            <span class="analog-rank">5</span>
+            <span class="analog-row-name">Lucas Lima</span>
+            <span class="analog-row-country">BRA</span>
+            <span class="analog-row-context">
+              TUR-Süper Lig 2023/24 &middot; 1894 min &middot; 0,06 npG+A/90 &middot; d&nbsp;=&nbsp;0,29
+            </span>
+          </div>
+          
+          <div class="analog-row-trajectory">
+            <span class="analog-traj-label">Pokračování:</span>
+            
+            <span class="analog-traj-step">
+              2024/25&nbsp;
+              <span class="analog-traj-detail">TUR-Süper Lig&nbsp;&middot;&nbsp;1650&nbsp;min&nbsp;&middot;&nbsp;0,03</span>
+            </span>
+            
+          </div>
+          
+        </li>
+        
+      </ol></details>
+    </div>
+    
     <div class="analog-block" data-player-key="robin hranac|2000">
       <div class="analog-target">
         <p class="analog-label">Cíl</p>
@@ -5259,7 +5904,7 @@
         </tr>
         
         <tr data-player-key="tomas chory|1995" data-fbref-id="163bbd4a" data-name="tomas chory">
-          <td>Tomáš Chorý</td>
+          <td><a href="#card-163bbd4a">Tomáš Chorý</a></td>
           <td>FW</td>
           <td>30</td>
           <td>Slavia Prague</td>
@@ -5367,7 +6012,7 @@
         </tr>
         
         <tr data-player-key="vladimir darida|1990" data-fbref-id="3eb0f2df" data-name="vladimir darida">
-          <td>Vladimír Darida</td>
+          <td><a href="#card-3eb0f2df">Vladimír Darida</a></td>
           <td>MF</td>
           <td>34</td>
           <td>Hradec Králové</td>
@@ -5619,7 +6264,7 @@
         </tr>
         
         <tr data-player-key="tomas holes|1993" data-fbref-id="e03c2d97" data-name="tomas holes">
-          <td>Tomáš Holeš</td>
+          <td><a href="#card-e03c2d97">Tomáš Holeš</a></td>
           <td>DF</td>
           <td>32</td>
           <td>Slavia Prague</td>
@@ -5847,7 +6492,7 @@
         </tr>
         
         <tr data-player-key="christophe kabongo|2003" data-fbref-id="7678f6c0" data-name="christophe kabongo">
-          <td>Christophe Kabongo</td>
+          <td><a href="#card-7678f6c0">Christophe Kabongo</a></td>
           <td>FW</td>
           <td>21</td>
           <td>Mladá Boleslav</td>
@@ -6531,7 +7176,7 @@
         </tr>
         
         <tr data-player-key="david planka|2005" data-fbref-id="1f10d0f6" data-name="david planka">
-          <td><a href="#card-1f10d0f6">David Planka</a></td>
+          <td>David Planka</td>
           <td>MF</td>
           <td>20</td>
           <td>Baník Ostrava</td>
@@ -6771,7 +7416,7 @@
         </tr>
         
         <tr data-player-key="vaclav sejk|2002" data-fbref-id="fde5fc24" data-name="vaclav sejk">
-          <td><a href="#card-fde5fc24">Václav Sejk</a></td>
+          <td>Václav Sejk</td>
           <td>FW</td>
           <td>23</td>
           <td>Sigma Olomouc</td>
@@ -6879,7 +7524,7 @@
         </tr>
         
         <tr data-player-key="hugo sochurek|2008" data-fbref-id="c75bba87" data-name="hugo sochurek">
-          <td>Hugo Sochůrek</td>
+          <td><a href="#card-c75bba87">Hugo Sochůrek</a></td>
           <td>MF</td>
           <td>17</td>
           <td>Sparta Prague</td>
@@ -7920,10 +8565,13 @@
 
     
     <h3 id="data-quality">Log kvality dat</h3>
-    <p>Každé rozhodnutí při čištění dat, které změnilo nějaký počet, s tím počtem. První blok je přepočítán při každém běhu; druhý je záznam incidentů (data a počty tak, jak byly zaznamenány).</p>
-    <table class="dq-table"><thead><tr><th>Kontrola</th><th>Počet</th><th>Co počítá</th></tr></thead>
-    <tbody><tr><td>Odfiltrované ženské položky</td><td class="num">92 položek</td><td>Položky na stránce země FBref vypuštěné pro příjmení končící na -ová (viz Limitace).</td></tr><tr><td>Jmenovci ve fondu</td><td class="num">2 hráčů</td><td>Aktivní hráči fondu sdílející normalizované jméno (např. otec a syn), rozlišení podle klubu.</td></tr><tr><td>Hráči fondu bez sezónních tabulek</td><td class="num">125 hráčů</td><td>Čeští profesionálové ze stránky země FBref hrající v lize bez sezónních tabulek, bez jakýchkoli metrik.</td></tr><tr><td>Sloučené rozdělené sezóny</td><td class="num">423 řádků</td><td>Řádky hráč-sezóna-post sloučené do jednoho po přestupu uprostřed sezóny (minuty sečteny, míry vážené minutami).</td></tr><tr><td>Nespárovaná jména z nominací</td><td class="num">18 jmen</td><td>Jména z tabulek reprezentačních nominací, která neodpovídají žádnému českému řádku ve featurových tabulkách.</td></tr><tr><td>Chybějící ročník narození</td><td class="num">0 řádků</td><td>Řádky sezónních tabulek národnosti CZE bez ročníku narození, ze kterých nejde sestavit player_key.</td></tr></tbody></table>
-    <ul class="dq-events"><li><span class="mono">2026-09-14</span> Zastaralý sezónní index FBref způsobil, že soccerdata stáhla URL bez sezóny, kterou FBref servíruje jako běžící sezónu: tabulky 2025/26 devíti lig byly po čtyřech kolech 2026/27. Opraveno kontrolou vlastního nadpisu stránky proti požadované sezóně. <span class="mono">(9 lig, zaznamenáno)</span></li><li><span class="mono">2026-09-14</span> FBref občas servírovala jen soupisku (bez sezónní tabulky) pro sezónu, která ještě probíhá. Opraveno jedním opakovaným stažením v téže kontrole nadpisu stránky.</li><li><span class="mono">2026-09-13</span> API ClubElo odpovídalo 502 po celou dobu běhu; ligové násobičky spadly zpět na koeficienty asociací UEFA.</li><li><span class="mono">2026-09-13</span> Dotaz na portréty ve Wikidatech spároval jen podle jména, občanství a data narození; sedm portrétů patřilo jmenovcům z jiných sportů, dokud nebyl přidán filtr na povolání. <span class="mono">(7 portrétů, zaznamenáno)</span></li><li><span class="mono">2026-09-13</span> Slovenská nejvyšší soutěž na FBref vůbec není; slovenské exhibity v tomto reportu proto stojí jen na hráčích v zahraničí.</li></ul>
+    <details class="fold">
+      <summary>6 přepočítaných kontrol · 5 zaznamenaných incidentů</summary>
+      <p>Každé rozhodnutí při čištění dat, které změnilo nějaký počet, s tím počtem. První blok je přepočítán při každém běhu; druhý je záznam incidentů (data a počty tak, jak byly zaznamenány).</p>
+      <table class="dq-table"><thead><tr><th>Kontrola</th><th>Počet</th><th>Co počítá</th></tr></thead>
+      <tbody><tr><td>Odfiltrované ženské položky</td><td class="num">92 položek</td><td>Položky na stránce země FBref vypuštěné pro příjmení končící na -ová (viz Limitace).</td></tr><tr><td>Jmenovci ve fondu</td><td class="num">2 hráčů</td><td>Aktivní hráči fondu sdílející normalizované jméno (např. otec a syn), rozlišení podle klubu.</td></tr><tr><td>Hráči fondu bez sezónních tabulek</td><td class="num">125 hráčů</td><td>Čeští profesionálové ze stránky země FBref hrající v lize bez sezónních tabulek, bez jakýchkoli metrik.</td></tr><tr><td>Sloučené rozdělené sezóny</td><td class="num">423 řádků</td><td>Řádky hráč-sezóna-post sloučené do jednoho po přestupu uprostřed sezóny (minuty sečteny, míry vážené minutami).</td></tr><tr><td>Nespárovaná jména z nominací</td><td class="num">18 jmen</td><td>Jména z tabulek reprezentačních nominací, která neodpovídají žádnému českému řádku ve featurových tabulkách.</td></tr><tr><td>Chybějící ročník narození</td><td class="num">0 řádků</td><td>Řádky sezónních tabulek národnosti CZE bez ročníku narození, ze kterých nejde sestavit player_key.</td></tr></tbody></table>
+      <ul class="dq-events"><li><span class="mono">2026-09-14</span> Zastaralý sezónní index FBref způsobil, že soccerdata stáhla URL bez sezóny, kterou FBref servíruje jako běžící sezónu: tabulky 2025/26 devíti lig byly po čtyřech kolech 2026/27. Opraveno kontrolou vlastního nadpisu stránky proti požadované sezóně. <span class="mono">(9 lig, zaznamenáno)</span></li><li><span class="mono">2026-09-14</span> FBref občas servírovala jen soupisku (bez sezónní tabulky) pro sezónu, která ještě probíhá. Opraveno jedním opakovaným stažením v téže kontrole nadpisu stránky.</li><li><span class="mono">2026-09-13</span> API ClubElo odpovídalo 502 po celou dobu běhu; ligové násobičky spadly zpět na koeficienty asociací UEFA.</li><li><span class="mono">2026-09-13</span> Dotaz na portréty ve Wikidatech spároval jen podle jména, občanství a data narození; sedm portrétů patřilo jmenovcům z jiných sportů, dokud nebyl přidán filtr na povolání. <span class="mono">(7 portrétů, zaznamenáno)</span></li><li><span class="mono">2026-09-13</span> Slovenská nejvyšší soutěž na FBref vůbec není; slovenské exhibity v tomto reportu proto stojí jen na hráčích v zahraničí.</li></ul>
+    </details>
     
 
     <h3 id="limitations">Limitace této analýzy</h3>
@@ -7935,7 +8583,7 @@
       
       <details class="fold fold-lim"><summary>Zdroj reprezentačního příznaku</summary><p>Příznak „nominován 2024–26“ je parsovaný z tabulek nominací na Wikipedii (2024–25 Nations League, 2026 FIFA World Cup, 2026 World Cup qualification, UEFA Euro 2024, UEFA European Under-21 Championship 2025) a spárovaný podle normalizovaného jména a ročníku narození. Nese ho 60 z 192 zmapovaných hráčů. Editace tabulky nebo varianta jména může nominaci vypustit; příznak je štítek, ne počet startů.</p></details>
       
-      <details class="fold fold-lim"><summary>Pokrytí fotografiemi</summary><p>99 z 440 hráčů fondu má portrét z Wikimedia Commons (Wikidata P18, spárováno podle jména, občanství a data narození, povolání filtrováno na fotbalistu), použitý na webu. Hráči bez portrétu mají na webu iniciály.</p></details>
+      <details class="fold fold-lim"><summary>Pokrytí fotografiemi</summary><p>112 z 440 hráčů fondu má portrét z Wikimedia Commons (Wikidata P18, spárováno podle jména, občanství a data narození, povolání filtrováno na fotbalistu), použitý na webu. Hráči bez portrétu mají na webu iniciály.</p></details>
       
       <details class="fold fold-lim"><summary>Rozdělení sezón</summary><p>Hlavní počet na obyvatele i každá metrika používají kompletní sezónu 2025/26; trajektorie běží 2024/25 → 2025/26; klub na kartě je klub 2026/27 (sezóna probíhající v době sestavení).</p></details>
       
@@ -7957,15 +8605,18 @@
     <p>Celá pipeline je veřejná: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas">github.com/barborasandova/czefootball-player-pool-atlas</a>. Licence MIT. Z čistého klonu <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> vykreslí tento report z commitnutého datového snapshotu a <code>make pages</code> sestaví web; <code>make all</code> vše znovu stáhne a spustí celou pipeline. Náhodný seed 42 pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě.</p>
 
     <h3 id="how-built">Jak report vznikl</h3>
-    <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 131 testy.</p>
-    <ol class="build-flow">
-      <li>Specifikace</li>
-      <li>Plán</li>
-      <li>Task agent</li>
-      <li>Review</li>
-      <li>Ledger</li>
-    </ol>
-    <p>Specifikace: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">návrh</a> · plán: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">úkoly</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulingy</a>.</p>
+    <details class="fold">
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 136 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 136 testy.</p>
+      <ol class="build-flow">
+        <li>Specifikace</li>
+        <li>Plán</li>
+        <li>Task agent</li>
+        <li>Review</li>
+        <li>Ledger</li>
+      </ol>
+      <p>Specifikace: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">návrh</a> · plán: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">úkoly</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulingy</a>.</p>
+    </details>
   </div>
 </section>
 
@@ -7985,7 +8636,7 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Kredity fotografií (29 portrétů, Wikimedia Commons)</summary>
+        <summary>Kredity fotografií (33 portrétů, Wikimedia Commons)</summary>
         <ul class="small">
           
           <li data-fbref-id="cd682b6b" data-player-key="lukas ambros|2004">
@@ -8002,6 +8653,14 @@
           
           <li data-fbref-id="54b2f056" data-player-key="martin cedidla|2001">
             Martin Cedidla — <a href="https://commons.wikimedia.org/wiki/File:Martin_Cedidla,_Baník_Ostrava-Zlín_2019-10-05_(1).jpg">Martin Cedidla, Baník Ostrava-Zlín 2019-10-05 (1).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="254b831b" data-player-key="matej chalus|1998">
+            Matěj Chaluš — <a href="https://commons.wikimedia.org/wiki/File:Matěj_Chaluš,_U21_CZE-GRE_2019-10-10_(3).jpg">Matěj_Chaluš,_U21_CZE-GRE_2019-10-10_(3).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3028e991" data-player-key="martin chlumecky|1997">
+            Martin Chlumecký — <a href="https://commons.wikimedia.org/wiki/File:Martin_Chlumecký_2025.jpg">Martin_Chlumecký_2025.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
           <li data-fbref-id="163bbd4a" data-player-key="tomas chory|1995">
@@ -8030,6 +8689,10 @@
           
           <li data-fbref-id="e03c2d97" data-player-key="tomas holes|1993">
             Tomáš Holeš — <a href="https://commons.wikimedia.org/wiki/File:Tomáš_Holeš_Jablonec-Ostrava.jpg">Tomáš Holeš Jablonec-Ostrava.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="08299b06" data-player-key="lukas hulka|1995">
+            Lukáš Hůlka — <a href="https://commons.wikimedia.org/wiki/File:Lukáš_Hulka_20180901.jpg">Lukáš_Hulka_20180901.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
           <li data-fbref-id="67dd5e20" data-player-key="michal kohut|2000">
@@ -8104,10 +8767,14 @@
             Tomáš Čvančara — <a href="https://commons.wikimedia.org/wiki/File:Tomáš_Čvančara.jpg">Tomáš Čvančara.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
+          <li data-fbref-id="e9b893af" data-player-key="pavel sulc|2000">
+            Pavel Šulc — <a href="https://commons.wikimedia.org/wiki/File:Pavel_Šulc_(cropped).jpg">Pavel_Šulc_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-14 12:06</p>
+    <p class="rendered-at">Vykresleno: 2026-09-14 13:25</p>
   </div>
 </footer>
 
