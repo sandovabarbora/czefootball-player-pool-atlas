@@ -1,4 +1,4 @@
-.PHONY: help install fetch pool photos features reduce benchmark analogs sensitivity pathways data-quality render all clean test lint check snapshot restore-snapshot pages
+.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity pathways data-quality render all clean test lint check snapshot restore-snapshot pages
 
 PYTHON ?= python
 VENV   ?= .venv
@@ -8,17 +8,19 @@ help:
 	@echo "Targets:"
 	@echo "  install          Create .venv, install deps with uv (or pip fallback)"
 	@echo "  fetch            Run the data fetchers (leagues setup, FBref, Elo, squads)"
+	@echo "  fetch-big5       Fetch the 26-season Big-5 player-standard history"
 	@echo "  pool             Build the Czech-eligible player pool"
 	@echo "  photos           Fetch Wikimedia portraits for the pool (needs pool.parquet)"
 	@echo "  features         Build position-specific feature vectors + season trajectories"
 	@echo "  reduce           Run PCA + UMAP + KMeans"
 	@echo "  benchmark        Per-capita benchmark, cohort table and heatmap"
+	@echo "  series           26-season Big-5 series (Czech players vs peers) exhibit"
 	@echo "  analogs          Showcase players and historical analogs"
 	@echo "  sensitivity      League-multiplier sensitivity table"
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
-	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> analogs -> sensitivity -> pathways -> data-quality -> render"
+	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> pathways -> data-quality -> render"
 	@echo "  pages            render, then build docs/ with site/build.sh"
 	@echo "  test             Run pytest"
 	@echo "  lint             Run ruff check"
@@ -40,6 +42,9 @@ fetch:
 	$(ACT) python -m src.fetch_elo
 	$(ACT) python -m src.fetch_squads
 
+fetch-big5:
+	$(ACT) python -m src.fetch_big5_history
+
 pool:
 	$(ACT) python -m src.pool
 
@@ -58,6 +63,9 @@ benchmark:
 	$(ACT) python -m src.international_benchmark
 	$(ACT) python -m src.squad_lens
 
+series:
+	$(ACT) python -m src.big5_series
+
 analogs:
 	$(ACT) python -m src.historical_analogs
 
@@ -73,7 +81,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark analogs sensitivity pathways data-quality render
+all: fetch pool photos features reduce benchmark series analogs sensitivity pathways data-quality render
 
 test:
 	$(ACT) pytest

@@ -1077,6 +1077,7 @@ def load_data() -> dict[str, Any]:
         "analogs": _load_json(p / "analogs.json", {}),
         "pathways": _load_json(p / "pathways.json", {}),
         "squad_lens": _load_json(p / "squad_lens.json", {}),
+        "big5_series": _load_json(p / "big5_series.json", {}),
         "data_quality": _load_json(p / "data_quality.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.load_yaml("cluster_labels.yaml"),
