@@ -65,7 +65,10 @@ def parse_player_page(page_html: str, league: str, season: str, stat_type: str) 
         raise MissingTable(f"{league} {season}: no player {stat_type} table on the page")
     el = comments[0]
     parser = etree.HTMLParser(recover=True)
-    (table,) = etree.fromstring(el.text, parser).xpath(f"//table[contains(@id, 'stats_{stat_type}')]")
+    tables = etree.fromstring(el.text, parser).xpath(f"//table[contains(@id, 'stats_{stat_type}')]")
+    if not tables:
+        raise MissingTable(f"{league} {season}: no player {stat_type} table inside the page's table block")
+    table = tables[0]
     df = _parse_table(table)
     df[("Unnamed: league", "league")] = league
     df[("Unnamed: season", "season")] = season
