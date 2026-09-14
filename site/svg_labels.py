@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 DOCS = Path(sys.argv[1])
-FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg"]
+FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -41,6 +41,10 @@ T = {
     "Midfielders  ·  median npG+A per 90 (quality-adjusted)": "Záložníci  ·  medián npG+A na 90 (kvalitou upravené)",
     "Defenders  ·  median npG+A per 90 (quality-adjusted)": "Obránci  ·  medián npG+A na 90 (kvalitou upravené)",
     f"International cohort benchmark  ·  UEFA top-9 leagues {METRICS}": f"Mezinárodní kohortový benchmark  ·  top-9 ligy UEFA {METRICS}",
+    # big5 series (Task 13a exhibit / Task 13b slide 7)
+    "Players (≥ 450 min)": "Hráči (≥ 450 min)",
+    "Per million population": "Na milion obyvatel",
+    "Season start year": "Počáteční rok sezóny",
 }
 # the PCA caption carries the corpus counts, so it is matched by pattern
 CAPTION_EN = re.compile(
@@ -50,8 +54,12 @@ CAPTION_EN = re.compile(
 CAPTION_CS = ("PCA pětiprvkového vektoru (npG/90, A/90, podíl minut, věk, karty/90), {season}. "
               "Šedě: celý korpus (n = {corpus}); barevně: hráči s českou příslušností podle clusteru (n = {czech}). "
               "Oxbloodové kroužky: reprezentační nominace {nt}.")
-# labels that stay as they are (axis names, cluster codes, cohorts, countries, numbers, surnames)
-KEEP = re.compile(r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d\d\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+)$")
+# the big5_series suptitle carries the season span, so it is matched by pattern too
+BIG5_TITLE_EN = re.compile(r"Czech players in the Big-5 leagues, (?P<start>\S+) → (?P<end>\S+)")
+BIG5_TITLE_CS = "Čeští hráči v ligách Big-5, {start} → {end}"
+# labels that stay as they are (axis names, cluster codes, cohorts, countries, numbers, surnames,
+# and the big5_series point annotations "YYYY/YY: N", identical in both languages)
+KEEP = re.compile(r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d\d\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+|\d{4}/\d\d: \d+)$")
 # per-string font scale, for a Czech entry that would otherwise leave its panel
 SHRINK: dict[str, float] = {}
 FONT = {"Georgia": "Georgia, 'Times New Roman', serif",
@@ -70,6 +78,10 @@ def czech(word: str) -> str | None:
     if m:
         seen.add("caption")
         return CAPTION_CS.format(**m.groupdict())
+    m = BIG5_TITLE_EN.fullmatch(word)
+    if m:
+        seen.add("big5_title")
+        return BIG5_TITLE_CS.format(**m.groupdict())
     return None
 
 
@@ -85,13 +97,20 @@ def convert(src: str, name: str) -> str:
             if not KEEP.fullmatch(word):
                 untranslated.append(f"{name}: {word[:60]}")
             return m.group(0)
-        g = re.search(r'<g style="fill: (#[0-9a-f]{6})" transform="translate\(([\d.\-]+) ([\d.\-]+)\) scale\(([\d.]+) -[\d.]+\)">', inner)
+        # rotate(-90) appears between translate and scale for vertical axis
+        # labels (matplotlib's rotated ylabel); the rotation pivots on the
+        # already-translated origin, so a plain `transform="rotate(-90 x y)"`
+        # on the replacement <text> reproduces the same placement.
+        g = re.search(
+            r'<g style="fill: (#[0-9a-f]{6})" transform="translate\(([\d.\-]+) ([\d.\-]+)\)'
+            r'(?: rotate\((-?[\d.]+)\))? scale\(([\d.]+) -[\d.]+\)">', inner)
         font = re.search(r'xlink:href="#([A-Za-z]+)-[0-9a-f]+"', inner)
-        fill, x, y, sc = g.group(1), g.group(2), g.group(3), float(g.group(4)) * SHRINK.get(word, 1.0)
+        fill, x, y, rot, sc = g.group(1), g.group(2), g.group(3), g.group(4), float(g.group(5)) * SHRINK.get(word, 1.0)
         family = FONT.get(font.group(1), font.group(1)) if font else FONT["HelveticaNeue"]
         esc = cz.replace("&", "&amp;").replace("<", "&lt;")
+        rotate_attr = f' transform="rotate({rot} {x} {y})"' if rot else ""
         return (f'<g id="{gid}">\n    <!-- {esc} -->\n    <text x="{x}" y="{y}" font-family="{family}" '
-                f'font-size="{sc * 100:.2f}" fill="{fill}" text-anchor="start">{esc}</text>\n   </g>')
+                f'font-size="{sc * 100:.2f}" fill="{fill}" text-anchor="start"{rotate_attr}>{esc}</text>\n   </g>')
 
     out = re.sub(r'<g id="(text_\d+)">(.*?)</g>\s*</g>', repl, src, flags=re.S)
     ids = set(re.findall(r'<path id="([^"]+)"', out))
@@ -121,6 +140,8 @@ if unused:
     problems.append("T entries not found in any SVG: " + "; ".join(unused))
 if "caption" not in seen:
     problems.append("PCA caption pattern matched nothing")
+if "big5_title" not in seen:
+    problems.append("big5_series title pattern matched nothing")
 if problems:
     print("FAILED:", *problems, sep="\n  ")
     sys.exit(1)

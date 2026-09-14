@@ -90,12 +90,12 @@ def test_site_layer_is_applied_to_both_pages(built):
 def test_czech_page_points_at_czech_figures(built, site_dir):
     out, _ = site_dir
     cs = built["cs"]
-    for name in ("atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg"):
+    for name in ("atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg"):
         assert f'<img src="{name}"' in cs, name
         assert (out / "cs" / name).exists()
         svg = (out / "cs" / name).read_text(encoding="utf-8")
-        assert "<text " in svg and ("Český fotbal" in svg or "Mezinárodní" in svg)
-    for name in ("atlas_FW.svg", "intl_cohort_heatmap.svg"):
+        assert "<text " in svg and ("Český fotbal" in svg or "Mezinárodní" in svg or "Čeští hráči" in svg)
+    for name in ("atlas_FW.svg", "intl_cohort_heatmap.svg", "big5_series.svg"):
         assert f'<img src="{name}"' in built["en"]
 
 

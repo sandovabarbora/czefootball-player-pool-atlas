@@ -14,6 +14,77 @@
 {%- macro signed(x) -%}{%- if x is none -%}—{%- else -%}{{ '%+.3f' | format(x) }}{%- endif -%}{%- endmacro -%}
 {%- macro signed2(x) -%}{%- if x is none -%}—{%- else -%}{{ '%+.2f' | format(x) }}{%- endif -%}{%- endmacro -%}
 {%- macro trend_arrow(dir) -%}{%- if dir == 'improving' -%}↑{%- elif dir == 'declining' -%}↓{%- else -%}→{%- endif -%}{%- endmacro -%}
+{%- macro card_article(p) -%}
+  <article class="cycle-card" id="card-{{ p.fbref_id }}" data-player-key="{{ p.player_key }}" data-fbref-id="{{ p.fbref_id }}" data-rule="{{ p.reason }}" data-pos="{{ p.pos }}" data-club="{{ p.club }}">
+    <header class="cycle-card-head">
+      <h4 class="cycle-card-name">{{ p.name }}</h4>
+      <p class="cycle-card-meta">
+        {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ t('ch3.card.latest_known') if p.club_label == 'latest known' else p.club_label }}){% if p.nt_flag %} &middot; {{ t('ch3.card.nt', nt_years=facts.nt_years) }}{% endif %}
+      </p>
+    </header>
+
+    <p class="cycle-card-meta cycle-stats-head">{{ seasons.metrics }} &middot; {{ p.club_season }} &middot; {{ p.league }}</p>
+    <dl class="cycle-stats">
+      <div><dt title="{{ t('metric.prod') }}">{{ t('metric.prod.short') }}</dt><dd>{{ f2(p.stats.npg_ast_q) }}</dd></div>
+      <div><dt>{{ t('ch3.card.stat.rates') }}</dt><dd>{{ f2(p.stats.npg_p90) }} / {{ f2(p.stats.ast_p90) }}</dd></div>
+      <div><dt>{{ t('ch3.card.stat.min') }}</dt><dd>{{ p.stats.min }} ({{ pct(p.stats.min_share) }})</dd></div>
+    </dl>
+
+    <div class="cycle-cluster">
+      <span class="cycle-cluster-row" title="{{ p.clusters.style.id }}">
+        <span class="cycle-cluster-tag">{{ t('ch3.card.style') }}</span>
+        <span class="cycle-cluster-label">{{ p.clusters.style.label }}</span>
+      </span>
+      <span class="cycle-cluster-row" title="{{ p.clusters.quality.id }}">
+        <span class="cycle-cluster-tag">{{ t('ch3.card.quality') }}</span>
+        <span class="cycle-cluster-label">{{ p.clusters.quality.label }}</span>
+      </span>
+    </div>
+
+    {% if p.tactical %}
+    <div class="cycle-section">
+      <p class="cycle-section-label">{{ t('ch3.card.tactical') }}</p>
+      <p class="cycle-tactical">{{ p.tactical }}</p>
+    </div>
+    {% endif %}
+
+    {% if p.trajectory %}
+    <div class="cycle-section">
+      <p class="cycle-section-label">{{ t('ch3.card.traj', previous=seasons.previous, metrics=seasons.metrics) }}</p>
+      <p class="cycle-traj">
+        <span class="cycle-traj-arrow" aria-hidden="true">{{ trend_arrow(p.trajectory.direction) }}</span>
+        <span class="cycle-traj-dir">{{ term(p.trajectory.direction) }}</span>
+        <span class="cycle-traj-delta">{{ signed2(p.trajectory.delta) }}</span>
+        <span class="cycle-traj-unit">{{ t('metric.prod.short') }}</span>
+        <span class="cycle-traj-detail">{{ p.trajectory.min_prev }} {{ t('ch3.card.min') }} &rarr; {{ p.trajectory.min_curr }} {{ t('ch3.card.min') }}</span>
+      </p>
+    </div>
+    {% endif %}
+
+    {% if p.analogs %}
+    <div class="cycle-section">
+      <p class="cycle-section-label">{{ t('ch3.card.analogs', age=p.analog_age) }}</p>
+      <ol class="cycle-analogs">
+        {% for a in p.analogs %}
+        <li>
+          <span class="cycle-analog-name">{{ a.name }}</span>
+          <span class="cycle-analog-country">{{ a.nation }}</span>
+          <span class="cycle-analog-stats">
+            {{ a.league }} {{ a.season }} &middot; {{ a.min }} {{ t('ch3.card.min') }} &middot; {{ f2(a.npg_ast_q) }} &middot;
+            d&nbsp;=&nbsp;{{ f2(a.distance) }}
+          </span>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+
+    {% if p.nt_events %}
+    <p class="cycle-card-meta">{{ p.nt_events | join(' · ') }}</p>
+    {% endif %}
+    <p class="muted small">{{ t('ch3.card.selected', reason=reason(p.reason)) }}</p>
+  </article>
+{%- endmacro -%}
 {%- set topn = headline_leagues | length -%}
 {%- set cze = per_capita | selectattr('country', 'equalto', 'CZE') | list | first -%}
 {%- set gt = {} -%}
@@ -41,22 +112,16 @@
   </button>
   <p class="toc-heading">{{ t('toc.heading') }}</p>
   <ol>
-    <li><a href="#summary">{{ t('toc.summary') }}</a>
-      <ol>
-        <li><a href="#benchmark">{{ t('toc.benchmark') }}</a></li>
-        <li><a href="#observations">{{ t('toc.observations') }}</a></li>
-        <li><a href="#clusters">{{ t('toc.clusters') }}</a></li>
-        <li><a href="#trajectories">{{ t('toc.trajectories') }}</a></li>
-      </ol>
-    </li>
-    <li><a href="#pathways">{{ t('toc.pathways') }}</a></li>
-    <li><a href="#cards">{{ t('toc.cards_chapter') }}</a>
-      <ol>
-        <li><a href="#cards">{{ t('toc.cards') }}</a></li>
-        <li><a href="#analogs">{{ t('toc.analogs') }}</a></li>
-        <li><a href="#players">{{ t('toc.players') }}</a></li>
-      </ol>
-    </li>
+    <li><a href="#q1">{{ t('toc.q1') }}</a></li>
+    <li><a href="#q2">{{ t('toc.q2') }}</a></li>
+    <li><a href="#q3">{{ t('toc.q3') }}</a></li>
+    <li><a href="#q4">{{ t('toc.q4') }}</a></li>
+    <li><a href="#q5">{{ t('toc.q5') }}</a></li>
+    <li><a href="#q6">{{ t('toc.q6') }}</a></li>
+    <li><a href="#q7">{{ t('toc.q7') }}</a></li>
+    <li><a href="#q8">{{ t('toc.q8') }}</a></li>
+    <li><a href="#q9">{{ t('toc.q9') }}</a></li>
+    <li><a href="#explore">{{ t('toc.explore') }}</a></li>
     <li><a href="#methodology">{{ t('toc.methodology') }}</a>
       <ol>
         <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
@@ -85,9 +150,8 @@
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
-        <li><a href="#summary">{{ t('toc.summary') }}</a> · <a href="#benchmark">{{ t('toc.short.benchmark') }}</a> · <a href="#observations">{{ t('toc.observations') }}</a> · <a href="#clusters">{{ t('toc.clusters') }}</a> · <a href="#trajectories">{{ t('toc.trajectories') }}</a></li>
-        <li><a href="#pathways">{{ t('toc.pathways') }}</a> · <a href="#cards">{{ t('toc.short.cards') }}</a> · <a href="#analogs">{{ t('toc.short.analogs') }}</a> · <a href="#players">{{ t('toc.players') }}</a></li>
-        <li><a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a></li>
+        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8') }}</a> · <a href="#q9">{{ t('toc.q9') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a></li>
       </ol>
     </details>
   </div>
@@ -126,36 +190,264 @@
   </div>
 </section>
 
+{% set pw = pathways %}
+{% set squad_peer_rows = (squad_lens.rows | rejectattr('country', 'equalto', 'CZE') | list) if (squad_lens and squad_lens.rows) else [] %}
+{% set squad_cze_row = ((squad_lens.rows | selectattr('country', 'equalto', 'CZE') | list | first)) if (squad_lens and squad_lens.rows) else none %}
+{% set squad_best_row = (squad_peer_rows | sort(attribute='top9_pct', reverse=true) | first) if squad_peer_rows else none %}
 {# =============================================================================
-   ARGUMENT — the five findings as a computed list, one row per number, each
-   sourced to its exhibit
+   SLIDES — nine questions, each one answer sentence + one proof exhibit +
+   one "how we know" line. The presentation reads top to bottom; everything
+   else (full tables, the remaining exhibits, the player index) is folded
+   under "Explore the data" further down.
    ============================================================================= #}
-<section class="findings" id="findings">
+<section class="slide" id="q1">
   <div class="container">
-    <h3>{{ t('findings.h3') }}</h3>
-    <ol class="argument">
-      {% for f in findings %}
-      <li>
-        <strong class="argument-figure">{{ f.figure }}</strong>
-        <span class="argument-line">{{ f.text[:-1] }}</span>
-        <a class="argument-source" href="{{ f.anchor }}">{{ f.foot }}</a>
-      </li>
+    <h2 class="slide-q">{{ t('slide.1.q') }}</h2>
+    <p class="slide-a">{{ t('slide.1.a', rank=ordinal(hero.rank), n=hero.n_peers, pm=f2(hero.per_million), top=term(hero.top.name), top_pm=f2(hero.top.per_million)) }}</p>
+    <div class="slide-proof">
+      <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
+        {% for r in per_capita %}
+        <div class="capita-row" role="listitem"
+             {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
+             style="--value: {{ r.per_million }}; --max: {{ max_per_million }};">
+          <div class="capita-country">
+            <span class="capita-code">{{ r.country }}</span>
+            {{ term(r.name) }}
+          </div>
+          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+          <div class="capita-value">{{ f2(r.per_million) }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.1.how', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn) }}</p>
+  </div>
+</section>
+
+<section class="slide" id="q2">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.2.q') }}</h2>
+    {% set gap0 = cohort_gaps[0] %}
+    <p class="slide-a">{{ t('slide.2.a', group=term(gap0.group_title), cohort=gap0.cohort, cze=gap0.cze_n, peer=g(gap0.peer_median_n)) }}</p>
+    <div class="slide-proof">
+      <table class="kv-table cohort-gap-table">
+        <thead>
+          <tr><th>{{ t('cohortgap.th.group') }}</th><th>{{ t('cohortgap.th.cohort') }}</th><th>{{ t('cohortgap.th.cze') }}</th><th>{{ t('cohortgap.th.peer') }}</th></tr>
+        </thead>
+        <tbody>
+          {% for r in cohort_gaps[:5] %}
+          <tr>
+            <td>{{ term(r.group_title) }}</td>
+            <td>{{ r.cohort }}</td>
+            <td class="cohort-cze">{{ r.cze_n }}</td>
+            <td>{{ g(r.peer_median_n) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.2.how', min=feature_defs.min_minutes) }}</p>
+  </div>
+</section>
+
+<section class="slide" id="q3">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.3.q') }}</h2>
+    <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}</p>
+    <div class="slide-proof">
+      {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
+      <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
+        {% for r in pw.youth %}
+        <div class="capita-row" role="listitem"
+             {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
+             style="--value: {{ r.share_u21 if r.share_u21 is not none else 0 }}; --max: {{ youth_max }};">
+          <div class="capita-country">
+            <span class="capita-code">{{ r.country }}</span>
+            {{ r.league }}
+          </div>
+          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+          <div class="capita-value">{% if r.share_u21 is none %}<span class="muted" title="{{ t('ch2.a.nodata') }}">—</span>{% else %}{{ pct1(r.share_u21) }}{% endif %}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.3.how', season=seasons.metrics) }}</p>
+  </div>
+</section>
+
+<section class="slide" id="q4">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.4.q') }}</h2>
+    {% if pathways.destinations %}
+    {% set dest = pathways.destinations %}
+    {% set top9_bucket = (dest.buckets | selectattr('bucket', 'equalto', 'top9') | list | first) %}
+    <p class="slide-a">{{ t('slide.4.a', abroad=dest.n_abroad, total=dest.n_total, topn=topn,
+                            top9_pct=(('%.0f' | format(top9_bucket.share_of_abroad * 100)) if top9_bucket else '—'),
+                            sideways_pct=('%.0f' | format(dest.sideways_share * 100))) }}</p>
+    <div class="slide-proof">
+      {% if dest.buckets %}
+      {% set dest_max = dest.buckets | map(attribute='share_of_abroad') | max %}
+      <div class="capita" role="list" aria-label="{{ t('ch2.e.aria') }}">
+        {% for b in dest.buckets %}
+        <div class="capita-row" role="listitem" style="--value: {{ b.share_of_abroad }}; --max: {{ dest_max }};">
+          <div class="capita-country">
+            <span class="capita-code">{{ b.n }}</span>
+            {{ term(b.label) }}{% if b.median_multiplier is not none %} <span class="muted small">{{ t('ch2.e.median_mult', m=f3(b.median_multiplier)) }}</span>{% endif %}
+          </div>
+          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+          <div class="capita-value">{{ pct(b.share_of_abroad) }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4.how', season=seasons.metrics) }}</p>
+  </div>
+</section>
+
+<section class="slide" id="q5">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.5.q') }}</h2>
+    <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}</p>
+    <div class="slide-proof">
+      {% set fare_min_max = pw.fare_min | map(attribute='value') | max %}
+      <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
+        {% for r in pw.fare_min %}
+        <div class="capita-row" role="listitem"
+             {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
+             style="--value: {{ r.value }}; --max: {{ fare_min_max }};">
+          <div class="capita-country">
+            <span class="capita-code">{{ r.country }}</span>
+            {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
+          </div>
+          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+          <div class="capita-value">{{ pct(r.value) }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how') }}</p>
+  </div>
+</section>
+
+<section class="slide" id="q6">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.6.q') }}</h2>
+    <p class="slide-a">{% if squad_cze_row and squad_best_row %}{{ t('slide.6.a', cze_pct=('%.0f' | format(squad_cze_row.top9_pct)), event=squad_lens.event, topn=topn,
+                            best_name=term(squad_best_row.name), best_pct=('%.0f' | format(squad_best_row.top9_pct))) }}{% endif %}</p>
+    <div class="slide-proof">
+      {% if squad_lens and squad_lens.rows %}
+      <ul class="tier-bar-legend">
+        <li><span class="tier-swatch tier-top9" aria-hidden="true"></span>{{ t('ch2.f.th.top9') }}</li>
+        <li><span class="tier-swatch tier-stepping" aria-hidden="true"></span>{{ t('ch2.f.th.stepping') }}</li>
+        <li><span class="tier-swatch tier-domestic" aria-hidden="true"></span>{{ t('ch2.f.th.domestic') }}</li>
+        <li><span class="tier-swatch tier-other" aria-hidden="true"></span>{{ t('ch2.f.th.other') }}</li>
+      </ul>
+      <div class="tier-bars" role="list" aria-label="{{ t('ch2.f.h3', event=squad_lens.event) }}">
+        {% for r in squad_lens.rows %}
+        <div class="tier-bar-row" role="listitem"{% if r.country == 'CZE' %} data-highlight="cze"{% endif %}>
+          <div class="tier-bar-head">
+            <span class="capita-code">{{ r.country }}</span> {{ term(r.name) }}
+            <span class="muted small">{{ t('ch2.f.th.squad') }} {{ r.n }}</span>
+          </div>
+          <div class="tier-bar" role="img" aria-label="{{ term(r.name) }}: {{ t('ch2.f.th.top9') }} {{ '%.0f' | format(r.top9_pct) }} %, {{ t('ch2.f.th.stepping') }} {{ '%.0f' | format(r.stepping_pct) }} %, {{ t('ch2.f.th.domestic') }} {{ '%.0f' | format(r.domestic_pct) }} %, {{ t('ch2.f.th.other') }} {{ '%.0f' | format(r.other_pct) }} %">
+            <span class="tier-seg tier-top9" style="flex: {{ r.top9_pct }} 0 0"></span>
+            <span class="tier-seg tier-stepping" style="flex: {{ r.stepping_pct }} 0 0"></span>
+            <span class="tier-seg tier-domestic" style="flex: {{ r.domestic_pct }} 0 0"></span>
+            <span class="tier-seg tier-other" style="flex: {{ r.other_pct }} 0 0"></span>
+            {% if r.unmatched_pct %}<span class="tier-seg tier-unmatched" style="flex: {{ r.unmatched_pct }} 0 0"></span>{% endif %}
+          </div>
+          <div class="tier-bar-value">{{ '%.0f' | format(r.top9_pct) }} %</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.6.how', season=seasons.metrics) }}</p>
+  </div>
+</section>
+
+<section class="slide" id="q7">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
+    {% if big5 %}
+    <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season) }}</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed" data-atlas="big5">
+        <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season) }}">
+      </figure>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden) }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="slide" id="q8">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.8.q') }}</h2>
+    <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
+                            nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
+    <div class="slide-proof">
+      <table class="kv-table peer-compare" aria-label="{{ t('peer_compare.aria') }}">
+        <thead>
+          <tr><th>{{ t('peer_compare.th.metric') }}</th>{% for c in peer_compare.countries %}<th{% if c == 'CZE' %} class="cohort-cze"{% endif %}>{{ c }}</th>{% endfor %}</tr>
+        </thead>
+        <tbody>
+          {% for r in peer_compare.rows %}
+          <tr>
+            <td>{{ t(r.label_key) }}</td>
+            {% for c in peer_compare.countries %}
+            {% set cell = r.by_country[c] %}
+            <td{% if c == 'CZE' %} class="cohort-cze"{% endif %}>
+              {%- if cell.value is none -%}<span class="muted">—</span>
+              {%- elif cell.fmt == 'f2' -%}{{ f2(cell.value) }}
+              {%- elif cell.fmt == 'pct1' -%}{{ pct1(cell.value) }}
+              {%- elif cell.fmt == 'pct' -%}{{ pct(cell.value) }}
+              {%- elif cell.fmt == 'g' -%}{{ g(cell.value) }}
+              {%- else -%}{{ cell.value }}
+              {%- endif -%}
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8.how') }}</p>
+  </div>
+</section>
+
+<section class="slide" id="q9">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.9.q') }}</h2>
+    <p class="slide-a">{{ t('slide.9.a', n=cards | length) }}</p>
+    <div class="slide-proof">
+      <details class="fold">
+        <summary>{{ t('ch3.cards.rules.summary', n=cards | length) }}</summary>
+        <p class="capita-note">{{ t('ch3.cards.rules', event=nt_core_event) }}</p>
+      </details>
+      {% for row in card_rows %}
+      <p class="cycle-row-kicker">{{ row.kicker }}</p>
+      <div class="cycle-grid">
+        {% for p in row.cards %}{{ card_article(p) }}{% endfor %}
+      </div>
       {% endfor %}
-    </ol>
+      <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.9.how', season=seasons.metrics) }}</p>
   </div>
 </section>
 
 {# =============================================================================
    FOR A FEDERATION — what a federation gets from this method, right after the
-   argument list; the tiles are quiet (same hairline tokens as the argument
-   rows), and the mono line under them states what transfers to run it for
-   another country (this used to be the "method note" fold under the argument)
+   nine slides and before "Explore the data"
    ============================================================================= #}
 <section class="for-federation" id="for-federation">
   <div class="container">
     <h3>{{ t('fed.h3') }}</h3>
     <ul class="fed-grid">
-      <li class="fed-tile"><a href="#benchmark">
+      <li class="fed-tile"><a href="#q1">
         <span class="fed-tile-title">{{ t('fed.benchmark.title') }}</span>
         <span class="fed-tile-body">{{ t('fed.benchmark.body') }}</span>
       </a></li>
@@ -163,7 +455,7 @@
         <span class="fed-tile-title">{{ t('fed.pathways.title') }}</span>
         <span class="fed-tile-body">{{ t('fed.pathways.body') }}</span>
       </a></li>
-      <li class="fed-tile"><a href="#exhibit-f">
+      <li class="fed-tile"><a href="#q6">
         <span class="fed-tile-title">{{ t('fed.squad.title') }}</span>
         <span class="fed-tile-body">{{ t('fed.squad.body') }}</span>
       </a></li>
@@ -177,34 +469,19 @@
 </section>
 
 {# =============================================================================
-   CHAPTER I — EXECUTIVE SUMMARY
+   EXPLORE THE DATA — folded; today's chapters I-III material, minus the
+   exhibits already used as a slide's proof above. Six top-level folds
+   (Task 13b brief); ids kept so old deep links still land somewhere.
    ============================================================================= #}
-<section class="exec-summary">
+<section class="explore" id="explore">
   <div class="container">
-    <p class="framing lede">{{ t('ch1.framing', n=facts.n_with_metrics, season=seasons.metrics, peers=hero.n_peers - 1) }}</p>
+    <h2>{{ t('explore.h2') }}</h2>
 
+    <details class="fold">
+      <summary>{{ t('toc.benchmark') }}</summary>
+      <div class="explore-block">
     <h3 id="benchmark">{{ t('ch1.benchmark.h3') }}</h3>
     <p>{{ t('ch1.benchmark.p') }}</p>
-
-    <h4>{{ t('ch1.capita.h4', topn=topn, season=seasons.metrics) }}</h4>
-    <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
-      {% for r in per_capita %}
-      <div class="capita-row" role="listitem"
-           {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
-           style="--value: {{ r.per_million }}; --max: {{ max_per_million }};">
-        <div class="capita-country">
-          <span class="capita-code">{{ r.country }}</span>
-          {{ term(r.name) }}
-        </div>
-        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-        <div class="capita-value">{{ f2(r.per_million) }}</div>
-      </div>
-      {% endfor %}
-    </div>
-    <p class="capita-note">
-      {{ t('ch1.capita.note', season=seasons.metrics, topn=topn, leagues=headline_leagues | join(', '), n=cze.n_players,
-           pop=('%.2f' | format(cze.population_m)), pm=f2(cze.per_million), rank=cze.rank, total=per_capita | length) }}
-    </p>
 
     <figure class="figure-bleed" data-atlas="heatmap" title="{{ t('ch1.heatmap.note') }}">
       <img src="{{ assets }}intl_cohort_heatmap.svg"
@@ -247,15 +524,6 @@
            n=hero.n_peers, gaps=gap_items | join(', ')) }}
     </p>
 
-    {% for grp in groups %}
-    {% set note = atlas_notes[grp] %}
-    <figure class="figure-bleed" data-atlas="{{ grp | lower }}" data-cluster-names='{{ cluster_names.get(grp, {}) | tojson }}'>
-      <img src="{{ assets }}atlas_{{ grp }}.svg"
-           alt="{{ t('ch1.atlas.alt', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt, nt_years=facts.nt_years) }}">
-      <figcaption>{{ t('ch1.atlas.caption', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt, nt_years=facts.nt_years) }}</figcaption>
-    </figure>
-    {% endfor %}
-
     <h3 id="observations">{{ t('ch1.observations.h3') }}</h3>
     <details class="fold">
       <summary>{{ observations | map(attribute='title') | join(' · ') }}</summary>
@@ -268,9 +536,22 @@
         {% endfor %}
       </div>
     </details>
+      </div>
+    </details>
 
+    <details class="fold">
+      <summary>{{ t('toc.clusters') }}</summary>
+      <div class="explore-block">
     <h3 id="clusters">{{ t('ch1.clusters.h3') }}</h3>
     <p>{{ t('ch1.clusters.p', season=seasons.metrics) }}</p>
+    {% for grp in groups %}
+    {% set note = atlas_notes[grp] %}
+    <figure class="figure-bleed" data-atlas="{{ grp | lower }}" data-cluster-names='{{ cluster_names.get(grp, {}) | tojson }}'>
+      <img src="{{ assets }}atlas_{{ grp }}.svg"
+           alt="{{ t('ch1.atlas.alt', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt, nt_years=facts.nt_years) }}">
+      <figcaption>{{ t('ch1.atlas.caption', group=gt[grp] | lower, season=seasons.metrics, corpus=note.n_corpus, czech=note.n_czech, nt=note.n_nt, nt_years=facts.nt_years) }}</figcaption>
+    </figure>
+    {% endfor %}
     {% for grp in groups %}
     <h4>{{ gt[grp] }}</h4>
     <dl class="cluster-list" data-atlas-clusters="{{ grp | lower }}">
@@ -293,7 +574,12 @@
       {% endfor %}
     </dl>
     {% endfor %}
+      </div>
+    </details>
 
+    <details class="fold">
+      <summary>{{ t('toc.trajectories') }}</summary>
+      <div class="explore-block">
     <h3 id="trajectories">{{ t('ch1.traj.h3', previous=seasons.previous, metrics=seasons.metrics, min=thresholds.min_minutes) }}</h3>
     <p>{{ t('ch1.traj.p', band=f2(thresholds.direction)) }}</p>
     {% for grp in groups %}
@@ -338,53 +624,25 @@
       </div>
     </div>
     {% endfor %}
-
-    <p class="continue">{{ t('ch1.continue') }}</p>
-  </div>
-</section>
+      </div>
+    </details>
 
 {# =============================================================================
-   CHAPTER II — WHERE THE TRAIN LEAVES (pathways and differences)
+   CHAPTER II material — pathways exhibits A-F, folded together
    ============================================================================= #}
-{% set pw = pathways %}
-<aside class="chapter-divider" role="separator" aria-label="{{ t('ch2.aria') }}">
-  <p class="chapter-numeral">II</p>
-  <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">{{ t('ch2.title') }}</p>
-  <p class="chapter-synopsis">{{ t('ch2.synopsis', topn=topn) }}</p>
-</aside>
+    <details class="fold">
+      <summary>{{ t('toc.pathways') }}</summary>
+      <div class="explore-block">
+    <h3 id="pathways">{{ t('toc.pathways') }}</h3>
+    <p>{{ t('ch2.framing', n=pw.n_countries - 1) }}</p>
 
-<section class="ai-layer">
-  <div class="container">
-    <h2 id="pathways">{{ t('toc.pathways') }}</h2>
-    <p class="framing lede">{{ t('ch2.framing', n=pw.n_countries - 1) }}</p>
-
-    <h3>{{ t('ch2.a.h3') }}</h3>
-    <p>
-      {{ t('ch2.a.p', season=seasons.metrics) }}
-      {% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('ch2.a.cze', share=pct1(pw.youth_cze.share_u21), rank=ordinal(pw.youth_rank),
-           n=pw.youth | selectattr('share_u21', 'ne', none) | list | length, top=term(pw.youth_top.name), top_share=pct1(pw.youth_top.share_u21)) }}{% endif %}
-    </p>
-    {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
-    <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
-      {% for r in pw.youth %}
-      <div class="capita-row" role="listitem"
-           {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
-           style="--value: {{ r.share_u21 if r.share_u21 is not none else 0 }}; --max: {{ youth_max }};">
-        <div class="capita-country">
-          <span class="capita-code">{{ r.country }}</span>
-          {{ r.league }}
-        </div>
-        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-        <div class="capita-value">{% if r.share_u21 is none %}<span class="muted" title="{{ t('ch2.a.nodata') }}">—</span>{% else %}{{ pct1(r.share_u21) }}{% endif %}</div>
-      </div>
-      {% endfor %}
-    </div>
+    <h4>{{ t('ch2.a.h3') }}</h4>
+    <p>{{ t('ch2.a.p', season=seasons.metrics) }}</p>
     {% set u23 = [] %}
     {% for r in pw.youth if r.share_u23 is not none %}{% set _ = u23.append(r.country ~ ' ' ~ pct1(r.share_u23)) %}{% endfor %}
     <p class="capita-note">{{ t('ch2.a.note', season=seasons.metrics, u23=u23 | join(', ')) }}</p>
 
-    <h3>{{ t('ch2.b.h3') }}</h3>
+    <h4>{{ t('ch2.b.h3') }}</h4>
     <p>
       {{ t('ch2.b.p', current=seasons.current, topn=topn) }}
       {% if pw.export_cze %}{{ t('ch2.b.cze', n=pw.export_cze.n, age=g(pw.export_cze.median_export_age), n_recent=pw.export_cze.n_recent,
@@ -420,29 +678,8 @@
       {{ t('ch2.b.note', start=seasons.history_start, topn=topn, metrics=seasons.metrics, current=seasons.current, coverage=facts.coverage_start, stepping=stepping_stone | join(', ')) }}
     </p>
 
-    <h3>{{ t('ch2.c.h3') }}</h3>
-    <p>
-      {{ t('ch2.c.p', topn=topn, season=seasons.metrics) }}
-      {% if pw.fare_min_cze and pw.fare_goals_cze %}{{ t('ch2.c.cze', share=pct(pw.fare_min_cze.value), rank_min=ordinal(pw.fare_min_rank), n_min=pw.fare_min | length,
-           goals=pct(pw.fare_goals_cze.value), rank_goals=ordinal(pw.fare_goals_rank), n_goals=pw.fare_goals | length) }}{% endif %}
-    </p>
-    <h4>{{ t('ch2.c.h4.min', topn=topn) }}</h4>
-    {% set fare_min_max = pw.fare_min | map(attribute='value') | max %}
-    <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
-      {% for r in pw.fare_min %}
-      <div class="capita-row" role="listitem"
-           {% if r.country == 'CZE' %}data-highlight="cze"{% endif %}
-           style="--value: {{ r.value }}; --max: {{ fare_min_max }};">
-        <div class="capita-country">
-          <span class="capita-code">{{ r.country }}</span>
-          {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
-        </div>
-        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-        <div class="capita-value">{{ pct(r.value) }}</div>
-      </div>
-      {% endfor %}
-    </div>
-    <h4>{{ t('ch2.c.h4.goals') }}</h4>
+    <h4>{{ t('ch2.c.h3') }}</h4>
+    <p>{{ t('ch2.c.p', topn=topn, season=seasons.metrics) }}</p>
     {% set fare_goals_max = pw.fare_goals | map(attribute='value') | max %}
     <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.goals') }}">
       {% for r in pw.fare_goals %}
@@ -460,7 +697,7 @@
     </div>
     <p class="capita-note">{{ t('ch2.c.note', season=seasons.metrics, proxy=term(pw.club_strength_proxy)) }}</p>
 
-    <h3>{{ t('ch2.d.h3') }}</h3>
+    <h4>{{ t('ch2.d.h3') }}</h4>
     <p>{{ t('ch2.d.p', season=seasons.metrics, topn=topn) }}</p>
     <details class="fold fold-table">
       <summary>{{ t('ch2.d.summary') }}</summary>
@@ -486,26 +723,9 @@
 
     {% if pathways.destinations %}
     {% set dest = pathways.destinations %}
-    <h3>{{ t('ch2.e.h3') }}</h3>
-    {% set bucket_items = [] %}
-    {% for b in dest.buckets %}{% set _ = bucket_items.append(term(b.label) ~ ' ' ~ pct(b.share_of_abroad)) %}{% endfor %}
-    <p>
-      {{ t('ch2.e.p', total=dest.n_total, abroad=dest.n_abroad) }}{% if dest.buckets %} {{ t('ch2.e.buckets', buckets=bucket_items | join(', '), sideways=pct(dest.sideways_share), definition=term(dest.sideways_definition)) }}{% endif %}
-    </p>
+    <h4>{{ t('ch2.e.h3') }}</h4>
+    <p>{{ t('ch2.e.p', total=dest.n_total, abroad=dest.n_abroad) }}</p>
     {% if dest.buckets %}
-    {% set dest_max = dest.buckets | map(attribute='share_of_abroad') | max %}
-    <div class="capita" role="list" aria-label="{{ t('ch2.e.aria') }}">
-      {% for b in dest.buckets %}
-      <div class="capita-row" role="listitem" style="--value: {{ b.share_of_abroad }}; --max: {{ dest_max }};">
-        <div class="capita-country">
-          <span class="capita-code">{{ b.n }}</span>
-          {{ term(b.label) }}{% if b.median_multiplier is not none %} <span class="muted small">{{ t('ch2.e.median_mult', m=f3(b.median_multiplier)) }}</span>{% endif %}
-        </div>
-        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-        <div class="capita-value">{{ pct(b.share_of_abroad) }}</div>
-      </div>
-      {% endfor %}
-    </div>
     <ul class="small dest-examples">
       {% for b in dest.buckets if b.examples %}
       <li><span class="capita-code">{{ term(b.label) }}</span> <code>{{ b.examples | join(' · ') }}</code></li>
@@ -516,38 +736,13 @@
     {% endif %}
 
     {% if squad_lens and squad_lens.rows %}
-    {% set cze_row = (squad_lens.rows | selectattr('country', 'equalto', 'CZE') | list | first) or squad_lens.rows[0] %}
-    {% set peer_names = [] %}
-    {% for r in squad_lens.rows if r.country != 'CZE' %}{% set _ = peer_names.append(term(r.name)) %}{% endfor %}
     {% set total_unmatched = squad_lens.rows | sum(attribute='unmatched') %}
-    <h3 id="exhibit-f">{{ t('ch2.f.h3', event=squad_lens.event) }}</h3>
+    <h4 id="exhibit-f">{{ t('ch2.f.h3', event=squad_lens.event) }}</h4>
+    {% set squad_peer_names = [] %}
+    {% for r in squad_peer_rows %}{% set _ = squad_peer_names.append(term(r.name)) %}{% endfor %}
     <p>
-      {{ t('ch2.f.p', n=cze_row.n, event=squad_lens.event, season=squad_lens.season_label, peers=peer_names | join(', ')) }}
+      {{ t('ch2.f.p', n=squad_cze_row.n, event=squad_lens.event, season=squad_lens.season_label, peers=squad_peer_names | join(', ')) }}
     </p>
-    <ul class="tier-bar-legend">
-      <li><span class="tier-swatch tier-top9" aria-hidden="true"></span>{{ t('ch2.f.th.top9') }}</li>
-      <li><span class="tier-swatch tier-stepping" aria-hidden="true"></span>{{ t('ch2.f.th.stepping') }}</li>
-      <li><span class="tier-swatch tier-domestic" aria-hidden="true"></span>{{ t('ch2.f.th.domestic') }}</li>
-      <li><span class="tier-swatch tier-other" aria-hidden="true"></span>{{ t('ch2.f.th.other') }}</li>
-    </ul>
-    <div class="tier-bars" role="list" aria-label="{{ t('ch2.f.h3', event=squad_lens.event) }}">
-      {% for r in squad_lens.rows %}
-      <div class="tier-bar-row" role="listitem"{% if r.country == 'CZE' %} data-highlight="cze"{% endif %}>
-        <div class="tier-bar-head">
-          <span class="capita-code">{{ r.country }}</span> {{ term(r.name) }}
-          <span class="muted small">{{ t('ch2.f.th.squad') }} {{ r.n }}</span>
-        </div>
-        <div class="tier-bar" role="img" aria-label="{{ term(r.name) }}: {{ t('ch2.f.th.top9') }} {{ '%.0f' | format(r.top9_pct) }} %, {{ t('ch2.f.th.stepping') }} {{ '%.0f' | format(r.stepping_pct) }} %, {{ t('ch2.f.th.domestic') }} {{ '%.0f' | format(r.domestic_pct) }} %, {{ t('ch2.f.th.other') }} {{ '%.0f' | format(r.other_pct) }} %">
-          <span class="tier-seg tier-top9" style="flex: {{ r.top9_pct }} 0 0"></span>
-          <span class="tier-seg tier-stepping" style="flex: {{ r.stepping_pct }} 0 0"></span>
-          <span class="tier-seg tier-domestic" style="flex: {{ r.domestic_pct }} 0 0"></span>
-          <span class="tier-seg tier-other" style="flex: {{ r.other_pct }} 0 0"></span>
-          {% if r.unmatched_pct %}<span class="tier-seg tier-unmatched" style="flex: {{ r.unmatched_pct }} 0 0"></span>{% endif %}
-        </div>
-        <div class="tier-bar-value">{{ '%.0f' | format(r.top9_pct) }} %</div>
-      </div>
-      {% endfor %}
-    </div>
     <details class="fold fold-table">
       <summary>{{ t('ch2.f.detail') }}</summary>
       <table class="kv-table">
@@ -576,106 +771,12 @@
     </details>
     <p class="capita-note">{{ t('ch2.f.note', unmatched=total_unmatched, season=squad_lens.season_label) }}</p>
     {% endif %}
-  </div>
-</section>
-
-{# =============================================================================
-   CHAPTER III — CARDS AND ANALOGS
-   ============================================================================= #}
-<aside class="chapter-divider" role="separator" aria-label="{{ t('ch3.aria') }}">
-  <p class="chapter-numeral">III</p>
-  <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">{{ t('ch3.title') }}</p>
-  <p class="chapter-synopsis">{{ t('ch3.synopsis', n=cards | length, topn=topn) }}</p>
-</aside>
-
-<section class="ai-layer">
-  <div class="container">
-    <h2 id="cards">{{ t('ch3.cards.h2') }}</h2>
-    <p class="framing lede">{{ t('ch3.cards.framing', metrics=seasons.metrics) }}</p>
-    <details class="fold">
-      <summary>{{ t('ch3.cards.rules.summary', n=cards | length) }}</summary>
-      <p class="capita-note">{{ t('ch3.cards.rules', event=nt_core_event) }}</p>
+      </div>
     </details>
-    {%- macro card_article(p) -%}
-      <article class="cycle-card" id="card-{{ p.fbref_id }}" data-player-key="{{ p.player_key }}" data-fbref-id="{{ p.fbref_id }}" data-rule="{{ p.reason }}" data-pos="{{ p.pos }}" data-club="{{ p.club }}">
-        <header class="cycle-card-head">
-          <h4 class="cycle-card-name">{{ p.name }}</h4>
-          <p class="cycle-card-meta">
-            {{ p.pos }} &middot; {{ p.age_current }} &middot; {{ p.club }} ({{ t('ch3.card.latest_known') if p.club_label == 'latest known' else p.club_label }}){% if p.nt_flag %} &middot; {{ t('ch3.card.nt', nt_years=facts.nt_years) }}{% endif %}
-          </p>
-        </header>
 
-        <p class="cycle-card-meta cycle-stats-head">{{ seasons.metrics }} &middot; {{ p.club_season }} &middot; {{ p.league }}</p>
-        <dl class="cycle-stats">
-          <div><dt title="{{ t('metric.prod') }}">{{ t('metric.prod.short') }}</dt><dd>{{ f2(p.stats.npg_ast_q) }}</dd></div>
-          <div><dt>{{ t('ch3.card.stat.rates') }}</dt><dd>{{ f2(p.stats.npg_p90) }} / {{ f2(p.stats.ast_p90) }}</dd></div>
-          <div><dt>{{ t('ch3.card.stat.min') }}</dt><dd>{{ p.stats.min }} ({{ pct(p.stats.min_share) }})</dd></div>
-        </dl>
-
-        <div class="cycle-cluster">
-          <span class="cycle-cluster-row" title="{{ p.clusters.style.id }}">
-            <span class="cycle-cluster-tag">{{ t('ch3.card.style') }}</span>
-            <span class="cycle-cluster-label">{{ p.clusters.style.label }}</span>
-          </span>
-          <span class="cycle-cluster-row" title="{{ p.clusters.quality.id }}">
-            <span class="cycle-cluster-tag">{{ t('ch3.card.quality') }}</span>
-            <span class="cycle-cluster-label">{{ p.clusters.quality.label }}</span>
-          </span>
-        </div>
-
-        {% if p.tactical %}
-        <div class="cycle-section">
-          <p class="cycle-section-label">{{ t('ch3.card.tactical') }}</p>
-          <p class="cycle-tactical">{{ p.tactical }}</p>
-        </div>
-        {% endif %}
-
-        {% if p.trajectory %}
-        <div class="cycle-section">
-          <p class="cycle-section-label">{{ t('ch3.card.traj', previous=seasons.previous, metrics=seasons.metrics) }}</p>
-          <p class="cycle-traj">
-            <span class="cycle-traj-arrow" aria-hidden="true">{{ trend_arrow(p.trajectory.direction) }}</span>
-            <span class="cycle-traj-dir">{{ term(p.trajectory.direction) }}</span>
-            <span class="cycle-traj-delta">{{ signed2(p.trajectory.delta) }}</span>
-            <span class="cycle-traj-unit">{{ t('metric.prod.short') }}</span>
-            <span class="cycle-traj-detail">{{ p.trajectory.min_prev }} {{ t('ch3.card.min') }} &rarr; {{ p.trajectory.min_curr }} {{ t('ch3.card.min') }}</span>
-          </p>
-        </div>
-        {% endif %}
-
-        {% if p.analogs %}
-        <div class="cycle-section">
-          <p class="cycle-section-label">{{ t('ch3.card.analogs', age=p.analog_age) }}</p>
-          <ol class="cycle-analogs">
-            {% for a in p.analogs %}
-            <li>
-              <span class="cycle-analog-name">{{ a.name }}</span>
-              <span class="cycle-analog-country">{{ a.nation }}</span>
-              <span class="cycle-analog-stats">
-                {{ a.league }} {{ a.season }} &middot; {{ a.min }} {{ t('ch3.card.min') }} &middot; {{ f2(a.npg_ast_q) }} &middot;
-                d&nbsp;=&nbsp;{{ f2(a.distance) }}
-              </span>
-            </li>
-            {% endfor %}
-          </ol>
-        </div>
-        {% endif %}
-
-        {% if p.nt_events %}
-        <p class="cycle-card-meta">{{ p.nt_events | join(' · ') }}</p>
-        {% endif %}
-        <p class="muted small">{{ t('ch3.card.selected', reason=reason(p.reason)) }}</p>
-      </article>
-    {%- endmacro -%}
-    {% for row in card_rows %}
-    <p class="cycle-row-kicker">{{ row.kicker }}</p>
-    <div class="cycle-grid">
-      {% for p in row.cards %}{{ card_article(p) }}{% endfor %}
-    </div>
-    {% endfor %}
-    <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
-
+    <details class="fold">
+      <summary>{{ t('toc.analogs') }}</summary>
+      <div class="explore-block">
     <h3 id="analogs">{{ t('ch3.analogs.h3') }}</h3>
     <p>{{ t('ch3.analogs.p', n=(analog_blocks[0].analogs | length if analog_blocks else 0), topn=topn, start=seasons.history_start, coverage=facts.coverage_start) }}</p>
     {% for tb in analog_blocks %}
@@ -718,15 +819,13 @@
     </div>
     {% endfor %}
     <p class="capita-note">{{ t('ch3.analogs.note', min=feature_defs.min_minutes, start=seasons.history_start, current=seasons.current, coverage=facts.coverage_start) }}</p>
-  </div>
-</section>
+      </div>
+    </details>
 
-{# =============================================================================
-   PLAYER INDEX — every mapped Czech player with the metrics-season numbers
-   ============================================================================= #}
-<section class="player-index" id="players">
-  <div class="container">
-    <h2>{{ t('pi.h2') }}</h2>
+    <details class="fold">
+      <summary>{{ t('toc.players') }}</summary>
+      <div class="explore-block">
+    <h3 id="players">{{ t('pi.h2') }}</h3>
     <p class="framing">{{ t('pi.framing', season=seasons.metrics, n=player_index | length) }}</p>
     <div class="player-index-tools">
       <label for="player-search">{{ t('pi.search') }}</label>
@@ -761,8 +860,11 @@
     </table>
     </details>
     <p class="capita-note">{{ t('pi.note', season=seasons.metrics, min=feature_defs.min_minutes, nt_years=facts.nt_years) }}</p>
+      </div>
+    </details>
   </div>
 </section>
+
 
 {# =============================================================================
    CHAPTER IV — METHODOLOGY

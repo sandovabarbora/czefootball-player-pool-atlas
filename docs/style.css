@@ -530,10 +530,119 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
 }
 
 /* =========================================================================
-   Chapter divider — page-break between major sections
-   Long-form intelligence briefs use chapters; we use them only between
-   sections that mark a real shift in subject (II = AI vrstva, III =
-   Metodologie). Chapter I is implicit in the hero, not labelled.
+   Slides — nine question / answer / proof / how-we-know units between the
+   hero and "For a federation" (Task 13b). The question is the memorable
+   element (display serif, largest text on the slide after the hero);
+   the answer is one sentence with the headline number in <strong>; the
+   proof reuses today's exhibit markup unchanged (.capita, tables, tier
+   bars, cards); the how-line is a small mono footnote, same register as
+   .capita-note / .fed-note elsewhere on the page. Hairline + generous
+   space separates slides; on phones everything stacks (no layout rules
+   needed here — the exhibits themselves already collapse to one column).
+   ========================================================================= */
+.slide {
+  padding: var(--space-6) 0;
+  border-top: 1px solid var(--rule);
+}
+.slide:first-of-type {
+  border-top: none;
+  padding-top: var(--space-7);
+}
+.slide-q {
+  font-weight: 300;
+  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+  margin: 0 0 var(--space-3);
+}
+.slide-a {
+  font-family: var(--font-sans);
+  font-size: 1.08rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-5);
+}
+.slide-a strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--navy-700);
+  font-feature-settings: "tnum", "lnum";
+}
+.slide-proof {
+  margin: 0 0 var(--space-4);
+}
+.slide-proof .figure-bleed,
+.slide-proof .capita,
+.slide-proof table {
+  margin-top: 0;
+}
+.slide-how {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: var(--measure-wide);
+}
+.slide-how-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  color: var(--oxblood-700);
+  margin-right: 0.6em;
+}
+table.peer-compare th:not(:first-child),
+table.peer-compare td:not(:first-child) {
+  text-align: right;
+  font-feature-settings: "tnum", "lnum";
+}
+
+/* =========================================================================
+   Explore the data — folded chapters I-III material, after the slides and
+   "For a federation". Same section rhythm as .methodology; each top-level
+   <details class="fold"> is one of the six blocks from the brief.
+   ========================================================================= */
+.explore { padding: var(--space-7) 0 var(--space-6); }
+.explore h2 {
+  font-weight: 300;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  line-height: 1.05;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  border: none;
+  letter-spacing: -0.025em;
+}
+.explore h2::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: var(--navy-700);
+  margin-bottom: var(--space-3);
+}
+.explore > .container > details.fold {
+  padding: var(--space-2) 0;
+}
+.explore-block {
+  padding-top: var(--space-3);
+}
+.explore-block h3 {
+  margin-top: var(--space-5);
+}
+.explore-block h3:first-child {
+  margin-top: 0;
+}
+
+/* =========================================================================
+   Chapter divider — page-break before the last major section
+   Task 13b: the nine slides replaced chapters I-III as the main flow (their
+   material lives folded under "Explore the data" now); only chapter IV
+   (Methodology) still gets a numbered divider.
    ========================================================================= */
 .chapter-divider {
   display: grid;

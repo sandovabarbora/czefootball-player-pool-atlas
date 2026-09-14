@@ -746,107 +746,131 @@ def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
     }
 
 
-def _build_findings(hero: dict, gaps: list[dict], pathways: dict, squad_lens: dict,
-                    seasons: dict, tr: Translator) -> list[dict]:
-    """Five one-line findings for the summary argument, each
-    `{"figure", "text", "foot", "anchor"}`.
-
-    `figure` is the finding's headline number, rendered as the big left-hand
-    figure of the argument list; `text` is the full sentence (still ending
-    in "*"); `foot` is the source note, rendered as the small link at the
-    end of the row; `anchor` is the in-page id that link jumps to (the
-    exhibit the number comes from). Every number traces to `hero`, `gaps`,
-    `pathways` or `squad_lens` — all already built elsewhere in
-    `build_context`. A finding whose source is missing is skipped rather
-    than rendered with a placeholder number.
+def _build_big5(big5_series: dict) -> dict:
+    """Slide 7 context: the 26-season Big-5 series (Task 13a) reduced to
+    the peak/low/last Czech counts, season-labelled, plus the golden
+    generations as one sourced string per season (season label, colon,
+    the season's most-minutes Czech names). `{}` when `big5_series.json`
+    is missing (pre-Task-13a data), which the template reads as "no slide
+    7 proof".
     """
-    findings: list[dict] = []
+    if not big5_series:
+        return {}
+    seasons = big5_series["seasons"]
+    peak, low = big5_series["cze_peak"], big5_series["cze_low"]
+    last_season = seasons[-1]
+    last_n = big5_series["countries"]["CZE"]["n"][-1]
+    golden = "; ".join(
+        f"{season_label(g['season'])}: {', '.join(g['players'])}" for g in big5_series.get("golden", [])
+    )
+    return {
+        "seasons": seasons,
+        "countries": big5_series["countries"],
+        "first_season": season_label(seasons[0]),
+        "peak_n": peak["n"], "peak_season": season_label(peak["season"]),
+        "low_n": low["n"], "low_season": season_label(low["season"]),
+        "last_n": last_n, "last_season": season_label(last_season),
+        "golden": golden,
+    }
 
-    # (1) per-capita rank + density vs the leader
-    top = hero.get("top")
-    if top and hero.get("per_million"):
-        findings.append({
-            "figure": f"{hero['rank']}/{hero['n_peers']}",
-            "text": tr.num(tr.raw(
-                "finding.1", rank=tr.ordinal(hero["rank"]), n=hero["n_peers"],
-                pm=f"{hero['per_million']:.2f}", top=tr.term(top["name"]),
-                top_pm=f"{top['per_million']:.2f}",
-                ratio=f"{top['per_million'] / hero['per_million']:.1f}",
-            )),
-            "foot": tr.raw("finding.1.foot", season=seasons["metrics"]),
-            "anchor": "#benchmark",
-        })
 
-    # (2) largest cohort gap
-    if gaps:
-        g = gaps[0]
-        findings.append({
-            "figure": str(g["cze_n"]),
-            "text": tr.num(tr.raw(
-                "finding.2", group=tr.term(g["group_title"]).lower(), cohort=g["cohort"],
-                cze=g["cze_n"], s=("" if g["cze_n"] == 1 or tr.lang != "en" else "s"),
-                peer=f"{g['peer_median_n']:g}",
-            )),
-            "foot": tr.raw("finding.2.foot"),
-            "anchor": "#observations",
-        })
+PEER_COMPARE_COUNTRIES = ["CZE", "NOR", "DEN"]
 
-    # (3) recent export age, CZE vs DEN
-    export_cze, export_den = pathways.get("export_cze"), pathways.get("export_den")
-    if (export_cze and export_den and export_cze.get("median_export_age_recent") is not None
-            and export_den.get("median_export_age_recent") is not None):
-        findings.append({
-            "figure": f"{export_cze['median_export_age_recent']:g}",
-            "text": tr.num(tr.raw(
-                "finding.3", cze=f"{export_cze['median_export_age_recent']:g}",
-                den=f"{export_den['median_export_age_recent']:g}",
-            )),
-            "foot": tr.raw("finding.3.foot"),
-            "anchor": "#pathways",
-        })
 
-    # (4) exhibit C minutes share: CZE vs the peer whose share differs most
-    fare_min, fare_cze = pathways.get("fare_min") or [], pathways.get("fare_min_cze")
-    fare_others = [r for r in fare_min if r["country"] != "CZE"]
-    if fare_cze and fare_others and pathways.get("fare_min_rank"):
-        extreme = max(fare_others, key=lambda r: abs(r["value"] - fare_cze["value"]))
-        findings.append({
-            "figure": f"{fare_cze['value'] * 100:.0f} %",
-            "text": tr.num(tr.raw(
-                "finding.4", cze=f"{fare_cze['value'] * 100:.0f}",
-                rank=tr.ordinal(pathways["fare_min_rank"]), n=len(fare_min),
-                extreme=tr.term(extreme["name"]), extreme_value=f"{extreme['value'] * 100:.0f}",
-            )),
-            "foot": tr.raw("finding.4.foot"),
-            "anchor": "#pathways",
-        })
+def _country_sideways_share(features_all: pd.DataFrame, league_quality: dict, leagues_cfg: dict,
+                            country: str, season: str) -> float | None:
+    """Share of `country`'s exports abroad on a "sideways" move (destination
+    league multiplier <= the country's own domestic-league multiplier).
 
-    # (5) WC squad top-9 share, CZE vs peers; fallback: exhibit E sideways share
-    rows = (squad_lens or {}).get("rows") or []
-    cze_row = next((r for r in rows if r["country"] == "CZE"), None)
-    peer_rows = [r for r in rows if r["country"] != "CZE"]
-    if cze_row and peer_rows:
-        top_peer = max(peer_rows, key=lambda r: r["top9_pct"])
-        findings.append({
-            "figure": f"{cze_row['top9_pct']:.0f} %",
-            "text": tr.num(tr.raw(
-                "finding.5.squad", event=squad_lens["event"], cze=f"{cze_row['top9_pct']:.0f}",
-                peer=tr.term(top_peer["name"]), peer_pct=f"{top_peer['top9_pct']:.0f}",
-            )),
-            "foot": tr.raw("finding.5.squad.foot", event=squad_lens["event"]),
-            "anchor": "#pathways",
-        })
-    else:
-        dest = pathways.get("destinations")
-        if dest and dest.get("sideways_share") is not None:
-            findings.append({
-                "figure": f"{dest['sideways_share'] * 100:.0f} %",
-                "text": tr.num(tr.raw("finding.5.sideways", share=f"{dest['sideways_share'] * 100:.0f}")),
-                "foot": tr.raw("finding.5.sideways.foot"),
-                "anchor": "#pathways",
-            })
+    `src.pathways.destinations()`/`_summarize_destinations()` compute this
+    for Czechia only (`czech_eligible`, a Czech-specific column); slide 8
+    needs the same number for Norway and Denmark, so this reapplies the
+    identical rule — MIN_MINUTES_DESTINATIONS, one row per (player_key,
+    season, pos_group) — to any country with a domestic league on file in
+    `leagues_cfg["peer_domestic"]`. Returns None when the country has no
+    domestic league on file or no multiplier for it.
+    """
+    from src.pathways import MIN_MINUTES_DESTINATIONS, _dedupe_player_season
 
-    return findings
+    domestic_by_country = {v["country"]: k for k, v in leagues_cfg["peer_domestic"].items()}
+    domestic_by_country["CZE"] = leagues_cfg["domestic"]
+    domestic_league = domestic_by_country.get(country)
+    mult = league_quality["multipliers"]
+    domestic_multiplier = mult.get(domestic_league) if domestic_league else None
+    if domestic_league is None or domestic_multiplier is None:
+        return None
+    f = features_all[
+        (features_all["season"] == season) & (features_all["nation"] == country)
+        & (features_all["min"] >= MIN_MINUTES_DESTINATIONS)
+    ]
+    f = _dedupe_player_season(f, key_cols=("player_key", "season", "pos_group"))
+    abroad = f[f["league"] != domestic_league]
+    if abroad.empty:
+        return None
+    multipliers = abroad["league"].map(mult)
+    sideways = multipliers.notna() & (multipliers <= domestic_multiplier)
+    return round(float(sideways.sum()) / len(abroad), 3)
+
+
+def _build_peer_compare(per_capita: list[dict], pathways: dict, squad_lens: dict, big5_series: dict,
+                        features_all: pd.DataFrame, league_quality: dict, leagues_cfg: dict,
+                        season: str, names: dict[str, str],
+                        countries: list[str] = PEER_COMPARE_COUNTRIES) -> dict:
+    """Slide 8's `table.peer-compare`: six same-definition numbers plus the
+    Big-5 count now, one column per country in `countries` (CZE/NOR/DEN).
+
+    Every row reuses a number already built elsewhere in the context (per
+    capita, pathways youth/export/fare, squad_lens) except "sideways %",
+    which `_country_sideways_share` computes fresh (see its docstring). A
+    country missing a source for one row (Denmark has no row in
+    `squad_lens.json` — not in the fetched 2026 World Cup squad tables)
+    renders that cell as `None`, which the template shows as "—".
+    """
+    pc_by = {r["country"]: r for r in per_capita}
+    youth_by = {r["country"]: r for r in pathways.get("youth", [])}
+    export_by = {r["country"]: r for r in pathways.get("export", [])}
+    fare_by = {r["country"]: r for r in pathways.get("fare_min", [])}
+    squad_by = {r["country"]: r for r in (squad_lens or {}).get("rows") or []}
+    b5_by = (big5_series or {}).get("countries", {})
+
+    def cell(value: float | int | None, fmt: str) -> dict:
+        if value is None:
+            return {"value": None, "fmt": fmt}
+        return {"value": value, "fmt": fmt}
+
+    rows_spec = [
+        ("per_million", "peer_compare.per_million", "f2",
+         lambda c: (pc_by.get(c) or {}).get("per_million")),
+        ("u21_share", "peer_compare.u21_share", "pct1",
+         lambda c: (youth_by.get(c) or {}).get("share_u21")),
+        ("export_age", "peer_compare.export_age", "g",
+         lambda c: (export_by.get(c) or {}).get("median_export_age_recent")),
+        ("sideways", "peer_compare.sideways", "pct",
+         lambda c: _country_sideways_share(features_all, league_quality, leagues_cfg, c, season)),
+        ("minutes_share", "peer_compare.minutes_share", "pct",
+         lambda c: (fare_by.get(c) or {}).get("value")),
+        ("wc_top9", "peer_compare.wc_top9", "pct",
+         lambda c: (((squad_by.get(c) or {}).get("top9_pct")) / 100) if squad_by.get(c) else None),
+        ("big5_now", "peer_compare.big5_now", "int",
+         lambda c: ((b5_by.get(c) or {}).get("n") or [None])[-1]),
+    ]
+    rows = [
+        {"key": key, "label_key": label_key,
+         "by_country": {c: cell(getter(c), fmt) for c in countries}}
+        for key, label_key, fmt, getter in rows_spec
+    ]
+    by_key = {r["key"]: r for r in rows}
+
+    def _val(row_key: str, country: str) -> float | None:
+        return by_key[row_key]["by_country"][country]["value"]
+
+    return {
+        "countries": countries,
+        "names": {c: names.get(c, c) for c in countries},
+        "rows": rows,
+        "nor_u21": _val("u21_share", "NOR"), "cze_u21": _val("u21_share", "CZE"),
+        "nor_top9": _val("wc_top9", "NOR"), "cze_top9": _val("wc_top9", "CZE"),
+    }
 
 
 def _build_loadings(loadings: pd.DataFrame) -> list[dict]:
@@ -1179,7 +1203,11 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     }
     observations = _build_observations(hero, per_capita, gaps, movers, thresholds, seasons,
                                        len(data["leagues"]["headline"]), tr)
-    findings = _build_findings(hero, gaps, pathways, squad_lens, seasons, tr)
+
+    features_all = pd.concat(data["features"].values(), ignore_index=True)
+    big5 = _build_big5(data["big5_series"])
+    peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
+                                       features_all, lq, lg, metrics, names)
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -1197,7 +1225,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "groups": GROUPS,
         "group_titles": GROUP_TITLES,
         "hero": hero,
-        "findings": findings,
+        "big5": big5,
+        "peer_compare": peer_compare,
         "per_capita": per_capita,
         "max_per_million": max(r["per_million"] for r in per_capita),
         "cohorts": cohorts,
@@ -1363,6 +1392,38 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     }, {"CZE": "Czechia", "DEN": "Denmark"})
     hero = {"per_million": 1.65, "rank": 2, "n_peers": 2, "n_players": 18, "population_m": 10.9,
             "top": per_capita[0], "gap": gaps[0], "export_cze": export[0], "export_den": export[0]}
+    big5_seasons_raw = ["2000-2001", "2007-2008", "2015-2016", "2025-2026"]
+    big5 = {
+        "seasons": big5_seasons_raw,
+        "countries": {"CZE": {"n": [21, 26, 6, 10], "per_million": [1.93, 2.39, 0.55, 0.92],
+                              "minutes_share": [0.0094, 0.0136, 0.003, 0.002]}},
+        "first_season": season_label(big5_seasons_raw[0]),
+        "peak_n": 26, "peak_season": season_label(big5_seasons_raw[1]),
+        "low_n": 6, "low_season": season_label(big5_seasons_raw[2]),
+        "last_n": 10, "last_season": season_label(big5_seasons_raw[3]),
+        "golden": f"{season_label(big5_seasons_raw[1])}: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera",
+    }
+    peer_compare = {
+        "countries": ["CZE", "NOR", "DEN"],
+        "names": {"CZE": "Czechia", "NOR": "Norway", "DEN": "Denmark"},
+        "rows": [
+            {"key": "per_million", "label_key": "peer_compare.per_million", "by_country": {
+                "CZE": {"value": 2.39, "fmt": "f2"}, "NOR": {"value": 9.37, "fmt": "f2"}, "DEN": {"value": 12.58, "fmt": "f2"}}},
+            {"key": "u21_share", "label_key": "peer_compare.u21_share", "by_country": {
+                "CZE": {"value": 0.064, "fmt": "pct1"}, "NOR": {"value": 0.115, "fmt": "pct1"}, "DEN": {"value": 0.153, "fmt": "pct1"}}},
+            {"key": "export_age", "label_key": "peer_compare.export_age", "by_country": {
+                "CZE": {"value": 22.0, "fmt": "g"}, "NOR": {"value": 22.0, "fmt": "g"}, "DEN": {"value": 22.0, "fmt": "g"}}},
+            {"key": "sideways", "label_key": "peer_compare.sideways", "by_country": {
+                "CZE": {"value": 0.185, "fmt": "pct"}, "NOR": {"value": 0.22, "fmt": "pct"}, "DEN": {"value": 0.095, "fmt": "pct"}}},
+            {"key": "minutes_share", "label_key": "peer_compare.minutes_share", "by_country": {
+                "CZE": {"value": 0.5, "fmt": "pct"}, "NOR": {"value": 0.374, "fmt": "pct"}, "DEN": {"value": 0.455, "fmt": "pct"}}},
+            {"key": "wc_top9", "label_key": "peer_compare.wc_top9", "by_country": {
+                "CZE": {"value": 0.346, "fmt": "pct"}, "NOR": {"value": 0.654, "fmt": "pct"}, "DEN": {"value": None, "fmt": "pct"}}},
+            {"key": "big5_now", "label_key": "peer_compare.big5_now", "by_country": {
+                "CZE": {"value": 10, "fmt": "int"}, "NOR": {"value": 25, "fmt": "int"}, "DEN": {"value": 38, "fmt": "int"}}},
+        ],
+        "nor_u21": 0.115, "cze_u21": 0.064, "nor_top9": 0.654, "cze_top9": 0.346,
+    }
     thresholds = {"min_minutes": 900, "direction": 0.05}
     sens = pd.DataFrame([{"scenario": "baseline", "description": "current multipliers from config/league_quality.yaml",
                           "top10_overlap": 29, "top10_churn": 0, "mean_delta_rank_top20": 0.0}])
@@ -1378,7 +1439,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
     return {
         **_translator_context(tr), "seasons": seasons, "groups": ["FW"], "group_titles": GROUP_TITLES,
         "hero": hero,
-        "findings": _build_findings(hero, gaps, pathways, squad_lens, seasons, tr),
+        "big5": big5,
+        "peer_compare": peer_compare,
         "per_capita": per_capita, "max_per_million": 9.9,
         "cohorts": cohorts, "cohort_countries": ["CZE", "DEN"], "cohort_names": {"CZE": "Czechia", "DEN": "Denmark"},
         "cohort_gaps": gaps,

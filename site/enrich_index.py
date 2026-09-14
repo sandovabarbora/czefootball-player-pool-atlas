@@ -44,7 +44,7 @@ fails: list[tuple] = []
 S = {
     "en": {
         "nav_aria": "Navigation", "brand": "Czech Football <span>Atlas</span>",
-        "nav": [("#summary", "Summary"), ("#pathways", "Pathways"), ("#cards", "Cards"), ("#methodology", "Methodology")],
+        "nav": [("#summary", "Summary"), ("#pathways", "Pathways"), ("#q9", "Cards"), ("#methodology", "Methodology")],
         "lang_aria": "Language", "contents": "Contents",
         "cast": "{n} player profiles", "in_context": "In context",
         "analog_fold": "{n} nearest analogs and what followed",
@@ -59,7 +59,7 @@ S = {
     },
     "cs": {
         "nav_aria": "Navigace", "brand": "Český fotbal <span>Atlas</span>",
-        "nav": [("#summary", "Shrnutí"), ("#pathways", "Cesty"), ("#cards", "Karty"), ("#methodology", "Metodologie")],
+        "nav": [("#summary", "Shrnutí"), ("#pathways", "Cesty"), ("#q9", "Karty"), ("#methodology", "Metodologie")],
         "lang_aria": "Jazyk", "contents": "Obsah",
         "cast": "{n} profilů hráčů", "in_context": "Souvislosti",
         "analog_fold": "{n} nejbližších analogů a jejich pokračování",
@@ -127,7 +127,7 @@ sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
 
 # ---------------------------------------------------------------- Czech page: the translated SVGs sit next to it in docs/cs/
 if LANG == "cs":
-    sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg)"', r'<img src="\1"', 4)
+    sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg)"', r'<img src="\1"', 5)
 
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])
@@ -339,7 +339,7 @@ JS = """<script>
     const cs = document.documentElement.lang === 'cs';
     const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
     const clampCandidates = [
-      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote), .container > .muted.small'),
+      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote):not(.slide-a):not(.slide-how), .container > .muted.small'),
       ...document.querySelectorAll('.container > p.framing.lede'),
     ];
     clampCandidates.forEach((p) => {

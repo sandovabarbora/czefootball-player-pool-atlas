@@ -19,7 +19,6 @@ from src.utils import season_label
 from src.render import (
     GROUPS,
     RULE_KICKERS,
-    _build_findings,
     _build_observations,
     _current_club,
     build_context,
@@ -29,8 +28,9 @@ from src.render import (
 )
 
 SECTION_IDS = (
-    "summary", "findings", "benchmark", "observations", "clusters", "trajectories", "pathways",
-    "cards", "analogs", "methodology", "multipliers", "shrinkage", "pca-loadings",
+    "summary", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "for-federation",
+    "explore", "benchmark", "observations", "clusters", "trajectories", "pathways",
+    "exhibit-f", "analogs", "players", "methodology", "multipliers", "shrinkage", "pca-loadings",
     "sensitivity", "data-quality", "limitations", "how-built", "reproducibility", "photo-credits",
 )
 
@@ -43,8 +43,10 @@ def _render(ctx: dict) -> str:
 def _check(html: str, groups: list[str]) -> None:
     assert '<html lang="en">' in html
     assert 'class="hero-num-figure"' in html and "*" in html
-    for cls in ("capita-row", "cohort-table", "cluster-list", "cycle-card", "analog-block", "limitations"):
+    for cls in ("capita-row", "cohort-table", "cluster-list", "cycle-card", "analog-block", "limitations",
+                "slide", "slide-q", "slide-a", "slide-proof", "slide-how"):
         assert f'class="{cls}' in html, cls
+    assert "peer-compare" in html
     for sid in SECTION_IDS:
         assert f'id="{sid}"' in html, sid
     assert 'data-atlas="heatmap"' in html
@@ -175,41 +177,82 @@ def test_observations_derive_counts_and_titles_from_context():
     assert "rosters of the nine strongest leagues" in flipped[0]["body"]
 
 
-def test_findings_are_five_and_each_ends_with_asterisk():
+def test_nine_slides_each_carry_question_answer_proof_and_how():
+    """Task 13b: the page opens with nine <section class="slide"> blocks,
+    each exactly h2.slide-q / p.slide-a / div.slide-proof / p.slide-how, in
+    that order, nothing else."""
     ctx = build_context_from_fixtures("en")
-    assert len(ctx["findings"]) == 5
-    assert all(f["text"].endswith("*") and f["foot"] for f in ctx["findings"])
     html = _render(ctx)
-    # Task 11: the method note fold is gone; its content is the mono line
-    # under the "For a federation" tiles, right after the argument list.
-    assert 'class="findings"' in html
-    assert 'class="for-federation"' in html and "Run for England" in html
+    for n in range(1, 10):
+        m = re.search(rf'<section class="slide" id="q{n}">(.*?)</section>', html, re.S)
+        assert m, f"slide q{n} missing"
+        block = m.group(1)
+        assert re.search(r'<h2 class="slide-q">.+?</h2>', block, re.S), n
+        assert re.search(r'<p class="slide-a">.*?</p>', block, re.S), n
+        assert re.search(r'<div class="slide-proof">.*?</div>', block, re.S), n
+        assert re.search(r'<p class="slide-how"><span class="slide-how-label">.*?</span>.*?</p>', block, re.S), n
+        # order: q before a before proof before how
+        idx = [block.index(x) for x in ('class="slide-q"', 'class="slide-a"', 'class="slide-proof"', 'class="slide-how"')]
+        assert idx == sorted(idx), n
 
 
-def test_findings_have_a_figure_field_for_the_tile_headline():
+def test_for_a_federation_stays_after_the_slides_before_explore():
     ctx = build_context_from_fixtures("en")
-    assert all(f.get("figure") for f in ctx["findings"])
+    html = _render(ctx)
+    assert 'class="for-federation"' in html and "Run for England" in html
+    q9_pos = html.index('id="q9"')
+    fed_pos = html.index('class="for-federation"')
+    explore_pos = html.index('id="explore"')
+    assert q9_pos < fed_pos < explore_pos
+
+
+def test_explore_section_folds_the_old_chapters_and_keeps_their_ids():
+    """Task 13b: 'Explore the data' is folded (<details class="fold">), and
+    the ids benchmark/observations/clusters/trajectories/pathways/exhibit-f/
+    analogs/players survive inside it so old deep links still land."""
+    ctx = build_context_from_fixtures("en")
+    html = _render(ctx)
+    explore = html.split('id="explore"')[1]
+    for sid in ("benchmark", "observations", "clusters", "trajectories", "pathways",
+                "exhibit-f", "analogs", "players"):
+        assert f'id="{sid}"' in explore, sid
+    # six top-level folds directly under the Explore section (brief: Benchmark
+    # heatmap, Cluster archetypes, Trajectories, Pathways A-F, Historical
+    # analogs, Player index)
+    assert explore.count('<details class="fold">') >= 6
 
 
 def test_hero_shows_its_numbers_once_not_in_tiles_and_a_meta_strip_too():
-    """Task 10: hero.tiles/hero.meta are gone; the argument list carries those
-    numbers instead, and every chapter-opening framing paragraph gets the
-    two-line lede treatment."""
+    """Task 10: hero.tiles/hero.meta are gone. Task 13b: the computed
+    "argument" list is gone too, replaced by the nine slides."""
     ctx = build_context_from_fixtures("en")
     html = _render(ctx)
     assert 'class="hero-tiles"' not in html and 'class="hero-meta"' not in html
-    assert 'class="argument"' in html
-    assert html.count('class="framing lede"') == 3
+    assert 'class="argument"' not in html and 'id="findings"' not in html
     assert 'class="cards-more"' not in html
 
 
-def test_findings_have_an_anchor_into_the_exhibit_they_source():
+def test_peer_compare_table_has_three_countries_and_seven_rows():
     ctx = build_context_from_fixtures("en")
+    pc = ctx["peer_compare"]
+    assert pc["countries"] == ["CZE", "NOR", "DEN"]
+    assert len(pc["rows"]) == 7
+    assert all(set(pc["countries"]) <= set(r["by_country"]) for r in pc["rows"])
     html = _render(ctx)
-    assert all(f.get("anchor", "").startswith("#") for f in ctx["findings"])
-    # every anchor lands on an id that actually exists in the page
-    ids = set(re.findall(r'id="([^"]+)"', html))
-    assert all(f["anchor"][1:] in ids for f in ctx["findings"])
+    q8 = re.search(r'<section class="slide" id="q8">(.*?)</section>', html, re.S).group(1)
+    assert q8.count("<th") >= 4  # metric + 3 countries
+    assert q8.count("<tr>") == 1 + 7  # header row + one row per metric
+
+
+def test_big5_context_has_peak_low_last_and_golden():
+    ctx = build_context_from_fixtures("en")
+    big5 = ctx["big5"]
+    assert big5["peak_n"] >= big5["last_n"] or big5["peak_n"] >= big5["low_n"]
+    assert big5["golden"]
+    html = _render(ctx)
+    q7 = re.search(r'<section class="slide" id="q7">(.*?)</section>', html, re.S).group(1)
+    assert "big5_series.svg" in q7
+    assert big5["golden"] in q7
 
 
 def test_card_rows_merge_the_national_team_core_rules_into_one_row():
@@ -232,7 +275,10 @@ def test_card_rows_merge_the_national_team_core_rules_into_one_row():
     assert [c["player_key"] for c in rows[2]["cards"]] == ["d"]
 
 
-def test_toc_drops_findings_data_quality_how_built_but_ids_remain():
+def test_toc_lists_nine_questions_then_explore_then_method():
+    """Task 13b: the Contents rail is q1..q9, Explore, Method (with its old
+    submenu); "findings" is gone entirely, data-quality/how-built keep their
+    ids but stay unlinked (methodology chapter is unchanged)."""
     ctx = build_context_from_fixtures("en")
     html = _render(ctx)
     toc_sticky = html.split('<nav class="toc-sticky"')[1].split("</nav>")[0]
@@ -241,17 +287,11 @@ def test_toc_drops_findings_data_quality_how_built_but_ids_remain():
         assert 'href="#findings"' not in frag
         assert 'href="#data-quality"' not in frag
         assert 'href="#how-built"' not in frag
-    assert 'id="findings"' in html and 'id="data-quality"' in html and 'id="how-built"' in html
-
-
-def test_findings_use_squad_lens_when_present_and_fall_back_otherwise():
-    ctx = build_context_from_fixtures("en")
-    squad_text = ctx["findings"][4]["text"]
-    assert "top-9" in squad_text or "top9" in squad_text.lower()
-    # empty squad_lens -> the fifth finding falls back to the exhibit E sideways share
-    no_lens = _build_findings(ctx["hero"], ctx["cohort_gaps"], ctx["pathways"], {}, ctx["seasons"], ctx["t"])
-    assert len(no_lens) == 5
-    assert "sideways" in no_lens[4]["text"].lower()
+        for n in range(1, 10):
+            assert f'href="#q{n}"' in frag, n
+        assert 'href="#explore"' in frag
+    assert 'id="findings"' not in html
+    assert 'id="data-quality"' in html and 'id="how-built"' in html
 
 
 def test_how_built_section_counts_tests_and_rulings():
