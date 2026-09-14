@@ -129,8 +129,8 @@ def resolve_processed(path: Path) -> Path:
     `data/processed/` is gitignored while `data/snapshot/` (the same
     parquet/json files) is committed, so a clean clone can render without
     refetching: any reader of a processed file goes through this helper and
-    silently (INFO log) picks the snapshot copy when the processed one is
-    absent. Only files that live directly in `config.PROCESSED_DIR` are
+    picks the snapshot copy when the processed one is absent, with a WARNING
+    so a missing upstream stage in a full `make all` run stays visible. Only files that live directly in `config.PROCESSED_DIR` are
     redirected; anything else is returned unchanged.
     """
     if path.exists():
@@ -139,7 +139,7 @@ def resolve_processed(path: Path) -> Path:
         return path
     fallback = config.SNAPSHOT_DIR / path.name
     if fallback.exists():
-        LOG.info("%s missing; using snapshot copy %s", path, fallback)
+        LOG.warning("%s missing; using snapshot copy %s", path, fallback)
         return fallback
     return path
 
