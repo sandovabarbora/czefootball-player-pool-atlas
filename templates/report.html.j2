@@ -915,7 +915,7 @@
     <p>{{ t('ch4.strength.p1_is_ref') if league_strength.home_is_reference else t('ch4.strength.p1') }}</p>
     <p>{{ t('ch4.strength.design', players=league_strength.fit.players, rows=league_strength.fit.rows,
              cite_bda=cite.gelman_et_al_2013, cite_nuts=cite.hoffman_gelman_2014, cite_pymc=cite.abril_pla_et_al_2023,
-             cite_arviz=cite.kumar_et_al_2019, cite_rapm1=cite.kharrat_mchale_pena_2020, cite_rapm2=cite.hvattum_2019) }}</p>
+             cite_arviz=cite.kumar_et_al_2019, cite_rapm=cite_multi(['kharrat_mchale_pena_2020', 'hvattum_2019'])) }}</p>
     <figure class="figure-bleed">
       <img src="{{ assets }}league_strength.svg" alt="{{ t('ch4.strength.fig_alt') }}">
     </figure>

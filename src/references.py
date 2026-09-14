@@ -102,6 +102,11 @@ def format_harvard(ref: dict[str, Any]) -> str:
     return parts + "."
 
 
+def in_text_multi(refs: list[dict[str, Any]]) -> str:
+    """One parenthesis for several sources: "(Kharrat, McHale and Peña, 2020; Hvattum, 2019)"."""
+    return "(" + "; ".join(in_text(r)[1:-1] for r in refs) + ")"
+
+
 def in_text(ref: dict[str, Any]) -> str:
     """Author-date parenthetical, e.g. "(Efron and Morris, 1975)" or
     "(Abril-Pla et al., 2023)" for a source with more than three authors or

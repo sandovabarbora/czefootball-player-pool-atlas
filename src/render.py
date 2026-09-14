@@ -41,7 +41,7 @@ from src import config
 from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
-from src.references import harvard_list, in_text, refs_by_key
+from src.references import harvard_list, in_text, in_text_multi, refs_by_key
 from src.utils import normalize_name, read_parquet, resolve_processed, season_label
 
 matplotlib.use("Agg")
@@ -1371,6 +1371,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
+        "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
         "facts": facts,
         "home_code": config.HOME,
         "n_leagues": n_leagues,
@@ -1605,6 +1606,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         }, "CZE-First League", tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
+        "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
         "facts": facts,
         "home_code": "CZE",
         "n_leagues": 19, "headline_leagues": ["ENG-Premier League"],
