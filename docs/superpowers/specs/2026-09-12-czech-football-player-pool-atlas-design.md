@@ -1,6 +1,6 @@
 # Czech Football Player Pool Atlas — design (v1)
 
-Date: 2026-09-12. Author: Barbora Šandová (with Claude). Status: draft for review.
+Date: 2026-09-12. Author: Barbora Šandová (with Claude). Status: implemented 2026-09-13 (v1).
 
 ## 1. Purpose
 
@@ -203,3 +203,32 @@ a separate `make smoke`.
 - Limitations section lists: leagues without metrics, free-tier feature set,
   NT flag source, photo coverage, and the season split.
 - `football.datasimply.eu` serves HTTPS with the EN/CS switch.
+
+## 11. Deviations from the design (as implemented, v1)
+
+- **Czech via template-level i18n**, not page-level exact-match pairs:
+  `config/i18n/cs.yaml` + `src/i18n.py`; the render writes both languages.
+  Generated sentences with numbers made page-level pairs infeasible.
+- **League multipliers from UEFA 5-year country coefficients** (Wikipedia),
+  not ClubElo — the ClubElo API returned 502 on every date at build time.
+  Tier-2 = 0.6 × tier-1 is a stated assumption. Exhibit C's club strength is
+  a goals-scored percentile within the league, not an Elo percentile.
+- **`player_key = normalize_name|born`** instead of FBref player ids —
+  soccerdata frames carry no ids; the real id exists only for Czech players
+  (country page) and names photo files.
+- **Country page** is a `<p>` list, not a table; discovery yields name, id,
+  activity, position and clubs only. Women's entries are dropped by the
+  `-ová` surname heuristic (47 active).
+- **Slovakia** is not on FBref: no Slovak-league metrics; SVK appears only
+  through its players abroad.
+- **Showcase = 12 cards, four rules** (highest quality-adjusted production;
+  youngest national-team call-up; most top-9 minutes; most domestic minutes
+  under 23 without a top-9 season), never hand-picked.
+- **Exhibit E** (destinations of Czech exports, sideways share) added to
+  chapter II at the author's request; exhibit B origin shares are computed on
+  recent top-9 entrants (first top-9 season 2024/25 or 2025/26) because
+  origin leagues are covered only from 2023/24.
+- **Mid-season transfers** are collapsed per player-season (minutes-weighted);
+  analog candidates are restricted to the target's position group.
+- **Photos**: 114 of 421 eligible players via Wikidata (occupation-filtered);
+  the site shows initials for the rest.
