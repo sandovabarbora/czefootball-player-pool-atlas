@@ -114,7 +114,8 @@ def test_auto_injected_nation_words_fill_in_without_an_explicit_param():
     # an explicit param still wins over an auto one of the same name
     assert en.raw("slide.4.how", season="2025/26", home_note="", adj="Overridden") == \
         "Destination league of every Overridden-eligible player's 2025/26 row; " \
-        "sideways = destination multiplier ≤ Overridden league multiplier."
+        "sideways = destination multiplier ≤ Overridden league multiplier " \
+        '(<a href="#league-strength">league strength: two estimates, § Methodology</a>).'
 
 
 def test_check_placeholders_allows_auto_names_in_either_language_only():

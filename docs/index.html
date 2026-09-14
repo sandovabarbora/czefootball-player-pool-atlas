@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609142127">
-  <link rel="stylesheet" href="modern.css?v=202609142127">
+  <link rel="stylesheet" href="style.css?v=202609142221">
+  <link rel="stylesheet" href="modern.css?v=202609142221">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609142127"></script>
+  <script defer src="atlas.js?v=202609142221"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -57,11 +57,14 @@
     <li><a href="#methodology">How it is built, validated and where it stops</a>
       <ol>
         <li><a href="#multipliers">League multipliers</a></li>
+        <li><a href="#league-strength">League strength</a></li>
         <li><a href="#shrinkage">Bayesian shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Sensitivity analysis</a></li>
         <li><a href="#limitations">Limitations</a></li>
+        <li><a href="#validation-robustness">Validation & robustness</a></li>
         <li><a href="#reproducibility">Reproducibility</a></li>
+        <li><a href="#references">References</a></li>
       </ol>
     </li>
   </ol>
@@ -82,7 +85,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 163 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 174 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -437,7 +440,7 @@
       
     </div>
     
-    <p class="slide-how"><span class="slide-how-label">How we know</span> Destination league of every Czech-eligible player's 2025/26 row; sideways = destination multiplier ≤ Czech league multiplier.</p>
+    <p class="slide-how"><span class="slide-how-label">How we know</span> Destination league of every Czech-eligible player's 2025/26 row; sideways = destination multiplier ≤ Czech league multiplier (<a href="#league-strength">league strength: two estimates, § Methodology</a>).</p>
   </div>
 </section>
 
@@ -550,7 +553,7 @@
         
       </div>
     </div>
-    <p class="slide-how"><span class="slide-how-label">How we know</span> Median share of club minutes for players abroad, per country of origin.</p>
+    <p class="slide-how"><span class="slide-how-label">How we know</span> Median share of club minutes for players abroad, per country of origin (<a href="#league-strength">league strength: two estimates, § Methodology</a>).</p>
   </div>
 </section>
 
@@ -2834,7 +2837,7 @@
       <summary>Cluster archetypes</summary>
       <div class="explore-block">
     <h3 id="clusters">Cluster archetypes (style projection)</h3>
-    <p>Clusters are fitted on the whole corpus of 2025/26 player-seasons and read here through their Czech members. The label describes the cluster's median footprint; the count is Czech members of the corpus cluster; names are the Czech members with the most minutes.</p>
+    <p>Clusters are fitted on the whole corpus of 2025/26 player-seasons and read here through their Czech members, K chosen by silhouette score (Rousseeuw, 1987) with scikit-learn (Pedregosa et al., 2011). The label describes the cluster's median footprint; the count is Czech members of the corpus cluster; names are the Czech members with the most minutes.</p>
     
     
     <figure class="figure-bleed" data-atlas="fw" data-cluster-names='{"quality": {"C0": "High-assist forwards in top-five leagues", "C1": "High-minutes starting forwards", "C2": "Older forwards with moderate playing time", "C3": "Young low-minute forwards", "C4": "High-volume scorers in top-five leagues", "C5": "High-card-rate forwards"}, "style": {"C0": "High-assist forwards", "C1": "Duel-heavy rotation forwards", "C2": "High-minutes starting forwards", "C3": "Older forwards with moderate playing time", "C4": "Young low-minute forwards", "C5": "Primary scorers"}}'>
@@ -8212,8 +8215,208 @@
     </table>
     <p class="muted small">Method: <code>uefa_coefficient</code>. ClubElo unavailable at run time (HTTP error); fell back to Wikipedia&#39;s UEFA men&#39;s association coefficient, current 5-year ranking (2022–23–2026–27 seasons). tier-1 multiplier = coef[country] / max(coef); tier-2 multiplier = 0.6 * tier-1 multiplier of the same country (stated assumption, not derived from data). Strongest tier-1 country = 1.00. The sensitivity analysis below shows the ranking's robustness to ±20 % on any one multiplier.</p>
 
+    
+    <h3 id="league-strength">League strength: two estimates</h3>
+    <p>How much is a Czech First League season worth in Premier League terms? The UEFA multiplier above answers that from countries' continental results; this model answers the same question from the players who actually changed leagues.</p>
+    <p>Movers — 2125 players observed in at least two leagues across 8108 qualifying player-seasons — anchor the model, since only a player's own before/after change of league separates their level from the league's scoring environment. A hierarchical Poisson model of non-penalty goals plus assists per 90 (Gelman et al., 2013) fits a league effect and a player effect together, sampled with NUTS (Hoffman and Gelman, 2014) in PyMC (Abril-Pla et al., 2023) and diagnosed with ArviZ (Kumar et al., 2019). Partial pooling keeps the league effects regularised while leaving player effects close to unpooled, the same within-subject logic behind plus-minus and RAPM ratings elsewhere in team sports (Kharrat, McHale and Peña, 2020) (Hvattum, 2019).</p>
+    <figure class="figure-bleed">
+      <img src="league_strength.svg" alt="Dot and 90 % HDI of the model's league-strength multiplier m_L per league, sorted, with each league's UEFA multiplier as a hollow marker.">
+    </figure>
+    
+    <p>In these terms, a Czech First League season converts to 0.67 of a Premier League one (90 % HDI 0.59–0.75).</p>
+    
+    <table class="kv-table strength-table">
+      <thead><tr>
+        <th>League</th><th>m_L (median)</th>
+        <th>90 % HDI</th><th>Transitions</th>
+        <th>UEFA</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr >
+          <td>ENG-Premier League</td><td>1.000</td>
+          <td>1.000–1.000</td>
+          <td class="num">588</td>
+          <td>1.000</td>
+        </tr>
+        
+        <tr >
+          <td>ITA-Serie A</td><td>0.935</td>
+          <td>0.890–0.981</td>
+          <td class="num">569</td>
+          <td>0.856</td>
+        </tr>
+        
+        <tr >
+          <td>ESP-La Liga</td><td>0.908</td>
+          <td>0.859–0.953</td>
+          <td class="num">435</td>
+          <td>0.807</td>
+        </tr>
+        
+        <tr >
+          <td>FRA-Ligue 1</td><td>0.810</td>
+          <td>0.772–0.848</td>
+          <td class="num">672</td>
+          <td>0.666</td>
+        </tr>
+        
+        <tr >
+          <td>GER-Bundesliga</td><td>0.777</td>
+          <td>0.741–0.814</td>
+          <td class="num">588</td>
+          <td>0.788</td>
+        </tr>
+        
+        <tr >
+          <td>HUN-NB I</td><td>0.743</td>
+          <td>0.625–0.864</td>
+          <td class="num">35</td>
+          <td>0.265</td>
+        </tr>
+        
+        <tr >
+          <td>POR-Primeira Liga</td><td>0.721</td>
+          <td>0.680–0.762</td>
+          <td class="num">350</td>
+          <td>0.630</td>
+        </tr>
+        
+        <tr >
+          <td>BEL-Pro League</td><td>0.671</td>
+          <td>0.637–0.710</td>
+          <td class="num">474</td>
+          <td>0.573</td>
+        </tr>
+        
+        <tr data-highlight="cze">
+          <td>CZE-First League</td><td>0.665</td>
+          <td>0.585–0.749</td>
+          <td class="num">64</td>
+          <td>0.434</td>
+        </tr>
+        
+        <tr >
+          <td>TUR-Süper Lig</td><td>0.660</td>
+          <td>0.625–0.696</td>
+          <td class="num">472</td>
+          <td>0.484</td>
+        </tr>
+        
+        <tr >
+          <td>POL-Ekstraklasa</td><td>0.659</td>
+          <td>0.599–0.729</td>
+          <td class="num">131</td>
+          <td>0.438</td>
+        </tr>
+        
+        <tr >
+          <td>AUT-Bundesliga</td><td>0.657</td>
+          <td>0.576–0.729</td>
+          <td class="num">80</td>
+          <td>0.268</td>
+        </tr>
+        
+        <tr >
+          <td>DEN-Superliga</td><td>0.635</td>
+          <td>0.576–0.702</td>
+          <td class="num">117</td>
+          <td>0.371</td>
+        </tr>
+        
+        <tr >
+          <td>GER-2. Bundesliga</td><td>0.600</td>
+          <td>0.555–0.645</td>
+          <td class="num">230</td>
+          <td>0.473</td>
+        </tr>
+        
+        <tr >
+          <td>NED-Eredivisie</td><td>0.597</td>
+          <td>0.567–0.632</td>
+          <td class="num">387</td>
+          <td>0.510</td>
+        </tr>
+        
+        <tr >
+          <td>CRO-HNL</td><td>0.597</td>
+          <td>0.525–0.671</td>
+          <td class="num">64</td>
+          <td>0.249</td>
+        </tr>
+        
+        <tr >
+          <td>SUI-Super League</td><td>0.597</td>
+          <td>0.538–0.649</td>
+          <td class="num">128</td>
+          <td>0.293</td>
+        </tr>
+        
+        <tr >
+          <td>NOR-Eliteserien</td><td>0.574</td>
+          <td>0.507–0.639</td>
+          <td class="num">64</td>
+          <td>0.374</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <p>Refit on seasons before 2025/26, the model predicts each mover's first 2025/26 row after a league change — 863 such moves — against two baselines: the same rate as before, and that rate scaled by the ratio of UEFA multipliers. This is the same population CIES Football Observatory's expatriate-player reports track (Poli, Ravenel and Besson, 2024).</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Method</th><th>Log predictive density</th>
+        <th>MAE (rate)</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr>
+          <td>Same rate as before</td>
+          <td>-5.217</td>
+          <td>0.161</td>
+        </tr>
+        
+        <tr>
+          <td>Rate × UEFA ratio</td>
+          <td>-6.052</td>
+          <td>0.224</td>
+        </tr>
+        
+        <tr>
+          <td>Model</td>
+          <td>-2.174</td>
+          <td>0.127</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <p>Against 18 leagues in common, the model's medians and the UEFA multipliers correlate at Spearman's rho = 0.74.</p>
+    <ul class="disagreements">
+      
+      <li>HUN-NB I: model rank 6 vs UEFA rank 17 (m_L 0.74 vs multiplier 0.27).</li>
+      
+      <li>NED-Eredivisie: model rank 15 vs UEFA rank 8 (m_L 0.60 vs multiplier 0.51).</li>
+      
+      <li>NOR-Eliteserien: model rank 18 vs UEFA rank 13 (m_L 0.57 vs multiplier 0.37).</li>
+      
+    </ul>
+
+    <p>R-hat ≤ 1.003, minimum bulk ESS 1224, 0 divergent transitions across 8108 player-seasons from 2125 movers; fit in 214 s.</p>
+
+    <details class="fold">
+      <summary>Posterior predictive check</summary>
+      <p>Observed vs. replicated non-penalty goals plus assists per player-season (Vehtari, Gelman and Gabry, 2017): 15 % vs 14 % share of zeros, mean 4.45 vs 4.45, 90th percentile 11.00 vs 10.85.</p>
+      <figure class="figure-bleed">
+        <img src="league_strength_ppc.svg" alt="Bar chart comparing the observed and posterior-predictive-replicated distribution of non-penalty goals plus assists per player-season, grouped 0/1/2/3/4/5+.">
+      </figure>
+    </details>
+
+    <p>The report's rankings keep the UEFA-coefficient multiplier throughout; the model above is shown alongside it as a check on that multiplier's own assumption — that continental results track player-level strength — not as a replacement for it.</p>
+    
+
     <h3 id="shrinkage">Bayesian shrinkage</h3>
-    <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula, with K = 10 phantom matches expressed as 900 minutes:</p>
+    <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula (Efron and Morris, 1975), with K = 10 phantom matches expressed as 900 minutes:</p>
     <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
     <p>At 450 minutes (the inclusion floor) the league median carries 67 % of the weight; at 900 minutes the player's own rate and the median weigh the same. Minutes share and age are not shrunk.</p>
 
@@ -8758,13 +8961,21 @@
       
     </div>
 
+    <h3 id="validation-robustness">Validation & robustness</h3>
+    <p>Each model in this pipeline carries its own validation next to where it is described; this section collects one headline diagnostic from each as it lands. So far:</p>
+    <ul>
+      
+      <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (-2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
+      
+    </ul>
+
     <h3 id="reproducibility">Reproducibility</h3>
     <p>The full pipeline is public: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas">github.com/barborasandova/czefootball-player-pool-atlas</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed 42 for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.</p>
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 163 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 163 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 174 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 174 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -8774,6 +8985,33 @@
       </ol>
       <p>Spec: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">design</a> · plan: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">tasks</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulings</a>.</p>
     </details>
+
+    <h3 id="references">References</h3>
+    <ul class="references-list">
+      
+      <li id="ref-abril_pla_et_al_2023"><a href="https://doi.org/10.7717/peerj-cs.1516">Abril-Pla, O. et al. (2023) &#39;PyMC: a modern, and comprehensive probabilistic programming framework in Python&#39;, PeerJ Computer Science, 9, e1516.</a></li>
+      
+      <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319.</a></li>
+      
+      <li id="ref-gelman_et_al_2013"><a href="https://www.stat.columbia.edu/~gelman/book/">Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A. and Rubin, D.B. (2013) Bayesian Data Analysis. 3rd edn. Boca Raton: CRC Press.</a></li>
+      
+      <li id="ref-hoffman_gelman_2014"><a href="https://www.jmlr.org/papers/v15/hoffman14a.html">Hoffman, M.D. and Gelman, A. (2014) &#39;The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo&#39;, Journal of Machine Learning Research, 15, pp. 1593–1623.</a></li>
+      
+      <li id="ref-hvattum_2019"><a href="https://doi.org/10.2478/ijcss-2019-0001">Hvattum, L.M. (2019) &#39;A comprehensive review of plus-minus ratings for evaluating individual players in team sports&#39;, International Journal of Computer Science in Sport, 18(1), pp. 1–23.</a></li>
+      
+      <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736.</a></li>
+      
+      <li id="ref-kumar_et_al_2019"><a href="https://doi.org/10.21105/joss.01143">Kumar, R., Carroll, C., Hartikainen, A. and Martin, O. (2019) &#39;ArviZ a unified library for exploratory analysis of Bayesian models in Python&#39;, Journal of Open Source Software, 4(33), 1143.</a></li>
+      
+      <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830.</a></li>
+      
+      <li id="ref-poli_ravenel_besson_2024"><a href="https://football-observatory.com/IMG/sites/mr/mr95/en/">Poli, R., Ravenel, L. and Besson, R. (2024) Origins and destinations of football expatriates (2020-2024). CIES Football Observatory Monthly Report, 95. Available at: https://football-observatory.com/IMG/sites/mr/mr95/en/ (Accessed: 14 September 2026).</a></li>
+      
+      <li id="ref-rousseeuw_1987"><a href="https://doi.org/10.1016/0377-0427(87)90125-7">Rousseeuw, P.J. (1987) &#39;Silhouettes: a graphical aid to the interpretation and validation of cluster analysis&#39;, Journal of Computational and Applied Mathematics, 20, pp. 53–65.</a></li>
+      
+      <li id="ref-vehtari_gelman_gabry_2017"><a href="https://doi.org/10.1007/s11222-016-9696-4">Vehtari, A., Gelman, A. and Gabry, J. (2017) &#39;Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC&#39;, Statistics and Computing, 27(5), pp. 1413–1432.</a></li>
+      
+    </ul>
   </div>
 </section>
 
@@ -8935,7 +9173,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-14 21:27</p>
+    <p class="rendered-at">Rendered: 2026-09-14 22:21</p>
   </div>
 </footer>
 

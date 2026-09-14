@@ -30,8 +30,9 @@ from src.render import (
 SECTION_IDS = (
     "summary", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "for-federation",
     "explore", "benchmark", "observations", "clusters", "trajectories", "pathways",
-    "exhibit-f", "analogs", "players", "methodology", "multipliers", "shrinkage", "pca-loadings",
-    "sensitivity", "data-quality", "limitations", "how-built", "reproducibility", "photo-credits",
+    "exhibit-f", "analogs", "players", "methodology", "multipliers", "league-strength", "shrinkage",
+    "pca-loadings", "sensitivity", "data-quality", "limitations", "validation-robustness", "how-built",
+    "reproducibility", "references", "photo-credits",
 )
 
 

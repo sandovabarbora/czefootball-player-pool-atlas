@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity pathways data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
+.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength pathways data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -27,10 +27,11 @@ help:
 	@echo "  series           26-season Big-5 series (home nation vs peers) exhibit"
 	@echo "  analogs          Showcase players and historical analogs"
 	@echo "  sensitivity      League-multiplier sensitivity table"
+	@echo "  strength         Hierarchical Bayesian league-strength model from league movers"
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
-	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> pathways -> data-quality -> render"
+	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> pathways -> data-quality -> render"
 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
 	@echo "  test             Run pytest"
 	@echo "  lint             Run ruff check"
@@ -83,6 +84,9 @@ analogs:
 sensitivity:
 	$(ACT) python -m src.sensitivity
 
+strength:
+	$(ACT) python -m src.league_strength
+
 pathways:
 	$(ACT) python -m src.pathways
 
@@ -92,7 +96,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark series analogs sensitivity pathways data-quality render
+all: fetch pool photos features reduce benchmark series analogs sensitivity strength pathways data-quality render
 
 test:
 	$(ACT) pytest

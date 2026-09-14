@@ -41,6 +41,7 @@ from src import config
 from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
+from src.references import harvard_list, in_text, refs_by_key
 from src.utils import normalize_name, read_parquet, resolve_processed, season_label
 
 matplotlib.use("Agg")
@@ -49,6 +50,10 @@ LOG = logging.getLogger(__name__)
 
 GROUPS = ["FW", "MF", "DF"]
 GROUP_TITLES = {"FW": "Forwards", "MF": "Midfielders", "DF": "Defenders"}
+# Mirrors src.league_strength.REFERENCE_LEAGUE -- kept as a literal here (not
+# imported) so render.py, imported by most of the test suite, doesn't pull in
+# PyMC/ArviZ just for one string constant.
+LEAGUE_STRENGTH_REFERENCE = "ENG-Premier League"
 COHORT_ORDER = ["U22", "23-25", "26-29", "30+"]
 # Home nation + the editorial subset of peers shown in the cohort exhibit
 # table (config/nations/<NATION>.yaml::cohort_exhibit).
@@ -969,6 +974,40 @@ def _build_sensitivity(sens: pd.DataFrame, tr: Translator | None = None) -> dict
     }
 
 
+def _build_league_strength(ls: dict, domestic_league: str, tr: Translator | None = None) -> dict:
+    """Chapter IV `#league-strength`: M2's per-league `m_L` table plus its
+    own validation (posterior predictive check, out-of-sample on the
+    metrics season, Spearman rank correlation against
+    `config/league_quality.yaml`'s UEFA multipliers) and sampler
+    diagnostics. `ls` is `league_strength.json`'s raw shape (`{}` when the
+    file is missing -- `load_data`'s tolerant load -- in which case every
+    list here is empty and the template section renders nothing).
+    """
+    tr = tr or Translator("en")
+    leagues = ls.get("leagues", [])
+    home = next((r for r in leagues if r["league"] == domestic_league), None)
+    oos = ls.get("oos", {}) or {}
+    oos_rows = [dict(r, method_label=tr.raw(f"ch4.strength.oos.method.{r['method']}")) for r in oos.get("rows", [])]
+    oos_winner = max(oos_rows, key=lambda r: r["log_pred_density"]) if oos_rows else None
+    return {
+        "leagues": leagues,
+        "home": home,
+        "home_is_reference": bool(home) and home["league"] == LEAGUE_STRENGTH_REFERENCE,
+        "diagnostics": ls.get("diagnostics", {}) or {},
+        "ppc": ls.get("ppc", {}) or {},
+        "oos": {
+            "metrics_season": season_label(oos["metrics_season"]) if oos.get("metrics_season") else "",
+            "n_candidates": oos.get("n_candidates", 0),
+            "rows": oos_rows,
+            "refit_runtime_s": oos.get("refit_runtime_s", 0),
+            "winner": oos_winner,
+        },
+        "spearman": ls.get("spearman") or {"rho": None, "p": None, "n": 0},
+        "disagreements": ls.get("disagreements", []),
+        "fit": ls.get("fit") or {"rows": 0, "players": 0, "seasons": 0, "runtime_s": 0},
+    }
+
+
 def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
     """Chapter IV data-quality log: recomputed checks + recorded incidents.
 
@@ -1165,6 +1204,7 @@ def load_data() -> dict[str, Any]:
         "squad_lens": _load_json(p / "squad_lens.json", {}),
         "big5_series": _load_json(p / "big5_series.json", {}),
         "data_quality": _load_json(p / "data_quality.json", {}),
+        "league_strength": _load_json(p / "league_strength.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
         "league_quality": config.league_quality(),
@@ -1328,6 +1368,9 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
             columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"]), tr),
         "limitations": _build_limitations(facts, tr),
         "data_quality": _build_data_quality(data["data_quality"], tr),
+        "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
+        "references": harvard_list(),
+        "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "facts": facts,
         "home_code": config.HOME,
         "n_leagues": n_leagues,
@@ -1539,6 +1582,29 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "sensitivity": _build_sensitivity(sens, tr),
         "limitations": _build_limitations(facts, tr),
         "data_quality": _build_data_quality(data_quality, tr),
+        "league_strength": _build_league_strength({
+            "leagues": [
+                {"league": "ENG-Premier League", "median": 1.0, "hdi_lo": 0.9, "hdi_hi": 1.1,
+                 "n_transitions": 42, "uefa": 1.0},
+                {"league": "CZE-First League", "median": 0.41, "hdi_lo": 0.28, "hdi_hi": 0.58,
+                 "n_transitions": 18, "uefa": 0.434},
+            ],
+            "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 620.0, "min_ess_tail": 540.0,
+                            "n_divergences": 0, "sigma_league_median": 0.31, "sigma_player_median": 1.42},
+            "ppc": {"observed": {"zero_share": 0.31, "mean": 0.42, "p90": 1.0},
+                   "replicated": {"zero_share": 0.33, "mean": 0.41, "p90": 1.0}},
+            "oos": {"metrics_season": "2025-2026", "n_candidates": 24,
+                   "rows": [{"method": "naive", "log_pred_density": -0.95, "mae": 0.21},
+                            {"method": "uefa", "log_pred_density": -0.9, "mae": 0.19},
+                            {"method": "model", "log_pred_density": -0.85, "mae": 0.17}],
+                   "refit_runtime_s": 118.4},
+            "spearman": {"rho": 0.81, "p": 0.0001, "n": 18},
+            "disagreements": [{"league": "NED-Eredivisie", "model_rank": 3, "uefa_rank": 6,
+                              "model_median": 0.71, "uefa": 0.51, "rank_diff": 3}],
+            "fit": {"rows": 8108, "players": 2125, "seasons": 7, "runtime_s": 341.2},
+        }, "CZE-First League", tr),
+        "references": harvard_list(),
+        "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "facts": facts,
         "home_code": "CZE",
         "n_leagues": 19, "headline_leagues": ["ENG-Premier League"],

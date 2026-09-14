@@ -1,0 +1,121 @@
+# Harvard-style reference list (Task 15). Every entry was verified before
+# being added: `curl -sI https://doi.org/<doi>` returned a 30x for every
+# `doi` below; every `url` (no-DOI entries) returned a 200. See
+# task-15-report.md for the verification log. `src/references.py` renders
+# these; do not hand-format a citation elsewhere.
+#
+# Fields: key, authors (list, "Last, F.M." form), et_al (optional, true when
+# the source names more authors than are worth spelling out -- the rendered
+# citation becomes "First author et al."), year, title, and either
+# (container, volume, issue, pages) for a journal article, or
+# (type: book, edition, place, publisher) for a book, or
+# (type: report, series, number, accessed) for an online report -- plus doi
+# and/or url on every entry.
+
+- key: efron_morris_1975
+  authors: ["Efron, B.", "Morris, C."]
+  year: 1975
+  title: "Data analysis using Stein's estimator and its generalizations"
+  container: Journal of the American Statistical Association
+  volume: 70
+  issue: 350
+  pages: "311-319"
+  doi: "10.1080/01621459.1975.10479864"
+
+- key: gelman_et_al_2013
+  type: book
+  authors: ["Gelman, A.", "Carlin, J.B.", "Stern, H.S.", "Dunson, D.B.", "Vehtari, A.", "Rubin, D.B."]
+  year: 2013
+  title: Bayesian Data Analysis
+  edition: "3rd"
+  place: Boca Raton
+  publisher: CRC Press
+  url: "https://www.stat.columbia.edu/~gelman/book/"
+
+- key: hoffman_gelman_2014
+  authors: ["Hoffman, M.D.", "Gelman, A."]
+  year: 2014
+  title: "The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo"
+  container: Journal of Machine Learning Research
+  volume: 15
+  pages: "1593-1623"
+  url: "https://www.jmlr.org/papers/v15/hoffman14a.html"
+
+- key: vehtari_gelman_gabry_2017
+  authors: ["Vehtari, A.", "Gelman, A.", "Gabry, J."]
+  year: 2017
+  title: "Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC"
+  container: Statistics and Computing
+  volume: 27
+  issue: 5
+  pages: "1413-1432"
+  doi: "10.1007/s11222-016-9696-4"
+
+- key: abril_pla_et_al_2023
+  authors: ["Abril-Pla, O."]
+  et_al: true
+  year: 2023
+  title: "PyMC: a modern, and comprehensive probabilistic programming framework in Python"
+  container: PeerJ Computer Science
+  volume: 9
+  pages: "e1516"
+  doi: "10.7717/peerj-cs.1516"
+
+- key: kumar_et_al_2019
+  authors: ["Kumar, R.", "Carroll, C.", "Hartikainen, A.", "Martin, O."]
+  year: 2019
+  title: "ArviZ a unified library for exploratory analysis of Bayesian models in Python"
+  container: Journal of Open Source Software
+  volume: 4
+  issue: 33
+  pages: "1143"
+  doi: "10.21105/joss.01143"
+
+- key: rousseeuw_1987
+  authors: ["Rousseeuw, P.J."]
+  year: 1987
+  title: "Silhouettes: a graphical aid to the interpretation and validation of cluster analysis"
+  container: Journal of Computational and Applied Mathematics
+  volume: 20
+  pages: "53-65"
+  doi: "10.1016/0377-0427(87)90125-7"
+
+- key: pedregosa_et_al_2011
+  authors: ["Pedregosa, F."]
+  et_al: true
+  year: 2011
+  title: "Scikit-learn: machine learning in Python"
+  container: Journal of Machine Learning Research
+  volume: 12
+  pages: "2825-2830"
+  url: "https://www.jmlr.org/papers/v12/pedregosa11a.html"
+
+- key: kharrat_mchale_pena_2020
+  authors: ["Kharrat, T.", "McHale, I.G.", "Peña, J.L."]
+  year: 2020
+  title: "Plus–minus player ratings for soccer"
+  container: European Journal of Operational Research
+  volume: 283
+  issue: 2
+  pages: "726-736"
+  doi: "10.1016/j.ejor.2019.11.026"
+
+- key: hvattum_2019
+  authors: ["Hvattum, L.M."]
+  year: 2019
+  title: "A comprehensive review of plus-minus ratings for evaluating individual players in team sports"
+  container: International Journal of Computer Science in Sport
+  volume: 18
+  issue: 1
+  pages: "1-23"
+  doi: "10.2478/ijcss-2019-0001"
+
+- key: poli_ravenel_besson_2024
+  type: report
+  authors: ["Poli, R.", "Ravenel, L.", "Besson, R."]
+  year: 2024
+  title: "Origins and destinations of football expatriates (2020-2024)"
+  series: CIES Football Observatory Monthly Report
+  number: 95
+  url: "https://football-observatory.com/IMG/sites/mr/mr95/en/"
+  accessed: "14 September 2026"

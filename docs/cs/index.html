@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609142127">
-  <link rel="stylesheet" href="../modern.css?v=202609142127">
+  <link rel="stylesheet" href="../style.css?v=202609142221">
+  <link rel="stylesheet" href="../modern.css?v=202609142221">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609142127"></script>
+  <script defer src="../atlas.js?v=202609142221"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -57,11 +57,14 @@
     <li><a href="#methodology">Jak je to postavené, validované a kde to končí</a>
       <ol>
         <li><a href="#multipliers">Ligové násobičky</a></li>
+        <li><a href="#league-strength">Síla ligy</a></li>
         <li><a href="#shrinkage">Bayesovský shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Analýza citlivosti</a></li>
         <li><a href="#limitations">Limitace</a></li>
+        <li><a href="#validation-robustness">Validace a robustnost</a></li>
         <li><a href="#reproducibility">Reprodukovatelnost</a></li>
+        <li><a href="#references">Reference</a></li>
       </ol>
     </li>
   </ol>
@@ -82,7 +85,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 163 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 174 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -437,7 +440,7 @@
       
     </div>
     
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Cílová liga poslední sezóny 2025/26 každého hráče s příslušností Česka; do strany = násobička cíle ≤ násobička české ligy.</p>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Cílová liga poslední sezóny 2025/26 každého hráče s příslušností Česka; do strany = násobička cíle ≤ násobička české ligy (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
   </div>
 </section>
 
@@ -550,7 +553,7 @@
         
       </div>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Mediánový podíl minut klubu u hráčů v zahraničí, podle země původu.</p>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Mediánový podíl minut klubu u hráčů v zahraničí, podle země původu (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
   </div>
 </section>
 
@@ -2834,7 +2837,7 @@
       <summary>Cluster archetypy</summary>
       <div class="explore-block">
     <h3 id="clusters">Cluster archetypy (style projekce)</h3>
-    <p>Clustery jsou fitované na celém korpusu hráčských sezón 2025/26 a čtené tady přes jejich české členy. Popisek popisuje mediánový otisk clusteru; počet jsou čeští členové korpusového clusteru; jména jsou čeští členové s nejvíc minutami.</p>
+    <p>Clustery jsou fitované na celém korpusu hráčských sezón 2025/26 a čtené tady přes jejich české členy, K vybrané podle silhouette skóre (Rousseeuw, 1987) pomocí scikit-learn (Pedregosa et al., 2011). Popisek popisuje mediánový otisk clusteru; počet jsou čeští členové korpusového clusteru; jména jsou čeští členové s nejvíc minutami.</p>
     
     
     <figure class="figure-bleed" data-atlas="fw" data-cluster-names='{"quality": {"C0": "\u00dato\u010dn\u00edci s vysok\u00fdm pod\u00edlem asistenc\u00ed v top-5 lig\u00e1ch", "C1": "\u00dato\u010dn\u00edci z\u00e1kladn\u00ed sestavy s vysokou minut\u00e1\u017e\u00ed", "C2": "Star\u0161\u00ed \u00fato\u010dn\u00edci se st\u0159edn\u00ed minut\u00e1\u017e\u00ed", "C3": "Mlad\u00ed \u00fato\u010dn\u00edci s n\u00edzkou minut\u00e1\u017e\u00ed", "C4": "St\u0159elci s vysok\u00fdm objemem v top-5 lig\u00e1ch", "C5": "\u00dato\u010dn\u00edci s vysok\u00fdm kartov\u00fdm pod\u00edlem"}, "style": {"C0": "\u00dato\u010dn\u00edci s vysok\u00fdm pod\u00edlem asistenc\u00ed", "C1": "Soubojov\u00ed rota\u010dn\u00ed \u00fato\u010dn\u00edci", "C2": "\u00dato\u010dn\u00edci z\u00e1kladn\u00ed sestavy s vysokou minut\u00e1\u017e\u00ed", "C3": "Star\u0161\u00ed \u00fato\u010dn\u00edci se st\u0159edn\u00ed minut\u00e1\u017e\u00ed", "C4": "Mlad\u00ed \u00fato\u010dn\u00edci s n\u00edzkou minut\u00e1\u017e\u00ed", "C5": "Hlavn\u00ed st\u0159elci"}}'>
@@ -8212,8 +8215,208 @@
     </table>
     <p class="muted small">Metoda: <code>uefa_coefficient</code>. ClubElo bylo v době běhu nedostupné (chyba HTTP); náhradou je mužský koeficient asociací UEFA z Wikipedie, aktuální pětiletý žebříček (sezóny 2022–23 až 2026–27). Násobička 1. ligy = koef[země] / max(koef); násobička 2. ligy = 0,6 × násobička 1. ligy téže země (uvedený předpoklad, ne odvozený z dat). Nejsilnější země 1. ligy = 1,00. Analýza citlivosti níže ukazuje robustnost pořadí vůči ±20 % na kterékoli jedné násobičce.</p>
 
+    
+    <h3 id="league-strength">Síla ligy: dva odhady</h3>
+    <p>Kolik je sezóna Czech First League hodná v přepočtu na Premier League? Násobička UEFA výše odpovídá z kontinentálních výsledků zemí; tento model odpovídá na stejnou otázku od hráčů, kteří ligu skutečně změnili.</p>
+    <p>Movers — 2125 hráčů pozorovaných aspoň ve dvou ligách napříč 8108 kvalifikujícími hráčskými sezónami — kotví model, protože jen vlastní změna ligy hráče před/po odděluje jeho úroveň od skórovacího prostředí ligy. Hierarchický Poissonův model neproniknutých gólů plus asistencí na 90 minut (Gelman et al., 2013) fituje efekt ligy a efekt hráče společně, vzorkovaný NUTS (Hoffman and Gelman, 2014) v PyMC (Abril-Pla et al., 2023) a diagnostikovaný ArviZ (Kumar et al., 2019). Partial pooling drží efekty lig regularizované, zatímco efekty hráčů nechává blízko nepoolovaným — stejná within-subject logika, jaká stojí za plus-minus a RAPM hodnocením jinde v týmových sportech (Kharrat, McHale and Peña, 2020) (Hvattum, 2019).</p>
+    <figure class="figure-bleed">
+      <img src="../league_strength.svg" alt="Tečky a 90% HDI modelové násobičky síly ligy m_L za každou ligu, seřazené, s násobičkou UEFA dané ligy jako dutým markerem.">
+    </figure>
+    
+    <p>V těchto pojmech se sezóna Czech First League přepočítává na 0,67 sezóny Premier League (90% HDI 0,59–0,75).</p>
+    
+    <table class="kv-table strength-table">
+      <thead><tr>
+        <th>Liga</th><th>m_L (medián)</th>
+        <th>90% HDI</th><th>Přestupy</th>
+        <th>UEFA</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr >
+          <td>ENG-Premier League</td><td>1,000</td>
+          <td>1,000–1,000</td>
+          <td class="num">588</td>
+          <td>1,000</td>
+        </tr>
+        
+        <tr >
+          <td>ITA-Serie A</td><td>0,935</td>
+          <td>0,890–0,981</td>
+          <td class="num">569</td>
+          <td>0,856</td>
+        </tr>
+        
+        <tr >
+          <td>ESP-La Liga</td><td>0,908</td>
+          <td>0,859–0,953</td>
+          <td class="num">435</td>
+          <td>0,807</td>
+        </tr>
+        
+        <tr >
+          <td>FRA-Ligue 1</td><td>0,810</td>
+          <td>0,772–0,848</td>
+          <td class="num">672</td>
+          <td>0,666</td>
+        </tr>
+        
+        <tr >
+          <td>GER-Bundesliga</td><td>0,777</td>
+          <td>0,741–0,814</td>
+          <td class="num">588</td>
+          <td>0,788</td>
+        </tr>
+        
+        <tr >
+          <td>HUN-NB I</td><td>0,743</td>
+          <td>0,625–0,864</td>
+          <td class="num">35</td>
+          <td>0,265</td>
+        </tr>
+        
+        <tr >
+          <td>POR-Primeira Liga</td><td>0,721</td>
+          <td>0,680–0,762</td>
+          <td class="num">350</td>
+          <td>0,630</td>
+        </tr>
+        
+        <tr >
+          <td>BEL-Pro League</td><td>0,671</td>
+          <td>0,637–0,710</td>
+          <td class="num">474</td>
+          <td>0,573</td>
+        </tr>
+        
+        <tr data-highlight="cze">
+          <td>CZE-First League</td><td>0,665</td>
+          <td>0,585–0,749</td>
+          <td class="num">64</td>
+          <td>0,434</td>
+        </tr>
+        
+        <tr >
+          <td>TUR-Süper Lig</td><td>0,660</td>
+          <td>0,625–0,696</td>
+          <td class="num">472</td>
+          <td>0,484</td>
+        </tr>
+        
+        <tr >
+          <td>POL-Ekstraklasa</td><td>0,659</td>
+          <td>0,599–0,729</td>
+          <td class="num">131</td>
+          <td>0,438</td>
+        </tr>
+        
+        <tr >
+          <td>AUT-Bundesliga</td><td>0,657</td>
+          <td>0,576–0,729</td>
+          <td class="num">80</td>
+          <td>0,268</td>
+        </tr>
+        
+        <tr >
+          <td>DEN-Superliga</td><td>0,635</td>
+          <td>0,576–0,702</td>
+          <td class="num">117</td>
+          <td>0,371</td>
+        </tr>
+        
+        <tr >
+          <td>GER-2. Bundesliga</td><td>0,600</td>
+          <td>0,555–0,645</td>
+          <td class="num">230</td>
+          <td>0,473</td>
+        </tr>
+        
+        <tr >
+          <td>NED-Eredivisie</td><td>0,597</td>
+          <td>0,567–0,632</td>
+          <td class="num">387</td>
+          <td>0,510</td>
+        </tr>
+        
+        <tr >
+          <td>CRO-HNL</td><td>0,597</td>
+          <td>0,525–0,671</td>
+          <td class="num">64</td>
+          <td>0,249</td>
+        </tr>
+        
+        <tr >
+          <td>SUI-Super League</td><td>0,597</td>
+          <td>0,538–0,649</td>
+          <td class="num">128</td>
+          <td>0,293</td>
+        </tr>
+        
+        <tr >
+          <td>NOR-Eliteserien</td><td>0,574</td>
+          <td>0,507–0,639</td>
+          <td class="num">64</td>
+          <td>0,374</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <p>Přefitovaný na sezóny před 2025/26 model predikuje první řádek 2025/26 každého movera po změně ligy — 863 takových přesunů — proti dvěma základním liniím: stejná míra jako předtím a tato míra škálovaná poměrem násobiček UEFA. Je to stejná populace, jakou sledují měsíční reporty expatriotských hráčů CIES Football Observatory (Poli, Ravenel and Besson, 2024).</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Metoda</th><th>Log prediktivní hustota</th>
+        <th>MAE (míra)</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr>
+          <td>Stejná míra jako předtím</td>
+          <td>-5,217</td>
+          <td>0,161</td>
+        </tr>
+        
+        <tr>
+          <td>Míra × poměr UEFA</td>
+          <td>-6,052</td>
+          <td>0,224</td>
+        </tr>
+        
+        <tr>
+          <td>Model</td>
+          <td>-2,174</td>
+          <td>0,127</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <p>Na 18 společných ligách korelují modelové mediány a násobičky UEFA se Spearmanovým rho = 0,74.</p>
+    <ul class="disagreements">
+      
+      <li>HUN-NB I: pořadí modelu 6 vs. pořadí UEFA 17 (m_L 0,74 vs. násobička 0,27).</li>
+      
+      <li>NED-Eredivisie: pořadí modelu 15 vs. pořadí UEFA 8 (m_L 0,60 vs. násobička 0,51).</li>
+      
+      <li>NOR-Eliteserien: pořadí modelu 18 vs. pořadí UEFA 13 (m_L 0,57 vs. násobička 0,37).</li>
+      
+    </ul>
+
+    <p>R-hat ≤ 1,003, minimální bulk ESS 1224, 0 divergentních tranzicí napříč 8108 hráčskými sezónami od 2125 moverů; fit za 214 s.</p>
+
+    <details class="fold">
+      <summary>Posteriorní prediktivní kontrola</summary>
+      <p>Pozorované vs. replikované neproniknuté góly plus asistence na hráčskou sezónu (Vehtari, Gelman and Gabry, 2017): podíl nul 15 % vs. 14 %, průměr 4,45 vs. 4,45, 90. percentil 11,00 vs. 10,85.</p>
+      <figure class="figure-bleed">
+        <img src="../league_strength_ppc.svg" alt="Sloupcový graf porovnávající pozorované a posteriorně-prediktivně replikované rozdělení neproniknutých gólů plus asistencí na hráčskou sezónu, seskupené 0/1/2/3/4/5+.">
+      </figure>
+    </details>
+
+    <p>Žebříčky reportu drží násobičku UEFA koeficientu po celou dobu; model výše je ukázaný vedle ní jako kontrola vlastního předpokladu té násobičky — že kontinentální výsledky sledují sílu hráčů — ne jako její náhrada.</p>
+    
+
     <h3 id="shrinkage">Bayesovský shrinkage</h3>
-    <p>Míry na 90 minut u hráčů s málo minutami jsou staženy k mediánu jejich ligy a sezóny (hráči s aspoň 900 minutami) empirickým Bayesovým vzorcem, s K = 10 fantomovými zápasy vyjádřenými jako 900 minut:</p>
+    <p>Míry na 90 minut u hráčů s málo minutami jsou staženy k mediánu jejich ligy a sezóny (hráči s aspoň 900 minutami) empirickým Bayesovým vzorcem (Efron and Morris, 1975), s K = 10 fantomovými zápasy vyjádřenými jako 900 minut:</p>
     <p class="formula" data-tex="\text{stažená míra} = \dfrac{\text{události} + K \cdot \text{medián ligy}}{\text{minuty} / 90 + K},\qquad K = 10">shrunk_rate = (události + K × medián_ligy) / (minuty / 90 + K), &nbsp; K = 10</p>
     <p>Při 450 minutách (vstupní práh) nese medián ligy 67 % váhy; při 900 minutách váží vlastní míra hráče a medián stejně. Podíl minut a věk se nestahují.</p>
 
@@ -8758,13 +8961,21 @@
       
     </div>
 
+    <h3 id="validation-robustness">Validace a robustnost</h3>
+    <p>Každý model v tomto pipeline nese vlastní validaci hned vedle svého popisu; tato sekce sbírá jednu hlavní diagnostiku od každého, jak přibývá. Zatím:</p>
+    <ul>
+      
+      <li>Síla ligy (M2): R-hat ≤ 1,003, 0 divergentních tranzicí, out-of-sample log prediktivní hustota favorizuje „Model“ (-2,174), Spearmanovo rho = 0,74 proti násobičkám UEFA.</li>
+      
+    </ul>
+
     <h3 id="reproducibility">Reprodukovatelnost</h3>
     <p>Celá pipeline je veřejná: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas">github.com/barborasandova/czefootball-player-pool-atlas</a>. Licence MIT. Z čistého klonu <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> vykreslí tento report z commitnutého datového snapshotu a <code>make pages</code> sestaví web; <code>make all</code> vše znovu stáhne a spustí celou pipeline. Náhodný seed 42 pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě.</p>
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 163 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 163 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 174 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 174 testy.</p>
       <ol class="build-flow">
         <li>Specifikace</li>
         <li>Plán</li>
@@ -8774,6 +8985,33 @@
       </ol>
       <p>Specifikace: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">návrh</a> · plán: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">úkoly</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulingy</a>.</p>
     </details>
+
+    <h3 id="references">Reference</h3>
+    <ul class="references-list">
+      
+      <li id="ref-abril_pla_et_al_2023"><a href="https://doi.org/10.7717/peerj-cs.1516">Abril-Pla, O. et al. (2023) &#39;PyMC: a modern, and comprehensive probabilistic programming framework in Python&#39;, PeerJ Computer Science, 9, e1516.</a></li>
+      
+      <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319.</a></li>
+      
+      <li id="ref-gelman_et_al_2013"><a href="https://www.stat.columbia.edu/~gelman/book/">Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A. and Rubin, D.B. (2013) Bayesian Data Analysis. 3rd edn. Boca Raton: CRC Press.</a></li>
+      
+      <li id="ref-hoffman_gelman_2014"><a href="https://www.jmlr.org/papers/v15/hoffman14a.html">Hoffman, M.D. and Gelman, A. (2014) &#39;The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo&#39;, Journal of Machine Learning Research, 15, pp. 1593–1623.</a></li>
+      
+      <li id="ref-hvattum_2019"><a href="https://doi.org/10.2478/ijcss-2019-0001">Hvattum, L.M. (2019) &#39;A comprehensive review of plus-minus ratings for evaluating individual players in team sports&#39;, International Journal of Computer Science in Sport, 18(1), pp. 1–23.</a></li>
+      
+      <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736.</a></li>
+      
+      <li id="ref-kumar_et_al_2019"><a href="https://doi.org/10.21105/joss.01143">Kumar, R., Carroll, C., Hartikainen, A. and Martin, O. (2019) &#39;ArviZ a unified library for exploratory analysis of Bayesian models in Python&#39;, Journal of Open Source Software, 4(33), 1143.</a></li>
+      
+      <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830.</a></li>
+      
+      <li id="ref-poli_ravenel_besson_2024"><a href="https://football-observatory.com/IMG/sites/mr/mr95/en/">Poli, R., Ravenel, L. and Besson, R. (2024) Origins and destinations of football expatriates (2020-2024). CIES Football Observatory Monthly Report, 95. Available at: https://football-observatory.com/IMG/sites/mr/mr95/en/ (Accessed: 14 September 2026).</a></li>
+      
+      <li id="ref-rousseeuw_1987"><a href="https://doi.org/10.1016/0377-0427(87)90125-7">Rousseeuw, P.J. (1987) &#39;Silhouettes: a graphical aid to the interpretation and validation of cluster analysis&#39;, Journal of Computational and Applied Mathematics, 20, pp. 53–65.</a></li>
+      
+      <li id="ref-vehtari_gelman_gabry_2017"><a href="https://doi.org/10.1007/s11222-016-9696-4">Vehtari, A., Gelman, A. and Gabry, J. (2017) &#39;Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC&#39;, Statistics and Computing, 27(5), pp. 1413–1432.</a></li>
+      
+    </ul>
   </div>
 </section>
 
@@ -8935,7 +9173,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-14 21:27</p>
+    <p class="rendered-at">Vykresleno: 2026-09-14 22:21</p>
   </div>
 </footer>
 

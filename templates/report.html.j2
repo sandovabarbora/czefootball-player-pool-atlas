@@ -132,11 +132,14 @@
     <li><a href="#methodology">{{ t('toc.methodology') }}</a>
       <ol>
         <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
+        <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
         <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
         <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
         <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
         <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
+        <li><a href="#validation-robustness">{{ t('toc.validation') }}</a></li>
         <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
+        <li><a href="#references">{{ t('toc.references') }}</a></li>
       </ol>
     </li>
   </ol>
@@ -158,7 +161,7 @@
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
         <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a> · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -549,7 +552,7 @@
       <summary>{{ t('toc.clusters') }}</summary>
       <div class="explore-block">
     <h3 id="clusters">{{ t('ch1.clusters.h3') }}</h3>
-    <p>{{ t('ch1.clusters.p', season=seasons.metrics) }}</p>
+    <p>{{ t('ch1.clusters.p', season=seasons.metrics, cite_rousseeuw=cite.rousseeuw_1987, cite_pedregosa=cite.pedregosa_et_al_2011) }}</p>
     {% for grp in groups %}
     {% set note = atlas_notes[grp] %}
     <figure class="figure-bleed" data-atlas="{{ grp | lower }}" data-cluster-names='{{ cluster_names.get(grp, {}) | tojson }}'>
@@ -907,8 +910,86 @@
     </table>
     <p class="muted small">{{ t('ch4.mult.method', method=multiplier_method, source=term(multiplier_source)) }}</p>
 
+    {% if league_strength.leagues %}
+    <h3 id="league-strength">{{ t('ch4.strength.h3') }}</h3>
+    <p>{{ t('ch4.strength.p1_is_ref') if league_strength.home_is_reference else t('ch4.strength.p1') }}</p>
+    <p>{{ t('ch4.strength.design', players=league_strength.fit.players, rows=league_strength.fit.rows,
+             cite_bda=cite.gelman_et_al_2013, cite_nuts=cite.hoffman_gelman_2014, cite_pymc=cite.abril_pla_et_al_2023,
+             cite_arviz=cite.kumar_et_al_2019, cite_rapm1=cite.kharrat_mchale_pena_2020, cite_rapm2=cite.hvattum_2019) }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}league_strength.svg" alt="{{ t('ch4.strength.fig_alt') }}">
+    </figure>
+    {% if league_strength.home_is_reference %}
+    <p>{{ t('ch4.strength.home_is_ref') }}</p>
+    {% elif league_strength.home %}
+    <p>{{ t('ch4.strength.home', median=f2(league_strength.home.median),
+             lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi)) }}</p>
+    {% endif %}
+    <table class="kv-table strength-table">
+      <thead><tr>
+        <th>{{ t('ch4.strength.th.league') }}</th><th>{{ t('ch4.strength.th.median') }}</th>
+        <th>{{ t('ch4.strength.th.hdi') }}</th><th>{{ t('ch4.strength.th.transitions') }}</th>
+        <th>{{ t('ch4.strength.th.uefa') }}</th>
+      </tr></thead>
+      <tbody>
+        {% for r in league_strength.leagues %}
+        <tr {% if r.league == domestic_league_code %}data-highlight="cze"{% endif %}>
+          <td>{{ r.league }}</td><td>{{ f3(r.median) }}</td>
+          <td>{{ f3(r.hdi_lo) }}–{{ f3(r.hdi_hi) }}</td>
+          <td class="num">{{ r.n_transitions }}</td>
+          <td>{{ f3(r.uefa) if r.uefa is not none else '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p>{{ t('ch4.strength.oos.p', season=league_strength.oos.metrics_season, n=league_strength.oos.n_candidates,
+             cite_cies=cite.poli_ravenel_besson_2024) }}</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>{{ t('ch4.strength.oos.th.method') }}</th><th>{{ t('ch4.strength.oos.th.logpd') }}</th>
+        <th>{{ t('ch4.strength.oos.th.mae') }}</th>
+      </tr></thead>
+      <tbody>
+        {% for r in league_strength.oos.rows %}
+        <tr>
+          <td>{{ r.method_label }}</td>
+          <td>{{ f3(r.log_pred_density) }}</td>
+          <td>{{ f3(r.mae) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p>{{ t('ch4.strength.spearman', n=league_strength.spearman.n, rho=f2(league_strength.spearman.rho)) }}</p>
+    <ul class="disagreements">
+      {% for d in league_strength.disagreements %}
+      <li>{{ t('ch4.strength.disagreement', league=d.league, model_rank=d.model_rank, uefa_rank=d.uefa_rank,
+                model_median=f2(d.model_median), uefa=f2(d.uefa)) }}</li>
+      {% endfor %}
+    </ul>
+
+    <p>{{ t('ch4.strength.diagnostics', rhat=f3(league_strength.diagnostics.max_rhat),
+             ess=(league_strength.diagnostics.min_ess_bulk | round | int), div=league_strength.diagnostics.n_divergences,
+             rows=league_strength.fit.rows, players=league_strength.fit.players,
+             runtime=(league_strength.fit.runtime_s | round | int)) }}</p>
+
+    <details class="fold">
+      <summary>{{ t('ch4.strength.ppc.summary') }}</summary>
+      <p>{{ t('ch4.strength.ppc.p', obs_zero=pct(league_strength.ppc.observed.zero_share), rep_zero=pct(league_strength.ppc.replicated.zero_share),
+               obs_mean=f2(league_strength.ppc.observed.mean), rep_mean=f2(league_strength.ppc.replicated.mean),
+               obs_p90=f2(league_strength.ppc.observed.p90), rep_p90=f2(league_strength.ppc.replicated.p90),
+               cite_ppc=cite.vehtari_gelman_gabry_2017) }}</p>
+      <figure class="figure-bleed">
+        <img src="{{ assets }}league_strength_ppc.svg" alt="{{ t('ch4.strength.ppc.fig_alt') }}">
+      </figure>
+    </details>
+
+    <p>{{ t('ch4.strength.ranking') }}</p>
+    {% endif %}
+
     <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>
-    <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes) }}</p>
+    <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes, cite_efron_morris=cite.efron_morris_1975) }}</p>
     <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
     <p>{{ t('ch4.shrink.p2', min=feature_defs.min_minutes, weight=pct(feature_defs.phantom_minutes / (feature_defs.min_minutes + feature_defs.phantom_minutes)), phantom=feature_defs.phantom_minutes) }}</p>
 
@@ -982,6 +1063,17 @@
       {% endfor %}
     </div>
 
+    <h3 id="validation-robustness">{{ t('ch4.validation.h3') }}</h3>
+    <p>{{ t('ch4.validation.stub') }}</p>
+    <ul>
+      {% if league_strength.leagues %}
+      <li>{{ t('ch4.validation.m2', rhat=f3(league_strength.diagnostics.max_rhat), div=league_strength.diagnostics.n_divergences,
+                oos_winner=(league_strength.oos.winner.method_label if league_strength.oos.winner else '—'),
+                oos_logpd=(f3(league_strength.oos.winner.log_pred_density) if league_strength.oos.winner else '—'),
+                rho=f2(league_strength.spearman.rho)) }}</li>
+      {% endif %}
+    </ul>
+
     <h3 id="reproducibility">{{ t('ch4.repro.h3') }}</h3>
     <p>{{ t('ch4.repro.p', url=repo_url, url_short=repo_url | replace('https://', ''), seed=seed) }}</p>
 
@@ -998,6 +1090,13 @@
       </ol>
       <p>{{ t('ch4.built.p2', spec=spec_url, plan=plan_url, ledger=ledger_url) }}</p>
     </details>
+
+    <h3 id="references">{{ t('ch4.refs.h3') }}</h3>
+    <ul class="references-list">
+      {% for r in references %}
+      <li id="ref-{{ r.key }}">{% if r.href %}<a href="{{ r.href }}">{{ r.citation }}</a>{% else %}{{ r.citation }}{% endif %}</li>
+      {% endfor %}
+    </ul>
   </div>
 </section>
 

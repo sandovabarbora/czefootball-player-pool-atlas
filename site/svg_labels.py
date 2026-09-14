@@ -18,7 +18,8 @@ import sys
 from pathlib import Path
 
 DOCS = Path(sys.argv[1])
-FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg"]
+FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
+         "league_strength.svg", "league_strength_ppc.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -48,6 +49,16 @@ T = {
     "Players (≥ 450 min)": "Hráči (≥ 450 min)",
     "Per million population": "Na milion obyvatel",
     "Season start year": "Počáteční rok sezóny",
+    # league strength (Task 15)
+    "League strength: two estimates": "Síla ligy: dva odhady",
+    "m_L  ·  Premier-League-equivalent rate multiplier": "m_L  ·  násobička míry ekvivalentní Premier League",
+    "Model median (90% HDI)": "Medián modelu (90% HDI)",
+    "UEFA multiplier": "Násobička UEFA",
+    "Posterior predictive check": "Posteriorní prediktivní kontrola",
+    "npG + A that season": "npG + A tu sezónu",
+    "Share of player-seasons": "Podíl hráčských sezón",
+    "Observed": "Pozorováno",
+    "Replicated (posterior mean)": "Replikováno (posteriorní průměr)",
 }
 CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern
@@ -63,7 +74,9 @@ BIG5_TITLE_EN = re.compile(rf"{re.escape(ADJ_EN)} players in the Big-5 leagues, 
 BIG5_TITLE_CS = f"{ADJ_CS_PL.capitalize()} hráči v ligách Big-5, " + "{start} → {end}"
 # labels that stay as they are (axis names, cluster codes, cohorts, countries, numbers, surnames,
 # and the big5_series point annotations "YYYY/YY: N", identical in both languages)
-KEEP = re.compile(r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d\d\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+|\d{4}/\d\d: \d+)$")
+KEEP = re.compile(
+    r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d+\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+|"
+    r"\d{4}/\d\d: \d+|[A-Z]{3}-[\w .]+)$")
 # per-string font scale, for a Czech entry that would otherwise leave its panel
 SHRINK: dict[str, float] = {}
 FONT = {"Georgia": "Georgia, 'Times New Roman', serif",
