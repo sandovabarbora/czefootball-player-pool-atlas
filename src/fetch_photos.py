@@ -150,6 +150,65 @@ def _fetch_batches(names: list[str]) -> list[dict]:
     return bindings
 
 
+# --- Wikipedia page-image fallback -------------------------------------------
+# Wikidata's P18 is set on a minority of Czech footballers; many more have a
+# Czech or English Wikipedia article whose infobox carries a Commons image.
+# The article's Wikidata item is checked the same way as the SPARQL match
+# (occupation = association football player, birth year when both known).
+WIKIPEDIA_CACHE_DIR = config.RAW_DIR / "wikipedia"
+WIKIPEDIA_LANGS = ("cs", "en")
+FOOTBALLER = "Q937857"
+
+
+def wikipedia_candidate(api_json: dict, entity_json: dict, born) -> tuple[str, str] | None:
+    """(image_url, credit) from a `prop=pageimages|pageprops` response plus the
+    page's Wikidata entity, or None when the page is missing, a disambiguation,
+    has no image, is not a footballer, or the birth year disagrees."""
+    page = next(iter(api_json.get("query", {}).get("pages", {}).values()), {})
+    if "missing" in page or "disambiguation" in page.get("pageprops", {}):
+        return None
+    url = page.get("original", {}).get("source")
+    qid = page.get("pageprops", {}).get("wikibase_item")
+    if not url or not qid:
+        return None
+    claims = entity_json.get("entities", {}).get(qid, {}).get("claims", {})
+    occupations = {c["mainsnak"]["datavalue"]["value"]["id"] for c in claims.get("P106", [])
+                   if "datavalue" in c.get("mainsnak", {})}
+    if FOOTBALLER not in occupations:
+        return None
+    years = [int(c["mainsnak"]["datavalue"]["value"]["time"][1:5]) for c in claims.get("P569", [])
+             if "datavalue" in c.get("mainsnak", {})]
+    if born is not None and not pd.isna(born) and years and int(born) not in years:
+        return None
+    return url.split("?")[0], urllib.parse.unquote(url.split("?")[0].rsplit("/", 1)[-1])
+
+
+def wikipedia_lookup(name: str, born) -> tuple[str, str] | None:
+    """Try cs then en Wikipedia for `name`; responses cached under data/raw/wikipedia."""
+    WIKIPEDIA_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    slug = normalize_name(name).replace(" ", "_")
+    for lang in WIKIPEDIA_LANGS:
+        params = {"action": "query", "prop": "pageimages|pageprops", "titles": name,
+                  "piprop": "original", "redirects": 1, "format": "json"}
+        url = f"https://{lang}.wikipedia.org/w/api.php?{urllib.parse.urlencode(params)}"
+        cache = WIKIPEDIA_CACHE_DIR / f"{lang}_{slug}.json"
+        was_cached = cache.exists()
+        api = json.loads(cached_text(url, cache, headers=UA, timeout=30.0))
+        page = next(iter(api.get("query", {}).get("pages", {}).values()), {})
+        qid = page.get("pageprops", {}).get("wikibase_item")
+        entity: dict = {}
+        if qid and page.get("original"):
+            ecache = WIKIPEDIA_CACHE_DIR / f"entity_{qid}.json"
+            entity = json.loads(cached_text(f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json",
+                                            ecache, headers=UA, timeout=30.0))
+        if not was_cached:
+            time.sleep(0.3)
+        hit = wikipedia_candidate(api, entity, born)
+        if hit:
+            return hit
+    return None
+
+
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     pool = read_parquet(config.PROCESSED_DIR / "pool.parquet")
@@ -158,6 +217,19 @@ def main() -> None:
 
     bindings = _fetch_batches(pool.player.tolist())
     matched = match_images(bindings, pool).drop_duplicates("fbref_id")
+
+    # second pass: Wikipedia infobox images for players Wikidata's P18 missed
+    extra = []
+    for r in pool[~pool.fbref_id.isin(matched.fbref_id)].itertuples():
+        try:
+            hit = wikipedia_lookup(r.player, r.born)
+        except Exception as exc:  # one lookup failing must not kill the run
+            LOG.warning("%s: wikipedia lookup failed: %s", r.player, exc)
+            continue
+        if hit:
+            extra.append({"fbref_id": r.fbref_id, "player": r.player, "image_url": hit[0], "credit": hit[1]})
+    LOG.info("photos: wikidata P18 matched %d, wikipedia page images add %d", len(matched), len(extra))
+    matched = pd.concat([matched, pd.DataFrame(extra, columns=matched.columns)], ignore_index=True)
 
     IMG_DIR.mkdir(parents=True, exist_ok=True)
     out: dict[str, dict] = {}

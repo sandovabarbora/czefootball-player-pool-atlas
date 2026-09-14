@@ -92,3 +92,35 @@ def test_fetch_batches_caches_by_name_content_not_batch_position(tmp_path, monke
     assert len(seen_paths) == 2
     assert seen_paths[0] != seen_paths[1]  # different names -> different cache file
     assert all(p.parent == tmp_path for p in seen_paths)
+
+
+# --- Wikipedia page-image fallback -----------------------------------------
+from src.fetch_photos import wikipedia_candidate
+
+
+def _pages(**page):
+    return {"query": {"pages": {"1": page}}}
+
+
+def test_wikipedia_candidate_accepts_footballer_with_matching_birth_year():
+    api = _pages(title="Pavel Šulc", original={"source": "https://upload.wikimedia.org/x/Pavel_Sulc.jpg"},
+                 pageprops={"wikibase_item": "Q123"})
+    entity = {"entities": {"Q123": {"claims": {
+        "P106": [{"mainsnak": {"datavalue": {"value": {"id": "Q937857"}}}}],
+        "P569": [{"mainsnak": {"datavalue": {"value": {"time": "+2000-12-19T00:00:00Z"}}}}]}}}}
+    assert wikipedia_candidate(api, entity, born=2000) == ("https://upload.wikimedia.org/x/Pavel_Sulc.jpg", "Pavel_Sulc.jpg")
+
+
+def test_wikipedia_candidate_rejects_other_occupation_or_wrong_year_or_disambiguation():
+    api = _pages(title="X", original={"source": "https://u/x.jpg"}, pageprops={"wikibase_item": "Q1"})
+    hockey = {"entities": {"Q1": {"claims": {"P106": [{"mainsnak": {"datavalue": {"value": {"id": "Q11774891"}}}}]}}}}
+    assert wikipedia_candidate(api, hockey, born=None) is None
+    foot = {"entities": {"Q1": {"claims": {
+        "P106": [{"mainsnak": {"datavalue": {"value": {"id": "Q937857"}}}}],
+        "P569": [{"mainsnak": {"datavalue": {"value": {"time": "+1990-01-01T00:00:00Z"}}}}]}}}}
+    assert wikipedia_candidate(api, foot, born=2000) is None
+    assert wikipedia_candidate(api, foot, born=1990) is not None
+    dis = _pages(title="X", original={"source": "https://u/x.jpg"}, pageprops={"wikibase_item": "Q1", "disambiguation": ""})
+    assert wikipedia_candidate(dis, foot, born=1990) is None
+    assert wikipedia_candidate(_pages(title="X", missing=""), foot, born=1990) is None
+    assert wikipedia_candidate(_pages(title="X", pageprops={"wikibase_item": "Q1"}), foot, born=1990) is None
