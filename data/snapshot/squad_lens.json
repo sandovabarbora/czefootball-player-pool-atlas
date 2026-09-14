@@ -1,0 +1,106 @@
+{
+ "event": "2026 FIFA World Cup",
+ "season": "2025-2026",
+ "countries": [
+  {
+   "country": "CZE",
+   "n": 26,
+   "matched": 26,
+   "tiers": {
+    "top9": 9,
+    "stepping_stone": 0,
+    "domestic": 17,
+    "other": 0,
+    "unmatched": 0
+   },
+   "cohorts": {
+    "U22": 1,
+    "23-25": 6,
+    "26-29": 10,
+    "30+": 9
+   },
+   "median_minutes": 1826.5,
+   "median_multiplier": 0.434
+  },
+  {
+   "country": "CRO",
+   "n": 26,
+   "matched": 23,
+   "tiers": {
+    "top9": 19,
+    "stepping_stone": 0,
+    "domestic": 2,
+    "other": 2,
+    "unmatched": 3
+   },
+   "cohorts": {
+    "U22": 1,
+    "23-25": 6,
+    "26-29": 11,
+    "30+": 8
+   },
+   "median_minutes": 1857.0,
+   "median_multiplier": 0.807
+  },
+  {
+   "country": "NOR",
+   "n": 26,
+   "matched": 18,
+   "tiers": {
+    "top9": 18,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 8
+   },
+   "cohorts": {
+    "U22": 2,
+    "23-25": 6,
+    "26-29": 14,
+    "30+": 4
+   },
+   "median_minutes": 1895.0,
+   "median_multiplier": 0.856
+  },
+  {
+   "country": "AUT",
+   "n": 26,
+   "matched": 24,
+   "tiers": {
+    "top9": 18,
+    "stepping_stone": 1,
+    "domestic": 3,
+    "other": 2,
+    "unmatched": 2
+   },
+   "cohorts": {
+    "U22": 1,
+    "23-25": 6,
+    "26-29": 10,
+    "30+": 9
+   },
+   "median_minutes": 1711.5,
+   "median_multiplier": 0.788
+  },
+  {
+   "country": "SUI",
+   "n": 26,
+   "matched": 26,
+   "tiers": {
+    "top9": 23,
+    "stepping_stone": 1,
+    "domestic": 2,
+    "other": 0,
+    "unmatched": 0
+   },
+   "cohorts": {
+    "U22": 1,
+    "23-25": 5,
+    "26-29": 10,
+    "30+": 10
+   },
+   "median_minutes": 2132.0,
+   "median_multiplier": 0.788
+  }
+ ]
+}
