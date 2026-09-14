@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+
+from src import config
 from sklearn.datasets import make_blobs
 
 from src.cluster import K_RANGE, cluster_group, select_k
@@ -25,7 +27,7 @@ def test_select_k_handles_too_few_rows():
     assert best_k >= 2
 
 
-def _toy_features(n: int = 60, season: str = "2024-2025") -> pd.DataFrame:
+def _toy_features(n: int = 60, season: str = config.seasons()["metrics"]) -> pd.DataFrame:
     rng = np.random.default_rng(42)
     df = pd.DataFrame({
         "player_key": [f"p{i}" for i in range(n)],

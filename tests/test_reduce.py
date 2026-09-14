@@ -5,10 +5,12 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from src import config
+
 from src.reduce import reduce_group
 
 
-def _toy_features(n: int = 60, season: str = "2024-2025") -> pd.DataFrame:
+def _toy_features(n: int = 60, season: str = config.seasons()["metrics"]) -> pd.DataFrame:
     rng = np.random.default_rng(42)
     df = pd.DataFrame({
         "player_key": [f"p{i}" for i in range(n)],
@@ -69,8 +71,8 @@ def test_reduce_group_missing_features_give_nan_coords_no_crash():
 def test_reduce_group_fits_on_metrics_season_only():
     """Rows from the previous/current seasons should still get coordinates,
     projected into the space fit on the metrics season."""
-    metrics = _toy_features(n=60, season="2024-2025")
-    other = _toy_features(n=10, season="2023-2024")
+    metrics = _toy_features(n=60, season=config.seasons()["metrics"])
+    other = _toy_features(n=10, season=config.seasons()["previous"])
     other["player_key"] = [f"q{i}" for i in range(10)]
     df = pd.concat([metrics, other], ignore_index=True)
     coords, _ = reduce_group(df, "FW")

@@ -15,6 +15,7 @@ import pytest
 from jinja2 import Environment, FileSystemLoader
 
 from src import config
+from src.utils import season_label
 from src.render import (
     GROUPS,
     RULE_KICKERS,
@@ -187,8 +188,10 @@ def test_template_renders_with_real_context():
     ctx = build_context(load_data())
     html = _render(ctx)
     _check(html, GROUPS)
-    assert len(ctx["cards"]) == 12
-    assert [r["kicker"] for r in ctx["card_rows"]] == [k for _, k in RULE_KICKERS]
+    n_rules = len(RULE_KICKERS)
+    assert 3 * (n_rules - 1) <= len(ctx["cards"]) <= 3 * n_rules   # one card per group per rule, last rule may miss a group
+    assert [r["kicker"] for r in ctx["card_rows"]] == [k for _, k in RULE_KICKERS][:len(ctx["card_rows"])]
     assert all(c["club"] and c["age_current"] for c in ctx["cards"])
-    assert all(c["club_label"] in ("2025/26", "latest known") for c in ctx["cards"])
+    current = season_label(config.seasons()["current"])
+    assert all(c["club_label"] in (current, "latest known") for c in ctx["cards"])
     assert len(ctx["per_capita"]) == 9
