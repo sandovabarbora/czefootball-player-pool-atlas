@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609142226">
-  <link rel="stylesheet" href="modern.css?v=202609142226">
+  <link rel="stylesheet" href="style.css?v=202609142255">
+  <link rel="stylesheet" href="modern.css?v=202609142255">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609142226"></script>
+  <script defer src="atlas.js?v=202609142255"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -85,7 +85,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 174 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 176 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -7456,14 +7456,14 @@
         
         <tr>
           <td>Same rate as before</td>
-          <td>-5.217</td>
-          <td>0.161</td>
+          <td>-2.628</td>
+          <td>0.137</td>
         </tr>
         
         <tr>
           <td>Rate × UEFA ratio</td>
-          <td>-6.052</td>
-          <td>0.224</td>
+          <td>-2.734</td>
+          <td>0.151</td>
         </tr>
         
         <tr>
@@ -7486,7 +7486,7 @@
       
     </ul>
 
-    <p>R-hat ≤ 1.003, minimum bulk ESS 1224, 0 divergent transitions across 8108 player-seasons from 2125 movers; fit in 204 s.</p>
+    <p>R-hat ≤ 1.003, minimum bulk ESS 1224, 0 divergent transitions across 8108 player-seasons from 2125 movers; fit in 205 s.</p>
 
     <details class="fold">
       <summary>Posterior predictive check</summary>
@@ -7495,6 +7495,7 @@
         <img src="league_strength_ppc.svg" alt="Bar chart comparing the observed and posterior-predictive-replicated distribution of non-penalty goals plus assists per player-season, grouped 0/1/2/3/4/5+.">
       </figure>
     </details>
+    <p>What the movers do not show: they are not a random sample — players tend to move up when they are good and down when they are older — so the within-player contrast describes the league difference for the kind of player who moves, and the age term absorbs only the part of that selection that is age. The interval is the model's uncertainty, not the selection's.</p>
 
     <p>The report's rankings keep the UEFA-coefficient multiplier throughout; the model above is shown alongside it as a check on that multiplier's own assumption — that continental results track player-level strength — not as a replacement for it.</p>
     
@@ -8010,11 +8011,11 @@
     
     <h3 id="data-quality">Data-quality log</h3>
     <details class="fold">
-      <summary>6 recomputed checks · 5 recorded incidents</summary>
+      <summary>6 recomputed checks · 6 recorded incidents</summary>
       <p>Every wrangling decision that changed a count, with the count. The first block is recomputed on every run; the second is the incident record (dates and counts as recorded at the time).</p>
       <table class="dq-table"><thead><tr><th>Check</th><th>Count</th><th>What it counts</th></tr></thead>
       <tbody><tr><td>Women&#39;s entries filtered</td><td class="num">0 entries</td><td>FBref country-page entries dropped for a surname ending in -ová (see Limitations).</td></tr><tr><td>Namesakes in the pool</td><td class="num">51 players</td><td>Active pool players sharing a normalised name (e.g. father and son), disambiguated by club.</td></tr><tr><td>Pool players without season tables</td><td class="num">3063 players</td><td>English professionals on FBref&#39;s country page who play in a league without season tables and carry no metrics.</td></tr><tr><td>Split-season rows collapsed</td><td class="num">441 rows</td><td>Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).</td></tr><tr><td>Unmatched call-up names</td><td class="num">13 names</td><td>National-team squad-table names that match no English-eligible row in the feature tables.</td></tr><tr><td>Missing birth years</td><td class="num">0 rows</td><td>Season-table rows of nation ENG with no birth year, which cannot form a player_key.</td></tr></tbody></table>
-      <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li></ul>
+      <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li><li><span class="mono">2026-09-14</span> The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); caught in review. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model&#39;s margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported.</li></ul>
     </details>
     
 
@@ -8058,8 +8059,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 174 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 174 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 176 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 176 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -8457,7 +8458,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-14 22:26</p>
+    <p class="rendered-at">Rendered: 2026-09-14 22:55</p>
   </div>
 </footer>
 

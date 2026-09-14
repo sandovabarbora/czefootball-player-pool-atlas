@@ -171,13 +171,13 @@
   "rows": [
    {
     "method": "naive",
-    "log_pred_density": -5.2167,
-    "mae": 0.1605
+    "log_pred_density": -2.6282,
+    "mae": 0.1368
    },
    {
     "method": "uefa",
-    "log_pred_density": -6.052,
-    "mae": 0.2237
+    "log_pred_density": -2.7343,
+    "mae": 0.151
    },
    {
     "method": "model",
@@ -185,7 +185,7 @@
     "mae": 0.1271
    }
   ],
-  "refit_runtime_s": 84.5
+  "refit_runtime_s": 82.6
  },
  "spearman": {
   "rho": 0.742,
@@ -222,6 +222,6 @@
   "rows": 8108,
   "players": 2125,
   "seasons": 7,
-  "runtime_s": 213.8
+  "runtime_s": 206.1
  }
 }

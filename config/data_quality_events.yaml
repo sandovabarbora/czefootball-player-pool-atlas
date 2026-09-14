@@ -33,3 +33,8 @@ events:
     date: 2026-09-13
     en: "Slovakia's top flight is not on FBref at all; this report's Slovak exhibits rest entirely on players abroad."
     cs: "Slovenská nejvyšší soutěž na FBref vůbec není; slovenské exhibity v tomto reportu proto stojí jen na hráčích v zahraničí."
+  - id: oos_baseline_direction
+    date: 2026-09-14
+    en: "The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); caught in review. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model's margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported."
+    cs: "První out-of-sample srovnání modelu síly lig aplikovalo baseline s UEFA násobiči obráceně a obě baseline startovaly ze surové rate minulé sezóny (sezóna bez gólu předpovídala nulu); zachyceno v review. Opraveno: poměr násobičů m_prev / m_new, baseline ze shrunk rate. Náskok modelu před baseline klesl z asi 3 natů na 0,5 a to je číslo v reportu."
+
