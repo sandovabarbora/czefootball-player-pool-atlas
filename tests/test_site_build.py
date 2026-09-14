@@ -68,7 +68,9 @@ def test_site_layer_is_applied_to_both_pages(built):
         assert '<nav class="topbar"' in html and 'class="lang-switch"' in html
         assert f'href="{prefix}modern.css?v=' in html and f'src="{prefix}atlas.js?v=' in html
         assert 'hreflang="cs" href="https://football.datasimply.eu/cs/"' in html
-        assert html.count('class="cycle-card-visual') == 12
+        # one card per position group per showcase rule (currently 5 rules, 3
+        # groups); a rule can miss a group, so the count is a range.
+        assert 12 <= html.count('class="cycle-card-visual') <= 15
         assert 'class="cast"' in html and 'class="hero-cutout"' in html
         assert 'id="player-search"' in html and 'class="player-index-table"' in html
         assert html.count("<details class=\"cluster\">") >= 12

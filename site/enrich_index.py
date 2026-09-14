@@ -139,8 +139,11 @@ CARD_RE = re.compile(
     r'data-rule="[^"]*" data-pos="(?P<pos>[A-Z]+)" data-club="(?P<club>[^"]*)">(?P<ws1>\s*)<header class="cycle-card-head">'
     r'(?P<ws2>\s*)<h4 class="cycle-card-name">(?P<name>[^<]+)</h4>')
 CARDS = [m.groupdict() for m in CARD_RE.finditer(html)]
-if len(CARDS) != 12:
-    fails.append(("cycle cards found", len(CARDS), 12))
+# One card per position group per showcase rule (currently 5 rules, 3 groups);
+# a rule can miss a group (e.g. no player meets it), so the count is a range,
+# not a fixed number.
+if not (12 <= len(CARDS) <= 15):
+    fails.append(("cycle cards found", len(CARDS), "12-15"))
 
 # ---------------------------------------------------------------- masthead cast strip
 def cast_item(c: dict) -> str:
@@ -183,7 +186,7 @@ def card_repl(m):
     head = m.group(0).split(ws1 + '<header class="cycle-card-head">')[0]
     return f'{head}{visual}{ws1}<header class="cycle-card-head">{ws2}<h4 class="cycle-card-name">{d["name"]}</h4>'
 
-sub(CARD_RE.pattern, card_repl, 12)
+sub(CARD_RE.pattern, card_repl, len(CARDS))
 
 # ---------------------------------------------------------------- analog targets: portrait
 def analog_repl(m):
@@ -192,7 +195,7 @@ def analog_repl(m):
     img = f'{ws}  <img class="avatar avatar-xl" src="{P}{p["image"]}" alt="" {IMG_ATTRS}>' if p else ""
     return f'<div class="analog-block" data-player-key="{key}">{ws}<div class="analog-target">{img}'
 
-sub(r'<div class="analog-block" data-player-key="([^"]+)">(\s*)<div class="analog-target">', analog_repl, 12)
+sub(r'<div class="analog-block" data-player-key="([^"]+)">(\s*)<div class="analog-target">', analog_repl, len(CARDS))
 
 # ---------------------------------------------------------------- chips: cluster top lists, movers
 def top_repl(m):
@@ -221,11 +224,11 @@ def analog_fold(m):
     _first[0] = False
     n = len(re.findall(r'<li class="analog-row">', m.group(1)))
     return f'<details class="fold analog-fold"{o}><summary>{S["analog_fold"].format(n=n)}</summary>{m.group(1)}</details>'
-sub(r'(<ol class="analog-list">.*?</ol>)', analog_fold, 12, re.S)
+sub(r'(<ol class="analog-list">.*?</ol>)', analog_fold, len(CARDS), re.S)
 
 # cycle cards: analogs fold (stats, clusters, tactical read and trajectory stay visible)
 sub(r'<div class="cycle-section">\s*<p class="cycle-section-label">([^<]*)</p>\s*(<ol class="cycle-analogs">.*?</ol>)\s*</div>',
-    r'<details class="fold cycle-section"><summary class="cycle-section-label">\1</summary>\2</details>', 12, re.S)
+    r'<details class="fold cycle-section"><summary class="cycle-section-label">\1</summary>\2</details>', len(CARDS), re.S)
 
 # appendix tables
 sub(r'(<table class="loadings-table">.*?</table>)', rf'<details class="fold fold-table"><summary>{S["loadings"]}</summary>\1</details>', 1, re.S)
