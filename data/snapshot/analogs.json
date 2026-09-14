@@ -116,106 +116,81 @@
    }
   ]
  },
- "vaclav sejk|2002": {
+ "christophe kabongo|2003": {
   "target": {
-   "name": "Václav Sejk",
-   "age": 24,
+   "name": "Christophe Kabongo",
+   "age": 23,
    "league": "CZE-First League",
    "season": "2025-2026",
-   "min": 1264,
-   "npg_ast_q": 0.23
+   "min": 803,
+   "npg_ast_q": 0.25
   },
   "analogs": [
    {
     "rank": 1,
-    "player_key": "tomas bobcek|2001",
-    "player": "Tomáš Bobček",
-    "nation": "SVK",
+    "player_key": "hierman barkouski|2002",
+    "player": "Hierman Barkoŭski",
+    "nation": "BLR",
     "league": "POL-Ekstraklasa",
     "season": "2024-2025",
-    "min": 1248,
-    "npg_ast_q": 0.2393610609762597,
-    "distance": 0.1047624749981098,
+    "min": 962,
+    "npg_ast_q": 0.2126141562712169,
+    "distance": 0.3578744500419448,
     "followed": [
      {
       "season": "2025-2026",
       "league": "POL-Ekstraklasa",
-      "min": 2456,
-      "npg_ast_q": 0.3
+      "min": 1937,
+      "npg_ast_q": 0.1
      }
     ]
    },
    {
     "rank": 2,
-    "player_key": "waniss taibi|2002",
-    "player": "Waniss Taibi",
-    "nation": "FRA",
+    "player_key": "christian rasmussen|2003",
+    "player": "Christian Rasmussen",
+    "nation": "DEN",
     "league": "GER-2. Bundesliga",
     "season": "2025-2026",
-    "min": 1134,
-    "npg_ast_q": 0.20512194465825384,
-    "distance": 0.31854590328382953,
+    "min": 1054,
+    "npg_ast_q": 0.23530605702911378,
+    "distance": 0.3947599758033466,
     "followed": []
    },
    {
     "rank": 3,
-    "player_key": "alexander lind|2002",
-    "player": "Alexander Lind",
-    "nation": "DEN",
-    "league": "DEN-Superliga",
-    "season": "2025-2026",
-    "min": 1309,
-    "npg_ast_q": 0.20555597162743766,
-    "distance": 0.3653407414409047,
+    "player_key": "tadeas vachousek|2004",
+    "player": "Tadeáš Vachoušek",
+    "nation": "CZE",
+    "league": "CZE-First League",
+    "season": "2026-2027",
+    "min": 502,
+    "npg_ast_q": 0.23857155239009406,
+    "distance": 0.4029219486201733,
     "followed": []
    },
    {
     "rank": 4,
-    "player_key": "philippe keny|1999",
-    "player": "Philippe Keny",
-    "nation": "SEN",
-    "league": "TUR-Süper Lig",
-    "season": "2022-2023",
-    "min": 1034,
-    "npg_ast_q": 0.2154779641331533,
-    "distance": 0.40307883180515064,
-    "followed": [
-     {
-      "season": "2023-2024",
-      "league": "TUR-Süper Lig",
-      "min": 645,
-      "npg_ast_q": 0.15
-     },
-     {
-      "season": "2024-2025",
-      "league": "TUR-Süper Lig",
-      "min": 1026,
-      "npg_ast_q": 0.27
-     },
-     {
-      "season": "2025-2026",
-      "league": "SUI-Super League",
-      "min": 2638,
-      "npg_ast_q": 0.13
-     },
-     {
-      "season": "2026-2027",
-      "league": "SUI-Super League",
-      "min": 624,
-      "npg_ast_q": 0.13
-     }
-    ]
+    "player_key": "szymon wlodarczyk|2003",
+    "player": "Szymon Włodarczyk",
+    "nation": "POL",
+    "league": "NED-Eredivisie",
+    "season": "2025-2026",
+    "min": 757,
+    "npg_ast_q": 0.2230886386474361,
+    "distance": 0.4287310922718855,
+    "followed": []
    },
    {
     "rank": 5,
-    "player_key": "mohamed yasser|2001",
-    "player": "Mohamed Yasser",
-    "nation": "EGY",
+    "player_key": "lukas masek|2004",
+    "player": "Lukáš Mašek",
+    "nation": "CZE",
     "league": "CZE-First League",
-    "season": "2024-2025",
-    "min": 963,
-    "npg_ast_q": 0.21340119288946127,
-    "distance": 0.4139183586948922,
+    "season": "2026-2027",
+    "min": 468,
+    "npg_ast_q": 0.244500962317918,
+    "distance": 0.4419808601742115,
     "followed": []
    }
   ]
@@ -315,6 +290,142 @@
     "npg_ast_q": 0.46832137827095077,
     "distance": 0.67440680806392,
     "followed": []
+   }
+  ]
+ },
+ "tomas chory|1995": {
+  "target": {
+   "name": "Tomáš Chorý",
+   "age": 31,
+   "league": "CZE-First League",
+   "season": "2025-2026",
+   "min": 1838,
+   "npg_ast_q": 0.3
+  },
+  "analogs": [
+   {
+    "rank": 1,
+    "player_key": "serdar dursun|1991",
+    "player": "Serdar Dursun",
+    "nation": "TUR",
+    "league": "TUR-Süper Lig",
+    "season": "2021-2022",
+    "min": 1869,
+    "npg_ast_q": 0.2938162957149316,
+    "distance": 0.25010040552046003,
+    "followed": [
+     {
+      "season": "2023-2024",
+      "league": "TUR-Süper Lig",
+      "min": 812,
+      "npg_ast_q": 0.16
+     },
+     {
+      "season": "2025-2026",
+      "league": "TUR-Süper Lig",
+      "min": 1531,
+      "npg_ast_q": 0.19
+     }
+    ]
+   },
+   {
+    "rank": 2,
+    "player_key": "ivi|1994",
+    "player": "Ivi",
+    "nation": "ESP",
+    "league": "POL-Ekstraklasa",
+    "season": "2024-2025",
+    "min": 1759,
+    "npg_ast_q": 0.267486859336971,
+    "distance": 0.2646849542878147,
+    "followed": [
+     {
+      "season": "2025-2026",
+      "league": "POL-Ekstraklasa",
+      "min": 861,
+      "npg_ast_q": 0.12
+     }
+    ]
+   },
+   {
+    "rank": 3,
+    "player_key": "mats seuntjens|1992",
+    "player": "Mats Seuntjens",
+    "nation": "NED",
+    "league": "NED-Eredivisie",
+    "season": "2022-2023",
+    "min": 1564,
+    "npg_ast_q": 0.31309550027493516,
+    "distance": 0.5387466526685794,
+    "followed": [
+     {
+      "season": "2023-2024",
+      "league": "NED-Eredivisie",
+      "min": 956,
+      "npg_ast_q": 0.19
+     },
+     {
+      "season": "2023-2024",
+      "league": "NED-Eredivisie",
+      "min": 813,
+      "npg_ast_q": 0.12
+     },
+     {
+      "season": "2024-2025",
+      "league": "NED-Eredivisie",
+      "min": 664,
+      "npg_ast_q": 0.16
+     }
+    ]
+   },
+   {
+    "rank": 4,
+    "player_key": "duckens nazon|1994",
+    "player": "Duckens Nazon",
+    "nation": "HAI",
+    "league": "TUR-Süper Lig",
+    "season": "2024-2025",
+    "min": 1957,
+    "npg_ast_q": 0.24237311072858067,
+    "distance": 0.5398557694472501,
+    "followed": []
+   },
+   {
+    "rank": 5,
+    "player_key": "wout weghorst|1992",
+    "player": "Wout Weghorst",
+    "nation": "NED",
+    "league": "TUR-Süper Lig",
+    "season": "2022-2023",
+    "min": 2219,
+    "npg_ast_q": 0.3033912955156581,
+    "distance": 0.5623257481355243,
+    "followed": [
+     {
+      "season": "2023-2024",
+      "league": "GER-Bundesliga",
+      "min": 1977,
+      "npg_ast_q": 0.33
+     },
+     {
+      "season": "2024-2025",
+      "league": "NED-Eredivisie",
+      "min": 1085,
+      "npg_ast_q": 0.34
+     },
+     {
+      "season": "2025-2026",
+      "league": "NED-Eredivisie",
+      "min": 1784,
+      "npg_ast_q": 0.27
+     },
+     {
+      "season": "2026-2027",
+      "league": "NED-Eredivisie",
+      "min": 516,
+      "npg_ast_q": 0.27
+     }
+    ]
    }
   ]
  },
@@ -554,115 +665,114 @@
    }
   ]
  },
- "david planka|2005": {
+ "hugo sochurek|2008": {
   "target": {
-   "name": "David Planka",
-   "age": 21,
+   "name": "Hugo Sochůrek",
+   "age": 18,
    "league": "CZE-First League",
    "season": "2025-2026",
-   "min": 1970,
-   "npg_ast_q": 0.11
+   "min": 510,
+   "npg_ast_q": 0.1
   },
   "analogs": [
    {
     "rank": 1,
-    "player_key": "matej mikulenka|2004",
-    "player": "Matěj Mikulenka",
-    "nation": "CZE",
-    "league": "CZE-First League",
-    "season": "2024-2025",
-    "min": 1956,
-    "npg_ast_q": 0.10460517902813297,
-    "distance": 0.019126929231442238,
+    "player_key": "emirhan ilkhan|2004",
+    "player": "Emirhan İlkhan",
+    "nation": "TUR",
+    "league": "TUR-Süper Lig",
+    "season": "2021-2022",
+    "min": 635,
+    "npg_ast_q": 0.08941226352331175,
+    "distance": 0.3183782607619881,
     "followed": [
      {
+      "season": "2023-2024",
+      "league": "TUR-Süper Lig",
+      "min": 1052,
+      "npg_ast_q": 0.09
+     },
+     {
       "season": "2025-2026",
-      "league": "CZE-First League",
-      "min": 1096,
-      "npg_ast_q": 0.11
+      "league": "ITA-Serie A",
+      "min": 1001,
+      "npg_ast_q": 0.19
      }
     ]
    },
    {
     "rank": 2,
-    "player_key": "aaron keller|2004",
-    "player": "Aaron Keller",
+    "player_key": "luis engelns|2007",
+    "player": "Luis Engelns",
     "nation": "GER",
     "league": "GER-2. Bundesliga",
     "season": "2024-2025",
-    "min": 1963,
-    "npg_ast_q": 0.10217318293484978,
-    "distance": 0.19370281152743662,
+    "min": 542,
+    "npg_ast_q": 0.055250917297139324,
+    "distance": 0.4504276671079684,
     "followed": [
      {
       "season": "2025-2026",
       "league": "GER-2. Bundesliga",
-      "min": 1835,
+      "min": 572,
       "npg_ast_q": 0.08
      }
     ]
    },
    {
     "rank": 3,
-    "player_key": "rafael lubach|2005",
-    "player": "Rafael Lubach",
-    "nation": "GER",
-    "league": "GER-2. Bundesliga",
-    "season": "2025-2026",
-    "min": 2125,
-    "npg_ast_q": 0.11166695067095794,
-    "distance": 0.28545131069249463,
+    "player_key": "mustafa hekimoglu|2007",
+    "player": "Mustafa Hekimoğlu",
+    "nation": "TUR",
+    "league": "TUR-Süper Lig",
+    "season": "2024-2025",
+    "min": 712,
+    "npg_ast_q": 0.13874274216321042,
+    "distance": 0.4695686098855552,
     "followed": []
    },
    {
     "rank": 4,
-    "player_key": "el hadji malick diouf|2004",
-    "player": "El Hadji Malick Diouf",
-    "nation": "SEN",
-    "league": "CZE-First League",
-    "season": "2024-2025",
-    "min": 2050,
-    "npg_ast_q": 0.14099403095062638,
-    "distance": 0.31966398285155256,
+    "player_key": "luca oyen|2003",
+    "player": "Luca Oyen",
+    "nation": "BEL",
+    "league": "BEL-Pro League",
+    "season": "2020-2021",
+    "min": 516,
+    "npg_ast_q": 0.10232799152885982,
+    "distance": 0.6836537834438078,
     "followed": [
      {
+      "season": "2021-2022",
+      "league": "BEL-Pro League",
+      "min": 643,
+      "npg_ast_q": 0.22
+     },
+     {
+      "season": "2023-2024",
+      "league": "BEL-Pro League",
+      "min": 635,
+      "npg_ast_q": 0.13
+     },
+     {
       "season": "2025-2026",
-      "league": "ENG-Premier League",
-      "min": 2707,
-      "npg_ast_q": 0.14
+      "league": "NED-Eredivisie",
+      "min": 471,
+      "npg_ast_q": 0.13
      }
     ]
    },
    {
     "rank": 5,
-    "player_key": "gaetano oristanio|2002",
-    "player": "Gaetano Oristanio",
-    "nation": "ITA",
-    "league": "NED-Eredivisie",
-    "season": "2022-2023",
-    "min": 1947,
-    "npg_ast_q": 0.1017714035041869,
-    "distance": 0.37608472828690676,
-    "followed": [
-     {
-      "season": "2023-2024",
-      "league": "ITA-Serie A",
-      "min": 1104,
-      "npg_ast_q": 0.26
-     },
-     {
-      "season": "2024-2025",
-      "league": "ITA-Serie A",
-      "min": 2315,
-      "npg_ast_q": 0.24
-     },
-     {
-      "season": "2025-2026",
-      "league": "ITA-Serie A",
-      "min": 859,
-      "npg_ast_q": 0.2
-     }
-    ]
+    "player_key": "youssef hamdaoui|2008",
+    "player": "Youssef Hamdaoui",
+    "nation": "BEL",
+    "league": "BEL-Pro League",
+    "season": "2025-2026",
+    "min": 593,
+    "npg_ast_q": 0.13327813374790615,
+    "distance": 0.7368747438337591,
+    "followed": []
    }
   ]
  },
@@ -793,6 +903,99 @@
     "npg_ast_q": 0.26755945911844464,
     "distance": 0.4910402727589172,
     "followed": []
+   }
+  ]
+ },
+ "vladimir darida|1990": {
+  "target": {
+   "name": "Vladimír Darida",
+   "age": 36,
+   "league": "CZE-First League",
+   "season": "2025-2026",
+   "min": 2764,
+   "npg_ast_q": 0.16
+  },
+  "analogs": [
+   {
+    "rank": 1,
+    "player_key": "alexandru maxim|1990",
+    "player": "Alexandru Maxim",
+    "nation": "ROU",
+    "league": "TUR-Süper Lig",
+    "season": "2025-2026",
+    "min": 2680,
+    "npg_ast_q": 0.11828332665692065,
+    "distance": 0.42360031989505986,
+    "followed": []
+   },
+   {
+    "rank": 2,
+    "player_key": "jesus imaz|1990",
+    "player": "Jesús Imaz",
+    "nation": "ESP",
+    "league": "POL-Ekstraklasa",
+    "season": "2025-2026",
+    "min": 2784,
+    "npg_ast_q": 0.2279083220860038,
+    "distance": 0.598535373767071,
+    "followed": []
+   },
+   {
+    "rank": 3,
+    "player_key": "lucas biglia|1986",
+    "player": "Lucas Biglia",
+    "nation": "ARG",
+    "league": "TUR-Süper Lig",
+    "season": "2021-2022",
+    "min": 2795,
+    "npg_ast_q": 0.08429981718762748,
+    "distance": 0.6619422740265957,
+    "followed": [
+     {
+      "season": "2022-2023",
+      "league": "TUR-Süper Lig",
+      "min": 1638,
+      "npg_ast_q": 0.04
+     }
+    ]
+   },
+   {
+    "rank": 4,
+    "player_key": "max gradel|1987",
+    "player": "Max Gradel",
+    "nation": "CIV",
+    "league": "TUR-Süper Lig",
+    "season": "2022-2023",
+    "min": 2257,
+    "npg_ast_q": 0.14222042457148412,
+    "distance": 0.7228524343704842,
+    "followed": [
+     {
+      "season": "2023-2024",
+      "league": "TUR-Süper Lig",
+      "min": 1705,
+      "npg_ast_q": 0.12
+     }
+    ]
+   },
+   {
+    "rank": 5,
+    "player_key": "dusan tadic|1988",
+    "player": "Dušan Tadić",
+    "nation": "SRB",
+    "league": "TUR-Süper Lig",
+    "season": "2023-2024",
+    "min": 3142,
+    "npg_ast_q": 0.21677977365219908,
+    "distance": 0.7499649552500552,
+    "followed": [
+     {
+      "season": "2024-2025",
+      "league": "TUR-Süper Lig",
+      "min": 2485,
+      "npg_ast_q": 0.3
+     }
+    ]
    }
   ]
  },
@@ -1348,6 +1551,105 @@
       "league": "FRA-Ligue 1",
       "min": 2353,
       "npg_ast_q": 0.01
+     }
+    ]
+   }
+  ]
+ },
+ "tomas holes|1993": {
+  "target": {
+   "name": "Tomáš Holeš",
+   "age": 33,
+   "league": "CZE-First League",
+   "season": "2025-2026",
+   "min": 2003,
+   "npg_ast_q": 0.06
+  },
+  "analogs": [
+   {
+    "rank": 1,
+    "player_key": "piotr mrozinski|1992",
+    "player": "Piotr Mroziński",
+    "nation": "POL",
+    "league": "POL-Ekstraklasa",
+    "season": "2024-2025",
+    "min": 1979,
+    "npg_ast_q": 0.05160195594354745,
+    "distance": 0.07058492462089026,
+    "followed": []
+   },
+   {
+    "rank": 2,
+    "player_key": "jakub jugas|1992",
+    "player": "Jakub Jugas",
+    "nation": "CZE",
+    "league": "POL-Ekstraklasa",
+    "season": "2024-2025",
+    "min": 2030,
+    "npg_ast_q": 0.05070376490152664,
+    "distance": 0.078825525586801,
+    "followed": [
+     {
+      "season": "2025-2026",
+      "league": "CZE-First League",
+      "min": 654,
+      "npg_ast_q": 0.01
+     }
+    ]
+   },
+   {
+    "rank": 3,
+    "player_key": "zeki yavru|1991",
+    "player": "Zeki Yavru",
+    "nation": "TUR",
+    "league": "TUR-Süper Lig",
+    "season": "2023-2024",
+    "min": 2017,
+    "npg_ast_q": 0.05337862308823692,
+    "distance": 0.2506432270969055,
+    "followed": [
+     {
+      "season": "2024-2025",
+      "league": "TUR-Süper Lig",
+      "min": 2882,
+      "npg_ast_q": 0.11
+     },
+     {
+      "season": "2025-2026",
+      "league": "TUR-Süper Lig",
+      "min": 2008,
+      "npg_ast_q": 0.02
+     }
+    ]
+   },
+   {
+    "rank": 4,
+    "player_key": "nelson semedo|1993",
+    "player": "Nélson Semedo",
+    "nation": "POR",
+    "league": "TUR-Süper Lig",
+    "season": "2025-2026",
+    "min": 1933,
+    "npg_ast_q": 0.06689666575784395,
+    "distance": 0.2715341076335907,
+    "followed": []
+   },
+   {
+    "rank": 5,
+    "player_key": "lucas lima|1991",
+    "player": "Lucas Lima",
+    "nation": "BRA",
+    "league": "TUR-Süper Lig",
+    "season": "2023-2024",
+    "min": 1894,
+    "npg_ast_q": 0.055728505207010406,
+    "distance": 0.28588103350231303,
+    "followed": [
+     {
+      "season": "2024-2025",
+      "league": "TUR-Süper Lig",
+      "min": 1650,
+      "npg_ast_q": 0.03
      }
     ]
    }
