@@ -44,7 +44,7 @@ if [ "$NATION" = "cze" ]; then
 fi
 
 if [ "$D" != "$ROOT/docs" ]; then
-  for a in modern.css atlas.js CNAME .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done
+  for a in modern.css atlas.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
   [ -d "$ROOT/docs/img" ] && [ ! -e "$D/img" ] && cp -R "$ROOT/docs/img" "$D/img"
 fi
 cp "$O/index.html" "$D/index.html"

@@ -188,7 +188,7 @@
         <p class="hero-sublead">
           {% if hero.gap %}{{ t('hero.sublead.gap', group=gt[hero.gap.pos_group] | lower, cohort=hero.gap.cohort, cze_n=hero.gap.cze_n,
                                 s=('' if hero.gap.cze_n == 1 or lang != 'en' else 's'), topn=topn, peer=g(hero.gap.peer_median_n)) }}{% endif %}
-          {% if hero.export_cze and hero.export_den %}{{ t('hero.sublead.export', topn=topn, cze=g(hero.export_cze.median_export_age_recent), den=g(hero.export_den.median_export_age_recent)) }}{% endif %}
+          {% if hero.export_cze and hero.export_den %}{{ t('hero.sublead.export', topn=topn, cze=g(hero.export_cze.median_export_age_recent), den=g(hero.export_den.median_export_age_recent), b=pc_b) }}{% endif %}
           {{ t('hero.sublead.close') }}
         </p>
       </div>
@@ -650,7 +650,7 @@
 
     <h4>{{ t('ch2.b.h3') }}</h4>
     <p>
-      {{ t('ch2.b.p', current=seasons.current, topn=topn) }}
+      {{ t('ch2.b.p', current=seasons.current, topn=topn) }}{% if domestic_league_code in headline_leagues %} {{ t('ch2.headline_note', topn=topn) }}{% endif %}
       {% if pw.export_cze %}{{ t('ch2.b.cze', n=pw.export_cze.n, age=g(pw.export_cze.median_export_age), n_recent=pw.export_cze.n_recent,
            age_recent=g(pw.export_cze.median_export_age_recent), domestic=pct(pw.export_cze.origin.domestic)) }}{% endif %}
     </p>
@@ -704,7 +704,7 @@
     <p class="capita-note">{{ t('ch2.c.note', season=seasons.metrics, proxy=term(pw.club_strength_proxy)) }}</p>
 
     <h4>{{ t('ch2.d.h3') }}</h4>
-    <p>{{ t('ch2.d.p', season=seasons.metrics, topn=topn) }}</p>
+    <p>{{ t('ch2.d.p', season=seasons.metrics, topn=topn) }}{% if domestic_league_code in headline_leagues %} {{ t('ch2.headline_note', topn=topn) }}{% endif %}</p>
     <details class="fold fold-table">
       <summary>{{ t('ch2.d.summary') }}</summary>
       <table class="kv-table">

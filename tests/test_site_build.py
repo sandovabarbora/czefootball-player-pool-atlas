@@ -49,7 +49,7 @@ def built(site_dir) -> dict[str, str]:
 def test_build_into_temp_dir_leaves_docs_untouched(site_dir):
     out, docs_unchanged = site_dir
     assert docs_unchanged, "site/build.sh <out> must not rewrite docs/"
-    for asset in ("modern.css", "atlas.js", "style.css", "CNAME"):
+    for asset in ("modern.css", "atlas.js", "style.css"):   # CNAME stays at the site root only
         assert (out / asset).exists(), asset
 
 
