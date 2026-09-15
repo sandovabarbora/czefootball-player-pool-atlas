@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 
 from src.gap_decomposition import (
+    MIN_GAP_FOR_SHARE,
     assemble_output,
     bootstrap_decomposition,
     build_channels,
@@ -96,6 +97,32 @@ def test_decompose_contrast_json_shape():
     for ch in result["channels"]:
         assert set(ch.keys()) == {"name", "contribution", "share", "lo", "hi"}
         assert ch["lo"] <= ch["hi"]
+
+
+def test_decompose_contrast_hides_share_below_min_gap():
+    """Task 20 review fix: a channel's share of the gap is only reported
+    when |gap_total| >= MIN_GAP_FOR_SHARE (3 players per million) --
+    contribution/lo/hi (players per million) are reported regardless."""
+    panel = _toy_panel()
+    coeffs = fit_ridge(panel)
+    by_country = {r["country"]: r for r in panel.to_dict("records")}
+    home = dict(by_country["HOM"])
+    tiny_gap = dict(home)
+    tiny_gap["country"], tiny_gap["y"] = "TINY", home["y"] + (MIN_GAP_FOR_SHARE - 1.0)  # |gap| < 3
+    big_gap = dict(home)
+    big_gap["country"], big_gap["y"] = "BIG", home["y"] + (MIN_GAP_FOR_SHARE + 5.0)  # |gap| >= 3
+    panel_ext = pd.concat([panel, pd.DataFrame([tiny_gap, big_gap])], ignore_index=True)
+
+    small = decompose_contrast(panel_ext, coeffs, "HOM", "TINY", n_boot=100, seed=1)
+    assert abs(small["gap_total"]) < MIN_GAP_FOR_SHARE
+    for ch in small["channels"]:
+        assert ch["share"] is None
+        assert ch["contribution"] is not None
+        assert ch["lo"] <= ch["hi"]  # contribution interval still reported
+
+    big = decompose_contrast(panel_ext, coeffs, "HOM", "BIG", n_boot=100, seed=1)
+    assert abs(big["gap_total"]) >= MIN_GAP_FOR_SHARE
+    assert any(ch["share"] is not None for ch in big["channels"])
 
 
 def test_assemble_output_shape():

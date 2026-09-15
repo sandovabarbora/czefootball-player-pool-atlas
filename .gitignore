@@ -56,3 +56,7 @@ node_modules/
 secrets/
 
 .worktrees/
+
+# SDD working notes (task briefs/reports/review diffs) -- local scratch for
+# the orchestrating session, never part of the shipped repo.
+.superpowers/

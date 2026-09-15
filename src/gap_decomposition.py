@@ -89,6 +89,16 @@ FEATURE_COLS = ["x1", "x2", "x3"]
 CHANNEL_NAMES = {"x1": "u21_share", "x2": "league_strength", "x3": "export_age"}
 BOOTSTRAP_N = 1000
 
+MIN_GAP_FOR_SHARE = 3.0
+"""Task 20 review fix: a channel's *share* of the gap (contribution /
+gap_total) is only reported when the gap itself is at least this many
+players per million. Below that, a small denominator can send a share past
+100% in either direction (a real, arithmetically-correct property of a
+Blinder-Oaxaca-style split -- see module docstring -- but one that reads as
+alarming rather than informative on a small base). The contribution itself
+(players per million, with its own bootstrap interval) is always reported;
+only the derived percentage is gated."""
+
 
 # =============================================================================
 # Data
@@ -242,17 +252,22 @@ def decompose_contrast(
 ) -> dict[str, Any]:
     """Full per-contrast result: point decomposition + bootstrap intervals,
     rounded for display. `{contrast, gap_total, channels: [{name,
-    contribution, share, lo, hi}], residual, n}`."""
+    contribution, share, lo, hi}], residual, n}`. `contribution`/`lo`/`hi`
+    are always in players-per-million units; `share` (contribution /
+    gap_total) is `None` when `|gap_total| < MIN_GAP_FOR_SHARE` (see that
+    constant's docstring) rather than a percentage that can run past
+    100% on a small base."""
     by_country = {r["country"]: r for r in panel.to_dict("records")}
     home_row, contrast_row = by_country[home_country], by_country[contrast_country]
     base = decompose(home_row, contrast_row, coeffs)
     boot = bootstrap_decomposition(panel, home_row, contrast_row, alpha=alpha, n_boot=n_boot, seed=seed)
 
     gap_total = base["gap_total"]
+    report_share = abs(gap_total) >= MIN_GAP_FOR_SHARE
     channels = []
     for ch in base["channels"]:
         b = boot[ch["col"]]
-        share = ch["contribution"] / gap_total if gap_total else float("nan")
+        share = ch["contribution"] / gap_total if (report_share and gap_total) else float("nan")
         channels.append({
             "name": ch["name"],
             "contribution": round(ch["contribution"], 4),

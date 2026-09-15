@@ -1,4 +1,9 @@
-"""Tests for src/youth_panel.py -- the cross-country youth-minutes panel (M3)."""
+"""Tests for src/youth_panel.py -- the cross-country youth-minutes panel (M3).
+
+Task 20 review fix: the headline number is now the between-country fit on
+country means (`fit_between_model`/`between_summary`), not the
+country-random-intercept fit on the full two-season panel (kept as
+`fit_within_model`/`within_summary`, a chapter-IV-only check)."""
 
 from __future__ import annotations
 
@@ -6,12 +11,15 @@ import numpy as np
 import pandas as pd
 
 from src.youth_panel import (
-    bayes_summary,
+    assemble_output,
+    between_summary,
     bootstrap_ols_slope,
     build_panel,
+    country_means,
     diagnostics_summary,
     domestic_league_by_country,
-    fit_model,
+    fit_between_model,
+    fit_within_model,
     ols_fit,
 )
 
@@ -75,11 +83,6 @@ def test_build_panel_two_seasons_three_countries_drops_missing_x():
     # AAA-Top's total minutes include c-abroad's (CCC plays in AAA-Top too):
     # 900 (a-young) + 2700 (a-old) + 2000 (c-abroad) = 5600.
     assert abs(row["x"] - 900 / 5600) < 1e-9
-    # AAA has 1 top-9-league player (itself, since AAA-Top is headline) per
-    # 2.0 M population... but AAA-Top/BBB-Top aren't literally headline in
-    # config terms here; per_capita just counts distinct nationals in the
-    # given headline_leagues list, which is ["AAA-Top", "BBB-Top"] above --
-    # AAA has 2 own nationals in AAA-Top plus none elsewhere.
     assert row["y"] > 0
 
 
@@ -88,6 +91,22 @@ def test_build_panel_x_increases_with_youth_share():
     panel = build_panel(tables, PEERS_META, ["AAA-Top", "BBB-Top"], LEAGUE_BY_COUNTRY, SEASONS)
     aaa = panel[panel.country == "AAA"].sort_values("season")
     assert aaa.iloc[1]["x"] > aaa.iloc[0]["x"]  # youth share rises season over season
+
+
+def test_country_means_averages_the_two_seasons():
+    panel = pd.DataFrame({
+        "country": ["AAA", "AAA", "BBB", "BBB"], "season": ["s1", "s2", "s1", "s2"],
+        "season_key": ["previous", "metrics", "previous", "metrics"],
+        "x": [0.10, 0.20, 0.05, 0.15], "y": [2.0, 4.0, 1.0, 3.0],
+    })
+    means = country_means(panel)
+    assert set(means["country"]) == {"AAA", "BBB"}
+    aaa = means[means.country == "AAA"].iloc[0]
+    assert abs(aaa["x"] - 0.15) < 1e-9
+    assert abs(aaa["y"] - 3.0) < 1e-9
+    bbb = means[means.country == "BBB"].iloc[0]
+    assert abs(bbb["x"] - 0.10) < 1e-9
+    assert abs(bbb["y"] - 2.0) < 1e-9
 
 
 def test_ols_fit_recovers_known_slope():
@@ -110,7 +129,34 @@ def test_bootstrap_ols_slope_interval_contains_point():
     assert lo <= point <= hi
 
 
-def test_fit_model_smoke():
+def _toy_means(n_countries: int = 8, seed: int = 0) -> pd.DataFrame:
+    rng = np.random.default_rng(seed)
+    countries = [f"C{i}" for i in range(n_countries)]
+    x = rng.uniform(0.05, 0.2, size=n_countries)
+    y = 2.0 + 15.0 * x + rng.normal(0, 0.3, size=n_countries)
+    return pd.DataFrame({"country": countries, "x": x, "y": y})
+
+
+def test_fit_between_model_smoke_and_recovers_positive_slope():
+    means = _toy_means()
+    idata = fit_between_model(means, draws=300, tune=300, chains=2, seed=42, cores=2)
+    assert "beta" in idata.posterior
+    assert "u_country" not in idata.posterior  # no country structure in the between fit
+
+    between = between_summary(idata, means)
+    assert between["beta_per_10pp"]["lo"] <= between["beta_per_10pp"]["median"] <= between["beta_per_10pp"]["hi"]
+    # constructed with a clear positive population slope (15.0) -- the
+    # between-country fit on 8 countries should recover a positive sign.
+    assert between["beta_per_10pp"]["median"] > 0
+    assert -1.0 <= between["r2"] <= 1.0 + 1e-9
+
+    diag = diagnostics_summary(idata, var_names=("alpha", "beta", "sigma"))
+    assert diag["max_rhat"] > 0
+    assert diag["n_divergences"] >= 0
+    assert "sigma_country_median" not in diag
+
+
+def test_fit_within_model_smoke_has_country_dim():
     rng = np.random.default_rng(0)
     countries = ["AAA", "BBB", "CCC", "DDD"] * 2
     x = rng.uniform(0.05, 0.2, size=8)
@@ -121,15 +167,32 @@ def test_fit_model_smoke():
         "season_key": ["previous"] * 4 + ["metrics"] * 4,
         "x": x, "y": y,
     })
-    idata = fit_model(panel, draws=200, tune=200, chains=2, seed=42, cores=2)
+    idata = fit_within_model(panel, draws=200, tune=200, chains=2, seed=42, cores=2)
     assert "beta" in idata.posterior
     assert "u_country" in idata.posterior
     assert idata.posterior["u_country"].sizes["country"] == 4
 
-    bayes = bayes_summary(idata, panel)
-    assert bayes["beta_per_10pp"]["lo"] <= bayes["beta_per_10pp"]["median"] <= bayes["beta_per_10pp"]["hi"]
-    assert -1.0 <= bayes["r2"] <= 1.0 + 1e-9
-
-    diag = diagnostics_summary(idata)
+    diag = diagnostics_summary(idata)  # default var_names includes sigma_country
     assert diag["max_rhat"] > 0
-    assert diag["n_divergences"] >= 0
+    assert "sigma_country_median" in diag
+
+
+def test_assemble_output_shape_has_between_within_ols():
+    panel = pd.DataFrame({
+        "country": ["AAA", "AAA", "BBB", "BBB"], "season": ["s1", "s2", "s1", "s2"],
+        "x": [0.1, 0.2, 0.05, 0.15], "y": [2.0, 4.0, 1.0, 3.0],
+    })
+    means = country_means(panel.assign(season_key=["previous", "metrics", "previous", "metrics"]))
+    between = {"beta_per_10pp": {"median": 1.0, "lo": 0.0, "hi": 2.0}, "alpha": 1.0, "r2": 0.9}
+    within = {"beta_per_10pp": {"median": -0.1, "lo": -1.0, "hi": 0.8}, "alpha": 1.0, "r2": 0.5}
+    ols = {"slope_per_10pp": {"point": 1.1, "lo": 0.2, "hi": 2.0}, "intercept": 0.5, "n_boot": 1000}
+    out = assemble_output(panel, means, between, within, ols, {"max_rhat": 1.0}, {"max_rhat": 1.0}, ["s1", "s2"])
+    assert out["n"] == 4
+    assert out["n_countries"] == 2
+    assert out["between"]["n"] == 2  # one row per country
+    assert out["within"]["n"] == 4  # full panel
+    assert out["between"]["beta_per_10pp"]["median"] == 1.0
+    assert out["within"]["beta_per_10pp"]["median"] == -0.1
+    assert out["ols"]["slope_per_10pp"]["point"] == 1.1
+    assert len(out["means"]) == 2
+    assert len(out["panel"]) == 4
