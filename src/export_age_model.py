@@ -630,13 +630,17 @@ def render_figure(corpus: pd.DataFrame, curve: list[dict[str, Any]], home_code: 
 
 
 def assemble_output(
-    corpus: pd.DataFrame, design: dict[str, Any], curve: list[dict[str, Any]], diff: dict[str, Any],
-    beta: dict[str, Any] | None, home_effect: dict[str, Any] | None, diagnostics: dict[str, Any],
-    ppc: dict[str, Any], no_strength: dict[str, Any], lono: dict[str, Any], home_code: str,
-    fit_meta: dict[str, Any],
+    corpus: pd.DataFrame, design: dict[str, Any], curve: list[dict[str, Any]], y24: dict[str, Any],
+    diff: dict[str, Any], beta: dict[str, Any] | None, home_effect: dict[str, Any] | None,
+    diagnostics: dict[str, Any], ppc: dict[str, Any], no_strength: dict[str, Any], lono: dict[str, Any],
+    home_code: str, fit_meta: dict[str, Any],
 ) -> dict[str, Any]:
     """Pure assembly of the JSON shape described in the module docstring; no
-    fitting here, so this is testable on hand-built inputs."""
+    fitting here, so this is testable on hand-built inputs. `curve` is the
+    report's age table (19/21/23/25/27, spec's own evaluation ages); `y24`
+    is the same `age_curve` computation at 24 alone, needed by slide 4b's
+    "arriving at 21 ... those arriving at 24 ..." sentence but not part of
+    the table."""
     age = corpus["age_export"]
     home_rows = corpus[corpus["nation"] == home_code]
     return {
@@ -646,6 +650,7 @@ def assemble_output(
         "origin_source_counts": {str(k): int(v) for k, v in corpus["origin_source"].value_counts().items()},
         "use_spline": bool(design["use_spline"]), "knots": design["knots"],
         "age_curve": curve,
+        "y24": y24,
         "diff_21_24": diff,
         "beta": beta,
         "home_nation_effect": home_effect,
@@ -686,6 +691,7 @@ def main() -> None:
     LOG.info("main fit: %.1f s", runtime_s)
 
     curve = age_curve(idata, design)
+    y24 = age_curve(idata, design, eval_ages=(24,))[0]
     diff = diff_between_ages(idata, design)
     beta = beta_summary(idata, design)
     home_effect = home_nation_effect(idata, design, config.HOME)
@@ -714,7 +720,7 @@ def main() -> None:
 
     fit_meta = {"n": design["n"], "runtime_s": runtime_s, "runtime_no_strength_s": runtime_ns_s,
                "runtime_lono_s": lono.get("runtime_s", 0.0)}
-    result = assemble_output(corpus, design, curve, diff, beta, home_effect, diagnostics, ppc,
+    result = assemble_output(corpus, design, curve, y24, diff, beta, home_effect, diagnostics, ppc,
                              no_strength, lono, config.HOME, fit_meta)
 
     out_json = config.PROCESSED_DIR / "export_age_model.json"

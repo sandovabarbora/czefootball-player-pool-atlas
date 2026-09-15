@@ -164,6 +164,7 @@
     <li><a href="#q2">{{ t('toc.q2') }}</a></li>
     <li><a href="#q3">{{ t('toc.q3') }}</a></li>
     <li><a href="#q4">{{ t('toc.q4') }}</a></li>
+    {% if export_age_model.age_curve %}<li><a href="#q4b">{{ t('toc.q4b') }}</a></li>{% endif %}
     <li><a href="#q5">{{ t('toc.q5') }}</a></li>
     <li><a href="#q6">{{ t('toc.q6') }}</a></li>
     <li><a href="#q7">{{ t('toc.q7') }}</a></li>
@@ -180,6 +181,7 @@
         <li><a href="#series-model">{{ t('toc.series') }}</a></li>
         {% if youth_panel.between %}<li><a href="#youth-panel">{{ t('toc.panel') }}</a></li>{% endif %}
         {% if gap_decomposition.contrasts %}<li><a href="#gap-decomposition">{{ t('toc.gap') }}</a></li>{% endif %}
+        {% if export_age_model.age_curve %}<li><a href="#export-age-model">{{ t('toc.short.export_age') }}</a></li>{% endif %}
         <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
         <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
         <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
@@ -208,8 +210,8 @@
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
-        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#q8c">{{ t('toc.q8c') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#related-methods">{{ t('toc.short.related_methods') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a>{% if export_age_model.age_curve %} · <a href="#q4b">{{ t('toc.q4b') }}</a>{% endif %} · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#q8c">{{ t('toc.q8c') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %}{% if export_age_model.age_curve %} · <a href="#export-age-model">{{ t('toc.short.export_age') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#related-methods">{{ t('toc.short.related_methods') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -375,6 +377,26 @@
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4.how', season=seasons.metrics, home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
   </div>
 </section>
+
+{% if export_age_model.age_curve %}
+{% set eam = export_age_model %}
+<section class="slide" id="q4b">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.4b.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.4b.aq', topn=topn, n=eam.n) }}</p>
+    <p class="slide-a">{{ t('slide.4b.a', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
+                          y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
+                          diff=signed2(eam.diff_21_24.median), dlo=f2(eam.diff_21_24.lo), dhi=f2(eam.diff_21_24.hi),
+                          age_home=g(eam.home_median_age)) }}</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="{{ assets }}export_age_model.svg" alt="{{ t('slide.4b.alt') }}">
+      </figure>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4b.how', n=eam.n, branch=(t('ch4.export.branch.spline') if eam.use_spline else t('ch4.export.branch.quadratic')), cite=cite_multi(['gelman_et_al_2013', 'hoffman_gelman_2014'])) }}</p>
+  </div>
+</section>
+{% endif %}
 
 <section class="slide" id="q5">
   <div class="container">
@@ -1440,6 +1462,47 @@
     <p>{{ t('ch4.gap.note', n=gap_decomposition.n, min_gap=g(gap_decomposition.min_gap_for_share)) }}</p>
     {% endif %}
 
+    {% if export_age_model.age_curve %}
+    {% set eam = export_age_model %}
+    <h3 id="export-age-model">{{ t('ch4.export.h3') }}</h3>
+    <p>{{ t('ch4.export.design', n=eam.n, topn=topn, age_min=g(eam.age_range.min), age_max=g(eam.age_range.max),
+             branch=(t('ch4.export.branch.spline') if eam.use_spline else t('ch4.export.branch.quadratic')),
+             chains=eam.chains, draws=eam.draws, cite_bda=cite.gelman_et_al_2013, cite_nuts=cite.hoffman_gelman_2014) }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}export_age_model.svg" alt="{{ t('ch4.export.fig_alt') }}">
+    </figure>
+    <table class="kv-table">
+      <thead><tr><th>{{ t('ch4.export.th.age') }}</th><th>{{ t('ch4.export.th.y') }}</th><th>{{ t('ch4.export.th.hdi') }}</th></tr></thead>
+      <tbody>
+        {% for r in eam.age_curve %}
+        <tr><td>{{ r.age }}</td><td class="num">{{ f2(r.median) }}</td><td class="num">{{ f2(r.lo) }} – {{ f2(r.hi) }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p>{{ t('ch4.export.beta', beta=(signed2(eam.beta.median) if eam.beta else '—'),
+             lo=(f2(eam.beta.lo) if eam.beta else '—'), hi=(f2(eam.beta.hi) if eam.beta else '—')) }}</p>
+    <p>{{ t('ch4.export.home', home_effect=(signed2(eam.home_nation_effect.median) if eam.home_nation_effect else '—'),
+             lo=(f2(eam.home_nation_effect.lo) if eam.home_nation_effect else '—'),
+             hi=(f2(eam.home_nation_effect.hi) if eam.home_nation_effect else '—'),
+             age_home=g(eam.home_median_age)) }}</p>
+    <p>{{ t('ch4.export.no_strength', sigma_with=f2(eam.diagnostics.sigma_n_median), sigma_without=f2(eam.no_strength.diagnostics.sigma_n_median)) }}</p>
+    <p>{{ t('ch4.export.lono', n_excluded=eam.lono.n_excluded, n=eam.lono.n,
+             diff=(signed2(eam.lono.diff_21_24.median) if eam.lono.diff_21_24 else '—'),
+             lo=(f2(eam.lono.diff_21_24.lo) if eam.lono.diff_21_24 else '—'),
+             hi=(f2(eam.lono.diff_21_24.hi) if eam.lono.diff_21_24 else '—'),
+             full_diff=signed2(eam.diff_21_24.median)) }}</p>
+    <details class="fold">
+      <summary>{{ t('ch4.export.ppc.summary') }}</summary>
+      <p>{{ t('ch4.export.ppc.p', obs_mean=f2(eam.ppc.observed.mean), rep_mean=f2(eam.ppc.replicated.mean),
+               obs_sd=f2(eam.ppc.observed.sd), rep_sd=f2(eam.ppc.replicated.sd),
+               obs_p10=f2(eam.ppc.observed.p10), rep_p10=f2(eam.ppc.replicated.p10),
+               obs_p90=f2(eam.ppc.observed.p90), rep_p90=f2(eam.ppc.replicated.p90)) }}</p>
+    </details>
+    <p>{{ t('ch4.export.diagnostics', rhat=f3(eam.diagnostics.max_rhat), ess=(eam.diagnostics.min_ess_bulk | round | int),
+             div=eam.diagnostics.n_divergences, n=eam.n, runtime=eam.fit.runtime_s) }}</p>
+    <p>{{ t('ch4.export.selection') }}</p>
+    {% endif %}
+
     <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>
     <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes, cite_efron_morris=cite.efron_morris_1975) }}</p>
     <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
@@ -1583,6 +1646,13 @@
                 contrast=term(gap_decomposition.primary.name), resid=signed2(gap_decomposition.primary.residual),
                 gap=f2(gap_decomposition.primary.gap_total)) }}</li>
       {% endif %}
+      {% if export_age_model.age_curve %}
+      <li>{{ t('ch4.validation.m6', n=export_age_model.n, rhat=f3(export_age_model.diagnostics.max_rhat),
+                div=export_age_model.diagnostics.n_divergences,
+                beta=(signed2(export_age_model.beta.median) if export_age_model.beta else '—'),
+                n_excluded=export_age_model.lono.n_excluded,
+                shift=(signed2(export_age_model.lono.shift_diff_21_24) if export_age_model.lono.shift_diff_21_24 is defined else '—')) }}</li>
+      {% endif %}
     </ul>
 
     <h3 id="reproducibility">{{ t('ch4.repro.h3') }}</h3>
@@ -1661,6 +1731,7 @@
 
     <h3 id="related-methods">{{ t('ch4.related.h3') }}</h3>
     <p>{{ t('ch4.related.intro') }}</p>
+    {% if export_age_model.age_curve %}<p>{{ t('ch4.related.novel') }}</p>{% endif %}
     <ul class="related-methods-list">
       <li>{{ t('ch4.related.shrinkage', cite=cite.efron_morris_1975) }}</li>
       <li>{{ t('ch4.related.hierarchical', cite=cite.gelman_et_al_2013) }}</li>

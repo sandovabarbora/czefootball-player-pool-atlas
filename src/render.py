@@ -1408,6 +1408,34 @@ def _build_gap_decomposition(gd: dict, names: dict[str, str]) -> dict:
     }
 
 
+# Mirrors src.export_age_model.DRAWS/TUNE/CHAINS/LONO_* -- kept as literals
+# here (not imported) so render.py doesn't pull in PyMC/ArviZ just for
+# run-budget constants already carried by the JSON's own diagnostics.
+EXPORT_AGE_CHAINS = 4
+EXPORT_AGE_DRAWS = 1000
+
+
+def _build_export_age_model(eam: dict) -> dict:
+    """Chapter IV `#export-age-model` and slide 4b (Task 23, M1 proper): the
+    age-at-export curve. `eam` is `export_age_model.json`'s raw shape (`{}`
+    when the file is missing -- `load_data`'s tolerant load -- in which
+    case slide 4b and the chapter IV section both render nothing).
+
+    `y21`/`y24` are pulled out of/alongside `age_curve` for slide 4b's
+    "arriving at 21 ... those arriving at 24 ..." sentence -- the template
+    reads `export_age_model.age_curve` directly for the chapter IV table
+    (ages 19/21/23/25/27).
+    """
+    if not eam:
+        return {}
+    y21 = next((r for r in eam.get("age_curve", []) if r["age"] == 21), None)
+    return {
+        **eam,
+        "y21": y21,
+        "chains": EXPORT_AGE_CHAINS, "draws": EXPORT_AGE_DRAWS,
+    }
+
+
 def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
     """Chapter IV data-quality log: recomputed checks + recorded incidents.
 
@@ -1659,6 +1687,7 @@ def load_data() -> dict[str, Any]:
         "series_model": _load_json(p / "series_model.json", {}),
         "youth_panel": _load_json(p / "youth_panel.json", {}),
         "gap_decomposition": _load_json(p / "gap_decomposition.json", {}),
+        "export_age_model": _load_json(p / "export_age_model.json", {}),
         "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
@@ -1806,6 +1835,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         pathways["panel_beta_hi"] = beta["hi"]
 
     gap_decomposition = _build_gap_decomposition(data["gap_decomposition"], names)
+    export_age_model = _build_export_age_model(data["export_age_model"])
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -1862,6 +1892,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "series_model": series_model,
         "youth_panel": youth_panel,
         "gap_decomposition": gap_decomposition,
+        "export_age_model": export_age_model,
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
@@ -2264,6 +2295,41 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             ],
             "n": 8, "home": "CZE", "ridge_alpha": 1.0, "min_gap_for_share": 3.0,
         }, {"CZE": "Czechia", "NOR": "Norway", "DEN": "Denmark"}),
+        "export_age_model": _build_export_age_model({
+            "n": 115, "age_range": {"min": 17.0, "max": 31.0},
+            "n_seasons_counts": {"1": 71, "2": 44}, "origin_source_counts": {"m_L": 110, "uefa": 5},
+            "use_spline": False, "knots": [19, 21, 23, 25],
+            "age_curve": [
+                {"age": 19, "median": 0.32, "lo": 0.18, "hi": 0.47},
+                {"age": 21, "median": 0.36, "lo": 0.25, "hi": 0.48},
+                {"age": 23, "median": 0.39, "lo": 0.29, "hi": 0.50},
+                {"age": 25, "median": 0.41, "lo": 0.28, "hi": 0.54},
+                {"age": 27, "median": 0.42, "lo": 0.24, "hi": 0.60},
+            ],
+            "y24": {"age": 24, "median": 0.40, "lo": 0.29, "hi": 0.52},
+            "diff_21_24": {"age_a": 21, "age_b": 24, "median": -0.04, "lo": -0.15, "hi": 0.07},
+            "beta": {"median": 0.28, "lo": 0.05, "hi": 0.51},
+            "home_nation_effect": {"median": -0.03, "lo": -0.15, "hi": 0.09},
+            "home_median_age": 22.5, "home_code": "CZE",
+            "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 720.0, "min_ess_tail": 680.0,
+                            "n_divergences": 0, "sigma_n_median": 0.08},
+            "ppc": {"observed": {"mean": 0.35, "sd": 0.22, "p10": 0.09, "p90": 0.66},
+                   "replicated": {"mean": 0.36, "sd": 0.21, "p10": 0.10, "p90": 0.64}},
+            "no_strength": {
+                "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 700.0, "min_ess_tail": 650.0,
+                                "n_divergences": 0, "sigma_n_median": 0.11},
+                "home_nation_effect": {"median": -0.05, "lo": -0.19, "hi": 0.08}, "runtime_s": 30.2,
+            },
+            "lono": {
+                "n_excluded": 8, "n": 107,
+                "diff_21_24": {"age_a": 21, "age_b": 24, "median": -0.05, "lo": -0.17, "hi": 0.06},
+                "beta": {"median": 0.27, "lo": 0.02, "hi": 0.50},
+                "diagnostics": {"max_rhat": 1.02, "min_ess_bulk": 400.0, "min_ess_tail": 380.0,
+                                "n_divergences": 0, "sigma_n_median": 0.09},
+                "runtime_s": 14.8, "shift_diff_21_24": -0.01,
+            },
+            "fit": {"n": 115, "runtime_s": 32.5, "runtime_no_strength_s": 30.2, "runtime_lono_s": 14.8},
+        }),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),

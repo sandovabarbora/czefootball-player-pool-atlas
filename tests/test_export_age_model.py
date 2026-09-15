@@ -248,6 +248,7 @@ def test_assemble_output_shape():
     })
     design = {"use_spline": True, "knots": [19, 21, 23, 25]}
     curve = [{"age": 19, "median": 0.3, "lo": 0.2, "hi": 0.4}]
+    y24 = {"age": 24, "median": 0.35, "lo": 0.25, "hi": 0.45}
     diff = {"age_a": 21, "age_b": 24, "median": -0.05, "lo": -0.2, "hi": 0.1}
     beta = {"median": 0.4, "lo": 0.1, "hi": 0.7}
     home_effect = {"median": 0.02, "lo": -0.05, "hi": 0.09}
@@ -260,7 +261,7 @@ def test_assemble_output_shape():
            "runtime_s": 5.0}
     fit_meta = {"n": 3, "runtime_s": 30.0, "runtime_no_strength_s": 28.0, "runtime_lono_s": 5.0}
 
-    out = assemble_output(corpus, design, curve, diff, beta, home_effect, diagnostics, ppc,
+    out = assemble_output(corpus, design, curve, y24, diff, beta, home_effect, diagnostics, ppc,
                           no_strength, lono, "CZE", fit_meta)
     assert out["n"] == 3
     assert out["age_range"] == {"min": 20.0, "max": 23.0}
@@ -269,11 +270,12 @@ def test_assemble_output_shape():
     assert out["use_spline"] is True and out["knots"] == [19, 21, 23, 25]
     assert out["home_median_age"] == 22.0  # median of [21, 23]
     assert out["home_code"] == "CZE"
+    assert out["y24"] == y24
     assert out["beta"] == beta and out["diff_21_24"] == diff
     assert out["no_strength"] == no_strength and out["lono"] == lono
     assert out["fit"] == fit_meta
 
     # a home nation absent from the corpus -> None, not a KeyError
-    out2 = assemble_output(corpus, design, curve, diff, beta, home_effect, diagnostics, ppc,
+    out2 = assemble_output(corpus, design, curve, y24, diff, beta, home_effect, diagnostics, ppc,
                            no_strength, lono, "ZZZ", fit_meta)
     assert out2["home_median_age"] is None
