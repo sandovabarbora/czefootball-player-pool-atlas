@@ -133,6 +133,13 @@ def build_pairs(features_by_group: dict[str, pd.DataFrame]) -> pd.DataFrame:
     )
     cols = ["player_key", "pos_group", "league", "target_season", "value_t", "target", *NUMERIC_FEATURES]
     out = merged[cols].dropna(subset=[*NUMERIC_FEATURES, "value_t", "target"]).reset_index(drop=True)
+    # `age` arrives as pandas' nullable Float64 extension dtype (features.py's
+    # `_fill_missing_age`); mixed with plain float64 columns that breaks a
+    # clean numpy cast (`DataFrame.to_numpy()` falls back to `object`, which
+    # PyTensor rejects) -- cast every numeric/target column to plain float64
+    # once here rather than at every downstream `.to_numpy()` call site.
+    for c in (*NUMERIC_FEATURES, "value_t", "target"):
+        out[c] = out[c].astype("float64")
     return out
 
 
