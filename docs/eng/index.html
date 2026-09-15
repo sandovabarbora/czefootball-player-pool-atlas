@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151627">
-  <link rel="stylesheet" href="modern.css?v=202609151627">
+  <link rel="stylesheet" href="style.css?v=202609151709">
+  <link rel="stylesheet" href="modern.css?v=202609151709">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151627"></script>
+  <script defer src="atlas.js?v=202609151709"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -48,6 +48,7 @@
     <li><a href="#q2">Where is it thin?</a></li>
     <li><a href="#q3">Youth minutes at home</a></li>
     <li><a href="#q4">Where they go</a></li>
+    <li><a href="#q4b">Leaving later</a></li>
     <li><a href="#q5">How they fare</a></li>
     <li><a href="#q6">World Cup squad</a></li>
     <li><a href="#q7">When the train left</a></li>
@@ -64,6 +65,7 @@
         <li><a href="#series-model">Dating the break and one forecast</a></li>
         <li><a href="#youth-panel">Cross-country youth-minutes panel</a></li>
         <li><a href="#gap-decomposition">What the gap is made of</a></li>
+        <li><a href="#export-age-model">Age at export</a></li>
         <li><a href="#shrinkage">Bayesian shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Sensitivity analysis</a></li>
@@ -92,7 +94,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 258 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 270 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -440,6 +442,23 @@
     <p class="slide-how"><span class="slide-how-label">How we know</span> Destination league of every English-eligible player's 2025/26 row; sideways = destination multiplier ≤ English league multiplier (<a href="#league-strength">league strength: two estimates, § Methodology</a>). Premier League is itself one of Europe's top-9 leagues; here 'abroad' means the other 8.</p>
   </div>
 </section>
+
+
+
+<section class="slide" id="q4b">
+  <div class="container">
+    <h2 class="slide-q">Does leaving later cost anything?</h2>
+    <p class="slide-aq">In numbers: mean league-adjusted goals + assists per 90 over the first two top-9 seasons, as a function of age at the first one, given origin-league strength and position, 691 peer-nationality exports.</p>
+    <p class="slide-a">Players who arrive in the top-9 at 21 produce 0.15 (0.13–0.17) league-adjusted G+A per 90 over their first two seasons; those arriving at 24, 0.13 (0.11–0.15) — a difference of <strong>+0.02</strong> (0.00–0.03). English exports arrive at a median age of 21.</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, English exports as points against every other peer export, and a rug of every export's age along the axis.">
+      </figure>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">How we know</span> Age curve (natural cubic spline) on league-adjusted production, given origin-league strength (<a href="#league-strength">§ Methodology</a>), position and a country effect, 691 peer-nationality exports (Gelman et al., 2013; Hoffman and Gelman, 2014); better players tend to leave earlier, so the curve mixes selection with development and this report does not separate them.</p>
+  </div>
+</section>
+
 
 <section class="slide" id="q5">
   <div class="container">
@@ -8384,6 +8403,41 @@
     <p>A decomposition of a correlation this panel happens to show, not a causal accounting; with n = 8 and three correlated national-level channels, the shares are indicative, not precise. A channel's share of the gap is only shown when the gap itself is at least 3 players per million — below that, a small denominator can send a share past 100 % in either direction; the contribution itself, in players per million, is always reported.</p>
     
 
+    
+    
+    <h3 id="export-age-model">Age at export</h3>
+    <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do English players go when they leave?", reused here) — 691 players, ages 16–36 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the natural cubic spline branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
+    <figure class="figure-bleed">
+      <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as oxblood points against every other peer export in grey, and a rug of every export's age along the axis.">
+    </figure>
+    <table class="kv-table">
+      <thead><tr><th>Age</th><th>Expected G+A/90 (median)</th><th>90 % HDI</th></tr></thead>
+      <tbody>
+        
+        <tr><td>19</td><td class="num">0.16</td><td class="num">0.14 – 0.18</td></tr>
+        
+        <tr><td>21</td><td class="num">0.15</td><td class="num">0.13 – 0.17</td></tr>
+        
+        <tr><td>23</td><td class="num">0.14</td><td class="num">0.12 – 0.16</td></tr>
+        
+        <tr><td>25</td><td class="num">0.13</td><td class="num">0.11 – 0.15</td></tr>
+        
+        <tr><td>27</td><td class="num">0.14</td><td class="num">0.11 – 0.15</td></tr>
+        
+      </tbody>
+    </table>
+    <p>β, the effect of a one-unit increase in origin-league strength (m_L): +0.07 (0.02–0.12).</p>
+    <p>English exports' own country effect: +0.04 (0.01–0.06); English exports arrive at a median age of 21.</p>
+    <p>The same model, fit again without origin-league strength: the country-effect scale (σ_n) is 0.28 with the league term in the model and 0.31 without it — what moves between the two is what the league term is absorbing.</p>
+    <p>Leave-one-nation-out: excluding England's own 45 exports (n = 646 remaining) and refitting, the 21-vs-24 difference is +0.02 (0.01–0.03), against +0.02 in the full fit.</p>
+    <details class="fold">
+      <summary>Posterior predictive check</summary>
+      <p>Observed vs. replicated y (mean league-adjusted G+A/90 over the first two top-9 seasons): mean 0.15 vs 0.15, sd 0.11 vs 0.11, 10th percentile 0.03 vs 0.02, 90th percentile 0.30 vs 0.29.</p>
+    </details>
+    <p>R-hat ≤ 1.004, minimum bulk ESS 1262, 0 divergent transitions across 691 players; fit in 19.9 s.</p>
+    <p>What this model does not separate: the corpus is not a random sample of players who could have left later. Players who leave earlier tend to be the ones judged ready earliest — a selection effect the age curve mixes with any genuine development effect of arriving young, and this report does not try to tell the two apart.</p>
+    
+
     <h3 id="shrinkage">Bayesian shrinkage</h3>
     <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula (Efron and Morris, 1975), with K = 10 phantom matches expressed as 900 minutes:</p>
     <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
@@ -9144,6 +9198,9 @@
       
       <li>The gap decomposition (M5): ridge fit (α = 1.00) on n = 8 peer countries; for France, the residual is +0.14 of a 2.19 gap — a decomposition of a correlation, not a causal accounting.</li>
       
+      
+      <li>Age at export (M1 proper): R-hat ≤ 1.004, 0 divergent transitions across 691 players; β on origin-league strength is +0.07; leaving out 45 English exports and refitting shifts the 21-vs-24 difference by 0.00.</li>
+      
     </ul>
 
     <h3 id="reproducibility">Reproducibility</h3>
@@ -9152,8 +9209,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 258 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 258 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 270 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 270 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 30 tasks.</desc>
@@ -9222,6 +9279,7 @@
 
     <h3 id="related-methods">Related methods and what was taken from them</h3>
     <p>The methods below shaped this report's design. Each entry states what the method is, what this report took from it, and what was left out and why.</p>
+    <p>One pairing here has no single citation behind it: the transfer-graph league-strength model (<a href="#league-strength">§ League strength</a>) and the age-at-export curve (<a href="#export-age-model">§ Age at export</a>) are fit independently and joined only through origin-league strength as a covariate — a within-player league-identification model feeding a spline-in-age production curve is, to the author's knowledge, this report's own combination, not drawn whole from any one method below.</p>
     <ul class="related-methods-list">
       <li>Empirical-Bayes shrinkage of a sparse per-unit rate toward a group mean (Efron and Morris, 1975) · taken: per-90 rates are shrunk toward the league-season median with a K = 10 phantom-match prior before the quality projection (§ Bayesian shrinkage) · left out: the fully hierarchical variance-component estimate the original method also supports, since one shared K fits this corpus's minutes floor well enough for a descriptive report.</li>
       <li>Multilevel (partial-pooling) regression and posterior predictive checking as a model-diagnosis routine (Gelman et al., 2013) · taken: the league-strength and youth-panel models pool leagues and countries partially rather than fitting each alone or merging them into one, and the league-strength posterior predictive check (§ League strength) compares simulated to observed production · left out: model comparison by WAIC/LOO, since every model here is instead scored on seasons it never trained on (rolling-origin backtests), a stronger check for this report's purpose.</li>
@@ -9638,7 +9696,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 16:27</p>
+    <p class="rendered-at">Rendered: 2026-09-15 17:09</p>
   </div>
 </footer>
 

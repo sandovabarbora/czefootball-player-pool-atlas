@@ -613,7 +613,7 @@ EN: dict[str, str] = {
     "ch4.export.beta": "β, the effect of a one-unit increase in origin-league strength (m_L): {beta} ({lo}–{hi}).",
     "ch4.export.home": "{Adj} exports' own country effect: {home_effect} ({lo}–{hi}); {adj} exports arrive at a median age of {age_home}.",
     "ch4.export.no_strength": "The same model, fit again without origin-league strength: the country-effect scale (σ_n) is {sigma_with} with the league term in the model and {sigma_without} without it — what moves between the two is what the league term is absorbing.",
-    "ch4.export.lono": "Leave-one-nation-out: excluding {Adj}'s own {n_excluded} exports (n = {n} remaining) and refitting, the 21-vs-24 difference is {diff} ({lo}–{hi}), against {full_diff} in the full fit.",
+    "ch4.export.lono": "Leave-one-nation-out: excluding {nation}'s own {n_excluded} exports (n = {n} remaining) and refitting, the 21-vs-24 difference is {diff} ({lo}–{hi}), against {full_diff} in the full fit.",
     "ch4.export.ppc.summary": "Posterior predictive check",
     "ch4.export.ppc.p": "Observed vs. replicated y (mean league-adjusted G+A/90 over the first two top-9 seasons): mean {obs_mean} vs {rep_mean}, sd {obs_sd} vs {rep_sd}, 10th percentile {obs_p10} vs {rep_p10}, 90th percentile {obs_p90} vs {rep_p90}.",
     "ch4.export.diagnostics": "R-hat ≤ {rhat}, minimum bulk ESS {ess}, {div} divergent transitions across {n} players; fit in {runtime} s.",

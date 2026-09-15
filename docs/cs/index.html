@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151627">
-  <link rel="stylesheet" href="../modern.css?v=202609151627">
+  <link rel="stylesheet" href="../style.css?v=202609151709">
+  <link rel="stylesheet" href="../modern.css?v=202609151709">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151627"></script>
+  <script defer src="../atlas.js?v=202609151709"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -48,6 +48,7 @@
     <li><a href="#q2">Kde je tenký?</a></li>
     <li><a href="#q3">Minuty mládeže doma</a></li>
     <li><a href="#q4">Kam odcházejí</a></li>
+    <li><a href="#q4b">Pozdější odchod</a></li>
     <li><a href="#q5">Jak se jim daří</a></li>
     <li><a href="#q6">Nominace na MS</a></li>
     <li><a href="#q7">Kdy vlak odjel</a></li>
@@ -64,6 +65,7 @@
         <li><a href="#series-model">Datace zlomu a jedna prognóza</a></li>
         <li><a href="#youth-panel">Mezinárodní panel minut mládeže</a></li>
         <li><a href="#gap-decomposition">Z čeho se rozdíl skládá</a></li>
+        <li><a href="#export-age-model">Věk exportu</a></li>
         <li><a href="#shrinkage">Bayesovský shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Analýza citlivosti</a></li>
@@ -92,7 +94,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 258 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 270 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -462,6 +464,23 @@
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Cílová liga poslední sezóny 2025/26 každého hráče s příslušností Česka; do strany = násobička cíle ≤ násobička české ligy (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
   </div>
 </section>
+
+
+
+<section class="slide" id="q4b">
+  <div class="container">
+    <h2 class="slide-q">Stojí pozdější odchod něco?</h2>
+    <p class="slide-aq">V číslech: průměrná ligově upravená produkce (góly + asistence na 90 minut) za první dvě sezóny v top-9 jako funkce věku při první z nich, dáno silou výchozí ligy a postem, 115 exportů peer národností.</p>
+    <p class="slide-a">Hráči, kteří se do top-9 dostanou v 21 letech, produkují 0,14 (0,13–0,16) ligově upravených G+A na 90 minut za první dvě sezóny; ti, kdo dorazí ve 24, 0,14 (0,12–0,16) — rozdíl <strong>0,00</strong> (−0,01–0,01). České exporty odcházejí v mediánovém věku 23.</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="../export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, české exporty jako body proti všem ostatním peer exportům a rug (čárky) věku každého exportu podél osy.">
+      </figure>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Věková křivka (kvadratická funkce) ligově upravené produkce, dáno silou výchozí ligy (<a href="#league-strength">§ Metodologie</a>), postem a efektem země, 115 exportů peer národností (Gelman et al., 2013; Hoffman and Gelman, 2014); lepší hráči obvykle odcházejí dříve, takže křivka mísí selekci s vývojem a tento report je neodděluje.</p>
+  </div>
+</section>
+
 
 <section class="slide" id="q5">
   <div class="container">
@@ -9425,6 +9444,41 @@
     <p>Rozklad korelace, kterou tento panel ukazuje, ne kauzální účetnictví; s n = 8 a třemi vzájemně korelovanými kanály na úrovni státu jsou podíly orientační, ne přesné. Podíl kanálu na rozdílu se zobrazuje jen tehdy, když je samotný rozdíl aspoň 3 hráčů na milion — pod touto hranicí může malý jmenovatel poslat podíl přes 100 % oběma směry; samotný příspěvek v hráčích na milion se uvádí vždy.</p>
     
 
+    
+    
+    <h3 id="export-age-model">Věk exportu</h3>
+    <p>Pro každého hráče peer národnosti (včetně domácí země), jehož první sezóna v top-9 lize spadá do staženého okna a není cenzurovaná (stejné pravidlo cenzurování jako u „Kam čeští hráči odcházejí?“, zde znovu použité) — 115 hráčů, věk 17–31 — je věk při té sezóně modelován proti ligově upravené produkci za první jednu nebo dvě sezóny hráče v top-9. f(věk) je přirozený kubický spline s uzly na 19, 21, 23 a 25 (prostá kvadratická funkce pod n = 150; zde byla použita větev kvadratická funkce), spolu se silou výchozí ligy (model transferového grafu, <a href="#league-strength">§ Síla ligy</a>), postem a partial-pooled efektem země (Gelman et al., 2013), vzorkováno NUTS (Hoffman and Gelman, 2014), 4 řetězce × 1000 vzorků; každý sloupec designu i výstup byly před fitováním standardizovány — stejná lekce z panelu minut mládeže o priorech na surové škále u různě škálovaných proměnných.</p>
+    <figure class="figure-bleed">
+      <img src="../export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, exporty domácí země jako oxblood body proti všem ostatním peer exportům v šedé a rug (čárky) věku každého exportu podél osy.">
+    </figure>
+    <table class="kv-table">
+      <thead><tr><th>Věk</th><th>Očekávané G+A/90 (medián)</th><th>90% HDI</th></tr></thead>
+      <tbody>
+        
+        <tr><td>19</td><td class="num">0,14</td><td class="num">0,12 – 0,16</td></tr>
+        
+        <tr><td>21</td><td class="num">0,14</td><td class="num">0,13 – 0,16</td></tr>
+        
+        <tr><td>23</td><td class="num">0,14</td><td class="num">0,12 – 0,16</td></tr>
+        
+        <tr><td>25</td><td class="num">0,14</td><td class="num">0,12 – 0,16</td></tr>
+        
+        <tr><td>27</td><td class="num">0,14</td><td class="num">0,12 – 0,16</td></tr>
+        
+      </tbody>
+    </table>
+    <p>β, efekt jednotkového nárůstu síly výchozí ligy (m_L): −0,03 (−0,11–0,05).</p>
+    <p>Vlastní efekt země pro české exporty: 0,00 (−0,02–0,02); české exporty odcházejí v mediánovém věku 23.</p>
+    <p>Stejný model, fitovaný znovu bez síly výchozí ligy: měřítko efektu země (σ_n) je 0,14 s ligovým členem v modelu a 0,14 bez něj — to, co se mezi nimi mění, je to, co ligový člen pohlcuje.</p>
+    <p>Leave-one-nation-out: po vyloučení 8 vlastních exportů Česka (n = 107 zbývá) a přefitování je rozdíl 21 vs. 24 0,00 (−0,01–0,01), oproti 0,00 v plném fitu.</p>
+    <details class="fold">
+      <summary>Posteriorní prediktivní kontrola</summary>
+      <p>Pozorované vs. replikované y (průměrné ligově upravené G+A/90 za první dvě sezóny v top-9): průměr 0,14 vs. 0,14, sd 0,10 vs. 0,10, 10. percentil 0,02 vs. 0,01, 90. percentil 0,27 vs. 0,28.</p>
+    </details>
+    <p>R-hat ≤ 1,002, minimální bulk ESS 1190, 0 divergentních tranzicí napříč 115 hráči; fit za 7,2 s.</p>
+    <p>Co tento model neodděluje: korpus není náhodný vzorek hráčů, kteří mohli odejít později. Hráči, kteří odcházejí dříve, bývají ti, které týmy považují za připravené nejdříve — selekční efekt, který věková křivka mísí s jakýmkoliv skutečným vývojovým efektem raného odchodu, a tento report se je nesnaží rozlišit.</p>
+    
+
     <h3 id="shrinkage">Bayesovský shrinkage</h3>
     <p>Míry na 90 minut u hráčů s málo minutami jsou staženy k mediánu jejich ligy a sezóny (hráči s aspoň 900 minutami) empirickým Bayesovým vzorcem (Efron and Morris, 1975), s K = 10 fantomovými zápasy vyjádřenými jako 900 minut:</p>
     <p class="formula" data-tex="\text{stažená míra} = \dfrac{\text{události} + K \cdot \text{medián ligy}}{\text{minuty} / 90 + K},\qquad K = 10">shrunk_rate = (události + K × medián_ligy) / (minuty / 90 + K), &nbsp; K = 10</p>
@@ -10185,6 +10239,9 @@
       
       <li>Rozklad rozdílu (M5): ridge fit (α = 1,00) na n = 8 peer zemích; pro Norsko tvoří reziduum −2,37 z rozdílu 6,98 — rozklad korelace, ne kauzální účetnictví.</li>
       
+      
+      <li>Věk exportu (M1 proper): R-hat ≤ 1,002, 0 divergentních tranzicí napříč 115 hráči; β na síle výchozí ligy je −0,03; vyloučení 8 exportů Česka a přefitování posune rozdíl 21 vs. 24 o 0,00.</li>
+      
     </ul>
 
     <h3 id="reproducibility">Reprodukovatelnost</h3>
@@ -10193,8 +10250,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 25 rozhodnutí · 258 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 258 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 25 rozhodnutí · 270 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 270 testy.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Diagram průběhu stavby</title>
         <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 30 úkoly.</desc>
@@ -10263,6 +10320,7 @@
 
     <h3 id="related-methods">Související metody a co z nich report přebírá</h3>
     <p>Metody níže formovaly návrh tohoto reportu. Každá položka uvádí, co metoda je, co si z ní report vzal a co vynechal a proč.</p>
+    <p>Jedno spojení zde nemá jedinou citaci za sebou: model síly ligy z transferového grafu (<a href="#league-strength">§ Síla ligy</a>) a křivka věku exportu (<a href="#export-age-model">§ Věk exportu</a>) jsou fitované nezávisle a spojené jen přes sílu výchozí ligy jako kovariátu — model identifikace ligy uvnitř hráče krmící spline křivku produkce podle věku je, pokud autorka ví, vlastní kombinace tohoto reportu, nepřevzatá vcelku z žádné z metod níže.</p>
     <ul class="related-methods-list">
       <li>Empirický bayesovský shrinkage řídké míry na jednotku směrem k průměru skupiny (Efron and Morris, 1975) · přebráno: rate na 90 minut se stahuje k mediánu ligy a sezóny s priorem K = 10 fantomových zápasů před projekcí kvality (§ Bayesovský shrinkage) · vynecháno: plně hierarchický odhad komponent rozptylu, který originální metoda také umožňuje, protože jedno sdílené K pokrývá minutový práh tohoto korpusu dostatečně pro popisný report.</li>
       <li>Vícevrstvá (partial-pooling) regrese a posterior predictive checking jako rutina pro diagnostiku modelu (Gelman et al., 2013) · přebráno: modely síly ligy a panelu mládeže poolují ligy a země částečně místo fitování každé zvlášť nebo sloučení všech do jedné, a posterior predictive check u síly ligy (§ Síla ligy) srovnává simulovanou a pozorovanou produkci · vynecháno: srovnání modelů pomocí WAIC/LOO, protože každý model zde je místo toho hodnocen na sezónách, na kterých nikdy netrénoval (rolling-origin zpětné testy) — silnější kontrola pro účel tohoto reportu.</li>
@@ -10479,7 +10537,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 16:27</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 17:09</p>
   </div>
 </footer>
 

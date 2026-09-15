@@ -20,7 +20,7 @@ from pathlib import Path
 DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
          "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg", "series_model.svg",
-         "gk_export_age.svg", "youth_panel.svg", "gap_decomposition.svg"]
+         "gk_export_age.svg", "youth_panel.svg", "gap_decomposition.svg", "export_age_model.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -93,6 +93,14 @@ T = {
     "League strength": "Síla ligy",
     "Export age": "Věk exportu",
     "Residual": "Reziduum",
+    # age-at-export model (Task 23, M1 proper)
+    "Age at export and production": "Věk exportu a produkce",
+    "Mean npG+A/90, league-adjusted (first two top-9 seasons)":
+        "Průměr npG+A/90, ligově upravené (první dvě sezóny v top-9)",
+    "Fitted curve (90% band)": "Fitovaná křivka (90% pásmo)",
+    "Other peer exports": "Ostatní peer exporty",
+    "Home-nation exports": "Exporty domácí země",
+    "Age at export (all)": "Věk exportu (všichni)",
 }
 CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern

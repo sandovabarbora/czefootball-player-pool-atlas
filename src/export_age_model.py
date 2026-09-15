@@ -600,7 +600,7 @@ def render_figure(corpus: pd.DataFrame, curve: list[dict[str, Any]], home_code: 
               label="Other peer exports", edgecolors="none")
     if not home.empty:
         ax.scatter(home["age_export"], home["y"], color=OXBLOOD, s=42, zorder=4,
-                  edgecolors=CREAM, linewidths=0.6, label=f"{home_code} exports")
+                  edgecolors=CREAM, linewidths=0.6, label="Home-nation exports")
 
     ymin, ymax = ax.get_ylim()
     rug_y = ymin - 0.05 * (ymax - ymin)
