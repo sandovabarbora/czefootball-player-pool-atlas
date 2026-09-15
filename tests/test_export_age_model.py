@@ -9,6 +9,7 @@ import pytest
 from src.export_age_model import (
     AGE_KNOTS,
     age_curve,
+    assemble_output,
     attach_origin,
     beta_summary,
     build_corpus,
@@ -20,6 +21,7 @@ from src.export_age_model import (
     home_nation_effect,
     natural_cubic_spline_basis,
     ppc_summary,
+    run_lono,
 )
 
 
@@ -217,3 +219,61 @@ def test_fit_model_without_strength_has_no_beta():
     assert beta_summary(idata, design) is None
     diag = diagnostics_summary(idata)  # must not choke on the missing beta
     assert diag["max_rhat"] > 0
+
+
+def test_run_lono_excludes_home_nation_and_reports_runtime():
+    corpus = _synthetic_corpus(n=120, seed=2)
+    lono = run_lono(corpus, "AAA", draws=100, tune=100, chains=2, seed=1)
+    assert lono["n_excluded"] == int((corpus["nation"] == "AAA").sum())
+    assert lono["n"] == len(corpus) - lono["n_excluded"]
+    assert lono["diff_21_24"]["lo"] <= lono["diff_21_24"]["median"] <= lono["diff_21_24"]["hi"]
+    assert lono["beta"] is not None
+    assert lono["runtime_s"] >= 0
+
+
+def test_run_lono_absent_home_nation_reports_zero_excluded():
+    corpus = _synthetic_corpus(n=40, seed=3)
+    lono = run_lono(corpus, "ZZZ", draws=50, tune=50, chains=2, seed=1)
+    assert lono["n_excluded"] == 0
+    assert lono["n"] == len(corpus)
+
+
+# --- JSON shape --------------------------------------------------------
+
+
+def test_assemble_output_shape():
+    corpus = pd.DataFrame({
+        "nation": ["CZE", "CZE", "DEN"], "age_export": [21.0, 23.0, 20.0],
+        "n_seasons": [2, 1, 2], "origin_source": ["m_L", "uefa", "m_L"],
+    })
+    design = {"use_spline": True, "knots": [19, 21, 23, 25]}
+    curve = [{"age": 19, "median": 0.3, "lo": 0.2, "hi": 0.4}]
+    diff = {"age_a": 21, "age_b": 24, "median": -0.05, "lo": -0.2, "hi": 0.1}
+    beta = {"median": 0.4, "lo": 0.1, "hi": 0.7}
+    home_effect = {"median": 0.02, "lo": -0.05, "hi": 0.09}
+    diagnostics = {"max_rhat": 1.0, "min_ess_bulk": 800.0, "min_ess_tail": 750.0,
+                   "n_divergences": 0, "sigma_n_median": 0.05}
+    ppc = {"observed": {"mean": 0.3, "sd": 0.2, "p10": 0.1, "p90": 0.5},
+          "replicated": {"mean": 0.3, "sd": 0.2, "p10": 0.1, "p90": 0.5}}
+    no_strength = {"diagnostics": diagnostics, "home_nation_effect": home_effect, "runtime_s": 12.0}
+    lono = {"n_excluded": 2, "n": 1, "diff_21_24": diff, "beta": beta, "diagnostics": diagnostics,
+           "runtime_s": 5.0}
+    fit_meta = {"n": 3, "runtime_s": 30.0, "runtime_no_strength_s": 28.0, "runtime_lono_s": 5.0}
+
+    out = assemble_output(corpus, design, curve, diff, beta, home_effect, diagnostics, ppc,
+                          no_strength, lono, "CZE", fit_meta)
+    assert out["n"] == 3
+    assert out["age_range"] == {"min": 20.0, "max": 23.0}
+    assert out["n_seasons_counts"] == {"2": 2, "1": 1}
+    assert out["origin_source_counts"] == {"m_L": 2, "uefa": 1}
+    assert out["use_spline"] is True and out["knots"] == [19, 21, 23, 25]
+    assert out["home_median_age"] == 22.0  # median of [21, 23]
+    assert out["home_code"] == "CZE"
+    assert out["beta"] == beta and out["diff_21_24"] == diff
+    assert out["no_strength"] == no_strength and out["lono"] == lono
+    assert out["fit"] == fit_meta
+
+    # a home nation absent from the corpus -> None, not a KeyError
+    out2 = assemble_output(corpus, design, curve, diff, beta, home_effect, diagnostics, ppc,
+                           no_strength, lono, "ZZZ", fit_meta)
+    assert out2["home_median_age"] is None

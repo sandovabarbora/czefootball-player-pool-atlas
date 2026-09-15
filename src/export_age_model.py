@@ -95,6 +95,7 @@ age).
 
 from __future__ import annotations
 
+import json
 import logging
 import time
 from pathlib import Path
@@ -112,6 +113,13 @@ from src.logging_setup import setup as logging_setup
 from src.utils import collapse_player_seasons, read_parquet
 
 LOG = logging.getLogger(__name__)
+
+# Matplotlib defaults shared with the rest of the report's figures (same
+# literal block as src.league_strength/src.youth_panel).
+plt.rcParams["font.family"] = "serif"
+plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
+plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
+plt.rcParams["text.color"] = INK
 
 AGE_KNOTS: tuple[float, ...] = (19.0, 21.0, 23.0, 25.0)
 SPLINE_MIN_N = 150
@@ -524,3 +532,198 @@ def ppc_summary(idata: az.InferenceData, design: dict[str, Any]) -> dict[str, An
     replicated = {"mean": round(float(per_draw[:, 0].mean()), 4), "sd": round(float(per_draw[:, 1].mean()), 4),
                  "p10": round(float(per_draw[:, 2].mean()), 4), "p90": round(float(per_draw[:, 3].mean()), 4)}
     return {"observed": _stats(obs), "replicated": replicated}
+
+
+# =============================================================================
+# Validation: leave-one-nation-out
+# =============================================================================
+
+
+def run_lono(
+    corpus: pd.DataFrame, home_code: str, *, draws: int = LONO_DRAWS, tune: int = LONO_TUNE,
+    chains: int = LONO_CHAINS, target_accept: float = TARGET_ACCEPT, seed: int | None = None,
+) -> dict[str, Any]:
+    """Refit the WITH-strength model excluding the home nation's own rows:
+    does the age curve move? Lighter sampling budget (2 chains x 500 draws
+    by default, same convention as `src.league_strength.run_oos_validation`)
+    -- this refit exists to validate the model, its own posterior isn't
+    reported beyond the comparison below. `n_excluded` is always reported,
+    even when the home nation has no rows to exclude (`n_excluded = 0`,
+    `diff_21_24`/`beta` absent) or the remainder is empty (shouldn't happen
+    in the live data, guarded against regardless).
+    """
+    seed = config.RANDOM_SEED if seed is None else seed
+    n_excluded = int((corpus["nation"] == home_code).sum())
+    sub = corpus[corpus["nation"] != home_code].reset_index(drop=True)
+    if sub.empty:
+        return {"n_excluded": n_excluded, "n": 0}
+
+    design = build_design(sub)
+    t0 = time.time()
+    idata = fit_model(design, use_strength=True, draws=draws, tune=tune, chains=chains,
+                      target_accept=target_accept, seed=seed)
+    runtime_s = round(time.time() - t0, 1)
+
+    return {
+        "n_excluded": n_excluded, "n": design["n"],
+        "diff_21_24": diff_between_ages(idata, design),
+        "beta": beta_summary(idata, design),
+        "diagnostics": diagnostics_summary(idata),
+        "runtime_s": runtime_s,
+    }
+
+
+# =============================================================================
+# Figure
+# =============================================================================
+
+
+def render_figure(corpus: pd.DataFrame, curve: list[dict[str, Any]], home_code: str, out_path: Path) -> None:
+    """The fitted curve with its 90% band, the home nation's own exports as
+    points against every other peer export, and a rug of every corpus
+    player's age at export along the bottom axis."""
+    ages = [r["age"] for r in curve]
+    med = [r["median"] for r in curve]
+    lo = [r["lo"] for r in curve]
+    hi = [r["hi"] for r in curve]
+
+    fig, ax = plt.subplots(figsize=(8.5, 5.6))
+    fig.patch.set_facecolor(CREAM)
+    ax.set_facecolor(CREAM)
+
+    ax.plot(ages, med, color=NAVY, lw=2.0, zorder=3, label="Fitted curve (90% band)")
+    ax.fill_between(ages, lo, hi, color=NAVY, alpha=0.15, zorder=1, lw=0)
+
+    other = corpus[corpus["nation"] != home_code]
+    home = corpus[corpus["nation"] == home_code]
+    ax.scatter(other["age_export"], other["y"], color=MUTED, s=16, alpha=0.55, zorder=2,
+              label="Other peer exports", edgecolors="none")
+    if not home.empty:
+        ax.scatter(home["age_export"], home["y"], color=OXBLOOD, s=42, zorder=4,
+                  edgecolors=CREAM, linewidths=0.6, label=f"{home_code} exports")
+
+    ymin, ymax = ax.get_ylim()
+    rug_y = ymin - 0.05 * (ymax - ymin)
+    ax.plot(corpus["age_export"], np.full(len(corpus), rug_y), marker="|", linestyle="none",
+           color=RULE, markersize=9, zorder=1, label="Age at export (all)")
+    ax.set_ylim(rug_y - 0.03 * (ymax - ymin), ymax)
+
+    ax.set_xlabel("Age at first top-9 season", fontsize=10, fontfamily="sans-serif", color=INK)
+    ax.set_ylabel("Mean npG+A/90, league-adjusted (first two top-9 seasons)", fontsize=10,
+                 fontfamily="sans-serif", color=INK)
+    ax.set_title("Age at export and production", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("left", "bottom"):
+        ax.spines[spine].set_color(RULE)
+    ax.tick_params(colors=INK)
+    ax.legend(frameon=False, fontsize=9, labelcolor=INK, loc="upper left")
+    plt.tight_layout()
+    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
+    plt.close(fig)
+    LOG.info("wrote %s", out_path)
+
+
+# =============================================================================
+# Assembly / main
+# =============================================================================
+
+
+def assemble_output(
+    corpus: pd.DataFrame, design: dict[str, Any], curve: list[dict[str, Any]], diff: dict[str, Any],
+    beta: dict[str, Any] | None, home_effect: dict[str, Any] | None, diagnostics: dict[str, Any],
+    ppc: dict[str, Any], no_strength: dict[str, Any], lono: dict[str, Any], home_code: str,
+    fit_meta: dict[str, Any],
+) -> dict[str, Any]:
+    """Pure assembly of the JSON shape described in the module docstring; no
+    fitting here, so this is testable on hand-built inputs."""
+    age = corpus["age_export"]
+    home_rows = corpus[corpus["nation"] == home_code]
+    return {
+        "n": int(len(corpus)),
+        "age_range": {"min": float(age.min()), "max": float(age.max())},
+        "n_seasons_counts": {str(k): int(v) for k, v in corpus["n_seasons"].value_counts().items()},
+        "origin_source_counts": {str(k): int(v) for k, v in corpus["origin_source"].value_counts().items()},
+        "use_spline": bool(design["use_spline"]), "knots": design["knots"],
+        "age_curve": curve,
+        "diff_21_24": diff,
+        "beta": beta,
+        "home_nation_effect": home_effect,
+        "home_median_age": float(home_rows["age_export"].median()) if len(home_rows) else None,
+        "home_code": home_code,
+        "diagnostics": diagnostics,
+        "ppc": ppc,
+        "no_strength": no_strength,
+        "lono": lono,
+        "fit": fit_meta,
+    }
+
+
+def main() -> None:
+    logging_setup()
+    config.ensure_dirs()
+
+    cfg = config.leagues()
+    peers = config.PEER_COUNTRIES
+    groups = config.features()["groups"]
+    features_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in groups}
+    tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
+    ls_path = config.PROCESSED_DIR / "league_strength.json"
+    ls = json.loads(ls_path.read_text(encoding="utf-8")) if ls_path.exists() else {"leagues": []}
+    m_l_map = {r["league"]: r["median"] for r in ls.get("leagues", [])}
+    uefa_multipliers = config.league_quality()["multipliers"]
+
+    corpus = build_corpus(features_by_group, tables, peers, cfg["headline"], m_l_map, uefa_multipliers)
+    LOG.info("corpus: %d rows, %d nations, age range %.0f-%.0f", len(corpus), corpus["nation"].nunique(),
+             corpus["age_export"].min(), corpus["age_export"].max())
+
+    design = build_design(corpus)
+    LOG.info("age design: %s (%s branch)", design["age_cols"], "spline" if design["use_spline"] else "quadratic")
+
+    t0 = time.time()
+    idata = fit_model(design, use_strength=True, seed=config.RANDOM_SEED)
+    runtime_s = round(time.time() - t0, 1)
+    LOG.info("main fit: %.1f s", runtime_s)
+
+    curve = age_curve(idata, design)
+    diff = diff_between_ages(idata, design)
+    beta = beta_summary(idata, design)
+    home_effect = home_nation_effect(idata, design, config.HOME)
+    diagnostics = diagnostics_summary(idata)
+    ppc = ppc_summary(idata, design)
+    LOG.info("curve: %s", curve)
+    LOG.info("diff 21 vs 24: %s; beta: %s; home effect: %s", diff, beta, home_effect)
+    LOG.info("diagnostics: %s", diagnostics)
+
+    t0 = time.time()
+    idata_ns = fit_model(design, use_strength=False, seed=config.RANDOM_SEED)
+    runtime_ns_s = round(time.time() - t0, 1)
+    diagnostics_ns = diagnostics_summary(idata_ns)
+    no_strength = {
+        "diagnostics": diagnostics_ns,
+        "home_nation_effect": home_nation_effect(idata_ns, design, config.HOME),
+        "runtime_s": runtime_ns_s,
+    }
+    LOG.info("no-strength fit: %.1f s, sigma_n %.4f vs %.4f with strength", runtime_ns_s,
+             diagnostics_ns["sigma_n_median"], diagnostics["sigma_n_median"])
+
+    lono = run_lono(corpus, config.HOME, seed=config.RANDOM_SEED)
+    if lono.get("diff_21_24"):
+        lono["shift_diff_21_24"] = round(lono["diff_21_24"]["median"] - diff["median"], 4)
+    LOG.info("lono: %s", lono)
+
+    fit_meta = {"n": design["n"], "runtime_s": runtime_s, "runtime_no_strength_s": runtime_ns_s,
+               "runtime_lono_s": lono.get("runtime_s", 0.0)}
+    result = assemble_output(corpus, design, curve, diff, beta, home_effect, diagnostics, ppc,
+                             no_strength, lono, config.HOME, fit_meta)
+
+    out_json = config.PROCESSED_DIR / "export_age_model.json"
+    out_json.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
+    LOG.info("wrote %s", out_json)
+
+    render_figure(corpus, curve, config.HOME, config.OUTPUTS_DIR / "export_age_model.svg")
+    LOG.info("done: %s", config.NATION)
+
+
+if __name__ == "__main__":
+    main()
