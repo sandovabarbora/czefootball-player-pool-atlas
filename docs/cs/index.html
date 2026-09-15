@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151412">
-  <link rel="stylesheet" href="../modern.css?v=202609151412">
+  <link rel="stylesheet" href="../style.css?v=202609151417">
+  <link rel="stylesheet" href="../modern.css?v=202609151417">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151412"></script>
+  <script defer src="../atlas.js?v=202609151417"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -853,13 +853,13 @@
 <section class="slide" id="q8c">
   <div class="container">
     <h2 class="slide-q">Z čeho se rozdíl skládá?</h2>
-    <p class="slide-a">Rozdíl 6,98 hráčů na milion, Norsko vs Česko: s minutami hráčů do 21 let souvisí +4,22, se silou ligy +5,12, s věkem exportu -0,00; -2,37 tyto tři kanály nepokrývají.</p>
+    <p class="slide-a">Rozdíl 6,98 hráčů na milion, Norsko vs Česko: s minutami hráčů do 21 let souvisí +4,22, se silou ligy +5,12, s věkem exportu 0,00; −2,37 tyto tři kanály nepokrývají.</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="gap_decomposition.svg" alt="Jeden vodorovný skládaný sloupec za každou srovnávanou zemi vs Česko: příspěvek minut hráčů do 21 let, síly ligy a věku exportu k rozdílu v hráčích na obyvatele, plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
       </figure>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca ((Oaxaca, 1973); (Blinder, 1973)), fitovaný na 8 peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, 1000 převzorkování; rozklad korelace, ne kauzální účetnictví.</p>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca (Oaxaca, 1973; Blinder, 1973), fitovaný na 8 peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, 1000 převzorkování; rozklad korelace, ne kauzální účetnictví.</p>
   </div>
 </section>
 
@@ -876,7 +876,7 @@
       
       <p class="cycle-row-kicker">Nejvyšší kvalitou upravená produkce</p>
       <div class="cycle-grid">
-        <article class="cycle-card" id="card-5d4f7d61" data-player-key="patrik schick|1996" data-fbref-id="5d4f7d61" data-rule="highest quality-adjusted npG+A per 90 among FW" data-pos="FW" data-club="Leverkusen"><div class="cycle-tile"><img class="tile-mug" src="../img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Patrik Schick</span><span class="tile-meta"><span class="tile-club">Leverkusen</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,49</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">↓ pokles &middot; -0,20 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
+        <article class="cycle-card" id="card-5d4f7d61" data-player-key="patrik schick|1996" data-fbref-id="5d4f7d61" data-rule="highest quality-adjusted npG+A per 90 among FW" data-pos="FW" data-club="Leverkusen"><div class="cycle-tile"><img class="tile-mug" src="../img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Patrik Schick</span><span class="tile-meta"><span class="tile-club">Leverkusen</span><span class="tile-pos">FW</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,49</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">↓ pokles &middot; −0,20 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
     <div class="cycle-card-visual" style="--hero: url('../img/players/5d4f7d61.jpg')">
       <img class="cycle-card-mug" src="../img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
       <span class="cycle-card-pos" aria-hidden="true">FW</span>
@@ -920,7 +920,7 @@
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">↓</span>
         <span class="cycle-traj-dir">pokles</span>
-        <span class="cycle-traj-delta">-0,20</span>
+        <span class="cycle-traj-delta">−0,20</span>
         <span class="cycle-traj-unit">G+A / 90 upr.</span>
         <span class="cycle-traj-detail">1684 min &rarr; 1988 min</span>
       </p>
@@ -1211,7 +1211,7 @@
     <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA Euro 2024</p>
     
     <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi nominovanými na MS 2026 (FW).</p>
-  </article><article class="cycle-card" id="card-6613c819" data-player-key="tomas soucek|1995" data-fbref-id="6613c819" data-rule="most top-9 minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="West Ham United"><div class="cycle-tile"><img class="tile-mug" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Souček</span><span class="tile-meta"><span class="tile-club">West Ham United</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,21</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">↓ pokles &middot; -0,11 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
+  </article><article class="cycle-card" id="card-6613c819" data-player-key="tomas soucek|1995" data-fbref-id="6613c819" data-rule="most top-9 minutes among 2026 FIFA World Cup squad MF" data-pos="MF" data-club="West Ham United"><div class="cycle-tile"><img class="tile-mug" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Souček</span><span class="tile-meta"><span class="tile-club">West Ham United</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,21</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">↓ pokles &middot; −0,11 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
     <div class="cycle-card-visual" style="--hero: url('../img/players/6613c819.jpg')">
       <img class="cycle-card-mug" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
       <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -1255,7 +1255,7 @@
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">↓</span>
         <span class="cycle-traj-dir">pokles</span>
-        <span class="cycle-traj-delta">-0,11</span>
+        <span class="cycle-traj-delta">−0,11</span>
         <span class="cycle-traj-unit">G+A / 90 upr.</span>
         <span class="cycle-traj-detail">2567 min &rarr; 2200 min</span>
       </p>
@@ -1552,7 +1552,7 @@
     <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup</p>
     
     <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi nominovanými na MS 2026 (MF).</p>
-  </article><article class="cycle-card" id="card-e03c2d97" data-player-key="tomas holes|1993" data-fbref-id="e03c2d97" data-rule="most domestic minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Slavia Prague"><div class="cycle-tile"><img class="tile-mug" src="../img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Holeš</span><span class="tile-meta"><span class="tile-club">Slavia Prague</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,06</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; +0,00 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
+  </article><article class="cycle-card" id="card-e03c2d97" data-player-key="tomas holes|1993" data-fbref-id="e03c2d97" data-rule="most domestic minutes among 2026 FIFA World Cup squad DF" data-pos="DF" data-club="Slavia Prague"><div class="cycle-tile"><img class="tile-mug" src="../img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Tomáš Holeš</span><span class="tile-meta"><span class="tile-club">Slavia Prague</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,06</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; 0,00 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
     <div class="cycle-card-visual" style="--hero: url('../img/players/e03c2d97.jpg')">
       <img class="cycle-card-mug" src="../img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
       <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -1596,7 +1596,7 @@
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">→</span>
         <span class="cycle-traj-dir">stabilní</span>
-        <span class="cycle-traj-delta">+0,00</span>
+        <span class="cycle-traj-delta">0,00</span>
         <span class="cycle-traj-unit">G+A / 90 upr.</span>
         <span class="cycle-traj-detail">2454 min &rarr; 2003 min</span>
       </p>
@@ -1799,7 +1799,7 @@
     <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup</p>
     
     <p class="muted small">Vybrán jako: nejmladší reprezentační nominace mezi MF.</p>
-  </article><article class="cycle-card" id="card-9c87af24" data-player-key="jan paluska|2005" data-fbref-id="9c87af24" data-rule="youngest national-team call-up among DF" data-pos="DF" data-club="Viktoria Plzeň"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">JP</span><span class="tile-name">Jan Paluska</span><span class="tile-meta"><span class="tile-club">Viktoria Plzeň</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,01</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; -0,01 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
+  </article><article class="cycle-card" id="card-9c87af24" data-player-key="jan paluska|2005" data-fbref-id="9c87af24" data-rule="youngest national-team call-up among DF" data-pos="DF" data-club="Viktoria Plzeň"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">JP</span><span class="tile-name">Jan Paluska</span><span class="tile-meta"><span class="tile-club">Viktoria Plzeň</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,01</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; −0,01 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
     <div class="cycle-card-visual cycle-card-visual-mono">
       <span class="cycle-card-monogram" aria-hidden="true">JP</span>
       <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -1843,7 +1843,7 @@
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">→</span>
         <span class="cycle-traj-dir">stabilní</span>
-        <span class="cycle-traj-delta">-0,01</span>
+        <span class="cycle-traj-delta">−0,01</span>
         <span class="cycle-traj-unit">G+A / 90 upr.</span>
         <span class="cycle-traj-detail">919 min &rarr; 1045 min</span>
       </p>
@@ -1892,7 +1892,7 @@
       
       <p class="cycle-row-kicker">Nejvíc minut v top-9 ligách</p>
       <div class="cycle-grid">
-        <article class="cycle-card" id="card-69b2bb80" data-player-key="roman kvet|1997" data-fbref-id="69b2bb80" data-rule="most top-9 league minutes among MF" data-pos="MF" data-club="Bohemians 1905"><div class="cycle-tile"><img class="tile-mug" src="../img/players/69b2bb80.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Roman Květ</span><span class="tile-meta"><span class="tile-club">Bohemians 1905</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,10</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; -0,04 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
+        <article class="cycle-card" id="card-69b2bb80" data-player-key="roman kvet|1997" data-fbref-id="69b2bb80" data-rule="most top-9 league minutes among MF" data-pos="MF" data-club="Bohemians 1905"><div class="cycle-tile"><img class="tile-mug" src="../img/players/69b2bb80.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="tile-name">Roman Květ</span><span class="tile-meta"><span class="tile-club">Bohemians 1905</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,10</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; −0,04 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
     <div class="cycle-card-visual" style="--hero: url('../img/players/69b2bb80.jpg')">
       <img class="cycle-card-mug" src="../img/players/69b2bb80.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
       <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -1936,7 +1936,7 @@
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">→</span>
         <span class="cycle-traj-dir">stabilní</span>
-        <span class="cycle-traj-delta">-0,04</span>
+        <span class="cycle-traj-delta">−0,04</span>
         <span class="cycle-traj-unit">G+A / 90 upr.</span>
         <span class="cycle-traj-detail">2733 min &rarr; 2545 min</span>
       </p>
@@ -2135,7 +2135,7 @@
 
     
     <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi FW do 23 let bez sezóny v top-9 lize.</p>
-  </article><article class="cycle-card" id="card-79bb9bfb" data-player-key="vojtech stransky|2003" data-fbref-id="79bb9bfb" data-rule="most domestic-league minutes among under-23 MF without a top-9 season" data-pos="MF" data-club="Slovan Liberec"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">VS</span><span class="tile-name">Vojtech Stransky</span><span class="tile-meta"><span class="tile-club">Slovan Liberec</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,07</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; -0,00 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
+  </article><article class="cycle-card" id="card-79bb9bfb" data-player-key="vojtech stransky|2003" data-fbref-id="79bb9bfb" data-rule="most domestic-league minutes among under-23 MF without a top-9 season" data-pos="MF" data-club="Slovan Liberec"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">VS</span><span class="tile-name">Vojtech Stransky</span><span class="tile-meta"><span class="tile-club">Slovan Liberec</span><span class="tile-pos">MF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,07</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; 0,00 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
     <div class="cycle-card-visual cycle-card-visual-mono">
       <span class="cycle-card-monogram" aria-hidden="true">VS</span>
       <span class="cycle-card-pos" aria-hidden="true">MF</span>
@@ -2179,7 +2179,7 @@
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">→</span>
         <span class="cycle-traj-dir">stabilní</span>
-        <span class="cycle-traj-delta">-0,00</span>
+        <span class="cycle-traj-delta">0,00</span>
         <span class="cycle-traj-unit">G+A / 90 upr.</span>
         <span class="cycle-traj-detail">2017 min &rarr; 2634 min</span>
       </p>
@@ -2223,7 +2223,7 @@
     <p class="cycle-card-meta">UEFA European Under-21 Championship 2025</p>
     
     <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi MF do 23 let bez sezóny v top-9 lize.</p>
-  </article><article class="cycle-card" id="card-32821d05" data-player-key="denis halinsky|2003" data-fbref-id="32821d05" data-rule="most domestic-league minutes among under-23 DF without a top-9 season" data-pos="DF" data-club="Pardubice"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">DH</span><span class="tile-name">Denis Halinský</span><span class="tile-meta"><span class="tile-club">Pardubice</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,01</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; -0,03 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
+  </article><article class="cycle-card" id="card-32821d05" data-player-key="denis halinsky|2003" data-fbref-id="32821d05" data-rule="most domestic-league minutes among under-23 DF without a top-9 season" data-pos="DF" data-club="Pardubice"><div class="cycle-tile"><span class="tile-mono" aria-hidden="true">DH</span><span class="tile-name">Denis Halinský</span><span class="tile-meta"><span class="tile-club">Pardubice</span><span class="tile-pos">DF</span></span><span class="tile-numbers"><span class="tile-stat"><span class="tile-stat-figure">0,01</span><span class="tile-stat-label" title="góly + asistence na 90 min, upravené o ligu">G+A / 90 upr.</span></span><span class="tile-traj">→ stabilní &middot; −0,03 G+A / 90 upr.</span></span><button type="button" class="tile-more" aria-expanded="false">Celá karta</button></div>
     <div class="cycle-card-visual cycle-card-visual-mono">
       <span class="cycle-card-monogram" aria-hidden="true">DH</span>
       <span class="cycle-card-pos" aria-hidden="true">DF</span>
@@ -2267,7 +2267,7 @@
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">→</span>
         <span class="cycle-traj-dir">stabilní</span>
-        <span class="cycle-traj-delta">-0,03</span>
+        <span class="cycle-traj-delta">−0,03</span>
         <span class="cycle-traj-unit">G+A / 90 upr.</span>
         <span class="cycle-traj-detail">1752 min &rarr; 2790 min</span>
       </p>
@@ -3242,14 +3242,14 @@
               <td><span class="pchip pchip-sm"><img class="pchip-img" src="../img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">PS</span><span class="pchip-name">Patrik Schick</span></span></td>
               <td class="muted">GER-Bundesliga</td>
               <td class="muted">1684 / 1988</td>
-              <td class="arrow-down">-0,198</td>
+              <td class="arrow-down">−0,198</td>
             </tr>
             
             <tr>
               <td><span class="pchip pchip-sm pchip-mono"><span class="pchip-initials" aria-hidden="true">DP</span><span class="pchip-name">David Puškáč</span></span></td>
               <td class="muted">CZE-First League</td>
               <td class="muted">1418 / 904</td>
-              <td class="arrow-down">-0,054</td>
+              <td class="arrow-down">−0,054</td>
             </tr>
             
           </tbody>
@@ -3300,35 +3300,35 @@
               <td><span class="pchip pchip-sm"><img class="pchip-img" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="pchip-initials" aria-hidden="true">TS</span><span class="pchip-name">Tomáš Souček</span></span></td>
               <td class="muted">ENG-Premier League</td>
               <td class="muted">2567 / 2200</td>
-              <td class="arrow-down">-0,109</td>
+              <td class="arrow-down">−0,109</td>
             </tr>
             
             <tr>
               <td><span class="pchip pchip-sm pchip-mono"><span class="pchip-initials" aria-hidden="true">MR</span><span class="pchip-name">Matěj Ryneš</span></span></td>
               <td class="muted">CZE-First League</td>
               <td class="muted">1423 / 1807</td>
-              <td class="arrow-down">-0,072</td>
+              <td class="arrow-down">−0,072</td>
             </tr>
             
             <tr>
               <td><span class="pchip pchip-sm pchip-mono"><span class="pchip-initials" aria-hidden="true">MP</span><span class="pchip-name">Matěj Polidar</span></span></td>
               <td class="muted">CZE-First League</td>
               <td class="muted">1628 / 961</td>
-              <td class="arrow-down">-0,071</td>
+              <td class="arrow-down">−0,071</td>
             </tr>
             
             <tr>
               <td><span class="pchip pchip-sm pchip-mono"><span class="pchip-initials" aria-hidden="true">MH</span><span class="pchip-name">Milan Havel</span></span></td>
               <td class="muted">CZE-First League</td>
               <td class="muted">1599 / 1104</td>
-              <td class="arrow-down">-0,070</td>
+              <td class="arrow-down">−0,070</td>
             </tr>
             
             <tr>
               <td><span class="pchip pchip-sm pchip-mono"><span class="pchip-initials" aria-hidden="true">FZ</span><span class="pchip-name">Filip Zorvan</span></span></td>
               <td class="muted">CZE-First League</td>
               <td class="muted">2746 / 1622</td>
-              <td class="arrow-down">-0,068</td>
+              <td class="arrow-down">−0,068</td>
             </tr>
             
           </tbody>
@@ -3365,7 +3365,7 @@
               <td><span class="pchip pchip-sm pchip-mono"><span class="pchip-initials" aria-hidden="true">MV</span><span class="pchip-name">Martin Vitík</span></span></td>
               <td class="muted">ITA-Serie A</td>
               <td class="muted">2170 / 1325</td>
-              <td class="arrow-down">-0,052</td>
+              <td class="arrow-down">−0,052</td>
             </tr>
             
           </tbody>
@@ -8961,7 +8961,7 @@
     </figure>
     <p>β = +10,11 na 10 procentních bodů podílu hráčů do 21 let (90% HDI -1,69–23,26), R² = 0,27; OLS na stejných 8 zemních průměrech vychází blízko, na +10,65 (-3,85–20,33), a poolovaný OLS sklon souhlasí ve znaménku na +7,76 (1,12–13,99). n = 8; interval je široký, protože panel je malý.</p>
     <p>R-hat ≤ 1,001, minimální bulk ESS 2126, 0 divergentních tranzicí.</p>
-    <p>Samostatná kontrola: stejná regrese, ale s náhodným interceptem za zemi, fitovaná na celém dvousezónním panelu místo na zemních průměrech. Změny uvnitř země napříč dvěma sezónami nenesou žádný signál — β_within = -0,16 na 10 procentních bodů (90% HDI -2,53–2,17), n = 16 zemí-sezón (R-hat ≤ 1,004, minimální bulk ESS 851, 0 divergentních tranzicí; posteriorní medián měřítka interceptu za zemi σ_country = 5,19). Při pouhých dvou sezónách na zemi intercept pohltí téměř celý mezistátní vzorec, který izoluje fit výše, takže tento odhad je tažený jen šumem mezi sezónami; uvedeno jako kontrola robustnosti, ne jako druhé hlavní číslo.</p>
+    <p>Samostatná kontrola: stejná regrese, ale s náhodným interceptem za zemi, fitovaná na celém dvousezónním panelu místo na zemních průměrech. Změny uvnitř země napříč dvěma sezónami nenesou žádný signál — β_within = −0,16 na 10 procentních bodů (90% HDI -2,53–2,17), n = 16 zemí-sezón (R-hat ≤ 1,004, minimální bulk ESS 851, 0 divergentních tranzicí; posteriorní medián měřítka interceptu za zemi σ_country = 5,19). Při pouhých dvou sezónách na zemi intercept pohltí téměř celý mezistátní vzorec, který izoluje fit výše, takže tento odhad je tažený jen šumem mezi sezónami; uvedeno jako kontrola robustnosti, ne jako druhé hlavní číslo.</p>
     <p>Pouze popisné: průměrný podíl minut dané země a její průměrný počet na obyvatele jsou ukázány spolu proto, že jde o čísla, která máme k dispozici, ne proto, že by jedno tvrzeně způsobovalo druhé.</p>
     <details class="fold">
       <summary>Řádky panelu (n = 16)</summary>
@@ -9043,7 +9043,7 @@
 
     
     <h3 id="gap-decomposition">Z čeho se rozdíl skládá</h3>
-    <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu — tabulka panelu níže uvádí, který zdroj platí pro který řádek) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu ((Oaxaca, 1973); (Blinder, 1973)), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
+    <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu — tabulka panelu níže uvádí, který zdroj platí pro který řádek) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu (Oaxaca, 1973; Blinder, 1973), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
     </figure>
@@ -9075,14 +9075,14 @@
         <tr>
           
           <td>Věk exportu</td>
-          <td class="num">-0,00</td>
+          <td class="num">0,00</td>
           <td class="num">-0 %</td>
-          <td class="num">-0,00 – +0,00</td>
+          <td class="num">0,00 – 0,00</td>
         </tr>
         
         <tr>
           <td>Reziduum</td>
-          <td class="num">-2,37</td>
+          <td class="num">−2,37</td>
           <td class="num">—</td>
           <td class="num">—</td>
         </tr>
@@ -9107,9 +9107,9 @@
         <tr>
           
           <td>Věk exportu</td>
-          <td class="num">-0,00</td>
+          <td class="num">0,00</td>
           <td class="num">-0 %</td>
-          <td class="num">-0,00 – +0,00</td>
+          <td class="num">0,00 – 0,00</td>
         </tr>
         
         <tr>
@@ -9687,10 +9687,10 @@
       <li>Zlom a prognóza (M4): zlom je datován do sezóny 2014/15 (62 % posterior) pro Česko, změna úrovně o ×0,57; čistá lokální úroveň překonává naivní základ v MAE (2,80 vs. 2,73), 87 % z 90% intervalů pokrylo pozorovanou hodnotu napříč 15 rolling-origin zpětnými testy.</li>
       
       
-      <li>Panel minut mládeže (M3): napříč 8 zeměmi (zemní průměry, n = 8) je sklon mezi zeměmi +10,11 na 10 procentních bodů podílu do 21 let (-1,69–23,26), R² = 0,27; prostý poolovaný OLS sklon souhlasí ve znaménku na +7,76 (1,12–13,99) — interval je široký, protože panel je malý. Kontrola uvnitř země (fit s interceptem za zemi na celém dvousezónním panelu) nenachází žádný signál: β_within = -0,16.</li>
+      <li>Panel minut mládeže (M3): napříč 8 zeměmi (zemní průměry, n = 8) je sklon mezi zeměmi +10,11 na 10 procentních bodů podílu do 21 let (-1,69–23,26), R² = 0,27; prostý poolovaný OLS sklon souhlasí ve znaménku na +7,76 (1,12–13,99) — interval je široký, protože panel je malý. Kontrola uvnitř země (fit s interceptem za zemi na celém dvousezónním panelu) nenachází žádný signál: β_within = −0,16.</li>
       
       
-      <li>Rozklad rozdílu (M5): ridge fit (α = 1,00) na n = 8 peer zemích; pro Norsko tvoří reziduum -2,37 z rozdílu 6,98 — rozklad korelace, ne kauzální účetnictví.</li>
+      <li>Rozklad rozdílu (M5): ridge fit (α = 1,00) na n = 8 peer zemích; pro Norsko tvoří reziduum −2,37 z rozdílu 6,98 — rozklad korelace, ne kauzální účetnictví.</li>
       
     </ul>
 
@@ -9908,7 +9908,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 14:11</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 14:17</p>
   </div>
 </footer>
 

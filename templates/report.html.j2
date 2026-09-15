@@ -11,8 +11,8 @@
 {%- macro g(x) -%}{%- if x is none -%}—{%- else -%}{{ '%g' | format(x) }}{%- endif -%}{%- endmacro -%}
 {%- macro pct(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.0f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
 {%- macro pct1(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.1f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
-{%- macro signed(x) -%}{%- if x is none -%}—{%- else -%}{{ '%+.3f' | format(x) }}{%- endif -%}{%- endmacro -%}
-{%- macro signed2(x) -%}{%- if x is none -%}—{%- else -%}{{ '%+.2f' | format(x) }}{%- endif -%}{%- endmacro -%}
+{%- macro signed(x) -%}{%- if x is none -%}—{%- elif (x | round(3)) == 0 -%}0.000{%- else -%}{{ ('%+.3f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
+{%- macro signed2(x) -%}{%- if x is none -%}—{%- elif (x | round(2)) == 0 -%}0.00{%- else -%}{{ ('%+.2f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro trend_arrow(dir) -%}{%- if dir == 'improving' -%}↑{%- elif dir == 'declining' -%}↓{%- else -%}→{%- endif -%}{%- endmacro -%}
 {%- macro card_article(p) -%}
   <article class="cycle-card" id="card-{{ p.fbref_id }}" data-player-key="{{ p.player_key }}" data-fbref-id="{{ p.fbref_id }}" data-rule="{{ p.reason }}" data-pos="{{ p.pos }}" data-club="{{ p.club }}">
@@ -535,7 +535,7 @@
         <img src="{{ assets }}gap_decomposition.svg" alt="{{ t('slide.8c.alt') }}">
       </figure>
     </div>
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, cite_oaxaca=cite.oaxaca_1973, cite_blinder=cite.blinder_1973) }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
   </div>
 </section>
 {% endif %}
@@ -1339,7 +1339,7 @@
     {% if gap_decomposition.contrasts %}
     <h3 id="gap-decomposition">{{ t('ch4.gap.h3') }}</h3>
     <p>{{ t('ch4.gap.design', n=gap_decomposition.n, alpha=f2(gap_decomposition.ridge_alpha),
-             cite_oaxaca=cite.oaxaca_1973, cite_blinder=cite.blinder_1973) }}</p>
+             cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
     <figure class="figure-bleed">
       <img src="{{ assets }}gap_decomposition.svg" alt="{{ t('ch4.gap.fig_alt') }}">
     </figure>
