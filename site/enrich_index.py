@@ -246,6 +246,48 @@ def card_repl(m):
 
 sub(CARD_RE.pattern, card_repl, len(CARDS))
 
+# ---------------------------------------------------------------- gk cards: visual header (task 24)
+# gk-card (slide 8b / roster) is deliberately outside the cycle-card tile
+# system (see templates/report.html.j2's gk_card_article comment) but reuses
+# the same cycle-card-head/-name/-mug/-monogram/-pos/-team sub-component
+# classes, so it gets the same portrait/monogram chip the outfield cards'
+# own visual header uses above -- just inserted directly (no tile-toggle
+# wrapper, since a GK card is never collapsed behind a tile). The *outer*
+# container is its own "gk-card-visual" class rather than "cycle-card-visual"
+# (docs/modern.css mirrors the latter's rules onto it) -- test_site_build.py
+# counts 'class="cycle-card-visual"' 1:1 against the cycle-tile/"Full card"
+# toggle count, and a gk-card visual header has neither of those.
+GK_CARD_RE = re.compile(
+    r'<article class="gk-card" id="gk-card-[^"]*" data-player-key="(?P<key>[^"]+)" '
+    r'data-pos="(?P<pos>[A-Z]+)" data-club="(?P<club>[^"]*)">(?P<ws1>\s*)<header class="cycle-card-head">'
+    r'(?P<ws2>\s*)<h4 class="cycle-card-name">(?P<name>[^<]+)</h4>')
+GK_CARDS = [m.groupdict() for m in GK_CARD_RE.finditer(html)]
+if GK_CARDS and not (1 <= len(GK_CARDS) <= 2):
+    fails.append(("gk cards found", len(GK_CARDS), "1-2"))
+
+
+def gk_card_repl(m):
+    d = m.groupdict()
+    p = photo(d["key"])
+    ws1, ws2 = d["ws1"], d["ws2"]
+    if p:
+        media = f'{ws2}<img class="cycle-card-mug" src="{P}{p["image"]}" alt="" {IMG_ATTRS}>'
+        cls = 'gk-card-visual'
+        style = f' style="--hero: url(\'{P}{p["image"]}\')"'
+    else:
+        media = f'{ws2}<span class="cycle-card-monogram" aria-hidden="true">{initials(d["name"])}</span>'
+        cls = 'gk-card-visual gk-card-visual-mono'
+        style = ''
+    visual = (f'{ws1}<div class="{cls}"{style}>{media}'
+              f'{ws2}<span class="cycle-card-pos" aria-hidden="true">{d["pos"]}</span>'
+              f'{ws2}<span class="cycle-card-team">{d["club"]}</span>'
+              f'{ws1}</div>')
+    head = m.group(0).split(ws1 + '<header class="cycle-card-head">')[0]
+    return f'{head}{visual}{ws1}<header class="cycle-card-head">{ws2}<h4 class="cycle-card-name">{d["name"]}</h4>'
+
+
+sub(GK_CARD_RE.pattern, gk_card_repl, len(GK_CARDS))
+
 # ---------------------------------------------------------------- cycle cards: compact tile (task 10)
 # One roster tile per card, inserted as the article's first child; the rest of
 # the card (visual header, stats, cluster, tactical read, trajectory, analogs)

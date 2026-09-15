@@ -243,19 +243,22 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .cycle-card:hover { transform: translateY(-2px); }
 .cycle-card > :not(.cycle-card-visual):not(.cycle-tile) { margin-left: var(--space-4); margin-right: var(--space-4); }
 .cycle-card > .cycle-section:last-child { margin-bottom: var(--space-4); }
-.cycle-card-visual {
+/* .gk-card-visual (task 24): same header treatment as the outfield cards'
+   .cycle-card-visual, kept as its own class since it sits inside .gk-card,
+   not .cycle-card -- see site/enrich_index.py's gk_card_repl comment. */
+.cycle-card-visual, .gk-card-visual {
   position: relative; height: 190px; isolation: isolate;
   background: radial-gradient(120% 90% at 100% 100%, oklch(0.46 0.135 28 / 0.55), transparent 55%),
               linear-gradient(160deg, var(--navy-900), var(--navy-700));
 }
-.cycle-card-visual::before {
+.cycle-card-visual::before, .gk-card-visual::before {
   content: ""; position: absolute; inset: 0;
   background-image: var(--hero); background-size: cover; background-position: 50% 30%;
   filter: grayscale(1) contrast(1.15) brightness(0.85) blur(6px);
   transform: scale(1.08);
   mix-blend-mode: luminosity; opacity: 0.28;
 }
-.cycle-card-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, oklch(0.19 0.055 252 / 0.85)); }
+.cycle-card-visual::after, .gk-card-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, oklch(0.19 0.055 252 / 0.85)); }
 .cycle-card-mug { position: absolute; right: 12px; bottom: 0; height: 178px; z-index: 2; filter: drop-shadow(0 12px 18px oklch(0.19 0.055 252 / 0.6)); }
 .cycle-card-jersey {
   position: absolute; left: 18px; bottom: -14px; z-index: 1;
@@ -496,7 +499,7 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .cast-stack > :nth-child(n+7) { display: none; }  /* twelve portraits do not fit a phone row */
   .cast-caption { font-size: 0; }
   .cast-caption::after { content: attr(data-short); font-size: 0.85rem; }
-  .cycle-card-visual { height: 150px; }
+  .cycle-card-visual, .gk-card-visual { height: 150px; }
   .cycle-card-mug { height: 140px; }
   .cycle-card-jersey { font-size: 5rem; }
   .observations { grid-template-columns: 1fr; }
@@ -562,7 +565,7 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   font-family: var(--font-mono); font-size: 1.6rem; font-weight: 500; letter-spacing: 0.08em;
   color: var(--cream-on-navy); background: oklch(0.32 0.08 250 / 0.7); border: 1px solid var(--navy-divider);
 }
-.cycle-card-visual-mono::before { display: none; }
+.cycle-card-visual-mono::before, .gk-card-visual-mono::before { display: none; }
 /* cast strip: monogram discs for players without a portrait */
 .cast-stack .cast-mono {
   width: 40px; height: 40px; border-radius: 50%; margin-left: -12px; flex: none;

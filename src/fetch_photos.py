@@ -245,12 +245,37 @@ def _resolve_only_with_metrics(explicit: bool | None, pool_size: int) -> bool:
     return explicit if explicit is not None else pool_size > ONLY_WITH_METRICS_POOL_THRESHOLD
 
 
+def _gk_relevant_player_keys() -> set[str]:
+    """`player_key`s of the home nation's goalkeepers that actually appear on
+    the site: the two GK cards (slide 8b) plus everyone in the GK production
+    table (`goalkeepers.json`'s `cards` and `production.home` -- both keyed
+    off the same >= min_minutes `home_top9` roster `src.goalkeepers` builds
+    off of, so this is the full roster, not just the two card picks). Empty
+    when `goalkeepers.json` hasn't been built yet (`src.goalkeepers` not run)
+    rather than failing the whole photo fetch.
+    """
+    path = config.PROCESSED_DIR / "goalkeepers.json"
+    if not path.exists():
+        LOG.warning("photos: %s missing, skipping goalkeeper portraits", path)
+        return set()
+    gk = json.loads(path.read_text(encoding="utf-8"))
+    keys = {c["player_key"] for c in gk.get("cards", [])}
+    keys |= {p["player_key"] for p in gk.get("production", {}).get("home", [])}
+    return keys
+
+
 def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO)
     args = _parse_args(argv)
-    pool = read_parquet(config.PROCESSED_DIR / "pool.parquet")
-    # Players with no pos_group (goalkeepers/unknown) are not shown on the site.
-    pool = pool[pool.pos_group.notna()].reset_index(drop=True)
+    pool_all = read_parquet(config.PROCESSED_DIR / "pool.parquet")
+    # Outfield players (pos_group set) are shown on the site's cards/index;
+    # goalkeepers (pos_group is null -- see src.pool.pos_group) are shown
+    # too, but only the ones that actually appear on a GK card or in the GK
+    # production table (site/goalkeepers.json's `cards` + `production.home`).
+    outfield = pool_all[pool_all.pos_group.notna()]
+    gk_keys = _gk_relevant_player_keys()
+    gk = pool_all[pool_all.pos_group.isna() & pool_all.player_key.isin(gk_keys)]
+    pool = pd.concat([outfield, gk], ignore_index=True)
 
     only_with_metrics = _resolve_only_with_metrics(args.only_with_metrics, len(pool))
 
