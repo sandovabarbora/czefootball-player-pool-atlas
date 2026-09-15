@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151439">
-  <link rel="stylesheet" href="modern.css?v=202609151439">
+  <link rel="stylesheet" href="style.css?v=202609151448">
+  <link rel="stylesheet" href="modern.css?v=202609151448">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151439"></script>
+  <script defer src="atlas.js?v=202609151448"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -8786,6 +8786,7 @@
 
     <h3 id="reproducibility">Reproducibility</h3>
     <p>The full pipeline is public: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas">github.com/barborasandova/czefootball-player-pool-atlas</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed 42 for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.</p>
+    <p>The processed tables also load into BigQuery unchanged: <code><a href="https://github.com/barborasandova/czefootball-player-pool-atlas/tree/main/infra/bigquery">infra/bigquery/</a></code> has generated schemas, a <code>bq load</code> script and a key/unit contract for the model-output JSONs the tables don't cover. Run <code>infra/bigquery/load.sh -n &lt;dataset&gt; &lt;nation&gt;</code> to see the load commands without running them.</p>
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
@@ -9219,7 +9220,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 14:39</p>
+    <p class="rendered-at">Rendered: 2026-09-15 14:48</p>
   </div>
 </footer>
 

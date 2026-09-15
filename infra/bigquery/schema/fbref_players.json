@@ -1,0 +1,82 @@
+[
+  {
+    "name": "league",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "season",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "team",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "player",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "player_key",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nation",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "pos",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "born",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "age",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "mp",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "gls",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ast",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "pk",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "crdy",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "crdr",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  }
+]

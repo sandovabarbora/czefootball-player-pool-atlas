@@ -1,0 +1,62 @@
+[
+  {
+    "name": "player_key",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "player",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "league",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nation",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "home_eligible",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nt_flag",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min_prev",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min_curr",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg_ast_quality_prev",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg_ast_quality_curr",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "delta",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "direction",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  }
+]

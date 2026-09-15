@@ -1,0 +1,242 @@
+[
+  {
+    "name": "league",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "season",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "team",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "player",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "player_key",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nation",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "pos",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "born",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "age",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "mp",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "gls",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ast",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "pk",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "crdy",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "crdr",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "team_matches",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "pos_group",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cards",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg_p90",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ast_p90",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cards_p90",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min_share",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg_p90_shrunk",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ast_p90_shrunk",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cards_p90_shrunk",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min_share_shrunk",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "age_shrunk",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "league_multiplier",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg_p90_quality",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ast_p90_quality",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min_share_quality",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "age_quality",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cards_p90_quality",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg_p90_shrunk_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ast_p90_shrunk_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min_share_shrunk_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "age_shrunk_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cards_p90_shrunk_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "npg_p90_quality_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ast_p90_quality_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min_share_quality_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "age_quality_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cards_p90_quality_z",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "home_eligible",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nt_events",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nt_flag",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  }
+]

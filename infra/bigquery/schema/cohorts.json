@@ -1,0 +1,27 @@
+[
+  {
+    "name": "country",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "pos_group",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cohort",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "n",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "median_npg_ast_p90",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  }
+]

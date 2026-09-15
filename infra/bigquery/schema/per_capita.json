@@ -1,0 +1,32 @@
+[
+  {
+    "name": "country",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "name",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "n_players",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "population_m",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "per_million",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "rank",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  }
+]

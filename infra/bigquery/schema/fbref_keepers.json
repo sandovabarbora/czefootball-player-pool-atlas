@@ -1,0 +1,77 @@
+[
+  {
+    "name": "league",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "season",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "team",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "player",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "player_key",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nation",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "born",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "age",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "mp",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "min",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ga",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "saves",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "sota",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "save_pct",
+    "type": "FLOAT",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cs",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  }
+]

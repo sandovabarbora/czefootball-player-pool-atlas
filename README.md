@@ -184,6 +184,10 @@ eligibility filters (`src/features.py`, `src/fetch_squads.py`) at a
 different country — the table schema and every downstream exhibit stay the
 same.
 
+[`infra/bigquery/`](infra/bigquery/) packages this as a runnable contract:
+generated BigQuery JSON schemas, a `bq load` script, and a key/unit
+contract for the model-output JSONs the tables above don't cover.
+
 ## Licence
 
 Code: MIT, see [LICENSE](LICENSE). Player portraits: Wikimedia Commons,
