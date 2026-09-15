@@ -547,7 +547,7 @@ strings:
   ch4.export.th.age: "Věk"
   ch4.export.th.y: "Očekávané G+A/90 (medián)"
   ch4.export.th.hdi: "90% HDI"
-  ch4.export.beta: "β, efekt jednotkového nárůstu síly výchozí ligy (m_L): {beta} ({lo}–{hi})."
+  ch4.export.beta: "β na jednotku síly ligy původu (m_L): {beta} ({lo}–{hi})."
   ch4.export.home: "Vlastní efekt země pro {cs_adj_n} exporty: {home_effect} ({lo}–{hi}); {cs_adj_n} exporty odcházejí v mediánovém věku {age_home}."
   ch4.export.no_strength: "Stejný model, fitovaný znovu bez síly výchozí ligy: měřítko efektu země (σ_n) je {sigma_with} s ligovým členem v modelu a {sigma_without} bez něj — to, co se mezi nimi mění, je to, co ligový člen pohlcuje."
   ch4.export.lono: "Leave-one-nation-out: po vyloučení {n_excluded} vlastních exportů {cs_gen} (n = {n} zbývá) a přefitování je rozdíl 21 vs. 24 {diff} ({lo}–{hi}), oproti {full_diff} v plném fitu."

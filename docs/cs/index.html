@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151718">
-  <link rel="stylesheet" href="../modern.css?v=202609151718">
+  <link rel="stylesheet" href="../style.css?v=202609151732">
+  <link rel="stylesheet" href="../modern.css?v=202609151732">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151718"></script>
+  <script defer src="../atlas.js?v=202609151732"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -471,10 +471,10 @@
   <div class="container">
     <h2 class="slide-q">Stojí pozdější odchod něco?</h2>
     <p class="slide-aq">V číslech: průměrná ligově upravená produkce (góly + asistence na 90 minut) za první dvě sezóny v top-9 jako funkce věku při první z nich, dáno silou výchozí ligy a postem, 115 exportů peer národností.</p>
-    <p class="slide-a">Hráči, kteří se do top-9 dostanou v 21 letech, produkují 0,14 (0,13–0,16) ligově upravených G+A na 90 minut za první dvě sezóny; ti, kdo dorazí ve 24, 0,14 (0,12–0,16) — rozdíl <strong>0,00</strong> (−0,01–0,01), interval zahrnuje nulu: při n = 115 žádný zjistitelný rozdíl. České exporty odcházejí v mediánovém věku 23.</p>
+    <p class="slide-a">Hráči, kteří se do top-9 dostanou v 21 letech, produkují 0,14 (0,13–0,16) ligově upravených G+A na 90 minut za první dvě sezóny; ti, kdo dorazí ve 24, 0,14 (0,12–0,16) — rozdíl <strong>+0,001</strong> (−0,011–0,013), interval zahrnuje nulu: při n = 115 žádný zjistitelný rozdíl. České exporty odcházejí v mediánovém věku 23.</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
-        <img src="../export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, české exporty jako body proti všem ostatním peer exportům a rug (čárky) věku každého exportu podél osy.">
+        <img src="export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, české exporty jako body proti všem ostatním peer exportům a rug (čárky) věku každého exportu podél osy.">
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Věková křivka (kvadratická funkce) ligově upravené produkce, dáno silou výchozí ligy (<a href="#league-strength">§ Metodologie</a>), postem a efektem země, 115 exportů peer národností (Gelman et al., 2013; Hoffman and Gelman, 2014); lepší hráči obvykle odcházejí dříve, takže křivka mísí selekci s vývojem a tento report je neodděluje.</p>
@@ -9449,7 +9449,7 @@
     <h3 id="export-age-model">Věk exportu</h3>
     <p>Pro každého hráče peer národnosti (včetně domácí země), jehož první sezóna v top-9 lize spadá do staženého okna a není cenzurovaná (stejné pravidlo cenzurování jako u „Kam čeští hráči odcházejí?“, zde znovu použité) — 115 hráčů, věk 17–31 — je věk při té sezóně modelován proti ligově upravené produkci za první jednu nebo dvě sezóny hráče v top-9. f(věk) je přirozený kubický spline s uzly na 19, 21, 23 a 25 (prostá kvadratická funkce pod n = 150; zde byla použita větev kvadratická funkce), spolu se silou výchozí ligy (model transferového grafu, <a href="#league-strength">§ Síla ligy</a>), postem a partial-pooled efektem země (Gelman et al., 2013), vzorkováno NUTS (Hoffman and Gelman, 2014), 4 řetězce × 1000 vzorků; každý sloupec designu i výstup byly před fitováním standardizovány — stejná lekce z panelu minut mládeže o priorech na surové škále u různě škálovaných proměnných.</p>
     <figure class="figure-bleed">
-      <img src="../export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, exporty domácí země jako oxblood body proti všem ostatním peer exportům v šedé a rug (čárky) věku každého exportu podél osy.">
+      <img src="export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, exporty domácí země jako oxblood body proti všem ostatním peer exportům v šedé a rug (čárky) věku každého exportu podél osy.">
     </figure>
     <table class="kv-table">
       <thead><tr><th>Věk</th><th>Očekávané G+A/90 (medián)</th><th>90% HDI</th></tr></thead>
@@ -9467,9 +9467,9 @@
         
       </tbody>
     </table>
-    <p>β, efekt jednotkového nárůstu síly výchozí ligy (m_L): −0,03 (−0,11–0,05).</p>
+    <p>β na jednotku síly ligy původu (m_L): −0,03 (−0,11–0,05).</p>
     <p>Vlastní efekt země pro české exporty: 0,00 (−0,02–0,02); české exporty odcházejí v mediánovém věku 23.</p>
-    <p>Stejný model, fitovaný znovu bez síly výchozí ligy: měřítko efektu země (σ_n) je 0,14 s ligovým členem v modelu a 0,14 bez něj — to, co se mezi nimi mění, je to, co ligový člen pohlcuje.</p>
+    <p>Stejný model, fitovaný znovu bez síly výchozí ligy: měřítko efektu země (σ_n) je 0,135 s ligovým členem v modelu a 0,139 bez něj — to, co se mezi nimi mění, je to, co ligový člen pohlcuje.</p>
     <p>Leave-one-nation-out: po vyloučení 8 vlastních exportů Česka (n = 107 zbývá) a přefitování je rozdíl 21 vs. 24 0,00 (−0,01–0,01), oproti 0,00 v plném fitu.</p>
     <details class="fold">
       <summary>Posteriorní prediktivní kontrola</summary>
@@ -10240,7 +10240,7 @@
       <li>Rozklad rozdílu (M5): ridge fit (α = 1,00) na n = 8 peer zemích; pro Norsko tvoří reziduum −2,37 z rozdílu 6,98 — rozklad korelace, ne kauzální účetnictví.</li>
       
       
-      <li>Věk exportu (M1 proper): R-hat ≤ 1,002, 0 divergentních tranzicí napříč 115 hráči; β na síle výchozí ligy je −0,03; vyloučení 8 exportů Česka a přefitování posune rozdíl 21 vs. 24 o 0,00.</li>
+      <li>Věk exportu (M1 proper): R-hat ≤ 1,002, 0 divergentních tranzicí napříč 115 hráči; β na síle výchozí ligy je −0,03; vyloučení 8 exportů Česka a přefitování posune rozdíl 21 vs. 24 o +0,0007.</li>
       
     </ul>
 
@@ -10537,7 +10537,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 17:18</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 17:32</p>
   </div>
 </footer>
 

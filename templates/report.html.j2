@@ -386,7 +386,7 @@
     <p class="slide-aq">{{ t('slide.4b.aq', topn=topn, n=eam.n) }}</p>
     <p class="slide-a">{{ t('slide.4b.a', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
                           y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
-                          diff=signed2(eam.diff_21_24.median), dlo=f2(eam.diff_21_24.lo), dhi=f2(eam.diff_21_24.hi),
+                          diff=signed(eam.diff_21_24.median), dlo=f3(eam.diff_21_24.lo), dhi=f3(eam.diff_21_24.hi),
                           age_home=g(eam.home_median_age),
                           zero_note=(t('slide.4b.zero_note', n=eam.n) if (eam.diff_21_24.lo <= 0 and eam.diff_21_24.hi >= 0) else '')) }}</p>
     <div class="slide-proof">
@@ -1486,7 +1486,7 @@
              lo=(f2(eam.home_nation_effect.lo) if eam.home_nation_effect else '—'),
              hi=(f2(eam.home_nation_effect.hi) if eam.home_nation_effect else '—'),
              age_home=g(eam.home_median_age)) }}</p>
-    <p>{{ t('ch4.export.no_strength', sigma_with=f2(eam.diagnostics.sigma_n_median), sigma_without=f2(eam.no_strength.diagnostics.sigma_n_median)) }}</p>
+    <p>{{ t('ch4.export.no_strength', sigma_with=f3(eam.diagnostics.sigma_n_median), sigma_without=f3(eam.no_strength.diagnostics.sigma_n_median)) }}</p>
     <p>{{ t('ch4.export.lono', n_excluded=eam.lono.n_excluded, n=eam.lono.n,
              diff=(signed2(eam.lono.diff_21_24.median) if eam.lono.diff_21_24 else '—'),
              lo=(f2(eam.lono.diff_21_24.lo) if eam.lono.diff_21_24 else '—'),
@@ -1652,7 +1652,7 @@
                 div=export_age_model.diagnostics.n_divergences,
                 beta=(signed2(export_age_model.beta.median) if export_age_model.beta else '—'),
                 n_excluded=export_age_model.lono.n_excluded,
-                shift=(signed2(export_age_model.lono.shift_diff_21_24) if export_age_model.lono.shift_diff_21_24 is defined else '—')) }}</li>
+                shift=(('%+.4f' | format(export_age_model.lono.shift_diff_21_24)) | replace('-', '−') if export_age_model.lono.shift_diff_21_24 is defined else '—')) }}</li>
       {% endif %}
     </ul>
 

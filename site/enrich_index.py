@@ -150,10 +150,11 @@ sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
 if LANG == "cs":
     # youth_panel.svg and gap_decomposition.svg (Task 20) each appear twice
     # (slide 3's fold / slide 8c, and again in the chapter IV methodology
-    # section), hence 6 + 2 + 2 = 10 expected matches.
+    # section), hence 6 + 2 + 2 = 10 expected matches; export_age_model.svg
+    # (Task 23) also twice → 12.
     sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg|gk_export_age\.svg|'
-        r'youth_panel\.svg|gap_decomposition\.svg)"',
-        r'<img src="\1"', 10)
+        r'youth_panel\.svg|gap_decomposition\.svg|export_age_model\.svg)"',
+        r'<img src="\1"', 12)
 
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])

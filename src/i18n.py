@@ -611,7 +611,7 @@ EN: dict[str, str] = {
     "ch4.export.th.age": "Age",
     "ch4.export.th.y": "Expected G+A/90 (median)",
     "ch4.export.th.hdi": "90 % HDI",
-    "ch4.export.beta": "β, the effect of a one-unit increase in origin-league strength (m_L): {beta} ({lo}–{hi}).",
+    "ch4.export.beta": "β, per one-unit increase in origin-league strength (m_L): {beta} ({lo}–{hi}).",
     "ch4.export.home": "{Adj} exports' own country effect: {home_effect} ({lo}–{hi}); {adj} exports arrive at a median age of {age_home}.",
     "ch4.export.no_strength": "The same model, fit again without origin-league strength: the country-effect scale (σ_n) is {sigma_with} with the league term in the model and {sigma_without} without it — what moves between the two is what the league term is absorbing.",
     "ch4.export.lono": "Leave-one-nation-out: excluding {nation}'s own {n_excluded} exports (n = {n} remaining) and refitting, the 21-vs-24 difference is {diff} ({lo}–{hi}), against {full_diff} in the full fit.",
