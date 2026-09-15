@@ -148,8 +148,12 @@ sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
 
 # ---------------------------------------------------------------- cs/ page: the translated SVGs sit next to it in docs/cs/
 if LANG == "cs":
-    sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg|gk_export_age\.svg)"',
-        r'<img src="\1"', 6)
+    # youth_panel.svg and gap_decomposition.svg (Task 20) each appear twice
+    # (slide 3's fold / slide 8c, and again in the chapter IV methodology
+    # section), hence 6 + 2 + 2 = 10 expected matches.
+    sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg|gk_export_age\.svg|'
+        r'youth_panel\.svg|gap_decomposition\.svg)"',
+        r'<img src="\1"', 10)
 
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])

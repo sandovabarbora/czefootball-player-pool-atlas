@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151328">
-  <link rel="stylesheet" href="../modern.css?v=202609151328">
+  <link rel="stylesheet" href="../style.css?v=202609151338">
+  <link rel="stylesheet" href="../modern.css?v=202609151338">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151328"></script>
+  <script defer src="../atlas.js?v=202609151338"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -411,7 +411,7 @@
       <details class="fold">
         <summary>Napříč zeměmi</summary>
         <figure class="figure-bleed">
-          <img src="../youth_panel.svg" alt="Bodový graf podílu minut hráčů do 21 let v domácí lize proti počtu hráčů na milion v top-9 ligách, 8 zemí, dvě sezóny za každou spojené čárou, Česko zvýrazněno, s fitovanou přímkou a jejím 90% pásem.">
+          <img src="youth_panel.svg" alt="Bodový graf podílu minut hráčů do 21 let v domácí lize proti počtu hráčů na milion v top-9 ligách, 8 zemí, dvě sezóny za každou spojené čárou, Česko zvýrazněno, s fitovanou přímkou a jejím 90% pásem.">
         </figure>
       </details>
       
@@ -853,10 +853,10 @@
 <section class="slide" id="q8c">
   <div class="container">
     <h2 class="slide-q">Z čeho se rozdíl skládá?</h2>
-    <p class="slide-a">Z rozdílu 6,98 hráčů na milion mezi Norsko a Česko souvisí s minutami hráčů do 21 let +4,22, se silou ligy +5,12, s věkem exportu -0,00; -2,37 tyto tři kanály nepokrývají.</p>
+    <p class="slide-a">Rozdíl 6,98 hráčů na milion, Norsko vs Česko: s minutami hráčů do 21 let souvisí +4,22, se silou ligy +5,12, s věkem exportu -0,00; -2,37 tyto tři kanály nepokrývají.</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
-        <img src="../gap_decomposition.svg" alt="Jeden vodorovný skládaný sloupec za každou srovnávanou zemi: příspěvek minut hráčů do 21 let, síly ligy a věku exportu k jejímu rozdílu na obyvatele proti Česko, plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
+        <img src="gap_decomposition.svg" alt="Jeden vodorovný skládaný sloupec za každou srovnávanou zemi vs Česko: příspěvek minut hráčů do 21 let, síly ligy a věku exportu k rozdílu v hráčích na obyvatele, plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca ((Oaxaca, 1973); (Blinder, 1973)), fitovaný na 8 peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, 1000 převzorkování; rozklad korelace, ne kauzální účetnictví.</p>
@@ -8957,7 +8957,7 @@
     <h3 id="youth-panel">Mezinárodní panel minut mládeže</h3>
     <p>Za každou z 8 peer zemí a dvě sezóny (2024/25 → 2025/26) podíl minut domácí ligy odehraných hráči do 21 let (x) proti hráčům na milion v top-9 ligách (y); n = 16. Bayesovská regrese, y ~ Normal(α + β·x + u_country, σ), s náhodným interceptem za zemi pro částečné poolování (4 řetězce × 1000 vzorků (Abril-Pla et al., 2023)) — při pouhých dvou sezónách na zemi je intercept slabě identifikovaný, takže většina mezistátního vzorce připadne jemu místo β, a interval β proto zůstává široký (Gelman et al., 2013). Srovnáno s prostým poolovaným sklonem metodou nejmenších čtverců (numpy polyfit, bez struktury podle země), s percentilovým bootstrapovým 90% intervalem (1000 převzorkování) — statsmodels zde není závislostí.</p>
     <figure class="figure-bleed">
-      <img src="../youth_panel.svg" alt="Bodový graf panelu s fitovanou přímkou na úrovni populace a jejím 90% pásem.">
+      <img src="youth_panel.svg" alt="Bodový graf panelu s fitovanou přímkou na úrovni populace a jejím 90% pásem.">
     </figure>
     <p>β = -0,16 na 10 procentních bodů podílu hráčů do 21 let (90% HDI -2,53–2,17), R² = 0,98 (fit z posteriorního mediánu, fixní efekt + intercept za zemi); poolovaný OLS sklon je +7,76 (1,12–13,99). n = 16; interval je široký, protože panel je malý.</p>
     <p>R-hat ≤ 1,004, minimální bulk ESS 851, 0 divergentních tranzicí; posteriorní medián měřítka interceptu za zemi σ_country = 5,19.</p>
@@ -9044,7 +9044,7 @@
     <h3 id="gap-decomposition">Z čeho se rozdíl skládá</h3>
     <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu — tabulka panelu níže uvádí, který zdroj platí pro který řádek) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu ((Oaxaca, 1973); (Blinder, 1973)), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
     <figure class="figure-bleed">
-      <img src="../gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
+      <img src="gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
     </figure>
     <table class="kv-table">
       <thead><tr>
@@ -9907,7 +9907,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 13:27</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 13:38</p>
   </div>
 </footer>
 
