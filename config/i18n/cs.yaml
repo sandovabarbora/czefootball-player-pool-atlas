@@ -46,6 +46,7 @@ strings:
   toc.limitations: "Limitace"
   toc.validation: "Validace a robustnost"
   toc.reproducibility: "Reprodukovatelnost"
+  toc.related_methods: "Související metody"
   toc.references: "Reference"
   toc.how_built: "Jak report vznikl"
   toc.short.benchmark: "Benchmark"
@@ -59,6 +60,7 @@ strings:
   toc.short.pca: "PCA"
   toc.short.sensitivity: "Citlivost"
   toc.short.limitations: "Limitace"
+  toc.short.related_methods: "Související metody"
   toc.short.references: "Reference"
 
   # ---- masthead (první obrazovka: stejný pitch jako hero kicker/lead pod ní)
@@ -499,6 +501,23 @@ strings:
   ch4.validation.m3: "Zlom a prognóza (M4): zlom je datován do sezóny {season} ({prob} posterior) pro {cs_name}, změna úrovně o ×{delta}; čistá lokální úroveň překonává naivní základ v MAE ({mae_model} vs. {mae_naive}), {coverage} z 90% intervalů pokrylo pozorovanou hodnotu napříč {n} rolling-origin zpětnými testy."
   ch4.validation.m4: "Panel minut mládeže (M3): napříč {n_countries} zeměmi (zemní průměry, n = {n}) je sklon mezi zeměmi {beta} na 10 procentních bodů podílu do 21 let ({lo}–{hi}), R² = {r2}; prostý poolovaný OLS sklon souhlasí ve znaménku na {ols} ({ols_lo}–{ols_hi}) — interval je široký, protože panel je malý. Kontrola uvnitř země (fit s interceptem za zemi na celém dvousezónním panelu) nenachází žádný signál: β_within = {beta_within}."
   ch4.validation.m5: "Rozklad rozdílu (M5): ridge fit (α = {alpha}) na n = {n} peer zemích; pro {contrast} tvoří reziduum {resid} z rozdílu {gap} — rozklad korelace, ne kauzální účetnictví."
+
+  ch4.related.h3: "Související metody a co z nich report přebírá"
+  ch4.related.intro: "Metody níže formovaly návrh tohoto reportu. Každá položka uvádí, co metoda je, co si z ní report vzal a co vynechal a proč."
+  ch4.related.shrinkage: "Empirický bayesovský shrinkage řídké míry na jednotku směrem k průměru skupiny {cite} · přebráno: rate na 90 minut se stahuje k mediánu ligy a sezóny s priorem K = 10 fantomových zápasů před projekcí kvality (§ Bayesovský shrinkage) · vynecháno: plně hierarchický odhad komponent rozptylu, který originální metoda také umožňuje, protože jedno sdílené K pokrývá minutový práh tohoto korpusu dostatečně pro popisný report."
+  ch4.related.hierarchical: "Vícevrstvá (partial-pooling) regrese a posterior predictive checking jako rutina pro diagnostiku modelu {cite} · přebráno: modely síly ligy a panelu mládeže poolují ligy a země částečně místo fitování každé zvlášť nebo sloučení všech do jedné, a posterior predictive check u síly ligy (§ Síla ligy) srovnává simulovanou a pozorovanou produkci · vynecháno: srovnání modelů pomocí WAIC/LOO, protože každý model zde je místo toho hodnocen na sezónách, na kterých nikdy netrénoval (rolling-origin zpětné testy) — silnější kontrola pro účel tohoto reportu."
+  ch4.related.nuts: "No-U-Turn Sampler, gradientová MCMC metoda, kterou PyMC používá jako výchozí {cite} · přebráno: každý bayesovský model v tomto reportu — síla ligy, srovnání modelů, sériový model zlomu, panel mládeže — je jí fitován a diagnostikován na R-hat a divergencích · vynecháno: variační inference jako rychlejší aproximativní alternativa, protože žádný ze čtyř modelů není natolik pomalý, aby ji potřeboval."
+  ch4.related.rapm: "Plus-minus a regularizované adjusted plus-minus ratingy, které regresí izolují příspěvek hráče od spoluhráčů a soupeřů {cite} · přebráno: logika modelu síly ligy uvnitř hráče — jen vlastní změna ligy hráče před a po odděluje jeho úroveň od skórovacího prostředí ligy — sleduje stejnou identifikační myšlenku, aplikovanou na ligy místo na spoluhráče · vynecháno: skutečný RAPM fit nad daty o sestavách, což sezónní tabulky tohoto korpusu (bez sestav, bez dat o držení míče) neumožňují."
+  ch4.related.changepoint: "Bayesovská online detekce bodu zlomu, sekvenční metoda pro lokalizaci zlomu v generujícím procesu dat {cite} · přebráno: myšlenka jednoho neznámého zlomového ročníku s marginalizovaným diskrétním parametrem polohy, aplikovaná zde na krátkou dávkovou řadu místo sekvenčně · vynecháno: online/sekvenční nastavení a vícenásobné body zlomu, protože daná řada (počet hráčů jedné země za sezónu) je krátká, pevná a věrohodně má nejvýš jeden strukturální zlom."
+  ch4.related.statespace: "Model lokální úrovně — náhodná procházka plus šum pro pomalu driftující řadu — v tradici state-space {cite} · přebráno: model bodu zlomu (§ Datace zlomu) je přesně tato lokální úroveň v logaritmickém prostoru s jednou přidanou skokovou změnou v bodě zlomu · vynecháno: lokální lineární trend nebo sezónní komponenta, protože řada je roční a příliš krátká na to, aby byl trendový člen identifikovatelný."
+  ch4.related.rollingorigin: "Rolling-origin (časová) křížová validace: refit na datech do každého počátku, hodnocení jen na tom, co přišlo po něm {cite} · přebráno: srovnání modelů (§ Tři modely, jeden úkol) i zpětný test bodu zlomu (§ Datace zlomu) jsou takto hodnoceny, nikdy na náhodném splitu, který by mohl propustit budoucí sezóny do trénování · vynecháno: varianty expanding-vs-sliding-window nad rámec jediného expanding-window schématu, protože pět metrikových sezón korpusu ponechává málo prostoru pro jejich srovnání."
+  ch4.related.decomposition: "Oaxaca–Blinderův rozklad, který dělí rozdíl mezi průměry dvou skupin na vysvětlenou a nevysvětlenou část pomocí lineárního modelu {cite} · přebráno: exhibit rozkladu rozdílu (§ Z čeho se rozdíl skládá) dělí rozdíl na obyvatele stejně na tři měřené kanály plus reziduum · vynecháno: detailní rozklad vysvětlené části na úrovni koeficientů, protože tři kanály jsou dost málo na to, aby šly číst přímo z koeficientů."
+  ch4.related.clustervalidation: "Silhouette koeficient, míra na úrovni bodu, jak dobře clustering odděluje své skupiny {cite} · přebráno: použito ke kontrole počtu PCA clusterů pro každou skupinu postů a projekci předtím, než byly zafixovány (§ Cluster archetypy) · vynecháno: silhouette sweep uvedený v textu, protože zvolené počty clusterů jsou stabilní napříč skupinami postů i projekcemi."
+  ch4.related.baselines: "Gradient boosting stromy a malý multilayer perceptron, dva nebayesovské machine-learningové základy standardní pro tento typ srovnání {cite} · přebráno: oba stojí vedle modelů persistence, shrinkage a bayesovského v § Tři modely, jeden úkol, na stejných osmi featurech a stejném rolling-origin splitu · vynecháno: hledání hyperparametrů nad rámec výchozích hodnot scikit-learn (plus 64/32 skryté vrstvy MLP), protože smyslem srovnání je rodina modelů, ne vyladěný žebříček."
+  ch4.related.cies: "Pravidelné počty CIES Football Observatory fotbalistů hrajících mimo domovský svaz {cite} · přebráno: out-of-sample kontrola síly ligy (§ Síla ligy) sleduje stejnou populaci — hráče, kteří změnili ligu — i když nepoužívá přímo počty CIES · vynecháno: vlastní čísla podílu expatriotů CIES jako uváděné číslo v tomto reportu, protože exhibity na obyvatele a cest do zahraničí už na stejnou otázku odpovídají z vlastních stažených tabulek hráčů tohoto reportu."
+  ch4.related.future.h4: "Další kroky, které nebyly podniknuty"
+  ch4.related.future.embeddings: "Embeddingy hráč-sezóna a grafové metody nad transferovou sítí — kluby a přestupy jako graf, hráči jako uzly s naučenou reprezentací — jsou přirozeným dalším nástrojem (konkrétně grafové neuronové sítě) pro fond této velikosti, ale nebyly zde vyzkoušeny."
+  ch4.related.future.tracking: "Featury odvozené z eventů a trackingu (intenzita presinku, progresivní vedení míče, expected threat) by zostřily osu stylu nad rámec pěti box-score čísel použitých zde, ale pro tento korpus nebyl k dispozici žádný zdroj trackingových dat."
 
   ch4.refs.h3: "Reference"
 

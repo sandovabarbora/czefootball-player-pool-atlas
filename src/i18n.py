@@ -102,6 +102,7 @@ EN: dict[str, str] = {
     "toc.limitations": "Limitations",
     "toc.validation": "Validation & robustness",
     "toc.reproducibility": "Reproducibility",
+    "toc.related_methods": "Related methods",
     "toc.references": "References",
     "toc.how_built": "How this was built",
     "toc.short.benchmark": "Benchmark",
@@ -115,6 +116,7 @@ EN: dict[str, str] = {
     "toc.short.pca": "PCA",
     "toc.short.sensitivity": "Sensitivity",
     "toc.short.limitations": "Limitations",
+    "toc.short.related_methods": "Related methods",
     "toc.short.references": "References",
 
     # ---- masthead (first screen: same pitch as the hero kicker/lead below it)
@@ -557,6 +559,22 @@ EN: dict[str, str] = {
     "ch4.validation.m4": "The youth-minutes panel (M3): across {n_countries} countries (country means, n = {n}), the between-country slope is {beta} per 10 percentage points of U21 share ({lo}–{hi}), R² = {r2}; a plain pooled OLS slope agrees in sign at {ols} ({ols_lo}–{ols_hi}) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = {beta_within}.",
     "ch4.validation.m5": "The gap decomposition (M5): ridge fit (α = {alpha}) on n = {n} peer countries; for {contrast}, the residual is {resid} of a {gap} gap — a decomposition of a correlation, not a causal accounting.",
 
+    "ch4.related.h3": "Related methods and what was taken from them",
+    "ch4.related.intro": "The methods below shaped this report's design. Each entry states what the method is, what this report took from it, and what was left out and why.",
+    "ch4.related.shrinkage": "Empirical-Bayes shrinkage of a sparse per-unit rate toward a group mean {cite} · taken: per-90 rates are shrunk toward the league-season median with a K = 10 phantom-match prior before the quality projection (§ Bayesian shrinkage) · left out: the fully hierarchical variance-component estimate the original method also supports, since one shared K fits this corpus's minutes floor well enough for a descriptive report.",
+    "ch4.related.hierarchical": "Multilevel (partial-pooling) regression and posterior predictive checking as a model-diagnosis routine {cite} · taken: the league-strength and youth-panel models pool leagues and countries partially rather than fitting each alone or merging them into one, and the league-strength posterior predictive check (§ League strength) compares simulated to observed production · left out: model comparison by WAIC/LOO, since every model here is instead scored on seasons it never trained on (rolling-origin backtests), a stronger check for this report's purpose.",
+    "ch4.related.nuts": "The No-U-Turn Sampler, the gradient-based MCMC method PyMC uses by default {cite} · taken: every Bayesian model in this report — league strength, model comparison, the change-point series, the youth panel — is fit with it and diagnosed on R-hat and divergences · left out: variational inference as a faster approximate alternative, since none of the four models is slow enough to need it.",
+    "ch4.related.rapm": "Plus-minus and regularised adjusted plus-minus ratings, which isolate a player's contribution from teammates' and opponents' by regression {cite} · taken: the league-strength model's within-player logic — only a mover's own before/after change of league separates their level from the league's scoring environment — follows the same identification idea, applied to leagues rather than teammates · left out: an actual RAPM fit over lineup data, which this corpus's season-level tables (no lineups, no possession data) cannot support.",
+    "ch4.related.changepoint": "Bayesian online change-point detection, a sequential method for locating a shift in a data-generating process {cite} · taken: a single unknown break season with a marginalised discrete location parameter, applied here to a short batch series rather than sequentially · left out: the online/sequential setting and multiple change points, since the series in question (one country's Big-5 count per season) is short, fixed, and plausibly has at most one structural shift.",
+    "ch4.related.statespace": "The local-level model — a random walk plus noise for a slowly drifting series — in the state-space tradition {cite} · taken: the change-point model (§ Dating the break) is exactly this local level in log space, with one added step change at the break · left out: a local linear trend or seasonal component, since the series is annual and too short for a trend term to be identifiable.",
+    "ch4.related.rollingorigin": "Rolling-origin (time-series) cross-validation: refit on data up to each origin, score only on what came after it {cite} · taken: both the model-comparison exercise (§ Three models, one task) and the change-point backtest (§ Dating the break) are scored this way, never on a random split that could leak future seasons into training · left out: expanding-vs-sliding-window variants beyond the single expanding-window scheme, since the corpus's five metrics seasons leave little room to compare schemes.",
+    "ch4.related.decomposition": "The Oaxaca–Blinder decomposition, splitting a gap between two groups' means into an explained and an unexplained part via a linear model {cite} · taken: the gap-decomposition exhibit (§ What the gap is made of) splits the per-capita gap into the three measured channels plus a residual the same way · left out: the detailed, coefficient-level decomposition of the explained share, since three channels are few enough to read directly off the coefficients themselves.",
+    "ch4.related.clustervalidation": "The silhouette coefficient, a per-point measure of how well a clustering separates its groups {cite} · taken: used to sanity-check the PCA cluster counts per position group and projection before they were fixed (§ Cluster archetypes) · left out: a silhouette sweep reported in the text, since the chosen cluster counts are stable across position groups and projections.",
+    "ch4.related.baselines": "Gradient-boosted trees and a small multilayer perceptron, two non-Bayesian machine-learning baselines standard in this kind of comparison {cite} · taken: both sit alongside the persistence, shrinkage and Bayesian models in § Three models, one task, on the same eight features and the same rolling-origin split · left out: hyperparameter search beyond scikit-learn's defaults (plus the MLP's 64/32 hidden layers), since the comparison's point is model family, not a tuned leaderboard.",
+    "ch4.related.cies": "CIES Football Observatory's periodic counts of footballers playing outside their home association {cite} · taken: the out-of-sample league-strength check (§ League strength) tracks the same population — players who changed league — though it does not reuse CIES's own counts · left out: CIES's expatriate-share figures as a number quoted in this report, since the per-capita and pathways exhibits already answer the same question from this report's own fetched player tables.",
+    "ch4.related.future.h4": "Next steps not attempted",
+    "ch4.related.future.embeddings": "Player-season embeddings and graph methods over the transfer network — clubs and moves as a graph, players as nodes with learned representations — are natural next tools (graph neural networks, specifically) for a pool this size, but were not attempted here.",
+    "ch4.related.future.tracking": "Event- and tracking-derived features (pressing intensity, progressive carries, expected threat) would sharpen the style axis beyond the five box-score numbers used here, but no tracking data source was available for this corpus.",
     "ch4.refs.h3": "References",
 
     "ch4.dq.h3": "Data-quality log",

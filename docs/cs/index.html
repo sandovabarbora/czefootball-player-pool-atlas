@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151431">
-  <link rel="stylesheet" href="../modern.css?v=202609151431">
+  <link rel="stylesheet" href="../style.css?v=202609151439">
+  <link rel="stylesheet" href="../modern.css?v=202609151439">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151431"></script>
+  <script defer src="../atlas.js?v=202609151439"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -70,6 +70,7 @@
         <li><a href="#limitations">Limitace</a></li>
         <li><a href="#validation-robustness">Validace a robustnost</a></li>
         <li><a href="#reproducibility">Reprodukovatelnost</a></li>
+        <li><a href="#related-methods">Související metody</a></li>
         <li><a href="#references">Reference</a></li>
       </ol>
     </li>
@@ -9711,6 +9712,27 @@
       <p>Specifikace: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">návrh</a> · plán: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">úkoly</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulingy</a>.</p>
     </details>
 
+    <h3 id="related-methods">Související metody a co z nich report přebírá</h3>
+    <p>Metody níže formovaly návrh tohoto reportu. Každá položka uvádí, co metoda je, co si z ní report vzal a co vynechal a proč.</p>
+    <ul class="related-methods-list">
+      <li>Empirický bayesovský shrinkage řídké míry na jednotku směrem k průměru skupiny (Efron and Morris, 1975) · přebráno: rate na 90 minut se stahuje k mediánu ligy a sezóny s priorem K = 10 fantomových zápasů před projekcí kvality (§ Bayesovský shrinkage) · vynecháno: plně hierarchický odhad komponent rozptylu, který originální metoda také umožňuje, protože jedno sdílené K pokrývá minutový práh tohoto korpusu dostatečně pro popisný report.</li>
+      <li>Vícevrstvá (partial-pooling) regrese a posterior predictive checking jako rutina pro diagnostiku modelu (Gelman et al., 2013) · přebráno: modely síly ligy a panelu mládeže poolují ligy a země částečně místo fitování každé zvlášť nebo sloučení všech do jedné, a posterior predictive check u síly ligy (§ Síla ligy) srovnává simulovanou a pozorovanou produkci · vynecháno: srovnání modelů pomocí WAIC/LOO, protože každý model zde je místo toho hodnocen na sezónách, na kterých nikdy netrénoval (rolling-origin zpětné testy) — silnější kontrola pro účel tohoto reportu.</li>
+      <li>No-U-Turn Sampler, gradientová MCMC metoda, kterou PyMC používá jako výchozí (Hoffman and Gelman, 2014) · přebráno: každý bayesovský model v tomto reportu — síla ligy, srovnání modelů, sériový model zlomu, panel mládeže — je jí fitován a diagnostikován na R-hat a divergencích · vynecháno: variační inference jako rychlejší aproximativní alternativa, protože žádný ze čtyř modelů není natolik pomalý, aby ji potřeboval.</li>
+      <li>Plus-minus a regularizované adjusted plus-minus ratingy, které regresí izolují příspěvek hráče od spoluhráčů a soupeřů (Kharrat, McHale and Peña, 2020; Hvattum, 2019) · přebráno: logika modelu síly ligy uvnitř hráče — jen vlastní změna ligy hráče před a po odděluje jeho úroveň od skórovacího prostředí ligy — sleduje stejnou identifikační myšlenku, aplikovanou na ligy místo na spoluhráče · vynecháno: skutečný RAPM fit nad daty o sestavách, což sezónní tabulky tohoto korpusu (bez sestav, bez dat o držení míče) neumožňují.</li>
+      <li>Bayesovská online detekce bodu zlomu, sekvenční metoda pro lokalizaci zlomu v generujícím procesu dat (Adams and MacKay, 2007) · přebráno: myšlenka jednoho neznámého zlomového ročníku s marginalizovaným diskrétním parametrem polohy, aplikovaná zde na krátkou dávkovou řadu místo sekvenčně · vynecháno: online/sekvenční nastavení a vícenásobné body zlomu, protože daná řada (počet hráčů jedné země za sezónu) je krátká, pevná a věrohodně má nejvýš jeden strukturální zlom.</li>
+      <li>Model lokální úrovně — náhodná procházka plus šum pro pomalu driftující řadu — v tradici state-space (Durbin and Koopman, 2012) · přebráno: model bodu zlomu (§ Datace zlomu) je přesně tato lokální úroveň v logaritmickém prostoru s jednou přidanou skokovou změnou v bodě zlomu · vynecháno: lokální lineární trend nebo sezónní komponenta, protože řada je roční a příliš krátká na to, aby byl trendový člen identifikovatelný.</li>
+      <li>Rolling-origin (časová) křížová validace: refit na datech do každého počátku, hodnocení jen na tom, co přišlo po něm (Hyndman and Athanasopoulos, 2021) · přebráno: srovnání modelů (§ Tři modely, jeden úkol) i zpětný test bodu zlomu (§ Datace zlomu) jsou takto hodnoceny, nikdy na náhodném splitu, který by mohl propustit budoucí sezóny do trénování · vynecháno: varianty expanding-vs-sliding-window nad rámec jediného expanding-window schématu, protože pět metrikových sezón korpusu ponechává málo prostoru pro jejich srovnání.</li>
+      <li>Oaxaca–Blinderův rozklad, který dělí rozdíl mezi průměry dvou skupin na vysvětlenou a nevysvětlenou část pomocí lineárního modelu (Oaxaca, 1973; Blinder, 1973) · přebráno: exhibit rozkladu rozdílu (§ Z čeho se rozdíl skládá) dělí rozdíl na obyvatele stejně na tři měřené kanály plus reziduum · vynecháno: detailní rozklad vysvětlené části na úrovni koeficientů, protože tři kanály jsou dost málo na to, aby šly číst přímo z koeficientů.</li>
+      <li>Silhouette koeficient, míra na úrovni bodu, jak dobře clustering odděluje své skupiny (Rousseeuw, 1987) · přebráno: použito ke kontrole počtu PCA clusterů pro každou skupinu postů a projekci předtím, než byly zafixovány (§ Cluster archetypy) · vynecháno: silhouette sweep uvedený v textu, protože zvolené počty clusterů jsou stabilní napříč skupinami postů i projekcemi.</li>
+      <li>Gradient boosting stromy a malý multilayer perceptron, dva nebayesovské machine-learningové základy standardní pro tento typ srovnání (Pedregosa et al., 2011) · přebráno: oba stojí vedle modelů persistence, shrinkage a bayesovského v § Tři modely, jeden úkol, na stejných osmi featurech a stejném rolling-origin splitu · vynecháno: hledání hyperparametrů nad rámec výchozích hodnot scikit-learn (plus 64/32 skryté vrstvy MLP), protože smyslem srovnání je rodina modelů, ne vyladěný žebříček.</li>
+      <li>Pravidelné počty CIES Football Observatory fotbalistů hrajících mimo domovský svaz (Poli, Ravenel and Besson, 2024) · přebráno: out-of-sample kontrola síly ligy (§ Síla ligy) sleduje stejnou populaci — hráče, kteří změnili ligu — i když nepoužívá přímo počty CIES · vynecháno: vlastní čísla podílu expatriotů CIES jako uváděné číslo v tomto reportu, protože exhibity na obyvatele a cest do zahraničí už na stejnou otázku odpovídají z vlastních stažených tabulek hráčů tohoto reportu.</li>
+    </ul>
+    <h4 id="related-methods-future">Další kroky, které nebyly podniknuty</h4>
+    <ul class="related-methods-future">
+      <li>Embeddingy hráč-sezóna a grafové metody nad transferovou sítí — kluby a přestupy jako graf, hráči jako uzly s naučenou reprezentací — jsou přirozeným dalším nástrojem (konkrétně grafové neuronové sítě) pro fond této velikosti, ale nebyly zde vyzkoušeny.</li>
+      <li>Featury odvozené z eventů a trackingu (intenzita presinku, progresivní vedení míče, expected threat) by zostřily osu stylu nad rámec pěti box-score čísel použitých zde, ale pro tento korpus nebyl k dispozici žádný zdroj trackingových dat.</li>
+    </ul>
+
     <h3 id="references">Reference</h3>
     <ul class="references-list">
       
@@ -9908,7 +9930,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 14:31</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 14:38</p>
   </div>
 </footer>
 

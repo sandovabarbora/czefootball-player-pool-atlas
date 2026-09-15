@@ -185,6 +185,7 @@
         <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
         <li><a href="#validation-robustness">{{ t('toc.validation') }}</a></li>
         <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
+        <li><a href="#related-methods">{{ t('toc.related_methods') }}</a></li>
         <li><a href="#references">{{ t('toc.references') }}</a></li>
       </ol>
     </li>
@@ -207,7 +208,7 @@
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
         <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#q8c">{{ t('toc.q8c') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#related-methods">{{ t('toc.short.related_methods') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -1502,6 +1503,27 @@
       </ol>
       <p>{{ t('ch4.built.p2', spec=spec_url, plan=plan_url, ledger=ledger_url) }}</p>
     </details>
+
+    <h3 id="related-methods">{{ t('ch4.related.h3') }}</h3>
+    <p>{{ t('ch4.related.intro') }}</p>
+    <ul class="related-methods-list">
+      <li>{{ t('ch4.related.shrinkage', cite=cite.efron_morris_1975) }}</li>
+      <li>{{ t('ch4.related.hierarchical', cite=cite.gelman_et_al_2013) }}</li>
+      <li>{{ t('ch4.related.nuts', cite=cite.hoffman_gelman_2014) }}</li>
+      <li>{{ t('ch4.related.rapm', cite=cite_multi(['kharrat_mchale_pena_2020', 'hvattum_2019'])) }}</li>
+      <li>{{ t('ch4.related.changepoint', cite=cite.adams_mackay_2007) }}</li>
+      <li>{{ t('ch4.related.statespace', cite=cite.durbin_koopman_2012) }}</li>
+      <li>{{ t('ch4.related.rollingorigin', cite=cite.hyndman_athanasopoulos_2021) }}</li>
+      <li>{{ t('ch4.related.decomposition', cite=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</li>
+      <li>{{ t('ch4.related.clustervalidation', cite=cite.rousseeuw_1987) }}</li>
+      <li>{{ t('ch4.related.baselines', cite=cite.pedregosa_et_al_2011) }}</li>
+      <li>{{ t('ch4.related.cies', cite=cite.poli_ravenel_besson_2024) }}</li>
+    </ul>
+    <h4 id="related-methods-future">{{ t('ch4.related.future.h4') }}</h4>
+    <ul class="related-methods-future">
+      <li>{{ t('ch4.related.future.embeddings') }}</li>
+      <li>{{ t('ch4.related.future.tracking') }}</li>
+    </ul>
 
     <h3 id="references">{{ t('ch4.refs.h3') }}</h3>
     <ul class="references-list">
