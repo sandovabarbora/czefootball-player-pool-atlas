@@ -306,3 +306,221 @@ def build_corpus(
     first = build_first_seasons(feats)
     corpus = attach_origin(first, tables, m_l_map, uefa_multipliers)
     return corpus.reset_index(drop=True)
+
+
+# =============================================================================
+# Model
+# =============================================================================
+
+POS_GROUPS = ["FW", "MF", "DF"]  # same order as src.league_strength.POS_GROUPS
+
+
+def build_design(corpus: pd.DataFrame) -> dict[str, Any]:
+    """Standardise every design column and `y` (the youth_panel-review
+    lesson, see module docstring); everything a `fit_model` call and every
+    summary function below need, bundled so raw-scale conversion always
+    uses the SAME means/sds the model was actually fit on.
+    """
+    n = len(corpus)
+    age = corpus["age_export"].to_numpy(dtype=float)
+    X_age_raw, age_cols, use_spline = age_design(age, n)
+    age_mean = X_age_raw.mean(axis=0)
+    age_sd = X_age_raw.std(axis=0)
+    age_sd = np.where(age_sd > 0, age_sd, 1.0)
+
+    strength = corpus["origin_strength"].to_numpy(dtype=float)
+    strength_mean = float(strength.mean())
+    strength_sd = float(strength.std()) or 1.0
+
+    y = corpus["y"].to_numpy(dtype=float)
+    y_mean = float(y.mean())
+    y_sd = float(y.std()) or 1.0
+
+    pos_cat = pd.Categorical(corpus["pos_group"], categories=POS_GROUPS)
+    if pos_cat.isna().any():
+        raise ValueError(f"pos_group has values outside {POS_GROUPS}")
+    nation_cat = pd.Categorical(corpus["nation"])
+    pos_weights = (
+        corpus["pos_group"].value_counts(normalize=True).reindex(POS_GROUPS, fill_value=0.0).to_numpy()
+    )
+
+    return {
+        "n": n, "use_spline": use_spline, "knots": list(AGE_KNOTS), "age_cols": age_cols,
+        "X_age_std": (X_age_raw - age_mean) / age_sd, "age_mean": age_mean, "age_sd": age_sd,
+        "strength_std": (strength - strength_mean) / strength_sd,
+        "strength_mean": strength_mean, "strength_sd": strength_sd,
+        "y_std": (y - y_mean) / y_sd, "y_mean": y_mean, "y_sd": y_sd,
+        "pos_codes": pos_cat.codes, "pos_categories": list(pos_cat.categories), "pos_weights": pos_weights,
+        "nation_codes": nation_cat.codes, "nation_categories": list(nation_cat.categories),
+    }
+
+
+def fit_model(
+    design: dict[str, Any], *, use_strength: bool = True, draws: int = DRAWS, tune: int = TUNE,
+    chains: int = CHAINS, target_accept: float = TARGET_ACCEPT, seed: int | None = None,
+    progressbar: bool = False, cores: int | None = None,
+) -> az.InferenceData:
+    """Fit `y_std ~ Normal(mu, sigma)`, `mu = alpha + f(age)_std + beta*
+    strength_std + gamma_pos + u_nation` (see module docstring) on `design`
+    (`build_design`). `use_strength=False` fits the same model with the
+    `beta*strength_std` term dropped -- the "what does the league term
+    absorb" comparison the brief asks for. Non-centred `u_nation` (the only
+    hierarchical term); everything else is a plain, standardised-scale
+    prior."""
+    seed = config.RANDOM_SEED if seed is None else seed
+    coords = {
+        "age_basis": design["age_cols"], "pos": design["pos_categories"], "nation": design["nation_categories"],
+    }
+    with pm.Model(coords=coords):
+        alpha = pm.Normal("alpha", 0.0, 2.5)
+        b_age = pm.Normal("b_age", 0.0, 2.5, dims="age_basis")
+        mu = alpha + pm.math.dot(design["X_age_std"], b_age)
+
+        if use_strength:
+            beta = pm.Normal("beta", 0.0, 2.5)
+            mu = mu + beta * design["strength_std"]
+
+        gamma_pos = pm.Normal("gamma_pos", 0.0, 2.5, dims="pos")
+        mu = mu + gamma_pos[design["pos_codes"]]
+
+        sigma_n = pm.HalfNormal("sigma_n", 1.0)
+        z_nation = pm.Normal("z_nation", 0.0, 1.0, dims="nation")
+        u_nation = pm.Deterministic("u_nation", z_nation * sigma_n, dims="nation")
+        mu = mu + u_nation[design["nation_codes"]]
+
+        sigma = pm.HalfNormal("sigma", 1.0)
+        pm.Normal("y_std", mu=mu, sigma=sigma, observed=design["y_std"])
+
+        idata = pm.sample(
+            draws=draws, tune=tune, chains=chains, target_accept=target_accept,
+            random_seed=seed, progressbar=progressbar, cores=cores or min(chains, 4),
+        )
+        pm.sample_posterior_predictive(idata, random_seed=seed, progressbar=progressbar, extend_inferencedata=True)
+    return idata
+
+
+def _hdi(samples: np.ndarray, prob: float = 0.9) -> tuple[float, float]:
+    """Highest-density interval of a 1-D sample (same construction as
+    `src.league_strength._hdi`/`src.youth_panel._hdi` -- duplicated per
+    those modules' own comment on why)."""
+    s = np.sort(np.asarray(samples))
+    n = len(s)
+    n_in = max(int(np.floor(prob * n)), 1)
+    n_out = n - n_in
+    if n_out <= 0:
+        return float(s[0]), float(s[-1])
+    widths = s[n_in:] - s[:n_out]
+    lo = int(np.argmin(widths))
+    return float(s[lo]), float(s[lo + n_in])
+
+
+def _eval_age_std(eval_ages: list[float] | tuple[float, ...], design: dict[str, Any]) -> np.ndarray:
+    """Age design columns for `eval_ages`, on the SAME branch (spline vs.
+    quadratic) and standardisation (`age_mean`/`age_sd`) as `design`'s own
+    fit -- `age_design`'s `n` argument is `design["n"]`, not
+    `len(eval_ages)`, exactly so a handful of evaluation ages reuses the
+    fit's own branch rather than picking their own."""
+    raw, _, use_spline = age_design(np.asarray(eval_ages, dtype=float), design["n"], tuple(design["knots"]))
+    if use_spline != design["use_spline"]:
+        raise AssertionError("age_design branch mismatch between fit and evaluation")
+    return (raw - design["age_mean"]) / design["age_sd"]
+
+
+def age_curve(
+    idata: az.InferenceData, design: dict[str, Any], eval_ages: tuple[int, ...] = EVAL_AGES, hdi_prob: float = 0.9,
+) -> list[dict[str, Any]]:
+    """Expected `y` (raw npG+A/90) at each of `eval_ages`, 90% HDI -- the
+    population-average curve: origin strength held at the corpus mean
+    (`strength_std = 0`), position at the corpus's own frequency-weighted
+    average of `gamma_pos` (`design["pos_weights"]`), nation effect at 0
+    (`u_nation` excluded -- the marginal curve, not any one nation's own).
+    """
+    X_eval_std = _eval_age_std(eval_ages, design)
+    alpha = idata.posterior["alpha"].values.reshape(-1)
+    b_age = idata.posterior["b_age"].values.reshape(-1, X_eval_std.shape[1])
+    gamma_pos = idata.posterior["gamma_pos"].values.reshape(-1, len(design["pos_categories"]))
+    mu_std_base = alpha + gamma_pos @ design["pos_weights"]
+    age_contrib = X_eval_std @ b_age.T  # (n_eval, n_draws)
+    y_draws = (mu_std_base[None, :] + age_contrib) * design["y_sd"] + design["y_mean"]
+
+    rows = []
+    for age, draws in zip(eval_ages, y_draws, strict=True):
+        lo, hi = _hdi(draws, hdi_prob)
+        rows.append({"age": int(age), "median": round(float(np.median(draws)), 4),
+                     "lo": round(lo, 4), "hi": round(hi, 4)})
+    return rows
+
+
+def diff_between_ages(
+    idata: az.InferenceData, design: dict[str, Any], age_a: int = 21, age_b: int = 24, hdi_prob: float = 0.9,
+) -> dict[str, Any]:
+    """`y(age_a) - y(age_b)` with its 90% HDI ("arriving at 21 vs 24").
+    Every term but `f(age)` is identical between the two ages for the same
+    posterior draw, so it cancels exactly -- no need to add alpha/gamma_pos/
+    u_nation back in, only the two ages' own spline/quadratic contrast."""
+    X_eval_std = _eval_age_std([age_a, age_b], design)
+    b_age = idata.posterior["b_age"].values.reshape(-1, X_eval_std.shape[1])
+    diff_raw = ((X_eval_std[0] - X_eval_std[1]) @ b_age.T) * design["y_sd"]
+    lo, hi = _hdi(diff_raw, hdi_prob)
+    return {"age_a": age_a, "age_b": age_b, "median": round(float(np.median(diff_raw)), 4),
+            "lo": round(lo, 4), "hi": round(hi, 4)}
+
+
+def beta_summary(idata: az.InferenceData, design: dict[str, Any], hdi_prob: float = 0.9) -> dict[str, Any] | None:
+    """beta (raw scale: y per unit of `origin_strength`, i.e. per unit of
+    m_L) with its 90% HDI; `None` for a fit with `use_strength=False`
+    (`beta` isn't in that model)."""
+    if "beta" not in idata.posterior:
+        return None
+    beta_raw = idata.posterior["beta"].values.reshape(-1) * (design["y_sd"] / design["strength_sd"])
+    lo, hi = _hdi(beta_raw, hdi_prob)
+    return {"median": round(float(np.median(beta_raw)), 4), "lo": round(lo, 4), "hi": round(hi, 4)}
+
+
+def home_nation_effect(
+    idata: az.InferenceData, design: dict[str, Any], home_code: str, hdi_prob: float = 0.9,
+) -> dict[str, Any] | None:
+    """The home nation's own `u_nation` (raw npG+A/90 scale), 90% HDI, or
+    `None` when the home nation has no rows in this corpus (all its
+    exports were censored, e.g. a very small peer set)."""
+    if home_code not in design["nation_categories"]:
+        return None
+    u_raw = idata.posterior["u_nation"].sel(nation=home_code).values.reshape(-1) * design["y_sd"]
+    lo, hi = _hdi(u_raw, hdi_prob)
+    return {"median": round(float(np.median(u_raw)), 4), "lo": round(lo, 4), "hi": round(hi, 4)}
+
+
+def diagnostics_summary(idata: az.InferenceData) -> dict[str, Any]:
+    """R-hat/ESS across the model's fixed-effect parameters plus the
+    divergence count and `sigma_n`'s posterior median (same construction as
+    `src.league_strength.diagnostics_summary`). `beta` is included only
+    when present (the `use_strength=False` fit has none)."""
+    var_names = [v for v in ("alpha", "b_age", "beta", "gamma_pos", "sigma_n", "sigma") if v in idata.posterior]
+    summary = az.summary(idata, var_names=var_names, ci_prob=0.9)
+    return {
+        "max_rhat": round(float(summary["r_hat"].max()), 4),
+        "min_ess_bulk": round(float(summary["ess_bulk"].min()), 1),
+        "min_ess_tail": round(float(summary["ess_tail"].min()), 1),
+        "n_divergences": int(idata.sample_stats["diverging"].values.sum()),
+        "sigma_n_median": round(float(idata.posterior["sigma_n"].median()), 4),
+    }
+
+
+def ppc_summary(idata: az.InferenceData, design: dict[str, Any]) -> dict[str, Any]:
+    """Observed vs. replicated `y` (raw npG+A/90 scale): mean, sd, 10th/90th
+    percentile. Replicated statistics are computed per posterior-predictive
+    draw, then averaged over draws (same pattern as
+    `src.league_strength.ppc_summary`)."""
+    rep_std = idata.posterior_predictive["y_std"].values
+    rep_std = rep_std.reshape(-1, rep_std.shape[-1])
+    rep = rep_std * design["y_sd"] + design["y_mean"]
+    obs = design["y_std"] * design["y_sd"] + design["y_mean"]
+
+    def _stats(a: np.ndarray) -> dict[str, float]:
+        return {"mean": round(float(np.mean(a)), 4), "sd": round(float(np.std(a)), 4),
+                "p10": round(float(np.percentile(a, 10)), 4), "p90": round(float(np.percentile(a, 90)), 4)}
+
+    per_draw = np.array([[row.mean(), row.std(), np.percentile(row, 10), np.percentile(row, 90)] for row in rep])
+    replicated = {"mean": round(float(per_draw[:, 0].mean()), 4), "sd": round(float(per_draw[:, 1].mean()), 4),
+                 "p10": round(float(per_draw[:, 2].mean()), 4), "p90": round(float(per_draw[:, 3].mean()), 4)}
+    return {"observed": _stats(obs), "replicated": replicated}

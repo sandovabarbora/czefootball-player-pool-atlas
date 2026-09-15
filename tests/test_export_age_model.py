@@ -8,10 +8,18 @@ import pytest
 
 from src.export_age_model import (
     AGE_KNOTS,
+    age_curve,
     attach_origin,
+    beta_summary,
     build_corpus,
+    build_design,
     build_first_seasons,
+    diagnostics_summary,
+    diff_between_ages,
+    fit_model,
+    home_nation_effect,
     natural_cubic_spline_basis,
+    ppc_summary,
 )
 
 
@@ -145,3 +153,67 @@ def test_natural_cubic_spline_basis_no_nans_across_full_age_range():
     x = np.linspace(15.0, 35.0, 41)
     basis = natural_cubic_spline_basis(x, AGE_KNOTS)
     assert np.isfinite(basis).all()
+
+
+# --- Model: short synthetic fit recovers a known age effect sign -----------
+
+
+def _synthetic_corpus(n: int = 90, seed: int = 0) -> pd.DataFrame:
+    """n < SPLINE_MIN_N -> exercises the quadratic-fallback branch. A clear
+    positive age slope and a clear positive strength slope, no nation/
+    position effect, small noise -- both signs should be recoverable from a
+    short fit."""
+    rng = np.random.default_rng(seed)
+    age = rng.uniform(18.0, 30.0, n)
+    strength = rng.uniform(0.3, 1.0, n)
+    pos = rng.choice(["FW", "MF", "DF"], n)
+    nation = rng.choice(["AAA", "BBB", "CCC"], n)
+    y = 0.10 + 0.03 * (age - 18.0) + 0.50 * strength + rng.normal(0, 0.05, n)
+    return pd.DataFrame({
+        "nation": nation, "player_key": [f"p{i}" for i in range(n)], "player": [f"P{i}" for i in range(n)],
+        "pos_group": pos, "first_season": "2023-2024", "age_export": age, "y": y, "n_seasons": 1,
+        "origin_league": "X", "origin_strength": strength, "origin_source": "m_L",
+    })
+
+
+def test_fit_model_recovers_known_age_and_strength_signs():
+    corpus = _synthetic_corpus()
+    design = build_design(corpus)
+    assert design["use_spline"] is False  # n < 150 -> quadratic branch
+
+    idata = fit_model(design, use_strength=True, draws=300, tune=300, chains=2, seed=1, cores=2)
+    assert "beta" in idata.posterior
+
+    curve = age_curve(idata, design)
+    by_age = {r["age"]: r["median"] for r in curve}
+    assert by_age[27] > by_age[19]  # positive age slope recovered
+
+    diff = diff_between_ages(idata, design, 21, 24)
+    assert diff["lo"] <= diff["median"] <= diff["hi"]
+    assert diff["median"] < 0  # y(21) < y(24): arriving later goes with more, here
+
+    beta = beta_summary(idata, design)
+    assert beta["lo"] <= beta["median"] <= beta["hi"]
+    assert beta["median"] > 0  # positive strength slope recovered
+
+    diag = diagnostics_summary(idata)
+    assert diag["max_rhat"] > 0 and diag["n_divergences"] >= 0
+    assert "sigma_n_median" in diag
+
+    ppc = ppc_summary(idata, design)
+    assert set(ppc["observed"]) == {"mean", "sd", "p10", "p90"}
+    assert abs(ppc["observed"]["mean"] - ppc["replicated"]["mean"]) < 0.3
+
+    home = home_nation_effect(idata, design, "AAA")
+    assert home is not None and home["lo"] <= home["median"] <= home["hi"]
+    assert home_nation_effect(idata, design, "ZZZ") is None
+
+
+def test_fit_model_without_strength_has_no_beta():
+    corpus = _synthetic_corpus()
+    design = build_design(corpus)
+    idata = fit_model(design, use_strength=False, draws=200, tune=200, chains=2, seed=1, cores=2)
+    assert "beta" not in idata.posterior
+    assert beta_summary(idata, design) is None
+    diag = diagnostics_summary(idata)  # must not choke on the missing beta
+    assert diag["max_rhat"] > 0
