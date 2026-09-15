@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151328">
-  <link rel="stylesheet" href="modern.css?v=202609151328">
+  <link rel="stylesheet" href="style.css?v=202609151400">
+  <link rel="stylesheet" href="modern.css?v=202609151400">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151328"></script>
+  <script defer src="atlas.js?v=202609151400"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -91,7 +91,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 252 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 256 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -291,7 +291,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">Do young players get minutes at home?</h2>
-    <p class="slide-a">U21 share of domestic-league minutes <strong>3.0 %</strong> vs Netherlands 13.6 % (best peer). Across the 8 countries and two seasons, 10 points more U21 share go with +1.56 more top-9 players per million (-1.29–4.33).</p>
+    <p class="slide-a">U21 share of domestic-league minutes <strong>3.0 %</strong> vs Netherlands 13.6 % (best peer). Across the 8 countries (country averages over both seasons), 10 points more U21 share go with +0.84 more top-9 players per million (-2.33–4.13).</p>
     <div class="slide-proof">
       
       <div class="capita" role="list" aria-label="Share of domestic-league minutes played by own under-21 nationals">
@@ -8044,13 +8044,14 @@
 
     
     <h3 id="youth-panel">Cross-country youth-minutes panel</h3>
-    <p>For each of the 8 peer countries and two seasons (2024/25 → 2025/26), U21 share of domestic-league minutes (x) against top-9 players per million (y); n = 16. A Bayesian regression, y ~ Normal(α + β·x + u_country, σ), with a country random intercept for partial pooling (4 chains × 1000 draws (Abril-Pla et al., 2023)) — with only two seasons per country the intercept is weakly identified, so most of the cross-country pattern is available to it rather than to β, leaving β's own interval wide (Gelman et al., 2013). Compared against a plain pooled least-squares slope (numpy polyfit, ignoring country structure entirely) with a percentile-bootstrap 90 % interval (1000 resamples) — statsmodels is not a dependency here.</p>
+    <p>For each of the 8 peer countries, the 2024/25 → 2025/26 average U21 share of domestic-league minutes (x) against the 2024/25 → 2025/26 average top-9 players per million (y) — one row per country. A Bayesian simple regression, y ~ Normal(α + β·x, σ), weakly informative priors (4 chains × 1000 draws (Abril-Pla et al., 2023)), answers the between-country question slide 3 asks: does a country with a higher average U21 share also have a deeper pool, on average (Gelman et al., 2013). Cross-checked against a plain pooled least-squares slope on the full two-season panel (numpy polyfit, ignoring country structure entirely, 1000 percentile-bootstrap resamples — statsmodels is not a dependency here), which should agree in sign.</p>
     <figure class="figure-bleed">
-      <img src="youth_panel.svg" alt="Scatter of the panel with the population-level fitted line and its 90 % band.">
+      <img src="youth_panel.svg" alt="Scatter of the panel with the between-country fitted line and its 90 % band.">
     </figure>
-    <p>β = +1.56 per 10 percentage points of U21 share (90 % HDI -1.29–4.33), R² = 0.99 (posterior-median fit, fixed effect + country intercept); the pooled OLS slope is +13.57 (5.36–20.82). n = 16; the interval is wide because the panel is small.</p>
-    <p>R-hat ≤ 1.006, minimum bulk ESS 861, 0 divergent transitions; posterior-median country-intercept scale σ_country = 8.25.</p>
-    <p>Descriptive only: a season's own U21 share and that same season's own per-capita count are shown together because they are the numbers on hand, not because one is claimed to produce the other.</p>
+    <p>β = +0.84 per 10 percentage points of U21 share (90 % HDI -2.33–4.13), R² = 0.02; the pooled OLS slope agrees in sign at +13.57 (5.36–20.82). n = 8; the interval is wide because the panel is small.</p>
+    <p>R-hat ≤ 1.002, minimum bulk ESS 2584, 0 divergent transitions.</p>
+    <p>A separate check: the same regression, but with a country random intercept fit on the full two-season panel instead of country means. Within-country changes across the two seasons carry no signal — β_within = +1.56 per 10 percentage points (90 % HDI -1.29–4.33), n = 16 country-seasons (R-hat ≤ 1.006, minimum bulk ESS 861, 0 divergent transitions; posterior-median country-intercept scale σ_country = 8.25). With only two seasons per country the intercept absorbs almost all of the between-country pattern the fit above isolates, leaving this estimate driven by season-to-season noise alone; reported here as a robustness check, not a second headline.</p>
+    <p>Descriptive only: a country's average U21 share and its average per-capita count are shown together because they are the numbers on hand, not because one is claimed to produce the other.</p>
     <details class="fold">
       <summary>Panel rows (n = 16)</summary>
       <table class="kv-table">
@@ -8148,7 +8149,7 @@
           <td rowspan="4">France<br><span class="muted small">Gap (players per million): +2.19</span></td>
           <td>U21 minutes</td>
           <td class="num">-3.40</td>
-          <td class="num">-155 %</td>
+          <td class="num">—</td>
           <td class="num">-10.65 – +4.24</td>
         </tr>
         
@@ -8156,7 +8157,7 @@
           
           <td>League strength</td>
           <td class="num">+9.71</td>
-          <td class="num">443 %</td>
+          <td class="num">—</td>
           <td class="num">+1.94 – +13.65</td>
         </tr>
         
@@ -8164,7 +8165,7 @@
           
           <td>Export age</td>
           <td class="num">-4.26</td>
-          <td class="num">-195 %</td>
+          <td class="num">—</td>
           <td class="num">-9.60 – -0.47</td>
         </tr>
         
@@ -8210,7 +8211,7 @@
       </tbody>
     </table>
     <p>Bootstrap 90 % intervals on each channel's contribution, 1000 resamples of the panel's rows (the model refit on each resample; the home/contrast countries' own values held fixed); the residual itself is not bootstrapped — it is the two countries' own observed counts minus the fitted gap.</p>
-    <p>A decomposition of a correlation this panel happens to show, not a causal accounting; with n = 8 and three correlated national-level channels, the shares are indicative, not precise.</p>
+    <p>A decomposition of a correlation this panel happens to show, not a causal accounting; with n = 8 and three correlated national-level channels, the shares are indicative, not precise. A channel's share of the gap is only shown when the gap itself is at least 3 players per million — below that, a small denominator can send a share past 100 % in either direction; the contribution itself, in players per million, is always reported.</p>
     
 
     <h3 id="shrinkage">Bayesian shrinkage</h3>
@@ -8775,7 +8776,7 @@
       <li>The break and forecast (M4): the break dates to 2007/08 (21 % posterior) for England, a ×0.92 level change; the plain local level beats the naive baseline on MAE (10.53 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
       
-      <li>The youth-minutes panel (M3): across 8 countries and two seasons (n = 16), the country-intercept model's slope is +1.56 per 10 percentage points of U21 share (-1.29–4.33), R² = 0.99; a plain pooled OLS slope is +13.57 (5.36–20.82) — the interval is wide because the panel is small.</li>
+      <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +0.84 per 10 percentage points of U21 share (-2.33–4.13), R² = 0.02; a plain pooled OLS slope agrees in sign at +13.57 (5.36–20.82) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = +1.56.</li>
       
       
       <li>The gap decomposition (M5): ridge fit (α = 1.00) on n = 8 peer countries; for France, the residual is +0.14 of a 2.19 gap — a decomposition of a correlation, not a causal accounting.</li>
@@ -8787,8 +8788,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 252 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 252 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 256 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 256 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -9196,7 +9197,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 13:27</p>
+    <p class="rendered-at">Rendered: 2026-09-15 13:59</p>
   </div>
 </footer>
 

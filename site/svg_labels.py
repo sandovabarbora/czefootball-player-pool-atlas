@@ -85,7 +85,7 @@ T = {
         "Minuty mládeže a hloubka fondu, napříč zeměmi a dvěma sezónami",
     "U21 share of domestic-league minutes (%)": "Podíl minut domácí ligy hráčů do 21 let (%)",
     "Top-9-league players per million population": "Hráči top-9 lig na milion obyvatel",
-    "Fitted line (population level, 90% band)": "Fitovaná přímka (úroveň populace, 90% pásmo)",
+    "Fitted line (between-country, 90% band)": "Fitovaná přímka (mezi zeměmi, 90% pásmo)",
     # gap decomposition (Task 20, M5)
     "What the gap is made of": "Z čeho se rozdíl skládá",
     "Contribution to the gap (top-9 players per million)": "Příspěvek k rozdílu (hráči top-9 lig na milion)",
