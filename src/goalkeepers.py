@@ -9,20 +9,36 @@ up. Five descriptive exhibits, all restricted to the peer countries
         (top-9) leagues per peer country, metrics season -- same rule as
         `src.international_benchmark.per_capita`, with an added minutes
         floor (that module has none; a GK's presence on a top-9 roster at
-        all isn't the question here, playing time is).
+        all isn't the question here, playing time is). Computed off the
+        `fbref_keepers.parquet` rows joined to their `fbref_players.parquet`
+        GK counterpart (`join_keeper_pool`; see "production" below).
 
-    export age: for the home nation, the age at which each player currently
-        on a top-9 roster first appeared in a top-9 table -- goalkeepers
-        (from `fbref_keepers.parquet`, which is keeper-only by construction)
-        against outfield players (`fbref_players.parquet` with `pos != "GK"`).
-        Same age convention and dedupe as `src.pathways.export_route`
+    export age: for the home nation, the age at which each current
+        (metrics-season) top-9 goalkeeper (>= min_minutes) first appeared in
+        a top-9 table -- against the same figure for outfield exports
+        (`fbref_players.parquet` with `pos != "GK"`). Both walked off
+        `fbref_players.parquet` (GK rows restricted to `pos == "GK"` for the
+        goalkeeper side), NOT `fbref_keepers.parquet` -- the keeper pages are
+        only fetched for previous/metrics/current, so a keeper history walked
+        off them could never show a first top-9 season earlier than that
+        three-season window, while `fbref_players.parquet`'s headline-league
+        rows reach back to 2020/21 (`config.seasons()["history"][0]`), same
+        as the outfield side. A player whose first top-9 season IS that
+        earliest fetched season has an unknown true origin (nothing before
+        it is visible to us) and is counted `censored`, exactly as
+        `src.pathways.export_route` counts its own `censored_share` -- both
+        exhibits share one `first_hist` reference (the whole players table's
+        own earliest season) so a goalkeeper and an outfield export whose
+        first top-9 season is that same season are censored on the same
+        basis. Same age convention and dedupe as `src.pathways.export_route`
         (`_age`, `_dedupe_player_season`, imported from there rather than
         reimplemented) but this module needs the raw per-player ages for the
         strip-plot figure, not just `export_route`'s aggregate median, so it
         walks the same history logic itself instead of reading
         `pathways.json`.
 
-    club tier: for the home nation's current top-9 goalkeepers, club,
+    club tier: for the home nation's current top-9 goalkeepers (the same
+        roster `production`/`per_million` use -- see `home_top9_gks`), club,
         league, minutes and the club's goals-scored percentile within its
         league -- the same proxy `src.pathways.fare`/`destinations` use in
         place of the (unavailable) ClubElo rating.
@@ -31,8 +47,10 @@ up. Five descriptive exhibits, all restricted to the peer countries
         saves/90 shrunk toward their (league, season) cohort median with
         the feature pipeline's own K (`config.features()["phantom_minutes"]`,
         same formula as `src.features.bayesian_shrink`), GA/90 additionally
-        quality-adjusted by the league multiplier (`ga90_q = ga90_shrunk *
-        m_L` -- a goal against in a stronger league counts less). Save
+        quality-adjusted by the league multiplier (`ga90_q = ga90_shrunk /
+        m_L` -- `m_ENG = 1` is the baseline strength; a weaker league's GA
+        scales up, so a goal conceded in a stronger league counts less than
+        the same shrunk rate would in a weaker one). Save
         percentage is shrunk the same way but with shots-on-target-against
         (`sota`) as the exposure instead of minutes: a keeper-season's SoTA
         count is almost always far below K, so `save_pct_shrunk` pulls hard
@@ -54,9 +72,17 @@ shares, ages, medians and percentiles, same as `src.pathways`.
 Inputs:
     data/processed/<nation>/fbref_keepers.parquet (src.fetch_keepers; any
         nationality, headline + domestic + custom + peer_domestic leagues,
-        previous/metrics/current seasons)
-    data/processed/<nation>/fbref_players.parquet (for the outfield export-
-        age contrast and the club-strength proxy's `gls` totals)
+        previous/metrics/current seasons) -- joined to the GK rows of
+        `fbref_players.parquet` on (league, season, team, player_key) by
+        `join_keeper_pool` before anything else in this module touches it;
+        the players table's `born`/`nation`/`min` are canonical (that table
+        is the corpus every other chapter already trusts), the keeper page's
+        own copies of those same fields are dropped. Rows that fail to join
+        are excluded from every GK exhibit; the count is logged
+        (`LOG.warning`) and returned to `main()` for `data_quality.json`.
+    data/processed/<nation>/fbref_players.parquet (GK rows for the export-
+        age walk and the join above; non-GK rows for the outfield export-
+        age contrast; `gls` totals for the club-strength proxy)
     data/processed/<nation>/nt_flags.parquet (national-team flag for cards)
     config/leagues.yaml, config/countries.yaml, config/seasons.yaml,
         config/league_quality.yaml, config/feature_definitions.yaml
@@ -82,7 +108,7 @@ from src.utils import normalize_name, read_parquet
 LOG = logging.getLogger(__name__)
 
 __all__ = [
-    "per_million", "gk_first_top9_ages", "club_tier", "production_table",
+    "join_keeper_pool", "per_million", "gk_first_top9_ages", "club_tier", "production_table",
     "production_peer_medians", "home_top9_gks", "attach_nt_flags", "gk_cards",
     "build_goalkeepers", "render_export_age_figure", "main",
 ]
@@ -108,6 +134,36 @@ def _opt_float(value: object, digits: int = 2) -> float | None:
     if value is None or pd.isna(value):
         return None
     return round(float(value), digits)
+
+
+def join_keeper_pool(keepers: pd.DataFrame, players_all: pd.DataFrame) -> tuple[pd.DataFrame, int]:
+    """Join `fbref_keepers.parquet` to the GK rows of `fbref_players.parquet`
+    on (league, season, team, player_key); the players table's `born`,
+    `nation` and `min` are canonical -- that table is the corpus every other
+    chapter of the report already trusts, so the keeper page's own copies of
+    those same three fields are dropped in favour of it. Every other column
+    (the production stats: `ga`, `saves`, `sota`, `save_pct`, `cs`, `mp`;
+    `player`, `age`) is kept from the keeper table -- the players table
+    doesn't carry any of the production numbers, and `player`/`age` should
+    already agree between the two FBref pages for the same person-season.
+
+    Returns `(joined, unjoined)`: `joined` has exactly `fbref_keepers.
+    parquet`'s own column set (`COLS` in `src.fetch_keepers`), just with
+    `born`/`nation`/`min` swapped for their canonical values; `unjoined` is
+    the count of keeper rows with no matching GK row in the players table
+    (a team-name mismatch between the two pages, or that keeper not carrying
+    `pos == "GK"` in the standard table for that season) -- those rows are
+    dropped rather than kept with unverified identity fields, and the count
+    is the caller's to log (`main()` both warns and returns it for
+    `data_quality.json`'s `gk_unjoined` check).
+    """
+    key_cols = ["league", "season", "team", "player_key"]
+    gk_pool = players_all[players_all.get("pos", pd.Series(dtype=str)) == "GK"]
+    canonical = gk_pool[key_cols + ["born", "nation", "min"]].drop_duplicates(key_cols)
+    own_cols = [c for c in keepers.columns if c not in ("born", "nation", "min")]
+    joined = keepers[own_cols].merge(canonical, on=key_cols, how="inner")
+    unjoined = len(keepers) - len(joined)
+    return joined[keepers.columns.tolist()], unjoined
 
 
 def per_million(
@@ -139,67 +195,90 @@ def per_million(
     return out
 
 
-def _export_ages(tables: pd.DataFrame, headline: list[str], home: str, current: str) -> list[float]:
-    """Age at first top-9 season, for every home-nation player currently on
-    a top-9 roster in `tables` -- the raw per-player list (not just the
-    median `src.pathways.export_route` reports), needed for the strip-plot
-    figure. Same age convention (`pathways._age`: season-start year minus
+def _export_ages(
+    tables: pd.DataFrame, headline: list[str], home: str, season: str, first_hist: str,
+) -> tuple[list[float], int]:
+    """Age at first top-9 season, for every home-nation player on the
+    `season` top-9 roster in `tables` -- the raw per-player list (not just
+    the median `src.pathways.export_route` reports), needed for the
+    strip-plot figure, plus how many of them are `censored` (their first
+    top-9 season IS `first_hist`, so their true first season could be
+    earlier and is unknown -- same rule as `export_route`'s own
+    `censored_share`, sharing that function's `first_hist` reference so a
+    goalkeeper and an outfield export censored on the same season count the
+    same way). Same age convention (`pathways._age`: season-start year minus
     birth year) and mid-season-transfer dedupe (`pathways._dedupe_player_
     season`) as `export_route`, reused directly rather than reimplemented.
-    A player with no birth year (`_age` returns NaN) is excluded, same as
-    `export_route`'s own median calculation.
+    A player with no birth year (`_age` returns NaN) is excluded from the
+    returned ages, same as `export_route`'s own median calculation, and from
+    `censored` too -- `censored`'s denominator (the caller divides by
+    `len(ages)`) is exactly the population the median is computed over.
     """
     t = _dedupe_player_season(tables)
-    roster = t[(t.season == current) & t.league.isin(headline) & (t.nation == home)]
-    ages = []
+    roster = t[(t.season == season) & t.league.isin(headline) & (t.nation == home)]
+    ages, censored = [], 0
     for pid in roster.player_key.unique():
         hist = t[t.player_key == pid].sort_values("season")
         top = hist[hist.league.isin(headline)]
         first = top.iloc[0]
         age = _age(first.born, first.season)
-        if not pd.isna(age):
-            ages.append(float(age))
-    return ages
+        if pd.isna(age):
+            continue
+        ages.append(float(age))
+        if first.season == first_hist:
+            censored += 1
+    return ages, censored
 
 
-def gk_first_top9_ages(keepers: pd.DataFrame, headline: list[str], home: str, current: str) -> list[dict]:
-    """Per current-top9-roster home goalkeeper: age and season of their own
-    first top-9 appearance. Named counterpart of `_export_ages` (which this
-    also uses internally, via the shared history walk) -- kept as its own
-    function because the report needs the player names, not just the ages.
+def gk_first_top9_ages(
+    home_top9: pd.DataFrame, gk_history: pd.DataFrame, headline: list[str], first_hist: str,
+) -> list[dict]:
+    """Per current-top9-roster home goalkeeper (`home_top9`, from
+    `home_top9_gks` -- the same >= min_minutes roster `production`/
+    `per_million`/`club_tier` use, so this exhibit's `n` always matches
+    theirs): age and season of their own first top-9 appearance, walked over
+    `gk_history` (`fbref_players.parquet`'s `pos == "GK"` rows, NOT
+    `fbref_keepers.parquet` -- see the module docstring's "export age"
+    section on why: the keeper pages don't reach back far enough). A player
+    whose first top-9 season IS `first_hist` is `censored` (their true first
+    season could be earlier and is unknown -- see `_export_ages`, which this
+    mirrors so goalkeepers and outfield exports are censored identically).
+    Named counterpart of `_export_ages` (same history-walk logic, duplicated
+    rather than shared because this one needs the player names and per-row
+    censoring flag the report's roster listing wants, not just the ages).
     """
-    t = _dedupe_player_season(keepers)
-    roster = t[(t.season == current) & t.league.isin(headline) & (t.nation == home)]
+    hist = _dedupe_player_season(gk_history)
     rows = []
-    for pid in roster.player_key.unique():
-        hist = t[t.player_key == pid].sort_values("season")
-        top = hist[hist.league.isin(headline)]
+    for pid in home_top9.player_key.unique():
+        h = hist[hist.player_key == pid].sort_values("season")
+        top = h[h.league.isin(headline)]
         first = top.iloc[0]
         age = _age(first.born, first.season)
-        name = roster[roster.player_key == pid].iloc[0]["player"]
+        name = home_top9[home_top9.player_key == pid].iloc[0]["player"]
         rows.append({
             "player_key": pid, "player": str(name),
             "first_age": (None if pd.isna(age) else float(age)),
             "first_season": str(first.season),
+            "censored": bool(first.season == first_hist),
         })
     return sorted(rows, key=lambda r: (r["first_age"] is None, r["first_age"]))
 
 
-def club_tier(
-    keepers: pd.DataFrame, players_all: pd.DataFrame, home: str, headline: list[str], season: str,
-) -> pd.DataFrame:
-    """Home nation's current top-9 goalkeepers: club, league, minutes and
-    the club's goals-scored percentile within its league that season --
-    the exact proxy `src.pathways.fare`/`destinations` use (ClubElo is
-    down; rank each club within its own league-season by the total `gls`
-    scored by its full roster, then take the percentile of that rank).
+def club_tier(home_top9: pd.DataFrame, players_all: pd.DataFrame, season: str) -> pd.DataFrame:
+    """Home nation's current top-9 goalkeepers (`home_top9`, from
+    `home_top9_gks` -- the same >= min_minutes roster `production`/
+    `per_million`/the export-age exhibit use, so this table's row count
+    always matches theirs): club, league, minutes and the club's
+    goals-scored percentile within its league that season -- the exact
+    proxy `src.pathways.fare`/`destinations` use (ClubElo is down; rank
+    each club within its own league-season by the total `gls` scored by its
+    full roster, then take the percentile of that rank).
     """
     all_season = players_all[players_all.season == season]
     club_goals = all_season.groupby(["league", "team"])["gls"].sum().rename("club_goals")
     club_goals_pct = club_goals.groupby(level="league").rank(pct=True).rename("club_goals_pct")
 
-    gk = keepers[(keepers.season == season) & keepers.league.isin(headline) & (keepers.nation == home)].copy()
-    gk = gk.join(club_goals_pct, on=["league", "team"])
+    gk = home_top9.join(club_goals_pct, on=["league", "team"])
     return (
         gk[["player", "player_key", "league", "team", "min", "club_goals_pct"]]
         .sort_values("min", ascending=False)
@@ -252,7 +331,9 @@ def production_table(
     >= min_minutes in `season`: GA/90, saves/90, save %, clean-sheet share,
     shrunk toward the (league, season) cohort median (see `_shrink_series`),
     GA/90 additionally quality-adjusted by the league multiplier
-    (`ga90_q = ga90_shrunk * m_L`). The shrinkage population is every
+    (`ga90_q = ga90_shrunk / m_L`; `m_ENG = 1` is the baseline, a weaker
+    league's GA scales up -- a goal conceded in a stronger league counts
+    less). The shrinkage population is every
     qualifying keeper league-wide, not restricted to any one country --
     `main()` filters this down to the home nation's own rows and to each
     peer's rows for `production_peer_medians` afterwards.
@@ -270,7 +351,7 @@ def production_table(
     sub["save_pct_shrunk"] = sub["save_rate_shrunk"] * 100
     mult = league_quality["multipliers"]
     sub["league_multiplier"] = sub["league"].map(mult).astype(float)
-    sub["ga90_q"] = sub["ga90_shrunk"] * sub["league_multiplier"]
+    sub["ga90_q"] = sub["ga90_shrunk"] / sub["league_multiplier"]
     return sub
 
 
@@ -374,26 +455,52 @@ def gk_cards(home_top9: pd.DataFrame, prod_all: pd.DataFrame, tier: pd.DataFrame
 
 
 def build_goalkeepers(
-    keepers: pd.DataFrame, players_all: pd.DataFrame, peers_meta: dict, headline: list[str], home: str,
-    metrics_season: str, current_season: str, league_quality: dict, nt: pd.DataFrame,
+    keepers_raw: pd.DataFrame, players_all: pd.DataFrame, peers_meta: dict, headline: list[str], home: str,
+    metrics_season: str, league_quality: dict, nt: pd.DataFrame,
     min_minutes: int, k: int,
-) -> dict:
-    """Assemble the full `goalkeepers.json` payload (no disk I/O)."""
+) -> tuple[dict, int]:
+    """Assemble the full `goalkeepers.json` payload (no disk I/O).
+
+    Every "current top-9 roster" exhibit (`per_million`'s home row,
+    `club_tier`, `production`, the cards, the GK side of `export_age`) is
+    built off one shared `home_top9` roster (`home_top9_gks` on the
+    keeper/pool join) so their counts always agree -- the sentence's n_gk,
+    the club-tier table's row count and the export-age median's n are the
+    same number by construction, not by coincidence. `metrics_season` is
+    used throughout (no separate "current" season parameter: Task 18's
+    review round found `gk_first_top9_ages` called with a different season
+    than everything else, which desynced that count from the others).
+
+    Returns `(payload, keeper_unjoined)` -- `keeper_unjoined` is
+    `join_keeper_pool`'s dropped-row count, for `main()` to log into
+    `data_quality.json`.
+    """
+    keepers, keeper_unjoined = join_keeper_pool(keepers_raw, players_all)
     pm = per_million(keepers, peers_meta, headline, metrics_season, min_minutes)
     home_row = pm[pm.country == home]
+
+    gk_history = players_all[players_all.get("pos", pd.Series(dtype=str)) == "GK"]
     outfield = players_all[players_all.get("pos", pd.Series(dtype=str)) != "GK"]
+    # Shared censoring reference (see the module docstring's "export age"
+    # section): the whole players table's own earliest season, so a
+    # goalkeeper and an outfield export whose first top-9 season is that
+    # same season are censored on the same basis.
+    first_hist = str(players_all["season"].min())
 
-    gk_named = gk_first_top9_ages(keepers, headline, home, current_season)
+    home_top9 = home_top9_gks(keepers, home, headline, metrics_season, min_minutes)
+    gk_named = gk_first_top9_ages(home_top9, gk_history, headline, first_hist)
     gk_ages = [r["first_age"] for r in gk_named if r["first_age"] is not None]
-    outfield_ages = _export_ages(outfield, headline, home, current_season)
+    # Denominator matches `len(gk_ages)`: a row with no birth year contributes
+    # to neither the median nor the censored count, same as `_export_ages`.
+    gk_censored = sum(1 for r in gk_named if r["first_age"] is not None and r["censored"])
+    outfield_ages, outfield_censored = _export_ages(outfield, headline, home, metrics_season, first_hist)
 
-    tier = club_tier(keepers, players_all, home, headline, metrics_season)
+    tier = club_tier(home_top9, players_all, metrics_season)
     prod_all = production_table(keepers, metrics_season, league_quality, min_minutes, k)
     home_prod = (
         prod_all[prod_all.nation == home] if not prod_all.empty else prod_all
     )
     peer_med = production_peer_medians(prod_all, list(peers_meta))
-    home_top9 = home_top9_gks(keepers, home, headline, metrics_season, min_minutes)
     cards = gk_cards(home_top9, prod_all, tier, nt)
 
     home_prod_records = []
@@ -404,15 +511,21 @@ def build_goalkeepers(
             "save_pct_shrunk": round(float(r.save_pct_shrunk), 1),
             "cs_share": _opt_float(r.cs_share, 3), "ga90_q": round(float(r.ga90_q), 2),
         })
-    return {
+    payload = {
         "min_minutes": min_minutes, "phantom_minutes": k,
         "per_million": pm.to_dict("records"),
         "home_rank": int(home_row.iloc[0]["rank"]) if not home_row.empty else None,
         "n_peers": int(len(pm)),
         "export_age": {
             "gk_n": len(gk_ages), "gk_median_age": _opt_float(pd.Series(gk_ages).median(), 1) if gk_ages else None,
+            "gk_censored": gk_censored,
+            "gk_censored_share": round(gk_censored / len(gk_ages), 3) if gk_ages else 0.0,
             "outfield_n": len(outfield_ages),
             "outfield_median_age": _opt_float(pd.Series(outfield_ages).median(), 1) if outfield_ages else None,
+            "outfield_censored": outfield_censored,
+            "outfield_censored_share": (
+                round(outfield_censored / len(outfield_ages), 3) if outfield_ages else 0.0
+            ),
             "current_top9_ages": gk_named,
         },
         "club_tier": [
@@ -425,6 +538,7 @@ def build_goalkeepers(
         },
         "cards": cards,
     }
+    return payload, keeper_unjoined
 
 
 def render_export_age_figure(
@@ -470,17 +584,19 @@ def main() -> None:
     min_minutes, k = fd["min_minutes"], fd["phantom_minutes"]
     headline = list(cfg["headline"])
     home = config.HOME
-    metrics_season, current_season = seasons_raw["metrics"], seasons_raw["current"]
+    metrics_season = seasons_raw["metrics"]
 
     keepers = read_parquet(config.PROCESSED_DIR / "fbref_keepers.parquet")
     players_all = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
     nt = read_parquet(config.PROCESSED_DIR / "nt_flags.parquet")
     peers_meta = config.peers_meta()
 
-    out = build_goalkeepers(
-        keepers, players_all, peers_meta, headline, home, metrics_season, current_season,
+    out, unjoined = build_goalkeepers(
+        keepers, players_all, peers_meta, headline, home, metrics_season,
         league_quality, nt, min_minutes, k,
     )
+    if unjoined:
+        LOG.warning("%d of %d keeper rows did not join to a GK row in fbref_players.parquet", unjoined, len(keepers))
     (config.PROCESSED_DIR / "goalkeepers.json").write_text(
         json.dumps(out, indent=1, ensure_ascii=False, default=float), encoding="utf-8")
     LOG.info("wrote goalkeepers.json: rank %s of %s, %d GK cards",
@@ -488,7 +604,8 @@ def main() -> None:
 
     gk_ages = [r["first_age"] for r in out["export_age"]["current_top9_ages"] if r["first_age"] is not None]
     outfield = players_all[players_all.get("pos", pd.Series(dtype=str)) != "GK"]
-    outfield_ages = _export_ages(outfield, headline, home, current_season)
+    first_hist = str(players_all["season"].min())
+    outfield_ages, _ = _export_ages(outfield, headline, home, metrics_season, first_hist)
     render_export_age_figure(
         gk_ages, outfield_ages, out["export_age"]["gk_median_age"], out["export_age"]["outfield_median_age"],
         config.OUTPUTS_DIR / "gk_export_age.svg",

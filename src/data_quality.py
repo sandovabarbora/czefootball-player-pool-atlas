@@ -2,7 +2,7 @@
 
 Chapter IV carries two things side by side:
 
-- Six checks recomputed from the processed data on every run, so "how many
+- Seven checks recomputed from the processed data on every run, so "how many
   rows did this drop" always matches whatever is on disk right now, not a
   number typed once and left to rot.
 - A small dated list of pipeline incidents, recorded by hand in
@@ -29,6 +29,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 from src import config
+from src.goalkeepers import join_keeper_pool
 from src.logging_setup import setup as logging_setup
 from src.pool import is_feminine_surname
 from src.utils import collapse_player_seasons, normalize_name, read_parquet
@@ -125,16 +126,23 @@ def compute_checks(
     features_by_group: dict[str, pd.DataFrame],
     nt_flags: pd.DataFrame,
     country_page_html: str | None = None,
+    keepers: pd.DataFrame | None = None,
 ) -> list[dict]:
-    """Six recomputed wrangling-check rows: `{"id", "count", "unit"}` each.
+    """Seven recomputed wrangling-check rows: `{"id", "count", "unit"}` each.
 
     See the module docstring for what each check recomputes and why.
     `country_page_html` is the cached FBref country page's text, or `None`
     when the cache file isn't present (`women_filtered`'s count is then
-    `None` rather than a guess).
+    `None` rather than a guess). `keepers` is `fbref_keepers.parquet`, or
+    `None` when it hasn't been fetched yet (`gk_unjoined`'s count is then
+    `None` too, same tolerance) -- `gk_unjoined` reruns Task 18's own
+    `src.goalkeepers.join_keeper_pool` (league, season, team, player_key)
+    against the GK rows of `tables`, so it always reflects the exact join
+    `src.goalkeepers` performs, not a separate approximation of it.
     """
     pool_norm = pool["player"].map(normalize_name)
     women_filtered = _women_filtered_count(country_page_html) if country_page_html else None
+    gk_unjoined = None if keepers is None or keepers.empty else join_keeper_pool(keepers, tables)[1]
 
     return [
         {"id": "women_filtered", "count": women_filtered, "unit": "entries"},
@@ -144,6 +152,7 @@ def compute_checks(
         {"id": "nt_unmatched", "count": _nt_unmatched_count(nt_flags, features_by_group), "unit": "names"},
         {"id": "missing_born",
          "count": int(tables.loc[tables["nation"] == config.HOME, "born"].isna().sum()), "unit": "rows"},
+        {"id": "gk_unjoined", "count": gk_unjoined, "unit": "rows"},
     ]
 
 
@@ -159,7 +168,12 @@ def main() -> None:
     if html is None:
         LOG.warning("cached country page not found at %s; women_filtered count will be null", COUNTRY_PAGE_CACHE)
 
-    checks = compute_checks(pool, tables, features_by_group, nt_flags, country_page_html=html)
+    keepers_path = p / "fbref_keepers.parquet"
+    keepers = read_parquet(keepers_path) if keepers_path.exists() else None
+    if keepers is None:
+        LOG.warning("%s not found; gk_unjoined count will be null", keepers_path)
+
+    checks = compute_checks(pool, tables, features_by_group, nt_flags, country_page_html=html, keepers=keepers)
     events = config.load_yaml("data_quality_events.yaml")["events"]
 
     out_path = config.PROCESSED_DIR / "data_quality.json"

@@ -434,3 +434,33 @@ def test_slide_8b_absent_when_gk_context_empty():
     html2 = _render(ctx2)
     how2 = re.search(r'id="q4">.*?slide-how">(.*?)</p>', html2, re.S).group(1)
     assert "is itself one of Europe's top" in how2
+
+
+def test_slide_8b_how_discloses_censoring_and_gains_home_note_only_when_headline():
+    """Task 18 fix round 1, items 2 and 6: the how-line states the censored
+    share of both the goalkeepers and the outfield exports, and gains the
+    same {home_note} slides 4/5 use only when the home league is itself one
+    of the headline leagues."""
+    ctx = build_context_from_fixtures("en")
+    assert ctx["domestic_league_code"] not in ctx["headline_leagues"]
+    html = _render(ctx)
+    how = re.search(r'id="q8b">.*?slide-how">(.*?)</p>', html, re.S).group(1)
+    assert "censored" in how
+    assert "% of the goalkeepers" in how and "% of the outfield exports" in how
+    assert "needs no move" not in how
+
+    ctx2 = dict(ctx, domestic_league_code="ENG-Premier League", headline_leagues=["ENG-Premier League"])
+    html2 = _render(ctx2)
+    how2 = re.search(r'id="q8b">.*?slide-how">(.*?)</p>', html2, re.S).group(1)
+    assert "needs no move" in how2
+
+
+def test_slide_8b_a_uses_czech_nominative_plural_agreement():
+    """Task 18 fix round 1, item 5: the counted-noun + verb pair must agree
+    as nominative plural + plural verb ('brankáři hrají'), not genitive
+    plural + singular verb ('brankářů hraje')."""
+    ctx = build_context_from_fixtures("cs")
+    html = _render(ctx)
+    a = re.search(r'id="q8b">.*?slide-a">(.*?)</p>', html, re.S).group(1)
+    assert "brankáři hrají" in a
+    assert "brankářů hraje" not in a

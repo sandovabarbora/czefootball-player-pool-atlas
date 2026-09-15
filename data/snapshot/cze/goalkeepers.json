@@ -78,28 +78,42 @@
  "home_rank": 5,
  "n_peers": 9,
  "export_age": {
-  "gk_n": 3,
-  "gk_median_age": 22.0,
-  "outfield_n": 12,
+  "gk_n": 4,
+  "gk_median_age": 22.5,
+  "gk_censored": 0,
+  "gk_censored_share": 0.0,
+  "outfield_n": 19,
   "outfield_median_age": 23.0,
+  "outfield_censored": 4,
+  "outfield_censored_share": 0.211,
   "current_top9_ages": [
    {
     "player_key": "lukas hornicek|2002",
     "player": "Lukáš Horníček",
-    "first_age": 22.0,
-    "first_season": "2024-2025"
+    "first_age": 19.0,
+    "first_season": "2021-2022",
+    "censored": false
    },
    {
     "player_key": "antonin kinsky|2003",
     "player": "Antonín Kinský",
     "first_age": 22.0,
-    "first_season": "2025-2026"
+    "first_season": "2025-2026",
+    "censored": false
+   },
+   {
+    "player_key": "vitezslav jaros|2001",
+    "player": "Vitezslav Jaros",
+    "first_age": 23.0,
+    "first_season": "2024-2025",
+    "censored": false
    },
    {
     "player_key": "matej kovar|2000",
     "player": "Matej Kovar",
-    "first_age": 24.0,
-    "first_season": "2024-2025"
+    "first_age": 23.0,
+    "first_season": "2023-2024",
+    "censored": false
    }
   ]
  },
@@ -162,7 +176,7 @@
     "saves90": 3.26,
     "save_pct_shrunk": 68.3,
     "cs_share": 0.263,
-    "ga90_q": 0.68
+    "ga90_q": 2.62
    },
    {
     "player": "Matej Kovar",
@@ -174,7 +188,7 @@
     "saves90": 2.74,
     "save_pct_shrunk": 67.8,
     "cs_share": 0.226,
-    "ga90_q": 0.71
+    "ga90_q": 2.71
    },
    {
     "player": "Lukáš Horníček",
@@ -186,7 +200,7 @@
     "saves90": 2.19,
     "save_pct_shrunk": 66.6,
     "cs_share": 0.364,
-    "ga90_q": 0.67
+    "ga90_q": 1.7
    },
    {
     "player": "Martin Jedlička",
@@ -198,7 +212,7 @@
     "saves90": 3.12,
     "save_pct_shrunk": 67.5,
     "cs_share": 0.312,
-    "ga90_q": 0.6
+    "ga90_q": 3.19
    },
    {
     "player": "Michal Reichl",
@@ -210,7 +224,7 @@
     "saves90": 2.89,
     "save_pct_shrunk": 67.5,
     "cs_share": 0.217,
-    "ga90_q": 0.58
+    "ga90_q": 3.09
    },
    {
     "player": "Hugo Jan Bačkovský",
@@ -222,7 +236,7 @@
     "saves90": 3.36,
     "save_pct_shrunk": 67.8,
     "cs_share": 0.214,
-    "ga90_q": 0.54
+    "ga90_q": 2.88
    },
    {
     "player": "Stanislav Dostál",
@@ -234,7 +248,7 @@
     "saves90": 3.03,
     "save_pct_shrunk": 67.4,
     "cs_share": 0.3,
-    "ga90_q": 0.61
+    "ga90_q": 3.23
    },
    {
     "player": "Jan Hanuš",
@@ -246,7 +260,7 @@
     "saves90": 2.24,
     "save_pct_shrunk": 67.2,
     "cs_share": 0.423,
-    "ga90_q": 0.52
+    "ga90_q": 2.77
    },
    {
     "player": "Aleš Mandous",
@@ -258,7 +272,7 @@
     "saves90": 2.75,
     "save_pct_shrunk": 66.4,
     "cs_share": 0.0,
-    "ga90_q": 0.89
+    "ga90_q": 4.74
    },
    {
     "player": "Jiří Floder",
@@ -270,7 +284,7 @@
     "saves90": 2.92,
     "save_pct_shrunk": 67.8,
     "cs_share": 0.36,
-    "ga90_q": 0.52
+    "ga90_q": 2.77
    },
    {
     "player": "Aleš Mandous",
@@ -282,7 +296,7 @@
     "saves90": 2.81,
     "save_pct_shrunk": 67.4,
     "cs_share": 0.0,
-    "ga90_q": 0.57
+    "ga90_q": 3.01
    },
    {
     "player": "Jan Koutny",
@@ -294,7 +308,7 @@
     "saves90": 2.77,
     "save_pct_shrunk": 67.7,
     "cs_share": 0.29,
-    "ga90_q": 0.52
+    "ga90_q": 2.77
    },
    {
     "player": "Jakub Markovič",
@@ -306,7 +320,7 @@
     "saves90": 1.71,
     "save_pct_shrunk": 67.8,
     "cs_share": 0.533,
-    "ga90_q": 0.35
+    "ga90_q": 1.87
    },
    {
     "player": "Jindřich Staněk",
@@ -318,7 +332,7 @@
     "saves90": 2.11,
     "save_pct_shrunk": 67.4,
     "cs_share": 0.316,
-    "ga90_q": 0.48
+    "ga90_q": 2.55
    },
    {
     "player": "Tomáš Koubek",
@@ -330,7 +344,7 @@
     "saves90": 2.73,
     "save_pct_shrunk": 67.9,
     "cs_share": 0.333,
-    "ga90_q": 0.48
+    "ga90_q": 2.57
    },
    {
     "player": "Jiří Borek",
@@ -342,7 +356,7 @@
     "saves90": 3.33,
     "save_pct_shrunk": 67.4,
     "cs_share": 0.333,
-    "ga90_q": 0.6
+    "ga90_q": 3.17
    },
    {
     "player": "Milan Heča",
@@ -354,7 +368,7 @@
     "saves90": 3.04,
     "save_pct_shrunk": 67.6,
     "cs_share": 0.24,
-    "ga90_q": 0.58
+    "ga90_q": 3.1
    },
    {
     "player": "Matouš Trmal",
@@ -366,7 +380,7 @@
     "saves90": 2.94,
     "save_pct_shrunk": 67.9,
     "cs_share": 0.324,
-    "ga90_q": 0.53
+    "ga90_q": 2.83
    },
    {
     "player": "Martin Jedlička",
@@ -378,7 +392,7 @@
     "saves90": 2.9,
     "save_pct_shrunk": 67.5,
     "cs_share": 0.267,
-    "ga90_q": 0.58
+    "ga90_q": 3.06
    },
    {
     "player": "Viktor Baier",
@@ -390,7 +404,7 @@
     "saves90": 3.06,
     "save_pct_shrunk": 65.9,
     "cs_share": 0.176,
-    "ga90_q": 0.42
+    "ga90_q": 5.82
    },
    {
     "player": "Adam Stejskal",
@@ -402,14 +416,14 @@
     "saves90": 2.13,
     "save_pct_shrunk": 65.0,
     "cs_share": 0.226,
-    "ga90_q": 0.42
+    "ga90_q": 5.84
    }
   ],
   "peer_medians": [
    {
     "country": "CZE",
     "n": 22,
-    "median_ga90_q": 0.57,
+    "median_ga90_q": 2.86,
     "median_saves90": 2.9,
     "median_save_pct": 67.5,
     "median_cs_share": 0.288
@@ -417,7 +431,7 @@
    {
     "country": "SVK",
     "n": 9,
-    "median_ga90_q": 0.56,
+    "median_ga90_q": 2.9,
     "median_saves90": 3.09,
     "median_save_pct": 66.8,
     "median_cs_share": 0.292
@@ -425,7 +439,7 @@
    {
     "country": "AUT",
     "n": 16,
-    "median_ga90_q": 0.37,
+    "median_ga90_q": 4.76,
     "median_saves90": 2.61,
     "median_save_pct": 66.1,
     "median_cs_share": 0.273
@@ -433,7 +447,7 @@
    {
     "country": "HUN",
     "n": 16,
-    "median_ga90_q": 0.39,
+    "median_ga90_q": 5.29,
     "median_saves90": 3.17,
     "median_save_pct": 69.5,
     "median_cs_share": 0.243
@@ -441,7 +455,7 @@
    {
     "country": "POL",
     "n": 26,
-    "median_ga90_q": 0.6,
+    "median_ga90_q": 2.74,
     "median_saves90": 2.77,
     "median_save_pct": 66.3,
     "median_cs_share": 0.243
@@ -449,7 +463,7 @@
    {
     "country": "CRO",
     "n": 20,
-    "median_ga90_q": 0.34,
+    "median_ga90_q": 5.19,
     "median_saves90": 2.92,
     "median_save_pct": 67.8,
     "median_cs_share": 0.222
@@ -457,7 +471,7 @@
    {
     "country": "DEN",
     "n": 21,
-    "median_ga90_q": 0.59,
+    "median_ga90_q": 3.69,
     "median_saves90": 2.9,
     "median_save_pct": 65.0,
     "median_cs_share": 0.281
@@ -465,7 +479,7 @@
    {
     "country": "SUI",
     "n": 15,
-    "median_ga90_q": 0.53,
+    "median_ga90_q": 4.95,
     "median_saves90": 3.07,
     "median_save_pct": 65.2,
     "median_cs_share": 0.211
@@ -473,7 +487,7 @@
    {
     "country": "NOR",
     "n": 17,
-    "median_ga90_q": 0.57,
+    "median_ga90_q": 4.01,
     "median_saves90": 3.06,
     "median_save_pct": 66.1,
     "median_cs_share": 0.222
@@ -493,7 +507,7 @@
     "saves90": 2.19,
     "save_pct": 66.6,
     "cs_share": 0.364,
-    "ga90_q": 0.67
+    "ga90_q": 1.7
    },
    "club_goals_pct": 0.83,
    "nt_flag": true,

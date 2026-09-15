@@ -502,7 +502,10 @@
         </table>
       </details>
     </div>
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8b.how', min=gk.min_minutes, season=seasons.metrics, phantom=gk.phantom_minutes) }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8b.how', min=gk.min_minutes, season=seasons.metrics, phantom=gk.phantom_minutes, topn=topn, history_start=seasons.history_start,
+                          censored_pct=('%.0f' | format(gk.export_age.gk_censored_share * 100)),
+                          censored_out_pct=('%.0f' | format(gk.export_age.outfield_censored_share * 100)),
+                          home_note=(t('slide.8b.home_note', topn=topn) if (domestic_league_code in headline_leagues) else '')) }}</p>
   </div>
 </section>
 {% endif %}

@@ -1632,9 +1632,11 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "home_row": {"country": "CZE", "name": "Czechia", "n_gk": 3, "population_m": 10.9,
                      "per_million": 0.28, "rank": 4},
         "home_rank": 4, "n_peers": 9, "min_minutes": 450, "phantom_minutes": 900,
-        "export_age": {"gk_n": 3, "gk_median_age": 21.0, "outfield_n": 15, "outfield_median_age": 23.0,
+        "export_age": {"gk_n": 3, "gk_median_age": 21.0, "gk_censored": 1, "gk_censored_share": 0.333,
+                       "outfield_n": 15, "outfield_median_age": 23.0, "outfield_censored": 2,
+                       "outfield_censored_share": 0.133,
                        "current_top9_ages": [{"player_key": "jindrich stanek|1996", "player": "Jindřich Staněk",
-                                              "first_age": 21.0, "first_season": "2024-2025"}]},
+                                              "first_age": 21.0, "first_season": "2024-2025", "censored": False}]},
         "club_tier": [{"player": "Jindřich Staněk", "player_key": "jindrich stanek|1996",
                       "league": "GER-Bundesliga", "team": "Mainz 05", "min": 2700, "club_goals_pct": 0.6}],
         "club_strength_proxy": "goals-scored percentile within league",
@@ -1659,6 +1661,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             {"id": "split_seasons", "count": 423, "unit": "rows"},
             {"id": "nt_unmatched", "count": 18, "unit": "names"},
             {"id": "missing_born", "count": 0, "unit": "rows"},
+            {"id": "gk_unjoined", "count": 1, "unit": "rows"},
         ],
         "events": [
             # dotted dates so the no-typed-season regex test does not read them as seasons

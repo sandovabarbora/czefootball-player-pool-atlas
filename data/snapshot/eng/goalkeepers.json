@@ -70,34 +70,49 @@
  "home_rank": 8,
  "n_peers": 8,
  "export_age": {
-  "gk_n": 4,
+  "gk_n": 5,
   "gk_median_age": 26.0,
-  "outfield_n": 150,
+  "gk_censored": 5,
+  "gk_censored_share": 1.0,
+  "outfield_n": 200,
   "outfield_median_age": 21.0,
+  "outfield_censored": 81,
+  "outfield_censored_share": 0.405,
   "current_top9_ages": [
    {
-    "player_key": "james trafford|2002",
-    "player": "James Trafford",
-    "first_age": 23.0,
-    "first_season": "2025-2026"
-   },
-   {
-    "player_key": "carl rushworth|2001",
-    "player": "Carl Rushworth",
-    "first_age": 25.0,
-    "first_season": "2026-2027"
+    "player_key": "aaron ramsdale|1998",
+    "player": "Aaron Ramsdale",
+    "first_age": 22.0,
+    "first_season": "2020-2021",
+    "censored": true
    },
    {
     "player_key": "dean henderson|1997",
     "player": "Dean Henderson",
-    "first_age": 27.0,
-    "first_season": "2024-2025"
+    "first_age": 23.0,
+    "first_season": "2020-2021",
+    "censored": true
    },
    {
     "player_key": "jordan pickford|1994",
     "player": "Jordan Pickford",
-    "first_age": 30.0,
-    "first_season": "2024-2025"
+    "first_age": 26.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "sam johnstone|1993",
+    "player": "Sam Johnstone",
+    "first_age": 27.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "nick pope|1992",
+    "player": "Nick Pope",
+    "first_age": 28.0,
+    "first_season": "2020-2021",
+    "censored": true
    }
   ]
  },
@@ -141,30 +156,6 @@
    "team": "Newcastle",
    "min": 1004,
    "club_goals_pct": 0.65
-  },
-  {
-   "player": "James Trafford",
-   "player_key": "james trafford|2002",
-   "league": "ENG-Premier League",
-   "team": "Manchester City",
-   "min": 360,
-   "club_goals_pct": 1.0
-  },
-  {
-   "player": "Daniel Bentley",
-   "player_key": "daniel bentley|1993",
-   "league": "ENG-Premier League",
-   "team": "Wolves",
-   "min": 270,
-   "club_goals_pct": 0.05
-  },
-  {
-   "player": "Freddie Woodman",
-   "player_key": "freddie woodman|1997",
-   "league": "ENG-Premier League",
-   "team": "Liverpool",
-   "min": 213,
-   "club_goals_pct": 0.85
   }
  ],
  "club_strength_proxy": "goals-scored percentile within league",
@@ -243,7 +234,7 @@
    {
     "country": "FRA",
     "n": 14,
-    "median_ga90_q": 0.92,
+    "median_ga90_q": 2.07,
     "median_saves90": 2.67,
     "median_save_pct": 65.8,
     "median_cs_share": 0.31
@@ -251,7 +242,7 @@
    {
     "country": "GER",
     "n": 41,
-    "median_ga90_q": 0.74,
+    "median_ga90_q": 2.72,
     "median_saves90": 2.95,
     "median_save_pct": 66.6,
     "median_cs_share": 0.237
@@ -259,7 +250,7 @@
    {
     "country": "ESP",
     "n": 20,
-    "median_ga90_q": 1.09,
+    "median_ga90_q": 1.79,
     "median_saves90": 2.97,
     "median_save_pct": 68.7,
     "median_cs_share": 0.232
@@ -267,7 +258,7 @@
    {
     "country": "ITA",
     "n": 18,
-    "median_ga90_q": 1.05,
+    "median_ga90_q": 1.49,
     "median_saves90": 2.72,
     "median_save_pct": 68.3,
     "median_cs_share": 0.322
@@ -275,7 +266,7 @@
    {
     "country": "NED",
     "n": 27,
-    "median_ga90_q": 0.87,
+    "median_ga90_q": 3.09,
     "median_saves90": 3.26,
     "median_save_pct": 67.8,
     "median_cs_share": 0.2
@@ -283,7 +274,7 @@
    {
     "country": "POR",
     "n": 11,
-    "median_ga90_q": 0.98,
+    "median_ga90_q": 2.34,
     "median_saves90": 2.83,
     "median_save_pct": 66.0,
     "median_cs_share": 0.194
@@ -291,7 +282,7 @@
    {
     "country": "BEL",
     "n": 21,
-    "median_ga90_q": 0.84,
+    "median_ga90_q": 2.21,
     "median_saves90": 3.0,
     "median_save_pct": 69.1,
     "median_cs_share": 0.25
