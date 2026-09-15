@@ -992,7 +992,7 @@
 
     {% if model_comparison.table %}
     <h3 id="model-comparison">{{ t('ch4.compare.h3') }}</h3>
-    <p>{{ t('ch4.compare.q', min=thresholds.min_minutes) }}</p>
+    <p>{{ t('ch4.compare.q', min=feature_defs.min_minutes) }}</p>
     <p>{{ t('ch4.compare.design', n_origins=model_comparison.origins | length, cite_ro=cite.hyndman_athanasopoulos_2021,
              chains=model_comparison.bayes_chains, draws=model_comparison.bayes_draws, cite_bayes=cite.gelman_et_al_2013,
              cite_sklearn=cite.pedregosa_et_al_2011, max_train=model_comparison.bayes_max_train) }}</p>

@@ -37,8 +37,8 @@ PY=${PYTHON:-python3}
 if command -v uv >/dev/null 2>&1 && [ -f "$ROOT/pyproject.toml" ]; then PY="uv run --project $ROOT python"; fi
 
 for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.svg big5_series.svg \
-         league_strength.svg league_strength_ppc.svg style.css; do
-  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`)" >&2; exit 1; }
+         league_strength.svg league_strength_ppc.svg model_comparison.svg style.css; do
+  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`; model_comparison.svg: \`uv run python -m src.model_comparison\`)" >&2; exit 1; }
 done
 if [ "$NATION" = "cze" ]; then
   [ -f "$O/cs/index.html" ] || { echo "missing $O/cs/index.html — run \`make render\` first" >&2; exit 1; }
@@ -50,7 +50,7 @@ if [ "$D" != "$ROOT/docs" ]; then
 fi
 cp "$O/index.html" "$D/index.html"
 cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap.svg" "$O/big5_series.svg" \
-   "$O/league_strength.svg" "$O/league_strength_ppc.svg" "$O/style.css" "$D/"
+   "$O/league_strength.svg" "$O/league_strength_ppc.svg" "$O/model_comparison.svg" "$O/style.css" "$D/"
 
 ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
 if [ "$NATION" = "cze" ]; then

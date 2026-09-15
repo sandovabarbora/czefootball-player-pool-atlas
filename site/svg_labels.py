@@ -19,7 +19,7 @@ from pathlib import Path
 
 DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
-         "league_strength.svg", "league_strength_ppc.svg"]
+         "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -59,6 +59,15 @@ T = {
     "Share of player-seasons": "Podíl hráčských sezón",
     "Observed": "Pozorováno",
     "Replicated (posterior mean)": "Replikováno (posteriorní průměr)",
+    # model comparison (Task 16)
+    "Model comparison: RMSE by origin season": "Srovnání modelů: RMSE podle cílové sezóny",
+    "RMSE (npG+A per 90, quality-adjusted)": "RMSE (npG+A na 90, upravené o kvalitu)",
+    "Target season (origin)": "Cílová sezóna (origin)",
+    "Persistence": "Persistence",
+    "Shrinkage to league mean": "Shrinkage k ligovému průměru",
+    "Hierarchical Bayesian": "Hierarchický bayesovský",
+    "Gradient boosting": "Gradient boosting",
+    "Small MLP": "Malý MLP",
 }
 CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern
@@ -76,7 +85,7 @@ BIG5_TITLE_CS = f"{ADJ_CS_PL.capitalize()} hráči v ligách Big-5, " + "{start}
 # and the big5_series point annotations "YYYY/YY: N", identical in both languages)
 KEEP = re.compile(
     r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d+\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+|"
-    r"\d{4}/\d\d: \d+|[A-Z]{3}-[\w .]+)$")
+    r"\d{4}/\d\d: \d+|\d{4}/\d\d|[A-Z]{3}-[\w .]+)$")
 # per-string font scale, for a Czech entry that would otherwise leave its panel
 SHRINK: dict[str, float] = {}
 FONT = {"Georgia": "Georgia, 'Times New Roman', serif",
