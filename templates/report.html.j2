@@ -899,6 +899,83 @@
       <li>{{ t('ch4.sources.eurostat') }}</li>
     </ul>
 
+    {% if feature_eda.raw_row %}
+    <h3 id="features-from-raw">{{ t('ch4.eda.h3') }}</h3>
+    <p>{{ t('ch4.eda.intro', season=feature_eda.metrics_season, player=feature_eda.feature_player) }}</p>
+
+    <details class="fold">
+      <summary>{{ t('ch4.eda.tables.summary', player=feature_eda.feature_player) }}</summary>
+      <table class="kv-table">
+        <caption>{{ t('ch4.eda.raw.caption', season=feature_eda.metrics_season) }}</caption>
+        <thead><tr><th>{{ t('ch4.eda.raw.th.column') }}</th><th>{{ t('ch4.eda.raw.th.value') }}</th></tr></thead>
+        <tbody>
+          {% for col in feature_eda.raw_columns %}
+          <tr><td><code>{{ col }}</code></td><td>{{ feature_eda.raw_row[col] if feature_eda.raw_row[col] is not none else '—' }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <table class="kv-table">
+        <caption>{{ t('ch4.eda.feature.caption') }}</caption>
+        <thead><tr>
+          <th>{{ t('ch4.eda.feature.th.feature') }}</th><th>{{ t('ch4.eda.feature.th.raw') }}</th>
+          <th>{{ t('ch4.eda.feature.th.shrunk') }}</th><th>{{ t('ch4.eda.feature.th.quality') }}</th>
+          <th>{{ t('ch4.eda.feature.th.z') }}</th>
+        </tr></thead>
+        <tbody>
+          {% for f in feature_eda.feature_rows %}
+          <tr>
+            <td><code>{{ f.name }}</code></td><td>{{ f3(f.raw) }}</td><td>{{ f3(f.shrunk) }}</td>
+            <td>{{ f3(f.quality) }}</td><td>{{ f2(f.z) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+
+    <p>{{ t('ch4.eda.cleaning.p') }}</p>
+    <ul>
+      {% for c in data_quality.checks %}
+      <li>{{ c.label }}: {{ c.count if c.count is not none else '—' }} {{ c.unit }}.</li>
+      {% endfor %}
+    </ul>
+    <p class="capita-note">{{ t('ch4.eda.cleaning.link') }}</p>
+
+    <p>{{ t('ch4.eda.features.p', cite_efron_morris=cite.efron_morris_1975) }}</p>
+    <ul class="eda-feature-list">
+      <li><code>npg_p90</code> — {{ t('ch4.eda.features.npg_p90.def') }}: {{ t('ch4.eda.features.npg_p90.why') }}</li>
+      <li><code>ast_p90</code> — {{ t('ch4.eda.features.ast_p90.def') }}: {{ t('ch4.eda.features.ast_p90.why') }}</li>
+      <li><code>min_share</code> — {{ t('ch4.eda.features.min_share.def') }}: {{ t('ch4.eda.features.min_share.why') }}</li>
+      <li><code>age</code> — {{ t('ch4.eda.features.age.def') }}: {{ t('ch4.eda.features.age.why') }}</li>
+      <li><code>cards_p90</code> — {{ t('ch4.eda.features.cards_p90.def') }}: {{ t('ch4.eda.features.cards_p90.why') }}</li>
+    </ul>
+
+    <p>{{ t('ch4.eda.rejected.p', season=feature_eda.metrics_season) }}</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>{{ t('ch4.eda.rejected.th.candidate') }}</th><th>{{ t('ch4.eda.rejected.th.statistic') }}</th>
+        <th>{{ t('ch4.eda.rejected.th.value') }}</th><th>{{ t('ch4.eda.rejected.th.decision') }}</th>
+      </tr></thead>
+      <tbody>
+        {% for r in feature_eda.rejected %}
+        <tr><td><code>{{ r.candidate }}</code></td><td>{{ r.statistic }}</td><td>{{ f3(r.value) }}</td><td>{{ r.decision }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="capita-note">{{ t('ch4.eda.rejected.note', top3=feature_eda.penalty_top_text) }}</p>
+
+    <p>{{ t('ch4.eda.fig1.caption') }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}eda_distributions.svg" alt="{{ t('ch4.eda.fig1.alt', n=feature_eda.n_leagues) }}">
+    </figure>
+
+    {% if feature_eda.most_shrunk %}
+    <p>{{ t('ch4.eda.fig2.caption', phantom=feature_defs.phantom_minutes, player=feature_eda.most_shrunk.player) }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}eda_shrinkage.svg" alt="{{ t('ch4.eda.fig2.alt') }}">
+    </figure>
+    {% endif %}
+    {% endif %}
+
     <h3 id="multipliers">{{ t('ch4.mult.h3') }}</h3>
     <p class="formula" data-tex="{{ t('ch4.mult.tex') }}">{{ t('ch4.mult.formula') }}</p>
     <table class="kv-table">

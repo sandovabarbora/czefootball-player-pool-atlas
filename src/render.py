@@ -38,6 +38,8 @@ from jinja2 import Environment, FileSystemLoader
 from markupsafe import Markup
 
 from src import config
+from src.feature_eda import RAW_COLUMNS as FEATURE_EDA_RAW_COLUMNS
+from src.features import FEATURES as FEATURE_EDA_FEATURES
 from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
@@ -1108,6 +1110,45 @@ def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
     return {"checks": checks, "events": events}
 
 
+def _build_feature_eda(fe: dict, tr: Translator | None = None) -> dict:
+    """Chapter IV `#features-from-raw`: one raw row through the pipeline to a
+    feature row, the rejected-candidates table. `fe` is `feature_eda.json`'s
+    raw shape (`{}` when the file is missing -- `load_data`'s tolerant load
+    -- in which case `raw_row` is falsy and the template section renders
+    nothing). `candidate`/`statistic`/`decision` are stable codes the module
+    writes (see `src.feature_eda.build_rejected`); this builder is where
+    they get translated.
+    """
+    tr = tr or Translator("en")
+    if not fe:
+        return {}
+    feature_row = fe.get("feature_row") or {}
+    rejected = [
+        {
+            "candidate": r["candidate"],
+            "statistic": tr.raw(f"ch4.eda.rejected.{r['candidate']}.statistic"),
+            "value": r["value"],
+            "decision": tr.raw(f"ch4.eda.rejected.{r['candidate']}.decision"),
+        }
+        for r in fe.get("rejected", [])
+    ]
+    penalty_top = fe.get("penalty_top", [])
+    penalty_top_text = "; ".join(f"{p['player']} ({p['league']}, {round(p['share'] * 100)} %)" for p in penalty_top)
+    distributions = fe.get("distributions", {})
+    return {
+        "metrics_season": season_label(fe["metrics_season"]),
+        "raw_row": fe.get("raw_row"),
+        "raw_columns": list(FEATURE_EDA_RAW_COLUMNS),
+        "feature_player": feature_row.get("player", ""),
+        "feature_rows": [{"name": f, **feature_row[f]} for f in FEATURE_EDA_FEATURES if f in feature_row],
+        "rejected": rejected,
+        "penalty_top": penalty_top,
+        "penalty_top_text": penalty_top_text,
+        "n_leagues": len(distributions.get("leagues", [])),
+        "most_shrunk": fe.get("most_shrunk"),
+    }
+
+
 def _build_limitations(facts: dict, tr: Translator | None = None) -> list[dict]:
     """Limitations from spec §10 and the pipeline ledger; numbers from `facts`, copy from i18n."""
     tr = tr or Translator("en")
@@ -1279,6 +1320,7 @@ def load_data() -> dict[str, Any]:
         "data_quality": _load_json(p / "data_quality.json", {}),
         "league_strength": _load_json(p / "league_strength.json", {}),
         "model_comparison": _load_json(p / "model_comparison.json", {}),
+        "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
         "league_quality": config.league_quality(),
@@ -1444,6 +1486,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "data_quality": _build_data_quality(data["data_quality"], tr),
         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
         "model_comparison": _build_model_comparison(data["model_comparison"], tr),
+        "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
@@ -1679,6 +1722,35 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                               "model_median": 0.71, "uefa": 0.51, "rank_diff": 3}],
             "fit": {"rows": 8108, "players": 2125, "seasons": 7, "runtime_s": 341.2},
         }, "CZE-First League", tr),
+        "feature_eda": _build_feature_eda({
+            "metrics_season": metrics_raw,
+            "raw_row": {"league": "GER-Bundesliga", "season": metrics_raw, "team": "Hoffenheim",
+                       "player": "Vladimír Coufal", "nation": "CZE", "pos": "DF", "born": 1992, "age": 32,
+                       "mp": 34, "min": 3012, "gls": 1, "ast": 8, "pk": 0, "crdy": 4, "crdr": 0},
+            "feature_row": {
+                "player": "Vladimír Coufal", "pos_group": "DF",
+                "npg_p90": {"raw": 0.0299, "shrunk": 0.0338, "quality": 0.0266, "z": 0.2081},
+                "ast_p90": {"raw": 0.239, "shrunk": 0.193, "quality": 0.152, "z": 4.3077},
+                "min_share": {"raw": 0.9843, "shrunk": 0.9843, "quality": 0.9843, "z": 1.6701},
+                "age": {"raw": 32.0, "shrunk": 32.0, "quality": 32.0, "z": 1.4507},
+                "cards_p90": {"raw": 0.1195, "shrunk": 0.1353, "quality": 0.1353, "z": -0.8952},
+            },
+            "rejected": [
+                {"candidate": "gls_p90", "statistic": "corr_npg", "value": 0.973, "decision": "replaced_npg"},
+                {"candidate": "mp", "statistic": "corr_min", "value": 0.8443, "decision": "replaced_min_share"},
+                {"candidate": "crdr_p90", "statistic": "zero_share", "value": 0.8539, "decision": "folded_cards"},
+                {"candidate": "age", "statistic": "band_spread", "value": 0.0283, "decision": "kept"},
+                {"candidate": "born", "statistic": "missing_share", "value": 0.0028, "decision": "kept_key"},
+            ],
+            "penalty_top": [{"player": "Nabil Touaizi", "league": "POR-Primeira Liga", "season": metrics_raw,
+                            "share": 1.0}],
+            "age_bands": [{"band": "U22", "median": 0.1734, "n": 1155}, {"band": "23-25", "median": 0.1751, "n": 2035},
+                         {"band": "26-29", "median": 0.1693, "n": 1527}, {"band": "30+", "median": 0.1468, "n": 939}],
+            "missingness": [{"column": "born", "missing": 25, "share": 0.0028}],
+            "most_shrunk": {"player": "Antonín Růsek", "league": "CZE-First League", "min": 454,
+                           "raw": 0.5947, "shrunk": 0.2499, "delta": -0.3448},
+            "distributions": {"leagues": ["ENG-Premier League", "CZE-First League"], "log_scaled": ["npg_p90"]},
+        }, tr),
         "model_comparison": _build_model_comparison({
             "target": "npg_p90_quality + ast_p90_quality (season t+1)",
             "origins": ["2021-2022", "2022-2023"],

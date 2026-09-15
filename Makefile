@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength pathways data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
+.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -30,9 +30,10 @@ help:
 	@echo "  strength         Hierarchical Bayesian league-strength model from league movers"
 	@echo "  compare          Three-model rolling-origin comparison (M1 core: monitor performance over time)"
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
+	@echo "  eda              One raw row to a feature vector: cleaning ledger link, rejected candidates, two EDA figures"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
-	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> pathways -> data-quality -> render"
+	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> eda -> data-quality -> render"
 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
 	@echo "  test             Run pytest"
 	@echo "  lint             Run ruff check"
@@ -94,13 +95,16 @@ compare:
 pathways:
 	$(ACT) python -m src.pathways
 
+eda:
+	$(ACT) python -m src.feature_eda
+
 data-quality:
 	$(ACT) python -m src.data_quality
 
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways data-quality render
+all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render
 
 test:
 	$(ACT) pytest
