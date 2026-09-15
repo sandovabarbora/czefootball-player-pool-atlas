@@ -1008,6 +1008,79 @@ def _build_league_strength(ls: dict, domestic_league: str, tr: Translator | None
     }
 
 
+# Mirrors src.model_comparison.MODEL_ORDER/BAYES_CHAINS/BAYES_DRAWS/
+# BAYES_MAX_TRAIN -- kept as literals here (not imported) so render.py,
+# imported by most of the test suite, doesn't pull in PyMC/ArviZ/
+# scikit-learn just for an ordering list and three run-budget constants.
+MODEL_COMPARISON_ORDER = ["persistence", "shrinkage_league_mean", "bayesian", "gbm", "mlp"]
+MODEL_COMPARISON_BAYES_CHAINS = 2
+MODEL_COMPARISON_BAYES_DRAWS = 400
+MODEL_COMPARISON_BAYES_MAX_TRAIN = 2500
+
+
+def _build_model_comparison(mc: dict, tr: Translator | None = None) -> dict:
+    """Chapter IV `#model-comparison`: the rolling-origin table (models x
+    origins, pooled row), the Bayesian model's per-origin coverage, the
+    winner and its margin over persistence, and the winner's largest
+    season-to-season RMSE change ("drift"). `mc` is `model_comparison.json`'s
+    raw shape (`{}` when the file is missing -- `load_data`'s tolerant load
+    -- in which case every list here is empty and the template section
+    renders nothing).
+    """
+    tr = tr or Translator("en")
+    origins = mc.get("origins", [])
+    origin_labels = [season_label(o) for o in origins]
+    rows = mc.get("rows", [])
+    pooled = mc.get("pooled", [])
+    pooled_by_model = {r["model"]: r for r in pooled}
+
+    table = []
+    for model in MODEL_COMPARISON_ORDER:
+        if model not in pooled_by_model:
+            continue
+        by_origin = {r["origin"]: r for r in rows if r["model"] == model}
+        table.append({
+            "model": model, "label": tr.raw(f"ch4.compare.model.{model}"),
+            "cells": [by_origin.get(o) for o in origins],
+            "pooled": pooled_by_model[model],
+        })
+
+    winner_key = mc.get("winner_pooled")
+    winner = pooled_by_model.get(winner_key)
+    persistence = pooled_by_model.get("persistence")
+    margin = None
+    if winner and persistence and persistence["rmse"]:
+        margin = (persistence["rmse"] - winner["rmse"]) / persistence["rmse"]
+        margin = round(margin, 4)
+
+    winner_rows = sorted((r for r in rows if r["model"] == winner_key), key=lambda r: r["origin"])
+    drift = None
+    if len(winner_rows) >= 2:
+        deltas = [(a["origin"], b["origin"], abs(a["rmse"] - b["rmse"]))
+                  for a, b in zip(winner_rows, winner_rows[1:], strict=False)]
+        from_o, to_o, drift_val = max(deltas, key=lambda d: d[2])
+        drift = {"from": season_label(from_o), "to": season_label(to_o), "value": drift_val}
+
+    bayesian_rows = [r for r in rows if r["model"] == "bayesian" and r["coverage90"] is not None]
+
+    return {
+        "target": mc.get("target", ""), "origins": origins, "origin_labels": origin_labels,
+        "table": table,
+        "winner": winner, "winner_label": tr.raw(f"ch4.compare.model.{winner_key}") if winner_key else "",
+        "margin": margin,
+        "drift": drift,
+        "bayesian_coverage": [{"origin": season_label(r["origin"]), "coverage90": r["coverage90"]}
+                              for r in bayesian_rows],
+        "bayesian_coverage_text": ", ".join(
+            f"{season_label(r['origin'])}: {round(r['coverage90'] * 100)} %" for r in bayesian_rows),
+        "bayesian_pooled_coverage": (pooled_by_model.get("bayesian") or {}).get("coverage90"),
+        "notes": mc.get("notes", []),
+        "persistence_pooled_rmse": persistence["rmse"] if persistence else None,
+        "bayes_chains": MODEL_COMPARISON_BAYES_CHAINS, "bayes_draws": MODEL_COMPARISON_BAYES_DRAWS,
+        "bayes_max_train": MODEL_COMPARISON_BAYES_MAX_TRAIN,
+    }
+
+
 def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
     """Chapter IV data-quality log: recomputed checks + recorded incidents.
 
@@ -1205,6 +1278,7 @@ def load_data() -> dict[str, Any]:
         "big5_series": _load_json(p / "big5_series.json", {}),
         "data_quality": _load_json(p / "data_quality.json", {}),
         "league_strength": _load_json(p / "league_strength.json", {}),
+        "model_comparison": _load_json(p / "model_comparison.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
         "league_quality": config.league_quality(),
@@ -1369,6 +1443,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "limitations": _build_limitations(facts, tr),
         "data_quality": _build_data_quality(data["data_quality"], tr),
         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
+        "model_comparison": _build_model_comparison(data["model_comparison"], tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
@@ -1604,6 +1679,28 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                               "model_median": 0.71, "uefa": 0.51, "rank_diff": 3}],
             "fit": {"rows": 8108, "players": 2125, "seasons": 7, "runtime_s": 341.2},
         }, "CZE-First League", tr),
+        "model_comparison": _build_model_comparison({
+            "target": "npg_p90_quality + ast_p90_quality (season t+1)",
+            "origins": ["2021-2022", "2022-2023"],
+            "rows": [
+                {"model": "persistence", "origin": "2021-2022", "n_test": 1955, "rmse": 0.0768, "mae": 0.0541, "coverage90": None},
+                {"model": "shrinkage_league_mean", "origin": "2021-2022", "n_test": 1955, "rmse": 0.1343, "mae": 0.1045, "coverage90": None},
+                {"model": "persistence", "origin": "2022-2023", "n_test": 1879, "rmse": 0.0782, "mae": 0.0558, "coverage90": None},
+                {"model": "shrinkage_league_mean", "origin": "2022-2023", "n_test": 1879, "rmse": 0.1293, "mae": 0.0996, "coverage90": None},
+                {"model": "bayesian", "origin": "2022-2023", "n_test": 1879, "rmse": 0.071, "mae": 0.0522, "coverage90": 0.9122},
+                {"model": "gbm", "origin": "2022-2023", "n_test": 1879, "rmse": 0.0723, "mae": 0.0513, "coverage90": None},
+                {"model": "mlp", "origin": "2022-2023", "n_test": 1879, "rmse": 0.0794, "mae": 0.0586, "coverage90": None},
+            ],
+            "pooled": [
+                {"model": "persistence", "n_test": 3834, "rmse": 0.0775, "mae": 0.055, "coverage90": None},
+                {"model": "shrinkage_league_mean", "n_test": 3834, "rmse": 0.1318, "mae": 0.102, "coverage90": None},
+                {"model": "bayesian", "n_test": 1879, "rmse": 0.071, "mae": 0.0522, "coverage90": 0.9122},
+                {"model": "gbm", "n_test": 1879, "rmse": 0.0723, "mae": 0.0513, "coverage90": None},
+                {"model": "mlp", "n_test": 1879, "rmse": 0.0794, "mae": 0.0586, "coverage90": None},
+            ],
+            "winner_pooled": "bayesian",
+            "notes": ["Fixture data for the offline template test."],
+        }, tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),

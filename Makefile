@@ -28,6 +28,7 @@ help:
 	@echo "  analogs          Showcase players and historical analogs"
 	@echo "  sensitivity      League-multiplier sensitivity table"
 	@echo "  strength         Hierarchical Bayesian league-strength model from league movers"
+	@echo "  compare          Three-model rolling-origin comparison (M1 core: monitor performance over time)"
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
@@ -87,6 +88,9 @@ sensitivity:
 strength:
 	$(ACT) python -m src.league_strength
 
+compare:
+	$(ACT) python -m src.model_comparison
+
 pathways:
 	$(ACT) python -m src.pathways
 
@@ -96,7 +100,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark series analogs sensitivity strength pathways data-quality render
+all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways data-quality render
 
 test:
 	$(ACT) pytest

@@ -133,6 +133,7 @@
       <ol>
         <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
         <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
+        <li><a href="#model-comparison">{{ t('toc.compare') }}</a></li>
         <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
         <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
         <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
@@ -161,7 +162,7 @@
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
         <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a> · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -989,6 +990,49 @@
     <p>{{ t('ch4.strength.ranking') }}</p>
     {% endif %}
 
+    {% if model_comparison.table %}
+    <h3 id="model-comparison">{{ t('ch4.compare.h3') }}</h3>
+    <p>{{ t('ch4.compare.q', min=thresholds.min_minutes) }}</p>
+    <p>{{ t('ch4.compare.design', n_origins=model_comparison.origins | length, cite_ro=cite.hyndman_athanasopoulos_2021,
+             chains=model_comparison.bayes_chains, draws=model_comparison.bayes_draws, cite_bayes=cite.gelman_et_al_2013,
+             cite_sklearn=cite.pedregosa_et_al_2011, max_train=model_comparison.bayes_max_train) }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}model_comparison.svg" alt="{{ t('ch4.compare.fig_alt') }}">
+    </figure>
+    <table class="kv-table compare-table">
+      <thead><tr>
+        <th>{{ t('ch4.compare.th.model') }}</th>
+        {% for o in model_comparison.origin_labels %}<th>{{ o }}</th>{% endfor %}
+        <th>{{ t('ch4.compare.th.pooled') }}</th>
+      </tr></thead>
+      <tbody>
+        {% for row in model_comparison.table %}
+        <tr {% if model_comparison.winner and row.model == model_comparison.winner.model %}data-highlight="winner"{% endif %}>
+          <td>{{ row.label }}</td>
+          {% for cell in row.cells %}
+          <td>{% if cell %}{{ f3(cell.rmse) }} ({{ f3(cell.mae) }}){% else %}—{% endif %}</td>
+          {% endfor %}
+          <td>{{ f3(row.pooled.rmse) }} ({{ f3(row.pooled.mae) }})</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="capita-note">{{ t('ch4.compare.note') }}</p>
+
+    {% if model_comparison.bayesian_coverage %}
+    <p>{{ t('ch4.compare.coverage', pooled=pct(model_comparison.bayesian_pooled_coverage), n=model_comparison.bayesian_coverage | length,
+             per_origin=model_comparison.bayesian_coverage_text) }}</p>
+    {% endif %}
+
+    {% if model_comparison.winner %}
+    <p>{{ t('ch4.compare.winner', winner=model_comparison.winner_label, rmse=f3(model_comparison.winner.rmse),
+             persistence_rmse=f3(model_comparison.persistence_pooled_rmse), margin=pct(model_comparison.margin)) }}</p>
+    {% endif %}
+    {% if model_comparison.drift %}
+    <p>{{ t('ch4.compare.drift', from=model_comparison.drift.from, to=model_comparison.drift.to, value=f3(model_comparison.drift.value)) }}</p>
+    {% endif %}
+    {% endif %}
+
     <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>
     <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes, cite_efron_morris=cite.efron_morris_1975) }}</p>
     <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
@@ -1067,6 +1111,11 @@
     <h3 id="validation-robustness">{{ t('ch4.validation.h3') }}</h3>
     <p>{{ t('ch4.validation.stub') }}</p>
     <ul>
+      {% if model_comparison.table %}
+      <li>{{ t('ch4.validation.m1', n_origins=model_comparison.origins | length, winner=model_comparison.winner_label,
+                rmse=f3(model_comparison.winner.rmse), persistence_rmse=f3(model_comparison.persistence_pooled_rmse),
+                coverage=pct(model_comparison.bayesian_pooled_coverage)) }}</li>
+      {% endif %}
       {% if league_strength.leagues %}
       <li>{{ t('ch4.validation.m2', rhat=f3(league_strength.diagnostics.max_rhat), div=league_strength.diagnostics.n_divergences,
                 oos_winner=(league_strength.oos.winner.method_label if league_strength.oos.winner else '—'),
