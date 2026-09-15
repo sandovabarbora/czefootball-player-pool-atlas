@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151040">
-  <link rel="stylesheet" href="../modern.css?v=202609151040">
+  <link rel="stylesheet" href="../style.css?v=202609151049">
+  <link rel="stylesheet" href="../modern.css?v=202609151049">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151040"></script>
+  <script defer src="../atlas.js?v=202609151049"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -86,7 +86,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 201 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 205 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -8267,7 +8267,7 @@
     </ul>
     <p class="capita-note">Celý log, včetně zaznamenaných incidentů pipeline, je v <a href="#data-quality">logu kvality dat</a> níže.</p>
 
-    <p>Každá posty skupina sdílí stejný pětiprvkový vektor (spec §5): syrový sloupec se stane mírou na 90 minut, staženou k mediánu své ligy a sezóny (Efron and Morris, 1975), poté vynásobenou projekcí kvality ligy.</p>
+    <p>Každá poziční skupina sdílí stejný pětiprvkový vektor (spec §5): syrový sloupec se stane mírou na 90 minut, staženou k mediánu své ligy a sezóny (Efron and Morris, 1975), poté vynásobenou projekcí kvality ligy.</p>
     <ul class="eda-feature-list">
       <li><code>npg_p90</code> — neproměněné penalty goly na 90 minut: penalta je kvalita příležitosti, ne produkce ve hře, a nafukuje syrový počet gólů exekutora z důvodů, které nemají nic společného s tím, jak si hráč šance vytváří</li>
       <li><code>ast_p90</code> — asistence na 90 minut: přímý kreativní doplněk neproměněných penalty gólů, na stejné základní tabulce pro každou ligu v korpusu</li>
@@ -8290,17 +8290,17 @@
         
         <tr><td><code>crdr_p90</code></td><td>Podíl hráčských sezón bez červené karty</td><td>0,854</td><td>Slito do karet</td></tr>
         
-        <tr><td><code>age</code></td><td>Rozpětí mediánové produkce napříč věkovými pásmy</td><td>0,028</td><td>Ponecháno</td></tr>
+        <tr><td><code>age</code></td><td>Rozpětí mediánu gólů + asistencí na 90 min napříč věkovými pásmy (max − min pásma)</td><td>0,028</td><td>Ponecháno</td></tr>
         
         <tr><td><code>born</code></td><td>Podíl hráčských sezón bez roku narození</td><td>0,003</td><td>Ponecháno — potřebné pro klíč hráče</td></tr>
         
       </tbody>
     </table>
-    <p class="capita-note">Navzdory vysoké korelaci se góly a neproměněné penalty goly rozcházejí u hráčů, kteří proměňují penalty: Nabil Touaizi (POR-Primeira Liga, 100 %); Yohan Croizet (HUN-NB I, 100 %); Luca Zuffi (SUI-Super League, 100 %). Starty (mp) korelují s minutami silně, ale ne dokonale — náhradnický vstup se počítá stejně jako 90 odehraných minut, a proto tady čas na hřišti měří podíl minut, ne starty.</p>
+    <p class="capita-note">Navzdory vysoké korelaci se góly a neproměněné penalty goly rozcházejí u hráčů, kteří proměňují penalty: Nabil Touaizi (POR-Primeira Liga, 100 %); Yohan Croizet (HUN-NB I, 100 %); Luca Zuffi (SUI-Super League, 100 %). Starty (mp) korelují s minutami silně, ale ne dokonale — náhradnický vstup se počítá stejně jako 90 odehraných minut, a proto tady čas na hřišti měří podíl minut, ne starty. Medián gólů + asistencí na 90 min podle věkových pásem jde od 0,147 (30+) – 0,175 (23-25).</p>
 
     <p>Obrázek za ligovou úpravou: stejná syrová míra vypadá velmi jinak podle toho, ve které lize byla odehraná.</p>
     <figure class="figure-bleed">
-      <img src="../eda_distributions.svg" alt="Malé násobky: rozdělení pěti syrových příznaků na 90 minut podle ligy, boxploty na ligu, Chance Liga zvýrazněná, zobrazeno 10 lig.">
+      <img src="../eda_distributions.svg" alt="Malé násobky: rozdělení pěti syrových příznaků na 90 minut podle ligy, boxploty na ligu, Chance Liga zvýrazněná, zobrazeno 7 lig.">
     </figure>
 
     
@@ -9233,8 +9233,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 201 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 201 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 205 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 205 testy.</p>
       <ol class="build-flow">
         <li>Specifikace</li>
         <li>Plán</li>
@@ -9434,7 +9434,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 10:40</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 10:49</p>
   </div>
 </footer>
 

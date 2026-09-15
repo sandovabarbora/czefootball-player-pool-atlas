@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151040">
-  <link rel="stylesheet" href="modern.css?v=202609151040">
+  <link rel="stylesheet" href="style.css?v=202609151049">
+  <link rel="stylesheet" href="modern.css?v=202609151049">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151040"></script>
+  <script defer src="atlas.js?v=202609151049"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -86,7 +86,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 201 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 205 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -7374,17 +7374,17 @@
         
         <tr><td><code>crdr_p90</code></td><td>Share of player-seasons with zero red cards</td><td>0.854</td><td>Folded into cards</td></tr>
         
-        <tr><td><code>age</code></td><td>Spread of median production across age bands</td><td>0.028</td><td>Kept</td></tr>
+        <tr><td><code>age</code></td><td>Spread of median goals + assists per 90 across age bands (max − min band)</td><td>0.028</td><td>Kept</td></tr>
         
         <tr><td><code>born</code></td><td>Share of player-seasons missing a birth year</td><td>0.003</td><td>Kept — required for the player key</td></tr>
         
       </tbody>
     </table>
-    <p class="capita-note">Despite the high correlation, goals and non-penalty goals diverge for the players who take penalties: Nabil Touaizi (POR-Primeira Liga, 100 %); Yohan Croizet (HUN-NB I, 100 %); Luca Zuffi (SUI-Super League, 100 %). Appearances (mp) correlate strongly with minutes but not perfectly — a substitute cameo counts the same as 90 minutes started, which is why minutes share, not appearances, measures playing time here.</p>
+    <p class="capita-note">Despite the high correlation, goals and non-penalty goals diverge for the players who take penalties: Nabil Touaizi (POR-Primeira Liga, 100 %); Yohan Croizet (HUN-NB I, 100 %); Luca Zuffi (SUI-Super League, 100 %). Appearances (mp) correlate strongly with minutes but not perfectly — a substitute cameo counts the same as 90 minutes started, which is why minutes share, not appearances, measures playing time here. Median goals + assists per 90 by age band runs from 0.147 (30+) – 0.175 (23-25).</p>
 
     <p>The picture behind league adjustment: the same raw rate reads very differently depending on the league it was earned in.</p>
     <figure class="figure-bleed">
-      <img src="eda_distributions.svg" alt="Small multiples: the five raw per-90 features' distributions by league, boxplots per league, the Premier League highlighted, 10 leagues shown.">
+      <img src="eda_distributions.svg" alt="Small multiples: the five raw per-90 features' distributions by league, boxplots per league, the Premier League highlighted, 7 leagues shown.">
     </figure>
 
     
@@ -8317,8 +8317,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 201 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 201 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 205 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 205 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -8718,7 +8718,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 10:40</p>
+    <p class="rendered-at">Rendered: 2026-09-15 10:49</p>
   </div>
 </footer>
 

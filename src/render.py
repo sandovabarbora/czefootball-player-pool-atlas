@@ -1146,7 +1146,17 @@ def _build_feature_eda(fe: dict, tr: Translator | None = None) -> dict:
         "penalty_top_text": penalty_top_text,
         "n_leagues": len(distributions.get("leagues", [])),
         "most_shrunk": fe.get("most_shrunk"),
+        "age_band_range": _age_band_range(fe.get("age_bands") or []),
     }
+
+
+def _age_band_range(bands: list[dict]) -> str:
+    """'0.147 (30+) to 0.175 (23-25)' — the units behind the age-band spread statistic."""
+    if not bands:
+        return ""
+    lo = min(bands, key=lambda b: b["median"])
+    hi = max(bands, key=lambda b: b["median"])
+    return f"{lo['median']:.3f} ({lo['band']}) – {hi['median']:.3f} ({hi['band']})"
 
 
 def _build_limitations(facts: dict, tr: Translator | None = None) -> list[dict]:

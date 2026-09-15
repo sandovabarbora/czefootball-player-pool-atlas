@@ -242,7 +242,7 @@ def build_rejected(
 
 
 def render_distributions_figure(
-    features_all: pd.DataFrame, out_path: Path, top_n_leagues: int = 10,
+    features_all: pd.DataFrame, out_path: Path, top_n_leagues: int = 7,
 ) -> dict[str, Any]:
     """Small multiples: one panel per `src.features.FEATURES` raw value,
     boxplots per league (the `top_n_leagues` with the most rows, the
@@ -275,7 +275,7 @@ def render_distributions_figure(
             for line in bp[element]:
                 line.set_color(INK)
         ax.set_xticks(range(1, len(leagues) + 1))
-        ax.set_xticklabels(leagues, rotation=90, fontsize=6.3, fontfamily="sans-serif", color=INK)
+        ax.set_xticklabels(leagues, rotation=90, fontsize=9, fontfamily="sans-serif", color=INK)
         ax.set_title(feat + (" (log1p)" if use_log else ""), fontsize=10, fontfamily="serif", color=INK)
         ax.set_facecolor(CREAM)
         for spine in ("top", "right"):
