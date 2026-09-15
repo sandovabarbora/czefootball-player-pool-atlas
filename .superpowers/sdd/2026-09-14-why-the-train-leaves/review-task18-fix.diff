@@ -1,0 +1,1078 @@
+a9051a1 Task 18 fix round 1: goalkeepers chapter review findings
+ config/i18n/cs.yaml        |   7 +-
+ src/data_quality.py        |  22 +++-
+ src/goalkeepers.py         | 245 +++++++++++++++++++++++++++++++++------------
+ src/i18n.py                |   5 +-
+ src/render.py              |   7 +-
+ templates/report.html.j2   |   5 +-
+ tests/test_data_quality.py |  27 +++++
+ tests/test_goalkeepers.py  | 177 ++++++++++++++++++++++++++++----
+ tests/test_render.py       |  30 ++++++
+ 9 files changed, 430 insertions(+), 95 deletions(-)
+diff --git a/config/i18n/cs.yaml b/config/i18n/cs.yaml
+index e634027..7c85701 100644
+--- a/config/i18n/cs.yaml
++++ b/config/i18n/cs.yaml
+@@ -107,15 +107,16 @@ strings:
+   slide.7.how: "Sezónní tabulky hráčů Big-5 z FBref {first_season} → {last_season}; peer země podle stejného pravidla; jména jsou {cs_adj_pl} hráči s nejvíc minutami z každé vrcholné sezóny včetně brankářů — sestava přítomnosti, ne žebříček kvality: {golden}."
+   slide.7.alt: "Čárový graf: {cs_adj_pl} hráči s aspoň {min} minutami v ligách Big-5, {start} až {end}, proti osmi peer zemím; spodní panel ukazuje hráče na milion obyvatel pro {cs_name}, {a} a {b}."
+   slide.8.q: "Jak to dělají {a} a {b}?"
+   slide.8.a: "Na stejných šesti číslech dává {a} hráčům do 21 let <strong>{nor_u21} %</strong> domácích minut proti {cze_u21} % a posílá {nor_top9} % nominace do {topn} nejsilnějších lig proti {cze_top9} %."
+   slide.8.how: "Stejné definice, stejné sezóny; srovnání, ne kauzální tvrzení."
+   slide.8b.q: "Kde to funguje: brankáři?"
+-  slide.8b.a: "{n_gk} {cs_adj_pl} brankářů hraje aspoň {min} minut v top-{topn} ligách ({pm} na milion, pořadí <strong>{rank} z {n}</strong>); v nich se poprvé objevili v mediánovém věku {gk_age}, oproti {out_age} u exportů z pole."
++  slide.8b.a: "{n_gk} {cs_adj_pl} brankáři hrají aspoň {min} minut v top-{topn} ligách ({pm} na milion, pořadí <strong>{rank} z {n}</strong>); v nich se poprvé objevili v mediánovém věku {gk_age}, oproti {out_age} u exportů z pole."
+   slide.8b.alt: "Bodový graf věku při prvním startu v top-9 lize, {cs_adj_pl} brankáři proti exportům z pole, jeden bod na hráče, medián vyznačen."
+-  slide.8b.how: "Práh {min} minut, soupisky {season}, stejné stahování K = {phantom} jako zbytek reportu; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení."
++  slide.8b.how: "Práh {min} minut, soupisky {season}, stejné stahování K = {phantom} jako zbytek reportu; první sezóna ve stažené top-{topn} tabulce; hráči, kteří v ní byli už v {history_start}, jsou cenzurovaní — {censored_pct} % brankářů, {censored_out_pct} % exportů z pole; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení.{home_note}"
++  slide.8b.home_note: " Brankáři z ligy {cs_home_league} nemusí kvůli první sezóně v top-{topn} lize nikam přestupovat."
+   slide.9.q: "Kdo to je?"
+   slide.9.a: "<strong>{n} karet</strong> vybraných šesti pravidly."
+   slide.9.how: "Řádky FBref, Wikipedie a Wikidat sezóny {season} spojené podle jména a ročníku narození; šest výběrových pravidel, v tomto pořadí — viz níže."
+ 
+   # ---- proof slidu 2: kompaktní tabulka kohortových mezer (top 5 řádků)
+   cohortgap.th.group: "Skupina"
+@@ -452,12 +453,14 @@ strings:
+   dq.split_seasons.label: "Sloučené rozdělené sezóny"
+   dq.split_seasons.what: "Řádky hráč-sezóna-post sloučené do jednoho po přestupu uprostřed sezóny (minuty sečteny, míry vážené minutami)."
+   dq.nt_unmatched.label: "Nespárovaná jména z nominací"
+   dq.nt_unmatched.what: "Jména z tabulek reprezentačních nominací, která neodpovídají žádnému řádku {cs_gen} ve featurových tabulkách."
+   dq.missing_born.label: "Chybějící ročník narození"
+   dq.missing_born.what: "Řádky sezónních tabulek národnosti {code} bez ročníku narození, ze kterých nejde sestavit player_key."
++  dq.gk_unjoined.label: "Nespárované řádky brankářů"
++  dq.gk_unjoined.what: "Řádky ze stránek brankářů bez odpovídajícího řádku GK v sezónních tabulkách podle (liga, sezóna, klub, player_key); vypuštěné ze všech brankářských exhibitů."
+   ch4.lim.h3: "Limitace této analýzy"
+   ch4.repro.h3: "Reprodukovatelnost"
+   ch4.repro.p: "Celá pipeline je veřejná: <a href=\"{url}\">{url_short}</a>. Licence MIT. Z čistého klonu <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> vykreslí tento report z commitnutého datového snapshotu a <code>make pages</code> sestaví web; <code>make all</code> vše znovu stáhne a spustí celou pipeline. Náhodný seed {seed} pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě."
+   ch4.built.h3: "Jak report vznikl"
+   ch4.built.summary: "Spec → plán → agenti na tasky → review → ledger · {n_rulings} rozhodnutí · {n_tests} testů"
+   ch4.built.p1: "Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — {n_rulings} pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod {n_tests} testy."
+diff --git a/src/data_quality.py b/src/data_quality.py
+index fe451c2..309f5ba 100644
+--- a/src/data_quality.py
++++ b/src/data_quality.py
+@@ -1,11 +1,11 @@
+ """Data-quality log: recomputed wrangling checks + the recorded incident log.
+ 
+ Chapter IV carries two things side by side:
+ 
+-- Six checks recomputed from the processed data on every run, so "how many
++- Seven checks recomputed from the processed data on every run, so "how many
+   rows did this drop" always matches whatever is on disk right now, not a
+   number typed once and left to rot.
+ - A small dated list of pipeline incidents, recorded by hand in
+   `config/data_quality_events.yaml` when they happened. Those dates and
+   counts are historical facts a fresh run cannot reproduce (the bug that
+   caused them is fixed); the template labels them "recorded" rather than
+@@ -26,12 +26,13 @@ import re
+ from pathlib import Path
+ 
+ import pandas as pd
+ from bs4 import BeautifulSoup
+ 
+ from src import config
++from src.goalkeepers import join_keeper_pool
+ from src.logging_setup import setup as logging_setup
+ from src.pool import is_feminine_surname
+ from src.utils import collapse_player_seasons, normalize_name, read_parquet
+ 
+ LOG = logging.getLogger(__name__)
+ 
+@@ -122,31 +123,39 @@ def _nt_unmatched_count(nt_flags: pd.DataFrame, features_by_group: dict[str, pd.
+ def compute_checks(
+     pool: pd.DataFrame,
+     tables: pd.DataFrame,
+     features_by_group: dict[str, pd.DataFrame],
+     nt_flags: pd.DataFrame,
+     country_page_html: str | None = None,
++    keepers: pd.DataFrame | None = None,
+ ) -> list[dict]:
+-    """Six recomputed wrangling-check rows: `{"id", "count", "unit"}` each.
++    """Seven recomputed wrangling-check rows: `{"id", "count", "unit"}` each.
+ 
+     See the module docstring for what each check recomputes and why.
+     `country_page_html` is the cached FBref country page's text, or `None`
+     when the cache file isn't present (`women_filtered`'s count is then
+-    `None` rather than a guess).
++    `None` rather than a guess). `keepers` is `fbref_keepers.parquet`, or
++    `None` when it hasn't been fetched yet (`gk_unjoined`'s count is then
++    `None` too, same tolerance) -- `gk_unjoined` reruns Task 18's own
++    `src.goalkeepers.join_keeper_pool` (league, season, team, player_key)
++    against the GK rows of `tables`, so it always reflects the exact join
++    `src.goalkeepers` performs, not a separate approximation of it.
+     """
+     pool_norm = pool["player"].map(normalize_name)
+     women_filtered = _women_filtered_count(country_page_html) if country_page_html else None
++    gk_unjoined = None if keepers is None or keepers.empty else join_keeper_pool(keepers, tables)[1]
+ 
+     return [
+         {"id": "women_filtered", "count": women_filtered, "unit": "entries"},
+         {"id": "namesakes", "count": int(pool_norm.duplicated(keep=False).sum()), "unit": "players"},
+         {"id": "no_tables", "count": int((~pool["in_fbref_tables"]).sum()), "unit": "players"},
+         {"id": "split_seasons", "count": _split_seasons_count(features_by_group), "unit": "rows"},
+         {"id": "nt_unmatched", "count": _nt_unmatched_count(nt_flags, features_by_group), "unit": "names"},
+         {"id": "missing_born",
+          "count": int(tables.loc[tables["nation"] == config.HOME, "born"].isna().sum()), "unit": "rows"},
++        {"id": "gk_unjoined", "count": gk_unjoined, "unit": "rows"},
+     ]
+ 
+ 
+ def main() -> None:
+     logging_setup()
+     p = config.PROCESSED_DIR
+@@ -156,13 +165,18 @@ def main() -> None:
+     nt_flags = read_parquet(p / "nt_flags.parquet")
+ 
+     html = COUNTRY_PAGE_CACHE.read_text(encoding="utf-8") if COUNTRY_PAGE_CACHE.exists() else None
+     if html is None:
+         LOG.warning("cached country page not found at %s; women_filtered count will be null", COUNTRY_PAGE_CACHE)
+ 
+-    checks = compute_checks(pool, tables, features_by_group, nt_flags, country_page_html=html)
++    keepers_path = p / "fbref_keepers.parquet"
++    keepers = read_parquet(keepers_path) if keepers_path.exists() else None
++    if keepers is None:
++        LOG.warning("%s not found; gk_unjoined count will be null", keepers_path)
++
++    checks = compute_checks(pool, tables, features_by_group, nt_flags, country_page_html=html, keepers=keepers)
+     events = config.load_yaml("data_quality_events.yaml")["events"]
+ 
+     out_path = config.PROCESSED_DIR / "data_quality.json"
+     out_path.parent.mkdir(parents=True, exist_ok=True)
+     out_path.write_text(
+         json.dumps({"checks": checks, "events": events}, indent=2, default=str, ensure_ascii=False),
+diff --git a/src/goalkeepers.py b/src/goalkeepers.py
+index 29335ac..3fd2c78 100644
+--- a/src/goalkeepers.py
++++ b/src/goalkeepers.py
+@@ -6,36 +6,54 @@ up. Five descriptive exhibits, all restricted to the peer countries
+ (`config.PEER_COUNTRIES`, home nation included) unless noted:
+ 
+     per_million: distinct goalkeepers with >= min_minutes in the headline
+         (top-9) leagues per peer country, metrics season -- same rule as
+         `src.international_benchmark.per_capita`, with an added minutes
+         floor (that module has none; a GK's presence on a top-9 roster at
+-        all isn't the question here, playing time is).
+-
+-    export age: for the home nation, the age at which each player currently
+-        on a top-9 roster first appeared in a top-9 table -- goalkeepers
+-        (from `fbref_keepers.parquet`, which is keeper-only by construction)
+-        against outfield players (`fbref_players.parquet` with `pos != "GK"`).
+-        Same age convention and dedupe as `src.pathways.export_route`
++        all isn't the question here, playing time is). Computed off the
++        `fbref_keepers.parquet` rows joined to their `fbref_players.parquet`
++        GK counterpart (`join_keeper_pool`; see "production" below).
++
++    export age: for the home nation, the age at which each current
++        (metrics-season) top-9 goalkeeper (>= min_minutes) first appeared in
++        a top-9 table -- against the same figure for outfield exports
++        (`fbref_players.parquet` with `pos != "GK"`). Both walked off
++        `fbref_players.parquet` (GK rows restricted to `pos == "GK"` for the
++        goalkeeper side), NOT `fbref_keepers.parquet` -- the keeper pages are
++        only fetched for previous/metrics/current, so a keeper history walked
++        off them could never show a first top-9 season earlier than that
++        three-season window, while `fbref_players.parquet`'s headline-league
++        rows reach back to 2020/21 (`config.seasons()["history"][0]`), same
++        as the outfield side. A player whose first top-9 season IS that
++        earliest fetched season has an unknown true origin (nothing before
++        it is visible to us) and is counted `censored`, exactly as
++        `src.pathways.export_route` counts its own `censored_share` -- both
++        exhibits share one `first_hist` reference (the whole players table's
++        own earliest season) so a goalkeeper and an outfield export whose
++        first top-9 season is that same season are censored on the same
++        basis. Same age convention and dedupe as `src.pathways.export_route`
+         (`_age`, `_dedupe_player_season`, imported from there rather than
+         reimplemented) but this module needs the raw per-player ages for the
+         strip-plot figure, not just `export_route`'s aggregate median, so it
+         walks the same history logic itself instead of reading
+         `pathways.json`.
+ 
+-    club tier: for the home nation's current top-9 goalkeepers, club,
++    club tier: for the home nation's current top-9 goalkeepers (the same
++        roster `production`/`per_million` use -- see `home_top9_gks`), club,
+         league, minutes and the club's goals-scored percentile within its
+         league -- the same proxy `src.pathways.fare`/`destinations` use in
+         place of the (unavailable) ClubElo rating.
+ 
+     production: per goalkeeper (>= min_minutes, metrics season), GA/90 and
+         saves/90 shrunk toward their (league, season) cohort median with
+         the feature pipeline's own K (`config.features()["phantom_minutes"]`,
+         same formula as `src.features.bayesian_shrink`), GA/90 additionally
+-        quality-adjusted by the league multiplier (`ga90_q = ga90_shrunk *
+-        m_L` -- a goal against in a stronger league counts less). Save
++        quality-adjusted by the league multiplier (`ga90_q = ga90_shrunk /
++        m_L` -- `m_ENG = 1` is the baseline strength; a weaker league's GA
++        scales up, so a goal conceded in a stronger league counts less than
++        the same shrunk rate would in a weaker one). Save
+         percentage is shrunk the same way but with shots-on-target-against
+         (`sota`) as the exposure instead of minutes: a keeper-season's SoTA
+         count is almost always far below K, so `save_pct_shrunk` pulls hard
+         toward the league median for nearly everyone -- an intentional
+         consequence of a thin single-season sample, not a bug (see
+         `_shrink_series`'s docstring and the ch4.gk.p paragraph in the
+@@ -51,15 +69,23 @@ up. Five descriptive exhibits, all restricted to the peer countries
+ This module makes no player-selection recommendation; it reports counts,
+ shares, ages, medians and percentiles, same as `src.pathways`.
+ 
+ Inputs:
+     data/processed/<nation>/fbref_keepers.parquet (src.fetch_keepers; any
+         nationality, headline + domestic + custom + peer_domestic leagues,
+-        previous/metrics/current seasons)
+-    data/processed/<nation>/fbref_players.parquet (for the outfield export-
+-        age contrast and the club-strength proxy's `gls` totals)
++        previous/metrics/current seasons) -- joined to the GK rows of
++        `fbref_players.parquet` on (league, season, team, player_key) by
++        `join_keeper_pool` before anything else in this module touches it;
++        the players table's `born`/`nation`/`min` are canonical (that table
++        is the corpus every other chapter already trusts), the keeper page's
++        own copies of those same fields are dropped. Rows that fail to join
++        are excluded from every GK exhibit; the count is logged
++        (`LOG.warning`) and returned to `main()` for `data_quality.json`.
++    data/processed/<nation>/fbref_players.parquet (GK rows for the export-
++        age walk and the join above; non-GK rows for the outfield export-
++        age contrast; `gls` totals for the club-strength proxy)
+     data/processed/<nation>/nt_flags.parquet (national-team flag for cards)
+     config/leagues.yaml, config/countries.yaml, config/seasons.yaml,
+         config/league_quality.yaml, config/feature_definitions.yaml
+ 
+ Output:
+     data/processed/<nation>/goalkeepers.json
+@@ -79,13 +105,13 @@ from src import config
+ from src.pathways import _age, _dedupe_player_season
+ from src.utils import normalize_name, read_parquet
+ 
+ LOG = logging.getLogger(__name__)
+ 
+ __all__ = [
+-    "per_million", "gk_first_top9_ages", "club_tier", "production_table",
++    "join_keeper_pool", "per_million", "gk_first_top9_ages", "club_tier", "production_table",
+     "production_peer_medians", "home_top9_gks", "attach_nt_flags", "gk_cards",
+     "build_goalkeepers", "render_export_age_figure", "main",
+ ]
+ 
+ CLUB_STRENGTH_PROXY = "goals-scored percentile within league"
+ 
+@@ -107,12 +133,42 @@ plt.rcParams["text.color"] = INK
+ def _opt_float(value: object, digits: int = 2) -> float | None:
+     if value is None or pd.isna(value):
+         return None
+     return round(float(value), digits)
+ 
+ 
++def join_keeper_pool(keepers: pd.DataFrame, players_all: pd.DataFrame) -> tuple[pd.DataFrame, int]:
++    """Join `fbref_keepers.parquet` to the GK rows of `fbref_players.parquet`
++    on (league, season, team, player_key); the players table's `born`,
++    `nation` and `min` are canonical -- that table is the corpus every other
++    chapter of the report already trusts, so the keeper page's own copies of
++    those same three fields are dropped in favour of it. Every other column
++    (the production stats: `ga`, `saves`, `sota`, `save_pct`, `cs`, `mp`;
++    `player`, `age`) is kept from the keeper table -- the players table
++    doesn't carry any of the production numbers, and `player`/`age` should
++    already agree between the two FBref pages for the same person-season.
++
++    Returns `(joined, unjoined)`: `joined` has exactly `fbref_keepers.
++    parquet`'s own column set (`COLS` in `src.fetch_keepers`), just with
++    `born`/`nation`/`min` swapped for their canonical values; `unjoined` is
++    the count of keeper rows with no matching GK row in the players table
++    (a team-name mismatch between the two pages, or that keeper not carrying
++    `pos == "GK"` in the standard table for that season) -- those rows are
++    dropped rather than kept with unverified identity fields, and the count
++    is the caller's to log (`main()` both warns and returns it for
++    `data_quality.json`'s `gk_unjoined` check).
++    """
++    key_cols = ["league", "season", "team", "player_key"]
++    gk_pool = players_all[players_all.get("pos", pd.Series(dtype=str)) == "GK"]
++    canonical = gk_pool[key_cols + ["born", "nation", "min"]].drop_duplicates(key_cols)
++    own_cols = [c for c in keepers.columns if c not in ("born", "nation", "min")]
++    joined = keepers[own_cols].merge(canonical, on=key_cols, how="inner")
++    unjoined = len(keepers) - len(joined)
++    return joined[keepers.columns.tolist()], unjoined
++
++
+ def per_million(
+     keepers: pd.DataFrame, peers: dict, headline_leagues: list[str], season: str, min_minutes: int,
+ ) -> pd.DataFrame:
+     """Distinct goalkeepers (>= min_minutes) per peer country, headline
+     leagues, `season`, per million population. Same shape and tie-break
+     (ascending population on an equal rate) as
+@@ -136,73 +192,96 @@ def per_million(
+         .reset_index(drop=True)
+     )
+     out["rank"] = range(1, len(out) + 1)
+     return out
+ 
+ 
+-def _export_ages(tables: pd.DataFrame, headline: list[str], home: str, current: str) -> list[float]:
+-    """Age at first top-9 season, for every home-nation player currently on
+-    a top-9 roster in `tables` -- the raw per-player list (not just the
+-    median `src.pathways.export_route` reports), needed for the strip-plot
+-    figure. Same age convention (`pathways._age`: season-start year minus
++def _export_ages(
++    tables: pd.DataFrame, headline: list[str], home: str, season: str, first_hist: str,
++) -> tuple[list[float], int]:
++    """Age at first top-9 season, for every home-nation player on the
++    `season` top-9 roster in `tables` -- the raw per-player list (not just
++    the median `src.pathways.export_route` reports), needed for the
++    strip-plot figure, plus how many of them are `censored` (their first
++    top-9 season IS `first_hist`, so their true first season could be
++    earlier and is unknown -- same rule as `export_route`'s own
++    `censored_share`, sharing that function's `first_hist` reference so a
++    goalkeeper and an outfield export censored on the same season count the
++    same way). Same age convention (`pathways._age`: season-start year minus
+     birth year) and mid-season-transfer dedupe (`pathways._dedupe_player_
+     season`) as `export_route`, reused directly rather than reimplemented.
+-    A player with no birth year (`_age` returns NaN) is excluded, same as
+-    `export_route`'s own median calculation.
++    A player with no birth year (`_age` returns NaN) is excluded from the
++    returned ages, same as `export_route`'s own median calculation, and from
++    `censored` too -- `censored`'s denominator (the caller divides by
++    `len(ages)`) is exactly the population the median is computed over.
+     """
+     t = _dedupe_player_season(tables)
+-    roster = t[(t.season == current) & t.league.isin(headline) & (t.nation == home)]
+-    ages = []
++    roster = t[(t.season == season) & t.league.isin(headline) & (t.nation == home)]
++    ages, censored = [], 0
+     for pid in roster.player_key.unique():
+         hist = t[t.player_key == pid].sort_values("season")
+         top = hist[hist.league.isin(headline)]
+         first = top.iloc[0]
+         age = _age(first.born, first.season)
+-        if not pd.isna(age):
+-            ages.append(float(age))
+-    return ages
+-
+-
+-def gk_first_top9_ages(keepers: pd.DataFrame, headline: list[str], home: str, current: str) -> list[dict]:
+-    """Per current-top9-roster home goalkeeper: age and season of their own
+-    first top-9 appearance. Named counterpart of `_export_ages` (which this
+-    also uses internally, via the shared history walk) -- kept as its own
+-    function because the report needs the player names, not just the ages.
++        if pd.isna(age):
++            continue
++        ages.append(float(age))
++        if first.season == first_hist:
++            censored += 1
++    return ages, censored
++
++
++def gk_first_top9_ages(
++    home_top9: pd.DataFrame, gk_history: pd.DataFrame, headline: list[str], first_hist: str,
++) -> list[dict]:
++    """Per current-top9-roster home goalkeeper (`home_top9`, from
++    `home_top9_gks` -- the same >= min_minutes roster `production`/
++    `per_million`/`club_tier` use, so this exhibit's `n` always matches
++    theirs): age and season of their own first top-9 appearance, walked over
++    `gk_history` (`fbref_players.parquet`'s `pos == "GK"` rows, NOT
++    `fbref_keepers.parquet` -- see the module docstring's "export age"
++    section on why: the keeper pages don't reach back far enough). A player
++    whose first top-9 season IS `first_hist` is `censored` (their true first
++    season could be earlier and is unknown -- see `_export_ages`, which this
++    mirrors so goalkeepers and outfield exports are censored identically).
++    Named counterpart of `_export_ages` (same history-walk logic, duplicated
++    rather than shared because this one needs the player names and per-row
++    censoring flag the report's roster listing wants, not just the ages).
+     """
+-    t = _dedupe_player_season(keepers)
+-    roster = t[(t.season == current) & t.league.isin(headline) & (t.nation == home)]
++    hist = _dedupe_player_season(gk_history)
+     rows = []
+-    for pid in roster.player_key.unique():
+-        hist = t[t.player_key == pid].sort_values("season")
+-        top = hist[hist.league.isin(headline)]
++    for pid in home_top9.player_key.unique():
++        h = hist[hist.player_key == pid].sort_values("season")
++        top = h[h.league.isin(headline)]
+         first = top.iloc[0]
+         age = _age(first.born, first.season)
+-        name = roster[roster.player_key == pid].iloc[0]["player"]
++        name = home_top9[home_top9.player_key == pid].iloc[0]["player"]
+         rows.append({
+             "player_key": pid, "player": str(name),
+             "first_age": (None if pd.isna(age) else float(age)),
+             "first_season": str(first.season),
++            "censored": bool(first.season == first_hist),
+         })
+     return sorted(rows, key=lambda r: (r["first_age"] is None, r["first_age"]))
+ 
+ 
+-def club_tier(
+-    keepers: pd.DataFrame, players_all: pd.DataFrame, home: str, headline: list[str], season: str,
+-) -> pd.DataFrame:
+-    """Home nation's current top-9 goalkeepers: club, league, minutes and
+-    the club's goals-scored percentile within its league that season --
+-    the exact proxy `src.pathways.fare`/`destinations` use (ClubElo is
+-    down; rank each club within its own league-season by the total `gls`
+-    scored by its full roster, then take the percentile of that rank).
++def club_tier(home_top9: pd.DataFrame, players_all: pd.DataFrame, season: str) -> pd.DataFrame:
++    """Home nation's current top-9 goalkeepers (`home_top9`, from
++    `home_top9_gks` -- the same >= min_minutes roster `production`/
++    `per_million`/the export-age exhibit use, so this table's row count
++    always matches theirs): club, league, minutes and the club's
++    goals-scored percentile within its league that season -- the exact
++    proxy `src.pathways.fare`/`destinations` use (ClubElo is down; rank
++    each club within its own league-season by the total `gls` scored by its
++    full roster, then take the percentile of that rank).
+     """
+     all_season = players_all[players_all.season == season]
+     club_goals = all_season.groupby(["league", "team"])["gls"].sum().rename("club_goals")
+     club_goals_pct = club_goals.groupby(level="league").rank(pct=True).rename("club_goals_pct")
+ 
+-    gk = keepers[(keepers.season == season) & keepers.league.isin(headline) & (keepers.nation == home)].copy()
+-    gk = gk.join(club_goals_pct, on=["league", "team"])
++    gk = home_top9.join(club_goals_pct, on=["league", "team"])
+     return (
+         gk[["player", "player_key", "league", "team", "min", "club_goals_pct"]]
+         .sort_values("min", ascending=False)
+         .reset_index(drop=True)
+     )
+ 
+@@ -249,13 +328,15 @@ def production_table(
+     keepers: pd.DataFrame, season: str, league_quality: dict, min_minutes: int, k: int,
+ ) -> pd.DataFrame:
+     """Per-goalkeeper production for every keeper (any nationality) with
+     >= min_minutes in `season`: GA/90, saves/90, save %, clean-sheet share,
+     shrunk toward the (league, season) cohort median (see `_shrink_series`),
+     GA/90 additionally quality-adjusted by the league multiplier
+-    (`ga90_q = ga90_shrunk * m_L`). The shrinkage population is every
++    (`ga90_q = ga90_shrunk / m_L`; `m_ENG = 1` is the baseline, a weaker
++    league's GA scales up -- a goal conceded in a stronger league counts
++    less). The shrinkage population is every
+     qualifying keeper league-wide, not restricted to any one country --
+     `main()` filters this down to the home nation's own rows and to each
+     peer's rows for `production_peer_medians` afterwards.
+     """
+     sub = keepers[(keepers.season == season) & (keepers["min"] >= min_minutes)].copy()
+     if sub.empty:
+@@ -267,13 +348,13 @@ def production_table(
+     sub["ga90_shrunk"] = _shrink_series(sub, "ga", "ga90", "min", k, per90=True)
+     sub["saves90_shrunk"] = _shrink_series(sub, "saves", "saves90", "min", k, per90=True)
+     sub["save_rate_shrunk"] = _shrink_series(sub, "saves", "save_rate", "sota", k, per90=False)
+     sub["save_pct_shrunk"] = sub["save_rate_shrunk"] * 100
+     mult = league_quality["multipliers"]
+     sub["league_multiplier"] = sub["league"].map(mult).astype(float)
+-    sub["ga90_q"] = sub["ga90_shrunk"] * sub["league_multiplier"]
++    sub["ga90_q"] = sub["ga90_shrunk"] / sub["league_multiplier"]
+     return sub
+ 
+ 
+ def production_peer_medians(prod_all: pd.DataFrame, peers: list[str]) -> pd.DataFrame:
+     """Per peer country: n and the median of each shrunk/quality-adjusted
+     production column, over `production_table`'s full (any-nationality)
+@@ -371,63 +452,96 @@ def gk_cards(home_top9: pd.DataFrame, prod_all: pd.DataFrame, tier: pd.DataFrame
+         if b:
+             cards.append(b)
+     return cards
+ 
+ 
+ def build_goalkeepers(
+-    keepers: pd.DataFrame, players_all: pd.DataFrame, peers_meta: dict, headline: list[str], home: str,
+-    metrics_season: str, current_season: str, league_quality: dict, nt: pd.DataFrame,
++    keepers_raw: pd.DataFrame, players_all: pd.DataFrame, peers_meta: dict, headline: list[str], home: str,
++    metrics_season: str, league_quality: dict, nt: pd.DataFrame,
+     min_minutes: int, k: int,
+-) -> dict:
+-    """Assemble the full `goalkeepers.json` payload (no disk I/O)."""
++) -> tuple[dict, int]:
++    """Assemble the full `goalkeepers.json` payload (no disk I/O).
++
++    Every "current top-9 roster" exhibit (`per_million`'s home row,
++    `club_tier`, `production`, the cards, the GK side of `export_age`) is
++    built off one shared `home_top9` roster (`home_top9_gks` on the
++    keeper/pool join) so their counts always agree -- the sentence's n_gk,
++    the club-tier table's row count and the export-age median's n are the
++    same number by construction, not by coincidence. `metrics_season` is
++    used throughout (no separate "current" season parameter: Task 18's
++    review round found `gk_first_top9_ages` called with a different season
++    than everything else, which desynced that count from the others).
++
++    Returns `(payload, keeper_unjoined)` -- `keeper_unjoined` is
++    `join_keeper_pool`'s dropped-row count, for `main()` to log into
++    `data_quality.json`.
++    """
++    keepers, keeper_unjoined = join_keeper_pool(keepers_raw, players_all)
+     pm = per_million(keepers, peers_meta, headline, metrics_season, min_minutes)
+     home_row = pm[pm.country == home]
++
++    gk_history = players_all[players_all.get("pos", pd.Series(dtype=str)) == "GK"]
+     outfield = players_all[players_all.get("pos", pd.Series(dtype=str)) != "GK"]
++    # Shared censoring reference (see the module docstring's "export age"
++    # section): the whole players table's own earliest season, so a
++    # goalkeeper and an outfield export whose first top-9 season is that
++    # same season are censored on the same basis.
++    first_hist = str(players_all["season"].min())
+ 
+-    gk_named = gk_first_top9_ages(keepers, headline, home, current_season)
++    home_top9 = home_top9_gks(keepers, home, headline, metrics_season, min_minutes)
++    gk_named = gk_first_top9_ages(home_top9, gk_history, headline, first_hist)
+     gk_ages = [r["first_age"] for r in gk_named if r["first_age"] is not None]
+-    outfield_ages = _export_ages(outfield, headline, home, current_season)
++    # Denominator matches `len(gk_ages)`: a row with no birth year contributes
++    # to neither the median nor the censored count, same as `_export_ages`.
++    gk_censored = sum(1 for r in gk_named if r["first_age"] is not None and r["censored"])
++    outfield_ages, outfield_censored = _export_ages(outfield, headline, home, metrics_season, first_hist)
+ 
+-    tier = club_tier(keepers, players_all, home, headline, metrics_season)
++    tier = club_tier(home_top9, players_all, metrics_season)
+     prod_all = production_table(keepers, metrics_season, league_quality, min_minutes, k)
+     home_prod = (
+         prod_all[prod_all.nation == home] if not prod_all.empty else prod_all
+     )
+     peer_med = production_peer_medians(prod_all, list(peers_meta))
+-    home_top9 = home_top9_gks(keepers, home, headline, metrics_season, min_minutes)
+     cards = gk_cards(home_top9, prod_all, tier, nt)
+ 
+     home_prod_records = []
+     for r in home_prod.itertuples() if not home_prod.empty else []:
+         home_prod_records.append({
+             "player": r.player, "player_key": r.player_key, "team": r.team, "league": r.league,
+             "min": int(r.min), "ga90": round(float(r.ga90), 2), "saves90": round(float(r.saves90), 2),
+             "save_pct_shrunk": round(float(r.save_pct_shrunk), 1),
+             "cs_share": _opt_float(r.cs_share, 3), "ga90_q": round(float(r.ga90_q), 2),
+         })
+-    return {
++    payload = {
+         "min_minutes": min_minutes, "phantom_minutes": k,
+         "per_million": pm.to_dict("records"),
+         "home_rank": int(home_row.iloc[0]["rank"]) if not home_row.empty else None,
+         "n_peers": int(len(pm)),
+         "export_age": {
+             "gk_n": len(gk_ages), "gk_median_age": _opt_float(pd.Series(gk_ages).median(), 1) if gk_ages else None,
++            "gk_censored": gk_censored,
++            "gk_censored_share": round(gk_censored / len(gk_ages), 3) if gk_ages else 0.0,
+             "outfield_n": len(outfield_ages),
+             "outfield_median_age": _opt_float(pd.Series(outfield_ages).median(), 1) if outfield_ages else None,
++            "outfield_censored": outfield_censored,
++            "outfield_censored_share": (
++                round(outfield_censored / len(outfield_ages), 3) if outfield_ages else 0.0
++            ),
+             "current_top9_ages": gk_named,
+         },
+         "club_tier": [
+             {**row, "club_goals_pct": _opt_float(row["club_goals_pct"])} for row in tier.to_dict("records")
+         ],
+         "club_strength_proxy": CLUB_STRENGTH_PROXY,
+         "production": {
+             "home": home_prod_records,
+             "peer_medians": peer_med.to_dict("records"),
+         },
+         "cards": cards,
+     }
++    return payload, keeper_unjoined
+ 
+ 
+ def render_export_age_figure(
+     gk_ages: list[float], outfield_ages: list[float],
+     gk_median: float | None, outfield_median: float | None, out_path: Path,
+ ) -> None:
+@@ -467,31 +581,34 @@ def main() -> None:
+     config.ensure_dirs()
+     cfg, seasons_raw, league_quality = config.leagues(), config.seasons(), config.league_quality()
+     fd = config.features()
+     min_minutes, k = fd["min_minutes"], fd["phantom_minutes"]
+     headline = list(cfg["headline"])
+     home = config.HOME
+-    metrics_season, current_season = seasons_raw["metrics"], seasons_raw["current"]
++    metrics_season = seasons_raw["metrics"]
+ 
+     keepers = read_parquet(config.PROCESSED_DIR / "fbref_keepers.parquet")
+     players_all = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
+     nt = read_parquet(config.PROCESSED_DIR / "nt_flags.parquet")
+     peers_meta = config.peers_meta()
+ 
+-    out = build_goalkeepers(
+-        keepers, players_all, peers_meta, headline, home, metrics_season, current_season,
++    out, unjoined = build_goalkeepers(
++        keepers, players_all, peers_meta, headline, home, metrics_season,
+         league_quality, nt, min_minutes, k,
+     )
++    if unjoined:
++        LOG.warning("%d of %d keeper rows did not join to a GK row in fbref_players.parquet", unjoined, len(keepers))
+     (config.PROCESSED_DIR / "goalkeepers.json").write_text(
+         json.dumps(out, indent=1, ensure_ascii=False, default=float), encoding="utf-8")
+     LOG.info("wrote goalkeepers.json: rank %s of %s, %d GK cards",
+              out["home_rank"], out["n_peers"], len(out["cards"]))
+ 
+     gk_ages = [r["first_age"] for r in out["export_age"]["current_top9_ages"] if r["first_age"] is not None]
+     outfield = players_all[players_all.get("pos", pd.Series(dtype=str)) != "GK"]
+-    outfield_ages = _export_ages(outfield, headline, home, current_season)
++    first_hist = str(players_all["season"].min())
++    outfield_ages, _ = _export_ages(outfield, headline, home, metrics_season, first_hist)
+     render_export_age_figure(
+         gk_ages, outfield_ages, out["export_age"]["gk_median_age"], out["export_age"]["outfield_median_age"],
+         config.OUTPUTS_DIR / "gk_export_age.svg",
+     )
+ 
+ 
+diff --git a/src/i18n.py b/src/i18n.py
+index c912195..47b7785 100644
+--- a/src/i18n.py
++++ b/src/i18n.py
+@@ -166,13 +166,14 @@ EN: dict[str, str] = {
+     "slide.8.q": "How do {a} and {b} do it?",
+     "slide.8.a": "On the same six numbers {a} gives U21 players <strong>{nor_u21} %</strong> of domestic minutes against {cze_u21} % and sends {nor_top9} % of its squad to the {topn} strongest leagues against {cze_top9} %.",
+     "slide.8.how": "Same definitions, same seasons; a comparison, not a causal claim.",
+     "slide.8b.q": "Where does it work: goalkeepers?",
+     "slide.8b.a": "{n_gk} {adj} goalkeepers play ≥ {min} minutes in the top-{topn} leagues ({pm} per million, rank <strong>{rank} of {n}</strong>); they first appeared there at a median age of {gk_age}, against {out_age} for outfield exports.",
+     "slide.8b.alt": "Strip plot of age at first top-9-league appearance, {adj} goalkeepers against outfield exports, one dot per player, medians marked.",
+-    "slide.8b.how": "{min}-minute floor, {season} rosters, same K = {phantom} shrinkage as the rest of the report; a comparison of two pathways inside one nation, not a causal claim.",
++    "slide.8b.how": "{min}-minute floor, {season} rosters, same K = {phantom} shrinkage as the rest of the report; first season in a fetched top-{topn} table; players already there in {history_start} are censored — {censored_pct} % of the goalkeepers, {censored_out_pct} % of the outfield exports; a comparison of two pathways inside one nation, not a causal claim.{home_note}",
++    "slide.8b.home_note": " First top-{topn} season needs no move for a {home_league} keeper.",
+     "slide.9.q": "Who are the players?",
+     "slide.9.a": "<strong>{n} cards</strong> chosen by six rules.",
+     "slide.9.how": "{season} FBref, Wikipedia and Wikidata rows joined by name and birth year; six selection rules, applied in order — see below.",
+ 
+     # ---- slide 2 proof: compact cohort-gap table (top 5 rows)
+     "cohortgap.th.group": "Group",
+@@ -509,12 +510,14 @@ EN: dict[str, str] = {
+     "dq.split_seasons.label": "Split-season rows collapsed",
+     "dq.split_seasons.what": "Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).",
+     "dq.nt_unmatched.label": "Unmatched call-up names",
+     "dq.nt_unmatched.what": "National-team squad-table names that match no {adj}-eligible row in the feature tables.",
+     "dq.missing_born.label": "Missing birth years",
+     "dq.missing_born.what": "Season-table rows of nation {code} with no birth year, which cannot form a player_key.",
++    "dq.gk_unjoined.label": "Unjoined goalkeeper rows",
++    "dq.gk_unjoined.what": "Keeper-page rows with no matching GK row in the season tables on (league, season, team, player_key); dropped from every goalkeeper exhibit.",
+     "ch4.lim.h3": "Limitations of this analysis",
+     "ch4.repro.h3": "Reproducibility",
+     "ch4.repro.p": "The full pipeline is public: <a href=\"{url}\">{url_short}</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed {seed} for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.",
+     "ch4.built.h3": "How this was built",
+     "ch4.built.summary": "Spec → plan → task agents → reviews → ledger · {n_rulings} rulings · {n_tests} tests",
+     "ch4.built.p1": "The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — {n_rulings} for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under {n_tests} tests.",
+diff --git a/src/render.py b/src/render.py
+index b8a77fe..502020e 100644
+--- a/src/render.py
++++ b/src/render.py
+@@ -1629,15 +1629,17 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
+         "fare_goals_rank": 2, "youth_rank": 1, "n_countries": 2,
+     }
+     gk = {
+         "home_row": {"country": "CZE", "name": "Czechia", "n_gk": 3, "population_m": 10.9,
+                      "per_million": 0.28, "rank": 4},
+         "home_rank": 4, "n_peers": 9, "min_minutes": 450, "phantom_minutes": 900,
+-        "export_age": {"gk_n": 3, "gk_median_age": 21.0, "outfield_n": 15, "outfield_median_age": 23.0,
++        "export_age": {"gk_n": 3, "gk_median_age": 21.0, "gk_censored": 1, "gk_censored_share": 0.333,
++                       "outfield_n": 15, "outfield_median_age": 23.0, "outfield_censored": 2,
++                       "outfield_censored_share": 0.133,
+                        "current_top9_ages": [{"player_key": "jindrich stanek|1996", "player": "Jindřich Staněk",
+-                                              "first_age": 21.0, "first_season": "2024-2025"}]},
++                                              "first_age": 21.0, "first_season": "2024-2025", "censored": False}]},
+         "club_tier": [{"player": "Jindřich Staněk", "player_key": "jindrich stanek|1996",
+                       "league": "GER-Bundesliga", "team": "Mainz 05", "min": 2700, "club_goals_pct": 0.6}],
+         "club_strength_proxy": "goals-scored percentile within league",
+         "production": {"home": [], "peer_medians": []},
+         "cards": [
+             {"player_key": "jindrich stanek|1996", "player": "Jindřich Staněk", "team": "Mainz 05",
+@@ -1656,12 +1658,13 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
+             {"id": "women_filtered", "count": 92, "unit": "entries"},
+             {"id": "namesakes", "count": 2, "unit": "players"},
+             {"id": "no_tables", "count": 120, "unit": "players"},
+             {"id": "split_seasons", "count": 423, "unit": "rows"},
+             {"id": "nt_unmatched", "count": 18, "unit": "names"},
+             {"id": "missing_born", "count": 0, "unit": "rows"},
++            {"id": "gk_unjoined", "count": 1, "unit": "rows"},
+         ],
+         "events": [
+             # dotted dates so the no-typed-season regex test does not read them as seasons
+             {"id": "season_index_stale", "date": "2026.09.14", "recorded_count": 9, "unit": "leagues",
+              "en": "A stale FBref season index made soccerdata fetch the season-less URL.",
+              "cs": "Zastaralý sezónní index FBref způsobil, že soccerdata stáhla URL bez sezóny."},
+diff --git a/templates/report.html.j2 b/templates/report.html.j2
+index 216a4b0..02eaba6 100644
+--- a/templates/report.html.j2
++++ b/templates/report.html.j2
+@@ -499,13 +499,16 @@
+             </tr>
+             {% endfor %}
+           </tbody>
+         </table>
+       </details>
+     </div>
+-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8b.how', min=gk.min_minutes, season=seasons.metrics, phantom=gk.phantom_minutes) }}</p>
++    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8b.how', min=gk.min_minutes, season=seasons.metrics, phantom=gk.phantom_minutes, topn=topn, history_start=seasons.history_start,
++                          censored_pct=('%.0f' | format(gk.export_age.gk_censored_share * 100)),
++                          censored_out_pct=('%.0f' | format(gk.export_age.outfield_censored_share * 100)),
++                          home_note=(t('slide.8b.home_note', topn=topn) if (domestic_league_code in headline_leagues) else '')) }}</p>
+   </div>
+ </section>
+ {% endif %}
+ 
+ <section class="slide" id="q9">
+   <div class="container">
+diff --git a/tests/test_data_quality.py b/tests/test_data_quality.py
+index e33b681..66ef9f5 100644
+--- a/tests/test_data_quality.py
++++ b/tests/test_data_quality.py
+@@ -10,6 +10,33 @@ def test_checks_count_split_seasons_and_no_tables():
+                        "home_eligible": [True, True], "player": ["X", "X"], "born": [1, 1]})
+     nt = pd.DataFrame({"player_norm": ["x", "ghost"], "born": [1, 2]})
+     rows = {r["id"]: r["count"] for r in compute_checks(pool, tables, {"FW": fw}, nt, country_page_html=None)}
+     assert rows["namesakes"] == 2 and rows["no_tables"] == 1
+     assert rows["split_seasons"] == 1 and rows["missing_born"] == 1 and rows["nt_unmatched"] == 1
+     assert rows["women_filtered"] is None
++    assert rows["gk_unjoined"] is None  # no keepers table passed
++
++
++def test_gk_unjoined_counts_keeper_rows_with_no_matching_gk_row():
++    """Task 18 fix round 1, item 4: `gk_unjoined` reruns
++    `src.goalkeepers.join_keeper_pool` on (league, season, team, player_key)
++    -- a keeper row whose team doesn't match any GK row in the players table
++    for that league/season/player_key fails to join and is counted."""
++    pool = pd.DataFrame({"player": ["Jan Novák"], "in_fbref_tables": [True]})
++    tables = pd.DataFrame({
++        "league": ["CZE-First League"], "season": ["2025-2026"], "team": ["Sparta"],
++        "player_key": ["jan novak|2000"], "pos": ["GK"], "nation": ["CZE"], "born": [2000], "min": [1800],
++    })
++    keepers = pd.DataFrame({
++        "league": ["CZE-First League", "CZE-First League"], "season": ["2025-2026"] * 2,
++        "team": ["Sparta", "Slavia"],  # second row's team has no matching GK row -> unjoined
++        "player": ["Jan Novák", "Ghost Keeper"], "player_key": ["jan novak|2000", "ghost keeper|1999"],
++        "nation": ["CZE", "CZE"], "born": [2000, 1999], "age": [25, 26], "mp": [10, 10], "min": [900, 900],
++        "ga": [10, 10], "saves": [30, 30], "sota": [40, 40], "save_pct": [75.0, 75.0], "cs": [2, 2],
++    })
++    fw = pd.DataFrame({"player_key": [], "season": [], "pos_group": [], "min": [], "league": [], "team": [],
++                       "npg_p90": [], "home_eligible": [], "player": [], "born": []})
++    nt = pd.DataFrame({"player_norm": [], "born": []})
++    rows = {r["id"]: r["count"] for r in compute_checks(
++        pool, tables, {"FW": fw}, nt, country_page_html=None, keepers=keepers,
++    )}
++    assert rows["gk_unjoined"] == 1
+diff --git a/tests/test_goalkeepers.py b/tests/test_goalkeepers.py
+index 7f45297..78bf626 100644
+--- a/tests/test_goalkeepers.py
++++ b/tests/test_goalkeepers.py
+@@ -10,12 +10,13 @@ from src.goalkeepers import (
+     attach_nt_flags,
+     build_goalkeepers,
+     club_tier,
+     gk_cards,
+     gk_first_top9_ages,
+     home_top9_gks,
++    join_keeper_pool,
+     per_million,
+     production_peer_medians,
+     production_table,
+ )
+ 
+ HEADLINE = ["ENG-Premier League", "GER-Bundesliga"]
+@@ -38,12 +39,43 @@ def _keepers_toy() -> pd.DataFrame:
+         "sota": [72, 58, 42, 23],
+         "save_pct": [69.4, 69.0, 71.4, 65.2],
+         "cs": [5, 4, 3, 1],
+     })
+ 
+ 
++def _players_all_toy() -> pd.DataFrame:
++    """GK rows matching `_keepers_toy()`'s (league, season, team, player_key)
++    exactly, so `join_keeper_pool` succeeds for all four rows, plus some
++    outfield rows for the export-age contrast."""
++    gk_rows = pd.DataFrame({
++        "league": ["ENG-Premier League", "ENG-Premier League", "GER-Bundesliga", "CZE-First League"],
++        "season": ["2025-2026"] * 4,
++        "team": ["Team A", "Team B", "Team C", "Team D"],
++        "player": ["CZE Keeper", "SVK Keeper", "AUT Keeper", "Domestic Keeper"],
++        "player_key": ["cze keeper|2000", "svk keeper|1998", "aut keeper|1999", "domestic keeper|2001"],
++        "nation": ["CZE", "SVK", "AUT", "CZE"],
++        "pos": ["GK"] * 4,
++        "born": [2000, 1998, 1999, 2001],
++        "min": [1800, 1350, 900, 450],
++        "gls": [0, 0, 0, 0],
++    })
++    outfield_rows = pd.DataFrame({
++        "league": ["ENG-Premier League"] * 2,
++        "season": ["2025-2026"] * 2,
++        "team": ["Team A", "Team B"],
++        "player": ["Out Field", "Out Field 2"],
++        "player_key": ["out field|1999", "out field 2|1998"],
++        "nation": ["CZE", "CZE"],
++        "pos": ["FW", "MF"],
++        "born": [1999, 1998],
++        "min": [1800, 1500],
++        "gls": [40, 60],
++    })
++    return pd.concat([gk_rows, outfield_rows], ignore_index=True)
++
++
+ def test_per_million_ranks_and_breaks_ties_by_population():
+     keepers = _keepers_toy()
+     peers = {"CZE": {"name": "Czechia", "population_m": 10.9}, "SVK": {"name": "Slovakia", "population_m": 5.4}}
+     out = per_million(keepers, peers, HEADLINE, "2025-2026", min_minutes=450)
+     assert out.loc[out.country == "SVK", "n_gk"].iloc[0] == 1
+     assert out.loc[out.country == "CZE", "n_gk"].iloc[0] == 1  # only the ENG row qualifies (top-9); CZE-First League doesn't
+@@ -74,48 +106,114 @@ def test_per_million_applies_minutes_floor():
+     keepers = _keepers_toy()
+     peers = {"CZE": {"name": "Czechia", "population_m": 10.9}}
+     out = per_million(keepers, peers, HEADLINE, "2025-2026", min_minutes=2000)
+     assert out.loc[out.country == "CZE", "n_gk"].iloc[0] == 0  # CZE Keeper only has 1800 min
+ 
+ 
+-def test_export_ages_walks_first_top9_season():
++# ---- Task 18 fix round 1, item 4: join fbref_keepers to the GK rows of
++# fbref_players.parquet, canonical born/nation/min, unjoined count logged.
++
++def test_join_keeper_pool_uses_players_table_as_canonical_and_counts_unjoined():
++    keepers = pd.DataFrame({
++        "league": ["ENG-Premier League", "ENG-Premier League"], "season": ["2025-2026"] * 2,
++        "team": ["Team A", "Team B"], "player": ["CZE Keeper", "Ghost Keeper"],
++        "player_key": ["cze keeper|2000", "ghost keeper|1999"], "nation": ["XXX", "SVK"],  # wrong nation on purpose
++        "born": [1900, 1998], "age": [25, 27], "mp": [20, 15], "min": [1, 1350],  # wrong min on purpose
++        "ga": [22, 18], "saves": [50, 40], "sota": [72, 58], "save_pct": [69.4, 69.0], "cs": [5, 4],
++    })
++    players_all = pd.DataFrame({
++        "league": ["ENG-Premier League"], "season": ["2025-2026"], "team": ["Team A"],
++        "player": ["CZE Keeper"], "player_key": ["cze keeper|2000"], "nation": ["CZE"],
++        "pos": ["GK"], "born": [2000], "min": [1800],
++    })
++    joined, unjoined = join_keeper_pool(keepers, players_all)
++    assert unjoined == 1  # "Ghost Keeper" has no matching GK row -> dropped
++    assert len(joined) == 1
++    row = joined.iloc[0]
++    assert row.nation == "CZE" and row.born == 2000 and row["min"] == 1800  # canonical, not the keeper page's own
++    assert row.ga == 22  # production stats kept from the keeper table
++    assert list(joined.columns) == list(keepers.columns)
++
++
++def test_export_ages_walks_first_top9_season_and_counts_censored():
+     t = pd.DataFrame({
+         "league": ["CZE-First League", "GER-Bundesliga", "ENG-Premier League"],
+         "season": ["2022-2023", "2023-2024", "2025-2026"],
+         "team": ["Sparta", "Mainz", "Arsenal"],
+         "player": ["Jan Novak"] * 3, "player_key": ["jan novak|2000"] * 3,
+         "nation": ["CZE"] * 3, "born": [2000, 2000, 2000],
+         "min": [900, 1500, 1800],
+     })
+-    ages = _export_ages(t, ["GER-Bundesliga", "ENG-Premier League"], "CZE", "2025-2026")
++    ages, censored = _export_ages(t, ["GER-Bundesliga", "ENG-Premier League"], "CZE", "2025-2026", "2020-2021")
+     assert ages == [23.0]  # first top-9 season 2023-2024, born 2000 -> 23
++    assert censored == 0  # 2023-2024 != the shared first_hist "2020-2021"
+ 
+ 
+-def test_gk_first_top9_ages_pairs_name_with_age():
++def test_export_ages_marks_censored_when_first_season_is_the_history_floor():
+     t = pd.DataFrame({
++        "league": ["GER-Bundesliga"], "season": ["2020-2021"], "team": ["Mainz"],
++        "player": ["Jan Novak"], "player_key": ["jan novak|2000"],
++        "nation": ["CZE"], "born": [2000], "min": [1500],
++    })
++    ages, censored = _export_ages(t, ["GER-Bundesliga"], "CZE", "2020-2021", "2020-2021")
++    assert ages == [20.0]
++    assert censored == 1  # first (only) top-9 season IS the earliest fetched season
++
++
++def test_gk_first_top9_ages_pairs_name_with_age_and_censoring():
++    home_top9 = pd.DataFrame({
++        "player_key": ["jan novak|2000"], "player": ["Jan Novak"], "league": ["ENG-Premier League"],
++        "team": ["Arsenal"], "min": [1800], "nation": ["CZE"], "born": [2000],
++    })
++    gk_history = pd.DataFrame({
+         "league": ["GER-Bundesliga", "ENG-Premier League"],
+         "season": ["2024-2025", "2025-2026"],
+         "team": ["Mainz", "Arsenal"],
+         "player": ["Jan Novak", "Jan Novak"], "player_key": ["jan novak|2000"] * 2,
+-        "nation": ["CZE"] * 2, "born": [2000, 2000], "min": [1500, 1800],
++        "nation": ["CZE"] * 2, "born": [2000, 2000], "min": [1500, 1800], "pos": ["GK"] * 2,
+     })
+-    rows = gk_first_top9_ages(t, ["GER-Bundesliga", "ENG-Premier League"], "CZE", "2025-2026")
++    rows = gk_first_top9_ages(home_top9, gk_history, ["GER-Bundesliga", "ENG-Premier League"], "2020-2021")
+     assert rows == [{"player_key": "jan novak|2000", "player": "Jan Novak",
+-                     "first_age": 24.0, "first_season": "2024-2025"}]
++                     "first_age": 24.0, "first_season": "2024-2025", "censored": False}]
++
++
++def test_gk_first_top9_ages_uses_full_players_history_not_just_keeper_pages():
++    """Task 18 fix round 1, item 2: the keeper pages only reach back to
++    previous/metrics/current, so a GK whose true first top-9 season is
++    2020-2021 must still be found and flagged censored when walked over
++    `fbref_players.parquet`'s GK rows (which do reach that far back)."""
++    home_top9 = pd.DataFrame({
++        "player_key": ["old keeper|1996"], "player": ["Old Keeper"], "league": ["ENG-Premier League"],
++        "team": ["Everton"], "min": [3000], "nation": ["ENG"], "born": [1996],
++    })
++    gk_history = pd.DataFrame({
++        "league": ["ENG-Premier League", "ENG-Premier League"],
++        "season": ["2020-2021", "2025-2026"],
++        "team": ["Sunderland", "Everton"],
++        "player": ["Old Keeper", "Old Keeper"], "player_key": ["old keeper|1996"] * 2,
++        "nation": ["ENG"] * 2, "born": [1996, 1996], "min": [1200, 3000], "pos": ["GK"] * 2,
++    })
++    rows = gk_first_top9_ages(home_top9, gk_history, ["ENG-Premier League"], "2020-2021")
++    assert rows[0]["first_age"] == 24.0  # 2020-2021, born 1996
++    assert rows[0]["first_season"] == "2020-2021"
++    assert rows[0]["censored"] is True
+ 
+ 
+ def test_club_tier_joins_goals_scored_percentile():
+-    keepers = _keepers_toy()
++    home_top9 = pd.DataFrame({
++        "player": ["CZE Keeper"], "player_key": ["cze keeper|2000"],
++        "league": ["ENG-Premier League"], "team": ["Team A"], "min": [1800],
++    })
+     players_all = pd.DataFrame({
+         "league": ["ENG-Premier League"] * 3,
+         "season": ["2025-2026"] * 3,
+         "team": ["Team A", "Team B", "Team X"],
+         "gls": [40, 60, 20],
+     })
+-    out = club_tier(keepers, players_all, "CZE", HEADLINE, "2025-2026")
+-    assert len(out) == 1  # only "CZE Keeper" is home nation + headline league
++    out = club_tier(home_top9, players_all, "2025-2026")
++    assert len(out) == 1
+     row = out.iloc[0]
+     assert row.player == "CZE Keeper"
+     # Team A scored 40 of {20,40,60} -> rank 2/3 -> pct = 2/3
+     assert abs(row.club_goals_pct - (2 / 3)) < 1e-9
+ 
+ 
+@@ -147,23 +245,40 @@ def test_shrink_series_per90_matches_features_bayesian_shrink_formula():
+     well = df[df["min"] >= 900]
+     med = well["ga90"].median()
+     expected = (df["ga"] + k90 * med) / (df["min"] / 90.0 + k90)
+     assert (out.round(6) == expected.round(6)).all()
+ 
+ 
++# ---- Task 18 fix round 1, item 1: GA/90 quality adjustment divides by the
++# league multiplier (weaker league -> GA scales up), not multiplies.
++
+ def test_production_table_adds_quality_adjusted_ga90():
+     keepers = _keepers_toy()
+     league_quality = {"multipliers": {"ENG-Premier League": 1.0, "GER-Bundesliga": 0.788, "CZE-First League": 0.434}}
+     out = production_table(keepers, "2025-2026", league_quality, min_minutes=450, k=900)
+     assert len(out) == 4
+     row = out[out.player == "CZE Keeper"].iloc[0]
+     assert abs(row.ga90 - 22 / (1800 / 90.0)) < 1e-9
+-    assert abs(row.ga90_q - row.ga90_shrunk * 1.0) < 1e-9
++    assert abs(row.ga90_q - row.ga90_shrunk / 1.0) < 1e-9  # ENG multiplier is the 1.0 baseline: no change
+     assert 0 <= row.save_pct_shrunk <= 100
+ 
+ 
++def test_production_table_ga90_q_inflates_for_a_sub_one_multiplier():
++    """A sub-1 (weaker-than-baseline) league multiplier must INFLATE
++    ga90_shrunk, not discount it -- dividing by a multiplier < 1 increases
++    the value, matching the copy ('a goal conceded in a stronger league
++    counts less' -- i.e. more in a weaker one)."""
++    keepers = _keepers_toy()
++    league_quality = {"multipliers": {"ENG-Premier League": 1.0, "GER-Bundesliga": 0.788, "CZE-First League": 0.434}}
++    out = production_table(keepers, "2025-2026", league_quality, min_minutes=450, k=900)
++    row = out[out.player == "AUT Keeper"].iloc[0]  # plays in GER-Bundesliga, multiplier 0.788
++    assert row.league_multiplier == 0.788
++    assert row.ga90_q > row.ga90_shrunk
++    assert abs(row.ga90_q - row.ga90_shrunk / 0.788) < 1e-9
++
++
+ def test_production_peer_medians_one_row_per_peer_even_when_empty():
+     keepers = _keepers_toy()
+     league_quality = {"multipliers": {"ENG-Premier League": 1.0, "GER-Bundesliga": 0.788, "CZE-First League": 0.434}}
+     prod = production_table(keepers, "2025-2026", league_quality, min_minutes=450, k=900)
+     out = production_peer_medians(prod, ["CZE", "SVK", "POL"])
+     assert out["country"].tolist() == ["CZE", "SVK", "POL"]
+@@ -189,39 +304,59 @@ def test_attach_nt_flags_matches_by_name_and_born():
+ 
+ 
+ def test_gk_cards_picks_most_minutes_and_youngest():
+     keepers = _keepers_toy()
+     league_quality = {"multipliers": {"ENG-Premier League": 1.0, "GER-Bundesliga": 0.788, "CZE-First League": 0.434}}
+     prod = production_table(keepers, "2025-2026", league_quality, min_minutes=450, k=900)
+-    tier = club_tier(keepers, pd.DataFrame({
+-        "league": ["ENG-Premier League"], "season": ["2025-2026"], "team": ["Team A"], "gls": [40],
+-    }), "CZE", HEADLINE, "2025-2026")
+     home_top9 = home_top9_gks(keepers, "CZE", HEADLINE, "2025-2026", min_minutes=450)
++    tier = club_tier(home_top9, pd.DataFrame({
++        "league": ["ENG-Premier League"], "season": ["2025-2026"], "team": ["Team A"], "gls": [40],
++    }), "2025-2026")
+     nt = pd.DataFrame({"player_norm": [], "born": [], "event": []})
+     cards = gk_cards(home_top9, prod, tier, nt)
+     assert len(cards) == 1  # only one CZE goalkeeper qualifies in the toy data -> same pick, dedup'd to one card
+     assert cards[0]["player"] == "CZE Keeper"
+     assert cards[0]["reason"] == "most top-9 minutes among home goalkeepers"
+ 
+ 
++# ---- Task 18 fix round 1, item 3: one season everywhere -- the sentence's
++# n_gk, the club-tier table's row count and the export-age median's n must
++# all be the same number.
++
++def test_build_goalkeepers_count_equals_table_rows_equals_median_n():
++    keepers = _keepers_toy()
++    players_all = _players_all_toy()
++    peers_meta = {"CZE": {"name": "Czechia", "population_m": 10.9}, "SVK": {"name": "Slovakia", "population_m": 5.4}}
++    league_quality = {"multipliers": {"ENG-Premier League": 1.0, "GER-Bundesliga": 0.788, "CZE-First League": 0.434}}
++    nt = pd.DataFrame({"player_norm": [], "born": [], "event": []})
++    out, unjoined = build_goalkeepers(
++        keepers, players_all, peers_meta, HEADLINE, "CZE", "2025-2026",
++        league_quality, nt, min_minutes=450, k=900,
++    )
++    assert unjoined == 0  # every keeper row in the toy data joins cleanly
++    n_gk_sentence = next(r["n_gk"] for r in out["per_million"] if r["country"] == "CZE")
++    assert n_gk_sentence == 1
++    assert len(out["club_tier"]) == n_gk_sentence
++    assert out["export_age"]["gk_n"] == n_gk_sentence
++
++
+ def test_build_goalkeepers_json_shape():
+     keepers = _keepers_toy()
+-    players_all = pd.DataFrame({
+-        "league": ["ENG-Premier League"] * 2, "season": ["2025-2026"] * 2,
+-        "team": ["Team A", "Team B"], "player": ["Out Field", "Out Field 2"],
+-        "player_key": ["out field|1999", "out field 2|1998"], "nation": ["CZE", "CZE"],
+-        "pos": ["FW", "MF"], "born": [1999, 1998], "gls": [40, 60], "min": [1800, 1500],
+-    })
++    players_all = _players_all_toy()
+     peers_meta = {"CZE": {"name": "Czechia", "population_m": 10.9}, "SVK": {"name": "Slovakia", "population_m": 5.4}}
+     league_quality = {"multipliers": {"ENG-Premier League": 1.0, "GER-Bundesliga": 0.788, "CZE-First League": 0.434}}
+     nt = pd.DataFrame({"player_norm": [], "born": [], "event": []})
+-    out = build_goalkeepers(
+-        keepers, players_all, peers_meta, HEADLINE, "CZE", "2025-2026", "2025-2026",
++    out, unjoined = build_goalkeepers(
++        keepers, players_all, peers_meta, HEADLINE, "CZE", "2025-2026",
+         league_quality, nt, min_minutes=450, k=900,
+     )
++    assert unjoined == 0
+     for key in ("min_minutes", "phantom_minutes", "per_million", "home_rank", "n_peers",
+                "export_age", "club_tier", "club_strength_proxy", "production", "cards"):
+         assert key in out
++    for key in ("gk_n", "gk_median_age", "gk_censored", "gk_censored_share",
++               "outfield_n", "outfield_median_age", "outfield_censored", "outfield_censored_share"):
++        assert key in out["export_age"]
+     assert out["export_age"]["gk_n"] == 1
+     assert out["export_age"]["outfield_n"] == 2
+     assert isinstance(out["production"]["home"], list) and isinstance(out["production"]["peer_medians"], list)
+     assert len(out["cards"]) == 1
+diff --git a/tests/test_render.py b/tests/test_render.py
+index 4a24689..6e54373 100644
+--- a/tests/test_render.py
++++ b/tests/test_render.py
+@@ -431,6 +431,36 @@ def test_slide_8b_absent_when_gk_context_empty():
+     assert "save_pct_shrunk" not in html
+ 
+     ctx2 = dict(ctx, domestic_league_code="ENG-Premier League", headline_leagues=["ENG-Premier League"])
+     html2 = _render(ctx2)
+     how2 = re.search(r'id="q4">.*?slide-how">(.*?)</p>', html2, re.S).group(1)
+     assert "is itself one of Europe's top" in how2
++
++
++def test_slide_8b_how_discloses_censoring_and_gains_home_note_only_when_headline():
++    """Task 18 fix round 1, items 2 and 6: the how-line states the censored
++    share of both the goalkeepers and the outfield exports, and gains the
++    same {home_note} slides 4/5 use only when the home league is itself one
++    of the headline leagues."""
++    ctx = build_context_from_fixtures("en")
++    assert ctx["domestic_league_code"] not in ctx["headline_leagues"]
++    html = _render(ctx)
++    how = re.search(r'id="q8b">.*?slide-how">(.*?)</p>', html, re.S).group(1)
++    assert "censored" in how
++    assert "% of the goalkeepers" in how and "% of the outfield exports" in how
++    assert "needs no move" not in how
++
++    ctx2 = dict(ctx, domestic_league_code="ENG-Premier League", headline_leagues=["ENG-Premier League"])
++    html2 = _render(ctx2)
++    how2 = re.search(r'id="q8b">.*?slide-how">(.*?)</p>', html2, re.S).group(1)
++    assert "needs no move" in how2
++
++
++def test_slide_8b_a_uses_czech_nominative_plural_agreement():
++    """Task 18 fix round 1, item 5: the counted-noun + verb pair must agree
++    as nominative plural + plural verb ('brankáři hrají'), not genitive
++    plural + singular verb ('brankářů hraje')."""
++    ctx = build_context_from_fixtures("cs")
++    html = _render(ctx)
++    a = re.search(r'id="q8b">.*?slide-a">(.*?)</p>', html, re.S).group(1)
++    assert "brankáři hrají" in a
++    assert "brankářů hraje" not in a

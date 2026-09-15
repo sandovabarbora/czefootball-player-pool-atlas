@@ -1,0 +1,1175 @@
+1c94d3b Task 17: from raw tables to a feature vector -- one worked row, rejected candidates, two EDA figures; rebuilt docs (cze + eng)
+8b92639 WIP Task 17: feature_eda module, report section, i18n, Makefile/build.sh wiring
+67a955e WIP Task 17: feature_eda skeleton -- raw row / feature row extraction
+d6fc664 Model comparison: state that the target carries next season's league multiplier
+ Makefile                  |  10 +-
+ config/i18n/cs.yaml       |  49 +++++-
+ site/build.sh             |   8 +-
+ src/feature_eda.py        | 425 ++++++++++++++++++++++++++++++++++++++++++++++
+ src/i18n.py               |  49 +++++-
+ src/render.py             |  72 ++++++++
+ templates/report.html.j2  |  77 +++++++++
+ tests/test_feature_eda.py | 241 ++++++++++++++++++++++++++
+ 8 files changed, 923 insertions(+), 8 deletions(-)
+diff --git a/Makefile b/Makefile
+index 740eac0..757b3a8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength pathways data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
++.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
+ 
+ # NATION selects the home nation for every target below (default: cze) --
+ # it is read straight from the environment by src/config.py, so
+ # `NATION=eng make features` (or `export NATION=eng` first) is enough to
+ # point every target at config/nations/eng.yaml and the eng/ data dirs; no
+ # target here hardcodes a nation. `NATION ?=` only fixes the value this
+@@ -27,15 +27,16 @@ help:
+ 	@echo "  series           26-season Big-5 series (home nation vs peers) exhibit"
+ 	@echo "  analogs          Showcase players and historical analogs"
+ 	@echo "  sensitivity      League-multiplier sensitivity table"
+ 	@echo "  strength         Hierarchical Bayesian league-strength model from league movers"
+ 	@echo "  compare          Three-model rolling-origin comparison (M1 core: monitor performance over time)"
+ 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
++	@echo "  eda              One raw row to a feature vector: cleaning ledger link, rejected candidates, two EDA figures"
+ 	@echo "  data-quality     Recompute the data-quality log checks"
+ 	@echo "  render           Render the HTML report (en + cs)"
+-	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> pathways -> data-quality -> render"
++	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> eda -> data-quality -> render"
+ 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
+ 	@echo "  test             Run pytest"
+ 	@echo "  lint             Run ruff check"
+ 	@echo "  check            lint + test"
+ 	@echo "  snapshot         Copy data/processed/\$$(NATION)/ parquet+json into data/snapshot/\$$(NATION)/"
+ 	@echo "  restore-snapshot Copy data/snapshot/\$$(NATION)/ into data/processed/\$$(NATION)/ (never overwrites newer files)"
+@@ -91,19 +92,22 @@ strength:
+ compare:
+ 	$(ACT) python -m src.model_comparison
+ 
+ pathways:
+ 	$(ACT) python -m src.pathways
+ 
++eda:
++	$(ACT) python -m src.feature_eda
++
+ data-quality:
+ 	$(ACT) python -m src.data_quality
+ 
+ render: data-quality
+ 	$(ACT) python -m src.render
+ 
+-all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways data-quality render
++all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render
+ 
+ test:
+ 	$(ACT) pytest
+ 
+ lint:
+ 	$(ACT) ruff check src tests
+diff --git a/config/i18n/cs.yaml b/config/i18n/cs.yaml
+index 44b6248..8f843b2 100644
+--- a/config/i18n/cs.yaml
++++ b/config/i18n/cs.yaml
+@@ -288,12 +288,59 @@ strings:
+   ch4.sources.h3: "Zdroje dat"
+   ch4.sources.fbref: "<strong>FBref</strong> (přes <code>soccerdata</code>): sezónní tabulky hráčů (standard, playing time) pro {topn} hlavních lig, ligu {cs_home_league}, domácí ligy peer zemí a německou druhou ligu; stránka země „Players from {nation}“ pro nalezení fondu; sloupec národnosti pro počty peer zemí"
+   ch4.sources.wikipedia: "<strong>Wikipedia</strong>: tabulky reprezentačních nominací ({events}) pro příznak nominace"
+   ch4.sources.wikidata: "<strong>Wikidata / Wikimedia Commons</strong>: portréty hráčů (P18) spárované podle jména, občanství a data narození; kredity v patičce"
+   ch4.sources.uefa: "<strong>Koeficienty asociací UEFA</strong> (přes Wikipedii) jako zdroj síly lig, ClubElo bylo v době běhu nedostupné"
+   ch4.sources.eurostat: "<strong>Eurostat</strong>: odhady populace, 2024"
++
++  ch4.eda.h3: "Od syrových tabulek k vektoru příznaků"
++  ch4.eda.intro: "Jedna hráčská sezóna {season}, sledovaná od syrového řádku z FBref až k pětiprvkovému vektoru, na kterém stojí zbytek této kapitoly: {player}, hráč {cs_gen} s nejvíce minutami v sezóně {season} mezi těmi, kdo prošli vstupním prahem."
++  ch4.eda.tables.summary: "{player}: syrový řádek a řádek příznaků"
++  ch4.eda.raw.caption: "Syrový řádek z FBref, sezóna {season}"
++  ch4.eda.raw.th.column: "Sloupec"
++  ch4.eda.raw.th.value: "Hodnota"
++  ch4.eda.feature.caption: "Řádek příznaků po pipeline"
++  ch4.eda.feature.th.feature: "Příznak"
++  ch4.eda.feature.th.raw: "Syrový"
++  ch4.eda.feature.th.shrunk: "Stažený"
++  ch4.eda.feature.th.quality: "Kvalitou upravený"
++  ch4.eda.feature.th.z: "Z-skóre"
++  ch4.eda.cleaning.p: "Šest kontrol čištění dat mění syrové řádky výše ve fond použitý ve zbytku reportu, přepočítáno při každém běhu:"
++  ch4.eda.cleaning.link: "Celý log, včetně zaznamenaných incidentů pipeline, je v <a href=\"#data-quality\">logu kvality dat</a> níže."
++  ch4.eda.features.p: "Každá posty skupina sdílí stejný pětiprvkový vektor (spec §5): syrový sloupec se stane mírou na 90 minut, staženou k mediánu své ligy a sezóny {cite_efron_morris}, poté vynásobenou projekcí kvality ligy."
++  ch4.eda.features.npg_p90.def: "neproměněné penalty goly na 90 minut"
++  ch4.eda.features.npg_p90.why: "penalta je kvalita příležitosti, ne produkce ve hře, a nafukuje syrový počet gólů exekutora z důvodů, které nemají nic společného s tím, jak si hráč šance vytváří"
++  ch4.eda.features.ast_p90.def: "asistence na 90 minut"
++  ch4.eda.features.ast_p90.why: "přímý kreativní doplněk neproměněných penalty gólů, na stejné základní tabulce pro každou ligu v korpusu"
++  ch4.eda.features.min_share.def: "odehrané minuty ÷ (zápasy klubu × 90)"
++  ch4.eda.features.min_share.why: "vlastní čtení trenéra, spolehlivější než počítání startů (viz níže)"
++  ch4.eda.features.age.def: "věk na začátku sezóny (počáteční rok − rok narození)"
++  ch4.eda.features.age.why: "mediánová produkce se v tomto korpusu podle věkového pásma stále liší (viz níže), takže zůstává vlastní osou místo toho, aby se do něčeho slévala"
++  ch4.eda.features.cards_p90.def: "žluté + 2 × červené karty na 90 minut"
++  ch4.eda.features.cards_p90.why: "signál kázně slitý do jedné míry, protože samotné červené karty jsou samy o sobě příliš řídký signál (viz níže)"
++  ch4.eda.rejected.p: "Pět kandidátů zvažovaných pro vektor sezóny {season} a co k nim řekla data, napříč celým korpusem (každá dohledaná národnost, stejná populace, kterou popisuje zbytek této kapitoly):"
++  ch4.eda.rejected.th.candidate: "Kandidát"
++  ch4.eda.rejected.th.statistic: "Statistika"
++  ch4.eda.rejected.th.value: "Hodnota"
++  ch4.eda.rejected.th.decision: "Rozhodnutí"
++  ch4.eda.rejected.gls_p90.statistic: "Korelace s npg_p90"
++  ch4.eda.rejected.gls_p90.decision: "Nahrazeno npg_p90"
++  ch4.eda.rejected.mp.statistic: "Korelace s odehranými minutami"
++  ch4.eda.rejected.mp.decision: "Nahrazeno podílem minut"
++  ch4.eda.rejected.crdr_p90.statistic: "Podíl hráčských sezón bez červené karty"
++  ch4.eda.rejected.crdr_p90.decision: "Slito do karet"
++  ch4.eda.rejected.age.statistic: "Rozpětí mediánové produkce napříč věkovými pásmy"
++  ch4.eda.rejected.age.decision: "Ponecháno"
++  ch4.eda.rejected.born.statistic: "Podíl hráčských sezón bez roku narození"
++  ch4.eda.rejected.born.decision: "Ponecháno — potřebné pro klíč hráče"
++  ch4.eda.rejected.note: "Navzdory vysoké korelaci se góly a neproměněné penalty goly rozcházejí u hráčů, kteří proměňují penalty: {top3}. Starty (mp) korelují s minutami silně, ale ne dokonale — náhradnický vstup se počítá stejně jako 90 odehraných minut, a proto tady čas na hřišti měří podíl minut, ne starty."
++  ch4.eda.fig1.alt: "Malé násobky: rozdělení pěti syrových příznaků na 90 minut podle ligy, boxploty na ligu, {cs_home_league} zvýrazněná, zobrazeno {n} lig."
++  ch4.eda.fig1.caption: "Obrázek za ligovou úpravou: stejná syrová míra vypadá velmi jinak podle toho, ve které lize byla odehraná."
++  ch4.eda.fig2.alt: "Rozptylový graf syrových vs. stažených neproměněných penalty gólů na 90 minut proti minutám pro hráče s příslušností {cs_gen}, s překrytou váhou stažení k ligovému mediánu jako funkcí minut."
++  ch4.eda.fig2.caption: "Co stažení udělá s hráčem s málo minutami: na vstupním prahu nese ligový medián stále většinu váhy; míra hráče {player} se posunula nejvíc ze všech hráčů {cs_gen} tuto sezónu."
++
+   ch4.mult.h3: "Ligové násobičky (quality projekce)"
+   ch4.mult.th.league: "Liga"
+   ch4.mult.th.value: "Násobička"
+   ch4.mult.method: "Metoda: <code>{method}</code>. {source} Analýza citlivosti níže ukazuje robustnost pořadí vůči ±20 % na kterékoli jedné násobičce."
+   ch4.shrink.h3: "Bayesovský shrinkage"
+   ch4.shrink.p1: "Míry na 90 minut u hráčů s málo minutami jsou staženy k mediánu jejich ligy a sezóny (hráči s aspoň {phantom} minutami) empirickým Bayesovým vzorcem {cite_efron_morris}, s K = 10 fantomovými zápasy vyjádřenými jako {phantom} minut:"
+@@ -346,13 +393,13 @@ strings:
+   ch4.strength.ppc.summary: "Posteriorní prediktivní kontrola"
+   ch4.strength.ppc.p: "Pozorované vs. replikované neproniknuté góly plus asistence na hráčskou sezónu {cite_ppc}: podíl nul {obs_zero} vs. {rep_zero}, průměr {obs_mean} vs. {rep_mean}, 90. percentil {obs_p90} vs. {rep_p90}."
+   ch4.strength.ppc.fig_alt: "Sloupcový graf porovnávající pozorované a posteriorně-prediktivně replikované rozdělení neproniknutých gólů plus asistencí na hráčskou sezónu, seskupené 0/1/2/3/4/5+."
+ 
+   ch4.compare.h3: "Tři modely, jeden úkol, pět sezón"
+   ch4.compare.q: "Co nám sezóna hráče řekne o té příští, s ohledem na to, kde hraje, kolik mu je a — u exportů — v jakém věku odešel? V modelovém vyjádření: predikovat hráčovu ligou upravenou produkci v příští sezóně (neproniknuté góly plus asistence na 90 minut, upravené o kvalitu) z čísel této sezóny, pro každou hráčskou sezónní dvojici s aspoň {min} minutami v obou sezónách, každou národnost v korpusu."
+-  ch4.compare.design: "Vyhodnoceno rolling-origin křížovou validací {cite_ro}: pro každou z {n_origins} cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, {chains} řetězce × {draws} vzorků na origin {cite_bayes}), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn {cite_sklearn}, skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš {max_train} na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu."
++  ch4.compare.design: "Vyhodnoceno rolling-origin křížovou validací {cite_ro}: pro každou z {n_origins} cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, {chains} řetězce × {draws} vzorků na origin {cite_bayes}), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn {cite_sklearn}, skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš {max_train} na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu. Cíl je upravený násobičem ligy, ve které hráč hraje příští sezónu; featury znají jen letošní ligu, takže přestup je změna, kterou žádný z modelů nevidí dopředu — omezení společné všem pěti."
+   ch4.compare.fig_alt: "Čárový graf RMSE za cílovou sezónu, jedna čára na model, persistence přerušovaně."
+   ch4.compare.th.model: "Model"
+   ch4.compare.th.pooled: "Souhrn"
+   ch4.compare.model.persistence: "Persistence"
+   ch4.compare.model.shrinkage_league_mean: "Shrinkage k ligovému průměru"
+   ch4.compare.model.bayesian: "Hierarchický bayesovský"
+diff --git a/site/build.sh b/site/build.sh
+index 90e52d5..1bc986a 100755
+--- a/site/build.sh
++++ b/site/build.sh
+@@ -34,26 +34,28 @@ fi
+ D=$(mkdir -p "$D" && cd "$D" && pwd)
+ O="$ROOT/outputs/$NATION"
+ PY=${PYTHON:-python3}
+ if command -v uv >/dev/null 2>&1 && [ -f "$ROOT/pyproject.toml" ]; then PY="uv run --project $ROOT python"; fi
+ 
+ for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.svg big5_series.svg \
+-         league_strength.svg league_strength_ppc.svg model_comparison.svg style.css; do
+-  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`; model_comparison.svg: \`uv run python -m src.model_comparison\`)" >&2; exit 1; }
++         league_strength.svg league_strength_ppc.svg model_comparison.svg eda_distributions.svg \
++         eda_shrinkage.svg style.css; do
++  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`; model_comparison.svg: \`uv run python -m src.model_comparison\`; eda_*.svg: \`uv run python -m src.feature_eda\`)" >&2; exit 1; }
+ done
+ if [ "$NATION" = "cze" ]; then
+   [ -f "$O/cs/index.html" ] || { echo "missing $O/cs/index.html — run \`make render\` first" >&2; exit 1; }
+ fi
+ 
+ if [ "$D" != "$ROOT/docs" ]; then
+   for a in modern.css atlas.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
+   [ -d "$ROOT/docs/img" ] && [ ! -e "$D/img" ] && cp -R "$ROOT/docs/img" "$D/img"
+ fi
+ cp "$O/index.html" "$D/index.html"
+ cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap.svg" "$O/big5_series.svg" \
+-   "$O/league_strength.svg" "$O/league_strength_ppc.svg" "$O/model_comparison.svg" "$O/style.css" "$D/"
++   "$O/league_strength.svg" "$O/league_strength_ppc.svg" "$O/model_comparison.svg" \
++   "$O/eda_distributions.svg" "$O/eda_shrinkage.svg" "$O/style.css" "$D/"
+ 
+ ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
+ if [ "$NATION" = "cze" ]; then
+   # CS pass: `src.render` writes a cs/index.html for every NATION (the
+   # translator's cs_* placeholders work for any of them -- see
+   # src/i18n.py's Task 14b auto-injection), but the *published* site is
+diff --git a/src/feature_eda.py b/src/feature_eda.py
+new file mode 100644
+index 0000000..45fb9e4
+--- /dev/null
++++ b/src/feature_eda.py
+@@ -0,0 +1,425 @@
++"""Task 17: "From raw tables to a feature vector" — wrangling, EDA and
++feature engineering shown, not claimed (spec §4c).
++
++Reads:  data/processed/<nation>/fbref_players.parquet, features_{FW,MF,DF}.parquet
++Writes: data/processed/<nation>/feature_eda.json,
++        outputs/<nation>/eda_distributions.svg, outputs/<nation>/eda_shrinkage.svg
++
++Four things, one worked example:
++
++1. One raw row: the home nation's player with the most metrics-season
++   minutes, shown as its raw FBref columns (`pick_raw_and_feature_row`) next
++   to the same player's feature row after per-90 -> Bayesian shrinkage ->
++   league-quality projection -> z-score (`feature_row_dict`). The raw-row
++   search is restricted to players who actually made it into the feature
++   pipeline (min >= `feature_definitions.yaml::min_minutes`, a FW/MF/DF
++   position), so a pairing always exists.
++
++2. The cleaning ledger is not recomputed here — `data_quality.json` already
++   carries it, and `render.py` links `#features-from-raw` to `#data-quality`
++   rather than duplicating the counts.
++
++3. Five kept features, five rejected candidates, corpus-wide (every fetched
++   nationality) on the metrics-season feature-pipeline output — the same
++   population every other chapter-IV number in this report describes:
++     - `gls_p90` vs `npg_p90`: penalties inflate a few takers
++       (`penalty_share_stat`) -> replaced by npg_p90.
++     - `mp` (appearances) vs `min`: a start can be a substitute cameo
++       (`starts_proxy_stat`) -> replaced by minutes share.
++     - `crdr_p90` (red cards): most player-seasons have none
++       (`red_card_zero_share_stat`) -> folded into cards (yellow + 2*red).
++     - `age`: median production visibly differs by age band
++       (`age_production_curve_stat`) -> kept as a feature.
++     - `born` (raw column): occasionally missing corpus-wide
++       (`missingness_stat`) -> kept anyway, since `player_key` (the
++       cross-source join key, see `src.utils.player_key`) needs it.
++
++4. Two EDA figures: `render_distributions_figure` (the five raw per-90
++   features' distributions per league, the picture that motivates league
++   adjustment) and `render_shrinkage_figure` (raw vs shrunk npG/90 against
++   minutes, the picture that motivates shrinkage).
++"""
++
++from __future__ import annotations
++
++import json
++import logging
++from pathlib import Path
++from typing import Any
++
++import matplotlib.pyplot as plt
++import numpy as np
++import pandas as pd
++from scipy.stats import skew
++
++from src import config
++from src.features import FEATURES
++from src.international_benchmark import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE
++from src.logging_setup import setup as logging_setup
++from src.utils import read_parquet
++
++LOG = logging.getLogger(__name__)
++
++GROUPS = ["FW", "MF", "DF"]
++RAW_COLUMNS = ["league", "season", "team", "player", "nation", "pos", "born", "age",
++               "mp", "min", "gls", "ast", "pk", "crdy", "crdr"]
++_INT_RAW_COLUMNS = {"born", "age", "mp", "min", "gls", "ast", "pk", "crdy", "crdr"}
++AGE_BAND_ORDER = ["U22", "23-25", "26-29", "30+"]
++
++plt.rcParams["font.family"] = "serif"
++plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
++plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
++plt.rcParams["text.color"] = INK
++
++
++# =============================================================================
++# 1. The raw row and the feature row
++# =============================================================================
++
++
++def pick_raw_and_feature_row(
++    tables: pd.DataFrame, features_by_group: dict[str, pd.DataFrame], metrics_season: str,
++) -> tuple[pd.Series, pd.Series]:
++    """The home nation's raw row with the most metrics-season minutes among
++    players who also made it into the feature pipeline, plus that player's
++    own feature row.
++
++    Restricting to players present in some `features_{group}` frame (not
++    every home-nation row in `fbref_players.parquet`) guarantees the second
++    half of the pairing exists -- a raw row below the inclusion floor, at a
++    goalkeeper position, or in a league without season tables would
++    otherwise have no feature row to show next to it.
++    """
++    feat_all = pd.concat(features_by_group.values(), ignore_index=True) if features_by_group else pd.DataFrame()
++    feat_metrics = feat_all[feat_all["season"] == metrics_season] if not feat_all.empty else feat_all
++    eligible_keys = set(feat_metrics["player_key"]) if not feat_metrics.empty else set()
++
++    home_rows = tables[
++        (tables["nation"] == config.HOME) & (tables["season"] == metrics_season)
++        & tables["player_key"].isin(eligible_keys)
++    ]
++    if home_rows.empty:
++        raise ValueError(f"no {config.HOME} player with both a raw row and a feature row in {metrics_season}")
++    raw = home_rows.sort_values("min", ascending=False).iloc[0]
++
++    same_player = feat_metrics[feat_metrics["player_key"] == raw["player_key"]]
++    same_team = same_player[same_player["team"] == raw["team"]]
++    feat = (same_team if not same_team.empty else same_player).iloc[0]
++    return raw, feat
++
++
++def raw_row_dict(row: pd.Series) -> dict[str, Any]:
++    """`row` (a `fbref_players.parquet` row) -> a plain dict over
++    `RAW_COLUMNS`, in FBref's own column order, ints where FBref's own dtype
++    is integer-like and `None` for a missing value (age/born can be NA)."""
++    out: dict[str, Any] = {}
++    for col in RAW_COLUMNS:
++        v = row[col]
++        if pd.isna(v):
++            out[col] = None
++        elif col in _INT_RAW_COLUMNS:
++            out[col] = int(v)
++        else:
++            out[col] = str(v)
++    return out
++
++
++def feature_row_dict(row: pd.Series) -> dict[str, Any]:
++    """`row` (a `features_{group}.parquet` row) -> `{player, pos_group,
++    <feature>: {raw, shrunk, quality, z}}` for each of `src.features.FEATURES`
++    -- the pipeline's four stages for that one player's season."""
++    out: dict[str, Any] = {"player": str(row["player"]), "pos_group": str(row["pos_group"])}
++    for f in FEATURES:
++        stages = {"raw": row[f], "shrunk": row[f"{f}_shrunk"],
++                  "quality": row[f"{f}_quality"], "z": row[f"{f}_quality_z"]}
++        out[f] = {k: (round(float(v), 4) if pd.notna(v) else None) for k, v in stages.items()}
++    return out
++
++
++# =============================================================================
++# 2. Why five features -- the rejected candidates, with the reason from the data
++# =============================================================================
++
++
++def penalty_share_stat(df: pd.DataFrame, n: int = 3) -> dict[str, Any]:
++    """(i) corr(gls_p90, npg_p90) -- penalties inflate a few takers' raw goal
++    count without being open-play production, hence npg_p90 over gls_p90 --
++    plus the `n` player-seasons with the highest penalty share (pk / gls,
++    among rows with at least one goal)."""
++    d = df[df["min"] > 0].copy()
++    d["gls_p90"] = d["gls"] / (d["min"] / 90.0)
++    corr = float(d["gls_p90"].corr(d["npg_p90"])) if len(d) > 1 else None
++
++    scored = df[df["gls"] > 0].copy()
++    scored["penalty_share"] = scored["pk"] / scored["gls"]
++    top = scored.sort_values("penalty_share", ascending=False).head(n)
++    top_rows = [
++        {"player": str(r.player), "league": str(r.league), "season": str(r.season),
++         "share": round(float(r.penalty_share), 3)}
++        for r in top.itertuples()
++    ]
++    return {"corr": round(corr, 4) if corr is not None else None, "top": top_rows}
++
++
++def starts_proxy_stat(df: pd.DataFrame) -> dict[str, Any]:
++    """(ii) corr(mp, min) -- an appearance (`mp`) can be a substitute cameo, so
++    it is a noisier proxy for playing time than minutes share."""
++    corr = float(df["mp"].corr(df["min"])) if len(df) > 1 else None
++    return {"corr": round(corr, 4) if corr is not None else None}
++
++
++def red_card_zero_share_stat(df: pd.DataFrame) -> dict[str, Any]:
++    """(iii) share of player-seasons with zero red cards -- too sparse a
++    signal on its own, hence folded into `cards_p90` (yellow + 2*red)."""
++    share = float((df["crdr"] == 0).mean()) if len(df) else None
++    return {"zero_share": round(share, 4) if share is not None else None}
++
++
++def _age_band(age: object) -> str | None:
++    if pd.isna(age):
++        return None
++    age = int(age)
++    if age <= 21:
++        return "U22"
++    if age <= 25:
++        return "23-25"
++    if age <= 29:
++        return "26-29"
++    return "30+"
++
++
++def age_production_curve_stat(df: pd.DataFrame) -> list[dict[str, Any]]:
++    """(iv) median non-penalty production (npg_p90 + ast_p90) per age band --
++    a visibly non-flat curve is the case for keeping age as a feature."""
++    d = df.copy()
++    d["band"] = d["age"].map(_age_band)
++    d["prod"] = d["npg_p90"].fillna(0) + d["ast_p90"].fillna(0)
++    rows = []
++    for band in AGE_BAND_ORDER:
++        sub = d[d["band"] == band]
++        if sub.empty:
++            continue
++        rows.append({"band": band, "median": round(float(sub["prod"].median()), 4), "n": int(len(sub))})
++    return rows
++
++
++def missingness_stat(tables: pd.DataFrame) -> list[dict[str, Any]]:
++    """(v) missing count/share per raw column -- `born` is the one the join
++    key (`src.utils.player_key`) depends on."""
++    n = len(tables)
++    rows = []
++    for c in RAW_COLUMNS:
++        missing = int(tables[c].isna().sum())
++        rows.append({"column": c, "missing": missing, "share": round(missing / n, 4) if n else 0.0})
++    return rows
++
++
++def build_rejected(
++    penalty: dict[str, Any], starts: dict[str, Any], redcard: dict[str, Any],
++    age_bands: list[dict[str, Any]], missingness: list[dict[str, Any]],
++) -> list[dict[str, Any]]:
++    """The five `{candidate, statistic, value, decision}` rows (brief §3):
++    `candidate` and `decision` are stable codes the report's i18n layer
++    translates (see `render._build_feature_eda`); `statistic` names what
++    `value` is."""
++    born_row = next((r for r in missingness if r["column"] == "born"), {"share": None})
++    age_spread = (
++        round(max(r["median"] for r in age_bands) - min(r["median"] for r in age_bands), 4)
++        if age_bands else None
++    )
++    return [
++        {"candidate": "gls_p90", "statistic": "corr_npg", "value": penalty["corr"], "decision": "replaced_npg"},
++        {"candidate": "mp", "statistic": "corr_min", "value": starts["corr"], "decision": "replaced_min_share"},
++        {"candidate": "crdr_p90", "statistic": "zero_share", "value": redcard["zero_share"], "decision": "folded_cards"},
++        {"candidate": "age", "statistic": "band_spread", "value": age_spread, "decision": "kept"},
++        {"candidate": "born", "statistic": "missing_share", "value": born_row["share"], "decision": "kept_key"},
++    ]
++
++
++# =============================================================================
++# 3. Figures
++# =============================================================================
++
++
++def render_distributions_figure(
++    features_all: pd.DataFrame, out_path: Path, top_n_leagues: int = 10,
++) -> dict[str, Any]:
++    """Small multiples: one panel per `src.features.FEATURES` raw value,
++    boxplots per league (the `top_n_leagues` with the most rows, the
++    domestic league always included), domestic league in oxblood. A panel's
++    y-axis is log1p-scaled when its skewness (computed, not guessed) exceeds
++    1.5 and every value is non-negative.
++    """
++    counts = features_all["league"].value_counts()
++    leagues = list(counts.head(top_n_leagues).index)
++    if config.DOMESTIC_LEAGUE in counts.index and config.DOMESTIC_LEAGUE not in leagues:
++        leagues = [*leagues[:-1], config.DOMESTIC_LEAGUE]
++    leagues = sorted(set(leagues), key=lambda lg: -counts.get(lg, 0))
++
++    fig, axes = plt.subplots(1, len(FEATURES), figsize=(3.6 * len(FEATURES), 5.4))
++    fig.patch.set_facecolor(CREAM)
++    log_scaled = []
++    for ax, feat in zip(axes, FEATURES, strict=True):
++        vals = features_all[feat].dropna()
++        sk = float(skew(vals)) if len(vals) > 2 else 0.0
++        use_log = bool(sk > 1.5 and (vals >= 0).all())
++        by_league = []
++        for lg in leagues:
++            v = features_all.loc[features_all["league"] == lg, feat].dropna()
++            by_league.append(np.log1p(v) if use_log else v)
++        bp = ax.boxplot(by_league, patch_artist=True, showfliers=False)
++        for patch, lg in zip(bp["boxes"], leagues, strict=True):
++            patch.set_facecolor(OXBLOOD if lg == config.DOMESTIC_LEAGUE else NAVY_DEEP)
++            patch.set_alpha(0.75)
++        for element in ("whiskers", "caps", "medians"):
++            for line in bp[element]:
++                line.set_color(INK)
++        ax.set_xticks(range(1, len(leagues) + 1))
++        ax.set_xticklabels(leagues, rotation=90, fontsize=6.3, fontfamily="sans-serif", color=INK)
++        ax.set_title(feat + (" (log1p)" if use_log else ""), fontsize=10, fontfamily="serif", color=INK)
++        ax.set_facecolor(CREAM)
++        for spine in ("top", "right"):
++            ax.spines[spine].set_visible(False)
++        for spine in ("left", "bottom"):
++            ax.spines[spine].set_color(RULE)
++        ax.tick_params(colors=INK)
++        if use_log:
++            log_scaled.append(feat)
++
++    fig.suptitle("Raw per-90 feature distributions by league", fontsize=13, fontfamily="serif",
++                 color=INK, y=1.02, x=0.01, ha="left")
++    plt.tight_layout()
++    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none", bbox_inches="tight")
++    plt.close(fig)
++    LOG.info("wrote %s", out_path)
++    return {"leagues": leagues, "log_scaled": log_scaled}
++
++
++def render_shrinkage_figure(
++    features_all: pd.DataFrame, phantom_minutes: int, out_path: Path,
++) -> dict[str, Any] | None:
++    """Raw vs shrunk npG/90 against minutes, home-nation-eligible rows only,
++    connected by a thin segment per player; a dashed curve on a second axis
++    is the shrinkage weight on the league median, `K / (minutes + K)`
++    (`src.features.bayesian_shrink`'s own formula, `K` = `phantom_minutes`
++    expressed in minutes). Returns the most-shrunk player (largest absolute
++    `shrunk - raw` delta) or `None` when there is nothing to plot.
++    """
++    if features_all.empty or "home_eligible" not in features_all.columns:
++        LOG.warning("no rows to plot; skipping %s", out_path)
++        return None
++    d = features_all[features_all["home_eligible"]].copy()
++    d = d.dropna(subset=["min", "npg_p90", "npg_p90_shrunk"])
++    if d.empty:
++        LOG.warning("no home-eligible rows with npg_p90/npg_p90_shrunk; skipping %s", out_path)
++        return None
++    d["delta"] = d["npg_p90_shrunk"] - d["npg_p90"]
++    most_shrunk = d.loc[d["delta"].abs().idxmax()]
++
++    fig, ax = plt.subplots(figsize=(8.2, 5.4))
++    fig.patch.set_facecolor(CREAM)
++    ax.set_facecolor(CREAM)
++    for _, r in d.iterrows():
++        ax.plot([r["min"], r["min"]], [r["npg_p90"], r["npg_p90_shrunk"]], color=RULE, lw=0.6, zorder=1)
++    ax.scatter(d["min"], d["npg_p90"], s=22, color=MUTED, alpha=0.6, zorder=2, label="raw npG/90")
++    ax.scatter(d["min"], d["npg_p90_shrunk"], s=22, color=NAVY, alpha=0.9, zorder=3, label="shrunk npG/90")
++    ax.annotate(str(most_shrunk["player"]).split()[-1], (most_shrunk["min"], most_shrunk["npg_p90_shrunk"]),
++                xytext=(6, 6), textcoords="offset points", fontsize=8, color=INK, zorder=5)
++
++    ax2 = ax.twinx()
++    lo, hi = float(d["min"].min()), float(d["min"].max())
++    grid = np.linspace(lo, hi if hi > lo else lo + 1, 200)
++    weight = phantom_minutes / (grid + phantom_minutes)
++    ax2.plot(grid, weight, color=OXBLOOD, lw=1.6, ls="--", zorder=2,
++              label=f"weight on league median (K = {phantom_minutes} min)")
++    ax2.set_ylim(0, 1.05)
++    ax2.set_ylabel("weight on league median", fontsize=9.5, color=OXBLOOD, fontfamily="sans-serif")
++    ax2.tick_params(colors=OXBLOOD)
++
++    ax.set_xlabel("minutes", fontsize=10.5, color=INK, fontfamily="sans-serif")
++    ax.set_ylabel("npG/90", fontsize=10.5, color=INK, fontfamily="sans-serif")
++    ax.set_title("Shrinkage: raw vs shrunk npG/90 against minutes", fontsize=13, fontfamily="serif",
++                 color=INK, loc="left")
++    ax.spines["top"].set_visible(False)
++    for spine in ("left", "bottom"):
++        ax.spines[spine].set_color(RULE)
++    ax.tick_params(colors=INK)
++    lines1, labels1 = ax.get_legend_handles_labels()
++    lines2, labels2 = ax2.get_legend_handles_labels()
++    ax.legend(lines1 + lines2, labels1 + labels2, frameon=False, fontsize=8.5, loc="upper right")
++    plt.tight_layout()
++    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
++    plt.close(fig)
++    LOG.info("wrote %s", out_path)
++
++    return {
++        "player": str(most_shrunk["player"]), "league": str(most_shrunk["league"]),
++        "min": int(most_shrunk["min"]), "raw": round(float(most_shrunk["npg_p90"]), 4),
++        "shrunk": round(float(most_shrunk["npg_p90_shrunk"]), 4), "delta": round(float(most_shrunk["delta"]), 4),
++    }
++
++
++# =============================================================================
++# 4. Assembly / main
++# =============================================================================
++
++
++def assemble_output(
++    metrics_season: str, raw_row: dict[str, Any], feature_row: dict[str, Any],
++    rejected: list[dict[str, Any]], penalty: dict[str, Any], age_bands: list[dict[str, Any]],
++    missingness: list[dict[str, Any]], most_shrunk: dict[str, Any] | None,
++    distributions: dict[str, Any],
++) -> dict[str, Any]:
++    """Pure assembly of `feature_eda.json`'s shape; no I/O here, so this is
++    testable on hand-built inputs (mirrors `league_strength.assemble_output`)."""
++    return {
++        "metrics_season": metrics_season,
++        "raw_row": raw_row,
++        "feature_row": feature_row,
++        "rejected": rejected,
++        "penalty_top": penalty["top"],
++        "age_bands": age_bands,
++        "missingness": missingness,
++        "most_shrunk": most_shrunk,
++        "distributions": distributions,
++    }
++
++
++def main() -> None:
++    logging_setup()
++    config.ensure_dirs()
++    cfg = config.features()
++    metrics_season = config.seasons()["metrics"]
++
++    tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
++    features_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in GROUPS}
++    features_all = pd.concat(features_by_group.values(), ignore_index=True)
++    feat_metrics = features_all[features_all["season"] == metrics_season]
++    tables_metrics = tables[tables["season"] == metrics_season]
++
++    raw, feat = pick_raw_and_feature_row(tables, features_by_group, metrics_season)
++    raw_row = raw_row_dict(raw)
++    feature_row = feature_row_dict(feat)
++    LOG.info("raw/feature row: %s (%s), pos_group %s", raw_row["player"], raw_row["team"], feature_row["pos_group"])
++
++    penalty = penalty_share_stat(feat_metrics)
++    starts = starts_proxy_stat(feat_metrics)
++    redcard = red_card_zero_share_stat(feat_metrics)
++    age_bands = age_production_curve_stat(feat_metrics)
++    missingness = missingness_stat(tables_metrics)
++    rejected = build_rejected(penalty, starts, redcard, age_bands, missingness)
++    LOG.info("rejected candidates: %s", [(r["candidate"], r["decision"]) for r in rejected])
++
++    distributions = render_distributions_figure(feat_metrics, config.OUTPUTS_DIR / "eda_distributions.svg")
++    most_shrunk = render_shrinkage_figure(feat_metrics, cfg["phantom_minutes"],
++                                          config.OUTPUTS_DIR / "eda_shrinkage.svg")
++
++    result = assemble_output(metrics_season, raw_row, feature_row, rejected, penalty, age_bands,
++                             missingness, most_shrunk, distributions)
++    out_json = config.PROCESSED_DIR / "feature_eda.json"
++    out_json.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
++    LOG.info("wrote %s", out_json)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/src/i18n.py b/src/i18n.py
+index 2d6f6a2..6423fc7 100644
+--- a/src/i18n.py
++++ b/src/i18n.py
+@@ -345,12 +345,59 @@ EN: dict[str, str] = {
+     "ch4.sources.h3": "Data sources",
+     "ch4.sources.fbref": "<strong>FBref</strong> (via <code>soccerdata</code>): player season tables (standard, playing time) for the {topn} headline leagues, the {home_league}, the peer domestic leagues and the German second tier; the country page \"Players from {nation}\" for pool discovery; the nationality column for peer counts",
+     "ch4.sources.wikipedia": "<strong>Wikipedia</strong>: national-team squad tables ({events}) for the call-up flag",
+     "ch4.sources.wikidata": "<strong>Wikidata / Wikimedia Commons</strong>: player portraits (P18) matched on name, citizenship and date of birth; credits in the footer",
+     "ch4.sources.uefa": "<strong>UEFA association coefficients</strong> (via Wikipedia) as the league-strength source, ClubElo being unreachable at run time",
+     "ch4.sources.eurostat": "<strong>Eurostat</strong>: population estimates, 2024",
++
++    "ch4.eda.h3": "From raw tables to a feature vector",
++    "ch4.eda.intro": "One {season} player-season, traced from its raw FBref row to the five-number vector the rest of this chapter builds on: {player}, the {adj} player with the most {season} minutes among those who cleared the inclusion floor.",
++    "ch4.eda.tables.summary": "{player}: raw row and feature row",
++    "ch4.eda.raw.caption": "Raw FBref row, {season}",
++    "ch4.eda.raw.th.column": "Column",
++    "ch4.eda.raw.th.value": "Value",
++    "ch4.eda.feature.caption": "Feature row after the pipeline",
++    "ch4.eda.feature.th.feature": "Feature",
++    "ch4.eda.feature.th.raw": "Raw",
++    "ch4.eda.feature.th.shrunk": "Shrunk",
++    "ch4.eda.feature.th.quality": "Quality-adjusted",
++    "ch4.eda.feature.th.z": "Z-score",
++    "ch4.eda.cleaning.p": "Six wrangling checks turn the raw rows above into the pool used everywhere else in this report, recomputed on every run:",
++    "ch4.eda.cleaning.link": "The full log, with the recorded pipeline incidents, is in <a href=\"#data-quality\">the data-quality log</a> below.",
++    "ch4.eda.features.p": "Every position group shares the same five-number vector (spec §5): a raw column becomes a per-90 rate, shrunk toward its league-season median {cite_efron_morris}, then multiplied by the league quality projection.",
++    "ch4.eda.features.npg_p90.def": "non-penalty goals per 90 minutes",
++    "ch4.eda.features.npg_p90.why": "penalties are shot quality, not open-play production, and inflate a taker's raw goal count for reasons that have nothing to do with how the player creates chances",
++    "ch4.eda.features.ast_p90.def": "assists per 90 minutes",
++    "ch4.eda.features.ast_p90.why": "the direct creative complement to non-penalty goals, on the same basic table for every league in the corpus",
++    "ch4.eda.features.min_share.def": "minutes played ÷ (club matches × 90)",
++    "ch4.eda.features.min_share.why": "the coach's own read of the player, sturdier than counting appearances (see below)",
++    "ch4.eda.features.age.def": "age at the season's start (start year − birth year)",
++    "ch4.eda.features.age.why": "median production still shifts by age band in this corpus (see below), so it stays as its own axis rather than being folded into anything else",
++    "ch4.eda.features.cards_p90.def": "yellow + 2 × red cards per 90 minutes",
++    "ch4.eda.features.cards_p90.why": "a discipline signal folded into one rate because red cards alone are too sparse a signal on their own (see below)",
++    "ch4.eda.rejected.p": "Five candidates considered for the {season} vector and what the data said about each, corpus-wide (every fetched nationality, the same population the rest of this chapter describes):",
++    "ch4.eda.rejected.th.candidate": "Candidate",
++    "ch4.eda.rejected.th.statistic": "Statistic",
++    "ch4.eda.rejected.th.value": "Value",
++    "ch4.eda.rejected.th.decision": "Decision",
++    "ch4.eda.rejected.gls_p90.statistic": "Correlation with npg_p90",
++    "ch4.eda.rejected.gls_p90.decision": "Replaced by npg_p90",
++    "ch4.eda.rejected.mp.statistic": "Correlation with minutes played",
++    "ch4.eda.rejected.mp.decision": "Replaced by minutes share",
++    "ch4.eda.rejected.crdr_p90.statistic": "Share of player-seasons with zero red cards",
++    "ch4.eda.rejected.crdr_p90.decision": "Folded into cards",
++    "ch4.eda.rejected.age.statistic": "Spread of median production across age bands",
++    "ch4.eda.rejected.age.decision": "Kept",
++    "ch4.eda.rejected.born.statistic": "Share of player-seasons missing a birth year",
++    "ch4.eda.rejected.born.decision": "Kept — required for the player key",
++    "ch4.eda.rejected.note": "Despite the high correlation, goals and non-penalty goals diverge for the players who take penalties: {top3}. Appearances (mp) correlate strongly with minutes but not perfectly — a substitute cameo counts the same as 90 minutes started, which is why minutes share, not appearances, measures playing time here.",
++    "ch4.eda.fig1.alt": "Small multiples: the five raw per-90 features' distributions by league, boxplots per league, the {home_league} highlighted, {n} leagues shown.",
++    "ch4.eda.fig1.caption": "The picture behind league adjustment: the same raw rate reads very differently depending on the league it was earned in.",
++    "ch4.eda.fig2.alt": "Scatter of raw vs shrunk non-penalty goals per 90 against minutes for {adj}-eligible players, with the shrinkage weight on the league median as a function of minutes overlaid.",
++    "ch4.eda.fig2.caption": "What shrinkage does to a low-minute player: at the inclusion floor the league median still carries most of the weight; {player}'s rate moves the most of any {adj}-eligible player this season.",
++
+     "ch4.mult.h3": "League multipliers (quality projection)",
+     "ch4.mult.th.league": "League",
+     "ch4.mult.th.value": "Multiplier",
+     "ch4.mult.method": "Method: <code>{method}</code>. {source} The sensitivity analysis below shows the ranking's robustness to ±20 % on any one multiplier.",
+     "ch4.shrink.h3": "Bayesian shrinkage",
+     "ch4.shrink.p1": "Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least {phantom} minutes) using the empirical Bayes formula {cite_efron_morris}, with K = 10 phantom matches expressed as {phantom} minutes:",
+@@ -403,13 +450,13 @@ EN: dict[str, str] = {
+     "ch4.strength.ppc.summary": "Posterior predictive check",
+     "ch4.strength.ppc.p": "Observed vs. replicated non-penalty goals plus assists per player-season {cite_ppc}: {obs_zero} vs {rep_zero} share of zeros, mean {obs_mean} vs {rep_mean}, 90th percentile {obs_p90} vs {rep_p90}.",
+     "ch4.strength.ppc.fig_alt": "Bar chart comparing the observed and posterior-predictive-replicated distribution of non-penalty goals plus assists per player-season, grouped 0/1/2/3/4/5+.",
+ 
+     "ch4.compare.h3": "Three models, one task, five seasons",
+     "ch4.compare.q": "What does a player's season tell us about the next one, given where he plays, how old he is and — for exports — at what age he moved? In model terms: predict a player's league-adjusted production next season (non-penalty goals plus assists per 90, quality-adjusted) from this season's numbers, for every player-season pair with at least {min} minutes in both seasons, every nationality in the corpus.",
+-    "ch4.compare.design": "Evaluated by rolling-origin cross-validation {cite_ro}: for each of {n_origins} target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real \"performance over time\" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, {chains} chains × {draws} draws per origin {cite_bayes}), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn {cite_sklearn}, hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most {max_train} per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split.",
++    "ch4.compare.design": "Evaluated by rolling-origin cross-validation {cite_ro}: for each of {n_origins} target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real \"performance over time\" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, {chains} chains × {draws} draws per origin {cite_bayes}), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn {cite_sklearn}, hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most {max_train} per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split. The target is adjusted with the multiplier of the league the player is in next season; the features only know this season's league, so a move is a change the models cannot see coming — a limitation shared by all five.",
+     "ch4.compare.fig_alt": "Line chart of RMSE per target season, one line per model, persistence dashed.",
+     "ch4.compare.th.model": "Model",
+     "ch4.compare.th.pooled": "Pooled",
+     "ch4.compare.model.persistence": "Persistence",
+     "ch4.compare.model.shrinkage_league_mean": "Shrinkage to league mean",
+     "ch4.compare.model.bayesian": "Hierarchical Bayesian",
+diff --git a/src/render.py b/src/render.py
+index bf48d6c..7da31a1 100644
+--- a/src/render.py
++++ b/src/render.py
+@@ -35,12 +35,14 @@ import matplotlib
+ import matplotlib.pyplot as plt
+ import pandas as pd
+ from jinja2 import Environment, FileSystemLoader
+ from markupsafe import Markup
+ 
+ from src import config
++from src.feature_eda import RAW_COLUMNS as FEATURE_EDA_RAW_COLUMNS
++from src.features import FEATURES as FEATURE_EDA_FEATURES
+ from src.i18n import LANGS, Translator, localize_html_numbers
+ from src.international_benchmark import render_cohort_heatmap
+ from src.logging_setup import setup as logging_setup
+ from src.references import harvard_list, in_text, in_text_multi, refs_by_key
+ from src.utils import normalize_name, read_parquet, resolve_processed, season_label
+ 
+@@ -1105,12 +1107,51 @@ def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
+          "unit": tr.term(e["unit"]) if e.get("unit") else None}
+         for e in dq.get("events", [])
+     ]
+     return {"checks": checks, "events": events}
+ 
+ 
++def _build_feature_eda(fe: dict, tr: Translator | None = None) -> dict:
++    """Chapter IV `#features-from-raw`: one raw row through the pipeline to a
++    feature row, the rejected-candidates table. `fe` is `feature_eda.json`'s
++    raw shape (`{}` when the file is missing -- `load_data`'s tolerant load
++    -- in which case `raw_row` is falsy and the template section renders
++    nothing). `candidate`/`statistic`/`decision` are stable codes the module
++    writes (see `src.feature_eda.build_rejected`); this builder is where
++    they get translated.
++    """
++    tr = tr or Translator("en")
++    if not fe:
++        return {}
++    feature_row = fe.get("feature_row") or {}
++    rejected = [
++        {
++            "candidate": r["candidate"],
++            "statistic": tr.raw(f"ch4.eda.rejected.{r['candidate']}.statistic"),
++            "value": r["value"],
++            "decision": tr.raw(f"ch4.eda.rejected.{r['candidate']}.decision"),
++        }
++        for r in fe.get("rejected", [])
++    ]
++    penalty_top = fe.get("penalty_top", [])
++    penalty_top_text = "; ".join(f"{p['player']} ({p['league']}, {round(p['share'] * 100)} %)" for p in penalty_top)
++    distributions = fe.get("distributions", {})
++    return {
++        "metrics_season": season_label(fe["metrics_season"]),
++        "raw_row": fe.get("raw_row"),
++        "raw_columns": list(FEATURE_EDA_RAW_COLUMNS),
++        "feature_player": feature_row.get("player", ""),
++        "feature_rows": [{"name": f, **feature_row[f]} for f in FEATURE_EDA_FEATURES if f in feature_row],
++        "rejected": rejected,
++        "penalty_top": penalty_top,
++        "penalty_top_text": penalty_top_text,
++        "n_leagues": len(distributions.get("leagues", [])),
++        "most_shrunk": fe.get("most_shrunk"),
++    }
++
++
+ def _build_limitations(facts: dict, tr: Translator | None = None) -> list[dict]:
+     """Limitations from spec §10 and the pipeline ledger; numbers from `facts`, copy from i18n."""
+     tr = tr or Translator("en")
+     params = dict(facts, max_multiplier=f"{facts['max_multiplier']:.2f}",
+                   tier2_factor=f"{facts['tier2_factor']:g}")
+     out = []
+@@ -1276,12 +1317,13 @@ def load_data() -> dict[str, Any]:
+         "pathways": _load_json(p / "pathways.json", {}),
+         "squad_lens": _load_json(p / "squad_lens.json", {}),
+         "big5_series": _load_json(p / "big5_series.json", {}),
+         "data_quality": _load_json(p / "data_quality.json", {}),
+         "league_strength": _load_json(p / "league_strength.json", {}),
+         "model_comparison": _load_json(p / "model_comparison.json", {}),
++        "feature_eda": _load_json(p / "feature_eda.json", {}),
+         "photos": _load_json(SITE_PLAYERS, {}),
+         "cluster_labels": config.cluster_labels(),
+         "league_quality": config.league_quality(),
+         "countries": config.peers_meta(),
+         "seasons": config.seasons(),
+         "feature_defs": config.features(),
+@@ -1441,12 +1483,13 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
+         "sensitivity": _build_sensitivity(data["sensitivity"] if not data["sensitivity"].empty else pd.DataFrame(
+             columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"]), tr),
+         "limitations": _build_limitations(facts, tr),
+         "data_quality": _build_data_quality(data["data_quality"], tr),
+         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
+         "model_comparison": _build_model_comparison(data["model_comparison"], tr),
++        "feature_eda": _build_feature_eda(data["feature_eda"], tr),
+         "references": harvard_list(),
+         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
+         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
+         "facts": facts,
+         "home_code": config.HOME,
+         "n_leagues": n_leagues,
+@@ -1676,12 +1719,41 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
+                    "refit_runtime_s": 118.4},
+             "spearman": {"rho": 0.81, "p": 0.0001, "n": 18},
+             "disagreements": [{"league": "NED-Eredivisie", "model_rank": 3, "uefa_rank": 6,
+                               "model_median": 0.71, "uefa": 0.51, "rank_diff": 3}],
+             "fit": {"rows": 8108, "players": 2125, "seasons": 7, "runtime_s": 341.2},
+         }, "CZE-First League", tr),
++        "feature_eda": _build_feature_eda({
++            "metrics_season": metrics_raw,
++            "raw_row": {"league": "GER-Bundesliga", "season": metrics_raw, "team": "Hoffenheim",
++                       "player": "Vladimír Coufal", "nation": "CZE", "pos": "DF", "born": 1992, "age": 32,
++                       "mp": 34, "min": 3012, "gls": 1, "ast": 8, "pk": 0, "crdy": 4, "crdr": 0},
++            "feature_row": {
++                "player": "Vladimír Coufal", "pos_group": "DF",
++                "npg_p90": {"raw": 0.0299, "shrunk": 0.0338, "quality": 0.0266, "z": 0.2081},
++                "ast_p90": {"raw": 0.239, "shrunk": 0.193, "quality": 0.152, "z": 4.3077},
++                "min_share": {"raw": 0.9843, "shrunk": 0.9843, "quality": 0.9843, "z": 1.6701},
++                "age": {"raw": 32.0, "shrunk": 32.0, "quality": 32.0, "z": 1.4507},
++                "cards_p90": {"raw": 0.1195, "shrunk": 0.1353, "quality": 0.1353, "z": -0.8952},
++            },
++            "rejected": [
++                {"candidate": "gls_p90", "statistic": "corr_npg", "value": 0.973, "decision": "replaced_npg"},
++                {"candidate": "mp", "statistic": "corr_min", "value": 0.8443, "decision": "replaced_min_share"},
++                {"candidate": "crdr_p90", "statistic": "zero_share", "value": 0.8539, "decision": "folded_cards"},
++                {"candidate": "age", "statistic": "band_spread", "value": 0.0283, "decision": "kept"},
++                {"candidate": "born", "statistic": "missing_share", "value": 0.0028, "decision": "kept_key"},
++            ],
++            "penalty_top": [{"player": "Nabil Touaizi", "league": "POR-Primeira Liga", "season": metrics_raw,
++                            "share": 1.0}],
++            "age_bands": [{"band": "U22", "median": 0.1734, "n": 1155}, {"band": "23-25", "median": 0.1751, "n": 2035},
++                         {"band": "26-29", "median": 0.1693, "n": 1527}, {"band": "30+", "median": 0.1468, "n": 939}],
++            "missingness": [{"column": "born", "missing": 25, "share": 0.0028}],
++            "most_shrunk": {"player": "Antonín Růsek", "league": "CZE-First League", "min": 454,
++                           "raw": 0.5947, "shrunk": 0.2499, "delta": -0.3448},
++            "distributions": {"leagues": ["ENG-Premier League", "CZE-First League"], "log_scaled": ["npg_p90"]},
++        }, tr),
+         "model_comparison": _build_model_comparison({
+             "target": "npg_p90_quality + ast_p90_quality (season t+1)",
+             "origins": ["2021-2022", "2022-2023"],
+             "rows": [
+                 {"model": "persistence", "origin": "2021-2022", "n_test": 1955, "rmse": 0.0768, "mae": 0.0541, "coverage90": None},
+                 {"model": "shrinkage_league_mean", "origin": "2021-2022", "n_test": 1955, "rmse": 0.1343, "mae": 0.1045, "coverage90": None},
+diff --git a/templates/report.html.j2 b/templates/report.html.j2
+index 5649b23..05aa7d4 100644
+--- a/templates/report.html.j2
++++ b/templates/report.html.j2
+@@ -896,12 +896,89 @@
+       <li>{{ t('ch4.sources.wikipedia', events=facts.nt_events) }}</li>
+       <li>{{ t('ch4.sources.wikidata') }}</li>
+       <li>{{ t('ch4.sources.uefa') }}</li>
+       <li>{{ t('ch4.sources.eurostat') }}</li>
+     </ul>
+ 
++    {% if feature_eda.raw_row %}
++    <h3 id="features-from-raw">{{ t('ch4.eda.h3') }}</h3>
++    <p>{{ t('ch4.eda.intro', season=feature_eda.metrics_season, player=feature_eda.feature_player) }}</p>
++
++    <details class="fold">
++      <summary>{{ t('ch4.eda.tables.summary', player=feature_eda.feature_player) }}</summary>
++      <table class="kv-table">
++        <caption>{{ t('ch4.eda.raw.caption', season=feature_eda.metrics_season) }}</caption>
++        <thead><tr><th>{{ t('ch4.eda.raw.th.column') }}</th><th>{{ t('ch4.eda.raw.th.value') }}</th></tr></thead>
++        <tbody>
++          {% for col in feature_eda.raw_columns %}
++          <tr><td><code>{{ col }}</code></td><td>{{ feature_eda.raw_row[col] if feature_eda.raw_row[col] is not none else '—' }}</td></tr>
++          {% endfor %}
++        </tbody>
++      </table>
++      <table class="kv-table">
++        <caption>{{ t('ch4.eda.feature.caption') }}</caption>
++        <thead><tr>
++          <th>{{ t('ch4.eda.feature.th.feature') }}</th><th>{{ t('ch4.eda.feature.th.raw') }}</th>
++          <th>{{ t('ch4.eda.feature.th.shrunk') }}</th><th>{{ t('ch4.eda.feature.th.quality') }}</th>
++          <th>{{ t('ch4.eda.feature.th.z') }}</th>
++        </tr></thead>
++        <tbody>
++          {% for f in feature_eda.feature_rows %}
++          <tr>
++            <td><code>{{ f.name }}</code></td><td>{{ f3(f.raw) }}</td><td>{{ f3(f.shrunk) }}</td>
++            <td>{{ f3(f.quality) }}</td><td>{{ f2(f.z) }}</td>
++          </tr>
++          {% endfor %}
++        </tbody>
++      </table>
++    </details>
++
++    <p>{{ t('ch4.eda.cleaning.p') }}</p>
++    <ul>
++      {% for c in data_quality.checks %}
++      <li>{{ c.label }}: {{ c.count if c.count is not none else '—' }} {{ c.unit }}.</li>
++      {% endfor %}
++    </ul>
++    <p class="capita-note">{{ t('ch4.eda.cleaning.link') }}</p>
++
++    <p>{{ t('ch4.eda.features.p', cite_efron_morris=cite.efron_morris_1975) }}</p>
++    <ul class="eda-feature-list">
++      <li><code>npg_p90</code> — {{ t('ch4.eda.features.npg_p90.def') }}: {{ t('ch4.eda.features.npg_p90.why') }}</li>
++      <li><code>ast_p90</code> — {{ t('ch4.eda.features.ast_p90.def') }}: {{ t('ch4.eda.features.ast_p90.why') }}</li>
++      <li><code>min_share</code> — {{ t('ch4.eda.features.min_share.def') }}: {{ t('ch4.eda.features.min_share.why') }}</li>
++      <li><code>age</code> — {{ t('ch4.eda.features.age.def') }}: {{ t('ch4.eda.features.age.why') }}</li>
++      <li><code>cards_p90</code> — {{ t('ch4.eda.features.cards_p90.def') }}: {{ t('ch4.eda.features.cards_p90.why') }}</li>
++    </ul>
++
++    <p>{{ t('ch4.eda.rejected.p', season=feature_eda.metrics_season) }}</p>
++    <table class="kv-table">
++      <thead><tr>
++        <th>{{ t('ch4.eda.rejected.th.candidate') }}</th><th>{{ t('ch4.eda.rejected.th.statistic') }}</th>
++        <th>{{ t('ch4.eda.rejected.th.value') }}</th><th>{{ t('ch4.eda.rejected.th.decision') }}</th>
++      </tr></thead>
++      <tbody>
++        {% for r in feature_eda.rejected %}
++        <tr><td><code>{{ r.candidate }}</code></td><td>{{ r.statistic }}</td><td>{{ f3(r.value) }}</td><td>{{ r.decision }}</td></tr>
++        {% endfor %}
++      </tbody>
++    </table>
++    <p class="capita-note">{{ t('ch4.eda.rejected.note', top3=feature_eda.penalty_top_text) }}</p>
++
++    <p>{{ t('ch4.eda.fig1.caption') }}</p>
++    <figure class="figure-bleed">
++      <img src="{{ assets }}eda_distributions.svg" alt="{{ t('ch4.eda.fig1.alt', n=feature_eda.n_leagues) }}">
++    </figure>
++
++    {% if feature_eda.most_shrunk %}
++    <p>{{ t('ch4.eda.fig2.caption', phantom=feature_defs.phantom_minutes, player=feature_eda.most_shrunk.player) }}</p>
++    <figure class="figure-bleed">
++      <img src="{{ assets }}eda_shrinkage.svg" alt="{{ t('ch4.eda.fig2.alt') }}">
++    </figure>
++    {% endif %}
++    {% endif %}
++
+     <h3 id="multipliers">{{ t('ch4.mult.h3') }}</h3>
+     <p class="formula" data-tex="{{ t('ch4.mult.tex') }}">{{ t('ch4.mult.formula') }}</p>
+     <table class="kv-table">
+       <thead><tr><th>{{ t('ch4.mult.th.league') }}</th><th>{{ t('ch4.mult.th.value') }}</th></tr></thead>
+       <tbody>
+         {% for r in multipliers %}
+diff --git a/tests/test_feature_eda.py b/tests/test_feature_eda.py
+new file mode 100644
+index 0000000..84f1edf
+--- /dev/null
++++ b/tests/test_feature_eda.py
+@@ -0,0 +1,241 @@
++"""Tests for src/feature_eda.py (Task 17)."""
++
++from __future__ import annotations
++
++import numpy as np
++import pandas as pd
++import pytest
++
++from src.feature_eda import (
++    RAW_COLUMNS,
++    age_production_curve_stat,
++    assemble_output,
++    build_rejected,
++    feature_row_dict,
++    missingness_stat,
++    penalty_share_stat,
++    pick_raw_and_feature_row,
++    raw_row_dict,
++    red_card_zero_share_stat,
++    render_distributions_figure,
++    render_shrinkage_figure,
++    starts_proxy_stat,
++)
++
++
++def _fw_row(**over) -> dict:
++    base = {
++        "player_key": "cs|1998", "player": "Czech Star", "team": "X", "season": "2025-2026",
++        "pos_group": "FW", "min": 1800, "npg_p90": 0.2, "ast_p90": 0.1, "min_share": 0.9,
++        "age": 27, "cards_p90": 0.15,
++        "npg_p90_shrunk": 0.18, "ast_p90_shrunk": 0.09, "min_share_shrunk": 0.9,
++        "age_shrunk": 27, "cards_p90_shrunk": 0.15,
++        "npg_p90_quality": 0.08, "ast_p90_quality": 0.04, "min_share_quality": 0.9,
++        "age_quality": 27, "cards_p90_quality": 0.15,
++        "npg_p90_quality_z": 0.5, "ast_p90_quality_z": 0.2, "min_share_quality_z": 0.1,
++        "age_quality_z": 0.0, "cards_p90_quality_z": -0.1,
++    }
++    base.update(over)
++    return base
++
++
++def _empty_fw() -> pd.DataFrame:
++    return pd.DataFrame(columns=list(_fw_row().keys()))
++
++
++def test_pick_raw_and_feature_row_picks_most_minutes_home_player_with_a_feature_row():
++    tables = pd.DataFrame([
++        {"player": "Czech Star", "player_key": "cs|1998", "nation": "CZE", "season": "2025-2026",
++         "team": "X", "league": "CZE-First League", "pos": "FW", "born": 1998, "age": 27, "mp": 20,
++         "min": 1800, "gls": 5, "ast": 2, "pk": 1, "crdy": 3, "crdr": 0},
++        {"player": "Czech Bench", "player_key": "cb|2000", "nation": "CZE", "season": "2025-2026",
++         "team": "Y", "league": "CZE-First League", "pos": "MF", "born": 2000, "age": 25, "mp": 5,
++         "min": 300, "gls": 0, "ast": 0, "pk": 0, "crdy": 0, "crdr": 0},  # no feature row (below floor)
++        {"player": "Foreigner", "player_key": "f|1997", "nation": "FRA", "season": "2025-2026",
++         "team": "X", "league": "CZE-First League", "pos": "FW", "born": 1997, "age": 28, "mp": 25,
++         "min": 2200, "gls": 10, "ast": 5, "pk": 2, "crdy": 1, "crdr": 0},  # more minutes, wrong nation
++    ])
++    fw = pd.DataFrame([_fw_row()])
++    features_by_group = {"FW": fw, "MF": _empty_fw(), "DF": _empty_fw()}
++
++    raw, feat = pick_raw_and_feature_row(tables, features_by_group, "2025-2026")
++    assert raw["player"] == "Czech Star"
++    assert feat["player_key"] == "cs|1998"
++
++
++def test_pick_raw_and_feature_row_raises_when_nobody_qualifies():
++    tables = pd.DataFrame([
++        {"player": "Czech Bench", "player_key": "cb|2000", "nation": "CZE", "season": "2025-2026",
++         "team": "Y", "league": "CZE-First League", "pos": "MF", "born": 2000, "age": 25, "mp": 5,
++         "min": 300, "gls": 0, "ast": 0, "pk": 0, "crdy": 0, "crdr": 0},
++    ])
++    with pytest.raises(ValueError, match="2025-2026"):
++        pick_raw_and_feature_row(tables, {"FW": _empty_fw(), "MF": _empty_fw(), "DF": _empty_fw()}, "2025-2026")
++
++
++def test_raw_row_dict_has_every_column_ints_where_fbref_types_are_integer_like():
++    row = pd.Series({
++        "league": "CZE-First League", "season": "2025-2026", "team": "X", "player": "Czech Star",
++        "nation": "CZE", "pos": "FW", "born": 1998, "age": pd.NA, "mp": 20, "min": 1800,
++        "gls": 5, "ast": 2, "pk": 1, "crdy": 3, "crdr": 0,
++    })
++    out = raw_row_dict(row)
++    assert list(out) == RAW_COLUMNS
++    assert out["born"] == 1998 and isinstance(out["born"], int)
++    assert out["age"] is None  # NA stays None, not 0 or "NA"
++    assert out["player"] == "Czech Star" and isinstance(out["player"], str)
++
++
++def test_feature_row_dict_carries_the_four_pipeline_stages_per_feature():
++    row = pd.Series(_fw_row())
++    out = feature_row_dict(row)
++    assert out["player"] == "Czech Star" and out["pos_group"] == "FW"
++    assert out["npg_p90"] == {"raw": 0.2, "shrunk": 0.18, "quality": 0.08, "z": 0.5}
++    assert set(out) == {"player", "pos_group", *["npg_p90", "ast_p90", "min_share", "age", "cards_p90"]}
++
++
++def test_feature_row_dict_handles_missing_stage_values():
++    row = pd.Series(_fw_row(cards_p90_quality_z=np.nan))
++    out = feature_row_dict(row)
++    assert out["cards_p90"]["z"] is None
++
++
++# =============================================================================
++# Rejected-candidates statistics, toy corpus
++# =============================================================================
++
++
++def _toy_corpus() -> pd.DataFrame:
++    return pd.DataFrame([
++        # A: half of goals from penalties (5 of 10) -- the top penalty share
++        {"player": "A", "league": "L1", "season": "2025-2026", "min": 1800, "mp": 20, "gls": 10, "pk": 5,
++         "ast": 2, "crdr": 0, "npg_p90": 0.25, "ast_p90": 0.1, "age": 20},
++        {"player": "B", "league": "L1", "season": "2025-2026", "min": 900, "mp": 10, "gls": 4, "pk": 0,
++         "ast": 1, "crdr": 1, "npg_p90": 0.4, "ast_p90": 0.1, "age": 27},
++        {"player": "C", "league": "L2", "season": "2025-2026", "min": 2700, "mp": 30, "gls": 9, "pk": 1,
++         "ast": 3, "crdr": 0, "npg_p90": 0.267, "ast_p90": 0.1, "age": 31},
++        {"player": "D", "league": "L2", "season": "2025-2026", "min": 450, "mp": 5, "gls": 0, "pk": 0,
++         "ast": 0, "crdr": 0, "npg_p90": 0.0, "ast_p90": 0.0, "age": 24},
++    ])
++
++
++def test_penalty_share_stat_top_rows_and_correlation():
++    out = penalty_share_stat(_toy_corpus(), n=2)
++    assert out["corr"] is not None
++    assert out["top"][0] == {"player": "A", "league": "L1", "season": "2025-2026", "share": 0.5}
++    assert len(out["top"]) == 2
++
++
++def test_starts_proxy_stat_correlates_mp_and_min():
++    out = starts_proxy_stat(_toy_corpus())
++    assert out["corr"] is not None and out["corr"] > 0.9  # mp and min move together in the toy data
++
++
++def test_red_card_zero_share():
++    out = red_card_zero_share_stat(_toy_corpus())
++    assert out["zero_share"] == pytest.approx(0.75)  # 3 of 4 rows have crdr == 0
++
++
++def test_age_production_curve_bands_ordered_and_populated():
++    bands = age_production_curve_stat(_toy_corpus())
++    labels = [b["band"] for b in bands]
++    assert labels == sorted(labels, key=lambda b: ["U22", "23-25", "26-29", "30+"].index(b))
++    assert all(b["n"] >= 1 for b in bands)
++
++
++def test_missingness_stat_counts_missing_per_raw_column():
++    tables = pd.DataFrame({c: [1, None] for c in RAW_COLUMNS})
++    out = missingness_stat(tables)
++    by_col = {r["column"]: r for r in out}
++    assert by_col["born"]["missing"] == 1
++    assert by_col["born"]["share"] == pytest.approx(0.5)
++
++
++def test_build_rejected_has_five_rows_with_expected_decision_codes():
++    penalty = {"corr": 0.9, "top": []}
++    starts = {"corr": 0.95}
++    redcard = {"zero_share": 0.9}
++    age_bands = [{"band": "U22", "median": 0.1, "n": 5}, {"band": "30+", "median": 0.3, "n": 5}]
++    missingness = [{"column": "born", "missing": 2, "share": 0.02}]
++    rows = build_rejected(penalty, starts, redcard, age_bands, missingness)
++    assert len(rows) == 5
++    decisions = {r["candidate"]: r["decision"] for r in rows}
++    assert decisions == {
++        "gls_p90": "replaced_npg", "mp": "replaced_min_share", "crdr_p90": "folded_cards",
++        "age": "kept", "born": "kept_key",
++    }
++    for r in rows:
++        assert set(r) == {"candidate", "statistic", "value", "decision"}
++    age_row = next(r for r in rows if r["candidate"] == "age")
++    assert age_row["value"] == pytest.approx(0.2)  # 0.3 - 0.1
++
++
++# =============================================================================
++# Figures (smoke tests, tmp_path)
++# =============================================================================
++
++
++def _toy_features_all() -> pd.DataFrame:
++    from src import config
++    rng = np.random.default_rng(0)
++    rows = []
++    for i in range(40):
++        league = config.DOMESTIC_LEAGUE if i % 2 == 0 else "ENG-Premier League"
++        minutes = int(rng.uniform(450, 2700))
++        raw = float(rng.uniform(0.0, 0.5))
++        rows.append({
++            "league": league, "player": f"Player {i}", "min": minutes,
++            "npg_p90": raw, "npg_p90_shrunk": raw * 0.7 + 0.05,
++            "ast_p90": float(rng.uniform(0.0, 0.3)), "min_share": float(rng.uniform(0.2, 1.0)),
++            "age": int(rng.uniform(18, 34)), "cards_p90": float(rng.uniform(0.0, 0.3)),
++            "home_eligible": i % 2 == 0,
++        })
++    return pd.DataFrame(rows)
++
++
++def test_render_distributions_figure_writes_svg(tmp_path):
++    out_path = tmp_path / "eda_distributions.svg"
++    meta = render_distributions_figure(_toy_features_all(), out_path)
++    assert out_path.exists()
++    text = out_path.read_text(encoding="utf-8")
++    assert "<svg" in text
++    assert meta["leagues"]
++
++
++def test_render_shrinkage_figure_writes_svg_and_returns_most_shrunk(tmp_path):
++    out_path = tmp_path / "eda_shrinkage.svg"
++    most_shrunk = render_shrinkage_figure(_toy_features_all(), phantom_minutes=900, out_path=out_path)
++    assert out_path.exists()
++    assert "<svg" in out_path.read_text(encoding="utf-8")
++    assert most_shrunk is not None
++    assert set(most_shrunk) == {"player", "league", "min", "raw", "shrunk", "delta"}
++
++
++def test_render_shrinkage_figure_returns_none_on_empty_input(tmp_path):
++    empty = pd.DataFrame(columns=["league", "player", "min", "npg_p90", "npg_p90_shrunk", "home_eligible"])
++    out_path = tmp_path / "eda_shrinkage_empty.svg"
++    assert render_shrinkage_figure(empty, phantom_minutes=900, out_path=out_path) is None
++
++
++# =============================================================================
++# JSON assembly shape (pure)
++# =============================================================================
++
++
++def test_assemble_output_shape_round_trips_through_json():
++    import json
++
++    from src.feature_eda import _INT_RAW_COLUMNS
++    raw_row = raw_row_dict(pd.Series({c: (1 if c in _INT_RAW_COLUMNS else "x") for c in RAW_COLUMNS}))
++    feature_row = feature_row_dict(pd.Series(_fw_row()))
++    penalty = penalty_share_stat(_toy_corpus())
++    age_bands = age_production_curve_stat(_toy_corpus())
++    missingness = missingness_stat(pd.DataFrame({c: [1] for c in RAW_COLUMNS}))
++    rejected = build_rejected(penalty, starts_proxy_stat(_toy_corpus()), red_card_zero_share_stat(_toy_corpus()),
++                              age_bands, missingness)
++    out = assemble_output("2025-2026", raw_row, feature_row, rejected, penalty, age_bands, missingness,
++                          most_shrunk=None, distributions={"leagues": ["L1"], "log_scaled": []})
++    assert set(out) == {"metrics_season", "raw_row", "feature_row", "rejected", "penalty_top",
++                        "age_bands", "missingness", "most_shrunk", "distributions"}
++    assert len(out["rejected"]) == 5
++    json.dumps(out)  # round-trips through plain JSON types

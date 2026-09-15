@@ -1,0 +1,1384 @@
+d162559 Task 16: three-model rolling-origin comparison (M1 core) with Bayesian, GBM and MLP against two baselines
+e0353e9 WIP Task 16: site build wiring (model_comparison.svg) + fix min-minutes placeholder
+cf997f6 WIP Task 16: fix float64 cast for age (nullable Float64 -> object numpy array)
+b442b02 WIP Task 16: wire model comparison into render, template, i18n, Makefile
+cc6f171 WIP Task 16: figure + main() orchestration for model-comparison
+1f4d2fb WIP Task 16: Bayesian/GBM/MLP model fitting + JSON assembly
+09d06cf WIP Task 16: model-comparison skeleton (pairs, splits, baselines) + refs entry
+ Makefile                       |   6 +-
+ config/i18n/cs.yaml            |  19 ++
+ config/refs.yaml               |  10 +
+ site/build.sh                  |   6 +-
+ site/svg_labels.py             |  13 +-
+ src/i18n.py                    |  19 ++
+ src/model_comparison.py        | 605 +++++++++++++++++++++++++++++++++++++++++
+ src/render.py                  |  97 +++++++
+ templates/report.html.j2       |  51 +++-
+ tests/test_model_comparison.py | 207 ++++++++++++++
+ 10 files changed, 1026 insertions(+), 7 deletions(-)
+diff --git a/Makefile b/Makefile
+index b8ad04d..740eac0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -25,12 +25,13 @@ help:
+ 	@echo "  reduce           Run PCA + UMAP + KMeans"
+ 	@echo "  benchmark        Per-capita benchmark, cohort table and heatmap"
+ 	@echo "  series           26-season Big-5 series (home nation vs peers) exhibit"
+ 	@echo "  analogs          Showcase players and historical analogs"
+ 	@echo "  sensitivity      League-multiplier sensitivity table"
+ 	@echo "  strength         Hierarchical Bayesian league-strength model from league movers"
++	@echo "  compare          Three-model rolling-origin comparison (M1 core: monitor performance over time)"
+ 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
+ 	@echo "  data-quality     Recompute the data-quality log checks"
+ 	@echo "  render           Render the HTML report (en + cs)"
+ 	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> pathways -> data-quality -> render"
+ 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
+ 	@echo "  test             Run pytest"
+@@ -84,22 +85,25 @@ analogs:
+ sensitivity:
+ 	$(ACT) python -m src.sensitivity
+ 
+ strength:
+ 	$(ACT) python -m src.league_strength
+ 
++compare:
++	$(ACT) python -m src.model_comparison
++
+ pathways:
+ 	$(ACT) python -m src.pathways
+ 
+ data-quality:
+ 	$(ACT) python -m src.data_quality
+ 
+ render: data-quality
+ 	$(ACT) python -m src.render
+ 
+-all: fetch pool photos features reduce benchmark series analogs sensitivity strength pathways data-quality render
++all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways data-quality render
+ 
+ test:
+ 	$(ACT) pytest
+ 
+ lint:
+ 	$(ACT) ruff check src tests
+diff --git a/config/i18n/cs.yaml b/config/i18n/cs.yaml
+index 0371808..44b6248 100644
+--- a/config/i18n/cs.yaml
++++ b/config/i18n/cs.yaml
+@@ -30,24 +30,26 @@ strings:
+   toc.pathways: "Kde nám ujíždí vlak?"
+   toc.analogs: "Historické analogy"
+   toc.players: "Rejstřík hráčů"
+   toc.methodology: "Jak je to postavené, validované a kde to končí"
+   toc.multipliers: "Ligové násobičky"
+   toc.strength: "Síla ligy"
++  toc.compare: "Tři modely, jeden úkol, pět sezón"
+   toc.shrinkage: "Bayesovský shrinkage"
+   toc.pca: "PCA loadings"
+   toc.sensitivity: "Analýza citlivosti"
+   toc.data_quality: "Log kvality dat"
+   toc.limitations: "Limitace"
+   toc.validation: "Validace a robustnost"
+   toc.reproducibility: "Reprodukovatelnost"
+   toc.references: "Reference"
+   toc.how_built: "Jak report vznikl"
+   toc.short.benchmark: "Benchmark"
+   toc.short.multipliers: "Násobičky"
+   toc.short.strength: "Síla ligy"
++  toc.short.compare: "Srovnání modelů"
+   toc.short.shrinkage: "Shrinkage"
+   toc.short.pca: "PCA"
+   toc.short.sensitivity: "Citlivost"
+   toc.short.limitations: "Limitace"
+   toc.short.references: "Reference"
+ 
+@@ -342,14 +344,31 @@ strings:
+   ch4.strength.selection: "Co movers neukazují: nejsou náhodný vzorek — hráči obvykle odcházejí nahoru, když jsou dobří, a dolů, když stárnou — takže vnitrohráčský kontrast popisuje rozdíl lig pro typ hráče, který ligu mění, a věkový člen absorbuje jen tu část selekce, která je věk. Interval je nejistota modelu, ne selekce."
+   ch4.strength.ranking: "Žebříčky reportu drží násobičku UEFA koeficientu po celou dobu; model výše je ukázaný vedle ní jako kontrola vlastního předpokladu té násobičky — že kontinentální výsledky sledují sílu hráčů — ne jako její náhrada."
+   ch4.strength.ppc.summary: "Posteriorní prediktivní kontrola"
+   ch4.strength.ppc.p: "Pozorované vs. replikované neproniknuté góly plus asistence na hráčskou sezónu {cite_ppc}: podíl nul {obs_zero} vs. {rep_zero}, průměr {obs_mean} vs. {rep_mean}, 90. percentil {obs_p90} vs. {rep_p90}."
+   ch4.strength.ppc.fig_alt: "Sloupcový graf porovnávající pozorované a posteriorně-prediktivně replikované rozdělení neproniknutých gólů plus asistencí na hráčskou sezónu, seskupené 0/1/2/3/4/5+."
+ 
++  ch4.compare.h3: "Tři modely, jeden úkol, pět sezón"
++  ch4.compare.q: "Co nám sezóna hráče řekne o té příští, s ohledem na to, kde hraje, kolik mu je a — u exportů — v jakém věku odešel? V modelovém vyjádření: predikovat hráčovu ligou upravenou produkci v příští sezóně (neproniknuté góly plus asistence na 90 minut, upravené o kvalitu) z čísel této sezóny, pro každou hráčskou sezónní dvojici s aspoň {min} minutami v obou sezónách, každou národnost v korpusu."
++  ch4.compare.design: "Vyhodnoceno rolling-origin křížovou validací {cite_ro}: pro každou z {n_origins} cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, {chains} řetězce × {draws} vzorků na origin {cite_bayes}), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn {cite_sklearn}, skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš {max_train} na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu."
++  ch4.compare.fig_alt: "Čárový graf RMSE za cílovou sezónu, jedna čára na model, persistence přerušovaně."
++  ch4.compare.th.model: "Model"
++  ch4.compare.th.pooled: "Souhrn"
++  ch4.compare.model.persistence: "Persistence"
++  ch4.compare.model.shrinkage_league_mean: "Shrinkage k ligovému průměru"
++  ch4.compare.model.bayesian: "Hierarchický bayesovský"
++  ch4.compare.model.gbm: "Gradient boosting"
++  ch4.compare.model.mlp: "Malý MLP"
++  ch4.compare.note: "Každá buňka: RMSE (MAE), v ligou upravených npG+A na 90 minut. Trénovací množina první origin je prázdná z konstrukce — nejstarší sezóna s rysy v korpusu nemá dřívější cílovou sezónu, na které by se dalo trénovat — proto jsou u ní uvedené jen dvě základní linie."
++  ch4.compare.coverage: "90% predikční interval bayesovského modelu pokryl pozorovanou hodnotu {pooled} případů, souhrnně napříč {n} origins, na které byl fitovaný ({per_origin})."
++  ch4.compare.winner: "Podle souhrnného RMSE vyhrává {winner} ({rmse} vs. {persistence_rmse} u persistence, o {margin} nižší)."
++  ch4.compare.drift: "Nejvýraznější posun RMSE vítěze mezi sezónami je mezi {from} a {to} ({value}) — přesně ten typ driftu, který tato rolling-origin tabulka má odhalit."
++
+   ch4.validation.h3: "Validace a robustnost"
+   ch4.validation.stub: "Každý model v tomto pipeline nese vlastní validaci hned vedle svého popisu; tato sekce sbírá jednu hlavní diagnostiku od každého, jak přibývá. Zatím:"
++  ch4.validation.m1: "Srovnání modelů mezi sezónami (M1): rolling-origin vyhodnocení přes {n_origins} sezón, souhrnné RMSE favorizuje {winner} ({rmse} vs. {persistence_rmse} u persistence), 90% interval bayesovského modelu pokryl {coverage} pozorovaných hodnot."
+   ch4.validation.m2: "Síla ligy (M2): R-hat ≤ {rhat}, {div} divergentních tranzicí, out-of-sample log prediktivní hustota favorizuje „{oos_winner}“ ({oos_logpd}), Spearmanovo rho = {rho} proti násobičkám UEFA."
+ 
+   ch4.refs.h3: "Reference"
+ 
+   ch4.dq.h3: "Log kvality dat"
+   ch4.dq.p: "Každé rozhodnutí při čištění dat, které změnilo nějaký počet, s tím počtem. První blok je přepočítán při každém běhu; druhý je záznam incidentů (data a počty tak, jak byly zaznamenány)."
+diff --git a/config/refs.yaml b/config/refs.yaml
+index a1aa641..3f04a85 100644
+--- a/config/refs.yaml
++++ b/config/refs.yaml
+@@ -116,6 +116,16 @@
+   year: 2024
+   title: "Origins and destinations of football expatriates (2020-2024)"
+   series: CIES Football Observatory Monthly Report
+   number: 95
+   url: "https://football-observatory.com/IMG/sites/mr/mr95/en/"
+   accessed: "14 September 2026"
++
++- key: hyndman_athanasopoulos_2021
++  type: book
++  authors: ["Hyndman, R.J.", "Athanasopoulos, G."]
++  year: 2021
++  title: "Forecasting: Principles and Practice"
++  edition: "3rd"
++  place: Melbourne
++  publisher: OTexts
++  url: "https://otexts.com/fpp3/"
+diff --git a/site/build.sh b/site/build.sh
+index a323ec6..90e52d5 100755
+--- a/site/build.sh
++++ b/site/build.sh
+@@ -34,26 +34,26 @@ fi
+ D=$(mkdir -p "$D" && cd "$D" && pwd)
+ O="$ROOT/outputs/$NATION"
+ PY=${PYTHON:-python3}
+ if command -v uv >/dev/null 2>&1 && [ -f "$ROOT/pyproject.toml" ]; then PY="uv run --project $ROOT python"; fi
+ 
+ for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.svg big5_series.svg \
+-         league_strength.svg league_strength_ppc.svg style.css; do
+-  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`)" >&2; exit 1; }
++         league_strength.svg league_strength_ppc.svg model_comparison.svg style.css; do
++  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`; model_comparison.svg: \`uv run python -m src.model_comparison\`)" >&2; exit 1; }
+ done
+ if [ "$NATION" = "cze" ]; then
+   [ -f "$O/cs/index.html" ] || { echo "missing $O/cs/index.html — run \`make render\` first" >&2; exit 1; }
+ fi
+ 
+ if [ "$D" != "$ROOT/docs" ]; then
+   for a in modern.css atlas.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
+   [ -d "$ROOT/docs/img" ] && [ ! -e "$D/img" ] && cp -R "$ROOT/docs/img" "$D/img"
+ fi
+ cp "$O/index.html" "$D/index.html"
+ cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap.svg" "$O/big5_series.svg" \
+-   "$O/league_strength.svg" "$O/league_strength_ppc.svg" "$O/style.css" "$D/"
++   "$O/league_strength.svg" "$O/league_strength_ppc.svg" "$O/model_comparison.svg" "$O/style.css" "$D/"
+ 
+ ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
+ if [ "$NATION" = "cze" ]; then
+   # CS pass: `src.render` writes a cs/index.html for every NATION (the
+   # translator's cs_* placeholders work for any of them -- see
+   # src/i18n.py's Task 14b auto-injection), but the *published* site is
+diff --git a/site/svg_labels.py b/site/svg_labels.py
+index ea0fc04..41d178b 100644
+--- a/site/svg_labels.py
++++ b/site/svg_labels.py
+@@ -16,13 +16,13 @@ usage: svg_labels.py docs
+ import re
+ import sys
+ from pathlib import Path
+ 
+ DOCS = Path(sys.argv[1])
+ FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
+-         "league_strength.svg", "league_strength_ppc.svg"]
++         "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg"]
+ 
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+ from src import config
+ from src.utils import season_label
+ 
+ METRICS = season_label(config.seasons()["metrics"])
+@@ -56,12 +56,21 @@ T = {
+     "UEFA multiplier": "Násobička UEFA",
+     "Posterior predictive check": "Posteriorní prediktivní kontrola",
+     "npG + A that season": "npG + A tu sezónu",
+     "Share of player-seasons": "Podíl hráčských sezón",
+     "Observed": "Pozorováno",
+     "Replicated (posterior mean)": "Replikováno (posteriorní průměr)",
++    # model comparison (Task 16)
++    "Model comparison: RMSE by origin season": "Srovnání modelů: RMSE podle cílové sezóny",
++    "RMSE (npG+A per 90, quality-adjusted)": "RMSE (npG+A na 90, upravené o kvalitu)",
++    "Target season (origin)": "Cílová sezóna (origin)",
++    "Persistence": "Persistence",
++    "Shrinkage to league mean": "Shrinkage k ligovému průměru",
++    "Hierarchical Bayesian": "Hierarchický bayesovský",
++    "Gradient boosting": "Gradient boosting",
++    "Small MLP": "Malý MLP",
+ }
+ CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
+ # the PCA caption carries the corpus counts, so it is matched by pattern
+ CAPTION_EN = re.compile(
+     rf"PCA of the five-feature vector \(npG/90, A/90, minutes share, age, cards/90\), (?P<season>\S+)\. "
+     rf"Grey: the whole corpus \(n = (?P<corpus>\d+)\); coloured: {re.escape(ADJ_EN)}-eligible players by cluster \(n = (?P<czech>\d+)\)\. "
+@@ -73,13 +82,13 @@ CAPTION_CS = ("PCA pětiprvkového vektoru (npG/90, A/90, podíl minut, věk, ka
+ BIG5_TITLE_EN = re.compile(rf"{re.escape(ADJ_EN)} players in the Big-5 leagues, (?P<start>\S+) → (?P<end>\S+)")
+ BIG5_TITLE_CS = f"{ADJ_CS_PL.capitalize()} hráči v ligách Big-5, " + "{start} → {end}"
+ # labels that stay as they are (axis names, cluster codes, cohorts, countries, numbers, surnames,
+ # and the big5_series point annotations "YYYY/YY: N", identical in both languages)
+ KEEP = re.compile(
+     r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d+\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+|"
+-    r"\d{4}/\d\d: \d+|[A-Z]{3}-[\w .]+)$")
++    r"\d{4}/\d\d: \d+|\d{4}/\d\d|[A-Z]{3}-[\w .]+)$")
+ # per-string font scale, for a Czech entry that would otherwise leave its panel
+ SHRINK: dict[str, float] = {}
+ FONT = {"Georgia": "Georgia, 'Times New Roman', serif",
+         "HelveticaNeue": "'Helvetica Neue', Helvetica, Arial, sans-serif",
+         "DejaVuSans": "'DejaVu Sans', Arial, sans-serif"}
+ 
+diff --git a/src/i18n.py b/src/i18n.py
+index b468ae4..2d6f6a2 100644
+--- a/src/i18n.py
++++ b/src/i18n.py
+@@ -86,24 +86,26 @@ EN: dict[str, str] = {
+     "toc.pathways": "Why does the train leave?",
+     "toc.analogs": "Historical analogs",
+     "toc.players": "Player index",
+     "toc.methodology": "How it is built, validated and where it stops",
+     "toc.multipliers": "League multipliers",
+     "toc.strength": "League strength",
++    "toc.compare": "Three models, one task, five seasons",
+     "toc.shrinkage": "Bayesian shrinkage",
+     "toc.pca": "PCA loadings",
+     "toc.sensitivity": "Sensitivity analysis",
+     "toc.data_quality": "Data-quality log",
+     "toc.limitations": "Limitations",
+     "toc.validation": "Validation & robustness",
+     "toc.reproducibility": "Reproducibility",
+     "toc.references": "References",
+     "toc.how_built": "How this was built",
+     "toc.short.benchmark": "Benchmark",
+     "toc.short.multipliers": "Multipliers",
+     "toc.short.strength": "Strength",
++    "toc.short.compare": "Model comparison",
+     "toc.short.shrinkage": "Shrinkage",
+     "toc.short.pca": "PCA",
+     "toc.short.sensitivity": "Sensitivity",
+     "toc.short.limitations": "Limitations",
+     "toc.short.references": "References",
+ 
+@@ -399,14 +401,31 @@ EN: dict[str, str] = {
+     "ch4.strength.selection": "What the movers do not show: they are not a random sample — players tend to move up when they are good and down when they are older — so the within-player contrast describes the league difference for the kind of player who moves, and the age term absorbs only the part of that selection that is age. The interval is the model's uncertainty, not the selection's.",
+     "ch4.strength.ranking": "The report's rankings keep the UEFA-coefficient multiplier throughout; the model above is shown alongside it as a check on that multiplier's own assumption — that continental results track player-level strength — not as a replacement for it.",
+     "ch4.strength.ppc.summary": "Posterior predictive check",
+     "ch4.strength.ppc.p": "Observed vs. replicated non-penalty goals plus assists per player-season {cite_ppc}: {obs_zero} vs {rep_zero} share of zeros, mean {obs_mean} vs {rep_mean}, 90th percentile {obs_p90} vs {rep_p90}.",
+     "ch4.strength.ppc.fig_alt": "Bar chart comparing the observed and posterior-predictive-replicated distribution of non-penalty goals plus assists per player-season, grouped 0/1/2/3/4/5+.",
+ 
++    "ch4.compare.h3": "Three models, one task, five seasons",
++    "ch4.compare.q": "What does a player's season tell us about the next one, given where he plays, how old he is and — for exports — at what age he moved? In model terms: predict a player's league-adjusted production next season (non-penalty goals plus assists per 90, quality-adjusted) from this season's numbers, for every player-season pair with at least {min} minutes in both seasons, every nationality in the corpus.",
++    "ch4.compare.design": "Evaluated by rolling-origin cross-validation {cite_ro}: for each of {n_origins} target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real \"performance over time\" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, {chains} chains × {draws} draws per origin {cite_bayes}), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn {cite_sklearn}, hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most {max_train} per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split.",
++    "ch4.compare.fig_alt": "Line chart of RMSE per target season, one line per model, persistence dashed.",
++    "ch4.compare.th.model": "Model",
++    "ch4.compare.th.pooled": "Pooled",
++    "ch4.compare.model.persistence": "Persistence",
++    "ch4.compare.model.shrinkage_league_mean": "Shrinkage to league mean",
++    "ch4.compare.model.bayesian": "Hierarchical Bayesian",
++    "ch4.compare.model.gbm": "Gradient boosting",
++    "ch4.compare.model.mlp": "Small MLP",
++    "ch4.compare.note": "Each cell: RMSE (MAE), in league-adjusted npG+A per 90. The first origin's training set is empty by construction — the corpus's earliest feature season leaves no earlier target season to train on — so only the two baselines are reported there.",
++    "ch4.compare.coverage": "The Bayesian model's 90 % predictive interval covered the observed value {pooled} of the time, pooled across the {n} origins it was fit for ({per_origin}).",
++    "ch4.compare.winner": "By pooled RMSE, {winner} wins ({rmse} vs {persistence_rmse} for persistence, {margin} lower).",
++    "ch4.compare.drift": "The clearest season-to-season move in the winner's own RMSE is between {from} and {to} ({value}) — the kind of drift this rolling-origin table exists to surface.",
++
+     "ch4.validation.h3": "Validation & robustness",
+     "ch4.validation.stub": "Each model in this pipeline carries its own validation next to where it is described; this section collects one headline diagnostic from each as it lands. So far:",
++    "ch4.validation.m1": "Season-to-season model comparison (M1): rolling-origin evaluation over {n_origins} seasons, pooled RMSE favours {winner} ({rmse} vs {persistence_rmse} for persistence), the Bayesian model's 90 % interval covered {coverage} of observed values.",
+     "ch4.validation.m2": "League strength (M2): R-hat ≤ {rhat}, {div} divergent transitions, out-of-sample log predictive density favours \"{oos_winner}\" ({oos_logpd}), Spearman rho = {rho} against the UEFA multipliers.",
+ 
+     "ch4.refs.h3": "References",
+ 
+     "ch4.dq.h3": "Data-quality log",
+     "ch4.dq.p": "Every wrangling decision that changed a count, with the count. The first block is recomputed on every run; the second is the incident record (dates and counts as recorded at the time).",
+diff --git a/src/model_comparison.py b/src/model_comparison.py
+new file mode 100644
+index 0000000..eaaf82a
+--- /dev/null
++++ b/src/model_comparison.py
+@@ -0,0 +1,605 @@
++"""Three models, one task, five seasons: rolling-origin model comparison
++(Task 16, spec section 4b first bullet, M1 core).
++
++Question (football -> analytical): what does a player's season tell us
++about the next one, given where he plays, how old he is and -- for exports
++-- at what age he moved? Predict next-season league-adjusted production
++(`npg_p90_quality + ast_p90_quality` of season t+1) from season t, for
++every player-season pair in the corpus with >= 450 minutes in both seasons,
++all nationalities (this task, like Task 15's `league_strength`, is
++nation-independent: `features_{FW,MF,DF}.parquet` already covers every
++fetched nationality).
++
++Rolling-origin evaluation (Hyndman and Athanasopoulos, 2021, chapter 5.10):
++for each target season T in `ORIGINS`, train on pairs whose target season is
++strictly before T, test on pairs whose target season equals T. This *is*
++the "monitor performance over time" exhibit -- the per-origin RMSE/MAE table
++makes drift visible season by season, rather than reporting one blended
++number.
++
++A real corpus limitation, not a bug: the earliest feature season on file is
++2020-2021, so the earliest possible pair (t=2020-2021 -> target=2021-2022)
++*is* the first origin -- there is no earlier target season to train on, so
++origin 1's training set is empty by construction. `rolling_origin_split`
++returns that empty frame faithfully; `main` fits only the two baselines for
++that origin (both computable from season-t data alone, see below) and skips
++the three learned models there, with a note in the JSON's `notes` list
++rather than a silent zero-row fit.
++
++Five models, same features, same splits:
++  0. persistence: predict = the player's own composite value in season t
++     (`predict_persistence`). No training needed.
++  1. shrinkage to league mean: predict = an empirical-Bayes shrinkage of the
++     historical (training) target mean for that league toward the overall
++     training target mean, weight n/(n+10) (`predict_shrinkage_to_league_mean`);
++     falls back to the test season's own value_t mean when training is
++     empty (origin 1), since no historical target is available yet and using
++     the test season's own *target* there would leak.
++  2. hierarchical Bayesian regression (`fit_bayesian`/`predict_bayesian`):
++     PyMC, non-centred parameterisation, target ~ Normal(mu, sigma);
++     mu = alpha + beta.x (standardised numeric features, including the M2
++     league-strength multiplier `m_L` as one more feature) + gamma_league
++     (partial pooling) + delta_pos + u_player (partial pooling,
++     sigma_u ~ HalfNormal(0.5)); NUTS, 2 chains x 800 draws per origin (see
++     `main` for the runtime-budget reduction). Coverage from a normal
++     approximation to the posterior predictive interval -- see
++     `predict_bayesian`'s docstring for why an approximation, not full
++     Monte Carlo sampling, was used.
++  3. gradient boosting: scikit-learn `HistGradientBoostingRegressor`,
++     default-ish params with early stopping; `league`/`pos_group` passed as
++     pandas `category` dtype (sklearn's `categorical_features="from_dtype"`
++     default, Pedregosa et al., 2011).
++  4. small multilayer perceptron (not an "embedding model" -- PyTorch is not
++     installed, so a learned league embedding is not available in sklearn;
++     called what it is): `MLPRegressor` on one-hot league/pos_group +
++     numeric features, hidden layers (64, 32), early stopping.
++
++Output: `data/processed/<nation>/model_comparison.json` (`assemble_output`)
++and figure `outputs/<nation>/model_comparison.svg` (RMSE per origin, one
++line per model, persistence dashed).
++"""
++
++from __future__ import annotations
++
++import json
++import logging
++import time
++from pathlib import Path
++from typing import Any
++
++import numpy as np
++import pandas as pd
++import pymc as pm
++
++from src import config
++from src.logging_setup import setup as logging_setup
++from src.utils import collapse_player_seasons, read_parquet
++
++LOG = logging.getLogger(__name__)
++
++MIN_MINUTES = 450
++POS_GROUPS = ["FW", "MF", "DF"]
++GROUPS = POS_GROUPS
++
++NUMERIC_FEATURES = ["npg_p90_shrunk", "ast_p90_shrunk", "min_share", "age", "cards_p90", "league_multiplier"]
++TARGET_LABEL = "npg_p90_quality + ast_p90_quality (season t+1)"
++
++# The five rolling origins: target seasons 2021/22 -> 2025/26 (the brief's
++# range). The corpus's current, in-progress season (2026-2027, see
++# config/seasons.yaml's "current") is excluded as a target -- its stats are
++# incomplete, not a fair evaluation target.
++ORIGINS: list[str] = ["2021-2022", "2022-2023", "2023-2024", "2024-2025", "2025-2026"]
++
++
++# =============================================================================
++# Data: pairs and rolling-origin splits
++# =============================================================================
++
++
++def build_pairs(features_by_group: dict[str, pd.DataFrame]) -> pd.DataFrame:
++    """One row per player-season pair (season t -> season t+1) with
++    `min >= MIN_MINUTES` in both seasons, all pos_groups, all nationalities.
++
++    Season-t's `npg_p90_shrunk, ast_p90_shrunk, min_share, age, cards_p90,
++    league, pos_group, league_multiplier` become the feature columns;
++    `value_t` is season t's own `npg_p90_quality + ast_p90_quality`
++    (used by the persistence baseline); `target` is season t+1's
++    `npg_p90_quality + ast_p90_quality` (the label); `target_season` is
++    season t+1's label, the column the rolling-origin split keys on.
++    """
++    frames = []
++    for g, df in features_by_group.items():
++        sub = df[df["min"] >= MIN_MINUTES].copy()
++        if "pos_group" not in sub.columns:
++            sub["pos_group"] = g
++        frames.append(sub)
++    corpus = pd.concat(frames, ignore_index=True)
++
++    rate_cols = [c for c in (*NUMERIC_FEATURES, "npg_p90_quality", "ast_p90_quality") if c in corpus.columns]
++    corpus = collapse_player_seasons(corpus, rate_cols=rate_cols)
++    corpus["season_start"] = corpus["season"].str[:4].astype(int)
++    corpus["value"] = corpus["npg_p90_quality"] + corpus["ast_p90_quality"]
++
++    t_cols = ["player_key", "pos_group", "season_start", "league",
++              *NUMERIC_FEATURES, "value"]
++    left = corpus[t_cols].rename(columns={"value": "value_t"})
++    left["season_start_next"] = left["season_start"] + 1
++    right = corpus[["player_key", "pos_group", "season_start", "season", "value"]].rename(
++        columns={"season": "target_season", "value": "target"})
++
++    merged = left.merge(
++        right, left_on=["player_key", "pos_group", "season_start_next"],
++        right_on=["player_key", "pos_group", "season_start"], suffixes=("", "_tgt"),
++    )
++    cols = ["player_key", "pos_group", "league", "target_season", "value_t", "target", *NUMERIC_FEATURES]
++    out = merged[cols].dropna(subset=[*NUMERIC_FEATURES, "value_t", "target"]).reset_index(drop=True)
++    # `age` arrives as pandas' nullable Float64 extension dtype (features.py's
++    # `_fill_missing_age`); mixed with plain float64 columns that breaks a
++    # clean numpy cast (`DataFrame.to_numpy()` falls back to `object`, which
++    # PyTensor rejects) -- cast every numeric/target column to plain float64
++    # once here rather than at every downstream `.to_numpy()` call site.
++    for c in (*NUMERIC_FEATURES, "value_t", "target"):
++        out[c] = out[c].astype("float64")
++    return out
++
++
++def rolling_origin_split(pairs: pd.DataFrame, origin: str) -> tuple[pd.DataFrame, pd.DataFrame]:
++    """(train, test) for one rolling origin `origin` (a target-season label):
++    train = pairs whose target season is strictly before `origin`, test =
++    pairs whose target season equals `origin`. Season labels ("2021-2022",
++    ...) sort lexicographically in chronological order, so plain string
++    comparison is correct here (see `src.utils.season_label`).
++    """
++    train = pairs[pairs["target_season"] < origin].reset_index(drop=True)
++    test = pairs[pairs["target_season"] == origin].reset_index(drop=True)
++    return train, test
++
++
++# =============================================================================
++# Metrics
++# =============================================================================
++
++
++def rmse(y_true: np.ndarray, y_pred: np.ndarray) -> float:
++    return float(np.sqrt(np.mean((np.asarray(y_true) - np.asarray(y_pred)) ** 2)))
++
++
++def mae(y_true: np.ndarray, y_pred: np.ndarray) -> float:
++    return float(np.mean(np.abs(np.asarray(y_true) - np.asarray(y_pred))))
++
++
++# =============================================================================
++# Baselines 0 and 1
++# =============================================================================
++
++
++def predict_persistence(test: pd.DataFrame) -> pd.Series:
++    """Baseline 0: next season's value = this season's own composite value."""
++    return test["value_t"]
++
++
++def predict_shrinkage_to_league_mean(train: pd.DataFrame, test: pd.DataFrame, k: int = 10) -> pd.Series:
++    """Baseline 1: an empirical-Bayes shrinkage of the league's historical
++    mean *target* (from `train`) toward the overall training mean, weight
++    n_league / (n_league + k) -- the same K-phantom-observations logic as
++    `src.features.bayesian_shrink`. A league absent from `train` falls back
++    to the overall training mean (weight 0).
++
++    Cold start (`train` empty, origin 1 only): there is no historical target
++    to shrink toward yet, so the prediction falls back to the *test*
++    season's own `value_t` mean -- a known, current-season quantity, not the
++    (unknown, to-be-predicted) target, so this is not leakage.
++    """
++    if train.empty:
++        return pd.Series(test["value_t"].mean(), index=test.index)
++
++    league_mean = train.groupby("league")["target"].mean()
++    n_league = train.groupby("league").size()
++    global_mean = float(train["target"].mean())
++
++    def _pred(league: str) -> float:
++        n = int(n_league.get(league, 0))
++        mu_l = float(league_mean.get(league, global_mean))
++        weight = n / (n + k)
++        return weight * mu_l + (1 - weight) * global_mean
++
++    return test["league"].map(_pred)
++
++
++# =============================================================================
++# Model 2: hierarchical Bayesian regression
++# =============================================================================
++
++Z = 1.6448536269514722  # standard-normal 95th percentile -> a symmetric 90% interval
++
++
++def fit_bayesian(
++    train: pd.DataFrame, *, feature_cols: list[str] | None = None, draws: int = 800, tune: int = 800,
++    chains: int = 2, target_accept: float = 0.9, seed: int | None = None, progressbar: bool = False,
++    cores: int | None = None,
++) -> tuple[pm.backends.base.MultiTrace | Any, dict[str, Any]]:
++    """Fit target ~ Normal(mu, sigma), mu = alpha + beta.x (standardised
++    numeric features, `feature_cols`, default `NUMERIC_FEATURES`; `main`
++    passes `NUMERIC_FEATURES + ["m_l"]` -- the M2 league-strength offset,
++    see `attach_m_l`) + gamma_league (partial pooling, non-centred) +
++    delta_pos + u_player (partial pooling, non-centred, sigma_u ~
++    HalfNormal(0.5)) on `train`.
++
++    Returns `(idata, meta)`; `meta` carries everything `predict_bayesian`
++    needs to score a *different* dataframe against this fit: `feature_cols`
++    itself, the feature means/stds used to standardise (so test rows are
++    standardised the same way, not refit), and the `league`/`pos`/`player`
++    categories seen during training (so an unseen category at prediction
++    time is detected rather than silently mis-indexed).
++    """
++    seed = config.RANDOM_SEED if seed is None else seed
++    feature_cols = feature_cols or NUMERIC_FEATURES
++    x_mean = train[feature_cols].mean()
++    x_std = train[feature_cols].std().replace(0, 1.0)
++    x = ((train[feature_cols] - x_mean) / x_std).to_numpy()
++
++    league_cat = pd.Categorical(train["league"])
++    pos_cat = pd.Categorical(train["pos_group"], categories=POS_GROUPS)
++    player_cat = pd.Categorical(train["player_key"])
++    y = train["target"].to_numpy()
++
++    coords = {
++        "feature": feature_cols, "league": list(league_cat.categories),
++        "pos": list(pos_cat.categories), "player": list(player_cat.categories),
++    }
++    with pm.Model(coords=coords):
++        alpha = pm.Normal("alpha", 0.0, 1.0)
++        beta = pm.Normal("beta", 0.0, 1.0, dims="feature")
++
++        sigma_league = pm.HalfNormal("sigma_league", 0.5)
++        z_league = pm.Normal("z_league", 0.0, 1.0, dims="league")
++        gamma_league = pm.Deterministic("gamma_league", z_league * sigma_league, dims="league")
++
++        delta_pos = pm.Normal("delta_pos", 0.0, 0.5, dims="pos")
++
++        sigma_player = pm.HalfNormal("sigma_player", 0.5)
++        z_player = pm.Normal("z_player", 0.0, 1.0, dims="player")
++        u_player = pm.Deterministic("u_player", z_player * sigma_player, dims="player")
++
++        sigma = pm.HalfNormal("sigma", 0.5)
++
++        mu = (alpha + pm.math.dot(x, beta) + gamma_league[league_cat.codes]
++              + delta_pos[pos_cat.codes] + u_player[player_cat.codes])
++        pm.Normal("y", mu=mu, sigma=sigma, observed=y)
++
++        idata = pm.sample(draws=draws, tune=tune, chains=chains, target_accept=target_accept,
++                          random_seed=seed, progressbar=progressbar, cores=cores or min(chains, 4))
++
++    meta = {"feature_cols": feature_cols, "x_mean": x_mean, "x_std": x_std,
++            "leagues": set(league_cat.categories), "players": set(player_cat.categories)}
++    return idata, meta
++
++
++def predict_bayesian(idata: Any, test: pd.DataFrame, meta: dict[str, Any]) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
++    """Point prediction and a 90% interval per row of `test`.
++
++    Point = posterior median of `mu` (fixed effects + the player's own
++    `u_player` draw when the player was seen during training, else 0 -- the
++    population average, since an unseen player's own offset is unknown).
++
++    The 90% interval is a *normal approximation* to the posterior
++    predictive, not full Monte Carlo sampling of `y_rep`: per row,
++    `median(mu) +/- Z * sqrt(var(mu across draws) + sigma_resid_median^2 +
++    [sigma_player_median^2 if the player is unseen])`. This is cheaper than
++    drawing and summarising a full (draws x rows) `y_rep` array per origin
++    (five origins, each needing its own predictive pass) and is standard
++    practice for a within-runtime-budget report exhibit; it slightly
++    understates tail coverage relative to exact sampling but is unbiased in
++    the interval's centre and width to first order. Documented here, not
++    hidden, per the "no overclaiming" brief.
++    """
++    feature_cols = meta["feature_cols"]
++    x = ((test[feature_cols] - meta["x_mean"]) / meta["x_std"]).to_numpy()
++    post = idata.posterior
++    alpha = post["alpha"].values.reshape(-1)               # (draws,)
++    beta = post["beta"].values.reshape(-1, len(feature_cols))  # (draws, k)
++    n_draws = alpha.shape[0]
++
++    fixed = alpha[None, :] + (x @ beta.T)                    # (n_test, draws)
++
++    league_da = post["gamma_league"]
++    pos_da = post["delta_pos"]
++    league_vals = {str(lg): league_da.sel(league=lg).values.reshape(-1) for lg in league_da.coords["league"].values}
++    pos_vals = {str(p): pos_da.sel(pos=p).values.reshape(-1) for p in pos_da.coords["pos"].values}
++    u_da = post["u_player"]
++    player_vals = {str(pl): u_da.sel(player=pl).values.reshape(-1) for pl in u_da.coords["player"].values}
++
++    zeros = np.zeros(n_draws)
++    n_test = len(test)
++    mu = np.empty((n_test, n_draws))
++    unseen_player = np.zeros(n_test, dtype=bool)
++    for i, r in enumerate(test.itertuples()):
++        gl = league_vals.get(str(r.league), zeros)
++        ps = pos_vals.get(str(r.pos_group), zeros)
++        up = player_vals.get(str(r.player_key))
++        if up is None:
++            up = zeros
++            unseen_player[i] = True
++        mu[i, :] = fixed[i, :] + gl + ps + up
++
++    sigma_draws = post["sigma"].values.reshape(-1)
++    sigma_resid = float(np.median(sigma_draws))
++    sigma_player_draws = post["sigma_player"].values.reshape(-1)
++    sigma_player_med = float(np.median(sigma_player_draws))
++
++    point = np.median(mu, axis=1)
++    epistemic_var = np.var(mu, axis=1)
++    total_var = epistemic_var + sigma_resid ** 2 + np.where(unseen_player, sigma_player_med ** 2, 0.0)
++    half_width = Z * np.sqrt(total_var)
++    return point, point - half_width, point + half_width
++
++
++# =============================================================================
++# Models 3 and 4: gradient boosting and a small MLP
++# =============================================================================
++
++
++def _cast_categoricals(df: pd.DataFrame, categories: dict[str, list[str]]) -> pd.DataFrame:
++    """`league`/`pos_group` as pandas `category` dtype with a *fixed*
++    category set (the corpus-wide list of leagues/pos groups, not just
++    those seen in one origin's train split) -- this is declaring the
++    category space, not using target information, and it is what lets
++    HistGradientBoostingRegressor's `categorical_features="from_dtype"`
++    and the one-hot encoder handle a league/pos level that a later origin's
++    smaller training set happened not to include.
++    """
++    out = df.copy()
++    for col, cats in categories.items():
++        out[col] = pd.Categorical(out[col], categories=cats)
++    return out
++
++
++def fit_predict_gbm(train: pd.DataFrame, test: pd.DataFrame, categories: dict[str, list[str]],
++                    seed: int | None = None) -> np.ndarray:
++    """`HistGradientBoostingRegressor`, default-ish params, early stopping;
++    `league`/`pos_group` as `category` dtype (Pedregosa et al., 2011)."""
++    from sklearn.ensemble import HistGradientBoostingRegressor
++
++    cols = [*NUMERIC_FEATURES, "league", "pos_group"]
++    x_train = _cast_categoricals(train[cols], categories)
++    x_test = _cast_categoricals(test[cols], categories)
++    model = HistGradientBoostingRegressor(early_stopping=True, random_state=config.RANDOM_SEED if seed is None else seed)
++    model.fit(x_train, train["target"])
++    return model.predict(x_test)
++
++
++def fit_predict_mlp(train: pd.DataFrame, test: pd.DataFrame, categories: dict[str, list[str]],
++                    seed: int | None = None) -> np.ndarray:
++    """A small multilayer perceptron (`MLPRegressor`, not an "embedding
++    model" -- PyTorch is not installed, so a learned league embedding isn't
++    available in sklearn): one-hot `league`/`pos_group` + standardised
++    numeric features, hidden layers (64, 32), early stopping."""
++    from sklearn.compose import ColumnTransformer
++    from sklearn.neural_network import MLPRegressor
++    from sklearn.pipeline import Pipeline
++    from sklearn.preprocessing import OneHotEncoder, StandardScaler
++
++    pre = ColumnTransformer([
++        ("num", StandardScaler(), NUMERIC_FEATURES),
++        ("cat", OneHotEncoder(categories=[categories["league"], categories["pos_group"]], handle_unknown="ignore"),
++         ["league", "pos_group"]),
++    ])
++    pipe = Pipeline([
++        ("pre", pre),
++        ("mlp", MLPRegressor(hidden_layer_sizes=(64, 32), early_stopping=True,
++                             random_state=config.RANDOM_SEED if seed is None else seed, max_iter=500)),
++    ])
++    pipe.fit(train[[*NUMERIC_FEATURES, "league", "pos_group"]], train["target"])
++    return pipe.predict(test[[*NUMERIC_FEATURES, "league", "pos_group"]])
++
++
++# =============================================================================
++# Assembly
++# =============================================================================
++
++
++def assemble_output(target: str, origins: list[str], rows: list[dict[str, Any]],
++                    pooled: list[dict[str, Any]], winner_pooled: str, notes: list[str]) -> dict[str, Any]:
++    """Pure assembly of the JSON shape described in the module docstring;
++    no fitting here, so this is testable on hand-built inputs."""
++    return {"target": target, "origins": origins, "rows": rows, "pooled": pooled,
++            "winner_pooled": winner_pooled, "notes": notes}
++
++
++# =============================================================================
++# Figure
++# =============================================================================
++
++MODEL_ORDER = ["persistence", "shrinkage_league_mean", "bayesian", "gbm", "mlp"]
++MODEL_LABELS = {
++    "persistence": "Persistence", "shrinkage_league_mean": "Shrinkage to league mean",
++    "bayesian": "Hierarchical Bayesian", "gbm": "Gradient boosting", "mlp": "Small MLP",
++}
++
++
++def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
++    """RMSE per origin season, one line per model (palette), persistence dashed."""
++    import matplotlib.pyplot as plt
++
++    from src.international_benchmark import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE
++    from src.utils import season_label
++
++    colors = {"persistence": RULE, "shrinkage_league_mean": MUTED, "bayesian": NAVY,
++             "gbm": OXBLOOD, "mlp": NAVY_DEEP}
++    df = pd.DataFrame(rows)
++    fig, ax = plt.subplots(figsize=(8.0, 4.6))
++    fig.patch.set_facecolor(CREAM)
++    ax.set_facecolor(CREAM)
++
++    for model in MODEL_ORDER:
++        sub = df[df["model"] == model].sort_values("origin")
++        if sub.empty:
++            continue
++        xs = [season_label(o) for o in sub["origin"]]
++        ax.plot(xs, sub["rmse"], color=colors[model], lw=2.2,
++               linestyle="--" if model == "persistence" else "-",
++               marker="o", markersize=4, label=MODEL_LABELS[model])
++
++    ax.set_ylabel("RMSE (npG+A per 90, quality-adjusted)", fontsize=10, fontfamily="sans-serif", color=INK)
++    ax.set_xlabel("Target season (origin)", fontsize=10, fontfamily="sans-serif", color=INK)
++    ax.set_title("Model comparison: RMSE by origin season", fontsize=13, fontfamily="serif", color=INK, loc="left")
++    for spine in ("top", "right"):
++        ax.spines[spine].set_visible(False)
++    for spine in ("left", "bottom"):
++        ax.spines[spine].set_color(RULE)
++    ax.tick_params(colors=INK)
++    ax.legend(frameon=False, fontsize=9, labelcolor=INK)
++    plt.tight_layout()
++    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
++    plt.close(fig)
++    LOG.info("wrote %s", out_path)
++
++
++# =============================================================================
++# Assembly / main
++# =============================================================================
++
++
++def attach_m_l(pairs: pd.DataFrame, league_strength: dict[str, Any]) -> pd.DataFrame:
++    """Add `m_l`: season t's league's M2 league-strength multiplier (the
++    posterior median from `league_strength.json`, Task 15), mapped by
++    `league`. A league absent from `league_strength.json` (shouldn't happen
++    -- both stages read the same `features_*.parquet` corpus) falls back to
++    1.0 (Premier-League-equivalent, the model's own reference point)."""
++    m_l = {r["league"]: r["median"] for r in league_strength.get("leagues", [])}
++    out = pairs.copy()
++    out["m_l"] = out["league"].map(m_l).fillna(1.0)
++    return out
++
++
++# The Bayesian fit's runtime budget: 2 chains x `BAYES_DRAWS` draws per
++# origin, and each origin's *training* rows subsampled to at most
++# `BAYES_MAX_TRAIN` (seeded) before fitting -- GBM/MLP fit the full training
++# set (they are fast); the Bayesian model's player-level random effect does
++# not, so it is the one that needs a runtime lever. Reported in `main`'s log
++# and the JSON's `notes` (the brief's "reduce draws or subsample players if
++# needed and say so").
++BAYES_DRAWS = 400
++BAYES_TUNE = 400
++BAYES_CHAINS = 2
++BAYES_MAX_TRAIN = 2500
++
++
++def _subsample(df: pd.DataFrame, n: int, seed: int) -> pd.DataFrame:
++    if len(df) <= n:
++        return df
++    return df.sample(n=n, random_state=seed).reset_index(drop=True)
++
++
++def main() -> None:
++    logging_setup()
++    config.ensure_dirs()
++    t_start = time.time()
++
++    features_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in GROUPS}
++    pairs = build_pairs(features_by_group)
++    LOG.info("pairs corpus: %d rows, %d players, %d target seasons", len(pairs),
++             pairs["player_key"].nunique(), pairs["target_season"].nunique())
++
++    league_strength = json.loads((config.PROCESSED_DIR / "league_strength.json").read_text(encoding="utf-8")) \
++        if (config.PROCESSED_DIR / "league_strength.json").exists() else {}
++    pairs = attach_m_l(pairs, league_strength)
++    categories = {"league": sorted(pairs["league"].unique()), "pos_group": POS_GROUPS}
++    bayes_features = [*NUMERIC_FEATURES, "m_l"]
++
++    rows: list[dict[str, Any]] = []
++    notes = [
++        f"Bayesian model: {BAYES_CHAINS} chains x {BAYES_DRAWS} draws per origin (reduced from a "
++        f"league_strength.py-style 800+ to keep 5 origins' worth of fits under the runtime budget); "
++        f"training rows subsampled to at most {BAYES_MAX_TRAIN} (seeded, config.RANDOM_SEED) when an "
++        f"origin's training set is larger.",
++        "Origin 2021-2022's training set is empty by construction (the corpus's earliest feature season, "
++        "2020-2021, makes 2021-2022 the first possible target season) -- only the two baselines are "
++        "reported for that origin.",
++        "The M2 league-strength multiplier m_L (Task 15, league_strength.json) is used as an extra "
++        "feature for the Bayesian model only, alongside the config-based league_multiplier already in "
++        "every model's feature set.",
++    ]
++
++    for origin in ORIGINS:
++        train, test = rolling_origin_split(pairs, origin)
++        LOG.info("origin %s: %d train, %d test", origin, len(train), len(test))
++
++        pred = predict_persistence(test)
++        rows.append({"model": "persistence", "origin": origin, "n_test": len(test),
++                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
++
++        pred = predict_shrinkage_to_league_mean(train, test)
++        rows.append({"model": "shrinkage_league_mean", "origin": origin, "n_test": len(test),
++                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
++
++        if train.empty:
++            LOG.info("origin %s: empty training set, skipping the three learned models", origin)
++            continue
++
++        bayes_train = _subsample(train, BAYES_MAX_TRAIN, config.RANDOM_SEED)
++        t0 = time.time()
++        idata, meta = fit_bayesian(bayes_train, feature_cols=bayes_features, draws=BAYES_DRAWS, tune=BAYES_TUNE,
++                                   chains=BAYES_CHAINS, seed=config.RANDOM_SEED)
++        point, lo, hi = predict_bayesian(idata, test, meta)
++        LOG.info("origin %s: bayesian fit %.1f s (%d train rows)", origin, time.time() - t0, len(bayes_train))
++        coverage = float(((test["target"].to_numpy() >= lo) & (test["target"].to_numpy() <= hi)).mean())
++        rows.append({"model": "bayesian", "origin": origin, "n_test": len(test),
++                     "rmse": rmse(test["target"], point), "mae": mae(test["target"], point), "coverage90": coverage})
++
++        pred = fit_predict_gbm(train, test, categories, seed=config.RANDOM_SEED)
++        rows.append({"model": "gbm", "origin": origin, "n_test": len(test),
++                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
++
++        pred = fit_predict_mlp(train, test, categories, seed=config.RANDOM_SEED)
++        rows.append({"model": "mlp", "origin": origin, "n_test": len(test),
++                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
++
++    pooled = []
++    for model in MODEL_ORDER:
++        model_rows = [r for r in rows if r["model"] == model]
++        if not model_rows:
++            continue
++        n_test = sum(r["n_test"] for r in model_rows)
++        w_rmse = float(np.sqrt(sum(r["rmse"] ** 2 * r["n_test"] for r in model_rows) / n_test))
++        w_mae = float(sum(r["mae"] * r["n_test"] for r in model_rows) / n_test)
++        cov_rows = [r for r in model_rows if r["coverage90"] is not None]
++        cov = float(sum(r["coverage90"] * r["n_test"] for r in cov_rows) / sum(r["n_test"] for r in cov_rows)) \
++            if cov_rows else None
++        pooled.append({"model": model, "n_test": n_test, "rmse": round(w_rmse, 4), "mae": round(w_mae, 4),
++                       "coverage90": round(cov, 4) if cov is not None else None})
++
++    winner = min(pooled, key=lambda r: r["rmse"])["model"]
++    gbm_row = next((r for r in pooled if r["model"] == "gbm"), None)
++    mlp_row = next((r for r in pooled if r["model"] == "mlp"), None)
++    if gbm_row and mlp_row and mlp_row["rmse"] >= gbm_row["rmse"]:
++        notes.append(f"The MLP does not beat gradient boosting on pooled RMSE "
++                     f"({mlp_row['rmse']} vs {gbm_row['rmse']}).")
++
++    winner_rows = sorted((r for r in rows if r["model"] == winner), key=lambda r: r["origin"])
++    if len(winner_rows) >= 2:
++        drift = max(abs(a["rmse"] - b["rmse"]) for a, b in zip(winner_rows, winner_rows[1:], strict=False))
++        notes.append(f"Largest season-to-season RMSE change for the winner ({winner}): {round(drift, 4)}.")
++
++    for r in rows:
++        r["rmse"] = round(r["rmse"], 4)
++        r["mae"] = round(r["mae"], 4)
++        if r["coverage90"] is not None:
++            r["coverage90"] = round(r["coverage90"], 4)
++
++    result = assemble_output(target=TARGET_LABEL, origins=ORIGINS, rows=rows, pooled=pooled,
++                             winner_pooled=winner, notes=notes)
++
++    out_json = config.PROCESSED_DIR / "model_comparison.json"
++    out_json.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
++    LOG.info("wrote %s", out_json)
++
++    render_figure(rows, config.OUTPUTS_DIR / "model_comparison.svg")
++
++    LOG.info("pooled: %s", pooled)
++    LOG.info("winner: %s", winner)
++    LOG.info("done: %s, %.1f s total", config.NATION, time.time() - t_start)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/src/render.py b/src/render.py
+index 0fbbe75..bf48d6c 100644
+--- a/src/render.py
++++ b/src/render.py
+@@ -1005,12 +1005,85 @@ def _build_league_strength(ls: dict, domestic_league: str, tr: Translator | None
+         "spearman": ls.get("spearman") or {"rho": None, "p": None, "n": 0},
+         "disagreements": ls.get("disagreements", []),
+         "fit": ls.get("fit") or {"rows": 0, "players": 0, "seasons": 0, "runtime_s": 0},
+     }
+ 
+ 
++# Mirrors src.model_comparison.MODEL_ORDER/BAYES_CHAINS/BAYES_DRAWS/
++# BAYES_MAX_TRAIN -- kept as literals here (not imported) so render.py,
++# imported by most of the test suite, doesn't pull in PyMC/ArviZ/
++# scikit-learn just for an ordering list and three run-budget constants.
++MODEL_COMPARISON_ORDER = ["persistence", "shrinkage_league_mean", "bayesian", "gbm", "mlp"]
++MODEL_COMPARISON_BAYES_CHAINS = 2
++MODEL_COMPARISON_BAYES_DRAWS = 400
++MODEL_COMPARISON_BAYES_MAX_TRAIN = 2500
++
++
++def _build_model_comparison(mc: dict, tr: Translator | None = None) -> dict:
++    """Chapter IV `#model-comparison`: the rolling-origin table (models x
++    origins, pooled row), the Bayesian model's per-origin coverage, the
++    winner and its margin over persistence, and the winner's largest
++    season-to-season RMSE change ("drift"). `mc` is `model_comparison.json`'s
++    raw shape (`{}` when the file is missing -- `load_data`'s tolerant load
++    -- in which case every list here is empty and the template section
++    renders nothing).
++    """
++    tr = tr or Translator("en")
++    origins = mc.get("origins", [])
++    origin_labels = [season_label(o) for o in origins]
++    rows = mc.get("rows", [])
++    pooled = mc.get("pooled", [])
++    pooled_by_model = {r["model"]: r for r in pooled}
++
++    table = []
++    for model in MODEL_COMPARISON_ORDER:
++        if model not in pooled_by_model:
++            continue
++        by_origin = {r["origin"]: r for r in rows if r["model"] == model}
++        table.append({
++            "model": model, "label": tr.raw(f"ch4.compare.model.{model}"),
++            "cells": [by_origin.get(o) for o in origins],
++            "pooled": pooled_by_model[model],
++        })
++
++    winner_key = mc.get("winner_pooled")
++    winner = pooled_by_model.get(winner_key)
++    persistence = pooled_by_model.get("persistence")
++    margin = None
++    if winner and persistence and persistence["rmse"]:
++        margin = (persistence["rmse"] - winner["rmse"]) / persistence["rmse"]
++        margin = round(margin, 4)
++
++    winner_rows = sorted((r for r in rows if r["model"] == winner_key), key=lambda r: r["origin"])
++    drift = None
++    if len(winner_rows) >= 2:
++        deltas = [(a["origin"], b["origin"], abs(a["rmse"] - b["rmse"]))
++                  for a, b in zip(winner_rows, winner_rows[1:], strict=False)]
++        from_o, to_o, drift_val = max(deltas, key=lambda d: d[2])
++        drift = {"from": season_label(from_o), "to": season_label(to_o), "value": drift_val}
++
++    bayesian_rows = [r for r in rows if r["model"] == "bayesian" and r["coverage90"] is not None]
++
++    return {
++        "target": mc.get("target", ""), "origins": origins, "origin_labels": origin_labels,
++        "table": table,
++        "winner": winner, "winner_label": tr.raw(f"ch4.compare.model.{winner_key}") if winner_key else "",
++        "margin": margin,
++        "drift": drift,
++        "bayesian_coverage": [{"origin": season_label(r["origin"]), "coverage90": r["coverage90"]}
++                              for r in bayesian_rows],
++        "bayesian_coverage_text": ", ".join(
++            f"{season_label(r['origin'])}: {round(r['coverage90'] * 100)} %" for r in bayesian_rows),
++        "bayesian_pooled_coverage": (pooled_by_model.get("bayesian") or {}).get("coverage90"),
++        "notes": mc.get("notes", []),
++        "persistence_pooled_rmse": persistence["rmse"] if persistence else None,
++        "bayes_chains": MODEL_COMPARISON_BAYES_CHAINS, "bayes_draws": MODEL_COMPARISON_BAYES_DRAWS,
++        "bayes_max_train": MODEL_COMPARISON_BAYES_MAX_TRAIN,
++    }
++
++
+ def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
+     """Chapter IV data-quality log: recomputed checks + recorded incidents.
+ 
+     `dq` is `data_quality.json`'s raw shape (`{"checks": [...], "events":
+     [...]}`, written by `src.data_quality`; `{}` when the file is missing --
+     see `load_data`, which then leaves both lists empty and the template
+@@ -1202,12 +1275,13 @@ def load_data() -> dict[str, Any]:
+         "analogs": _load_json(p / "analogs.json", {}),
+         "pathways": _load_json(p / "pathways.json", {}),
+         "squad_lens": _load_json(p / "squad_lens.json", {}),
+         "big5_series": _load_json(p / "big5_series.json", {}),
+         "data_quality": _load_json(p / "data_quality.json", {}),
+         "league_strength": _load_json(p / "league_strength.json", {}),
++        "model_comparison": _load_json(p / "model_comparison.json", {}),
+         "photos": _load_json(SITE_PLAYERS, {}),
+         "cluster_labels": config.cluster_labels(),
+         "league_quality": config.league_quality(),
+         "countries": config.peers_meta(),
+         "seasons": config.seasons(),
+         "feature_defs": config.features(),
+@@ -1366,12 +1440,13 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
+         "loadings": _build_loadings(data["loadings"]) if not data["loadings"].empty else [],
+         "sensitivity": _build_sensitivity(data["sensitivity"] if not data["sensitivity"].empty else pd.DataFrame(
+             columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"]), tr),
+         "limitations": _build_limitations(facts, tr),
+         "data_quality": _build_data_quality(data["data_quality"], tr),
+         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
++        "model_comparison": _build_model_comparison(data["model_comparison"], tr),
+         "references": harvard_list(),
+         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
+         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
+         "facts": facts,
+         "home_code": config.HOME,
+         "n_leagues": n_leagues,
+@@ -1601,12 +1676,34 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
+                    "refit_runtime_s": 118.4},
+             "spearman": {"rho": 0.81, "p": 0.0001, "n": 18},
+             "disagreements": [{"league": "NED-Eredivisie", "model_rank": 3, "uefa_rank": 6,
+                               "model_median": 0.71, "uefa": 0.51, "rank_diff": 3}],
+             "fit": {"rows": 8108, "players": 2125, "seasons": 7, "runtime_s": 341.2},
+         }, "CZE-First League", tr),
++        "model_comparison": _build_model_comparison({
++            "target": "npg_p90_quality + ast_p90_quality (season t+1)",
++            "origins": ["2021-2022", "2022-2023"],
++            "rows": [
++                {"model": "persistence", "origin": "2021-2022", "n_test": 1955, "rmse": 0.0768, "mae": 0.0541, "coverage90": None},
++                {"model": "shrinkage_league_mean", "origin": "2021-2022", "n_test": 1955, "rmse": 0.1343, "mae": 0.1045, "coverage90": None},
++                {"model": "persistence", "origin": "2022-2023", "n_test": 1879, "rmse": 0.0782, "mae": 0.0558, "coverage90": None},
++                {"model": "shrinkage_league_mean", "origin": "2022-2023", "n_test": 1879, "rmse": 0.1293, "mae": 0.0996, "coverage90": None},
++                {"model": "bayesian", "origin": "2022-2023", "n_test": 1879, "rmse": 0.071, "mae": 0.0522, "coverage90": 0.9122},
++                {"model": "gbm", "origin": "2022-2023", "n_test": 1879, "rmse": 0.0723, "mae": 0.0513, "coverage90": None},
++                {"model": "mlp", "origin": "2022-2023", "n_test": 1879, "rmse": 0.0794, "mae": 0.0586, "coverage90": None},
++            ],
++            "pooled": [
++                {"model": "persistence", "n_test": 3834, "rmse": 0.0775, "mae": 0.055, "coverage90": None},
++                {"model": "shrinkage_league_mean", "n_test": 3834, "rmse": 0.1318, "mae": 0.102, "coverage90": None},
++                {"model": "bayesian", "n_test": 1879, "rmse": 0.071, "mae": 0.0522, "coverage90": 0.9122},
++                {"model": "gbm", "n_test": 1879, "rmse": 0.0723, "mae": 0.0513, "coverage90": None},
++                {"model": "mlp", "n_test": 1879, "rmse": 0.0794, "mae": 0.0586, "coverage90": None},
++            ],
++            "winner_pooled": "bayesian",
++            "notes": ["Fixture data for the offline template test."],
++        }, tr),
+         "references": harvard_list(),
+         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
+         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
+         "facts": facts,
+         "home_code": "CZE",
+         "n_leagues": 19, "headline_leagues": ["ENG-Premier League"],
+diff --git a/templates/report.html.j2 b/templates/report.html.j2
+index 2805d47..5649b23 100644
+--- a/templates/report.html.j2
++++ b/templates/report.html.j2
+@@ -130,12 +130,13 @@
+     <li><a href="#q9">{{ t('toc.q9') }}</a></li>
+     <li><a href="#explore">{{ t('toc.explore') }}</a></li>
+     <li><a href="#methodology">{{ t('toc.methodology') }}</a>
+       <ol>
+         <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
+         <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
++        <li><a href="#model-comparison">{{ t('toc.compare') }}</a></li>
+         <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
+         <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
+         <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
+         <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
+         <li><a href="#validation-robustness">{{ t('toc.validation') }}</a></li>
+         <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
+@@ -158,13 +159,13 @@
+     <p class="masthead-facts">{{ t('mast.facts', n_leagues=facts.n_leagues, n_seasons=facts.n_seasons, n_tests=facts.n_tests) }}</p>
+ 
+     <details class="toc-mobile" open>
+       <summary>{{ t('toc.aria') }}</summary>
+       <ol>
+         <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a> · <a href="#q9">{{ t('toc.q9') }}</a></li>
+-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
++        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+       </ol>
+     </details>
+   </div>
+ </header>
+ 
+ {# =============================================================================
+@@ -986,12 +987,55 @@
+     </details>
+     <p>{{ t('ch4.strength.selection') }}</p>
+ 
+     <p>{{ t('ch4.strength.ranking') }}</p>
+     {% endif %}
+ 
++    {% if model_comparison.table %}
++    <h3 id="model-comparison">{{ t('ch4.compare.h3') }}</h3>
++    <p>{{ t('ch4.compare.q', min=feature_defs.min_minutes) }}</p>
++    <p>{{ t('ch4.compare.design', n_origins=model_comparison.origins | length, cite_ro=cite.hyndman_athanasopoulos_2021,
++             chains=model_comparison.bayes_chains, draws=model_comparison.bayes_draws, cite_bayes=cite.gelman_et_al_2013,
++             cite_sklearn=cite.pedregosa_et_al_2011, max_train=model_comparison.bayes_max_train) }}</p>
++    <figure class="figure-bleed">
++      <img src="{{ assets }}model_comparison.svg" alt="{{ t('ch4.compare.fig_alt') }}">
++    </figure>
++    <table class="kv-table compare-table">
++      <thead><tr>
++        <th>{{ t('ch4.compare.th.model') }}</th>
++        {% for o in model_comparison.origin_labels %}<th>{{ o }}</th>{% endfor %}
++        <th>{{ t('ch4.compare.th.pooled') }}</th>
++      </tr></thead>
++      <tbody>
++        {% for row in model_comparison.table %}
++        <tr {% if model_comparison.winner and row.model == model_comparison.winner.model %}data-highlight="winner"{% endif %}>
++          <td>{{ row.label }}</td>
++          {% for cell in row.cells %}
++          <td>{% if cell %}{{ f3(cell.rmse) }} ({{ f3(cell.mae) }}){% else %}—{% endif %}</td>
++          {% endfor %}
++          <td>{{ f3(row.pooled.rmse) }} ({{ f3(row.pooled.mae) }})</td>
++        </tr>
++        {% endfor %}
++      </tbody>
++    </table>
++    <p class="capita-note">{{ t('ch4.compare.note') }}</p>
++
++    {% if model_comparison.bayesian_coverage %}
++    <p>{{ t('ch4.compare.coverage', pooled=pct(model_comparison.bayesian_pooled_coverage), n=model_comparison.bayesian_coverage | length,
++             per_origin=model_comparison.bayesian_coverage_text) }}</p>
++    {% endif %}
++
++    {% if model_comparison.winner %}
++    <p>{{ t('ch4.compare.winner', winner=model_comparison.winner_label, rmse=f3(model_comparison.winner.rmse),
++             persistence_rmse=f3(model_comparison.persistence_pooled_rmse), margin=pct(model_comparison.margin)) }}</p>
++    {% endif %}
++    {% if model_comparison.drift %}
++    <p>{{ t('ch4.compare.drift', from=model_comparison.drift.from, to=model_comparison.drift.to, value=f3(model_comparison.drift.value)) }}</p>
++    {% endif %}
++    {% endif %}
++
+     <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>
+     <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes, cite_efron_morris=cite.efron_morris_1975) }}</p>
+     <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
+     <p>{{ t('ch4.shrink.p2', min=feature_defs.min_minutes, weight=pct(feature_defs.phantom_minutes / (feature_defs.min_minutes + feature_defs.phantom_minutes)), phantom=feature_defs.phantom_minutes) }}</p>
+ 
+     <h3 id="pca-loadings">{{ t('ch4.pca.h3') }}</h3>
+@@ -1064,12 +1108,17 @@
+       {% endfor %}
+     </div>
+ 
+     <h3 id="validation-robustness">{{ t('ch4.validation.h3') }}</h3>
+     <p>{{ t('ch4.validation.stub') }}</p>
+     <ul>
++      {% if model_comparison.table %}
++      <li>{{ t('ch4.validation.m1', n_origins=model_comparison.origins | length, winner=model_comparison.winner_label,
++                rmse=f3(model_comparison.winner.rmse), persistence_rmse=f3(model_comparison.persistence_pooled_rmse),
++                coverage=pct(model_comparison.bayesian_pooled_coverage)) }}</li>
++      {% endif %}
+       {% if league_strength.leagues %}
+       <li>{{ t('ch4.validation.m2', rhat=f3(league_strength.diagnostics.max_rhat), div=league_strength.diagnostics.n_divergences,
+                 oos_winner=(league_strength.oos.winner.method_label if league_strength.oos.winner else '—'),
+                 oos_logpd=(f3(league_strength.oos.winner.log_pred_density) if league_strength.oos.winner else '—'),
+                 rho=f2(league_strength.spearman.rho)) }}</li>
+       {% endif %}
+diff --git a/tests/test_model_comparison.py b/tests/test_model_comparison.py
+new file mode 100644
+index 0000000..06870eb
+--- /dev/null
++++ b/tests/test_model_comparison.py
+@@ -0,0 +1,207 @@
++"""Tests for src/model_comparison.py (Task 16).
++
++The Bayesian smoke test actually samples (2 chains x 100 draws, 200
++synthetic rows) -- slow relative to the rest of the suite (a few seconds)
++but the only way to check the model runs end to end and produces a
++sane coverage number.
++"""
++
++from __future__ import annotations
++
++import numpy as np
++import pandas as pd
++import pytest
++
++from src.model_comparison import (
++    ORIGINS,
++    build_pairs,
++    predict_persistence,
++    predict_shrinkage_to_league_mean,
++    rolling_origin_split,
++)
++
++# =============================================================================
++# Rolling-origin split: no leakage
++# =============================================================================
++
++
++def _toy_pairs() -> pd.DataFrame:
++    """One row per (season_t -> target_season) pair, spanning four seasons."""
++    rows = []
++    for i, (t, tgt) in enumerate([
++        ("2020-2021", "2021-2022"), ("2021-2022", "2022-2023"),
++        ("2022-2023", "2023-2024"), ("2020-2021", "2021-2022"),
++    ]):
++        rows.append({"player_key": f"p{i}", "pos_group": "MF", "league": "X",
++                     "season_t": t, "target_season": tgt, "value_t": 1.0, "target": 1.2,
++                     "npg_p90_shrunk": 0.1, "ast_p90_shrunk": 0.1, "min_share": 0.8,
++                     "age": 24.0, "cards_p90": 0.1, "league_multiplier": 1.0})
++    return pd.DataFrame(rows)
++
++
++def test_rolling_origin_split_has_no_leakage():
++    pairs = _toy_pairs()
++    for origin in ("2021-2022", "2022-2023", "2023-2024"):
++        train, test = rolling_origin_split(pairs, origin)
++        assert (test["target_season"] == origin).all()
++        assert (train["target_season"] < origin).all()
++
++
++def test_rolling_origin_split_first_origin_has_no_train_data():
++    """The corpus's earliest feature season (2020-2021) makes its first
++    target season (2021-2022) the very first pair possible -- no pair can
++    have an earlier target season, so origin 1's train set is empty. A real
++    corpus limitation, not a bug (see module docstring)."""
++    pairs = _toy_pairs()
++    train, _ = rolling_origin_split(pairs, "2021-2022")
++    assert train.empty
++
++
++def test_origins_constant_is_five_seasons_in_order():
++    assert ORIGINS == ["2021-2022", "2022-2023", "2023-2024", "2024-2025", "2025-2026"]
++
++
++# =============================================================================
++# Baselines: known values
++# =============================================================================
++
++
++def test_predict_persistence_returns_value_t():
++    test = pd.DataFrame({"value_t": [0.5, 1.2, 0.0]})
++    pred = predict_persistence(test)
++    assert list(pred) == [0.5, 1.2, 0.0]
++
++
++def test_predict_shrinkage_to_league_mean_on_known_values():
++    train = pd.DataFrame({
++        "league": ["A"] * 10 + ["B"] * 2,
++        "target": [1.0] * 10 + [3.0, 3.0],
++    })
++    test = pd.DataFrame({"league": ["A", "B", "C"]})
++    pred = predict_shrinkage_to_league_mean(train, test, k=10)
++    global_mean = train["target"].mean()  # (10*1 + 2*3)/12 = 16/12
++    # league A: n=10, weight=10/20=0.5 -> 0.5*1.0 + 0.5*global_mean
++    expected_a = 0.5 * 1.0 + 0.5 * global_mean
++    assert pred.iloc[0] == pytest.approx(expected_a)
++    # league B: n=2, weight=2/12 -> mostly the global mean
++    expected_b = (2 / 12) * 3.0 + (10 / 12) * global_mean
++    assert pred.iloc[1] == pytest.approx(expected_b)
++    # league C: unseen in train -> falls back to the global mean
++    assert pred.iloc[2] == pytest.approx(global_mean)
++
++
++def test_predict_shrinkage_to_league_mean_falls_back_when_train_is_empty():
++    train = pd.DataFrame(columns=["league", "target"])
++    test = pd.DataFrame({"league": ["A", "B"], "value_t": [0.4, 0.6]})
++    pred = predict_shrinkage_to_league_mean(train, test, k=10)
++    # cold start (origin 1): no historical target data at all, fall back to
++    # the test season's own known value_t mean (not the unknown target)
++    for v in pred:
++        assert v == pytest.approx(0.5)
++
++
++def test_rmse_mae_on_known_values():
++    from src.model_comparison import mae, rmse
++    y_true = np.array([1.0, 2.0, 3.0])
++    y_pred = np.array([1.0, 2.0, 5.0])
++    assert mae(y_true, y_pred) == pytest.approx(2 / 3)
++    assert rmse(y_true, y_pred) == pytest.approx(np.sqrt((0 + 0 + 4) / 3))
++
++
++# =============================================================================
++# build_pairs: pure pandas
++# =============================================================================
++
++
++def test_build_pairs_matches_consecutive_seasons_and_filters_minutes():
++    fw = pd.DataFrame([
++        {"player_key": "a|1998", "league": "X", "season": "2024-2025", "pos_group": "FW",
++         "min": 900, "age": 26.0, "npg_p90_shrunk": 0.3, "ast_p90_shrunk": 0.1,
++         "min_share": 0.8, "cards_p90": 0.1, "league_multiplier": 1.0,
++         "npg_p90_quality": 0.3, "ast_p90_quality": 0.1},
++        {"player_key": "a|1998", "league": "X", "season": "2025-2026", "pos_group": "FW",
++         "min": 900, "age": 27.0, "npg_p90_shrunk": 0.4, "ast_p90_shrunk": 0.2,
++         "min_share": 0.9, "cards_p90": 0.1, "league_multiplier": 1.0,
++         "npg_p90_quality": 0.4, "ast_p90_quality": 0.2},
++        {"player_key": "b|1999", "league": "X", "season": "2024-2025", "pos_group": "FW",
++         "min": 100, "age": 22.0, "npg_p90_shrunk": 0.1, "ast_p90_shrunk": 0.0,   # below 450 -- excluded
++         "min_share": 0.2, "cards_p90": 0.0, "league_multiplier": 1.0,
++         "npg_p90_quality": 0.1, "ast_p90_quality": 0.0},
++        {"player_key": "b|1999", "league": "X", "season": "2025-2026", "pos_group": "FW",
++         "min": 900, "age": 23.0, "npg_p90_shrunk": 0.2, "ast_p90_shrunk": 0.0,
++         "min_share": 0.5, "cards_p90": 0.0, "league_multiplier": 1.0,
++         "npg_p90_quality": 0.2, "ast_p90_quality": 0.0},
++        {"player_key": "c|2000", "league": "X", "season": "2025-2026", "pos_group": "FW",  # no prior season
++         "min": 900, "age": 24.0, "npg_p90_shrunk": 0.2, "ast_p90_shrunk": 0.0,
++         "min_share": 0.5, "cards_p90": 0.0, "league_multiplier": 1.0,
++         "npg_p90_quality": 0.2, "ast_p90_quality": 0.0},
++    ])
++    pairs = build_pairs({"FW": fw})
++    assert list(pairs["player_key"]) == ["a|1998"]
++    row = pairs.iloc[0]
++    assert row["target_season"] == "2025-2026"
++    assert row["value_t"] == pytest.approx(0.3 + 0.1)
++    assert row["target"] == pytest.approx(0.4 + 0.2)
++    assert row["age"] == pytest.approx(26.0)
++
++
++# =============================================================================
++# Bayesian model smoke test
++# =============================================================================
++
++
++def _synthetic_pairs(n: int = 200, seed: int = 42) -> pd.DataFrame:
++    rng = np.random.default_rng(seed)
++    leagues = np.array(["A", "B"])
++    league = rng.choice(leagues, size=n)
++    league_multiplier = np.where(league == "A", 1.0, 0.6)
++    pos = rng.choice(["FW", "MF", "DF"], size=n)
++    npg = rng.normal(0.3, 0.1, size=n).clip(min=0)
++    ast = rng.normal(0.15, 0.05, size=n).clip(min=0)
++    age = rng.uniform(18, 34, size=n)
++    min_share = rng.uniform(0.3, 1.0, size=n)
++    cards = rng.uniform(0.0, 0.3, size=n)
++    player_key = np.array([f"p{i % 60}" for i in range(n)])
++    noise = rng.normal(0, 0.1, size=n)
++    target = (npg + ast) * league_multiplier + noise
++    return pd.DataFrame({
++        "player_key": player_key, "pos_group": pos, "league": league,
++        "target_season": "2024-2025", "value_t": npg + ast,
++        "npg_p90_shrunk": npg, "ast_p90_shrunk": ast, "min_share": min_share,
++        "age": age, "cards_p90": cards, "league_multiplier": league_multiplier,
++        "target": target,
++    })
++
++
++def test_bayesian_smoke_coverage_is_plausible():
++    from src.model_comparison import fit_bayesian, predict_bayesian
++
++    train = _synthetic_pairs(seed=1)
++    test = _synthetic_pairs(seed=2)
++    idata, meta = fit_bayesian(train, draws=100, tune=100, chains=2, seed=42)
++    point, lo, hi = predict_bayesian(idata, test, meta)
++    assert len(point) == len(test)
++    coverage = float(((test["target"].to_numpy() >= lo) & (test["target"].to_numpy() <= hi)).mean())
++    assert 0.6 <= coverage <= 1.0
++    assert np.isfinite(point).all()
++
++
++# =============================================================================
++# JSON shape
++# =============================================================================
++
++
++def test_assemble_output_shape():
++    from src.model_comparison import assemble_output
++
++    rows = [{"model": "persistence", "origin": "2021-2022", "n_test": 10, "rmse": 0.5, "mae": 0.4,
++             "coverage90": None}]
++    pooled = [{"model": "persistence", "n_test": 10, "rmse": 0.5, "mae": 0.4, "coverage90": None}]
++    out = assemble_output(target="npg_p90_quality + ast_p90_quality (season t+1)",
++                          origins=ORIGINS, rows=rows, pooled=pooled,
++                          winner_pooled="persistence", notes=["a note"])
++    assert set(out) == {"target", "origins", "rows", "pooled", "winner_pooled", "notes"}
++    assert out["origins"] == ORIGINS
++    assert out["winner_pooled"] == "persistence"
++    import json
++    json.dumps(out)  # round-trips through plain JSON types
