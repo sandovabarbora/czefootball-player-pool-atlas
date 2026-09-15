@@ -20,7 +20,7 @@ from pathlib import Path
 DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
          "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg", "series_model.svg",
-         "gk_export_age.svg"]
+         "gk_export_age.svg", "youth_panel.svg", "gap_decomposition.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -80,6 +80,19 @@ T = {
     "Age at first top-9 season": "Věk při prvním startu v top-9 lize",
     "Outfield exports": "Hráči v poli",
     "Goalkeepers": "Brankáři",
+    # youth-minutes panel (Task 20, M3)
+    "Youth minutes and pool depth, across countries and two seasons":
+        "Minuty mládeže a hloubka fondu, napříč zeměmi a dvěma sezónami",
+    "U21 share of domestic-league minutes (%)": "Podíl minut domácí ligy hráčů do 21 let (%)",
+    "Top-9-league players per million population": "Hráči top-9 lig na milion obyvatel",
+    "Fitted line (population level, 90% band)": "Fitovaná přímka (úroveň populace, 90% pásmo)",
+    # gap decomposition (Task 20, M5)
+    "What the gap is made of": "Z čeho se rozdíl skládá",
+    "Contribution to the gap (top-9 players per million)": "Příspěvek k rozdílu (hráči top-9 lig na milion)",
+    "U21 minutes": "Minuty do 21 let",
+    "League strength": "Síla ligy",
+    "Export age": "Věk exportu",
+    "Residual": "Reziduum",
 }
 CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern

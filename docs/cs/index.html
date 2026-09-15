@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151241">
-  <link rel="stylesheet" href="../modern.css?v=202609151241">
+  <link rel="stylesheet" href="../style.css?v=202609151328">
+  <link rel="stylesheet" href="../modern.css?v=202609151328">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151241"></script>
+  <script defer src="../atlas.js?v=202609151328"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -53,6 +53,7 @@
     <li><a href="#q7">Kdy vlak odjel</a></li>
     <li><a href="#q8">Norsko a Dánsko</a></li>
     <li><a href="#q8b">Brankáři</a></li>
+    <li><a href="#q8c">Z čeho se rozdíl skládá</a></li>
     <li><a href="#q9">Kdo jsou hráči</a></li>
     <li><a href="#explore">Prozkoumat data</a></li>
     <li><a href="#methodology">Jak je to postavené, validované a kde to končí</a>
@@ -61,6 +62,8 @@
         <li><a href="#league-strength">Síla ligy</a></li>
         <li><a href="#model-comparison">Tři modely, jeden úkol, pět sezón</a></li>
         <li><a href="#series-model">Datace zlomu a jedna prognóza</a></li>
+        <li><a href="#youth-panel">Mezinárodní panel minut mládeže</a></li>
+        <li><a href="#gap-decomposition">Z čeho se rozdíl skládá</a></li>
         <li><a href="#shrinkage">Bayesovský shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Analýza citlivosti</a></li>
@@ -88,7 +91,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 241 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 252 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -299,7 +302,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">Dostávají mladí minuty doma?</h2>
-    <p class="slide-a">Podíl minut domácí ligy pro hráče do 21 let: Česko <strong>6,4 %</strong>, nejlépe Dánsko 15,3 % (nejlepší peer).</p>
+    <p class="slide-a">Podíl minut domácí ligy pro hráče do 21 let: Česko <strong>6,4 %</strong>, nejlépe Dánsko 15,3 % (nejlepší peer). Napříč 8 zeměmi a dvěma sezónami odpovídá 10 bodů podílu do 21 let nárůstu -0,16 hráčů na milion v top-9 ligách (-2,53–2,17).</p>
     <div class="slide-proof">
       
       <div class="capita" role="list" aria-label="Podíl minut domácí ligy odehraných vlastními hráči do 21 let">
@@ -404,6 +407,14 @@
         </div>
         
       </div>
+      
+      <details class="fold">
+        <summary>Napříč zeměmi</summary>
+        <figure class="figure-bleed">
+          <img src="../youth_panel.svg" alt="Bodový graf podílu minut hráčů do 21 let v domácí lize proti počtu hráčů na milion v top-9 ligách, 8 zemí, dvě sezóny za každou spojené čárou, Česko zvýrazněno, s fitovanou přímkou a jejím 90% pásem.">
+        </figure>
+      </details>
+      
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Podíl všech ligových minut odehraných hráči do 21 let na začátku sezóny, 2025/26, podle domácí nejvyšší soutěže.</p>
   </div>
@@ -833,6 +844,22 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Práh 450 minut, soupisky 2025/26, stejné stahování K = 900 jako zbytek reportu; první sezóna ve stažené top-9 tabulce; hráči, kteří v ní byli už v 2020/21, jsou cenzurovaní — 0 % brankářů, 21 % exportů z pole; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení.</p>
+  </div>
+</section>
+
+
+
+
+<section class="slide" id="q8c">
+  <div class="container">
+    <h2 class="slide-q">Z čeho se rozdíl skládá?</h2>
+    <p class="slide-a">Z rozdílu 6,98 hráčů na milion mezi Norsko a Česko souvisí s minutami hráčů do 21 let +4,22, se silou ligy +5,12, s věkem exportu -0,00; -2,37 tyto tři kanály nepokrývají.</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="../gap_decomposition.svg" alt="Jeden vodorovný skládaný sloupec za každou srovnávanou zemi: příspěvek minut hráčů do 21 let, síly ligy a věku exportu k jejímu rozdílu na obyvatele proti Česko, plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
+      </figure>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca ((Oaxaca, 1973); (Blinder, 1973)), fitovaný na 8 peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, 1000 převzorkování; rozklad korelace, ne kauzální účetnictví.</p>
   </div>
 </section>
 
@@ -8926,6 +8953,177 @@
     <p>Fit bodu zlomu: R-hat ≤ 1,010, minimální bulk ESS 339, 0 divergentních tranzicí napříč 26 sezónami.</p>
     
 
+    
+    <h3 id="youth-panel">Mezinárodní panel minut mládeže</h3>
+    <p>Za každou z 8 peer zemí a dvě sezóny (2024/25 → 2025/26) podíl minut domácí ligy odehraných hráči do 21 let (x) proti hráčům na milion v top-9 ligách (y); n = 16. Bayesovská regrese, y ~ Normal(α + β·x + u_country, σ), s náhodným interceptem za zemi pro částečné poolování (4 řetězce × 1000 vzorků (Abril-Pla et al., 2023)) — při pouhých dvou sezónách na zemi je intercept slabě identifikovaný, takže většina mezistátního vzorce připadne jemu místo β, a interval β proto zůstává široký (Gelman et al., 2013). Srovnáno s prostým poolovaným sklonem metodou nejmenších čtverců (numpy polyfit, bez struktury podle země), s percentilovým bootstrapovým 90% intervalem (1000 převzorkování) — statsmodels zde není závislostí.</p>
+    <figure class="figure-bleed">
+      <img src="../youth_panel.svg" alt="Bodový graf panelu s fitovanou přímkou na úrovni populace a jejím 90% pásem.">
+    </figure>
+    <p>β = -0,16 na 10 procentních bodů podílu hráčů do 21 let (90% HDI -2,53–2,17), R² = 0,98 (fit z posteriorního mediánu, fixní efekt + intercept za zemi); poolovaný OLS sklon je +7,76 (1,12–13,99). n = 16; interval je široký, protože panel je malý.</p>
+    <p>R-hat ≤ 1,004, minimální bulk ESS 851, 0 divergentních tranzicí; posteriorní medián měřítka interceptu za zemi σ_country = 5,19.</p>
+    <p>Pouze popisné: podíl minut dané sezóny a počet na obyvatele téže sezóny jsou ukázány spolu proto, že jde o čísla, která máme k dispozici, ne proto, že by jedno tvrzeně způsobovalo druhé.</p>
+    <details class="fold">
+      <summary>Řádky panelu (n = 16)</summary>
+      <table class="kv-table">
+        <thead><tr>
+          <th>Země</th><th>Sezóna</th>
+          <th>Podíl do 21 let</th><th>Na milion</th>
+        </tr></thead>
+        <tbody>
+          
+          <tr >
+            <td>CRO</td><td>2024/25</td><td>12,8 %</td><td class="num">15,54</td>
+          </tr>
+          
+          <tr >
+            <td>DEN</td><td>2024/25</td><td>13,2 %</td><td class="num">13,42</td>
+          </tr>
+          
+          <tr >
+            <td>NOR</td><td>2024/25</td><td>10,5 %</td><td class="num">9,01</td>
+          </tr>
+          
+          <tr >
+            <td>SUI</td><td>2024/25</td><td>9,2 %</td><td class="num">5,36</td>
+          </tr>
+          
+          <tr >
+            <td>AUT</td><td>2024/25</td><td>6,4 %</td><td class="num">5,02</td>
+          </tr>
+          
+          <tr data-highlight="cze">
+            <td>CZE</td><td>2024/25</td><td>11,1 %</td><td class="num">2,20</td>
+          </tr>
+          
+          <tr >
+            <td>HUN</td><td>2024/25</td><td>12,2 %</td><td class="num">1,36</td>
+          </tr>
+          
+          <tr >
+            <td>POL</td><td>2024/25</td><td>12,5 %</td><td class="num">1,26</td>
+          </tr>
+          
+          <tr >
+            <td>DEN</td><td>2025/26</td><td>15,3 %</td><td class="num">12,58</td>
+          </tr>
+          
+          <tr >
+            <td>CRO</td><td>2025/26</td><td>14,0 %</td><td class="num">12,18</td>
+          </tr>
+          
+          <tr >
+            <td>NOR</td><td>2025/26</td><td>11,5 %</td><td class="num">9,37</td>
+          </tr>
+          
+          <tr >
+            <td>SUI</td><td>2025/26</td><td>7,7 %</td><td class="num">6,03</td>
+          </tr>
+          
+          <tr >
+            <td>AUT</td><td>2025/26</td><td>9,2 %</td><td class="num">4,80</td>
+          </tr>
+          
+          <tr data-highlight="cze">
+            <td>CZE</td><td>2025/26</td><td>6,3 %</td><td class="num">2,39</td>
+          </tr>
+          
+          <tr >
+            <td>HUN</td><td>2025/26</td><td>14,1 %</td><td class="num">1,57</td>
+          </tr>
+          
+          <tr >
+            <td>POL</td><td>2025/26</td><td>9,3 %</td><td class="num">1,23</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+    
+
+    
+    <h3 id="gap-decomposition">Z čeho se rozdíl skládá</h3>
+    <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu — tabulka panelu níže uvádí, který zdroj platí pro který řádek) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu ((Oaxaca, 1973); (Blinder, 1973)), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
+    <figure class="figure-bleed">
+      <img src="../gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
+    </figure>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Srovnání</th><th>Kanál</th>
+        <th>Příspěvek</th><th>Podíl na rozdílu</th>
+        <th>90% interval</th>
+      </tr></thead>
+      <tbody>
+        
+        
+        <tr>
+          <td rowspan="4">Norsko<br><span class="muted small">Rozdíl (hráči na milion): +6,98</span></td>
+          <td>Minuty do 21 let</td>
+          <td class="num">+4,22</td>
+          <td class="num">60 %</td>
+          <td class="num">+1,22 – +5,91</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Síla ligy</td>
+          <td class="num">+5,12</td>
+          <td class="num">73 %</td>
+          <td class="num">+1,90 – +6,77</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Věk exportu</td>
+          <td class="num">-0,00</td>
+          <td class="num">-0 %</td>
+          <td class="num">-0,00 – +0,00</td>
+        </tr>
+        
+        <tr>
+          <td>Reziduum</td>
+          <td class="num">-2,37</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+        
+        
+        <tr>
+          <td rowspan="4">Dánsko<br><span class="muted small">Rozdíl (hráči na milion): +10,19</span></td>
+          <td>Minuty do 21 let</td>
+          <td class="num">+7,35</td>
+          <td class="num">72 %</td>
+          <td class="num">+2,17 – +10,27</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Síla ligy</td>
+          <td class="num">+1,67</td>
+          <td class="num">16 %</td>
+          <td class="num">+0,65 – +2,26</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Věk exportu</td>
+          <td class="num">-0,00</td>
+          <td class="num">-0 %</td>
+          <td class="num">-0,00 – +0,00</td>
+        </tr>
+        
+        <tr>
+          <td>Reziduum</td>
+          <td class="num">+1,17</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p>Bootstrapové 90% intervaly na příspěvku každého kanálu, 1000 převzorkování řádků panelu (model se přeučí na každém převzorkování; vlastní hodnoty domácí a srovnávané země zůstávají fixní); samotné reziduum se nebootstrapuje — je to rozdíl vlastních pozorovaných počtů obou zemí minus fitovaný rozdíl.</p>
+    <p>Rozklad korelace, kterou tento panel ukazuje, ne kauzální účetnictví; s n = 8 a třemi vzájemně korelovanými kanály na úrovni státu jsou podíly orientační, ne přesné.</p>
+    
+
     <h3 id="shrinkage">Bayesovský shrinkage</h3>
     <p>Míry na 90 minut u hráčů s málo minutami jsou staženy k mediánu jejich ligy a sezóny (hráči s aspoň 900 minutami) empirickým Bayesovým vzorcem (Efron and Morris, 1975), s K = 10 fantomovými zápasy vyjádřenými jako 900 minut:</p>
     <p class="formula" data-tex="\text{stažená míra} = \dfrac{\text{události} + K \cdot \text{medián ligy}}{\text{minuty} / 90 + K},\qquad K = 10">shrunk_rate = (události + K × medián_ligy) / (minuty / 90 + K), &nbsp; K = 10</p>
@@ -9487,6 +9685,12 @@
       
       <li>Zlom a prognóza (M4): zlom je datován do sezóny 2014/15 (62 % posterior) pro Česko, změna úrovně o ×0,57; čistá lokální úroveň překonává naivní základ v MAE (2,80 vs. 2,73), 87 % z 90% intervalů pokrylo pozorovanou hodnotu napříč 15 rolling-origin zpětnými testy.</li>
       
+      
+      <li>Panel minut mládeže (M3): napříč 8 zeměmi a dvěma sezónami (n = 16) je sklon modelu s interceptem za zemi -0,16 na 10 procentních bodů podílu do 21 let (-2,53–2,17), R² = 0,98; prostý poolovaný OLS sklon je +7,76 (1,12–13,99) — interval je široký, protože panel je malý.</li>
+      
+      
+      <li>Rozklad rozdílu (M5): ridge fit (α = 1,00) na n = 8 peer zemích; pro Norsko tvoří reziduum -2,37 z rozdílu 6,98 — rozklad korelace, ne kauzální účetnictví.</li>
+      
     </ul>
 
     <h3 id="reproducibility">Reprodukovatelnost</h3>
@@ -9494,8 +9698,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 241 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 241 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 252 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 252 testy.</p>
       <ol class="build-flow">
         <li>Specifikace</li>
         <li>Plán</li>
@@ -9513,6 +9717,8 @@
       
       <li id="ref-adams_mackay_2007"><a href="https://arxiv.org/abs/0710.3742">Adams, R.P. and MacKay, D.J.C. (2007) Bayesian online changepoint detection. arXiv, 0710,3742. Available at: https://arxiv.org/abs/0710,3742 (Accessed: 15 September 2026).</a></li>
       
+      <li id="ref-blinder_1973"><a href="https://doi.org/10.2307/144855">Blinder, A.S. (1973) &#39;Wage discrimination: reduced form and structural estimates&#39;, Journal of Human Resources, 8(4), pp. 436–455.</a></li>
+      
       <li id="ref-durbin_koopman_2012"><a href="https://doi.org/10.1093/acprof:oso/9780199641178.001.0001">Durbin, J. and Koopman, S.J. (2012) Time Series Analysis by State Space Methods. 2nd edn. Oxford: Oxford University Press.</a></li>
       
       <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319.</a></li>
@@ -9528,6 +9734,8 @@
       <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736.</a></li>
       
       <li id="ref-kumar_et_al_2019"><a href="https://doi.org/10.21105/joss.01143">Kumar, R., Carroll, C., Hartikainen, A. and Martin, O. (2019) &#39;ArviZ a unified library for exploratory analysis of Bayesian models in Python&#39;, Journal of Open Source Software, 4(33), 1143.</a></li>
+      
+      <li id="ref-oaxaca_1973"><a href="https://doi.org/10.2307/2525981">Oaxaca, R. (1973) &#39;Male-female wage differentials in urban labor markets&#39;, International Economic Review, 14(3), pp. 693–709.</a></li>
       
       <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830.</a></li>
       
@@ -9699,7 +9907,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 12:41</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 13:27</p>
   </div>
 </footer>
 

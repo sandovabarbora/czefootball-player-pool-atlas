@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151242">
-  <link rel="stylesheet" href="modern.css?v=202609151242">
+  <link rel="stylesheet" href="style.css?v=202609151328">
+  <link rel="stylesheet" href="modern.css?v=202609151328">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151242"></script>
+  <script defer src="atlas.js?v=202609151328"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -53,6 +53,7 @@
     <li><a href="#q7">When the train left</a></li>
     <li><a href="#q8">France and Spain</a></li>
     <li><a href="#q8b">Goalkeepers</a></li>
+    <li><a href="#q8c">What the gap is made of</a></li>
     <li><a href="#q9">Who the players are</a></li>
     <li><a href="#explore">Explore the data</a></li>
     <li><a href="#methodology">How it is built, validated and where it stops</a>
@@ -61,6 +62,8 @@
         <li><a href="#league-strength">League strength</a></li>
         <li><a href="#model-comparison">Three models, one task, five seasons</a></li>
         <li><a href="#series-model">Dating the break and one forecast</a></li>
+        <li><a href="#youth-panel">Cross-country youth-minutes panel</a></li>
+        <li><a href="#gap-decomposition">What the gap is made of</a></li>
         <li><a href="#shrinkage">Bayesian shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Sensitivity analysis</a></li>
@@ -88,7 +91,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 241 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 252 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -288,7 +291,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">Do young players get minutes at home?</h2>
-    <p class="slide-a">U21 share of domestic-league minutes <strong>3.0 %</strong> vs Netherlands 13.6 % (best peer).</p>
+    <p class="slide-a">U21 share of domestic-league minutes <strong>3.0 %</strong> vs Netherlands 13.6 % (best peer). Across the 8 countries and two seasons, 10 points more U21 share go with +1.56 more top-9 players per million (-1.29–4.33).</p>
     <div class="slide-proof">
       
       <div class="capita" role="list" aria-label="Share of domestic-league minutes played by own under-21 nationals">
@@ -382,6 +385,14 @@
         </div>
         
       </div>
+      
+      <details class="fold">
+        <summary>Across countries</summary>
+        <figure class="figure-bleed">
+          <img src="youth_panel.svg" alt="Scatter of U21 share of domestic-league minutes against top-9 players per million, 8 countries, two seasons each connected by a line, England highlighted, with the fitted line and its 90 % band.">
+        </figure>
+      </details>
+      
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Share of all league minutes played by players aged ≤ 21 at season start, 2025/26, per domestic top flight.</p>
   </div>
@@ -835,6 +846,22 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> 450-minute floor, 2025/26 rosters, same K = 900 shrinkage as the rest of the report; first season in a fetched top-9 table; players already there in 2020/21 are censored — 100 % of the goalkeepers, 40 % of the outfield exports; a comparison of two pathways inside one nation, not a causal claim. First top-9 season needs no move for a Premier League keeper.</p>
+  </div>
+</section>
+
+
+
+
+<section class="slide" id="q8c">
+  <div class="container">
+    <h2 class="slide-q">What is the gap made of?</h2>
+    <p class="slide-a">Of the 2.19 players per million between France and England, U21 minutes go with -3.40, league strength with +9.71, export age with -4.26; +0.14 is not carried by the three channels.</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="gap_decomposition.svg" alt="One horizontal stacked bar per contrast country: the contribution of U21 minutes, league strength and export age to its per-capita gap with England, plus the residual; whiskers show each channel's bootstrap interval.">
+      </figure>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">How we know</span> Ridge-regression linear split, Blinder-Oaxaca-style ((Oaxaca, 1973); (Blinder, 1973)), fit on the 8 peer countries with data on all three channels; bootstrap 90 % intervals, 1000 resamples; a decomposition of a correlation, not a causal accounting.</p>
   </div>
 </section>
 
@@ -8015,6 +8042,177 @@
     <p>Change-point fit: R-hat ≤ 1.003, minimum bulk ESS 339, 0 divergent transitions across 26 seasons.</p>
     
 
+    
+    <h3 id="youth-panel">Cross-country youth-minutes panel</h3>
+    <p>For each of the 8 peer countries and two seasons (2024/25 → 2025/26), U21 share of domestic-league minutes (x) against top-9 players per million (y); n = 16. A Bayesian regression, y ~ Normal(α + β·x + u_country, σ), with a country random intercept for partial pooling (4 chains × 1000 draws (Abril-Pla et al., 2023)) — with only two seasons per country the intercept is weakly identified, so most of the cross-country pattern is available to it rather than to β, leaving β's own interval wide (Gelman et al., 2013). Compared against a plain pooled least-squares slope (numpy polyfit, ignoring country structure entirely) with a percentile-bootstrap 90 % interval (1000 resamples) — statsmodels is not a dependency here.</p>
+    <figure class="figure-bleed">
+      <img src="youth_panel.svg" alt="Scatter of the panel with the population-level fitted line and its 90 % band.">
+    </figure>
+    <p>β = +1.56 per 10 percentage points of U21 share (90 % HDI -1.29–4.33), R² = 0.99 (posterior-median fit, fixed effect + country intercept); the pooled OLS slope is +13.57 (5.36–20.82). n = 16; the interval is wide because the panel is small.</p>
+    <p>R-hat ≤ 1.006, minimum bulk ESS 861, 0 divergent transitions; posterior-median country-intercept scale σ_country = 8.25.</p>
+    <p>Descriptive only: a season's own U21 share and that same season's own per-capita count are shown together because they are the numbers on hand, not because one is claimed to produce the other.</p>
+    <details class="fold">
+      <summary>Panel rows (n = 16)</summary>
+      <table class="kv-table">
+        <thead><tr>
+          <th>Country</th><th>Season</th>
+          <th>U21 share</th><th>Per million</th>
+        </tr></thead>
+        <tbody>
+          
+          <tr >
+            <td>POR</td><td>2024/25</td><td>6.2 %</td><td class="num">27.35</td>
+          </tr>
+          
+          <tr >
+            <td>BEL</td><td>2024/25</td><td>7.8 %</td><td class="num">22.99</td>
+          </tr>
+          
+          <tr >
+            <td>NED</td><td>2024/25</td><td>11.8 %</td><td class="num">17.35</td>
+          </tr>
+          
+          <tr >
+            <td>ESP</td><td>2024/25</td><td>7.8 %</td><td class="num">9.38</td>
+          </tr>
+          
+          <tr >
+            <td>FRA</td><td>2024/25</td><td>8.7 %</td><td class="num">5.35</td>
+          </tr>
+          
+          <tr data-highlight="cze">
+            <td>ENG</td><td>2024/25</td><td>3.9 %</td><td class="num">4.00</td>
+          </tr>
+          
+          <tr >
+            <td>ITA</td><td>2024/25</td><td>3.3 %</td><td class="num">3.58</td>
+          </tr>
+          
+          <tr >
+            <td>GER</td><td>2024/25</td><td>4.7 %</td><td class="num">3.12</td>
+          </tr>
+          
+          <tr >
+            <td>POR</td><td>2025/26</td><td>4.9 %</td><td class="num">25.19</td>
+          </tr>
+          
+          <tr >
+            <td>BEL</td><td>2025/26</td><td>8.7 %</td><td class="num">21.46</td>
+          </tr>
+          
+          <tr >
+            <td>NED</td><td>2025/26</td><td>13.6 %</td><td class="num">20.69</td>
+          </tr>
+          
+          <tr >
+            <td>ESP</td><td>2025/26</td><td>4.8 %</td><td class="num">9.54</td>
+          </tr>
+          
+          <tr >
+            <td>FRA</td><td>2025/26</td><td>8.8 %</td><td class="num">5.79</td>
+          </tr>
+          
+          <tr data-highlight="cze">
+            <td>ENG</td><td>2025/26</td><td>3.0 %</td><td class="num">3.60</td>
+          </tr>
+          
+          <tr >
+            <td>ITA</td><td>2025/26</td><td>2.7 %</td><td class="num">3.41</td>
+          </tr>
+          
+          <tr >
+            <td>GER</td><td>2025/26</td><td>6.2 %</td><td class="num">3.13</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+    
+
+    
+    <h3 id="gap-decomposition">What the gap is made of</h3>
+    <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier — the panel table below states which for each row) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition ((Oaxaca, 1973); (Blinder, 1973)), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
+    <figure class="figure-bleed">
+      <img src="gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
+    </figure>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Contrast</th><th>Channel</th>
+        <th>Contribution</th><th>Share of gap</th>
+        <th>90 % interval</th>
+      </tr></thead>
+      <tbody>
+        
+        
+        <tr>
+          <td rowspan="4">France<br><span class="muted small">Gap (players per million): +2.19</span></td>
+          <td>U21 minutes</td>
+          <td class="num">-3.40</td>
+          <td class="num">-155 %</td>
+          <td class="num">-10.65 – +4.24</td>
+        </tr>
+        
+        <tr>
+          
+          <td>League strength</td>
+          <td class="num">+9.71</td>
+          <td class="num">443 %</td>
+          <td class="num">+1.94 – +13.65</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Export age</td>
+          <td class="num">-4.26</td>
+          <td class="num">-195 %</td>
+          <td class="num">-9.60 – -0.47</td>
+        </tr>
+        
+        <tr>
+          <td>Residual</td>
+          <td class="num">+0.14</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+        
+        
+        <tr>
+          <td rowspan="4">Spain<br><span class="muted small">Gap (players per million): +5.94</span></td>
+          <td>U21 minutes</td>
+          <td class="num">-1.06</td>
+          <td class="num">-18 %</td>
+          <td class="num">-3.31 – +1.35</td>
+        </tr>
+        
+        <tr>
+          
+          <td>League strength</td>
+          <td class="num">+4.72</td>
+          <td class="num">79 %</td>
+          <td class="num">+1.04 – +6.68</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Export age</td>
+          <td class="num">-6.39</td>
+          <td class="num">-108 %</td>
+          <td class="num">-14.28 – -0.71</td>
+        </tr>
+        
+        <tr>
+          <td>Residual</td>
+          <td class="num">+8.67</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p>Bootstrap 90 % intervals on each channel's contribution, 1000 resamples of the panel's rows (the model refit on each resample; the home/contrast countries' own values held fixed); the residual itself is not bootstrapped — it is the two countries' own observed counts minus the fitted gap.</p>
+    <p>A decomposition of a correlation this panel happens to show, not a causal accounting; with n = 8 and three correlated national-level channels, the shares are indicative, not precise.</p>
+    
+
     <h3 id="shrinkage">Bayesian shrinkage</h3>
     <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula (Efron and Morris, 1975), with K = 10 phantom matches expressed as 900 minutes:</p>
     <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
@@ -8576,6 +8774,12 @@
       
       <li>The break and forecast (M4): the break dates to 2007/08 (21 % posterior) for England, a ×0.92 level change; the plain local level beats the naive baseline on MAE (10.53 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
+      
+      <li>The youth-minutes panel (M3): across 8 countries and two seasons (n = 16), the country-intercept model's slope is +1.56 per 10 percentage points of U21 share (-1.29–4.33), R² = 0.99; a plain pooled OLS slope is +13.57 (5.36–20.82) — the interval is wide because the panel is small.</li>
+      
+      
+      <li>The gap decomposition (M5): ridge fit (α = 1.00) on n = 8 peer countries; for France, the residual is +0.14 of a 2.19 gap — a decomposition of a correlation, not a causal accounting.</li>
+      
     </ul>
 
     <h3 id="reproducibility">Reproducibility</h3>
@@ -8583,8 +8787,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 241 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 241 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 252 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 252 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -8602,6 +8806,8 @@
       
       <li id="ref-adams_mackay_2007"><a href="https://arxiv.org/abs/0710.3742">Adams, R.P. and MacKay, D.J.C. (2007) Bayesian online changepoint detection. arXiv, 0710.3742. Available at: https://arxiv.org/abs/0710.3742 (Accessed: 15 September 2026).</a></li>
       
+      <li id="ref-blinder_1973"><a href="https://doi.org/10.2307/144855">Blinder, A.S. (1973) &#39;Wage discrimination: reduced form and structural estimates&#39;, Journal of Human Resources, 8(4), pp. 436–455.</a></li>
+      
       <li id="ref-durbin_koopman_2012"><a href="https://doi.org/10.1093/acprof:oso/9780199641178.001.0001">Durbin, J. and Koopman, S.J. (2012) Time Series Analysis by State Space Methods. 2nd edn. Oxford: Oxford University Press.</a></li>
       
       <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319.</a></li>
@@ -8617,6 +8823,8 @@
       <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736.</a></li>
       
       <li id="ref-kumar_et_al_2019"><a href="https://doi.org/10.21105/joss.01143">Kumar, R., Carroll, C., Hartikainen, A. and Martin, O. (2019) &#39;ArviZ a unified library for exploratory analysis of Bayesian models in Python&#39;, Journal of Open Source Software, 4(33), 1143.</a></li>
+      
+      <li id="ref-oaxaca_1973"><a href="https://doi.org/10.2307/2525981">Oaxaca, R. (1973) &#39;Male-female wage differentials in urban labor markets&#39;, International Economic Review, 14(3), pp. 693–709.</a></li>
       
       <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830.</a></li>
       
@@ -8988,7 +9196,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 12:42</p>
+    <p class="rendered-at">Rendered: 2026-09-15 13:27</p>
   </div>
 </footer>
 
