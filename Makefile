@@ -32,10 +32,12 @@ help:
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
 	@echo "  keepers          Fetch keeper-stat tables (fbref_keepers.parquet)"
 	@echo "  goalkeepers      Goalkeepers chapter: per-million, export age, club tier, production, cards"
+	@echo "  panel            Cross-country youth-minutes panel (M3): Bayesian slope + OLS comparison"
+	@echo "  gap              Gap decomposition (M5): Blinder-Oaxaca-style linear split of the per-capita gap"
 	@echo "  eda              One raw row to a feature vector: cleaning ledger link, rejected candidates, two EDA figures"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
-	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> keepers -> goalkeepers -> eda -> data-quality -> render"
+	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> keepers -> goalkeepers -> panel -> gap -> eda -> data-quality -> render"
 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
 	@echo "  test             Run pytest"
 	@echo "  lint             Run ruff check"
@@ -103,6 +105,16 @@ keepers:
 goalkeepers:
 	$(ACT) python -m src.goalkeepers
 
+# Cross-country youth-minutes panel (M3): needs fbref_players.parquet only
+# (recomputes per_capita/youth_exposure itself, season by season).
+panel:
+	$(ACT) python -m src.youth_panel
+
+# Gap decomposition (M5): needs per_capita.parquet (benchmark), pathways.json
+# (pathways) and league_strength.json (strength) already built.
+gap:
+	$(ACT) python -m src.gap_decomposition
+
 eda:
 	$(ACT) python -m src.feature_eda
 
@@ -112,7 +124,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers eda data-quality render
+all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers panel gap eda data-quality render
 
 test:
 	$(ACT) pytest

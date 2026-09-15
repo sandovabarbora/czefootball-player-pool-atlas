@@ -168,6 +168,7 @@
     <li><a href="#q7">{{ t('toc.q7') }}</a></li>
     <li><a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a></li>
     {% if gk %}<li><a href="#q8b">{{ t('toc.q8b') }}</a></li>{% endif %}
+    {% if gap_decomposition.contrasts %}<li><a href="#q8c">{{ t('toc.q8c') }}</a></li>{% endif %}
     <li><a href="#q9">{{ t('toc.q9') }}</a></li>
     <li><a href="#explore">{{ t('toc.explore') }}</a></li>
     <li><a href="#methodology">{{ t('toc.methodology') }}</a>
@@ -176,6 +177,8 @@
         <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
         <li><a href="#model-comparison">{{ t('toc.compare') }}</a></li>
         <li><a href="#series-model">{{ t('toc.series') }}</a></li>
+        {% if youth_panel.bayes %}<li><a href="#youth-panel">{{ t('toc.panel') }}</a></li>{% endif %}
+        {% if gap_decomposition.contrasts %}<li><a href="#gap-decomposition">{{ t('toc.gap') }}</a></li>{% endif %}
         <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
         <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
         <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
@@ -203,8 +206,8 @@
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
-        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#q8c">{{ t('toc.q8c') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.bayes %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -306,7 +309,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.3.q') }}</h2>
-    <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}</p>
+    <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}{% if pw.panel_beta is defined %}{{ t('slide.3.panel', n_countries=pw.panel_n_countries, beta=signed2(pw.panel_beta), lo=f2(pw.panel_beta_lo), hi=f2(pw.panel_beta_hi), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
       {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
       <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
@@ -323,6 +326,14 @@
         </div>
         {% endfor %}
       </div>
+      {% if youth_panel.bayes %}
+      <details class="fold">
+        <summary>{{ t('slide.3.panel.summary') }}</summary>
+        <figure class="figure-bleed">
+          <img src="{{ assets }}youth_panel.svg" alt="{{ t('slide.3.panel.alt', n_countries=youth_panel.n_countries) }}">
+        </figure>
+      </details>
+      {% endif %}
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.3.how', season=seasons.metrics) }}</p>
   </div>
@@ -507,6 +518,24 @@
                           censored_pct=('%.0f' | format(gk.export_age.gk_censored_share * 100)),
                           censored_out_pct=('%.0f' | format(gk.export_age.outfield_censored_share * 100)),
                           home_note=(t('slide.8b.home_note', topn=topn) if (domestic_league_code in headline_leagues) else '')) }}</p>
+  </div>
+</section>
+{% endif %}
+
+{% if gap_decomposition.contrasts %}
+{% set gdp = gap_decomposition.primary %}
+<section class="slide" id="q8c">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.8c.q') }}</h2>
+    <p class="slide-a">{{ t('slide.8c.a', gap=f2(gdp.gap_total), contrast=term(gdp.name),
+                          c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
+                          c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="{{ assets }}gap_decomposition.svg" alt="{{ t('slide.8c.alt') }}">
+      </figure>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, cite_oaxaca=cite.oaxaca_1973, cite_blinder=cite.blinder_1973) }}</p>
   </div>
 </section>
 {% endif %}
@@ -1263,6 +1292,78 @@
              t=(big5.seasons | length)) }}</p>
     {% endif %}
 
+    {% if youth_panel.bayes %}
+    <h3 id="youth-panel">{{ t('ch4.panel.h3') }}</h3>
+    <p>{{ t('ch4.panel.design', n_countries=youth_panel.n_countries, seasons=(youth_panel.seasons_used | join(' → ')),
+             n=youth_panel.n, chains=youth_panel.chains, draws=youth_panel.draws, n_boot=youth_panel.n_boot,
+             cite_pymc=cite.abril_pla_et_al_2023, cite_bda=cite.gelman_et_al_2013) }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}youth_panel.svg" alt="{{ t('ch4.panel.fig_alt') }}">
+    </figure>
+    <p>{{ t('ch4.panel.bootstrap', beta=signed2(youth_panel.bayes.beta_per_10pp.median),
+             lo=f2(youth_panel.bayes.beta_per_10pp.lo), hi=f2(youth_panel.bayes.beta_per_10pp.hi),
+             r2=f2(youth_panel.bayes.r2), ols=signed2(youth_panel.ols.slope_per_10pp.point),
+             ols_lo=f2(youth_panel.ols.slope_per_10pp.lo), ols_hi=f2(youth_panel.ols.slope_per_10pp.hi),
+             n=youth_panel.n) }}</p>
+    <p>{{ t('ch4.panel.diagnostics', rhat=f3(youth_panel.diagnostics.max_rhat),
+             ess=(youth_panel.diagnostics.min_ess_bulk | round | int), div=youth_panel.diagnostics.n_divergences,
+             sigma_country=f2(youth_panel.diagnostics.sigma_country_median)) }}</p>
+    <p>{{ t('ch4.panel.note') }}</p>
+    <details class="fold">
+      <summary>{{ t('ch4.panel.table.summary', n=youth_panel.n) }}</summary>
+      <table class="kv-table">
+        <thead><tr>
+          <th>{{ t('ch4.panel.th.country') }}</th><th>{{ t('ch4.panel.th.season') }}</th>
+          <th>{{ t('ch4.panel.th.x') }}</th><th>{{ t('ch4.panel.th.y') }}</th>
+        </tr></thead>
+        <tbody>
+          {% for r in youth_panel.panel %}
+          <tr {% if r.country == home_code %}data-highlight="cze"{% endif %}>
+            <td>{{ r.country }}</td><td>{{ r.season }}</td><td>{{ pct1(r.x) }}</td><td class="num">{{ f2(r.y) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+    {% endif %}
+
+    {% if gap_decomposition.contrasts %}
+    <h3 id="gap-decomposition">{{ t('ch4.gap.h3') }}</h3>
+    <p>{{ t('ch4.gap.design', n=gap_decomposition.n, alpha=f2(gap_decomposition.ridge_alpha),
+             cite_oaxaca=cite.oaxaca_1973, cite_blinder=cite.blinder_1973) }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}gap_decomposition.svg" alt="{{ t('ch4.gap.fig_alt') }}">
+    </figure>
+    <table class="kv-table">
+      <thead><tr>
+        <th>{{ t('ch4.gap.th.contrast') }}</th><th>{{ t('ch4.gap.th.channel') }}</th>
+        <th>{{ t('ch4.gap.th.contribution') }}</th><th>{{ t('ch4.gap.th.share') }}</th>
+        <th>{{ t('ch4.gap.th.interval') }}</th>
+      </tr></thead>
+      <tbody>
+        {% for c in gap_decomposition.contrasts %}
+        {% for ch in c.channels %}
+        <tr>
+          {% if loop.first %}<td rowspan="{{ c.channels | length + 1 }}">{{ term(c.name) }}<br><span class="muted small">{{ t('ch4.gap.gap_total_label') }}: {{ signed2(c.gap_total) }}</span></td>{% endif %}
+          <td>{{ term(ch.label) }}</td>
+          <td class="num">{{ signed2(ch.contribution) }}</td>
+          <td class="num">{% if ch.share is not none %}{{ pct(ch.share) }}{% else %}—{% endif %}</td>
+          <td class="num">{{ signed2(ch.lo) }} – {{ signed2(ch.hi) }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td>{{ t('ch4.gap.residual_label') }}</td>
+          <td class="num">{{ signed2(c.residual) }}</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p>{{ t('ch4.gap.bootstrap', n_boot=gap_decomposition.n_boot) }}</p>
+    <p>{{ t('ch4.gap.note', n=gap_decomposition.n) }}</p>
+    {% endif %}
+
     <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>
     <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes, cite_efron_morris=cite.efron_morris_1975) }}</p>
     <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
@@ -1360,6 +1461,18 @@
                 delta=f2(series_model.break.delta), mae_model=f2(series_model.backtest.pooled.mae_model),
                 mae_naive=f2(series_model.backtest.pooled.mae_naive), coverage=pct(series_model.backtest.pooled.coverage90),
                 n=series_model.backtest.rows | length) }}</li>
+      {% endif %}
+      {% if youth_panel.bayes %}
+      <li>{{ t('ch4.validation.m4', n_countries=youth_panel.n_countries, n=youth_panel.n,
+                beta=signed2(youth_panel.bayes.beta_per_10pp.median), lo=f2(youth_panel.bayes.beta_per_10pp.lo),
+                hi=f2(youth_panel.bayes.beta_per_10pp.hi), r2=f2(youth_panel.bayes.r2),
+                ols=signed2(youth_panel.ols.slope_per_10pp.point), ols_lo=f2(youth_panel.ols.slope_per_10pp.lo),
+                ols_hi=f2(youth_panel.ols.slope_per_10pp.hi)) }}</li>
+      {% endif %}
+      {% if gap_decomposition.contrasts %}
+      <li>{{ t('ch4.validation.m5', alpha=f2(gap_decomposition.ridge_alpha), n=gap_decomposition.n,
+                contrast=term(gap_decomposition.primary.name), resid=signed2(gap_decomposition.primary.residual),
+                gap=f2(gap_decomposition.primary.gap_total)) }}</li>
       {% endif %}
     </ul>
 

@@ -1185,8 +1185,9 @@ def _build_youth_panel(yp: dict) -> dict:
     """
     if not yp:
         return {}
+    panel = [{**r, "season": season_label(r["season"])} for r in yp.get("panel", [])]
     return {
-        "panel": yp.get("panel", []),
+        "panel": panel,
         "n": yp.get("n", 0),
         "n_countries": yp.get("n_countries", 0),
         "seasons_used": yp.get("seasons_used", []),
