@@ -9,19 +9,38 @@ the whole thing takes about a second.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 from pathlib import Path
 
 import pytest
 
+from src import config
+
 ROOT = Path(__file__).resolve().parent.parent
-RENDERED = ROOT / "outputs" / "cze" / "index.html"
+# NATION resolved straight from the environment (like site/build.sh's own
+# `NATION="${NATION:-cze}"`), NOT `config.NATION` -- `./site/build.sh` below
+# runs in its own subprocess and always sees the real env var, but this
+# process's `config` module can be left pointing at a different nation by
+# the time this file runs (other test modules, e.g. tests/test_config.py,
+# reload it mid-session); reading the env var directly keeps this file in
+# sync with what the subprocess actually built regardless.
+NATION = os.environ.get("NATION", "cze").lower()
+RENDERED = ROOT / "outputs" / NATION / "index.html"
+# site/build.sh only ships a Czech edition (docs/cs/) for the cze nation
+# (the published site keeps its original, un-prefixed layout) -- see its own
+# `if [ "$NATION" = "cze" ]` gates. Every cs-specific assertion below is
+# skipped for a nation with no CS edition.
+HAS_CS = NATION == "cze"
+DOCS_DIR = ROOT / "docs" if NATION == "cze" else ROOT / "docs" / NATION
 
 pytestmark = pytest.mark.skipif(not RENDERED.exists(), reason="no render in outputs/ (run `make render`)")
 
 
-DOCS_PAGES = [ROOT / "docs" / "index.html", ROOT / "docs" / "cs" / "index.html", ROOT / "docs" / "atlas_meta.json"]
+DOCS_PAGES = [DOCS_DIR / "index.html", DOCS_DIR / "atlas_meta.json"] + (
+    [DOCS_DIR / "cs" / "index.html"] if HAS_CS else []
+)
 
 
 def _docs_fingerprint() -> list[tuple[bool, int, bytes]]:
@@ -40,10 +59,10 @@ def site_dir(tmp_path_factory) -> tuple[Path, bool]:
 @pytest.fixture(scope="module")
 def built(site_dir) -> dict[str, str]:
     out, _ = site_dir
-    return {
-        "en": (out / "index.html").read_text(encoding="utf-8"),
-        "cs": (out / "cs" / "index.html").read_text(encoding="utf-8"),
-    }
+    pages = {"en": (out / "index.html").read_text(encoding="utf-8")}
+    if HAS_CS:
+        pages["cs"] = (out / "cs" / "index.html").read_text(encoding="utf-8")
+    return pages
 
 
 def test_build_into_temp_dir_leaves_docs_untouched(site_dir):
@@ -53,6 +72,7 @@ def test_build_into_temp_dir_leaves_docs_untouched(site_dir):
         assert (out / asset).exists(), asset
 
 
+@pytest.mark.skipif(not HAS_CS, reason="no CS edition for this nation")
 def test_build_produces_both_languages(built):
     en, cs = built["en"], built["cs"]
     assert '<html lang="en">' in en and '<html lang="cs">' in cs
@@ -87,6 +107,7 @@ def test_site_layer_is_applied_to_both_pages(built):
         assert "data-cluster-names=" in html
 
 
+@pytest.mark.skipif(not HAS_CS, reason="no CS edition for this nation")
 def test_czech_page_points_at_czech_figures(built, site_dir):
     out, _ = site_dir
     cs = built["cs"]
@@ -114,9 +135,22 @@ def test_atlas_meta_covers_three_atlases_and_the_heatmap(site_dir):
 
 
 def test_player_index_has_one_row_per_mapped_player(built):
+    """One row per home-eligible player with a metrics-season feature row
+    (`src.render._build_player_index`) -- the exact count is nation-specific
+    (it tracks the size of that nation's own pool), so it's computed from
+    `features_{FW,MF,DF}.parquet` directly rather than a hardcoded range
+    calibrated to one nation's numbers."""
+    from src.utils import read_parquet
+
+    metrics_season = config.seasons()["metrics"]
+    expected = 0
+    for group in ("FW", "MF", "DF"):
+        df = read_parquet(ROOT / "data" / "processed" / NATION / f"features_{group}.parquet")
+        sub = df[(df["season"] == metrics_season) & df["home_eligible"]]
+        expected += int(sub["player_key"].nunique())
     for html in built.values():
         rows = re.findall(r'<tr [^>]*data-name="', html)
-        assert 150 <= len(rows) <= 260, len(rows)
+        assert len(rows) == expected, (len(rows), expected)
 
 
 def _rank_top10(rows: list[dict], multipliers: dict[str, float]) -> list[str]:
@@ -140,7 +174,6 @@ def test_sensitivity_slider_payload_matches_offline_top10_at_defaults(built):
     offline source), collapsed the same way `sensitivity.py` collapses a
     mid-season transfer.
     """
-    from src import config
     from src.utils import collapse_player_seasons, read_parquet
 
     html = built["en"]
@@ -155,7 +188,7 @@ def test_sensitivity_slider_payload_matches_offline_top10_at_defaults(built):
     metrics_season = config.seasons()["metrics"]
     offline_rows = []
     for group in ("FW", "MF", "DF"):
-        df = read_parquet(ROOT / "data" / "processed" / "cze" / f"features_{group}.parquet")
+        df = read_parquet(ROOT / "data" / "processed" / NATION / f"features_{group}.parquet")
         sub = df[(df["season"] == metrics_season) & df["home_eligible"]].copy()
         sub = collapse_player_seasons(sub, rate_cols=["npg_p90_shrunk", "ast_p90_shrunk"])
         offline_rows.extend(

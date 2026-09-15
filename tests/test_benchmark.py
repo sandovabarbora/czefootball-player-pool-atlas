@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import pandas as pd
 
+from src import config
 from src.international_benchmark import assign_cohort, build_narrative, cohort_table, per_capita
 
 
@@ -78,19 +79,23 @@ def test_cohort_table_excludes_below_min_minutes(monkeypatch):
 
 
 def test_build_narrative_zero_fills_absent_peers_in_cohort_median():
-    # Three peers: CZE, DEN, POL. In the FW/U22 cohort, POL has no
-    # qualifying players at all (no row in `coh`) — the median over the
-    # non-CZE peers (DEN, POL) must treat POL as n=0, not exclude it.
+    # Three peers: the home nation, DEN, POL. In the FW/U22 cohort, POL has
+    # no qualifying players at all (no row in `coh`) — the median over the
+    # non-home peers (DEN, POL) must treat POL as n=0, not exclude it.
+    # `build_narrative` reads the home country off `config.HOME` (nation-
+    # aware: "CZE" under NATION=cze, "ENG" under NATION=eng, ...), so the
+    # fixture's "home" row is keyed on it too rather than hardcoded "CZE".
+    home = config.HOME
     pc = pd.DataFrame({
-        "country": ["CZE", "DEN", "POL"],
-        "name": ["Czechia", "Denmark", "Poland"],
+        "country": [home, "DEN", "POL"],
+        "name": ["Home", "Denmark", "Poland"],
         "n_players": [2, 4, 0],
         "population_m": [10.0, 5.0, 36.0],
         "per_million": [0.2, 0.8, 0.0],
         "rank": [2, 1, 3],
     })
     coh = pd.DataFrame({
-        "country": ["CZE", "DEN"],
+        "country": [home, "DEN"],
         "pos_group": ["FW", "FW"],
         "cohort": ["U22", "U22"],
         "n": [2, 4],

@@ -868,7 +868,7 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
         "youth": youth, "export": export, "fare_min": fare_min, "fare_goals": fare_goals,
         "club_strength_proxy": proxy, "profile": profile,
         "youth_cze": _find(youth, config.HOME), "youth_top": next((r for r in youth if r["share_u21"] is not None), None),
-        "export_cze": _find(export, config.HOME), "export_den": _find(export, PEER_COMPARE_COUNTRIES[-1]),
+        "export_cze": _find(export, config.HOME), "export_den": _find(export, peer_compare_countries()[-1]),
         "fare_min_cze": _find(fare_min, config.HOME), "fare_goals_cze": _find(fare_goals, config.HOME),
         "fare_min_rank": next((i + 1 for i, r in enumerate(fare_min) if r["country"] == config.HOME), None),
         "fare_goals_rank": next((i + 1 for i, r in enumerate(fare_goals) if r["country"] == config.HOME), None),
@@ -989,7 +989,20 @@ def _build_big5(big5_series: dict) -> dict:
     }
 
 
-PEER_COMPARE_COUNTRIES = [config.HOME] + list(config.nation().get("compare", config.nation()["peers"][:2]))
+def peer_compare_countries() -> list[str]:
+    """[home] + the two comparison peers (`nation()["compare"]`, falling back
+    to the first two configured peers) -- a function, not a frozen
+    module-level constant, so every caller gets the *live* config.HOME /
+    config.nation() rather than whatever they were when `src.render` was
+    first imported. A module-level constant here would go stale the moment
+    anything in the process reloads `src.config` to a different nation
+    afterwards (e.g. `tests/test_config.py`'s own NATION-reload tests, which
+    run inside the same pytest session as `test_template_renders_with_real_
+    context`) -- `config.HOME` alone is always read fresh at call time, so a
+    frozen countries list built from it goes stale in a way `config.HOME`
+    itself doesn't, silently mismatching keys built off this list against
+    `config.HOME` looked up later."""
+    return [config.HOME] + list(config.nation().get("compare", config.nation()["peers"][:2]))
 
 
 def _country_sideways_share(features_all: pd.DataFrame, league_quality: dict, leagues_cfg: dict,
@@ -1030,9 +1043,12 @@ def _country_sideways_share(features_all: pd.DataFrame, league_quality: dict, le
 def _build_peer_compare(per_capita: list[dict], pathways: dict, squad_lens: dict, big5_series: dict,
                         features_all: pd.DataFrame, league_quality: dict, leagues_cfg: dict,
                         season: str, names: dict[str, str],
-                        countries: list[str] = PEER_COMPARE_COUNTRIES) -> dict:
+                        countries: list[str] | None = None) -> dict:
     """Slide 8's `table.peer-compare`: six same-definition numbers plus the
-    Big-5 count now, one column per country in `countries` (CZE/NOR/DEN).
+    Big-5 count now, one column per country in `countries` (default: `peer_
+    compare_countries()`, e.g. CZE/NOR/DEN under NATION=cze -- resolved
+    fresh here rather than a frozen default so it always tracks the live
+    home nation, see `peer_compare_countries`'s own docstring).
 
     Every row reuses a number already built elsewhere in the context (per
     capita, pathways youth/export/fare, squad_lens) except "sideways %",
@@ -1041,6 +1057,7 @@ def _build_peer_compare(per_capita: list[dict], pathways: dict, squad_lens: dict
     `squad_lens.json` — not in the fetched 2026 World Cup squad tables)
     renders that cell as `None`, which the template shows as "—".
     """
+    countries = countries if countries is not None else peer_compare_countries()
     pc_by = {r["country"]: r for r in per_capita}
     youth_by = {r["country"]: r for r in pathways.get("youth", [])}
     export_by = {r["country"]: r for r in pathways.get("export", [])}
@@ -1083,8 +1100,8 @@ def _build_peer_compare(per_capita: list[dict], pathways: dict, squad_lens: dict
         "countries": countries,
         "names": {c: names.get(c, c) for c in countries},
         "rows": rows,
-        "nor_u21": _val("u21_share", PEER_COMPARE_COUNTRIES[1]), "cze_u21": _val("u21_share", config.HOME),
-        "nor_top9": _val("wc_top9", PEER_COMPARE_COUNTRIES[1]), "cze_top9": _val("wc_top9", config.HOME),
+        "nor_u21": _val("u21_share", countries[1]), "cze_u21": _val("u21_share", config.HOME),
+        "nor_top9": _val("wc_top9", countries[1]), "cze_top9": _val("wc_top9", config.HOME),
     }
 
 

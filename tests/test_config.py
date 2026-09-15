@@ -1,4 +1,5 @@
 import importlib
+import os
 
 import pytest
 
@@ -54,6 +55,10 @@ def test_nt_years_span_from_nation_squads():
     assert config.nt_years() == f"{min(years)}–{str(max(years))[-2:]}"
 
 
+@pytest.mark.skipif(
+    os.environ.get("NATION") is not None,
+    reason="tests config's default (NATION unset) -- meaningless when the env var is set (e.g. NATION=eng)",
+)
 def test_nation_defaults_to_cze():
     assert config.NATION == "cze"
     assert config.HOME == "CZE"

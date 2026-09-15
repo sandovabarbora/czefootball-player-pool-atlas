@@ -89,10 +89,16 @@ def leagues() -> dict[str, Any]:
     6.25% "moved sideways" figure that made no sense once England's
     multiplier IS the highest in the table (nothing can be sideways from
     it under the wrong threshold, everything is under the right one).
-    Overridden here, once, so every caller gets the right value without
-    a per-call-site fix.
+    Overridden here, every call, on a *copy* of the cached dict -- `load_yaml`
+    is `@cache`d, so mutating the dict it returns in place would leak this
+    override into every other caller of `load_yaml("leagues.yaml")` for the
+    rest of the process (observable as a false pass/fail in whichever test
+    happens to call `load_yaml("leagues.yaml")` directly after `leagues()`
+    has already run once, e.g. under NATION=eng: the override value differs
+    from cze's, unlike under NATION=cze where it coincidentally matches the
+    yaml literal already).
     """
-    cfg = load_yaml("leagues.yaml")
+    cfg = dict(load_yaml("leagues.yaml"))
     # nation()["domestic_league"], not the module-level DOMESTIC_LEAGUE
     # constant below -- this function is called at import time (by
     # HEADLINE_LEAGUES, below) before that constant exists.

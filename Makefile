@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test lint check snapshot restore-snapshot share-tables pages keepers goalkeepers
+.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -40,6 +40,7 @@ help:
 	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> keepers -> goalkeepers -> panel -> gap -> eda -> data-quality -> render"
 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
 	@echo "  test             Run pytest"
+	@echo "  test-all-nations Run pytest under NATION=cze and NATION=eng (CI-style nation-agnostic guard)"
 	@echo "  lint             Run ruff check"
 	@echo "  check            lint + test"
 	@echo "  snapshot         Copy data/processed/\$$(NATION)/ parquet+json into data/snapshot/\$$(NATION)/"
@@ -128,6 +129,12 @@ all: fetch pool photos features reduce benchmark series analogs sensitivity stre
 
 test:
 	$(ACT) pytest
+
+# CI-style guard: the test suite must be nation-agnostic, not just correct
+# under the default NATION=cze. Runs it twice, once per configured nation.
+test-all-nations:
+	$(ACT) pytest -q -p no:warnings
+	NATION=eng $(ACT) pytest -q -p no:warnings
 
 lint:
 	$(ACT) ruff check src tests
