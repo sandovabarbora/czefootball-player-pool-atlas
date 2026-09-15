@@ -27,6 +27,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import logging
+import re
 import shutil
 from pathlib import Path
 from typing import Any
@@ -247,6 +248,29 @@ SPEC_PATH = f"docs/superpowers/specs/{_DOC_DATE}-czech-football-player-pool-atla
 PLAN_PATH = f"docs/superpowers/plans/{_DOC_DATE}-czech-football-player-pool-atlas.md"
 LEDGER_PATH = f"docs/superpowers/ledgers/{_DOC_DATE}-v1-progress.md"
 
+# Every committed ledger (Task 21d: the v1.2 ledger joins the v1 one, copied
+# from .superpowers/sdd/2026-09-14-why-the-train-leaves/progress.md the same
+# way the v1 one was) -- n_rulings/n_reviews/n_tasks below sum across all of
+# them, not just the v1 one LEDGER_PATH still names for the spec/plan/ledger
+# links.
+LEDGER_DIR = config.ROOT_DIR / "docs" / "superpowers" / "ledgers"
+# The v1.2 sprint's document date, underscored like _DOC_DATE above for the
+# same reason (not a typed football season).
+_DOC_DATE_V1_2 = "2026_09_14".replace("_", "-")
+# ledger filename -> its source `.superpowers/sdd/<dir>/` (task-*-brief.md
+# files live there). The working `.superpowers/` tree is untracked and gets
+# pruned between sessions -- v1's source dir is already gone from this
+# worktree -- so this is a best-effort name, not load-bearing: when the
+# directory isn't there, `_count_tasks` falls back to the ledger text itself.
+LEDGER_SDD_DIRS = {
+    f"{_DOC_DATE}-v1-progress.md": f"{_DOC_DATE}-czech-football-player-pool-atlas",
+    f"{_DOC_DATE_V1_2}-v1-2-progress.md": f"{_DOC_DATE_V1_2}-why-the-train-leaves",
+}
+
+
+def _ledger_paths() -> list[Path]:
+    return sorted(LEDGER_DIR.glob("*.md")) if LEDGER_DIR.is_dir() else []
+
 
 def _count_tests() -> int:
     """Lines containing `def test_` across `tests/*.py` — recomputed every render, never typed."""
@@ -259,12 +283,65 @@ def _count_tests() -> int:
 
 
 def _count_rulings() -> int:
-    """Lines containing `Ruling:` in the v1 pipeline ledger — one per dated controller decision."""
-    ledger = config.ROOT_DIR / LEDGER_PATH
-    if not ledger.exists():
-        LOG.warning("ledger %s missing; rulings count rendered as 0", ledger)
+    """Lines containing `Ruling:` across every committed ledger
+    (`docs/superpowers/ledgers/*.md`, one per edition) — one per dated
+    controller decision, recomputed every render."""
+    if not _ledger_paths():
+        LOG.warning("no ledgers under %s; rulings count rendered as 0", LEDGER_DIR)
         return 0
-    return sum(1 for line in ledger.read_text(encoding="utf-8").splitlines() if "Ruling:" in line)
+    return sum(
+        1
+        for ledger in _ledger_paths()
+        for line in ledger.read_text(encoding="utf-8").splitlines()
+        if "Ruling:" in line
+    )
+
+
+def _count_reviews() -> int:
+    """Lines mentioning "review" (case-insensitive) across every committed
+    ledger (Task 21d, chapter IV's peer-review sentence): reviews are
+    two-stage per task (spec + quality) and every review's findings are
+    recorded in the ledger, so this line count is the report's own evidence
+    for that claim, not a typed number."""
+    return sum(
+        1
+        for ledger in _ledger_paths()
+        for line in ledger.read_text(encoding="utf-8").splitlines()
+        if "review" in line.lower()
+    )
+
+
+def _count_task_briefs(sdd_dir_name: str) -> int | None:
+    """`task-*-brief.md` files under `.superpowers/sdd/<sdd_dir_name>/`, or
+    None when that directory isn't present in this worktree."""
+    sdd_dir = config.ROOT_DIR / ".superpowers" / "sdd" / sdd_dir_name
+    if not sdd_dir.is_dir():
+        return None
+    return len(list(sdd_dir.glob("task-*-brief.md")))
+
+
+def _count_tasks_in_ledger_text(ledger: Path) -> int:
+    """Distinct `Task N`/`Task Na` identifiers mentioned in one ledger's own
+    text — the fallback task count for a ledger whose source
+    `.superpowers/sdd/` directory is gone (see `_count_task_briefs`)."""
+    ids = {m.group(1) for m in re.finditer(r"\bTask (\d+[a-z]?)\b", ledger.read_text(encoding="utf-8"))}
+    return len(ids)
+
+
+def _count_tasks() -> int:
+    """Total tasks across every committed ledger (Task 21d, the build-flow
+    diagram): each ledger's `task-*-brief.md` count from its source
+    `.superpowers/sdd/` directory when that's still on disk, else the
+    distinct `Task N` identifiers mentioned in the ledger's own text —
+    "counts computed where possible" per the brief, since the working
+    `.superpowers/` tree is untracked and older sessions' source
+    directories don't survive into a fresh worktree."""
+    total = 0
+    for ledger in _ledger_paths():
+        sdd_name = LEDGER_SDD_DIRS.get(ledger.name)
+        n = _count_task_briefs(sdd_name) if sdd_name else None
+        total += n if n is not None else _count_tasks_in_ledger_text(ledger)
+    return total
 
 
 def _build_flow_urls(repo_url: str) -> dict[str, str]:
@@ -1539,6 +1616,7 @@ def load_data() -> dict[str, Any]:
         "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
+        "build_process": config.build_process(),
         "league_quality": config.league_quality(),
         "countries": config.peers_meta(),
         "seasons": config.seasons(),
@@ -1631,6 +1709,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "coverage_start": seasons["previous"],  # peer domestic leagues are fetched from here on
         "n_tests": _count_tests(),
         "n_rulings": _count_rulings(),
+        "n_reviews": _count_reviews(),
+        "n_tasks": _count_tasks(),
         **seasons,
     }
 
@@ -1741,6 +1821,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
         "facts": facts,
+        "build_process": {**data["build_process"]["models"], "max_fix_rounds": data["build_process"]["max_fix_rounds"]},
         "home_code": config.HOME,
         "n_leagues": n_leagues,
         "headline_leagues": list(data["leagues"]["headline"]),
@@ -1867,7 +1948,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
              "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
              "nt_years": config.nt_years(),
              "n_leagues": 19, "n_seasons": 4, "tier2_factor": 0.6, "max_multiplier": 1.0,
-             "n_tests": _count_tests(), "n_rulings": _count_rulings(), **seasons}
+             "n_tests": _count_tests(), "n_rulings": _count_rulings(),
+             "n_reviews": _count_reviews(), "n_tasks": _count_tasks(), **seasons}
     data_quality = {
         "checks": [
             {"id": "women_filtered", "count": 92, "unit": "entries"},
@@ -2131,6 +2213,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
         "facts": facts,
+        "build_process": {**config.build_process()["models"], "max_fix_rounds": config.build_process()["max_fix_rounds"]},
         "home_code": "CZE",
         "n_leagues": 19, "headline_leagues": ["ENG-Premier League"],
         "domestic_league_code": "CZE-First League",

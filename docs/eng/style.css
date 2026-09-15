@@ -1443,75 +1443,24 @@ code {
 .related-methods-future li { margin: 0 0 var(--space-2); color: var(--ink-soft); }
 
 /* =========================================================================
-   How this was built — 5-node build-flow diagram (spec -> plan -> task
-   agent -> reviews -> ledger). Column on narrow screens, row from 720px;
-   arrows are CSS ::after, no image.
+   How this was built — inline-SVG build-flow diagram (spec -> plan -> task
+   agent -> task review -> fix rounds -> whole-branch review -> deploy),
+   ledger as a side box. The SVG carries its own <style> (fill/stroke via
+   the page's CSS custom properties); this just sizes and centers it.
    ========================================================================= */
-.build-flow {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  list-style: none;
-  counter-reset: build-step;
-  margin: var(--space-4) 0 var(--space-5);
-  padding: 0;
-  max-width: none;
+.build-diagram {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+  margin: var(--space-4) auto var(--space-3);
 }
-.build-flow li {
-  counter-increment: build-step;
-  position: relative;
-  flex: 1 1 0;
-  padding: var(--space-3) var(--space-4) var(--space-3) 2.4rem;
-  background: var(--cream-100);
-  border-top: 2px solid var(--navy-700);
-  font-family: var(--font-display);
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: var(--ink);
-  text-align: left;
-}
-.build-flow li::before {
-  content: counter(build-step, decimal-leading-zero);
-  position: absolute;
-  left: var(--space-3);
-  top: var(--space-3);
+.build-diagram-legend {
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--oxblood-700);
-}
-.build-flow li::after {
-  content: "↓";
-  position: absolute;
-  left: var(--space-4);
-  bottom: calc(-1 * var(--space-4) - 1px);
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1;
-}
-.build-flow li:last-child::after { content: none; }
-@media (min-width: 720px) {
-  .build-flow {
-    flex-direction: row;
-    align-items: stretch;
-  }
-  .build-flow li {
-    text-align: center;
-    padding: var(--space-4) var(--space-3) var(--space-3);
-  }
-  .build-flow li::before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .build-flow li::after {
-    content: "→";
-    left: auto;
-    right: calc(-1 * var(--space-4) - 3px);
-    bottom: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.1rem;
-  }
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0 0 var(--space-4);
 }
 
 /* =========================================================================

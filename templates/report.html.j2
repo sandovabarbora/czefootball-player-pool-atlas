@@ -1526,13 +1526,65 @@
     <details class="fold">
       <summary>{{ t('ch4.built.summary', n_rulings=facts.n_rulings, n_tests=facts.n_tests) }}</summary>
       <p>{{ t('ch4.built.p1', n_rulings=facts.n_rulings, n_tests=facts.n_tests) }}</p>
-      <ol class="build-flow">
-        <li>{{ t('ch4.built.flow.spec') }}</li>
-        <li>{{ t('ch4.built.flow.plan') }}</li>
-        <li>{{ t('ch4.built.flow.agent') }}</li>
-        <li>{{ t('ch4.built.flow.review') }}</li>
-        <li>{{ t('ch4.built.flow.ledger') }}</li>
-      </ol>
+      <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
+        <title id="build-diagram-title">{{ t('ch4.built.svg.title') }}</title>
+        <desc id="build-diagram-desc">{{ t('ch4.built.svg.desc', n_rulings=facts.n_rulings, n_tasks=facts.n_tasks) }}</desc>
+        <defs>
+          <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
+          </marker>
+        </defs>
+        <style>
+          .bp-node rect{stroke-width:1.4}
+          .bp-author rect{fill:var(--cream-100);stroke:var(--rule)}
+          .bp-sonnet rect{fill:var(--cream-100);stroke:var(--navy-700)}
+          .bp-opus rect{fill:var(--cream-100);stroke:var(--oxblood-700)}
+          .bp-label{font-family:var(--font-display);font-size:15px;fill:var(--ink);text-anchor:middle}
+          .bp-sub{font-family:var(--font-sans);font-size:10px;fill:var(--ink-soft);text-anchor:middle}
+          .bp-badge{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:.04em;text-anchor:end}
+          .bp-badge-sonnet{fill:var(--navy-700)}
+          .bp-badge-opus{fill:var(--oxblood-700)}
+          .bp-arrow{stroke:var(--muted);stroke-width:1.4}
+          .bp-arrowhead{fill:var(--muted)}
+          .bp-ledger rect{fill:var(--cream-100);stroke:var(--oxblood-700);stroke-width:1.4}
+          .bp-ledger-label{font-family:var(--font-sans);font-size:10px;font-weight:700;letter-spacing:.08em;fill:var(--oxblood-700);text-anchor:middle}
+          .bp-ledger-count{font-family:var(--font-mono);font-size:13px;fill:var(--ink);text-anchor:middle}
+          .bp-conn{stroke:var(--oxblood-700);stroke-width:1.1;stroke-dasharray:2.5,2.5;fill:none}
+        </style>
+        <line x1="420" y1="284" x2="440" y2="248" class="bp-conn"/>
+        <line x1="420" y1="452" x2="440" y2="282" class="bp-conn"/>
+        <g class="bp-node bp-author"><rect x="20" y="10" width="400" height="44" rx="3"/>
+          <text x="220" y="37" class="bp-label">{{ t('ch4.built.flow.spec') }}</text></g>
+        <line x1="220" y1="54" x2="220" y2="90" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-author"><rect x="20" y="94" width="400" height="44" rx="3"/>
+          <text x="220" y="121" class="bp-label">{{ t('ch4.built.flow.plan') }}</text></g>
+        <line x1="220" y1="138" x2="220" y2="174" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="178" width="400" height="44" rx="3"/>
+          <text x="210" y="205" class="bp-label">{{ t('ch4.built.flow.agent') }}</text>
+          <text x="392" y="192" class="bp-badge bp-badge-sonnet">{{ build_process.implementers | upper }}</text></g>
+        <line x1="220" y1="222" x2="220" y2="258" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="262" width="400" height="44" rx="3"/>
+          <text x="210" y="284" class="bp-label">{{ t('ch4.built.flow.task_review') }}</text>
+          <text x="210" y="298" class="bp-sub">{{ t('ch4.built.flow.task_review_sub') }}</text>
+          <text x="392" y="276" class="bp-badge bp-badge-sonnet">{{ build_process.reviewers | upper }}</text></g>
+        <line x1="220" y1="306" x2="220" y2="342" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="346" width="400" height="44" rx="3"/>
+          <text x="210" y="373" class="bp-label">{{ t('ch4.built.flow.fix_rounds', n=build_process.max_fix_rounds) }}</text>
+          <text x="392" y="360" class="bp-badge bp-badge-sonnet">{{ build_process.implementers | upper }}</text></g>
+        <line x1="220" y1="390" x2="220" y2="426" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="430" width="400" height="44" rx="3"/>
+          <text x="210" y="457" class="bp-label">{{ t('ch4.built.flow.whole_branch_review') }}</text>
+          <text x="392" y="444" class="bp-badge bp-badge-sonnet">{{ build_process.reviewers | upper }}</text></g>
+        <line x1="220" y1="474" x2="220" y2="510" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-opus"><rect x="20" y="514" width="400" height="44" rx="3"/>
+          <text x="210" y="541" class="bp-label">{{ t('ch4.built.flow.deploy') }}</text>
+          <text x="392" y="528" class="bp-badge bp-badge-opus">{{ build_process.controller | upper }}</text></g>
+        <g class="bp-ledger"><rect x="440" y="210" width="150" height="70" rx="3"/>
+          <text x="515" y="233" class="bp-ledger-label">{{ t('ch4.built.flow.ledger') }}</text>
+          <text x="515" y="256" class="bp-ledger-count">{{ t('ch4.built.svg.rulings', n=facts.n_rulings) }}</text></g>
+      </svg>
+      <p class="build-diagram-legend">{{ t('ch4.built.legend', impl=build_process.implementers, rev=build_process.reviewers, ctrl=build_process.controller) }}</p>
+      <p>{{ t('ch4.built.peer_review', n_reviews=facts.n_reviews, n_tasks=facts.n_tasks) }}</p>
       <p>{{ t('ch4.built.p2', spec=spec_url, plan=plan_url, ledger=ledger_url) }}</p>
     </details>
 

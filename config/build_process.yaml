@@ -1,0 +1,45 @@
+# Build process (Task 21d): the "How this was built" diagram's stages and
+# which model runs each one. Read by config.build_process() / src/render.py.
+# The model split (implementers/reviewers sonnet, controller opus) was
+# stated once, in the v1 ledger's pre-flight scan
+# (docs/superpowers/ledgers/2026-09-12-v1-progress.md: "Models: implementers
+# sonnet ...; reviewers sonnet; final review opus.") and held for every
+# task since -- copied here as config rather than restated in template
+# copy, so a future edition can change it in one place.
+#
+# Numeric counts (n_tasks per ledger, n_reviews, n_rulings) are computed
+# live at render time from docs/superpowers/ledgers/*.md and tests/*.py --
+# not stored here; see src/render.py's `_count_tests`, `_count_rulings`,
+# `_count_reviews`, `_count_tasks`.
+
+models:
+  implementers: sonnet
+  reviewers: sonnet
+  controller: opus
+
+# Fix rounds per task are capped (a task that isn't clean after this many
+# rounds gets a controller ruling instead of another round) -- the diagram's
+# "fix rounds <= N" label reads this, not a typed number.
+max_fix_rounds: 5
+
+# One entry per node in the build-flow diagram, in flow order. `role` picks
+# which of the three `models` entries above ran it (a stage with no fixed
+# model -- spec, plan, deploy -- is the human author's / controller's own
+# call, not an agent dispatch).
+stages:
+  - key: spec
+    role: author
+  - key: plan
+    role: author
+  - key: task_agent
+    role: implementers
+  - key: task_review
+    role: reviewers
+    note: "spec + quality, two-stage"
+  - key: fix_rounds
+    role: implementers
+    max_rounds: 5
+  - key: whole_branch_review
+    role: reviewers
+  - key: deploy
+    role: controller

@@ -170,6 +170,17 @@ def cluster_labels() -> dict[str, Any]:
     return load_yaml(rel.removeprefix("config/"))
 
 
+def build_process() -> dict[str, Any]:
+    """Return the build-process config (Task 21d): the "How this was built"
+    diagram's stages and which model runs each one -- not nation-scoped
+    (the agentic workflow that produced this report, same for every
+    NATION). Numeric counts (tasks, reviews, rulings) are computed live at
+    render time from `docs/superpowers/ledgers/*.md` and `tests/*.py`
+    (`src.render`), not stored here.
+    """
+    return load_yaml("build_process.yaml")
+
+
 HOME: str = nation()["code"]
 
 
