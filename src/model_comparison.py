@@ -207,26 +207,29 @@ Z = 1.6448536269514722  # standard-normal 95th percentile -> a symmetric 90% int
 
 
 def fit_bayesian(
-    train: pd.DataFrame, *, draws: int = 800, tune: int = 800, chains: int = 2,
-    target_accept: float = 0.9, seed: int | None = None, progressbar: bool = False,
+    train: pd.DataFrame, *, feature_cols: list[str] | None = None, draws: int = 800, tune: int = 800,
+    chains: int = 2, target_accept: float = 0.9, seed: int | None = None, progressbar: bool = False,
     cores: int | None = None,
 ) -> tuple[pm.backends.base.MultiTrace | Any, dict[str, Any]]:
     """Fit target ~ Normal(mu, sigma), mu = alpha + beta.x (standardised
-    numeric features) + gamma_league (partial pooling, non-centred) +
+    numeric features, `feature_cols`, default `NUMERIC_FEATURES`; `main`
+    passes `NUMERIC_FEATURES + ["m_l"]` -- the M2 league-strength offset,
+    see `attach_m_l`) + gamma_league (partial pooling, non-centred) +
     delta_pos + u_player (partial pooling, non-centred, sigma_u ~
     HalfNormal(0.5)) on `train`.
 
     Returns `(idata, meta)`; `meta` carries everything `predict_bayesian`
-    needs to score a *different* dataframe against this fit: the feature
-    means/stds used to standardise (so test rows are standardised the same
-    way, not refit), and the `league`/`pos`/`player` categories seen during
-    training (so an unseen category at prediction time is detected rather
-    than silently mis-indexed).
+    needs to score a *different* dataframe against this fit: `feature_cols`
+    itself, the feature means/stds used to standardise (so test rows are
+    standardised the same way, not refit), and the `league`/`pos`/`player`
+    categories seen during training (so an unseen category at prediction
+    time is detected rather than silently mis-indexed).
     """
     seed = config.RANDOM_SEED if seed is None else seed
-    x_mean = train[NUMERIC_FEATURES].mean()
-    x_std = train[NUMERIC_FEATURES].std().replace(0, 1.0)
-    x = ((train[NUMERIC_FEATURES] - x_mean) / x_std).to_numpy()
+    feature_cols = feature_cols or NUMERIC_FEATURES
+    x_mean = train[feature_cols].mean()
+    x_std = train[feature_cols].std().replace(0, 1.0)
+    x = ((train[feature_cols] - x_mean) / x_std).to_numpy()
 
     league_cat = pd.Categorical(train["league"])
     pos_cat = pd.Categorical(train["pos_group"], categories=POS_GROUPS)
@@ -234,7 +237,7 @@ def fit_bayesian(
     y = train["target"].to_numpy()
 
     coords = {
-        "feature": NUMERIC_FEATURES, "league": list(league_cat.categories),
+        "feature": feature_cols, "league": list(league_cat.categories),
         "pos": list(pos_cat.categories), "player": list(player_cat.categories),
     }
     with pm.Model(coords=coords):
@@ -260,8 +263,8 @@ def fit_bayesian(
         idata = pm.sample(draws=draws, tune=tune, chains=chains, target_accept=target_accept,
                           random_seed=seed, progressbar=progressbar, cores=cores or min(chains, 4))
 
-    meta = {"x_mean": x_mean, "x_std": x_std, "leagues": set(league_cat.categories),
-            "players": set(player_cat.categories)}
+    meta = {"feature_cols": feature_cols, "x_mean": x_mean, "x_std": x_std,
+            "leagues": set(league_cat.categories), "players": set(player_cat.categories)}
     return idata, meta
 
 
@@ -283,10 +286,11 @@ def predict_bayesian(idata: Any, test: pd.DataFrame, meta: dict[str, Any]) -> tu
     the interval's centre and width to first order. Documented here, not
     hidden, per the "no overclaiming" brief.
     """
-    x = ((test[NUMERIC_FEATURES] - meta["x_mean"]) / meta["x_std"]).to_numpy()
+    feature_cols = meta["feature_cols"]
+    x = ((test[feature_cols] - meta["x_mean"]) / meta["x_std"]).to_numpy()
     post = idata.posterior
     alpha = post["alpha"].values.reshape(-1)               # (draws,)
-    beta = post["beta"].values.reshape(-1, len(NUMERIC_FEATURES))  # (draws, k)
+    beta = post["beta"].values.reshape(-1, len(feature_cols))  # (draws, k)
     n_draws = alpha.shape[0]
 
     fixed = alpha[None, :] + (x @ beta.T)                    # (n_test, draws)
@@ -393,3 +397,202 @@ def assemble_output(target: str, origins: list[str], rows: list[dict[str, Any]],
     no fitting here, so this is testable on hand-built inputs."""
     return {"target": target, "origins": origins, "rows": rows, "pooled": pooled,
             "winner_pooled": winner_pooled, "notes": notes}
+
+
+# =============================================================================
+# Figure
+# =============================================================================
+
+MODEL_ORDER = ["persistence", "shrinkage_league_mean", "bayesian", "gbm", "mlp"]
+MODEL_LABELS = {
+    "persistence": "Persistence", "shrinkage_league_mean": "Shrinkage to league mean",
+    "bayesian": "Hierarchical Bayesian", "gbm": "Gradient boosting", "mlp": "Small MLP",
+}
+
+
+def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
+    """RMSE per origin season, one line per model (palette), persistence dashed."""
+    import matplotlib.pyplot as plt
+
+    from src.international_benchmark import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE
+    from src.utils import season_label
+
+    colors = {"persistence": RULE, "shrinkage_league_mean": MUTED, "bayesian": NAVY,
+             "gbm": OXBLOOD, "mlp": NAVY_DEEP}
+    df = pd.DataFrame(rows)
+    fig, ax = plt.subplots(figsize=(8.0, 4.6))
+    fig.patch.set_facecolor(CREAM)
+    ax.set_facecolor(CREAM)
+
+    for model in MODEL_ORDER:
+        sub = df[df["model"] == model].sort_values("origin")
+        if sub.empty:
+            continue
+        xs = [season_label(o) for o in sub["origin"]]
+        ax.plot(xs, sub["rmse"], color=colors[model], lw=2.2,
+               linestyle="--" if model == "persistence" else "-",
+               marker="o", markersize=4, label=MODEL_LABELS[model])
+
+    ax.set_ylabel("RMSE (npG+A per 90, quality-adjusted)", fontsize=10, fontfamily="sans-serif", color=INK)
+    ax.set_xlabel("Target season (origin)", fontsize=10, fontfamily="sans-serif", color=INK)
+    ax.set_title("Model comparison: RMSE by origin season", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("left", "bottom"):
+        ax.spines[spine].set_color(RULE)
+    ax.tick_params(colors=INK)
+    ax.legend(frameon=False, fontsize=9, labelcolor=INK)
+    plt.tight_layout()
+    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
+    plt.close(fig)
+    LOG.info("wrote %s", out_path)
+
+
+# =============================================================================
+# Assembly / main
+# =============================================================================
+
+
+def attach_m_l(pairs: pd.DataFrame, league_strength: dict[str, Any]) -> pd.DataFrame:
+    """Add `m_l`: season t's league's M2 league-strength multiplier (the
+    posterior median from `league_strength.json`, Task 15), mapped by
+    `league`. A league absent from `league_strength.json` (shouldn't happen
+    -- both stages read the same `features_*.parquet` corpus) falls back to
+    1.0 (Premier-League-equivalent, the model's own reference point)."""
+    m_l = {r["league"]: r["median"] for r in league_strength.get("leagues", [])}
+    out = pairs.copy()
+    out["m_l"] = out["league"].map(m_l).fillna(1.0)
+    return out
+
+
+# The Bayesian fit's runtime budget: 2 chains x `BAYES_DRAWS` draws per
+# origin, and each origin's *training* rows subsampled to at most
+# `BAYES_MAX_TRAIN` (seeded) before fitting -- GBM/MLP fit the full training
+# set (they are fast); the Bayesian model's player-level random effect does
+# not, so it is the one that needs a runtime lever. Reported in `main`'s log
+# and the JSON's `notes` (the brief's "reduce draws or subsample players if
+# needed and say so").
+BAYES_DRAWS = 400
+BAYES_TUNE = 400
+BAYES_CHAINS = 2
+BAYES_MAX_TRAIN = 2500
+
+
+def _subsample(df: pd.DataFrame, n: int, seed: int) -> pd.DataFrame:
+    if len(df) <= n:
+        return df
+    return df.sample(n=n, random_state=seed).reset_index(drop=True)
+
+
+def main() -> None:
+    logging_setup()
+    config.ensure_dirs()
+    t_start = time.time()
+
+    features_by_group = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in GROUPS}
+    pairs = build_pairs(features_by_group)
+    LOG.info("pairs corpus: %d rows, %d players, %d target seasons", len(pairs),
+             pairs["player_key"].nunique(), pairs["target_season"].nunique())
+
+    league_strength = json.loads((config.PROCESSED_DIR / "league_strength.json").read_text(encoding="utf-8")) \
+        if (config.PROCESSED_DIR / "league_strength.json").exists() else {}
+    pairs = attach_m_l(pairs, league_strength)
+    categories = {"league": sorted(pairs["league"].unique()), "pos_group": POS_GROUPS}
+    bayes_features = [*NUMERIC_FEATURES, "m_l"]
+
+    rows: list[dict[str, Any]] = []
+    notes = [
+        f"Bayesian model: {BAYES_CHAINS} chains x {BAYES_DRAWS} draws per origin (reduced from a "
+        f"league_strength.py-style 800+ to keep 5 origins' worth of fits under the runtime budget); "
+        f"training rows subsampled to at most {BAYES_MAX_TRAIN} (seeded, config.RANDOM_SEED) when an "
+        f"origin's training set is larger.",
+        "Origin 2021-2022's training set is empty by construction (the corpus's earliest feature season, "
+        "2020-2021, makes 2021-2022 the first possible target season) -- only the two baselines are "
+        "reported for that origin.",
+        "The M2 league-strength multiplier m_L (Task 15, league_strength.json) is used as an extra "
+        "feature for the Bayesian model only, alongside the config-based league_multiplier already in "
+        "every model's feature set.",
+    ]
+
+    for origin in ORIGINS:
+        train, test = rolling_origin_split(pairs, origin)
+        LOG.info("origin %s: %d train, %d test", origin, len(train), len(test))
+
+        pred = predict_persistence(test)
+        rows.append({"model": "persistence", "origin": origin, "n_test": len(test),
+                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
+
+        pred = predict_shrinkage_to_league_mean(train, test)
+        rows.append({"model": "shrinkage_league_mean", "origin": origin, "n_test": len(test),
+                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
+
+        if train.empty:
+            LOG.info("origin %s: empty training set, skipping the three learned models", origin)
+            continue
+
+        bayes_train = _subsample(train, BAYES_MAX_TRAIN, config.RANDOM_SEED)
+        t0 = time.time()
+        idata, meta = fit_bayesian(bayes_train, feature_cols=bayes_features, draws=BAYES_DRAWS, tune=BAYES_TUNE,
+                                   chains=BAYES_CHAINS, seed=config.RANDOM_SEED)
+        point, lo, hi = predict_bayesian(idata, test, meta)
+        LOG.info("origin %s: bayesian fit %.1f s (%d train rows)", origin, time.time() - t0, len(bayes_train))
+        coverage = float(((test["target"].to_numpy() >= lo) & (test["target"].to_numpy() <= hi)).mean())
+        rows.append({"model": "bayesian", "origin": origin, "n_test": len(test),
+                     "rmse": rmse(test["target"], point), "mae": mae(test["target"], point), "coverage90": coverage})
+
+        pred = fit_predict_gbm(train, test, categories, seed=config.RANDOM_SEED)
+        rows.append({"model": "gbm", "origin": origin, "n_test": len(test),
+                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
+
+        pred = fit_predict_mlp(train, test, categories, seed=config.RANDOM_SEED)
+        rows.append({"model": "mlp", "origin": origin, "n_test": len(test),
+                     "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
+
+    pooled = []
+    for model in MODEL_ORDER:
+        model_rows = [r for r in rows if r["model"] == model]
+        if not model_rows:
+            continue
+        n_test = sum(r["n_test"] for r in model_rows)
+        w_rmse = float(np.sqrt(sum(r["rmse"] ** 2 * r["n_test"] for r in model_rows) / n_test))
+        w_mae = float(sum(r["mae"] * r["n_test"] for r in model_rows) / n_test)
+        cov_rows = [r for r in model_rows if r["coverage90"] is not None]
+        cov = float(sum(r["coverage90"] * r["n_test"] for r in cov_rows) / sum(r["n_test"] for r in cov_rows)) \
+            if cov_rows else None
+        pooled.append({"model": model, "n_test": n_test, "rmse": round(w_rmse, 4), "mae": round(w_mae, 4),
+                       "coverage90": round(cov, 4) if cov is not None else None})
+
+    winner = min(pooled, key=lambda r: r["rmse"])["model"]
+    gbm_row = next((r for r in pooled if r["model"] == "gbm"), None)
+    mlp_row = next((r for r in pooled if r["model"] == "mlp"), None)
+    if gbm_row and mlp_row and mlp_row["rmse"] >= gbm_row["rmse"]:
+        notes.append(f"The MLP does not beat gradient boosting on pooled RMSE "
+                     f"({mlp_row['rmse']} vs {gbm_row['rmse']}).")
+
+    winner_rows = sorted((r for r in rows if r["model"] == winner), key=lambda r: r["origin"])
+    if len(winner_rows) >= 2:
+        drift = max(abs(a["rmse"] - b["rmse"]) for a, b in zip(winner_rows, winner_rows[1:], strict=False))
+        notes.append(f"Largest season-to-season RMSE change for the winner ({winner}): {round(drift, 4)}.")
+
+    for r in rows:
+        r["rmse"] = round(r["rmse"], 4)
+        r["mae"] = round(r["mae"], 4)
+        if r["coverage90"] is not None:
+            r["coverage90"] = round(r["coverage90"], 4)
+
+    result = assemble_output(target=TARGET_LABEL, origins=ORIGINS, rows=rows, pooled=pooled,
+                             winner_pooled=winner, notes=notes)
+
+    out_json = config.PROCESSED_DIR / "model_comparison.json"
+    out_json.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
+    LOG.info("wrote %s", out_json)
+
+    render_figure(rows, config.OUTPUTS_DIR / "model_comparison.svg")
+
+    LOG.info("pooled: %s", pooled)
+    LOG.info("winner: %s", winner)
+    LOG.info("done: %s, %.1f s total", config.NATION, time.time() - t_start)
+
+
+if __name__ == "__main__":
+    main()
