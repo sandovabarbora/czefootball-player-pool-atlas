@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151732">
-  <link rel="stylesheet" href="../modern.css?v=202609151732">
+  <link rel="stylesheet" href="../style.css?v=202609152001">
+  <link rel="stylesheet" href="../modern.css?v=202609152001">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151732"></script>
+  <script defer src="../atlas.js?v=202609152001"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -2633,6 +2633,11 @@
       <p class="cycle-row-kicker">Brankáři — nejvíc minut v top-9 · nejmladší v top-9</p>
       <div class="cycle-grid">
         <article class="gk-card" id="gk-card-lukas_hornicek-2002" data-player-key="lukas hornicek|2002" data-pos="GK" data-club="Braga">
+    <div class="gk-card-visual gk-card-visual-mono">
+      <span class="cycle-card-monogram" aria-hidden="true">LH</span>
+      <span class="cycle-card-pos" aria-hidden="true">GK</span>
+      <span class="cycle-card-team">Braga</span>
+    </div>
     <header class="cycle-card-head">
       <h4 class="cycle-card-name">Lukáš Horníček</h4>
       <p class="cycle-card-meta">
@@ -2659,6 +2664,11 @@
     
     <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi domácími brankáři.</p>
   </article><article class="gk-card" id="gk-card-antonin_kinsky-2003" data-player-key="antonin kinsky|2003" data-pos="GK" data-club="Tottenham">
+    <div class="gk-card-visual gk-card-visual-mono">
+      <span class="cycle-card-monogram" aria-hidden="true">AK</span>
+      <span class="cycle-card-pos" aria-hidden="true">GK</span>
+      <span class="cycle-card-team">Tottenham</span>
+    </div>
     <header class="cycle-card-head">
       <h4 class="cycle-card-name">Antonín Kinský</h4>
       <p class="cycle-card-meta">
@@ -8822,7 +8832,7 @@
     <p>Kolik je sezóna Czech First League hodná v přepočtu na Premier League? Násobička UEFA výše odpovídá z kontinentálních výsledků zemí; tento model odpovídá na stejnou otázku od hráčů, kteří ligu skutečně změnili.</p>
     <p>Movers — 2125 hráčů pozorovaných aspoň ve dvou ligách napříč 8108 kvalifikujícími hráčskými sezónami — kotví model, protože jen vlastní změna ligy hráče před/po odděluje jeho úroveň od skórovacího prostředí ligy. Hierarchický Poissonův model neproniknutých gólů plus asistencí na 90 minut (Gelman et al., 2013) fituje efekt ligy a efekt hráče společně, vzorkovaný NUTS (Hoffman and Gelman, 2014) v PyMC (Abril-Pla et al., 2023) a diagnostikovaný ArviZ (Kumar et al., 2019). Partial pooling drží efekty lig regularizované, zatímco efekty hráčů nechává blízko nepoolovaným — stejná within-subject logika, jaká stojí za plus-minus a RAPM hodnocením jinde v týmových sportech (Kharrat, McHale and Peña, 2020; Hvattum, 2019).</p>
     <figure class="figure-bleed">
-      <img src="../league_strength.svg" alt="Tečky a 90% HDI modelové násobičky síly ligy m_L za každou ligu, seřazené, s násobičkou UEFA dané ligy jako dutým markerem.">
+      <img src="league_strength.svg" alt="Tečky a 90% HDI modelové násobičky síly ligy m_L za každou ligu, seřazené, s násobičkou UEFA dané ligy jako dutým markerem.">
     </figure>
     
     <p>V těchto pojmech se sezóna Czech First League přepočítává na 0,67 sezóny Premier League (90% HDI 0,59–0,75).</p>
@@ -9010,7 +9020,7 @@
       <summary>Posteriorní prediktivní kontrola</summary>
       <p>Pozorované vs. replikované neproniknuté góly plus asistence na hráčskou sezónu (Vehtari, Gelman and Gabry, 2017): podíl nul 15 % vs. 14 %, průměr 4,45 vs. 4,45, 90. percentil 11,00 vs. 10,85.</p>
       <figure class="figure-bleed">
-        <img src="../league_strength_ppc.svg" alt="Sloupcový graf porovnávající pozorované a posteriorně-prediktivně replikované rozdělení neproniknutých gólů plus asistencí na hráčskou sezónu, seskupené 0/1/2/3/4/5+.">
+        <img src="league_strength_ppc.svg" alt="Sloupcový graf porovnávající pozorované a posteriorně-prediktivně replikované rozdělení neproniknutých gólů plus asistencí na hráčskou sezónu, seskupené 0/1/2/3/4/5+.">
       </figure>
     </details>
     <p>Co movers neukazují: nejsou náhodný vzorek — hráči obvykle odcházejí nahoru, když jsou dobří, a dolů, když stárnou — takže vnitrohráčský kontrast popisuje rozdíl lig pro typ hráče, který ligu mění, a věkový člen absorbuje jen tu část selekce, která je věk. Interval je nejistota modelu, ne selekce.</p>
@@ -9023,7 +9033,7 @@
     <p>Co nám sezóna hráče řekne o té příští, s ohledem na to, kde hraje, kolik mu je a — u exportů — v jakém věku odešel? V modelovém vyjádření: predikovat hráčovu ligou upravenou produkci v příští sezóně (neproniknuté góly plus asistence na 90 minut, upravené o kvalitu) z čísel této sezóny, pro každou hráčskou sezónní dvojici s aspoň 450 minutami v obou sezónách, každou národnost v korpusu.</p>
     <p>Vyhodnoceno rolling-origin křížovou validací (Hyndman and Athanasopoulos, 2021): pro každou z 5 cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, 2 řetězce × 400 vzorků na origin (Gelman et al., 2013)), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn (Pedregosa et al., 2011), skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš 2500 na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu. Cíl je upravený násobičem ligy, ve které hráč hraje příští sezónu; featury znají jen letošní ligu, takže přestup je změna, kterou žádný z modelů nevidí dopředu — omezení společné všem pěti.</p>
     <figure class="figure-bleed">
-      <img src="../model_comparison.svg" alt="Čárový graf RMSE za cílovou sezónu, jedna čára na model, persistence přerušovaně.">
+      <img src="model_comparison.svg" alt="Čárový graf RMSE za cílovou sezónu, jedna čára na model, persistence přerušovaně.">
     </figure>
     <table class="kv-table compare-table">
       <thead><tr>
@@ -9133,7 +9143,7 @@
     <h3 id="series-model">Datace zlomu a jedna prognóza</h3>
     <p>Řada je modelována jako lokální úroveň ve stavovém prostoru (Durbin and Koopman, 2012): logaritmus sezónního počtu následuje Gaussovu náhodnou procházku (σ ~ HalfNormal(0,2)), plus jeden skokový posun δ v úrovni v neznámé sezóně zlomu τ. NUTS vzorkuje jen spojité parametry, takže τ se nevzorkuje přímo — každá kandidátní sezóna vzdálená alespoň 3 sezón od obou konců je z modelu marginalizována jedním log-sum-exp potenciálem a její posterior se dopočítá až ze spojitých vzorků, standardní postup pro marginalizovaný diskrétní parametr (Gelman et al., 2013); samotná myšlenka bodu zlomu pochází od (Adams and MacKay, 2007), zde použitá na dávkové nastavení s jedním zlomem. Rolling-origin zpětný test (Hyndman and Athanasopoulos, 2021) přeučí stejnou lokální úroveň bez skoku na každém z 15 počátků, předpovídá jednu sezónu dopředu a hodnotí proti naivnímu základu „stejně jako minulou sezónu“ — poctivý pohled prognostika, protože žádný skutečný počátek dopředu neví, na které straně zlomu se nachází. Jedna prognóza níže, ze stejného modelu bez bodu zlomu vyladěného na celé řadě, je demonstrací metody na počtu hráčů, ne výrokem o žádném hráči.</p>
     <figure class="figure-bleed">
-      <img src="../series_model.svg" alt="Čárový graf řady Česko s vyladěnou úrovní modelu bodu zlomu a jejím pásem, sloupcový pruh pod osou pro posteriorní pravděpodobnost zlomu v každé kandidátní sezóně a jednosezónní prognóza s 90% intervalem na pravém okraji.">
+      <img src="series_model.svg" alt="Čárový graf řady Česko s vyladěnou úrovní modelu bodu zlomu a jejím pásem, sloupcový pruh pod osou pro posteriorní pravděpodobnost zlomu v každé kandidátní sezóně a jednosezónní prognóza s 90% intervalem na pravém okraji.">
     </figure>
     <p>Pro Česko model datuje zlom do sezóny 2014/15 (62 % posteriorní pravděpodobnost), změna úrovně o ×0,57 (0,38–0,86, 90% HDI); vlastní inovační měřítko náhodné procházky je σ = 0,049.</p>
     <ul class="break-top">
@@ -10203,7 +10213,7 @@
       
       <details class="fold fold-lim"><summary>Zdroj reprezentačního příznaku</summary><p>Příznak „nominován 2024–26“ je parsovaný z tabulek nominací na Wikipedii (2024–25 Nations League, 2026 FIFA World Cup, 2026 World Cup qualification, UEFA Euro 2024, UEFA European Under-21 Championship 2025) a spárovaný podle normalizovaného jména a ročníku narození. Nese ho 60 z 192 zmapovaných hráčů. Editace tabulky nebo varianta jména může nominaci vypustit; příznak je štítek, ne počet startů.</p></details>
       
-      <details class="fold fold-lim"><summary>Pokrytí fotografiemi</summary><p>112 z 440 hráčů fondu má portrét z Wikimedia Commons (Wikidata P18, spárováno podle jména, občanství a data narození, povolání filtrováno na fotbalistu), použitý na webu. Hráči bez portrétu mají na webu iniciály.</p></details>
+      <details class="fold fold-lim"><summary>Pokrytí fotografiemi</summary><p>121 z 440 hráčů fondu má portrét z Wikimedia Commons (Wikidata P18, spárováno podle jména, občanství a data narození, povolání filtrováno na fotbalistu), použitý na webu. Hráči bez portrétu mají na webu iniciály.</p></details>
       
       <details class="fold fold-lim"><summary>Rozdělení sezón</summary><p>Hlavní počet na obyvatele i každá metrika používají kompletní sezónu 2025/26; trajektorie běží 2024/25 → 2025/26; klub na kartě je klub 2026/27 (sezóna probíhající v době sestavení).</p></details>
       
@@ -10254,7 +10264,7 @@
       <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 270 testy.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Diagram průběhu stavby</title>
-        <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 30 úkoly.</desc>
+        <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 31 úkoly.</desc>
         <defs>
           <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
@@ -10310,7 +10320,7 @@
           <text x="515" y="256" class="bp-ledger-count">rulingy: 25</text></g>
       </svg>
       <p class="build-diagram-legend">Implementace i review: sonnet · controller: opus.</p>
-      <p>Review je u každého úkolu dvoustupňový — nejdřív soulad se specifikací, pak kvalita kódu — a zjištění každého review se zapisují do ledgeru, ne jen verdikt: 40 řádků zmiňujících review napříč 30 úkoly této a minulé edice.</p>
+      <p>Review je u každého úkolu dvoustupňový — nejdřív soulad se specifikací, pak kvalita kódu — a zjištění každého review se zapisují do ledgeru, ne jen verdikt: 40 řádků zmiňujících review napříč 31 úkoly této a minulé edice.</p>
       <p>Specifikace: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">návrh</a> · plán: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">úkoly</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulingy</a>.</p>
       
       <p>Vlastní specifikace a ledger každé edice:
@@ -10537,7 +10547,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 17:32</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 20:01</p>
   </div>
 </footer>
 

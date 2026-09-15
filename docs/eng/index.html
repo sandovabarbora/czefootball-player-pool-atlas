@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151732">
-  <link rel="stylesheet" href="modern.css?v=202609151732">
+  <link rel="stylesheet" href="style.css?v=202609152001">
+  <link rel="stylesheet" href="modern.css?v=202609152001">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151732"></script>
+  <script defer src="atlas.js?v=202609152001"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -2278,6 +2278,11 @@
       <p class="cycle-row-kicker">Goalkeepers — most top-9 minutes · youngest in the top-9</p>
       <div class="cycle-grid">
         <article class="gk-card" id="gk-card-jordan_pickford-1994" data-player-key="jordan pickford|1994" data-pos="GK" data-club="Everton">
+    <div class="gk-card-visual" style="--hero: url('img/players/4806ec67.jpg')">
+      <img class="cycle-card-mug" src="img/players/4806ec67.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+      <span class="cycle-card-pos" aria-hidden="true">GK</span>
+      <span class="cycle-card-team">Everton</span>
+    </div>
     <header class="cycle-card-head">
       <h4 class="cycle-card-name">Jordan Pickford</h4>
       <p class="cycle-card-meta">
@@ -2304,6 +2309,11 @@
     
     <p class="muted small">Selected as: most top-9 minutes among home goalkeepers.</p>
   </article><article class="gk-card" id="gk-card-aaron_ramsdale-1998" data-player-key="aaron ramsdale|1998" data-pos="GK" data-club="Newcastle">
+    <div class="gk-card-visual" style="--hero: url('img/players/466fb2c5.jpg')">
+      <img class="cycle-card-mug" src="img/players/466fb2c5.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()">
+      <span class="cycle-card-pos" aria-hidden="true">GK</span>
+      <span class="cycle-card-team">Newcastle</span>
+    </div>
     <header class="cycle-card-head">
       <h4 class="cycle-card-name">Aaron Ramsdale</h4>
       <p class="cycle-card-meta">
@@ -9162,7 +9172,7 @@
       
       <details class="fold fold-lim"><summary>National-team flag source</summary><p>The flag "called up 2024–26" is parsed from Wikipedia squad tables (2026 FIFA World Cup, UEFA Euro 2024, UEFA European Under-21 Championship 2025) and matched on normalised name plus birth year. 42 of the 144 mapped players carry it. A squad table edit or a name variant can drop a call-up; the flag is a tag, not a cap count.</p></details>
       
-      <details class="fold fold-lim"><summary>Photo coverage</summary><p>848 of the 3531 pool players have a Wikimedia Commons portrait (Wikidata P18, matched on name, citizenship and birth date, occupation filtered to association football player) used on the site. Players without a portrait on the site show initials.</p></details>
+      <details class="fold fold-lim"><summary>Photo coverage</summary><p>854 of the 3531 pool players have a Wikimedia Commons portrait (Wikidata P18, matched on name, citizenship and birth date, occupation filtered to association football player) used on the site. Players without a portrait on the site show initials.</p></details>
       
       <details class="fold fold-lim"><summary>Season split</summary><p>The headline per-capita count and every metric use the complete 2025/26 season; trajectories run 2024/25 → 2025/26; the club on a card is the 2026/27 club (season in progress at build time).</p></details>
       
@@ -9213,7 +9223,7 @@
       <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 270 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
-        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 30 tasks.</desc>
+        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 31 tasks.</desc>
         <defs>
           <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
@@ -9269,7 +9279,7 @@
           <text x="515" y="256" class="bp-ledger-count">rulings: 25</text></g>
       </svg>
       <p class="build-diagram-legend">Implementers and reviewers: sonnet · controller: opus.</p>
-      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 30 tasks of this edition and the last.</p>
+      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 31 tasks of this edition and the last.</p>
       <p>Spec: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">design</a> · plan: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">tasks</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulings</a>.</p>
       
       <p>Every edition's own design spec and ledger:
@@ -9696,7 +9706,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 17:32</p>
+    <p class="rendered-at">Rendered: 2026-09-15 20:01</p>
   </div>
 </footer>
 
