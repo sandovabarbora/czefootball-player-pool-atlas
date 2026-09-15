@@ -151,10 +151,16 @@ if LANG == "cs":
     # youth_panel.svg and gap_decomposition.svg (Task 20) each appear twice
     # (slide 3's fold / slide 8c, and again in the chapter IV methodology
     # section), hence 6 + 2 + 2 = 10 expected matches; export_age_model.svg
-    # (Task 23) also twice → 12.
+    # (Task 23) also twice → 12. league_strength.svg, league_strength_ppc.svg,
+    # model_comparison.svg and series_model.svg (Tasks 15/16/19, chapter IV)
+    # each appear once → 16 (Task 24: these four were already translated by
+    # svg_labels.py -- T/FILES already covered them -- but this rewrite
+    # never listed them, so the cs page kept linking the English copy one
+    # directory up).
     sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg|gk_export_age\.svg|'
-        r'youth_panel\.svg|gap_decomposition\.svg|export_age_model\.svg)"',
-        r'<img src="\1"', 12)
+        r'youth_panel\.svg|gap_decomposition\.svg|export_age_model\.svg|league_strength\.svg|'
+        r'league_strength_ppc\.svg|model_comparison\.svg|series_model\.svg)"',
+        r'<img src="\1"', 16)
 
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])
