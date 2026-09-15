@@ -1108,6 +1108,64 @@ def _build_model_comparison(mc: dict, tr: Translator | None = None) -> dict:
     }
 
 
+# Mirrors src.series_model.CHAINS/DRAWS/TAU_MARGIN -- kept as literals here
+# (not imported) so render.py, imported by most of the test suite, doesn't
+# pull in PyMC/ArviZ just for three run-budget constants.
+SERIES_MODEL_CHAINS = 2
+SERIES_MODEL_DRAWS = 500
+SERIES_MODEL_TAU_MARGIN = 3
+
+
+def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None = None) -> dict:
+    """Chapter IV `#series-model` and slide 7's break clause (Task 19): the
+    change-point model's break posterior for the home nation and its two
+    `series_contrast` peers, the rolling-origin backtest table and the
+    report's one forecast. `sm` is `series_model.json`'s raw shape (`{}`
+    when the file is missing -- `load_data`'s tolerant load -- in which
+    case every list here is empty and the template section renders
+    nothing).
+    """
+    tr = tr or Translator("en")
+    if not sm:
+        return {}
+    br = sm["break"]
+    home_top = br["top"][0]
+    home_break = {
+        "season": season_label(home_top["season"]), "prob": home_top["prob"],
+        "delta": br["delta_factor"]["median"], "lo": br["delta_factor"]["lo"], "hi": br["delta_factor"]["hi"],
+        "sigma": br["sigma"],
+        "top": [{"season": season_label(r["season"]), "prob": r["prob"]} for r in br["top"]],
+    }
+    contrast = [
+        {
+            "code": code, "name": names.get(code, code),
+            "season": season_label(c["top"][0]["season"]), "prob": c["top"][0]["prob"],
+            "delta": c["delta_factor"]["median"], "lo": c["delta_factor"]["lo"], "hi": c["delta_factor"]["hi"],
+        }
+        for code, c in sm.get("contrast", {}).items()
+    ]
+    bt = sm.get("backtest", {}) or {}
+    backtest_rows = [
+        {**r, "origin": season_label(r["origin"]), "next_season": season_label(r["next_season"])}
+        for r in bt.get("rows", [])
+    ]
+    pooled = bt.get("pooled", {})
+    forecast_rows = [
+        {"code": code, "name": names.get(code, code), "season": season_label(f["season"]),
+         "median": f["median"], "lo": f["lo"], "hi": f["hi"]}
+        for code, f in sm.get("forecast", {}).items()
+    ]
+    return {
+        "break": home_break,
+        "contrast": contrast,
+        "backtest": {"rows": backtest_rows, "pooled": pooled, "start": backtest_rows[0]["origin"] if backtest_rows else "",
+                    "end": backtest_rows[-1]["origin"] if backtest_rows else ""},
+        "forecast": forecast_rows,
+        "diagnostics": sm.get("diagnostics", {}) or {},
+        "chains": SERIES_MODEL_CHAINS, "draws": SERIES_MODEL_DRAWS, "margin": SERIES_MODEL_TAU_MARGIN,
+    }
+
+
 def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
     """Chapter IV data-quality log: recomputed checks + recorded incidents.
 
@@ -1356,6 +1414,7 @@ def load_data() -> dict[str, Any]:
         "data_quality": _load_json(p / "data_quality.json", {}),
         "league_strength": _load_json(p / "league_strength.json", {}),
         "model_comparison": _load_json(p / "model_comparison.json", {}),
+        "series_model": _load_json(p / "series_model.json", {}),
         "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
@@ -1472,6 +1531,16 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     # slide.7.alt's alt text; term()-translated in the template like every
     # other data-sourced country name.
     big5["contrast_names"] = [names[c] for c in config.nation()["series_contrast"]]
+    series_model = _build_series_model(data["series_model"], names, tr)
+    if series_model:
+        # Slide 7's answer sentence gains the break (Task 19): sourced from
+        # the same change-point fit that backs #series-model below, not a
+        # second computation.
+        big5["break_season"] = series_model["break"]["season"]
+        big5["break_prob"] = series_model["break"]["prob"]
+        big5["delta"] = series_model["break"]["delta"]
+        big5["delta_lo"] = series_model["break"]["lo"]
+        big5["delta_hi"] = series_model["break"]["hi"]
     peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
                                        features_all, lq, lg, metrics, names)
 
@@ -1524,6 +1593,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "data_quality": _build_data_quality(data["data_quality"], tr),
         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
         "model_comparison": _build_model_comparison(data["model_comparison"], tr),
+        "series_model": series_model,
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
@@ -1699,6 +1769,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "last_n": 10, "last_season": season_label(big5_seasons_raw[3]),
         "golden": f"{season_label(big5_seasons_raw[1])}: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera",
         "contrast_names": ["Denmark", "Croatia"],
+        "break_season": season_label(big5_seasons_raw[2]), "break_prob": 0.63,
+        "delta": 0.57, "delta_lo": 0.38, "delta_hi": 0.86,
     }
     peer_compare = {
         "countries": ["CZE", "NOR", "DEN"],
@@ -1832,6 +1904,36 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             "winner_pooled": "bayesian",
             "notes": ["Fixture data for the offline template test."],
         }, tr),
+        "series_model": _build_series_model({
+            "break": {
+                "top": [{"season": "2014-2015", "prob": 0.6211}, {"season": "2013-2014", "prob": 0.0779},
+                        {"season": "2012-2013", "prob": 0.0758}],
+                "delta_factor": {"median": 0.5719, "lo": 0.3805, "hi": 0.863}, "sigma": 0.0493,
+            },
+            "contrast": {
+                "DEN": {"top": [{"season": "2021-2022", "prob": 0.1738}, {"season": "2019-2020", "prob": 0.1059},
+                                {"season": "2020-2021", "prob": 0.1022}],
+                       "delta_factor": {"median": 1.3308, "lo": 0.7083, "hi": 1.9181}, "sigma": 0.0965},
+                "CRO": {"top": [{"season": "2003-2004", "prob": 0.2077}, {"season": "2004-2005", "prob": 0.1274},
+                                {"season": "2014-2015", "prob": 0.0992}],
+                       "delta_factor": {"median": 0.9565, "lo": 0.4988, "hi": 1.4854}, "sigma": 0.0862},
+            },
+            "backtest": {
+                "rows": [
+                    {"origin": "2010-2011", "next_season": "2011-2012", "actual": 20.0, "median": 20.0,
+                     "lo": 13.0, "hi": 31.0, "naive": 19.0, "mae_model": 0.0, "mae_naive": 1.0, "covered": True},
+                    {"origin": "2011-2012", "next_season": "2012-2013", "actual": 19.0, "median": 18.0,
+                     "lo": 11.0, "hi": 28.0, "naive": 20.0, "mae_model": 1.0, "mae_naive": 1.0, "covered": True},
+                ],
+                "pooled": {"mae_model": 2.8, "mae_naive": 2.7333, "coverage90": 0.8667},
+            },
+            "forecast": {
+                "CZE": {"season": "2026-2027", "median": 11.0, "lo": 5.0, "hi": 18.0},
+                "DEN": {"season": "2026-2027", "median": 35.0, "lo": 22.0, "hi": 51.0},
+                "CRO": {"season": "2026-2027", "median": 24.0, "lo": 14.0, "hi": 35.0},
+            },
+            "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 338.9, "min_ess_tail": 283.2, "n_divergences": 0},
+        }, {"CZE": "Czechia", "DEN": "Denmark", "CRO": "Croatia"}, tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),

@@ -19,7 +19,8 @@ from pathlib import Path
 
 DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
-         "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg", "gk_export_age.svg"]
+         "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg", "series_model.svg",
+         "gk_export_age.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -68,6 +69,11 @@ T = {
     "Hierarchical Bayesian": "Hierarchický bayesovský",
     "Gradient boosting": "Gradient boosting",
     "Small MLP": "Malý MLP",
+    # series model: change point, backtest, forecast (Task 19)
+    "Dating the break and one forecast": "Datace zlomu a jedna prognóza",
+    "Fitted level (change point)": "Vyladěná úroveň (bod zlomu)",
+    "Forecast (90% interval)": "Prognóza (90% interval)",
+    "P(break)": "P(zlom)",
     # goalkeepers (Task 18)
     "Age at first top-9 season: goalkeepers vs. outfield exports":
         "Věk při prvním startu v top-9 lize: brankáři vs. hráči v poli",

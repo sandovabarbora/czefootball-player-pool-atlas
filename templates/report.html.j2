@@ -175,6 +175,7 @@
         <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
         <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
         <li><a href="#model-comparison">{{ t('toc.compare') }}</a></li>
+        <li><a href="#series-model">{{ t('toc.series') }}</a></li>
         <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
         <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
         <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
@@ -203,7 +204,7 @@
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
         <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -424,13 +425,13 @@
   <div class="container">
     <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
     {% if big5 %}
-    <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season) }}</p>
+    <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
       </figure>
     </div>
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden) }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
     {% endif %}
   </div>
 </section>
@@ -1197,6 +1198,71 @@
     {% endif %}
     {% endif %}
 
+    {% if series_model.break %}
+    <h3 id="series-model">{{ t('ch4.series.h3') }}</h3>
+    <p>{{ t('ch4.series.design', cite_ss=cite.durbin_koopman_2012, margin=series_model.margin, cite_marg=cite.gelman_et_al_2013,
+             cite_cp=cite.adams_mackay_2007, cite_ro=cite.hyndman_athanasopoulos_2021,
+             n_backtest=series_model.backtest.rows | length) }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}series_model.svg" alt="{{ t('ch4.series.fig_alt') }}">
+    </figure>
+    <p>{{ t('ch4.series.break.p', season=series_model.break.season, prob=pct(series_model.break.prob),
+             delta=f2(series_model.break.delta), lo=f2(series_model.break.lo), hi=f2(series_model.break.hi),
+             sigma=f3(series_model.break.sigma)) }}</p>
+    <ul class="break-top">
+      {% for r in series_model.break.top %}
+      <li>{{ t('ch4.series.break.top_item', season=r.season, prob=pct(r.prob)) }}</li>
+      {% endfor %}
+    </ul>
+    <p>{{ t('ch4.series.contrast.p') }}</p>
+    <ul class="contrast-break">
+      {% for c in series_model.contrast %}
+      <li>{{ t('ch4.series.contrast.item', name=term(c.name), season=c.season, prob=pct(c.prob),
+                delta=f2(c.delta), lo=f2(c.lo), hi=f2(c.hi)) }}</li>
+      {% endfor %}
+    </ul>
+
+    <p>{{ t('ch4.series.backtest.p', n=series_model.backtest.rows | length, start=series_model.backtest.start, end=series_model.backtest.end) }}</p>
+    <table class="kv-table series-backtest-table">
+      <thead><tr>
+        <th>{{ t('ch4.series.backtest.th.origin') }}</th><th>{{ t('ch4.series.backtest.th.next') }}</th>
+        <th>{{ t('ch4.series.backtest.th.actual') }}</th><th>{{ t('ch4.series.backtest.th.model') }}</th>
+        <th>{{ t('ch4.series.backtest.th.naive') }}</th>
+      </tr></thead>
+      <tbody>
+        {% for r in series_model.backtest.rows %}
+        <tr>
+          <td>{{ r.origin }}</td><td>{{ r.next_season }}</td><td class="num">{{ g(r.actual) }}</td>
+          <td class="num">{{ g(r.median) }} ({{ g(r.lo) }}–{{ g(r.hi) }})</td><td class="num">{{ g(r.naive) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p>{{ t('ch4.series.backtest.note', n=series_model.backtest.rows | length, mae_model=f2(series_model.backtest.pooled.mae_model),
+             mae_naive=f2(series_model.backtest.pooled.mae_naive), coverage=pct(series_model.backtest.pooled.coverage90)) }}</p>
+
+    <p>{{ t('ch4.series.forecast.p', season=series_model.forecast[0].season) }}</p>
+    <table class="kv-table series-forecast-table">
+      <thead><tr>
+        <th>{{ t('ch4.series.forecast.th.country') }}</th><th>{{ t('ch4.series.forecast.th.season') }}</th>
+        <th>{{ t('ch4.series.forecast.th.median') }}</th><th>{{ t('ch4.series.forecast.th.interval') }}</th>
+      </tr></thead>
+      <tbody>
+        {% for f in series_model.forecast %}
+        <tr {% if f.code == home_code %}data-highlight="cze"{% endif %}>
+          <td>{{ term(f.name) }}</td><td>{{ f.season }}</td><td class="num">{{ g(f.median) }}</td>
+          <td class="num">{{ g(f.lo) }}–{{ g(f.hi) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="capita-note">{{ t('ch4.series.forecast.note') }}</p>
+
+    <p>{{ t('ch4.series.diagnostics', rhat=f3(series_model.diagnostics.max_rhat),
+             ess=(series_model.diagnostics.min_ess_bulk | round | int), div=series_model.diagnostics.n_divergences,
+             t=(big5.seasons | length)) }}</p>
+    {% endif %}
+
     <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>
     <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes, cite_efron_morris=cite.efron_morris_1975) }}</p>
     <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
@@ -1288,6 +1354,12 @@
                 oos_winner=(league_strength.oos.winner.method_label if league_strength.oos.winner else '—'),
                 oos_logpd=(f3(league_strength.oos.winner.log_pred_density) if league_strength.oos.winner else '—'),
                 rho=f2(league_strength.spearman.rho)) }}</li>
+      {% endif %}
+      {% if series_model.break %}
+      <li>{{ t('ch4.validation.m3', season=series_model.break.season, prob=pct(series_model.break.prob),
+                delta=f2(series_model.break.delta), mae_model=f2(series_model.backtest.pooled.mae_model),
+                mae_naive=f2(series_model.backtest.pooled.mae_naive), coverage=pct(series_model.backtest.pooled.coverage90),
+                n=series_model.backtest.rows | length) }}</li>
       {% endif %}
     </ul>
 

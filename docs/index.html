@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151157">
-  <link rel="stylesheet" href="modern.css?v=202609151157">
+  <link rel="stylesheet" href="style.css?v=202609151241">
+  <link rel="stylesheet" href="modern.css?v=202609151241">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151157"></script>
+  <script defer src="atlas.js?v=202609151241"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -60,6 +60,7 @@
         <li><a href="#multipliers">League multipliers</a></li>
         <li><a href="#league-strength">League strength</a></li>
         <li><a href="#model-comparison">Three models, one task, five seasons</a></li>
+        <li><a href="#series-model">Dating the break and one forecast</a></li>
         <li><a href="#shrinkage">Bayesian shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Sensitivity analysis</a></li>
@@ -87,7 +88,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 227 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 241 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -659,13 +660,13 @@
   <div class="container">
     <h2 class="slide-q">When did the train leave?</h2>
     
-    <p class="slide-a">Czech players with ≥ 450 minutes in the Big-5 leagues peaked at <strong>26</strong> in 2007/08, fell to 6 in 2015/16, 10 in 2025/26.</p>
+    <p class="slide-a">Czech players with ≥ 450 minutes in the Big-5 leagues peaked at <strong>26</strong> in 2007/08, fell to 6 in 2015/16, 10 in 2025/26; the break is dated to 2014/15 (62 % posterior), a level change of ×0.57 (0.38–0.86).</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5">
         <img src="big5_series.svg" alt="Line chart: Czech players with at least 450 minutes in the Big-5 leagues, 2000/01 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Czechia, Denmark and Croatia.">
       </figure>
     </div>
-    <p class="slide-how"><span class="slide-how-label">How we know</span> FBref Big-5 player tables 2000/01 → 2025/26; peers on the same rule; the names are the most-minutes Czech players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech.</p>
+    <p class="slide-how"><span class="slide-how-label">How we know</span> FBref Big-5 player tables 2000/01 → 2025/26; peers on the same rule; the names are the most-minutes Czech players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. The break date comes from a Bayesian local-level model with one change point (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
     
   </div>
 </section>
@@ -8782,6 +8783,149 @@
     
     
 
+    
+    <h3 id="series-model">Dating the break and one forecast</h3>
+    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus one step change δ in the level at an unknown break season τ. NUTS only samples continuous parameters, so τ is not sampled directly — every candidate season at least 3 seasons from either end is marginalised out of the model with a single log-sum-exp potential and its own posterior recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, single-break setting. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
+    <figure class="figure-bleed">
+      <img src="series_model.svg" alt="Line chart of the Czechia series with the change-point model's fitted level and band, a bar strip below the axis for the posterior probability of the break at each candidate season, and the one-season forecast with its 90 % interval at the right edge.">
+    </figure>
+    <p>For Czechia, the model dates the break to 2014/15 (62 % posterior probability), a ×0.57 (0.38–0.86, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.049.</p>
+    <ul class="break-top">
+      
+      <li>2014/15: 62 %</li>
+      
+      <li>2013/14: 8 %</li>
+      
+      <li>2012/13: 8 %</li>
+      
+    </ul>
+    <p>The same model, fit separately for the two contrast countries:</p>
+    <ul class="contrast-break">
+      
+      <li>Denmark: 2021/22 (17 % posterior), ×1.33 (0.71–1.92).</li>
+      
+      <li>Croatia: 2003/04 (21 % posterior), ×0.96 (0.50–1.49).</li>
+      
+    </ul>
+
+    <p>One-step-ahead rolling-origin backtest of the plain local level (no change point) against the naive "same as last season", 15 origins from 2010/11 to 2024/25:</p>
+    <table class="kv-table series-backtest-table">
+      <thead><tr>
+        <th>Origin</th><th>Forecast season</th>
+        <th>Actual</th><th>Model median (90 % interval)</th>
+        <th>Naive</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr>
+          <td>2010/11</td><td>2011/12</td><td class="num">20</td>
+          <td class="num">20 (13–31)</td><td class="num">19</td>
+        </tr>
+        
+        <tr>
+          <td>2011/12</td><td>2012/13</td><td class="num">16</td>
+          <td class="num">21 (12–30)</td><td class="num">20</td>
+        </tr>
+        
+        <tr>
+          <td>2012/13</td><td>2013/14</td><td class="num">19</td>
+          <td class="num">20 (12–29)</td><td class="num">16</td>
+        </tr>
+        
+        <tr>
+          <td>2013/14</td><td>2014/15</td><td class="num">10</td>
+          <td class="num">20 (12–29)</td><td class="num">19</td>
+        </tr>
+        
+        <tr>
+          <td>2014/15</td><td>2015/16</td><td class="num">6</td>
+          <td class="num">17 (9–25)</td><td class="num">10</td>
+        </tr>
+        
+        <tr>
+          <td>2015/16</td><td>2016/17</td><td class="num">11</td>
+          <td class="num">12 (5–20)</td><td class="num">6</td>
+        </tr>
+        
+        <tr>
+          <td>2016/17</td><td>2017/18</td><td class="num">12</td>
+          <td class="num">11 (6–19)</td><td class="num">11</td>
+        </tr>
+        
+        <tr>
+          <td>2017/18</td><td>2018/19</td><td class="num">12</td>
+          <td class="num">12 (5–20)</td><td class="num">12</td>
+        </tr>
+        
+        <tr>
+          <td>2018/19</td><td>2019/20</td><td class="num">15</td>
+          <td class="num">12 (6–20)</td><td class="num">12</td>
+        </tr>
+        
+        <tr>
+          <td>2019/20</td><td>2020/21</td><td class="num">11</td>
+          <td class="num">13 (6–23)</td><td class="num">15</td>
+        </tr>
+        
+        <tr>
+          <td>2020/21</td><td>2021/22</td><td class="num">11</td>
+          <td class="num">12 (6–21)</td><td class="num">11</td>
+        </tr>
+        
+        <tr>
+          <td>2021/22</td><td>2022/23</td><td class="num">9</td>
+          <td class="num">12 (6–19)</td><td class="num">11</td>
+        </tr>
+        
+        <tr>
+          <td>2022/23</td><td>2023/24</td><td class="num">12</td>
+          <td class="num">11 (5–19)</td><td class="num">9</td>
+        </tr>
+        
+        <tr>
+          <td>2023/24</td><td>2024/25</td><td class="num">12</td>
+          <td class="num">11 (5–19)</td><td class="num">12</td>
+        </tr>
+        
+        <tr>
+          <td>2024/25</td><td>2025/26</td><td class="num">10</td>
+          <td class="num">12 (6–19)</td><td class="num">12</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p>Pooled across 15 origins: MAE 2.80 for the model against 2.73 for the naive baseline, 87 % of the 90 % intervals covered the observed value.</p>
+
+    <p>The one forecast, for next season (2026/27), from the same change-point-free model fitted on the full series:</p>
+    <table class="kv-table series-forecast-table">
+      <thead><tr>
+        <th>Country</th><th>Season</th>
+        <th>Median</th><th>90 % interval</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr data-highlight="cze">
+          <td>Czechia</td><td>2026/27</td><td class="num">11</td>
+          <td class="num">5–18</td>
+        </tr>
+        
+        <tr >
+          <td>Denmark</td><td>2026/27</td><td class="num">35</td>
+          <td class="num">22–51</td>
+        </tr>
+        
+        <tr >
+          <td>Croatia</td><td>2026/27</td><td class="num">24</td>
+          <td class="num">14–35</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">A demonstration of the method on a count of players, not a statement about any player.</p>
+
+    <p>Change-point fit: R-hat ≤ 1.010, minimum bulk ESS 339, 0 divergent transitions across 26 seasons.</p>
+    
+
     <h3 id="shrinkage">Bayesian shrinkage</h3>
     <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula (Efron and Morris, 1975), with K = 10 phantom matches expressed as 900 minutes:</p>
     <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
@@ -9340,6 +9484,9 @@
       
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (-2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
       
+      
+      <li>The break and forecast (M4): the break dates to 2014/15 (62 % posterior) for Czechia, a ×0.57 level change; the plain local level beats the naive baseline on MAE (2.80 vs 2.73) with 87 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
+      
     </ul>
 
     <h3 id="reproducibility">Reproducibility</h3>
@@ -9347,8 +9494,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 227 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 227 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 241 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 241 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -9363,6 +9510,10 @@
     <ul class="references-list">
       
       <li id="ref-abril_pla_et_al_2023"><a href="https://doi.org/10.7717/peerj-cs.1516">Abril-Pla, O. et al. (2023) &#39;PyMC: a modern, and comprehensive probabilistic programming framework in Python&#39;, PeerJ Computer Science, 9, e1516.</a></li>
+      
+      <li id="ref-adams_mackay_2007"><a href="https://arxiv.org/abs/0710.3742">Adams, R.P. and MacKay, D.J.C. (2007) Bayesian online changepoint detection. arXiv, 0710.3742. Available at: https://arxiv.org/abs/0710.3742 (Accessed: 15 September 2026).</a></li>
+      
+      <li id="ref-durbin_koopman_2012"><a href="https://doi.org/10.1093/acprof:oso/9780199641178.001.0001">Durbin, J. and Koopman, S.J. (2012) Time Series Analysis by State Space Methods. 2nd edn. Oxford: Oxford University Press.</a></li>
       
       <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319.</a></li>
       
@@ -9548,7 +9699,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 11:56</p>
+    <p class="rendered-at">Rendered: 2026-09-15 12:41</p>
   </div>
 </footer>
 

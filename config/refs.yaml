@@ -129,3 +129,23 @@
   place: Melbourne
   publisher: OTexts
   url: "https://otexts.com/fpp3/"
+
+- key: adams_mackay_2007
+  type: report
+  authors: ["Adams, R.P.", "MacKay, D.J.C."]
+  year: 2007
+  title: "Bayesian online changepoint detection"
+  series: arXiv
+  number: "0710.3742"
+  url: "https://arxiv.org/abs/0710.3742"
+  accessed: "15 September 2026"
+
+- key: durbin_koopman_2012
+  type: book
+  authors: ["Durbin, J.", "Koopman, S.J."]
+  year: 2012
+  title: "Time Series Analysis by State Space Methods"
+  edition: "2nd"
+  place: Oxford
+  publisher: Oxford University Press
+  doi: "10.1093/acprof:oso/9780199641178.001.0001"
