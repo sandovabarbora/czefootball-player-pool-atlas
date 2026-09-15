@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151417">
-  <link rel="stylesheet" href="modern.css?v=202609151417">
+  <link rel="stylesheet" href="style.css?v=202609151431">
+  <link rel="stylesheet" href="modern.css?v=202609151431">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151417"></script>
+  <script defer src="atlas.js?v=202609151431"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -302,7 +302,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">Do young players get minutes at home?</h2>
-    <p class="slide-a">U21 share of domestic-league minutes <strong>6.4 %</strong> vs Denmark 15.3 % (best peer). Across the 8 countries (country averages over both seasons), 10 points more U21 share go with +10.11 more top-9 players per million (-1.69–23.26).</p>
+    <p class="slide-a">U21 share of domestic-league minutes <strong>6.4 %</strong> vs Denmark 15.3 % (best peer). Across the 8 countries (country averages over both seasons), 10 points more U21 share go with +10.11 more top-9 players per million (−1.69–23.26).</p>
     <div class="slide-proof">
       
       <div class="capita" role="list" aria-label="Share of domestic-league minutes played by own under-21 nationals">
@@ -8379,7 +8379,7 @@
           
           <tr>
             <td><code>cards_p90</code></td><td>0.119</td><td>0.135</td>
-            <td>0.135</td><td>-0.90</td>
+            <td>0.135</td><td>−0.90</td>
           </tr>
           
         </tbody>
@@ -8655,19 +8655,19 @@
         
         <tr>
           <td>Same rate as before</td>
-          <td>-2.628</td>
+          <td>−2.628</td>
           <td>0.137</td>
         </tr>
         
         <tr>
           <td>Rate × UEFA ratio</td>
-          <td>-2.734</td>
+          <td>−2.734</td>
           <td>0.151</td>
         </tr>
         
         <tr>
           <td>Model</td>
-          <td>-2.174</td>
+          <td>−2.174</td>
           <td>0.127</td>
         </tr>
         
@@ -8955,13 +8955,13 @@
 
     
     <h3 id="youth-panel">Cross-country youth-minutes panel</h3>
-    <p>For each of the 8 peer countries, the 2024/25 → 2025/26 average U21 share of domestic-league minutes (x) against the 2024/25 → 2025/26 average top-9 players per million (y) — one row per country. A Bayesian simple regression, y ~ Normal(α + β·x, σ), weakly informative priors (4 chains × 1000 draws (Abril-Pla et al., 2023)), answers the between-country question slide 3 asks: does a country with a higher average U21 share also have a deeper pool, on average (Gelman et al., 2013). Cross-checked against a plain pooled least-squares slope on the full two-season panel (numpy polyfit, ignoring country structure entirely, 1000 percentile-bootstrap resamples — statsmodels is not a dependency here), which should agree in sign.</p>
+    <p>For each of the 8 peer countries, the 2024/25 → 2025/26 average U21 share of domestic-league minutes (x) against the 2024/25 → 2025/26 average top-9 players per million (y) — one row per country. A Bayesian simple regression, y ~ Normal(α + β·x, σ), weakly informative priors (4 chains × 1000 draws (Abril-Pla et al., 2023)), answers the between-country question slide 3 asks: does a country with a higher average U21 share also have a deeper pool, on average (Gelman et al., 2013). Cross-checked against a plain pooled least-squares slope on the full two-season panel (numpy polyfit, ignoring country structure entirely, 1000 percentile-bootstrap resamples — statsmodels is not a dependency here), which should agree in sign. Two seasons per country (previous and metrics; the current season is partial and left out); a peer whose top flight FBref does not track is absent from the panel, which is why n can be below the peer count.</p>
     <figure class="figure-bleed">
       <img src="youth_panel.svg" alt="Scatter of the panel with the between-country fitted line and its 90 % band.">
     </figure>
-    <p>β = +10.11 per 10 percentage points of U21 share (90 % HDI -1.69–23.26), R² = 0.27; OLS on the same 8 country means lands close by, at +10.65 (-3.85–20.33), and the pooled-panel OLS slope agrees in sign at +7.76 (1.12–13.99). n = 8; the interval is wide because the panel is small.</p>
+    <p>β = +10.11 per 10 percentage points of U21 share (90 % HDI −1.69–23.26), R² = 0.27; OLS on the same 8 country means lands close by, at +10.65 (−3.85–20.33), and the pooled-panel OLS slope agrees in sign at +7.76 (1.12–13.99). n = 8; the interval is wide because the panel is small.</p>
     <p>R-hat ≤ 1.001, minimum bulk ESS 2126, 0 divergent transitions.</p>
-    <p>A separate check: the same regression, but with a country random intercept fit on the full two-season panel instead of country means. Within-country changes across the two seasons carry no signal — β_within = −0.16 per 10 percentage points (90 % HDI -2.53–2.17), n = 16 country-seasons (R-hat ≤ 1.004, minimum bulk ESS 851, 0 divergent transitions; posterior-median country-intercept scale σ_country = 5.19). With only two seasons per country the intercept absorbs almost all of the between-country pattern the fit above isolates, leaving this estimate driven by season-to-season noise alone; reported here as a robustness check, not a second headline.</p>
+    <p>A separate check: the same regression, but with a country random intercept fit on the full two-season panel instead of country means. Within-country changes across the two seasons carry no signal — β_within = −0.16 per 10 percentage points (90 % HDI −2.53–2.17), n = 16 country-seasons (R-hat ≤ 1.004, minimum bulk ESS 851, 0 divergent transitions; posterior-median country-intercept scale σ_country = 5.19). With only two seasons per country the intercept absorbs almost all of the between-country pattern the fit above isolates, leaving this estimate driven by season-to-season noise alone; reported here as a robustness check, not a second headline.</p>
     <p>Descriptive only: a country's average U21 share and its average per-capita count are shown together because they are the numbers on hand, not because one is claimed to produce the other.</p>
     <details class="fold">
       <summary>Panel rows (n = 16)</summary>
@@ -9043,7 +9043,7 @@
 
     
     <h3 id="gap-decomposition">What the gap is made of</h3>
-    <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier — the panel table below states which for each row) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
+    <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier (every country in this run used the model estimate)) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
     </figure>
@@ -9076,7 +9076,7 @@
           
           <td>Export age</td>
           <td class="num">0.00</td>
-          <td class="num">-0 %</td>
+          <td class="num">0 %</td>
           <td class="num">0.00 – 0.00</td>
         </tr>
         
@@ -9108,7 +9108,7 @@
           
           <td>Export age</td>
           <td class="num">0.00</td>
-          <td class="num">-0 %</td>
+          <td class="num">0 %</td>
           <td class="num">0.00 – 0.00</td>
         </tr>
         
@@ -9153,7 +9153,7 @@
           <td>0.215</td>
           <td>0.651</td>
           <td>0.430</td>
-          <td>-0.246</td>
+          <td>−0.246</td>
         </tr>
         
         <tr>
@@ -9161,9 +9161,9 @@
           <td>style</td>
           <td>PC2</td>
           <td>23.6 %</td>
-          <td>-0.206</td>
-          <td>-0.271</td>
-          <td>-0.120</td>
+          <td>−0.206</td>
+          <td>−0.271</td>
+          <td>−0.120</td>
           <td>0.823</td>
           <td>0.439</td>
         </tr>
@@ -9177,7 +9177,7 @@
           <td>0.380</td>
           <td>0.482</td>
           <td>0.217</td>
-          <td>-0.415</td>
+          <td>−0.415</td>
         </tr>
         
         <tr>
@@ -9185,8 +9185,8 @@
           <td>quality</td>
           <td>PC2</td>
           <td>24.9 %</td>
-          <td>-0.108</td>
-          <td>-0.114</td>
+          <td>−0.108</td>
+          <td>−0.114</td>
           <td>0.133</td>
           <td>0.910</td>
           <td>0.361</td>
@@ -9201,7 +9201,7 @@
           <td>0.601</td>
           <td>0.383</td>
           <td>0.073</td>
-          <td>-0.361</td>
+          <td>−0.361</td>
         </tr>
         
         <tr>
@@ -9209,8 +9209,8 @@
           <td>style</td>
           <td>PC2</td>
           <td>23.2 %</td>
-          <td>-0.245</td>
-          <td>-0.117</td>
+          <td>−0.245</td>
+          <td>−0.117</td>
           <td>0.484</td>
           <td>0.828</td>
           <td>0.082</td>
@@ -9225,7 +9225,7 @@
           <td>0.608</td>
           <td>0.382</td>
           <td>0.133</td>
-          <td>-0.344</td>
+          <td>−0.344</td>
         </tr>
         
         <tr>
@@ -9233,8 +9233,8 @@
           <td>quality</td>
           <td>PC2</td>
           <td>24.2 %</td>
-          <td>-0.244</td>
-          <td>-0.199</td>
+          <td>−0.244</td>
+          <td>−0.199</td>
           <td>0.490</td>
           <td>0.809</td>
           <td>0.087</td>
@@ -9249,7 +9249,7 @@
           <td>0.429</td>
           <td>0.505</td>
           <td>0.183</td>
-          <td>-0.480</td>
+          <td>−0.480</td>
         </tr>
         
         <tr>
@@ -9257,11 +9257,11 @@
           <td>style</td>
           <td>PC2</td>
           <td>21.1 %</td>
-          <td>-0.343</td>
-          <td>-0.378</td>
+          <td>−0.343</td>
+          <td>−0.378</td>
           <td>0.278</td>
           <td>0.804</td>
-          <td>-0.128</td>
+          <td>−0.128</td>
         </tr>
         
         <tr>
@@ -9273,7 +9273,7 @@
           <td>0.356</td>
           <td>0.578</td>
           <td>0.327</td>
-          <td>-0.496</td>
+          <td>−0.496</td>
         </tr>
         
         <tr>
@@ -9281,11 +9281,11 @@
           <td>quality</td>
           <td>PC2</td>
           <td>21.7 %</td>
-          <td>-0.462</td>
-          <td>-0.375</td>
+          <td>−0.462</td>
+          <td>−0.375</td>
           <td>0.104</td>
           <td>0.797</td>
-          <td>-0.023</td>
+          <td>−0.023</td>
         </tr>
         
       </tbody>
@@ -9681,13 +9681,13 @@
       <li>Season-to-season model comparison (M1): rolling-origin evaluation over 5 seasons, pooled RMSE favours Gradient boosting (0.071 vs 0.075 for persistence), the Bayesian model's 90 % interval covered 92 % of observed values.</li>
       
       
-      <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (-2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
+      <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
       
       
       <li>The break and forecast (M4): the break dates to 2014/15 (62 % posterior) for Czechia, a ×0.57 level change; the plain local level beats the naive baseline on MAE (2.80 vs 2.73) with 87 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
       
-      <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +10.11 per 10 percentage points of U21 share (-1.69–23.26), R² = 0.27; a plain pooled OLS slope agrees in sign at +7.76 (1.12–13.99) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = −0.16.</li>
+      <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +10.11 per 10 percentage points of U21 share (−1.69–23.26), R² = 0.27; a plain pooled OLS slope agrees in sign at +7.76 (1.12–13.99) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = −0.16.</li>
       
       
       <li>The gap decomposition (M5): ridge fit (α = 1.00) on n = 8 peer countries; for Norway, the residual is −2.37 of a 6.98 gap — a decomposition of a correlation, not a causal accounting.</li>
@@ -9908,7 +9908,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 14:17</p>
+    <p class="rendered-at">Rendered: 2026-09-15 14:31</p>
   </div>
 </footer>
 

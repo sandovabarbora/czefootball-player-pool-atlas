@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151417">
-  <link rel="stylesheet" href="../modern.css?v=202609151417">
+  <link rel="stylesheet" href="../style.css?v=202609151431">
+  <link rel="stylesheet" href="../modern.css?v=202609151431">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151417"></script>
+  <script defer src="../atlas.js?v=202609151431"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -302,7 +302,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">Dostávají mladí minuty doma?</h2>
-    <p class="slide-a">Podíl minut domácí ligy pro hráče do 21 let: Česko <strong>6,4 %</strong>, nejlépe Dánsko 15,3 % (nejlepší peer). Napříč 8 zeměmi (zemní průměry za obě sezóny) odpovídá 10 bodů podílu do 21 let nárůstu +10,11 hráčů na milion v top-9 ligách (-1,69–23,26).</p>
+    <p class="slide-a">Podíl minut domácí ligy pro hráče do 21 let: Česko <strong>6,4 %</strong>, nejlépe Dánsko 15,3 % (nejlepší peer). Napříč 8 zeměmi (zemní průměry za obě sezóny) odpovídá 10 bodů podílu do 21 let nárůstu +10,11 hráčů na milion v top-9 ligách (−1,69–23,26).</p>
     <div class="slide-proof">
       
       <div class="capita" role="list" aria-label="Podíl minut domácí ligy odehraných vlastními hráči do 21 let">
@@ -8379,7 +8379,7 @@
           
           <tr>
             <td><code>cards_p90</code></td><td>0,119</td><td>0,135</td>
-            <td>0,135</td><td>-0,90</td>
+            <td>0,135</td><td>−0,90</td>
           </tr>
           
         </tbody>
@@ -8655,19 +8655,19 @@
         
         <tr>
           <td>Stejná míra jako předtím</td>
-          <td>-2,628</td>
+          <td>−2,628</td>
           <td>0,137</td>
         </tr>
         
         <tr>
           <td>Míra × poměr UEFA</td>
-          <td>-2,734</td>
+          <td>−2,734</td>
           <td>0,151</td>
         </tr>
         
         <tr>
           <td>Model</td>
-          <td>-2,174</td>
+          <td>−2,174</td>
           <td>0,127</td>
         </tr>
         
@@ -8955,13 +8955,13 @@
 
     
     <h3 id="youth-panel">Mezinárodní panel minut mládeže</h3>
-    <p>Za každou z 8 peer zemí průměr přes 2024/25 → 2025/26 u podílu minut domácí ligy odehraných hráči do 21 let (x) proti průměru přes 2024/25 → 2025/26 u hráčů na milion v top-9 ligách (y) — jeden řádek na zemi. Bayesovská jednoduchá regrese, y ~ Normal(α + β·x, σ), slabě informativní priory (4 řetězce × 1000 vzorků (Abril-Pla et al., 2023)), odpovídá na otázku mezi zeměmi, kterou pokládá slide 3: má země s vyšším průměrným podílem do 21 let v průměru i hlubší fond (Gelman et al., 2013). Srovnáno s prostým poolovaným sklonem metodou nejmenších čtverců na celém dvousezónním panelu (numpy polyfit, bez struktury podle země, 1000 percentilových bootstrapových převzorkování — statsmodels zde není závislostí), který by měl souhlasit ve znaménku.</p>
+    <p>Za každou z 8 peer zemí průměr přes 2024/25 → 2025/26 u podílu minut domácí ligy odehraných hráči do 21 let (x) proti průměru přes 2024/25 → 2025/26 u hráčů na milion v top-9 ligách (y) — jeden řádek na zemi. Bayesovská jednoduchá regrese, y ~ Normal(α + β·x, σ), slabě informativní priory (4 řetězce × 1000 vzorků (Abril-Pla et al., 2023)), odpovídá na otázku mezi zeměmi, kterou pokládá slide 3: má země s vyšším průměrným podílem do 21 let v průměru i hlubší fond (Gelman et al., 2013). Srovnáno s prostým poolovaným sklonem metodou nejmenších čtverců na celém dvousezónním panelu (numpy polyfit, bez struktury podle země, 1000 percentilových bootstrapových převzorkování — statsmodels zde není závislostí), který by měl souhlasit ve znaménku. Dvě sezóny na zemi (předchozí a metrická; běžící sezóna je neúplná a je vynechaná); peer země, jejíž nejvyšší soutěž FBref nesleduje, v panelu chybí — proto může být n menší než počet peer zemí.</p>
     <figure class="figure-bleed">
       <img src="youth_panel.svg" alt="Bodový graf panelu s fitovanou přímkou mezi zeměmi a jejím 90% pásem.">
     </figure>
-    <p>β = +10,11 na 10 procentních bodů podílu hráčů do 21 let (90% HDI -1,69–23,26), R² = 0,27; OLS na stejných 8 zemních průměrech vychází blízko, na +10,65 (-3,85–20,33), a poolovaný OLS sklon souhlasí ve znaménku na +7,76 (1,12–13,99). n = 8; interval je široký, protože panel je malý.</p>
+    <p>β = +10,11 na 10 procentních bodů podílu hráčů do 21 let (90% HDI −1,69–23,26), R² = 0,27; OLS na stejných 8 zemních průměrech vychází blízko, na +10,65 (−3,85–20,33), a poolovaný OLS sklon souhlasí ve znaménku na +7,76 (1,12–13,99). n = 8; interval je široký, protože panel je malý.</p>
     <p>R-hat ≤ 1,001, minimální bulk ESS 2126, 0 divergentních tranzicí.</p>
-    <p>Samostatná kontrola: stejná regrese, ale s náhodným interceptem za zemi, fitovaná na celém dvousezónním panelu místo na zemních průměrech. Změny uvnitř země napříč dvěma sezónami nenesou žádný signál — β_within = −0,16 na 10 procentních bodů (90% HDI -2,53–2,17), n = 16 zemí-sezón (R-hat ≤ 1,004, minimální bulk ESS 851, 0 divergentních tranzicí; posteriorní medián měřítka interceptu za zemi σ_country = 5,19). Při pouhých dvou sezónách na zemi intercept pohltí téměř celý mezistátní vzorec, který izoluje fit výše, takže tento odhad je tažený jen šumem mezi sezónami; uvedeno jako kontrola robustnosti, ne jako druhé hlavní číslo.</p>
+    <p>Samostatná kontrola: stejná regrese, ale s náhodným interceptem za zemi, fitovaná na celém dvousezónním panelu místo na zemních průměrech. Změny uvnitř země napříč dvěma sezónami nenesou žádný signál — β_within = −0,16 na 10 procentních bodů (90% HDI −2,53–2,17), n = 16 zemí-sezón (R-hat ≤ 1,004, minimální bulk ESS 851, 0 divergentních tranzicí; posteriorní medián měřítka interceptu za zemi σ_country = 5,19). Při pouhých dvou sezónách na zemi intercept pohltí téměř celý mezistátní vzorec, který izoluje fit výše, takže tento odhad je tažený jen šumem mezi sezónami; uvedeno jako kontrola robustnosti, ne jako druhé hlavní číslo.</p>
     <p>Pouze popisné: průměrný podíl minut dané země a její průměrný počet na obyvatele jsou ukázány spolu proto, že jde o čísla, která máme k dispozici, ne proto, že by jedno tvrzeně způsobovalo druhé.</p>
     <details class="fold">
       <summary>Řádky panelu (n = 16)</summary>
@@ -9043,7 +9043,7 @@
 
     
     <h3 id="gap-decomposition">Z čeho se rozdíl skládá</h3>
-    <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu — tabulka panelu níže uvádí, který zdroj platí pro který řádek) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu (Oaxaca, 1973; Blinder, 1973), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
+    <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu (v tomto běhu použila každá země odhad z modelu)) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu (Oaxaca, 1973; Blinder, 1973), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
     </figure>
@@ -9076,7 +9076,7 @@
           
           <td>Věk exportu</td>
           <td class="num">0,00</td>
-          <td class="num">-0 %</td>
+          <td class="num">0 %</td>
           <td class="num">0,00 – 0,00</td>
         </tr>
         
@@ -9108,7 +9108,7 @@
           
           <td>Věk exportu</td>
           <td class="num">0,00</td>
-          <td class="num">-0 %</td>
+          <td class="num">0 %</td>
           <td class="num">0,00 – 0,00</td>
         </tr>
         
@@ -9153,7 +9153,7 @@
           <td>0,215</td>
           <td>0,651</td>
           <td>0,430</td>
-          <td>-0,246</td>
+          <td>−0,246</td>
         </tr>
         
         <tr>
@@ -9161,9 +9161,9 @@
           <td>style</td>
           <td>PC2</td>
           <td>23,6 %</td>
-          <td>-0,206</td>
-          <td>-0,271</td>
-          <td>-0,120</td>
+          <td>−0,206</td>
+          <td>−0,271</td>
+          <td>−0,120</td>
           <td>0,823</td>
           <td>0,439</td>
         </tr>
@@ -9177,7 +9177,7 @@
           <td>0,380</td>
           <td>0,482</td>
           <td>0,217</td>
-          <td>-0,415</td>
+          <td>−0,415</td>
         </tr>
         
         <tr>
@@ -9185,8 +9185,8 @@
           <td>quality</td>
           <td>PC2</td>
           <td>24,9 %</td>
-          <td>-0,108</td>
-          <td>-0,114</td>
+          <td>−0,108</td>
+          <td>−0,114</td>
           <td>0,133</td>
           <td>0,910</td>
           <td>0,361</td>
@@ -9201,7 +9201,7 @@
           <td>0,601</td>
           <td>0,383</td>
           <td>0,073</td>
-          <td>-0,361</td>
+          <td>−0,361</td>
         </tr>
         
         <tr>
@@ -9209,8 +9209,8 @@
           <td>style</td>
           <td>PC2</td>
           <td>23,2 %</td>
-          <td>-0,245</td>
-          <td>-0,117</td>
+          <td>−0,245</td>
+          <td>−0,117</td>
           <td>0,484</td>
           <td>0,828</td>
           <td>0,082</td>
@@ -9225,7 +9225,7 @@
           <td>0,608</td>
           <td>0,382</td>
           <td>0,133</td>
-          <td>-0,344</td>
+          <td>−0,344</td>
         </tr>
         
         <tr>
@@ -9233,8 +9233,8 @@
           <td>quality</td>
           <td>PC2</td>
           <td>24,2 %</td>
-          <td>-0,244</td>
-          <td>-0,199</td>
+          <td>−0,244</td>
+          <td>−0,199</td>
           <td>0,490</td>
           <td>0,809</td>
           <td>0,087</td>
@@ -9249,7 +9249,7 @@
           <td>0,429</td>
           <td>0,505</td>
           <td>0,183</td>
-          <td>-0,480</td>
+          <td>−0,480</td>
         </tr>
         
         <tr>
@@ -9257,11 +9257,11 @@
           <td>style</td>
           <td>PC2</td>
           <td>21,1 %</td>
-          <td>-0,343</td>
-          <td>-0,378</td>
+          <td>−0,343</td>
+          <td>−0,378</td>
           <td>0,278</td>
           <td>0,804</td>
-          <td>-0,128</td>
+          <td>−0,128</td>
         </tr>
         
         <tr>
@@ -9273,7 +9273,7 @@
           <td>0,356</td>
           <td>0,578</td>
           <td>0,327</td>
-          <td>-0,496</td>
+          <td>−0,496</td>
         </tr>
         
         <tr>
@@ -9281,11 +9281,11 @@
           <td>quality</td>
           <td>PC2</td>
           <td>21,7 %</td>
-          <td>-0,462</td>
-          <td>-0,375</td>
+          <td>−0,462</td>
+          <td>−0,375</td>
           <td>0,104</td>
           <td>0,797</td>
-          <td>-0,023</td>
+          <td>−0,023</td>
         </tr>
         
       </tbody>
@@ -9681,13 +9681,13 @@
       <li>Srovnání modelů mezi sezónami (M1): rolling-origin vyhodnocení přes 5 sezón, souhrnné RMSE favorizuje Gradient boosting (0,071 vs. 0,075 u persistence), 90% interval bayesovského modelu pokryl 92 % pozorovaných hodnot.</li>
       
       
-      <li>Síla ligy (M2): R-hat ≤ 1,003, 0 divergentních tranzicí, out-of-sample log prediktivní hustota favorizuje „Model“ (-2,174), Spearmanovo rho = 0,74 proti násobičkám UEFA.</li>
+      <li>Síla ligy (M2): R-hat ≤ 1,003, 0 divergentních tranzicí, out-of-sample log prediktivní hustota favorizuje „Model“ (−2,174), Spearmanovo rho = 0,74 proti násobičkám UEFA.</li>
       
       
       <li>Zlom a prognóza (M4): zlom je datován do sezóny 2014/15 (62 % posterior) pro Česko, změna úrovně o ×0,57; čistá lokální úroveň překonává naivní základ v MAE (2,80 vs. 2,73), 87 % z 90% intervalů pokrylo pozorovanou hodnotu napříč 15 rolling-origin zpětnými testy.</li>
       
       
-      <li>Panel minut mládeže (M3): napříč 8 zeměmi (zemní průměry, n = 8) je sklon mezi zeměmi +10,11 na 10 procentních bodů podílu do 21 let (-1,69–23,26), R² = 0,27; prostý poolovaný OLS sklon souhlasí ve znaménku na +7,76 (1,12–13,99) — interval je široký, protože panel je malý. Kontrola uvnitř země (fit s interceptem za zemi na celém dvousezónním panelu) nenachází žádný signál: β_within = −0,16.</li>
+      <li>Panel minut mládeže (M3): napříč 8 zeměmi (zemní průměry, n = 8) je sklon mezi zeměmi +10,11 na 10 procentních bodů podílu do 21 let (−1,69–23,26), R² = 0,27; prostý poolovaný OLS sklon souhlasí ve znaménku na +7,76 (1,12–13,99) — interval je široký, protože panel je malý. Kontrola uvnitř země (fit s interceptem za zemi na celém dvousezónním panelu) nenachází žádný signál: β_within = −0,16.</li>
       
       
       <li>Rozklad rozdílu (M5): ridge fit (α = 1,00) na n = 8 peer zemích; pro Norsko tvoří reziduum −2,37 z rozdílu 6,98 — rozklad korelace, ne kauzální účetnictví.</li>
@@ -9908,7 +9908,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 14:17</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 14:31</p>
   </div>
 </footer>
 

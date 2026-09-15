@@ -6,11 +6,11 @@
    docs/modern.css, docs/atlas.js and site/ key off them). Every number on the
    page comes from the context; the only literals are years, K = 10 and ±20 %.
    --------------------------------------------------------------------------- -#}
-{%- macro f2(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.2f' | format(x) }}{%- endif -%}{%- endmacro -%}
-{%- macro f3(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.3f' | format(x) }}{%- endif -%}{%- endmacro -%}
+{%- macro f2(x) -%}{%- if x is none -%}—{%- elif (x | round(2)) == 0 -%}0.00{%- else -%}{{ ('%.2f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
+{%- macro f3(x) -%}{%- if x is none -%}—{%- elif (x | round(3)) == 0 -%}0.000{%- else -%}{{ ('%.3f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro g(x) -%}{%- if x is none -%}—{%- else -%}{{ '%g' | format(x) }}{%- endif -%}{%- endmacro -%}
-{%- macro pct(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.0f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
-{%- macro pct1(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.1f' | format(x * 100) }} %{%- endif -%}{%- endmacro -%}
+{%- macro pct(x) -%}{%- if x is none -%}—{%- elif ((x * 100) | round(0)) == 0 -%}0 %{%- else -%}{{ ('%.0f' | format(x * 100)) | replace('-', '−') }} %{%- endif -%}{%- endmacro -%}
+{%- macro pct1(x) -%}{%- if x is none -%}—{%- elif ((x * 100) | round(1)) == 0 -%}0.0 %{%- else -%}{{ ('%.1f' | format(x * 100)) | replace('-', '−') }} %{%- endif -%}{%- endmacro -%}
 {%- macro signed(x) -%}{%- if x is none -%}—{%- elif (x | round(3)) == 0 -%}0.000{%- else -%}{{ ('%+.3f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro signed2(x) -%}{%- if x is none -%}—{%- elif (x | round(2)) == 0 -%}0.00{%- else -%}{{ ('%+.2f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro trend_arrow(dir) -%}{%- if dir == 'improving' -%}↑{%- elif dir == 'declining' -%}↓{%- else -%}→{%- endif -%}{%- endmacro -%}
