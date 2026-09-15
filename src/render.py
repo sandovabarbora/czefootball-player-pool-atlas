@@ -44,7 +44,7 @@ from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
 from src.references import harvard_list, in_text, in_text_multi, refs_by_key
-from src.utils import normalize_name, read_parquet, resolve_processed, season_label
+from src.utils import collapse_player_seasons, normalize_name, read_parquet, resolve_processed, season_label
 
 matplotlib.use("Agg")
 
@@ -982,6 +982,48 @@ def _build_loadings(loadings: pd.DataFrame) -> list[dict]:
     return rows
 
 
+# Byte budget for the in-browser sensitivity slider's embedded payload
+# (Task 21c) -- checked in `_build_sensitivity_shrunk` so a future season's
+# larger home-eligible pool fails the render loudly rather than silently
+# ships a heavier page.
+SENSITIVITY_SHRUNK_MAX_BYTES = 50_000
+
+
+def _build_sensitivity_shrunk(features: dict[str, pd.DataFrame], metrics_season: str) -> list[dict]:
+    """`data-shrunk` payload for the in-browser sensitivity slider (Task 21c):
+    one row per home-eligible metrics-season player, every position group
+    pooled flat (`player_key, name, league, npg_shrunk, ast_shrunk`).
+
+    `docs/atlas.js` recomputes `q = (npg_shrunk + ast_shrunk) * m_league`
+    from this payload under the viewer's own multipliers -- the same
+    quantity `src/sensitivity.py`'s `_rank_group` computes offline
+    (`(npg_p90_shrunk + ast_p90_shrunk) * multiplier`), so the two rank the
+    same way at the config baseline (see `tests/test_site_build.py`, which
+    checks that equality directly). A mid-season transfer is collapsed the
+    same way `sensitivity.main()` collapses it (`collapse_player_seasons`),
+    so a player appears once here, not once per club.
+    """
+    rows = []
+    for df in features.values():
+        sub = df[(df["season"] == metrics_season) & df["home_eligible"]].copy()
+        if sub.empty:
+            continue
+        sub = collapse_player_seasons(sub, rate_cols=["npg_p90_shrunk", "ast_p90_shrunk"])
+        for r in sub.itertuples():
+            rows.append({
+                "player_key": r.player_key, "name": str(r.player), "league": str(r.league),
+                "npg_shrunk": round(float(r.npg_p90_shrunk), 4),
+                "ast_shrunk": round(float(r.ast_p90_shrunk), 4),
+            })
+    rows.sort(key=lambda r: r["player_key"])
+    n_bytes = len(json.dumps(rows, separators=(",", ":")).encode("utf-8"))
+    if n_bytes > SENSITIVITY_SHRUNK_MAX_BYTES:
+        raise ValueError(
+            f"sensitivity slider payload is {n_bytes} bytes, over the {SENSITIVITY_SHRUNK_MAX_BYTES}-byte budget "
+            "(Task 21c) -- trim the payload (fewer decimals, drop a field) before shipping it")
+    return rows
+
+
 def _build_sensitivity(sens: pd.DataFrame, tr: Translator | None = None) -> dict:
     tr = tr or Translator("en")
     rows = [
@@ -1682,8 +1724,11 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "multiplier_method": str(lq.get("method", "")),
         "feature_defs": data["feature_defs"],
         "loadings": _build_loadings(data["loadings"]) if not data["loadings"].empty else [],
-        "sensitivity": _build_sensitivity(data["sensitivity"] if not data["sensitivity"].empty else pd.DataFrame(
-            columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"]), tr),
+        "sensitivity": {
+            **_build_sensitivity(data["sensitivity"] if not data["sensitivity"].empty else pd.DataFrame(
+                columns=["scenario", "description", "top10_overlap", "top10_churn", "mean_delta_rank_top20"]), tr),
+            "shrunk": _build_sensitivity_shrunk(data["features"], metrics),
+        },
         "limitations": _build_limitations(facts, tr),
         "data_quality": _build_data_quality(data["data_quality"], tr),
         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
@@ -1929,7 +1974,15 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                          "min_minutes": 450, "phantom_minutes": 900},
         "loadings": [{"position": "FW", "projection": "style", "pc": "PC1", "explained_pct": 26.8,
                       "npg_p90": 0.501, "ast_p90": 0.469, "min_share": 0.544, "age": 0.191, "cards_p90": -0.444}],
-        "sensitivity": _build_sensitivity(sens, tr),
+        "sensitivity": {
+            **_build_sensitivity(sens, tr),
+            "shrunk": [
+                {"player_key": "patrik schick|1996", "name": "Patrik Schick", "league": "GER-Bundesliga",
+                 "npg_shrunk": 0.65, "ast_shrunk": 0.05},
+                {"player_key": "filip vecheta|2003", "name": "Filip Vecheta", "league": "CZE-First League",
+                 "npg_shrunk": 0.22, "ast_shrunk": 0.08},
+            ],
+        },
         "limitations": _build_limitations(facts, tr),
         "data_quality": _build_data_quality(data_quality, tr),
         "league_strength": _build_league_strength({

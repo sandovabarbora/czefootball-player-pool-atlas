@@ -1434,6 +1434,37 @@
     </table>
     <p class="capita-note">{{ t('ch4.sens.note') }}</p>
 
+    <p>{{ t('ch4.sens.live.p') }}</p>
+    <div class="sensitivity-live" data-shrunk='{{ sensitivity.shrunk | tojson }}'>
+      <div class="sensitivity-live-controls" id="sensitivity-controls">
+        {% for m in multipliers %}
+        <label class="sens-slider">
+          <span class="sens-slider-league">{{ m.league }}</span>
+          <input type="range" class="sens-range" data-league="{{ m.league }}"
+                 min="{{ (m.value * 0.5) | round(4) }}" max="{{ (m.value * 1.5) | round(4) }}"
+                 step="0.01" value="{{ m.value }}" data-default="{{ m.value }}"
+                 aria-label="{{ t('ch4.sens.live.slider_aria', league=m.league) }}">
+          <output class="sens-slider-value">{{ f2(m.value) }}×</output>
+        </label>
+        {% endfor %}
+      </div>
+      <button type="button" class="sens-reset" id="sensitivity-reset">{{ t('ch4.sens.live.reset') }}</button>
+      <table class="sensitivity-live-table">
+        <thead>
+          <tr>
+            <th>{{ t('ch4.sens.live.th.rank') }}</th>
+            <th>{{ t('ch4.sens.live.th.player') }}</th>
+            <th>{{ t('ch4.sens.live.th.league') }}</th>
+            <th>q</th>
+            <th>{{ t('ch4.sens.live.th.change') }}</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="sensitivity-live-churn"></p>
+      <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('ch4.sens.live.how') }}</p>
+    </div>
+
     {% if data_quality.checks or data_quality.events %}
     <h3 id="data-quality">{{ t('ch4.dq.h3') }}</h3>
     <details class="fold">

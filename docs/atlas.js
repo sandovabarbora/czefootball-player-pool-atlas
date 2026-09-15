@@ -295,3 +295,69 @@
   window.addEventListener('hashchange', openFromHash);
   openFromHash();
 })();
+
+/* sensitivity slider (task 21c): one range input per league multiplier
+ * (embedded as data-league/data-default on each .sens-range), a live top-10
+ * of quality-adjusted npG+A/90 recomputed client-side from the embedded
+ * data-shrunk payload -- q = (npg_shrunk + ast_shrunk) * m_league, the same
+ * definition src/sensitivity.py uses offline. No server round-trip. */
+(() => {
+  const panel = document.querySelector('.sensitivity-live');
+  if (!panel) return;
+  const cs = document.documentElement.lang === 'cs';
+  const T = cs ? {
+    churn: (n) => `${n} ${n === 1 ? 'hráč opustil' : 'hráčů opustilo'} základní top-10 (ze ${baseline10.length}).`,
+  } : {
+    churn: (n) => `${n} player${n === 1 ? '' : 's'} left the baseline top 10 (of ${baseline10.length}).`,
+  };
+
+  let shrunk = [];
+  try { shrunk = JSON.parse(panel.dataset.shrunk || '[]'); } catch (e) { shrunk = []; }
+  const inputs = [...panel.querySelectorAll('.sens-range')];
+  const tbody = panel.querySelector('.sensitivity-live-table tbody');
+  const churnEl = panel.querySelector('.sensitivity-live-churn');
+  if (!shrunk.length || !inputs.length || !tbody) return;
+
+  // rank all embedded players under one {league -> multiplier} map, highest
+  // q first; ties broken by player_key so the order is stable.
+  const rank = (mult) => shrunk
+    .map((p) => ({ ...p, q: (p.npg_shrunk + p.ast_shrunk) * (mult.has(p.league) ? mult.get(p.league) : 1) }))
+    .sort((a, b) => (b.q - a.q) || a.player_key.localeCompare(b.player_key))
+    .map((p, i) => ({ ...p, rank: i + 1 }));
+
+  const currentMultipliers = () => new Map(inputs.map((i) => [i.dataset.league, parseFloat(i.value)]));
+  const defaultMultipliers = new Map(inputs.map((i) => [i.dataset.league, parseFloat(i.dataset.default)]));
+  const baseline = rank(defaultMultipliers);
+  const baselineRankByKey = new Map(baseline.map((p) => [p.player_key, p.rank]));
+  const baseline10 = baseline.slice(0, 10);
+  const baseline10Keys = new Set(baseline10.map((p) => p.player_key));
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const changeCell = (p) => {
+    const base = baselineRankByKey.get(p.player_key);
+    if (base === undefined) return '—';
+    const delta = base - p.rank;
+    if (delta === 0) return '=';
+    return delta > 0 ? `↑${delta}` : `↓${-delta}`;
+  };
+
+  const render = () => {
+    const mult = currentMultipliers();
+    inputs.forEach((i) => { i.nextElementSibling.textContent = `${parseFloat(i.value).toFixed(2)}×`; });
+    const top10 = rank(mult).slice(0, 10);
+    tbody.innerHTML = top10.map((p) => (
+      `<tr><td>${p.rank}</td><td>${esc(p.name)}</td><td>${esc(p.league)}</td>` +
+      `<td>${p.q.toFixed(2)}</td><td>${changeCell(p)}</td></tr>`
+    )).join('');
+    const top10Keys = new Set(top10.map((p) => p.player_key));
+    const churn = [...baseline10Keys].filter((k) => !top10Keys.has(k)).length;
+    churnEl.textContent = T.churn(churn);
+  };
+
+  inputs.forEach((i) => i.addEventListener('input', render));
+  panel.querySelector('.sens-reset')?.addEventListener('click', () => {
+    inputs.forEach((i) => { i.value = i.dataset.default; });
+    render();
+  });
+  render();
+})();

@@ -117,3 +117,51 @@ def test_player_index_has_one_row_per_mapped_player(built):
     for html in built.values():
         rows = re.findall(r'<tr [^>]*data-name="', html)
         assert 150 <= len(rows) <= 260, len(rows)
+
+
+def _rank_top10(rows: list[dict], multipliers: dict[str, float]) -> list[str]:
+    """(player_key, q) sorted by q desc (ties broken by player_key, matching
+    docs/atlas.js's own tie-break) -- the top-10 player_keys, same formula
+    the slider and src/sensitivity.py both use: q = (npg + ast) * m_league.
+    """
+    scored = [
+        (r["player_key"], (r["npg_shrunk"] + r["ast_shrunk"]) * multipliers.get(r["league"], 1.0))
+        for r in rows
+    ]
+    scored.sort(key=lambda t: (-t[1], t[0]))
+    return [key for key, _ in scored[:10]]
+
+
+def test_sensitivity_slider_payload_matches_offline_top10_at_defaults(built):
+    """Task 21c: the `data-shrunk` payload embedded for the in-browser
+    sensitivity slider parses, and -- with no JS involved -- ranking it by
+    the slider's own formula at the config-default multipliers lands on the
+    same top-10 player_keys as ranking `features_*.parquet` directly (the
+    offline source), collapsed the same way `sensitivity.py` collapses a
+    mid-season transfer.
+    """
+    from src import config
+    from src.utils import collapse_player_seasons, read_parquet
+
+    html = built["en"]
+    m = re.search(r"data-shrunk='(\[.*?\])'", html, re.S)
+    assert m, "no data-shrunk payload found on the page"
+    shrunk = json.loads(m.group(1))
+    assert shrunk, "empty sensitivity-slider payload"
+    assert {"player_key", "name", "league", "npg_shrunk", "ast_shrunk"} <= set(shrunk[0])
+    assert len(m.group(1).encode("utf-8")) <= 50_000
+
+    multipliers = config.league_quality()["multipliers"]
+    metrics_season = config.seasons()["metrics"]
+    offline_rows = []
+    for group in ("FW", "MF", "DF"):
+        df = read_parquet(ROOT / "data" / "processed" / "cze" / f"features_{group}.parquet")
+        sub = df[(df["season"] == metrics_season) & df["home_eligible"]].copy()
+        sub = collapse_player_seasons(sub, rate_cols=["npg_p90_shrunk", "ast_p90_shrunk"])
+        offline_rows.extend(
+            {"player_key": r.player_key, "league": r.league,
+             "npg_shrunk": float(r.npg_p90_shrunk), "ast_shrunk": float(r.ast_p90_shrunk)}
+            for r in sub.itertuples()
+        )
+
+    assert set(_rank_top10(shrunk, multipliers)) == set(_rank_top10(offline_rows, multipliers))
