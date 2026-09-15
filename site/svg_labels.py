@@ -19,7 +19,7 @@ from pathlib import Path
 
 DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
-         "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg"]
+         "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg", "gk_export_age.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -68,6 +68,12 @@ T = {
     "Hierarchical Bayesian": "Hierarchický bayesovský",
     "Gradient boosting": "Gradient boosting",
     "Small MLP": "Malý MLP",
+    # goalkeepers (Task 18)
+    "Age at first top-9 season: goalkeepers vs. outfield exports":
+        "Věk při prvním startu v top-9 lize: brankáři vs. hráči v poli",
+    "Age at first top-9 season": "Věk při prvním startu v top-9 lize",
+    "Outfield exports": "Hráči v poli",
+    "Goalkeepers": "Brankáři",
 }
 CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern

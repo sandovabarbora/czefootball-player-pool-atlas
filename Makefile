@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test lint check snapshot restore-snapshot share-tables pages
+.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test lint check snapshot restore-snapshot share-tables pages keepers goalkeepers
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -30,17 +30,19 @@ help:
 	@echo "  strength         Hierarchical Bayesian league-strength model from league movers"
 	@echo "  compare          Three-model rolling-origin comparison (M1 core: monitor performance over time)"
 	@echo "  pathways         Exhibits A-E (youth exposure, export routes, destinations)"
+	@echo "  keepers          Fetch keeper-stat tables (fbref_keepers.parquet)"
+	@echo "  goalkeepers      Goalkeepers chapter: per-million, export age, club tier, production, cards"
 	@echo "  eda              One raw row to a feature vector: cleaning ledger link, rejected candidates, two EDA figures"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
-	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> eda -> data-quality -> render"
+	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> keepers -> goalkeepers -> eda -> data-quality -> render"
 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
 	@echo "  test             Run pytest"
 	@echo "  lint             Run ruff check"
 	@echo "  check            lint + test"
 	@echo "  snapshot         Copy data/processed/\$$(NATION)/ parquet+json into data/snapshot/\$$(NATION)/"
 	@echo "  restore-snapshot Copy data/snapshot/\$$(NATION)/ into data/processed/\$$(NATION)/ (never overwrites newer files)"
-	@echo "  share-tables     Copy fbref_players.parquet + big5_history.parquet from data/processed/cze/ when absent for NATION (nation-independent raw tables; no refetch)"
+	@echo "  share-tables     Copy fbref_players.parquet + big5_history.parquet + fbref_keepers.parquet from data/processed/cze/ when absent for NATION (nation-independent raw tables; no refetch)"
 	@echo "  clean            Remove processed data and outputs for \$$(NATION) (keeps raw)"
 
 install:
@@ -95,6 +97,12 @@ compare:
 pathways:
 	$(ACT) python -m src.pathways
 
+keepers:
+	$(ACT) python -m src.fetch_keepers
+
+goalkeepers:
+	$(ACT) python -m src.goalkeepers
+
 eda:
 	$(ACT) python -m src.feature_eda
 
@@ -104,7 +112,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render
+all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers eda data-quality render
 
 test:
 	$(ACT) pytest
@@ -133,7 +141,7 @@ restore-snapshot:
 # instead of refetching, when its own hasn't been fetched yet.
 share-tables:
 	@mkdir -p data/processed/$(NATION)
-	@for f in fbref_players.parquet big5_history.parquet; do \
+	@for f in fbref_players.parquet big5_history.parquet fbref_keepers.parquet; do \
 		src="data/processed/cze/$$f"; dest="data/processed/$(NATION)/$$f"; \
 		if [ -e "$$dest" ]; then echo "$$dest already present, skipped"; \
 		elif [ -e "$$src" ]; then cp "$$src" "$$dest" && echo "copied $$dest from $$src"; \

@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151049">
-  <link rel="stylesheet" href="../modern.css?v=202609151049">
+  <link rel="stylesheet" href="../style.css?v=202609151114">
+  <link rel="stylesheet" href="../modern.css?v=202609151114">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151049"></script>
+  <script defer src="../atlas.js?v=202609151114"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -52,6 +52,7 @@
     <li><a href="#q6">Nominace na MS</a></li>
     <li><a href="#q7">Kdy vlak odjel</a></li>
     <li><a href="#q8">Norsko a Dánsko</a></li>
+    <li><a href="#q8b">Brankáři</a></li>
     <li><a href="#q9">Kdo jsou hráči</a></li>
     <li><a href="#explore">Prozkoumat data</a></li>
     <li><a href="#methodology">Jak je to postavené, validované a kde to končí</a>
@@ -86,7 +87,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 205 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 221 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -784,6 +785,56 @@
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Stejné definice, stejné sezóny; srovnání, ne kauzální tvrzení.</p>
   </div>
 </section>
+
+
+<section class="slide" id="q8b">
+  <div class="container">
+    <h2 class="slide-q">Kde to funguje: brankáři?</h2>
+    <p class="slide-a">4 čeští brankářů hraje aspoň 450 minut v top-9 ligách (0,37 na milion, pořadí <strong>5 z 9</strong>); v nich se poprvé objevili v mediánovém věku 22, oproti 23 u exportů z pole.</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="gk_export_age.svg" alt="Bodový graf věku při prvním startu v top-9 lize, čeští brankáři proti exportům z pole, jeden bod na hráče, medián vyznačen.">
+      </figure>
+      <details class="fold">
+        <summary>Klubová úroveň: čeští brankáři v top-9, 2025/26</summary>
+        <table class="kv-table">
+          <thead>
+            <tr>
+              <th>Hráč</th><th>Klub</th>
+              <th>Liga</th><th>Minuty</th>
+              <th>Percentil vstřelených gólů klubu</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Lukáš Horníček</td><td>Braga</td><td>POR-Primeira Liga</td><td>2959</td>
+              <td>83 %</td>
+            </tr>
+            
+            <tr>
+              <td>Matej Kovar</td><td>PSV</td><td>NED-Eredivisie</td><td>2790</td>
+              <td>100 %</td>
+            </tr>
+            
+            <tr>
+              <td>Vitezslav Jaros</td><td>Ajax</td><td>NED-Eredivisie</td><td>1710</td>
+              <td>83 %</td>
+            </tr>
+            
+            <tr>
+              <td>Antonín Kinský</td><td>Tottenham</td><td>ENG-Premier League</td><td>630</td>
+              <td>42 %</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </details>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Práh 450 minut, soupisky 2025/26, stejné stahování K = 900 jako zbytek reportu; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení.</p>
+  </div>
+</section>
+
 
 <section class="slide" id="q9">
   <div class="container">
@@ -2232,6 +2283,64 @@
     <p class="cycle-card-meta">UEFA European Under-21 Championship 2025</p>
     
     <p class="muted small">Vybrán jako: nejvíc minut v domácí lize mezi DF do 23 let bez sezóny v top-9 lize.</p>
+  </article>
+      </div>
+      
+      
+      <p class="cycle-row-kicker">Brankáři — nejvíc minut v top-9 · nejmladší v top-9</p>
+      <div class="cycle-grid">
+        <article class="gk-card" id="gk-card-lukas_hornicek-2002" data-player-key="lukas hornicek|2002" data-pos="GK" data-club="Braga">
+    <header class="cycle-card-head">
+      <h4 class="cycle-card-name">Lukáš Horníček</h4>
+      <p class="cycle-card-meta">
+        GK &middot; Braga (POR-Primeira Liga) &middot; reprezentace 2024–26
+      </p>
+    </header>
+
+    <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; 2959 min</p>
+    <dl class="cycle-stats">
+      <div><dt>Obdržené góly/90</dt><dd>1,00</dd></div>
+      <div><dt>Zákroky/90</dt><dd>2,19</dd></div>
+      <div><dt>Úspěšnost zákroků</dt><dd>66,6 %</dd></div>
+    </dl>
+
+    <div class="cycle-section">
+      <p class="cycle-section-label">Klubová úroveň</p>
+      <p class="cycle-tactical">
+        Braga (POR-Primeira Liga) · 83 % vstřelených gólů ligy
+      </p>
+    </div>
+
+    
+    <p class="cycle-card-meta">2024–25 Nations League · 2026 FIFA World Cup · UEFA European Under-21 Championship 2025</p>
+    
+    <p class="muted small">Vybrán jako: nejvíc minut v top-9 ligách mezi domácími brankáři.</p>
+  </article><article class="gk-card" id="gk-card-antonin_kinsky-2003" data-player-key="antonin kinsky|2003" data-pos="GK" data-club="Tottenham">
+    <header class="cycle-card-head">
+      <h4 class="cycle-card-name">Antonín Kinský</h4>
+      <p class="cycle-card-meta">
+        GK &middot; Tottenham (ENG-Premier League) &middot; reprezentace 2024–26
+      </p>
+    </header>
+
+    <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; 630 min</p>
+    <dl class="cycle-stats">
+      <div><dt>Obdržené góly/90</dt><dd>1,00</dd></div>
+      <div><dt>Zákroky/90</dt><dd>1,43</dd></div>
+      <div><dt>Úspěšnost zákroků</dt><dd>65,9 %</dd></div>
+    </dl>
+
+    <div class="cycle-section">
+      <p class="cycle-section-label">Klubová úroveň</p>
+      <p class="cycle-tactical">
+        Tottenham (ENG-Premier League) · 42 % vstřelených gólů ligy
+      </p>
+    </div>
+
+    
+    <p class="cycle-card-meta">2026 World Cup qualification</p>
+    
+    <p class="muted small">Vybrán jako: nejmladší domácí brankář se vstupním počtem minut v top-9.</p>
   </article>
       </div>
       
@@ -8675,6 +8784,9 @@
     <p>Míry na 90 minut u hráčů s málo minutami jsou staženy k mediánu jejich ligy a sezóny (hráči s aspoň 900 minutami) empirickým Bayesovým vzorcem (Efron and Morris, 1975), s K = 10 fantomovými zápasy vyjádřenými jako 900 minut:</p>
     <p class="formula" data-tex="\text{stažená míra} = \dfrac{\text{události} + K \cdot \text{medián ligy}}{\text{minuty} / 90 + K},\qquad K = 10">shrunk_rate = (události + K × medián_ligy) / (minuty / 90 + K), &nbsp; K = 10</p>
     <p>Při 450 minutách (vstupní práh) nese medián ligy 67 % váhy; při 900 minutách váží vlastní míra hráče a medián stejně. Podíl minut a věk se nestahují.</p>
+    
+    <p>Brankářské míry (protipříklad z kapitoly II) používají stejný vzorec. Obdržené góly/90 a zákroky/90 se stahují k mediánu ligy a sezóny se stejným K = 900 minut a obdržené góly/90 jsou pak upravené o násobičku ligy — obdržený gól v silnější lize se počítá méně. Úspěšnost zákroků se stahuje stejně, ale proti počtu střel na bránu, ne minutám: počet střel za jednu sezónu je zpravidla hluboko pod K = 900, takže save_pct_shrunk se u téměř každého brankáře stáhne blízko k mediánu ligy — vypovídavější je tam velký rozdíl v syrové, nestažené úspěšnosti zákroků.</p>
+    
 
     <h3 id="pca-loadings">PCA loadings</h3>
     <p>Jeden pětifeaturový vektor na post (npg_p90, ast_p90, min_share, age, cards_p90), standardizovaný, redukovaný na dvě komponenty na projekci. Style používá stažené míry; quality míry nejdřív násobí ligovou násobičkou.</p>
@@ -9233,8 +9345,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 205 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 205 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 221 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 221 testy.</p>
       <ol class="build-flow">
         <li>Specifikace</li>
         <li>Plán</li>
@@ -9434,7 +9546,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 10:49</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 11:09</p>
   </div>
 </footer>
 

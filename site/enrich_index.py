@@ -148,7 +148,8 @@ sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
 
 # ---------------------------------------------------------------- cs/ page: the translated SVGs sit next to it in docs/cs/
 if LANG == "cs":
-    sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg)"', r'<img src="\1"', 5)
+    sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg|gk_export_age\.svg)"',
+        r'<img src="\1"', 6)
 
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])

@@ -771,6 +771,31 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
     }
 
 
+def _build_gk(gk_raw: dict) -> dict:
+    """Slide 8b context: the goalkeepers counter-example (Task 18), built
+    from `goalkeepers.json` (`src.goalkeepers.build_goalkeepers`'s payload,
+    already display-rounded there). `{}` when the file is missing --
+    `load_data`'s tolerant load -- in which case the template's `{% if gk
+    %}` guards render nothing (slide 8b, the chapter IV paragraph, the GK
+    card row and the TOC entry all disappear together).
+    """
+    if not gk_raw:
+        return {}
+    home_row = next((r for r in gk_raw.get("per_million", []) if r.get("country") == config.HOME), None)
+    return {
+        "home_row": home_row,
+        "home_rank": gk_raw.get("home_rank"),
+        "n_peers": gk_raw.get("n_peers"),
+        "min_minutes": gk_raw.get("min_minutes"),
+        "phantom_minutes": gk_raw.get("phantom_minutes"),
+        "export_age": gk_raw.get("export_age", {}),
+        "club_tier": gk_raw.get("club_tier", []),
+        "club_strength_proxy": gk_raw.get("club_strength_proxy", ""),
+        "production": gk_raw.get("production", {}),
+        "cards": gk_raw.get("cards", []),
+    }
+
+
 def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
     """Exhibit F context: `lens` (src.squad_lens.build_squad_lens's JSON shape) -> template rows.
 
@@ -1325,6 +1350,7 @@ def load_data() -> dict[str, Any]:
         "showcase": _load_json(p / "showcase.json", []),
         "analogs": _load_json(p / "analogs.json", {}),
         "pathways": _load_json(p / "pathways.json", {}),
+        "goalkeepers": _load_json(p / "goalkeepers.json", {}),
         "squad_lens": _load_json(p / "squad_lens.json", {}),
         "big5_series": _load_json(p / "big5_series.json", {}),
         "data_quality": _load_json(p / "data_quality.json", {}),
@@ -1389,6 +1415,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                          current_table=data["fbref_players"] if not data["fbref_players"].empty else None)
     nt_core_event = config.squads().get("nt_core_event")
     pathways = _build_pathways(data["pathways"], names, peers)
+    gk = _build_gk(data["goalkeepers"])
     squad_lens = _build_squad_lens(data["squad_lens"], names)
     player_index = _build_player_index(data["features"], data["coords"], data["pool"],
                                        data["cluster_labels"], cards, metrics, tr)
@@ -1478,6 +1505,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "movers": movers,
         "thresholds": thresholds,
         "pathways": pathways,
+        "gk": gk,
         "squad_lens": squad_lens,
         "cards": cards,
         "card_rows": _card_rows(cards, tr, nt_core_event=nt_core_event),
@@ -1600,6 +1628,24 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "fare_min_cze": fare_min[1], "fare_goals_cze": fare_goals[1], "fare_min_rank": 2,
         "fare_goals_rank": 2, "youth_rank": 1, "n_countries": 2,
     }
+    gk = {
+        "home_row": {"country": "CZE", "name": "Czechia", "n_gk": 3, "population_m": 10.9,
+                     "per_million": 0.28, "rank": 4},
+        "home_rank": 4, "n_peers": 9, "min_minutes": 450, "phantom_minutes": 900,
+        "export_age": {"gk_n": 3, "gk_median_age": 21.0, "outfield_n": 15, "outfield_median_age": 23.0,
+                       "current_top9_ages": [{"player_key": "jindrich stanek|1996", "player": "Jindřich Staněk",
+                                              "first_age": 21.0, "first_season": "2024-2025"}]},
+        "club_tier": [{"player": "Jindřich Staněk", "player_key": "jindrich stanek|1996",
+                      "league": "GER-Bundesliga", "team": "Mainz 05", "min": 2700, "club_goals_pct": 0.6}],
+        "club_strength_proxy": "goals-scored percentile within league",
+        "production": {"home": [], "peer_medians": []},
+        "cards": [
+            {"player_key": "jindrich stanek|1996", "player": "Jindřich Staněk", "team": "Mainz 05",
+             "league": "GER-Bundesliga", "min": 2700, "reason": "most top-9 minutes among home goalkeepers",
+             "stats": {"ga90": 1.22, "saves90": 2.85, "save_pct": 68.4, "cs_share": 0.28, "ga90_q": 0.96},
+             "club_goals_pct": 0.6, "nt_flag": True, "nt_events": ["UEFA Euro 2024"]},
+        ],
+    }
     facts = {"n_pool": 475, "n_no_tables": 120, "n_with_metrics": 206, "n_nt_flagged": 63,
              "nt_events": "UEFA Euro 2024", "n_photos": 114, "coverage_start": seasons["previous"],
              "nt_years": config.nt_years(),
@@ -1696,7 +1742,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                                             thresholds, seasons, n_headline=1, tr=tr),
         "clusters": clusters, "cluster_names": {"FW": {"style": {"C0": tr.term("High-volume scorers")}, "quality": {"C2": tr.term("High-volume scorers in top-five leagues")}}},
         "movers": movers, "thresholds": thresholds,
-        "pathways": pathways, "squad_lens": squad_lens, "cards": cards,
+        "pathways": pathways, "gk": gk, "squad_lens": squad_lens, "cards": cards,
         "card_rows": _card_rows(cards, tr, nt_core_event="2026 FIFA World Cup"),
         "nt_core_event": "2026 FIFA World Cup",
         "player_index": player_index,

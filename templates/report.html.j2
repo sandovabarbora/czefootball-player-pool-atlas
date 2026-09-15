@@ -85,6 +85,46 @@
     <p class="muted small">{{ t('ch3.card.selected', reason=reason(p.reason)) }}</p>
   </article>
 {%- endmacro -%}
+{%- macro gk_card_article(p) -%}
+  {#- Deliberately class="gk-card", NOT "cycle-card": site/enrich_index.py's
+     CARD_RE/TILE_ARTICLE_RE (the outfield-showcase tile system, which labels
+     a card's first <dd> as the quality metric) and docs/modern.css's
+     ".cycle-card > :not(.cycle-tile) { display: none }" collapse rule both
+     key off the literal class="cycle-card" — this card intentionally sits
+     outside that site-specific machinery (its own box styling is
+     `.gk-card` in style.css) rather than risk either mislabeling GA/90 as
+     the outfield metric or rendering collapsed-empty with no tile to open
+     it. Inner sub-component classes (cycle-card-head, cycle-stats, ...) are
+     still reused -- they are not scoped to a `.cycle-card` parent. -#}
+  <article class="gk-card" id="gk-card-{{ p.player_key | replace('|', '-') | replace(' ', '_') }}" data-player-key="{{ p.player_key }}" data-pos="GK" data-club="{{ p.team }}">
+    <header class="cycle-card-head">
+      <h4 class="cycle-card-name">{{ p.player }}</h4>
+      <p class="cycle-card-meta">
+        GK &middot; {{ p.team }} ({{ p.league }}){% if p.nt_flag %} &middot; {{ t('ch3.card.nt', nt_years=facts.nt_years) }}{% endif %}
+      </p>
+    </header>
+
+    <p class="cycle-card-meta cycle-stats-head">{{ seasons.metrics }} &middot; {{ p.min }} {{ t('ch3.card.min') }}</p>
+    <dl class="cycle-stats">
+      <div><dt>{{ t('gk.stat.ga90') }}</dt><dd>{{ f2(p.stats.ga90) }}</dd></div>
+      <div><dt>{{ t('gk.stat.saves90') }}</dt><dd>{{ f2(p.stats.saves90) }}</dd></div>
+      <div><dt>{{ t('gk.stat.savepct') }}</dt><dd>{% if p.stats.save_pct is not none %}{{ '%.1f' | format(p.stats.save_pct) }} %{% else %}—{% endif %}</dd></div>
+    </dl>
+
+    <div class="cycle-section">
+      <p class="cycle-section-label">{{ t('gk.card.tier') }}</p>
+      <p class="cycle-tactical">
+        {% if p.club_goals_pct is not none %}{{ t('gk.card.tier_line', club=p.team, league=p.league, club_pct=pct(p.club_goals_pct)) }}
+        {%- else %}{{ t('gk.card.tier_line_na') }}{% endif %}
+      </p>
+    </div>
+
+    {% if p.nt_events %}
+    <p class="cycle-card-meta">{{ p.nt_events | join(' · ') }}</p>
+    {% endif %}
+    <p class="muted small">{{ t('ch3.card.selected', reason=term(p.reason)) }}</p>
+  </article>
+{%- endmacro -%}
 {%- set topn = headline_leagues | length -%}
 {%- set cze = per_capita | selectattr('country', 'equalto', home_code) | list | first -%}
 {%- set gt = {} -%}
@@ -127,6 +167,7 @@
     <li><a href="#q6">{{ t('toc.q6') }}</a></li>
     <li><a href="#q7">{{ t('toc.q7') }}</a></li>
     <li><a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a></li>
+    {% if gk %}<li><a href="#q8b">{{ t('toc.q8b') }}</a></li>{% endif %}
     <li><a href="#q9">{{ t('toc.q9') }}</a></li>
     <li><a href="#explore">{{ t('toc.explore') }}</a></li>
     <li><a href="#methodology">{{ t('toc.methodology') }}</a>
@@ -161,7 +202,7 @@
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
-        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a> · <a href="#q9">{{ t('toc.q9') }}</a></li>
+        <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a> · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
         <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
@@ -429,6 +470,43 @@
   </div>
 </section>
 
+{% if gk and gk.home_rank %}
+<section class="slide" id="q8b">
+  <div class="container">
+    <h2 class="slide-q">{{ t('slide.8b.q') }}</h2>
+    <p class="slide-a">{{ t('slide.8b.a', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
+                          pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
+                          gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age)) }}</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="{{ assets }}gk_export_age.svg" alt="{{ t('slide.8b.alt') }}">
+      </figure>
+      <details class="fold">
+        <summary>{{ t('gk.tier.summary', season=seasons.metrics) }}</summary>
+        <table class="kv-table">
+          <thead>
+            <tr>
+              <th>{{ t('gk.tier.th.player') }}</th><th>{{ t('gk.tier.th.club') }}</th>
+              <th>{{ t('gk.tier.th.league') }}</th><th>{{ t('gk.tier.th.min') }}</th>
+              <th>{{ t('gk.tier.th.club_pct') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in gk.club_tier %}
+            <tr>
+              <td>{{ r.player }}</td><td>{{ r.team }}</td><td>{{ r.league }}</td><td>{{ r.min }}</td>
+              <td>{% if r.club_goals_pct is not none %}{{ pct(r.club_goals_pct) }}{% else %}—{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </details>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8b.how', min=gk.min_minutes, season=seasons.metrics, phantom=gk.phantom_minutes) }}</p>
+  </div>
+</section>
+{% endif %}
+
 <section class="slide" id="q9">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.9.q') }}</h2>
@@ -444,6 +522,12 @@
         {% for p in row.cards %}{{ card_article(p) }}{% endfor %}
       </div>
       {% endfor %}
+      {% if gk and gk.cards %}
+      <p class="cycle-row-kicker">{{ t('ch3.gk.kicker', topn=topn) }}</p>
+      <div class="cycle-grid">
+        {% for p in gk.cards %}{{ gk_card_article(p) }}{% endfor %}
+      </div>
+      {% endif %}
       <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.9.how', season=seasons.metrics) }}</p>
@@ -1114,6 +1198,9 @@
     <p>{{ t('ch4.shrink.p1', phantom=feature_defs.phantom_minutes, cite_efron_morris=cite.efron_morris_1975) }}</p>
     <p class="formula" data-tex="{{ t('ch4.shrink.tex') }}">{{ t('ch4.shrink.formula') }}</p>
     <p>{{ t('ch4.shrink.p2', min=feature_defs.min_minutes, weight=pct(feature_defs.phantom_minutes / (feature_defs.min_minutes + feature_defs.phantom_minutes)), phantom=feature_defs.phantom_minutes) }}</p>
+    {% if gk %}
+    <p>{{ t('ch4.gk.p', phantom=gk.phantom_minutes) }}</p>
+    {% endif %}
 
     <h3 id="pca-loadings">{{ t('ch4.pca.h3') }}</h3>
     <p>{{ t('ch4.pca.p', features=feature_defs.features | join(', ')) }}</p>

@@ -1575,6 +1575,16 @@ li strong { font-family: var(--font-display); font-weight: 600; }
   padding-top: var(--space-3);
   border-top: 2px solid var(--ink);
 }
+/* Task 18 (goalkeepers): same box treatment as .cycle-card, under its own
+   selector -- deliberately not .cycle-card itself, see the gk_card_article
+   macro's comment in templates/report.html.j2 for why. */
+.gk-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 2px solid var(--oxblood-700);
+}
 .cycle-card-head { margin-bottom: 0; }
 .cycle-card-name {
   margin: 0;

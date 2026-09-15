@@ -28,7 +28,7 @@ from src.render import (
 )
 
 SECTION_IDS = (
-    "summary", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "for-federation",
+    "summary", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q8b", "q9", "for-federation",
     "explore", "benchmark", "observations", "clusters", "trajectories", "pathways",
     "exhibit-f", "analogs", "players", "methodology", "multipliers", "league-strength", "shrinkage",
     "pca-loadings", "sensitivity", "data-quality", "limitations", "validation-robustness", "how-built",
@@ -397,6 +397,38 @@ def test_slide4_and_5_how_gain_a_home_league_note_only_when_it_is_inside_the_top
     html = _render(ctx)
     how = re.search(r'id="q4">.*?slide-how">(.*?)</p>', html, re.S).group(1)
     assert "is itself one of Europe's top" not in how
+
+
+def test_slide_8b_goalkeepers_counter_example():
+    """Task 18: slide 8b sits between q8 and q9, carries the strip-plot
+    figure and the folded club-tier table, a GK card row appears in the
+    roster under its own kicker, and chapter IV gets the GK shrinkage
+    paragraph -- all driven by the `gk` context key (empty dict = section
+    absent, tested separately below)."""
+    ctx = build_context_from_fixtures("en")
+    html = _render(ctx)
+    q8_pos, q8b_pos, q9_pos = html.index('id="q8"'), html.index('id="q8b"'), html.index('id="q9"')
+    assert q8_pos < q8b_pos < q9_pos
+    q8b = re.search(r'<section class="slide" id="q8b">(.*?)</section>', html, re.S).group(1)
+    assert re.search(r'<h2 class="slide-q">.+?</h2>', q8b, re.S)
+    assert re.search(r'<p class="slide-a">.*?</p>', q8b, re.S)
+    assert "gk_export_age.svg" in q8b
+    assert "<table" in q8b and "Mainz 05" in q8b
+    assert re.search(r'<p class="slide-how"><span class="slide-how-label">.*?</span>.*?</p>', q8b, re.S)
+    assert "gk-card" in html and "Jindřich Staněk" in html
+    assert "Goalkeepers — most top-9 minutes" in html
+    assert "Bayesian shrinkage" in html  # ch4 shrinkage h3 still present
+    shrink_section = html.split('id="shrinkage"')[1].split("<h3")[0]
+    assert "save_pct_shrunk" in shrink_section
+
+
+def test_slide_8b_absent_when_gk_context_empty():
+    ctx = build_context_from_fixtures("en")
+    ctx["gk"] = {}
+    html = _render(ctx)
+    assert 'id="q8b"' not in html
+    assert "gk-card" not in html
+    assert "save_pct_shrunk" not in html
 
     ctx2 = dict(ctx, domestic_league_code="ENG-Premier League", headline_leagues=["ENG-Premier League"])
     html2 = _render(ctx2)

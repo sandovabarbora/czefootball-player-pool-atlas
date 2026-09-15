@@ -1,0 +1,527 @@
+{
+ "min_minutes": 450,
+ "phantom_minutes": 900,
+ "per_million": [
+  {
+   "country": "DEN",
+   "name": "Denmark",
+   "n_gk": 4,
+   "population_m": 5.96,
+   "per_million": 0.67,
+   "rank": 1
+  },
+  {
+   "country": "CRO",
+   "name": "Croatia",
+   "n_gk": 2,
+   "population_m": 3.86,
+   "per_million": 0.52,
+   "rank": 2
+  },
+  {
+   "country": "SUI",
+   "name": "Switzerland",
+   "n_gk": 4,
+   "population_m": 8.96,
+   "per_million": 0.45,
+   "rank": 3
+  },
+  {
+   "country": "SVK",
+   "name": "Slovakia",
+   "n_gk": 2,
+   "population_m": 5.42,
+   "per_million": 0.37,
+   "rank": 4
+  },
+  {
+   "country": "CZE",
+   "name": "Czechia",
+   "n_gk": 4,
+   "population_m": 10.9,
+   "per_million": 0.37,
+   "rank": 5
+  },
+  {
+   "country": "POL",
+   "name": "Poland",
+   "n_gk": 7,
+   "population_m": 36.62,
+   "per_million": 0.19,
+   "rank": 6
+  },
+  {
+   "country": "NOR",
+   "name": "Norway",
+   "n_gk": 1,
+   "population_m": 5.55,
+   "per_million": 0.18,
+   "rank": 7
+  },
+  {
+   "country": "AUT",
+   "name": "Austria",
+   "n_gk": 1,
+   "population_m": 9.16,
+   "per_million": 0.11,
+   "rank": 8
+  },
+  {
+   "country": "HUN",
+   "name": "Hungary",
+   "n_gk": 1,
+   "population_m": 9.58,
+   "per_million": 0.1,
+   "rank": 9
+  }
+ ],
+ "home_rank": 5,
+ "n_peers": 9,
+ "export_age": {
+  "gk_n": 3,
+  "gk_median_age": 22.0,
+  "outfield_n": 12,
+  "outfield_median_age": 23.0,
+  "current_top9_ages": [
+   {
+    "player_key": "lukas hornicek|2002",
+    "player": "Lukáš Horníček",
+    "first_age": 22.0,
+    "first_season": "2024-2025"
+   },
+   {
+    "player_key": "antonin kinsky|2003",
+    "player": "Antonín Kinský",
+    "first_age": 22.0,
+    "first_season": "2025-2026"
+   },
+   {
+    "player_key": "matej kovar|2000",
+    "player": "Matej Kovar",
+    "first_age": 24.0,
+    "first_season": "2024-2025"
+   }
+  ]
+ },
+ "club_tier": [
+  {
+   "player": "Lukáš Horníček",
+   "player_key": "lukas hornicek|2002",
+   "league": "POR-Primeira Liga",
+   "team": "Braga",
+   "min": 2959,
+   "club_goals_pct": 0.83
+  },
+  {
+   "player": "Matej Kovar",
+   "player_key": "matej kovar|2000",
+   "league": "NED-Eredivisie",
+   "team": "PSV",
+   "min": 2790,
+   "club_goals_pct": 1.0
+  },
+  {
+   "player": "Vitezslav Jaros",
+   "player_key": "vitezslav jaros|2001",
+   "league": "NED-Eredivisie",
+   "team": "Ajax",
+   "min": 1710,
+   "club_goals_pct": 0.83
+  },
+  {
+   "player": "Antonín Kinský",
+   "player_key": "antonin kinsky|2003",
+   "league": "ENG-Premier League",
+   "team": "Tottenham",
+   "min": 630,
+   "club_goals_pct": 0.42
+  }
+ ],
+ "club_strength_proxy": "goals-scored percentile within league",
+ "production": {
+  "home": [
+   {
+    "player": "Antonín Kinský",
+    "player_key": "antonin kinsky|2003",
+    "team": "Tottenham",
+    "league": "ENG-Premier League",
+    "min": 630,
+    "ga90": 1.0,
+    "saves90": 1.43,
+    "save_pct_shrunk": 65.9,
+    "cs_share": 0.286,
+    "ga90_q": 1.21
+   },
+   {
+    "player": "Vitezslav Jaros",
+    "player_key": "vitezslav jaros|2001",
+    "team": "Ajax",
+    "league": "NED-Eredivisie",
+    "min": 1710,
+    "ga90": 1.21,
+    "saves90": 3.26,
+    "save_pct_shrunk": 68.3,
+    "cs_share": 0.263,
+    "ga90_q": 0.68
+   },
+   {
+    "player": "Matej Kovar",
+    "player_key": "matej kovar|2000",
+    "team": "PSV",
+    "league": "NED-Eredivisie",
+    "min": 2790,
+    "ga90": 1.32,
+    "saves90": 2.74,
+    "save_pct_shrunk": 67.8,
+    "cs_share": 0.226,
+    "ga90_q": 0.71
+   },
+   {
+    "player": "Lukáš Horníček",
+    "player_key": "lukas hornicek|2002",
+    "team": "Braga",
+    "league": "POR-Primeira Liga",
+    "min": 2959,
+    "ga90": 1.0,
+    "saves90": 2.19,
+    "save_pct_shrunk": 66.6,
+    "cs_share": 0.364,
+    "ga90_q": 0.67
+   },
+   {
+    "player": "Martin Jedlička",
+    "player_key": "martin jedlicka|1998",
+    "team": "Baník Ostrava",
+    "league": "CZE-First League",
+    "min": 1440,
+    "ga90": 1.5,
+    "saves90": 3.12,
+    "save_pct_shrunk": 67.5,
+    "cs_share": 0.312,
+    "ga90_q": 0.6
+   },
+   {
+    "player": "Michal Reichl",
+    "player_key": "michal reichl|1992",
+    "team": "Bohemians 1905",
+    "league": "CZE-First League",
+    "min": 1990,
+    "ga90": 1.4,
+    "saves90": 2.89,
+    "save_pct_shrunk": 67.5,
+    "cs_share": 0.217,
+    "ga90_q": 0.58
+   },
+   {
+    "player": "Hugo Jan Bačkovský",
+    "player_key": "hugo jan backovsky|1999",
+    "team": "Dukla Prague",
+    "league": "CZE-First League",
+    "min": 1260,
+    "ga90": 1.29,
+    "saves90": 3.36,
+    "save_pct_shrunk": 67.8,
+    "cs_share": 0.214,
+    "ga90_q": 0.54
+   },
+   {
+    "player": "Stanislav Dostál",
+    "player_key": "stanislav dostal|1991",
+    "team": "Fastav Zlín",
+    "league": "CZE-First League",
+    "min": 2700,
+    "ga90": 1.47,
+    "saves90": 3.03,
+    "save_pct_shrunk": 67.4,
+    "cs_share": 0.3,
+    "ga90_q": 0.61
+   },
+   {
+    "player": "Jan Hanuš",
+    "player_key": "jan hanus|1988",
+    "team": "Jablonec",
+    "league": "CZE-First League",
+    "min": 2326,
+    "ga90": 1.2,
+    "saves90": 2.24,
+    "save_pct_shrunk": 67.2,
+    "cs_share": 0.423,
+    "ga90_q": 0.52
+   },
+   {
+    "player": "Aleš Mandous",
+    "player_key": "ales mandous|1992",
+    "team": "Mladá Boleslav",
+    "league": "CZE-First League",
+    "min": 720,
+    "ga90": 3.12,
+    "saves90": 2.75,
+    "save_pct_shrunk": 66.4,
+    "cs_share": 0.0,
+    "ga90_q": 0.89
+   },
+   {
+    "player": "Jiří Floder",
+    "player_key": "jiri floder|1997",
+    "team": "Mladá Boleslav",
+    "league": "CZE-First League",
+    "min": 2250,
+    "ga90": 1.2,
+    "saves90": 2.92,
+    "save_pct_shrunk": 67.8,
+    "cs_share": 0.36,
+    "ga90_q": 0.52
+   },
+   {
+    "player": "Aleš Mandous",
+    "player_key": "ales mandous|1992",
+    "team": "Pardubice",
+    "league": "CZE-First League",
+    "min": 480,
+    "ga90": 1.5,
+    "saves90": 2.81,
+    "save_pct_shrunk": 67.4,
+    "cs_share": 0.0,
+    "ga90_q": 0.57
+   },
+   {
+    "player": "Jan Koutny",
+    "player_key": "jan koutny|2004",
+    "team": "Sigma Olomouc",
+    "league": "CZE-First League",
+    "min": 2766,
+    "ga90": 1.2,
+    "saves90": 2.77,
+    "save_pct_shrunk": 67.7,
+    "cs_share": 0.29,
+    "ga90_q": 0.52
+   },
+   {
+    "player": "Jakub Markovič",
+    "player_key": "jakub markovic|2001",
+    "team": "Slavia Prague",
+    "league": "CZE-First League",
+    "min": 1317,
+    "ga90": 0.55,
+    "saves90": 1.71,
+    "save_pct_shrunk": 67.8,
+    "cs_share": 0.533,
+    "ga90_q": 0.35
+   },
+   {
+    "player": "Jindřich Staněk",
+    "player_key": "jindrich stanek|1996",
+    "team": "Slavia Prague",
+    "league": "CZE-First League",
+    "min": 1710,
+    "ga90": 1.05,
+    "saves90": 2.11,
+    "save_pct_shrunk": 67.4,
+    "cs_share": 0.316,
+    "ga90_q": 0.48
+   },
+   {
+    "player": "Tomáš Koubek",
+    "player_key": "tomas koubek|1992",
+    "team": "Slovan Liberec",
+    "league": "CZE-First League",
+    "min": 2970,
+    "ga90": 1.09,
+    "saves90": 2.73,
+    "save_pct_shrunk": 67.9,
+    "cs_share": 0.333,
+    "ga90_q": 0.48
+   },
+   {
+    "player": "Jiří Borek",
+    "player_key": "jiri borek|2002",
+    "team": "Slovácko",
+    "league": "CZE-First League",
+    "min": 540,
+    "ga90": 1.67,
+    "saves90": 3.33,
+    "save_pct_shrunk": 67.4,
+    "cs_share": 0.333,
+    "ga90_q": 0.6
+   },
+   {
+    "player": "Milan Heča",
+    "player_key": "milan heca|1991",
+    "team": "Slovácko",
+    "league": "CZE-First League",
+    "min": 2250,
+    "ga90": 1.4,
+    "saves90": 3.04,
+    "save_pct_shrunk": 67.6,
+    "cs_share": 0.24,
+    "ga90_q": 0.58
+   },
+   {
+    "player": "Matouš Trmal",
+    "player_key": "matous trmal|1998",
+    "team": "Teplice",
+    "league": "CZE-First League",
+    "min": 3060,
+    "ga90": 1.24,
+    "saves90": 2.94,
+    "save_pct_shrunk": 67.9,
+    "cs_share": 0.324,
+    "ga90_q": 0.53
+   },
+   {
+    "player": "Martin Jedlička",
+    "player_key": "martin jedlicka|1998",
+    "team": "Viktoria Plzeň",
+    "league": "CZE-First League",
+    "min": 1274,
+    "ga90": 1.41,
+    "saves90": 2.9,
+    "save_pct_shrunk": 67.5,
+    "cs_share": 0.267,
+    "ga90_q": 0.58
+   },
+   {
+    "player": "Viktor Baier",
+    "player_key": "viktor baier|2005",
+    "team": "Blau-Weiß Linz",
+    "league": "AUT-Bundesliga",
+    "min": 1530,
+    "ga90": 1.71,
+    "saves90": 3.06,
+    "save_pct_shrunk": 65.9,
+    "cs_share": 0.176,
+    "ga90_q": 0.42
+   },
+   {
+    "player": "Adam Stejskal",
+    "player_key": "adam stejskal|2002",
+    "team": "WSG Tirol",
+    "league": "AUT-Bundesliga",
+    "min": 2790,
+    "ga90": 1.65,
+    "saves90": 2.13,
+    "save_pct_shrunk": 65.0,
+    "cs_share": 0.226,
+    "ga90_q": 0.42
+   }
+  ],
+  "peer_medians": [
+   {
+    "country": "CZE",
+    "n": 22,
+    "median_ga90_q": 0.57,
+    "median_saves90": 2.9,
+    "median_save_pct": 67.5,
+    "median_cs_share": 0.288
+   },
+   {
+    "country": "SVK",
+    "n": 9,
+    "median_ga90_q": 0.56,
+    "median_saves90": 3.09,
+    "median_save_pct": 66.8,
+    "median_cs_share": 0.292
+   },
+   {
+    "country": "AUT",
+    "n": 16,
+    "median_ga90_q": 0.37,
+    "median_saves90": 2.61,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.273
+   },
+   {
+    "country": "HUN",
+    "n": 16,
+    "median_ga90_q": 0.39,
+    "median_saves90": 3.17,
+    "median_save_pct": 69.5,
+    "median_cs_share": 0.243
+   },
+   {
+    "country": "POL",
+    "n": 26,
+    "median_ga90_q": 0.6,
+    "median_saves90": 2.77,
+    "median_save_pct": 66.3,
+    "median_cs_share": 0.243
+   },
+   {
+    "country": "CRO",
+    "n": 20,
+    "median_ga90_q": 0.34,
+    "median_saves90": 2.92,
+    "median_save_pct": 67.8,
+    "median_cs_share": 0.222
+   },
+   {
+    "country": "DEN",
+    "n": 21,
+    "median_ga90_q": 0.59,
+    "median_saves90": 2.9,
+    "median_save_pct": 65.0,
+    "median_cs_share": 0.281
+   },
+   {
+    "country": "SUI",
+    "n": 15,
+    "median_ga90_q": 0.53,
+    "median_saves90": 3.07,
+    "median_save_pct": 65.2,
+    "median_cs_share": 0.211
+   },
+   {
+    "country": "NOR",
+    "n": 17,
+    "median_ga90_q": 0.57,
+    "median_saves90": 3.06,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.222
+   }
+  ]
+ },
+ "cards": [
+  {
+   "player_key": "lukas hornicek|2002",
+   "player": "Lukáš Horníček",
+   "team": "Braga",
+   "league": "POR-Primeira Liga",
+   "min": 2959,
+   "reason": "most top-9 minutes among home goalkeepers",
+   "stats": {
+    "ga90": 1.0,
+    "saves90": 2.19,
+    "save_pct": 66.6,
+    "cs_share": 0.364,
+    "ga90_q": 0.67
+   },
+   "club_goals_pct": 0.83,
+   "nt_flag": true,
+   "nt_events": [
+    "2024–25 Nations League",
+    "2026 FIFA World Cup",
+    "UEFA European Under-21 Championship 2025"
+   ]
+  },
+  {
+   "player_key": "antonin kinsky|2003",
+   "player": "Antonín Kinský",
+   "team": "Tottenham",
+   "league": "ENG-Premier League",
+   "min": 630,
+   "reason": "youngest home goalkeeper with minimum top-9 minutes",
+   "stats": {
+    "ga90": 1.0,
+    "saves90": 1.43,
+    "save_pct": 65.9,
+    "cs_share": 0.286,
+    "ga90_q": 1.21
+   },
+   "club_goals_pct": 0.42,
+   "nt_flag": true,
+   "nt_events": [
+    "2026 World Cup qualification"
+   ]
+  }
+ ]
+}

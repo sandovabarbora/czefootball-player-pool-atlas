@@ -1,0 +1,344 @@
+{
+ "min_minutes": 450,
+ "phantom_minutes": 900,
+ "per_million": [
+  {
+   "country": "BEL",
+   "name": "Belgium",
+   "n_gk": 21,
+   "population_m": 11.79,
+   "per_million": 1.78,
+   "rank": 1
+  },
+  {
+   "country": "NED",
+   "name": "Netherlands",
+   "n_gk": 25,
+   "population_m": 17.98,
+   "per_million": 1.39,
+   "rank": 2
+  },
+  {
+   "country": "POR",
+   "name": "Portugal",
+   "n_gk": 11,
+   "population_m": 10.64,
+   "per_million": 1.03,
+   "rank": 3
+  },
+  {
+   "country": "ESP",
+   "name": "Spain",
+   "n_gk": 20,
+   "population_m": 48.62,
+   "per_million": 0.41,
+   "rank": 4
+  },
+  {
+   "country": "ITA",
+   "name": "Italy",
+   "n_gk": 17,
+   "population_m": 58.99,
+   "per_million": 0.29,
+   "rank": 5
+  },
+  {
+   "country": "GER",
+   "name": "Germany",
+   "n_gk": 20,
+   "population_m": 83.6,
+   "per_million": 0.24,
+   "rank": 6
+  },
+  {
+   "country": "FRA",
+   "name": "France",
+   "n_gk": 14,
+   "population_m": 68.17,
+   "per_million": 0.21,
+   "rank": 7
+  },
+  {
+   "country": "ENG",
+   "name": "England",
+   "n_gk": 5,
+   "population_m": 57.7,
+   "per_million": 0.09,
+   "rank": 8
+  }
+ ],
+ "home_rank": 8,
+ "n_peers": 8,
+ "export_age": {
+  "gk_n": 4,
+  "gk_median_age": 26.0,
+  "outfield_n": 150,
+  "outfield_median_age": 21.0,
+  "current_top9_ages": [
+   {
+    "player_key": "james trafford|2002",
+    "player": "James Trafford",
+    "first_age": 23.0,
+    "first_season": "2025-2026"
+   },
+   {
+    "player_key": "carl rushworth|2001",
+    "player": "Carl Rushworth",
+    "first_age": 25.0,
+    "first_season": "2026-2027"
+   },
+   {
+    "player_key": "dean henderson|1997",
+    "player": "Dean Henderson",
+    "first_age": 27.0,
+    "first_season": "2024-2025"
+   },
+   {
+    "player_key": "jordan pickford|1994",
+    "player": "Jordan Pickford",
+    "first_age": 30.0,
+    "first_season": "2024-2025"
+   }
+  ]
+ },
+ "club_tier": [
+  {
+   "player": "Jordan Pickford",
+   "player_key": "jordan pickford|1994",
+   "league": "ENG-Premier League",
+   "team": "Everton",
+   "min": 3420,
+   "club_goals_pct": 0.35
+  },
+  {
+   "player": "Dean Henderson",
+   "player_key": "dean henderson|1997",
+   "league": "ENG-Premier League",
+   "team": "Crystal Palace",
+   "min": 3330,
+   "club_goals_pct": 0.2
+  },
+  {
+   "player": "Nick Pope",
+   "player_key": "nick pope|1992",
+   "league": "ENG-Premier League",
+   "team": "Newcastle",
+   "min": 2416,
+   "club_goals_pct": 0.65
+  },
+  {
+   "player": "Sam Johnstone",
+   "player_key": "sam johnstone|1993",
+   "league": "ENG-Premier League",
+   "team": "Wolves",
+   "min": 1080,
+   "club_goals_pct": 0.05
+  },
+  {
+   "player": "Aaron Ramsdale",
+   "player_key": "aaron ramsdale|1998",
+   "league": "ENG-Premier League",
+   "team": "Newcastle",
+   "min": 1004,
+   "club_goals_pct": 0.65
+  },
+  {
+   "player": "James Trafford",
+   "player_key": "james trafford|2002",
+   "league": "ENG-Premier League",
+   "team": "Manchester City",
+   "min": 360,
+   "club_goals_pct": 1.0
+  },
+  {
+   "player": "Daniel Bentley",
+   "player_key": "daniel bentley|1993",
+   "league": "ENG-Premier League",
+   "team": "Wolves",
+   "min": 270,
+   "club_goals_pct": 0.05
+  },
+  {
+   "player": "Freddie Woodman",
+   "player_key": "freddie woodman|1997",
+   "league": "ENG-Premier League",
+   "team": "Liverpool",
+   "min": 213,
+   "club_goals_pct": 0.85
+  }
+ ],
+ "club_strength_proxy": "goals-scored percentile within league",
+ "production": {
+  "home": [
+   {
+    "player": "Dean Henderson",
+    "player_key": "dean henderson|1997",
+    "team": "Crystal Palace",
+    "league": "ENG-Premier League",
+    "min": 3330,
+    "ga90": 1.38,
+    "saves90": 2.81,
+    "save_pct_shrunk": 66.1,
+    "cs_share": 0.297,
+    "ga90_q": 1.37
+   },
+   {
+    "player": "Jordan Pickford",
+    "player_key": "jordan pickford|1994",
+    "team": "Everton",
+    "league": "ENG-Premier League",
+    "min": 3420,
+    "ga90": 1.32,
+    "saves90": 2.61,
+    "save_pct_shrunk": 66.1,
+    "cs_share": 0.289,
+    "ga90_q": 1.33
+   },
+   {
+    "player": "Aaron Ramsdale",
+    "player_key": "aaron ramsdale|1998",
+    "team": "Newcastle",
+    "league": "ENG-Premier League",
+    "min": 1004,
+    "ga90": 1.52,
+    "saves90": 2.15,
+    "save_pct_shrunk": 65.7,
+    "cs_share": 0.083,
+    "ga90_q": 1.45
+   },
+   {
+    "player": "Nick Pope",
+    "player_key": "nick pope|1992",
+    "team": "Newcastle",
+    "league": "ENG-Premier League",
+    "min": 2416,
+    "ga90": 1.42,
+    "saves90": 3.32,
+    "save_pct_shrunk": 66.5,
+    "cs_share": 0.259,
+    "ga90_q": 1.4
+   },
+   {
+    "player": "Sam Johnstone",
+    "player_key": "sam johnstone|1993",
+    "team": "Wolves",
+    "league": "ENG-Premier League",
+    "min": 1080,
+    "ga90": 2.0,
+    "saves90": 3.25,
+    "save_pct_shrunk": 65.8,
+    "cs_share": 0.0,
+    "ga90_q": 1.71
+   }
+  ],
+  "peer_medians": [
+   {
+    "country": "ENG",
+    "n": 5,
+    "median_ga90_q": 1.4,
+    "median_saves90": 2.82,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.259
+   },
+   {
+    "country": "FRA",
+    "n": 14,
+    "median_ga90_q": 0.92,
+    "median_saves90": 2.67,
+    "median_save_pct": 65.8,
+    "median_cs_share": 0.31
+   },
+   {
+    "country": "GER",
+    "n": 41,
+    "median_ga90_q": 0.74,
+    "median_saves90": 2.95,
+    "median_save_pct": 66.6,
+    "median_cs_share": 0.237
+   },
+   {
+    "country": "ESP",
+    "n": 20,
+    "median_ga90_q": 1.09,
+    "median_saves90": 2.97,
+    "median_save_pct": 68.7,
+    "median_cs_share": 0.232
+   },
+   {
+    "country": "ITA",
+    "n": 18,
+    "median_ga90_q": 1.05,
+    "median_saves90": 2.72,
+    "median_save_pct": 68.3,
+    "median_cs_share": 0.322
+   },
+   {
+    "country": "NED",
+    "n": 27,
+    "median_ga90_q": 0.87,
+    "median_saves90": 3.26,
+    "median_save_pct": 67.8,
+    "median_cs_share": 0.2
+   },
+   {
+    "country": "POR",
+    "n": 11,
+    "median_ga90_q": 0.98,
+    "median_saves90": 2.83,
+    "median_save_pct": 66.0,
+    "median_cs_share": 0.194
+   },
+   {
+    "country": "BEL",
+    "n": 21,
+    "median_ga90_q": 0.84,
+    "median_saves90": 3.0,
+    "median_save_pct": 69.1,
+    "median_cs_share": 0.25
+   }
+  ]
+ },
+ "cards": [
+  {
+   "player_key": "jordan pickford|1994",
+   "player": "Jordan Pickford",
+   "team": "Everton",
+   "league": "ENG-Premier League",
+   "min": 3420,
+   "reason": "most top-9 minutes among home goalkeepers",
+   "stats": {
+    "ga90": 1.32,
+    "saves90": 2.61,
+    "save_pct": 66.1,
+    "cs_share": 0.289,
+    "ga90_q": 1.33
+   },
+   "club_goals_pct": 0.35,
+   "nt_flag": true,
+   "nt_events": [
+    "2026 FIFA World Cup",
+    "UEFA Euro 2024"
+   ]
+  },
+  {
+   "player_key": "aaron ramsdale|1998",
+   "player": "Aaron Ramsdale",
+   "team": "Newcastle",
+   "league": "ENG-Premier League",
+   "min": 1004,
+   "reason": "youngest home goalkeeper with minimum top-9 minutes",
+   "stats": {
+    "ga90": 1.52,
+    "saves90": 2.15,
+    "save_pct": 65.7,
+    "cs_share": 0.083,
+    "ga90_q": 1.45
+   },
+   "club_goals_pct": 0.65,
+   "nt_flag": true,
+   "nt_events": [
+    "UEFA Euro 2024"
+   ]
+  }
+ ]
+}

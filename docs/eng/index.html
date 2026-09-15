@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151049">
-  <link rel="stylesheet" href="modern.css?v=202609151049">
+  <link rel="stylesheet" href="style.css?v=202609151110">
+  <link rel="stylesheet" href="modern.css?v=202609151110">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151049"></script>
+  <script defer src="atlas.js?v=202609151110"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -52,6 +52,7 @@
     <li><a href="#q6">World Cup squad</a></li>
     <li><a href="#q7">When the train left</a></li>
     <li><a href="#q8">France and Spain</a></li>
+    <li><a href="#q8b">Goalkeepers</a></li>
     <li><a href="#q9">Who the players are</a></li>
     <li><a href="#explore">Explore the data</a></li>
     <li><a href="#methodology">How it is built, validated and where it stops</a>
@@ -86,7 +87,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 205 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 221 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -781,6 +782,76 @@
     <p class="slide-how"><span class="slide-how-label">How we know</span> Same definitions, same seasons; a comparison, not a causal claim.</p>
   </div>
 </section>
+
+
+<section class="slide" id="q8b">
+  <div class="container">
+    <h2 class="slide-q">Where does it work: goalkeepers?</h2>
+    <p class="slide-a">5 English goalkeepers play ≥ 450 minutes in the top-9 leagues (0.09 per million, rank <strong>8 of 8</strong>); they first appeared there at a median age of 26, against 21 for outfield exports.</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="gk_export_age.svg" alt="Strip plot of age at first top-9-league appearance, English goalkeepers against outfield exports, one dot per player, medians marked.">
+      </figure>
+      <details class="fold">
+        <summary>Club tier: English top-9 goalkeepers, 2025/26</summary>
+        <table class="kv-table">
+          <thead>
+            <tr>
+              <th>Player</th><th>Club</th>
+              <th>League</th><th>Minutes</th>
+              <th>Club goals percentile</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Jordan Pickford</td><td>Everton</td><td>ENG-Premier League</td><td>3420</td>
+              <td>35 %</td>
+            </tr>
+            
+            <tr>
+              <td>Dean Henderson</td><td>Crystal Palace</td><td>ENG-Premier League</td><td>3330</td>
+              <td>20 %</td>
+            </tr>
+            
+            <tr>
+              <td>Nick Pope</td><td>Newcastle</td><td>ENG-Premier League</td><td>2416</td>
+              <td>65 %</td>
+            </tr>
+            
+            <tr>
+              <td>Sam Johnstone</td><td>Wolves</td><td>ENG-Premier League</td><td>1080</td>
+              <td>5 %</td>
+            </tr>
+            
+            <tr>
+              <td>Aaron Ramsdale</td><td>Newcastle</td><td>ENG-Premier League</td><td>1004</td>
+              <td>65 %</td>
+            </tr>
+            
+            <tr>
+              <td>James Trafford</td><td>Manchester City</td><td>ENG-Premier League</td><td>360</td>
+              <td>100 %</td>
+            </tr>
+            
+            <tr>
+              <td>Daniel Bentley</td><td>Wolves</td><td>ENG-Premier League</td><td>270</td>
+              <td>5 %</td>
+            </tr>
+            
+            <tr>
+              <td>Freddie Woodman</td><td>Liverpool</td><td>ENG-Premier League</td><td>213</td>
+              <td>85 %</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </details>
+    </div>
+    <p class="slide-how"><span class="slide-how-label">How we know</span> 450-minute floor, 2025/26 rosters, same K = 900 shrinkage as the rest of the report; a comparison of two pathways inside one nation, not a causal claim.</p>
+  </div>
+</section>
+
 
 <section class="slide" id="q9">
   <div class="container">
@@ -2002,6 +2073,64 @@
 
     
     <p class="muted small">Selected as: most top-9 league minutes among DF.</p>
+  </article>
+      </div>
+      
+      
+      <p class="cycle-row-kicker">Goalkeepers — most top-9 minutes · youngest in the top-9</p>
+      <div class="cycle-grid">
+        <article class="gk-card" id="gk-card-jordan_pickford-1994" data-player-key="jordan pickford|1994" data-pos="GK" data-club="Everton">
+    <header class="cycle-card-head">
+      <h4 class="cycle-card-name">Jordan Pickford</h4>
+      <p class="cycle-card-meta">
+        GK &middot; Everton (ENG-Premier League) &middot; NT 2024–26
+      </p>
+    </header>
+
+    <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; 3420 min</p>
+    <dl class="cycle-stats">
+      <div><dt>GA/90</dt><dd>1.32</dd></div>
+      <div><dt>Saves/90</dt><dd>2.61</dd></div>
+      <div><dt>Save %</dt><dd>66.1 %</dd></div>
+    </dl>
+
+    <div class="cycle-section">
+      <p class="cycle-section-label">Club tier</p>
+      <p class="cycle-tactical">
+        Everton (ENG-Premier League) · 35 % of the league's goals scored
+      </p>
+    </div>
+
+    
+    <p class="cycle-card-meta">2026 FIFA World Cup · UEFA Euro 2024</p>
+    
+    <p class="muted small">Selected as: most top-9 minutes among home goalkeepers.</p>
+  </article><article class="gk-card" id="gk-card-aaron_ramsdale-1998" data-player-key="aaron ramsdale|1998" data-pos="GK" data-club="Newcastle">
+    <header class="cycle-card-head">
+      <h4 class="cycle-card-name">Aaron Ramsdale</h4>
+      <p class="cycle-card-meta">
+        GK &middot; Newcastle (ENG-Premier League) &middot; NT 2024–26
+      </p>
+    </header>
+
+    <p class="cycle-card-meta cycle-stats-head">2025/26 &middot; 1004 min</p>
+    <dl class="cycle-stats">
+      <div><dt>GA/90</dt><dd>1.52</dd></div>
+      <div><dt>Saves/90</dt><dd>2.15</dd></div>
+      <div><dt>Save %</dt><dd>65.7 %</dd></div>
+    </dl>
+
+    <div class="cycle-section">
+      <p class="cycle-section-label">Club tier</p>
+      <p class="cycle-tactical">
+        Newcastle (ENG-Premier League) · 65 % of the league's goals scored
+      </p>
+    </div>
+
+    
+    <p class="cycle-card-meta">UEFA Euro 2024</p>
+    
+    <p class="muted small">Selected as: youngest home goalkeeper with minimum top-9 minutes.</p>
   </article>
       </div>
       
@@ -7759,6 +7888,9 @@
     <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula (Efron and Morris, 1975), with K = 10 phantom matches expressed as 900 minutes:</p>
     <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
     <p>At 450 minutes (the inclusion floor) the league median carries 67 % of the weight; at 900 minutes the player's own rate and the median weigh the same. Minutes share and age are not shrunk.</p>
+    
+    <p>Goalkeeper rates (chapter II's counter-example) use the same formula. GA/90 and saves/90 are shrunk toward their league-season median with the same K = 900 minutes, and GA/90 is then quality-adjusted by the league multiplier — a goal conceded in a stronger league counts less. Save percentage is shrunk the same way but against shots on target faced, not minutes: a single season's shot count sits far below K = 900, so save_pct_shrunk compresses hard toward the league median for almost every goalkeeper — a large gap in the raw, unshrunk save percentage is the more informative read there.</p>
+    
 
     <h3 id="pca-loadings">PCA loadings</h3>
     <p>One five-feature vector per position group (npg_p90, ast_p90, min_share, age, cards_p90), standardised, reduced to two components per projection. Style uses the shrunk rates; quality multiplies the rates by the league multiplier first.</p>
@@ -8317,8 +8449,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 205 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 205 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 221 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 221 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -8718,7 +8850,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 10:49</p>
+    <p class="rendered-at">Rendered: 2026-09-15 11:10</p>
   </div>
 </footer>
 
