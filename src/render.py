@@ -1166,6 +1166,74 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     }
 
 
+# Mirrors src.youth_panel.CHAINS/DRAWS/BOOTSTRAP_N -- kept as literals here
+# (not imported) so render.py, imported by most of the test suite, doesn't
+# pull in PyMC/ArviZ just for three run-budget constants.
+YOUTH_PANEL_CHAINS = 4
+YOUTH_PANEL_DRAWS = 1000
+YOUTH_PANEL_BOOTSTRAP_N = 1000
+
+
+def _build_youth_panel(yp: dict) -> dict:
+    """Chapter IV `#youth-panel` and slide 3's cross-country clause (Task
+    20, M3): the youth-minutes panel's Bayesian slope (country random
+    intercept) and its plain-OLS comparison, plus the panel points
+    themselves for the figure/table. `yp` is `youth_panel.json`'s raw shape
+    (`{}` when the file is missing -- `load_data`'s tolerant load -- in
+    which case slide 3's extra clause and the chapter IV section both
+    render nothing).
+    """
+    if not yp:
+        return {}
+    return {
+        "panel": yp.get("panel", []),
+        "n": yp.get("n", 0),
+        "n_countries": yp.get("n_countries", 0),
+        "seasons_used": yp.get("seasons_used", []),
+        "bayes": yp.get("bayes", {}) or {},
+        "ols": yp.get("ols", {}) or {},
+        "diagnostics": yp.get("diagnostics", {}) or {},
+        "chains": YOUTH_PANEL_CHAINS, "draws": YOUTH_PANEL_DRAWS, "n_boot": YOUTH_PANEL_BOOTSTRAP_N,
+    }
+
+
+# Mirrors src.gap_decomposition.RIDGE_ALPHA/BOOTSTRAP_N -- kept as a literal
+# here (not imported) so render.py doesn't pull in scikit-learn just for a
+# run-budget constant already carried by the JSON's own `ridge_alpha`.
+GAP_DECOMPOSITION_BOOTSTRAP_N = 1000
+
+# name -> i18n term-table key (src.gap_decomposition.CHANNEL_NAMES' values)
+GAP_CHANNEL_LABELS = {
+    "u21_share": "U21 minutes",
+    "league_strength": "League strength",
+    "export_age": "Export age",
+}
+
+
+def _build_gap_decomposition(gd: dict, names: dict[str, str]) -> dict:
+    """Chapter IV `#gap-decomposition` and slide 8c (Task 20, M5): the
+    linear split of the per-capita gap between the home nation and each
+    `compare` country into the three measured channels, plus the residual.
+    `gd` is `gap_decomposition.json`'s raw shape (`{}` when the file is
+    missing -- `load_data`'s tolerant load -- in which case slide 8c and
+    the chapter IV section both render nothing).
+    """
+    if not gd:
+        return {}
+    contrasts = []
+    for c in gd.get("contrasts", []):
+        channels = [{**ch, "label": GAP_CHANNEL_LABELS.get(ch["name"], ch["name"])} for ch in c.get("channels", [])]
+        contrasts.append({**c, "name": names.get(c["contrast"], c["contrast"]), "channels": channels})
+    return {
+        "contrasts": contrasts,
+        "primary": contrasts[0] if contrasts else None,
+        "n": gd.get("n", 0),
+        "coefficients": gd.get("coefficients", {}) or {},
+        "ridge_alpha": gd.get("ridge_alpha"),
+        "n_boot": GAP_DECOMPOSITION_BOOTSTRAP_N,
+    }
+
+
 def _build_data_quality(dq: dict, tr: Translator | None = None) -> dict:
     """Chapter IV data-quality log: recomputed checks + recorded incidents.
 
@@ -1415,6 +1483,8 @@ def load_data() -> dict[str, Any]:
         "league_strength": _load_json(p / "league_strength.json", {}),
         "model_comparison": _load_json(p / "model_comparison.json", {}),
         "series_model": _load_json(p / "series_model.json", {}),
+        "youth_panel": _load_json(p / "youth_panel.json", {}),
+        "gap_decomposition": _load_json(p / "gap_decomposition.json", {}),
         "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
@@ -1544,6 +1614,19 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
                                        features_all, lq, lg, metrics, names)
 
+    youth_panel = _build_youth_panel(data["youth_panel"])
+    if youth_panel.get("bayes"):
+        # Slide 3's panel clause (Task 20) reuses `pw.*` like slide 7 reuses
+        # `big5.*` for its break clause (same mutate-after-build pattern).
+        beta = youth_panel["bayes"]["beta_per_10pp"]
+        pathways["panel_n"] = youth_panel["n"]
+        pathways["panel_n_countries"] = youth_panel["n_countries"]
+        pathways["panel_beta"] = beta["median"]
+        pathways["panel_beta_lo"] = beta["lo"]
+        pathways["panel_beta_hi"] = beta["hi"]
+
+    gap_decomposition = _build_gap_decomposition(data["gap_decomposition"], names)
+
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
         key=lambda r: -r["value"])
@@ -1594,6 +1677,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "league_strength": _build_league_strength(data["league_strength"], config.DOMESTIC_LEAGUE, tr),
         "model_comparison": _build_model_comparison(data["model_comparison"], tr),
         "series_model": series_model,
+        "youth_panel": youth_panel,
+        "gap_decomposition": gap_decomposition,
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
@@ -1697,6 +1782,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "youth_cze": youth[0], "youth_top": youth[0], "export_cze": export[0], "export_den": export[0],
         "fare_min_cze": fare_min[1], "fare_goals_cze": fare_goals[1], "fare_min_rank": 2,
         "fare_goals_rank": 2, "youth_rank": 1, "n_countries": 2,
+        # Slide 3's panel clause (Task 20) -- see build_context's mutate-after-build comment.
+        "panel_n": 16, "panel_n_countries": 8, "panel_beta": 0.42, "panel_beta_lo": -0.31, "panel_beta_hi": 1.22,
     }
     gk = {
         "home_row": {"country": "CZE", "name": "Czechia", "n_gk": 3, "population_m": 10.9,
@@ -1934,6 +2021,38 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             },
             "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 338.9, "min_ess_tail": 283.2, "n_divergences": 0},
         }, {"CZE": "Czechia", "DEN": "Denmark", "CRO": "Croatia"}, tr),
+        "youth_panel": _build_youth_panel({
+            "panel": [
+                {"country": "CZE", "season": "2024-2025", "x": 0.1106, "y": 2.2},
+                {"country": "CZE", "season": "2025-2026", "x": 0.0635, "y": 2.39},
+                {"country": "DEN", "season": "2024-2025", "x": 0.1319, "y": 13.42},
+                {"country": "DEN", "season": "2025-2026", "x": 0.1529, "y": 12.58},
+            ],
+            "n": 16, "n_countries": 8, "seasons_used": [season_label("2024-2025"), season_label("2025-2026")],
+            "bayes": {"beta_per_10pp": {"median": 0.42, "lo": -0.31, "hi": 1.22}, "alpha": 3.1, "r2": 0.91},
+            "ols": {"slope_per_10pp": {"point": 0.78, "lo": 0.11, "hi": 1.4}, "intercept": -0.2, "n_boot": 1000},
+            "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 850.0, "min_ess_tail": 1000.0,
+                            "n_divergences": 0, "sigma_country_median": 5.19},
+        }),
+        "gap_decomposition": _build_gap_decomposition({
+            "panel": [{"country": "CZE", "y": 2.39, "x1": 0.0635, "x2": 1.0, "x3": 22.0, "x2_source": "m_L"}],
+            "coefficients": {"a": 39.6, "b": {"x1": 82.3, "x2": -56.5, "x3": -0.27}},
+            "contrasts": [
+                {"contrast": "NOR", "gap_total": 6.98,
+                 "channels": [
+                     {"name": "u21_share", "contribution": 4.22, "share": 0.6, "lo": 1.22, "hi": 5.9},
+                     {"name": "league_strength", "contribution": 5.12, "share": 0.73, "lo": 1.9, "hi": 6.77},
+                     {"name": "export_age", "contribution": -0.0, "share": -0.0, "lo": -0.0, "hi": 0.0},
+                 ], "residual": -2.37, "n": 8},
+                {"contrast": "DEN", "gap_total": 10.19,
+                 "channels": [
+                     {"name": "u21_share", "contribution": 7.35, "share": 0.72, "lo": 2.17, "hi": 10.27},
+                     {"name": "league_strength", "contribution": 1.67, "share": 0.16, "lo": 0.65, "hi": 2.26},
+                     {"name": "export_age", "contribution": -0.0, "share": -0.0, "lo": -0.0, "hi": 0.0},
+                 ], "residual": 1.17, "n": 8},
+            ],
+            "n": 8, "home": "CZE", "ridge_alpha": 1.0,
+        }, {"CZE": "Czechia", "NOR": "Norway", "DEN": "Denmark"}),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
         "cite_multi": lambda keys: in_text_multi([refs_by_key()[k] for k in keys]),
