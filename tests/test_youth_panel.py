@@ -140,7 +140,7 @@ def _toy_means(n_countries: int = 8, seed: int = 0) -> pd.DataFrame:
 def test_fit_between_model_smoke_and_recovers_positive_slope():
     means = _toy_means()
     idata = fit_between_model(means, draws=300, tune=300, chains=2, seed=42, cores=2)
-    assert "beta" in idata.posterior
+    assert "beta_std" in idata.posterior
     assert "u_country" not in idata.posterior  # no country structure in the between fit
 
     between = between_summary(idata, means)
@@ -150,10 +150,38 @@ def test_fit_between_model_smoke_and_recovers_positive_slope():
     assert between["beta_per_10pp"]["median"] > 0
     assert -1.0 <= between["r2"] <= 1.0 + 1e-9
 
-    diag = diagnostics_summary(idata, var_names=("alpha", "beta", "sigma"))
+    diag = diagnostics_summary(idata, var_names=("alpha_std", "beta_std", "sigma_std"))
     assert diag["max_rhat"] > 0
     assert diag["n_divergences"] >= 0
     assert "sigma_country_median" not in diag
+
+
+def test_between_model_median_within_25pct_of_ols_on_known_slope():
+    """Task 20 review round 2: a raw-scale Normal(0, 20) prior on beta was
+    shrinking the posterior median toward zero by an order of magnitude
+    relative to OLS on the same 8 country means (x a 0.03-0.15 share, a
+    true slope of ~75-80 per unit x sitting ~4 prior SDs out). Fitting on
+    standardised x/y with priors scaled to that space (see
+    `fit_between_model`'s docstring) should recover a posterior median
+    within 25% of the OLS slope on the same synthetic points, wide
+    interval notwithstanding."""
+    rng = np.random.default_rng(7)
+    n = 8
+    x = rng.uniform(0.03, 0.15, size=n)  # same raw scale as the real panel (a 0-1 share)
+    true_slope = 75.0  # per unit x -- matches the real panel's OLS order of magnitude
+    y = 2.0 + true_slope * x + rng.normal(0, 1.5, size=n)
+    means = pd.DataFrame({"country": [f"C{i}" for i in range(n)], "x": x, "y": y})
+
+    idata = fit_between_model(means, draws=1000, tune=1000, chains=4, seed=7, cores=2)
+    between = between_summary(idata, means)
+    ols_slope, _ = ols_fit(x, y)
+
+    beta_median_per_unit = between["beta_per_10pp"]["median"] / 0.10
+    ratio = beta_median_per_unit / ols_slope
+    assert 0.75 <= ratio <= 1.25, (
+        f"posterior median {beta_median_per_unit} vs OLS {ols_slope} (ratio {ratio}) -- "
+        "should be within +/-25% for a proper weakly-informative prior"
+    )
 
 
 def test_fit_within_model_smoke_has_country_dim():
@@ -186,7 +214,9 @@ def test_assemble_output_shape_has_between_within_ols():
     between = {"beta_per_10pp": {"median": 1.0, "lo": 0.0, "hi": 2.0}, "alpha": 1.0, "r2": 0.9}
     within = {"beta_per_10pp": {"median": -0.1, "lo": -1.0, "hi": 0.8}, "alpha": 1.0, "r2": 0.5}
     ols = {"slope_per_10pp": {"point": 1.1, "lo": 0.2, "hi": 2.0}, "intercept": 0.5, "n_boot": 1000}
-    out = assemble_output(panel, means, between, within, ols, {"max_rhat": 1.0}, {"max_rhat": 1.0}, ["s1", "s2"])
+    ols_means = {"slope_per_10pp": {"point": 1.05, "lo": 0.1, "hi": 2.1}, "intercept": 0.4, "n_boot": 1000}
+    out = assemble_output(panel, means, between, within, ols, ols_means, {"max_rhat": 1.0}, {"max_rhat": 1.0},
+                          ["s1", "s2"])
     assert out["n"] == 4
     assert out["n_countries"] == 2
     assert out["between"]["n"] == 2  # one row per country
@@ -194,5 +224,6 @@ def test_assemble_output_shape_has_between_within_ols():
     assert out["between"]["beta_per_10pp"]["median"] == 1.0
     assert out["within"]["beta_per_10pp"]["median"] == -0.1
     assert out["ols"]["slope_per_10pp"]["point"] == 1.1
+    assert out["ols_means"]["slope_per_10pp"]["point"] == 1.05
     assert len(out["means"]) == 2
     assert len(out["panel"]) == 4

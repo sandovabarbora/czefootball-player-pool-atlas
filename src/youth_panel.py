@@ -40,17 +40,26 @@ slide actually asks about -- see `fit_within_model`'s docstring):
   collapses the panel to one row per country (mean x, mean y over its two
   seasons), then `y ~ Normal(alpha + beta*x, sigma)` -- a plain simple
   regression, no country structure to absorb anything (there is only one
-  row per country left). Weakly informative priors, same scale as the
-  within-country fit's fixed effects:
+  row per country left). Fit on STANDARDISED x/y (z-scores), priors
+  weakly informative on that standardised scale regardless of `x`/`y`'s
+  raw units (Task 20 review round 2 fix -- a raw-scale `Normal(0, 20)`
+  prior on beta was, in this panel's actual units, about four prior
+  standard deviations away from the OLS slope on the same 8 points, and
+  was shrinking the posterior median toward zero by an order of magnitude
+  despite being labelled "weakly informative"; see `fit_between_model`'s
+  own docstring):
 
-      alpha ~ Normal(0, 10)
-      beta  ~ Normal(0, 20)
-      sigma ~ HalfNormal(5)
+      alpha_std ~ Normal(0, 2.5)
+      beta_std  ~ Normal(0, 2.5)
+      sigma_std ~ HalfNormal(1)
 
-  This is the "does a country with a higher average U21 share also have a
-  deeper pool, on average" question -- the between-country claim slide 3
-  makes. `beta` is reported per 10 percentage points of U21 share with a
-  90% HDI, plus an R^2 against the fitted values.
+  `between_summary` converts `beta_std` back to raw (share ->
+  players-per-million) units before rescaling to "per 10 percentage
+  points" for the report. This is the "does a country with a higher
+  average U21 share also have a deeper pool, on average" question -- the
+  between-country claim slide 3 makes. `beta` is reported per 10
+  percentage points of U21 share with a 90% HDI, plus an R^2 against the
+  fitted values.
 
   Within-country (`fit_within_model`, a stated CHECK, not the headline):
   `y ~ Normal(alpha + beta*x + u_country, sigma)` on the full two-season
@@ -76,11 +85,13 @@ al., 2023).
 
 Comparison (`bootstrap_ols_slope`): statsmodels is not a dependency, so the
 "does a much simpler method agree" check is a plain `numpy.polyfit` degree-1
-slope on the pooled two-season panel (no country structure at all) with a
-percentile-bootstrap 90% CI (1000 resamples of the panel's rows) -- reported
-on the same per-10pp basis. This pooled-panel slope is dominated by the same
-between-country variation the between-country fit isolates, so the two
-should (and do) agree in sign, unlike the within-country check.
+slope with a percentile-bootstrap 90% CI (1000 resamples), reported on the
+same per-10pp basis, computed TWICE: once on the pooled two-season panel
+(`ols`, n = 16, no country structure at all -- dominated by the same
+between-country variation the between-country fit isolates, so it should,
+and does, agree in sign) and once on the same 8 country means the
+between-country fit itself uses (`ols_means`, Task 20 review round 2 -- the
+direct frequentist counterpart, since both now fit exactly the same points).
 
 Output: `data/processed/<nation>/youth_panel.json` (`between`/`within`/`ols`
 keys, plus the raw panel and country-means rows) and figure
@@ -191,6 +202,16 @@ def country_means(panel: pd.DataFrame) -> pd.DataFrame:
 # =============================================================================
 
 
+def _standardize(v: np.ndarray) -> tuple[np.ndarray, float, float]:
+    """`(z, mean, sd)`: z-score `v`, guarding a degenerate zero-variance
+    input (not expected on real data, but a synthetic test could hand one
+    in) by falling back to `sd = 1`."""
+    mean = float(v.mean())
+    sd = float(v.std())
+    sd = sd if sd > 0 else 1.0
+    return (v - mean) / sd, mean, sd
+
+
 def fit_between_model(
     means: pd.DataFrame, *, draws: int = DRAWS, tune: int = TUNE, chains: int = CHAINS,
     target_accept: float = 0.9, seed: int | None = None, progressbar: bool = False,
@@ -199,17 +220,36 @@ def fit_between_model(
     """Fit `y ~ Normal(alpha + beta*x, sigma)` on one row per country (see
     `country_means`) -- THE HEADLINE fit (see module docstring): the
     between-country question, with no country structure to absorb
-    anything (one row per country)."""
+    anything (one row per country).
+
+    Fit on STANDARDISED x/y (z-scores), not the raw share/per-million
+    scale (Task 20 review round 2 fix): `x` is a 0.03-0.15 share, so a
+    slope matching OLS's ~75-80 per unit x sits about four prior standard
+    deviations out under a raw-scale `Normal(0, 20)` prior -- "weakly
+    informative" in name only, since it was in fact shrinking the
+    posterior median toward zero by an order of magnitude relative to
+    OLS on the same 8 points. Priors on the standardised parameters --
+
+        alpha_std ~ Normal(0, 2.5)
+        beta_std  ~ Normal(0, 2.5)
+        sigma_std ~ HalfNormal(1)
+
+    -- are weakly informative regardless of `x`/`y`'s raw units (the
+    standard regularising-prior scale for a standardised regression,
+    Gelman et al., 2013). `between_summary` converts `beta_std` back to
+    the raw scale (`beta_std * y.std()/x.std()`) before rescaling to "per
+    10 percentage points" for the report.
+    """
     seed = config.RANDOM_SEED if seed is None else seed
-    x = means["x"].to_numpy()
-    y = means["y"].to_numpy()
+    x_std, _, _ = _standardize(means["x"].to_numpy())
+    y_std, _, _ = _standardize(means["y"].to_numpy())
 
     with pm.Model():
-        alpha = pm.Normal("alpha", 0.0, 10.0)
-        beta = pm.Normal("beta", 0.0, 20.0)
-        sigma = pm.HalfNormal("sigma", 5.0)
-        mu = alpha + beta * x
-        pm.Normal("y", mu=mu, sigma=sigma, observed=y)
+        alpha_std = pm.Normal("alpha_std", 0.0, 2.5)
+        beta_std = pm.Normal("beta_std", 0.0, 2.5)
+        sigma_std = pm.HalfNormal("sigma_std", 1.0)
+        mu = alpha_std + beta_std * x_std
+        pm.Normal("y_std", mu=mu, sigma=sigma_std, observed=y_std)
 
         idata = pm.sample(
             draws=draws, tune=tune, chains=chains, target_accept=target_accept,
@@ -266,18 +306,36 @@ def _hdi(samples: np.ndarray, prob: float = 0.9) -> tuple[float, float]:
     return float(s[lo]), float(s[lo + n_in])
 
 
+def _between_raw_beta_alpha(idata: az.InferenceData, means: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+    """`(beta_raw, alpha_raw)` posterior samples for the between-country
+    fit, converted from the standardised parameters `fit_between_model`
+    actually samples back to `y`'s raw (players-per-million) scale against
+    `x`'s raw (share) scale -- `beta_raw = beta_std * y.std()/x.std()`,
+    `alpha_raw` back-solved from `y = y_mean + y_sd*y_std` /
+    `x_std = (x - x_mean)/x_sd`. Shared by `between_summary` and
+    `between_population_line` so the two can never disagree."""
+    _, x_mean, x_sd = _standardize(means["x"].to_numpy())
+    _, y_mean, y_sd = _standardize(means["y"].to_numpy())
+    beta_std = idata.posterior["beta_std"].values.reshape(-1)
+    alpha_std = idata.posterior["alpha_std"].values.reshape(-1)
+    beta_raw = beta_std * (y_sd / x_sd)
+    alpha_raw = y_mean + y_sd * alpha_std - beta_raw * x_mean
+    return beta_raw, alpha_raw
+
+
 def between_summary(idata: az.InferenceData, means: pd.DataFrame) -> dict[str, Any]:
     """`{beta_per_10pp, alpha, r2}` for the between-country fit: beta
-    rescaled to a 10-percentage-point step in U21 share with its 90% HDI,
-    the posterior-median intercept, and an R^2 of the posterior-median fit
-    against the observed country means -- a descriptive goodness-of-fit
-    number, not a claim the model is causal."""
-    beta = idata.posterior["beta"].values.reshape(-1)
-    beta_10pp = beta * 0.10
+    (converted from the standardised posterior back to raw units, see
+    `_between_raw_beta_alpha`) rescaled to a 10-percentage-point step in
+    U21 share with its 90% HDI, the posterior-median intercept, and an R^2
+    of the posterior-median fit against the observed country means -- a
+    descriptive goodness-of-fit number, not a claim the model is causal."""
+    beta_raw, alpha_raw = _between_raw_beta_alpha(idata, means)
+    beta_10pp = beta_raw * 0.10
     lo, hi = _hdi(beta_10pp, 0.9)
 
-    alpha_med = float(np.median(idata.posterior["alpha"].values))
-    beta_med = float(np.median(beta))
+    alpha_med = float(np.median(alpha_raw))
+    beta_med = float(np.median(beta_raw))
     fitted = alpha_med + beta_med * means["x"].to_numpy()
     y = means["y"].to_numpy()
     ss_res = float(np.sum((y - fitted) ** 2))
@@ -338,14 +396,17 @@ def diagnostics_summary(
     return out
 
 
-def population_line(idata: az.InferenceData, xs: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Fitted line over `xs` from a fixed-effect-only (alpha, beta)
-    posterior: median + 90% band, one point per `xs` entry. Called on the
-    between-country fit for the report's figure (that is the headline
-    claim being illustrated)."""
-    alpha = idata.posterior["alpha"].values.reshape(-1)
-    beta = idata.posterior["beta"].values.reshape(-1)
-    lines = alpha[:, None] + beta[:, None] * xs[None, :]
+def between_population_line(
+    idata: az.InferenceData, means: pd.DataFrame, xs: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Fitted line over `xs` from the between-country fit, in raw (share,
+    players-per-million) units -- median + 90% band, one point per `xs`
+    entry, for the report's figure (that is the headline claim being
+    illustrated). Uses the same raw-unit posterior as `between_summary`
+    (`_between_raw_beta_alpha`), so the figure and the reported beta can
+    never disagree."""
+    beta_raw, alpha_raw = _between_raw_beta_alpha(idata, means)
+    lines = alpha_raw[:, None] + beta_raw[:, None] * xs[None, :]
     med = np.median(lines, axis=0)
     lo = np.quantile(lines, 0.05, axis=0)
     hi = np.quantile(lines, 0.95, axis=0)
@@ -452,11 +513,15 @@ def render_figure(
 
 def assemble_output(
     panel: pd.DataFrame, means: pd.DataFrame, between: dict[str, Any], within: dict[str, Any],
-    ols: dict[str, Any], between_diagnostics: dict[str, Any], within_diagnostics: dict[str, Any],
-    seasons_used: list[str],
+    ols: dict[str, Any], ols_means: dict[str, Any], between_diagnostics: dict[str, Any],
+    within_diagnostics: dict[str, Any], seasons_used: list[str],
 ) -> dict[str, Any]:
     """Pure assembly of the JSON shape described in the module docstring;
-    no fitting here, so this is testable on hand-built inputs."""
+    no fitting here, so this is testable on hand-built inputs. `ols` is the
+    pooled-panel slope (n = 16, `bootstrap_ols_slope(panel, ...)`); `ols_means`
+    (Task 20 review round 2) is the same method on the 8 country means
+    (`bootstrap_ols_slope(means, ...)`) -- the direct frequentist counterpart
+    to `between`, since both now fit the same 8 points."""
     return {
         "panel": [
             {"country": r.country, "season": r.season, "x": round(r.x, 4), "y": round(r.y, 2)}
@@ -472,6 +537,7 @@ def assemble_output(
         "between": {**between, "n": int(len(means)), "diagnostics": between_diagnostics},
         "within": {**within, "n": int(len(panel)), "diagnostics": within_diagnostics},
         "ols": ols,
+        "ols_means": ols_means,
         "home": config.HOME,
     }
 
@@ -492,7 +558,7 @@ def main() -> None:
 
     idata_between = fit_between_model(means, seed=config.RANDOM_SEED)
     between = between_summary(idata_between, means)
-    between_diagnostics = diagnostics_summary(idata_between, var_names=("alpha", "beta", "sigma"))
+    between_diagnostics = diagnostics_summary(idata_between, var_names=("alpha_std", "beta_std", "sigma_std"))
     LOG.info("between (headline): %s", between)
     LOG.info("between diagnostics: %s", between_diagnostics)
 
@@ -503,17 +569,19 @@ def main() -> None:
     LOG.info("within diagnostics: %s", within_diagnostics)
 
     ols = bootstrap_ols_slope(panel, seed=config.RANDOM_SEED)
-    LOG.info("ols: %s", ols)
+    LOG.info("ols (pooled panel, n=%d): %s", len(panel), ols)
+    ols_means = bootstrap_ols_slope(means, seed=config.RANDOM_SEED)
+    LOG.info("ols (country means, n=%d): %s", len(means), ols_means)
 
     seasons_used = [season_label(seasons[k]) for k in PANEL_SEASON_KEYS]
-    result = assemble_output(panel, means, between, within, ols, between_diagnostics, within_diagnostics,
-                             seasons_used)
+    result = assemble_output(panel, means, between, within, ols, ols_means, between_diagnostics,
+                             within_diagnostics, seasons_used)
     out_json = config.PROCESSED_DIR / "youth_panel.json"
     out_json.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
     LOG.info("wrote %s", out_json)
 
     xs = np.linspace(panel["x"].min(), panel["x"].max(), 60)
-    fitted, lo, hi = population_line(idata_between, xs)
+    fitted, lo, hi = between_population_line(idata_between, means, xs)
     render_figure(panel, xs, fitted, lo, hi, config.OUTPUTS_DIR / "youth_panel.svg")
 
     LOG.info("done: %s", config.NATION)
