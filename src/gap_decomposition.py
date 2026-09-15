@@ -293,6 +293,7 @@ def assemble_output(panel: pd.DataFrame, coeffs: dict[str, Any], results: list[d
         "n": int(len(panel)),
         "home": config.HOME,
         "ridge_alpha": RIDGE_ALPHA,
+        "min_gap_for_share": MIN_GAP_FOR_SHARE,
     }
 
 

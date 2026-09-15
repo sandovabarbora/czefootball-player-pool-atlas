@@ -1176,24 +1176,30 @@ YOUTH_PANEL_BOOTSTRAP_N = 1000
 
 def _build_youth_panel(yp: dict) -> dict:
     """Chapter IV `#youth-panel` and slide 3's cross-country clause (Task
-    20, M3): the youth-minutes panel's Bayesian slope (country random
-    intercept) and its plain-OLS comparison, plus the panel points
-    themselves for the figure/table. `yp` is `youth_panel.json`'s raw shape
-    (`{}` when the file is missing -- `load_data`'s tolerant load -- in
-    which case slide 3's extra clause and the chapter IV section both
+    20, M3; between/within split from the Task 20 review -- see
+    `src.youth_panel`'s module docstring). `yp` is `youth_panel.json`'s raw
+    shape (`{}` when the file is missing -- `load_data`'s tolerant load --
+    in which case slide 3's extra clause and the chapter IV section both
     render nothing).
+
+    `between` (headline, on the template as `youth_panel.between`) answers
+    the "across countries" question the slide asks; `within` (chapter IV
+    only, a stated check) is the country-random-intercept fit on the full
+    two-season panel, reported because it finds no signal -- not as a
+    second headline number.
     """
     if not yp:
         return {}
     panel = [{**r, "season": season_label(r["season"])} for r in yp.get("panel", [])]
     return {
         "panel": panel,
+        "means": yp.get("means", []),
         "n": yp.get("n", 0),
         "n_countries": yp.get("n_countries", 0),
         "seasons_used": yp.get("seasons_used", []),
-        "bayes": yp.get("bayes", {}) or {},
+        "between": yp.get("between", {}) or {},
+        "within": yp.get("within", {}) or {},
         "ols": yp.get("ols", {}) or {},
-        "diagnostics": yp.get("diagnostics", {}) or {},
         "chains": YOUTH_PANEL_CHAINS, "draws": YOUTH_PANEL_DRAWS, "n_boot": YOUTH_PANEL_BOOTSTRAP_N,
     }
 
@@ -1231,6 +1237,7 @@ def _build_gap_decomposition(gd: dict, names: dict[str, str]) -> dict:
         "n": gd.get("n", 0),
         "coefficients": gd.get("coefficients", {}) or {},
         "ridge_alpha": gd.get("ridge_alpha"),
+        "min_gap_for_share": gd.get("min_gap_for_share"),
         "n_boot": GAP_DECOMPOSITION_BOOTSTRAP_N,
     }
 
@@ -1616,12 +1623,15 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                                        features_all, lq, lg, metrics, names)
 
     youth_panel = _build_youth_panel(data["youth_panel"])
-    if youth_panel.get("bayes"):
+    if youth_panel.get("between"):
         # Slide 3's panel clause (Task 20) reuses `pw.*` like slide 7 reuses
         # `big5.*` for its break clause (same mutate-after-build pattern).
-        beta = youth_panel["bayes"]["beta_per_10pp"]
-        pathways["panel_n"] = youth_panel["n"]
-        pathways["panel_n_countries"] = youth_panel["n_countries"]
+        # The headline is the BETWEEN-country fit (one row per country) --
+        # see src.youth_panel's module docstring for why the within-country
+        # (country-random-intercept) fit is chapter-IV-only, not this one.
+        beta = youth_panel["between"]["beta_per_10pp"]
+        pathways["panel_n"] = youth_panel["between"]["n"]
+        pathways["panel_n_countries"] = youth_panel["between"]["n"]
         pathways["panel_beta"] = beta["median"]
         pathways["panel_beta_lo"] = beta["lo"]
         pathways["panel_beta_hi"] = beta["hi"]
@@ -1784,7 +1794,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "fare_min_cze": fare_min[1], "fare_goals_cze": fare_goals[1], "fare_min_rank": 2,
         "fare_goals_rank": 2, "youth_rank": 1, "n_countries": 2,
         # Slide 3's panel clause (Task 20) -- see build_context's mutate-after-build comment.
-        "panel_n": 16, "panel_n_countries": 8, "panel_beta": 0.42, "panel_beta_lo": -0.31, "panel_beta_hi": 1.22,
+        # Between-country headline (Task 20 review fix); matches youth_panel.between below.
+        "panel_n": 8, "panel_n_countries": 8, "panel_beta": 0.78, "panel_beta_lo": 0.11, "panel_beta_hi": 1.4,
     }
     gk = {
         "home_row": {"country": "CZE", "name": "Czechia", "n_gk": 3, "population_m": 10.9,
@@ -2029,11 +2040,18 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                 {"country": "DEN", "season": "2024-2025", "x": 0.1319, "y": 13.42},
                 {"country": "DEN", "season": "2025-2026", "x": 0.1529, "y": 12.58},
             ],
+            "means": [
+                {"country": "CZE", "x": 0.0871, "y": 2.3},
+                {"country": "DEN", "x": 0.1424, "y": 13.0},
+            ],
             "n": 16, "n_countries": 8, "seasons_used": [season_label("2024-2025"), season_label("2025-2026")],
-            "bayes": {"beta_per_10pp": {"median": 0.42, "lo": -0.31, "hi": 1.22}, "alpha": 3.1, "r2": 0.91},
+            "between": {"beta_per_10pp": {"median": 0.78, "lo": 0.11, "hi": 1.4}, "alpha": 2.1, "r2": 0.86,
+                       "n": 8, "diagnostics": {"max_rhat": 1.0, "min_ess_bulk": 900.0, "min_ess_tail": 950.0,
+                                               "n_divergences": 0}},
+            "within": {"beta_per_10pp": {"median": -0.16, "lo": -2.53, "hi": 2.17}, "alpha": 6.35, "r2": 0.98,
+                      "n": 16, "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 850.0, "min_ess_tail": 1000.0,
+                                               "n_divergences": 0, "sigma_country_median": 5.19}},
             "ols": {"slope_per_10pp": {"point": 0.78, "lo": 0.11, "hi": 1.4}, "intercept": -0.2, "n_boot": 1000},
-            "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 850.0, "min_ess_tail": 1000.0,
-                            "n_divergences": 0, "sigma_country_median": 5.19},
         }),
         "gap_decomposition": _build_gap_decomposition({
             "panel": [{"country": "CZE", "y": 2.39, "x1": 0.0635, "x2": 1.0, "x3": 22.0, "x2_source": "m_L"}],
@@ -2052,7 +2070,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                      {"name": "export_age", "contribution": -0.0, "share": -0.0, "lo": -0.0, "hi": 0.0},
                  ], "residual": 1.17, "n": 8},
             ],
-            "n": 8, "home": "CZE", "ridge_alpha": 1.0,
+            "n": 8, "home": "CZE", "ridge_alpha": 1.0, "min_gap_for_share": 3.0,
         }, {"CZE": "Czechia", "NOR": "Norway", "DEN": "Denmark"}),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
