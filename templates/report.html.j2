@@ -387,7 +387,8 @@
     <p class="slide-a">{{ t('slide.4b.a', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
                           y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
                           diff=signed2(eam.diff_21_24.median), dlo=f2(eam.diff_21_24.lo), dhi=f2(eam.diff_21_24.hi),
-                          age_home=g(eam.home_median_age)) }}</p>
+                          age_home=g(eam.home_median_age),
+                          zero_note=(t('slide.4b.zero_note', n=eam.n) if (eam.diff_21_24.lo <= 0 and eam.diff_21_24.hi >= 0) else '')) }}</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}export_age_model.svg" alt="{{ t('slide.4b.alt') }}">

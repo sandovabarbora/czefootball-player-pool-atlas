@@ -1,0 +1,200 @@
+{
+ "panel": [
+  {
+   "country": "CRO",
+   "season": "2024-2025",
+   "x": 0.1281,
+   "y": 15.54
+  },
+  {
+   "country": "DEN",
+   "season": "2024-2025",
+   "x": 0.1319,
+   "y": 13.42
+  },
+  {
+   "country": "NOR",
+   "season": "2024-2025",
+   "x": 0.1049,
+   "y": 9.01
+  },
+  {
+   "country": "SUI",
+   "season": "2024-2025",
+   "x": 0.0925,
+   "y": 5.36
+  },
+  {
+   "country": "AUT",
+   "season": "2024-2025",
+   "x": 0.0638,
+   "y": 5.02
+  },
+  {
+   "country": "CZE",
+   "season": "2024-2025",
+   "x": 0.1106,
+   "y": 2.2
+  },
+  {
+   "country": "HUN",
+   "season": "2024-2025",
+   "x": 0.1217,
+   "y": 1.36
+  },
+  {
+   "country": "POL",
+   "season": "2024-2025",
+   "x": 0.1253,
+   "y": 1.26
+  },
+  {
+   "country": "DEN",
+   "season": "2025-2026",
+   "x": 0.1529,
+   "y": 12.58
+  },
+  {
+   "country": "CRO",
+   "season": "2025-2026",
+   "x": 0.1399,
+   "y": 12.18
+  },
+  {
+   "country": "NOR",
+   "season": "2025-2026",
+   "x": 0.1149,
+   "y": 9.37
+  },
+  {
+   "country": "SUI",
+   "season": "2025-2026",
+   "x": 0.0769,
+   "y": 6.03
+  },
+  {
+   "country": "AUT",
+   "season": "2025-2026",
+   "x": 0.0925,
+   "y": 4.8
+  },
+  {
+   "country": "CZE",
+   "season": "2025-2026",
+   "x": 0.0635,
+   "y": 2.39
+  },
+  {
+   "country": "HUN",
+   "season": "2025-2026",
+   "x": 0.1405,
+   "y": 1.57
+  },
+  {
+   "country": "POL",
+   "season": "2025-2026",
+   "x": 0.0929,
+   "y": 1.23
+  }
+ ],
+ "means": [
+  {
+   "country": "AUT",
+   "x": 0.0782,
+   "y": 4.91
+  },
+  {
+   "country": "CRO",
+   "x": 0.134,
+   "y": 13.86
+  },
+  {
+   "country": "CZE",
+   "x": 0.0871,
+   "y": 2.29
+  },
+  {
+   "country": "DEN",
+   "x": 0.1424,
+   "y": 13.0
+  },
+  {
+   "country": "HUN",
+   "x": 0.1311,
+   "y": 1.47
+  },
+  {
+   "country": "NOR",
+   "x": 0.1099,
+   "y": 9.19
+  },
+  {
+   "country": "POL",
+   "x": 0.1091,
+   "y": 1.25
+  },
+  {
+   "country": "SUI",
+   "x": 0.0847,
+   "y": 5.7
+  }
+ ],
+ "n": 16,
+ "n_countries": 8,
+ "seasons_used": [
+  "2024/25",
+  "2025/26"
+ ],
+ "between": {
+  "beta_per_10pp": {
+   "median": 10.1067,
+   "lo": -1.6895,
+   "hi": 23.2569
+  },
+  "alpha": -4.728,
+  "r2": 0.2703,
+  "n": 8,
+  "diagnostics": {
+   "max_rhat": 1.0007,
+   "min_ess_bulk": 2125.6,
+   "min_ess_tail": 2172.8,
+   "n_divergences": 0
+  }
+ },
+ "within": {
+  "beta_per_10pp": {
+   "median": -0.1635,
+   "lo": -2.5286,
+   "hi": 2.1724
+  },
+  "alpha": 6.3469,
+  "r2": 0.9815,
+  "n": 16,
+  "diagnostics": {
+   "max_rhat": 1.0038,
+   "min_ess_bulk": 850.8,
+   "min_ess_tail": 1088.7,
+   "n_divergences": 0,
+   "sigma_country_median": 5.1896
+  }
+ },
+ "ols": {
+  "slope_per_10pp": {
+   "point": 7.7633,
+   "lo": 1.1206,
+   "hi": 13.9928
+  },
+  "intercept": -2.0472,
+  "n_boot": 1000
+ },
+ "ols_means": {
+  "slope_per_10pp": {
+   "point": 10.6523,
+   "lo": -3.848,
+   "hi": 20.3284
+  },
+  "intercept": -5.2122,
+  "n_boot": 1000
+ },
+ "home": "CZE"
+}
