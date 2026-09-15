@@ -39,6 +39,13 @@ log = logging.getLogger(__name__)
 # entry does) since they are not part of the translator's own contract.
 _AUTO_NAMES = {"nation", "adj", "Adj", "code", "home_league", "leagues_note"}
 
+# Showcase-reason patterns (from src.historical_analogs.showcase_ids, with the
+# position code replaced by "{pos}") whose display text swaps the raw jargon
+# for a plain metric label -- see Translator.reason (Task 22 item 9).
+_REASON_DISPLAY = {
+    "highest quality-adjusted npG+A per 90 among {pos}": "ch3.reason.top_metric",
+}
+
 
 def _capitalize(s: str) -> str:
     return s[:1].upper() + s[1:] if s else s
@@ -141,7 +148,7 @@ EN: dict[str, str] = {
     "hero.sublead.gap": "The largest cohort gap is in <strong>{group} aged {cohort}</strong>: {cze_n} {adj} player{s} in the top-{topn} leagues against a peer median of {peer}.",
     "hero.sublead.export": "A recent {adj} export first reached a top-{topn} roster at a median age of {cze}; one from {b} at {den}.",
     "hero.sublead.close": "Built from FBref, Wikipedia and Wikidata. {nation} is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.",
-    "hero.footnote": "* {n} players with FBref nationality {code} on {season} rosters of the UEFA top-{topn} leagues ÷ {pop} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href=\"#methodology\">Methodology</a>.",
+    "hero.footnote": "* {n} players with FBref nationality {code} and ≥ {min} minutes on {season} rosters of the UEFA top-{topn} leagues ÷ {pop} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href=\"#methodology\">Methodology</a>.",
 
     # ---- slides (Task 13b): nine questions between the hero and "for a
     # federation", each q (h2) / a (one sentence, headline number in
@@ -337,7 +344,8 @@ EN: dict[str, str] = {
 
     # ---- chapter III
     "ch3.cards.rules.summary": "How the {n} cards were chosen",
-    "ch3.cards.rules": "Why these cards: one card per position group per rule, applied in this order — (a) highest quality-adjusted npG+A per 90, (b) youngest national-team call-up, (c) most top-9 minutes among the {event} squad, (d) most domestic-league minutes among the {event} squad, (e) most top-9 minutes, (f) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure. Rows group the six rules; the national-team core row holds two of them.",
+    "ch3.cards.rules": "Why these cards: one card per position group per rule, applied in this order — (a) highest {metric}, (b) youngest national-team call-up, (c) most top-9 minutes among the {event} squad, (d) most domestic-league minutes among the {event} squad, (e) most top-9 minutes, (f) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure. Rows group the six rules; the national-team core row holds two of them.",
+    "ch3.reason.top_metric": "highest {metric} among {pos}",
     "ch3.card.nt": "NT {nt_years}",
     "ch3.card.latest_known": "latest known",
     "ch3.card.stat.rates": "Non-penalty goals / assists per 90",
@@ -854,10 +862,22 @@ class Translator:
         return self.terms.get(label, label) if self.lang == "cs" else label
 
     def reason(self, reason: str) -> str:
-        """Showcase reasons end in a position code: '… among FW' -> pattern + pos."""
+        """Showcase reasons end in a position code: '… among FW' -> pattern + pos.
+
+        A handful of patterns display a plain metric label instead of the
+        raw jargon in the underlying reason string (Task 22 item 9: "highest
+        quality-adjusted npG+A per 90 among FW" reads as "highest {metric.prod}
+        among FW") -- `_REASON_DISPLAY` maps the pos-generic pattern to the
+        i18n key that renders it. The reason string itself (used for card
+        grouping and tests) is untouched; this only changes what's shown.
+        """
         for pos in ("FW", "MF", "DF"):
             if re.search(rf"\b{pos}\b", reason):
-                return self.term(re.sub(rf"\b{pos}\b", "{pos}", reason)).format(pos=pos)
+                pattern = re.sub(rf"\b{pos}\b", "{pos}", reason)
+                display_key = _REASON_DISPLAY.get(pattern)
+                if display_key:
+                    return self.raw(display_key, pos=pos, metric=self.strings["metric.prod"])
+                return self.term(pattern).format(pos=pos)
         return self.term(reason)
 
     def sensitivity(self, description: str) -> str:

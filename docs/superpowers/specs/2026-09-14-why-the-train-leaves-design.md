@@ -228,3 +228,62 @@ Each step: plan, subagent tasks, sonnet reviews, deploy after 2, 3 and 5.
 Five mechanisms live with intervals and validation; GK chapter; restructured
 report in both languages; models cached to `data/processed/model_*.nc`/parquet and
 snapshotted; convergence diagnostics in the report; tests green; site deployed.
+
+## 9. Deviations from the design
+
+Written at Task 22 (the whole-branch fix wave), after the sprint shipped, so the
+spec says what actually happened rather than only what was planned.
+
+- **M3's n is 8 countries × 2 seasons (n = 16), not the 27 country-seasons this
+  spec asked for (§2, "all nine peers, three seasons each").** Two independent
+  narrowings, both stated in the shipped JSON's own `n`/`n_countries`/
+  `seasons_used` fields rather than hidden: (1) the panel uses `{previous,
+  metrics}` only, not `{previous, metrics, current}` — `current` is a season
+  still in progress (partial data, see `config/seasons.yaml`) and is left out by
+  design (`src/youth_panel.py`'s module docstring), so two seasons per country,
+  not three; (2) Slovakia's own top flight (`SVK-Super Liga`) carries no FBref
+  `comp_id` at all (`config/leagues.yaml`), so its U21-share is `None` in every
+  season and its rows are dropped — 8 countries, not the 9 in `config.
+  PEER_COUNTRIES`. 8 × 2 = 16. The between-country headline fit (Task 20's
+  review-driven fix) then collapses that panel to one row per country, n = 8, for
+  the actual slope estimate.
+- **The goalkeeper counter-example's exhibit scope reached this spec's four
+  exhibits (§3: (i) GK per million by country, (ii) export-age comparison, (iii)
+  club tier, (iv) a production table with peer medians) in two stages, not one.**
+  Task 18 shipped (ii) and (iii) as slide content and a single country's GK count
+  in the slide answer; the whole-branch review (before Task 22) counted this as
+  "2/4" because (i) and (iv) were computed in `goalkeepers.json`
+  (`per_million`, `production`) but never rendered. Task 22 item 5 added both as
+  folds under the existing club-tier table — (i) a per-country GK-per-million bar
+  list reusing the `.capita` row markup, (iv) the GA/90, saves/90, save %,
+  clean-sheet share and quality-adjusted GA/90 table with peer medians — closing
+  the gap to 4/4 without a new data source; both were already computed by
+  `src/goalkeepers.py`, just unused by the template.
+- **M1 (the age-at-export production curve, §2) is still not built.** The
+  whole-branch review's finding I6 ("M1 age-at-export curve never built") is real:
+  nothing in the shipped pipeline fits the hierarchical regression of
+  quality-adjusted npG+A/90 in the first two top-9 seasons on age at export
+  (spline) + origin-league effect + position with a country random effect that
+  this spec's §2 M1 describes. Ruling (whole-branch review): Task 22 is the fix
+  wave for every other finding; M1 proper is Task 23, done after this fix wave,
+  not folded into it.
+- **The presentation restructure (§5, §7 step 5) ran first, not last.** §7's
+  order of work put the report restructure after all five mechanisms (step 5, "M4
+  exhibit + break model" then "Restructure the report"). The controller's actual
+  ruling (v1.2 ledger, first entry) put it first instead: "presentation
+  restructure ... goes first, before the models; eight question slides + Explore
+  + Method" — the nine-slide question → answer → proof → how-line structure
+  (Tasks 13a/13b) shipped and deployed before M2–M5 existed, so the mechanisms
+  landed as slides in an already-restructured report rather than the other way
+  round. Rationale recorded in the ledger: the user wanted the questions-then-
+  evidence shape settled before spending model-fitting effort on content that
+  would have to be re-framed into it anyway.
+- **The England edition is additional scope, not in this spec.** §1 names
+  "a method that transfers to England unchanged" as an audience-facing quality,
+  not a deliverable; nothing in §2–§8 asks for a second nation's site. A ruling
+  mid-sprint ("Run for England — pryč nebo ukázat i na ENG" → "show it") turned
+  that quality into a concrete second run: `config/nations/eng.yaml`, `NATION=eng`,
+  and a live `/eng/` site with an England-specific peer set, alongside the
+  Czech-context golden test (`tests/test_render.py::
+  test_context_matches_golden_fixture_for_cze`) that pins the Czech render so the
+  nation-config refactor couldn't silently change it while adding the second one.

@@ -8,6 +8,7 @@
    --------------------------------------------------------------------------- -#}
 {%- macro f2(x) -%}{%- if x is none -%}—{%- elif (x | round(2)) == 0 -%}0.00{%- else -%}{{ ('%.2f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro f3(x) -%}{%- if x is none -%}—{%- elif (x | round(3)) == 0 -%}0.000{%- else -%}{{ ('%.3f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
+{%- macro f4(x) -%}{%- if x is none -%}—{%- elif (x | round(4)) == 0 -%}0.0000{%- else -%}{{ ('%.4f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro g(x) -%}{%- if x is none -%}—{%- else -%}{{ '%g' | format(x) }}{%- endif -%}{%- endmacro -%}
 {%- macro pct(x) -%}{%- if x is none -%}—{%- elif ((x * 100) | round(0)) == 0 -%}0 %{%- else -%}{{ ('%.0f' | format(x * 100)) | replace('-', '−') }} %{%- endif -%}{%- endmacro -%}
 {%- macro pct1(x) -%}{%- if x is none -%}—{%- elif ((x * 100) | round(1)) == 0 -%}0.0 %{%- else -%}{{ ('%.1f' | format(x * 100)) | replace('-', '−') }} %{%- endif -%}{%- endmacro -%}
@@ -243,7 +244,7 @@
         </p>
       </div>
     </div>
-    <p class="hero-footnote">{{ t('hero.footnote', n=hero.n_players, season=seasons.metrics, topn=topn, pop=('%.1f' | format(hero.population_m))) }}</p>
+    <p class="hero-footnote">{{ t('hero.footnote', n=hero.n_players, season=seasons.metrics, topn=topn, pop=('%.1f' | format(hero.population_m)), min=feature_defs.min_minutes) }}</p>
   </div>
 </section>
 
@@ -609,7 +610,7 @@
     <div class="slide-proof">
       <details class="fold">
         <summary>{{ t('ch3.cards.rules.summary', n=cards | length) }}</summary>
-        <p class="capita-note">{{ t('ch3.cards.rules', event=nt_core_event) }}</p>
+        <p class="capita-note">{{ t('ch3.cards.rules', event=nt_core_event, metric=t('metric.prod')) }}</p>
       </details>
       {% for row in card_rows %}
       <p class="cycle-row-kicker">{{ row.kicker }}</p>
@@ -1270,9 +1271,9 @@
         <tr {% if model_comparison.winner and row.model == model_comparison.winner.model %}data-highlight="winner"{% endif %}>
           <td>{{ row.label }}</td>
           {% for cell in row.cells %}
-          <td>{% if cell %}{{ f3(cell.rmse) }} ({{ f3(cell.mae) }}){% else %}—{% endif %}</td>
+          <td>{% if cell %}{{ f4(cell.rmse) }} ({{ f3(cell.mae) }}){% else %}—{% endif %}</td>
           {% endfor %}
-          <td>{{ f3(row.pooled.rmse) }} ({{ f3(row.pooled.mae) }})</td>
+          <td>{{ f4(row.pooled.rmse) }} ({{ f3(row.pooled.mae) }})</td>
         </tr>
         {% endfor %}
       </tbody>

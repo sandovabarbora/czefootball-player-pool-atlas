@@ -60,7 +60,13 @@ def test_translator_terms_reasons_and_numbers():
     assert cs.term_soft("no such label") == "no such label"
     for pattern in (p for p in TERMS_EN if "{pos}" in p):
         reason = pattern.format(pos="MF")
-        assert en.reason(reason) == reason
+        if pattern == "highest quality-adjusted npG+A per 90 among {pos}":
+            # Task 22 item 9: this one pattern's *display* swaps the raw
+            # jargon for the plain metric.prod term, in both languages --
+            # the underlying reason string (matching/grouping) is untouched.
+            assert en.reason(reason) == "highest goals + assists per 90, league-adjusted among MF"
+        else:
+            assert en.reason(reason) == reason
         assert "MF" in cs.reason(reason) and cs.reason(reason) != reason
     assert (en.ordinal(1), en.ordinal(2), en.ordinal(3), en.ordinal(11), en.ordinal(22)) == ("1st", "2nd", "3rd", "11th", "22nd")
     assert cs.ordinal(2) == "2."
