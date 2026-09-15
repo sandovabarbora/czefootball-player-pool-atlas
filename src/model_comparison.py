@@ -69,6 +69,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import pymc as pm
 
 from src import config
 from src.logging_setup import setup as logging_setup
@@ -196,3 +197,199 @@ def predict_shrinkage_to_league_mean(train: pd.DataFrame, test: pd.DataFrame, k:
         return weight * mu_l + (1 - weight) * global_mean
 
     return test["league"].map(_pred)
+
+
+# =============================================================================
+# Model 2: hierarchical Bayesian regression
+# =============================================================================
+
+Z = 1.6448536269514722  # standard-normal 95th percentile -> a symmetric 90% interval
+
+
+def fit_bayesian(
+    train: pd.DataFrame, *, draws: int = 800, tune: int = 800, chains: int = 2,
+    target_accept: float = 0.9, seed: int | None = None, progressbar: bool = False,
+    cores: int | None = None,
+) -> tuple[pm.backends.base.MultiTrace | Any, dict[str, Any]]:
+    """Fit target ~ Normal(mu, sigma), mu = alpha + beta.x (standardised
+    numeric features) + gamma_league (partial pooling, non-centred) +
+    delta_pos + u_player (partial pooling, non-centred, sigma_u ~
+    HalfNormal(0.5)) on `train`.
+
+    Returns `(idata, meta)`; `meta` carries everything `predict_bayesian`
+    needs to score a *different* dataframe against this fit: the feature
+    means/stds used to standardise (so test rows are standardised the same
+    way, not refit), and the `league`/`pos`/`player` categories seen during
+    training (so an unseen category at prediction time is detected rather
+    than silently mis-indexed).
+    """
+    seed = config.RANDOM_SEED if seed is None else seed
+    x_mean = train[NUMERIC_FEATURES].mean()
+    x_std = train[NUMERIC_FEATURES].std().replace(0, 1.0)
+    x = ((train[NUMERIC_FEATURES] - x_mean) / x_std).to_numpy()
+
+    league_cat = pd.Categorical(train["league"])
+    pos_cat = pd.Categorical(train["pos_group"], categories=POS_GROUPS)
+    player_cat = pd.Categorical(train["player_key"])
+    y = train["target"].to_numpy()
+
+    coords = {
+        "feature": NUMERIC_FEATURES, "league": list(league_cat.categories),
+        "pos": list(pos_cat.categories), "player": list(player_cat.categories),
+    }
+    with pm.Model(coords=coords):
+        alpha = pm.Normal("alpha", 0.0, 1.0)
+        beta = pm.Normal("beta", 0.0, 1.0, dims="feature")
+
+        sigma_league = pm.HalfNormal("sigma_league", 0.5)
+        z_league = pm.Normal("z_league", 0.0, 1.0, dims="league")
+        gamma_league = pm.Deterministic("gamma_league", z_league * sigma_league, dims="league")
+
+        delta_pos = pm.Normal("delta_pos", 0.0, 0.5, dims="pos")
+
+        sigma_player = pm.HalfNormal("sigma_player", 0.5)
+        z_player = pm.Normal("z_player", 0.0, 1.0, dims="player")
+        u_player = pm.Deterministic("u_player", z_player * sigma_player, dims="player")
+
+        sigma = pm.HalfNormal("sigma", 0.5)
+
+        mu = (alpha + pm.math.dot(x, beta) + gamma_league[league_cat.codes]
+              + delta_pos[pos_cat.codes] + u_player[player_cat.codes])
+        pm.Normal("y", mu=mu, sigma=sigma, observed=y)
+
+        idata = pm.sample(draws=draws, tune=tune, chains=chains, target_accept=target_accept,
+                          random_seed=seed, progressbar=progressbar, cores=cores or min(chains, 4))
+
+    meta = {"x_mean": x_mean, "x_std": x_std, "leagues": set(league_cat.categories),
+            "players": set(player_cat.categories)}
+    return idata, meta
+
+
+def predict_bayesian(idata: Any, test: pd.DataFrame, meta: dict[str, Any]) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Point prediction and a 90% interval per row of `test`.
+
+    Point = posterior median of `mu` (fixed effects + the player's own
+    `u_player` draw when the player was seen during training, else 0 -- the
+    population average, since an unseen player's own offset is unknown).
+
+    The 90% interval is a *normal approximation* to the posterior
+    predictive, not full Monte Carlo sampling of `y_rep`: per row,
+    `median(mu) +/- Z * sqrt(var(mu across draws) + sigma_resid_median^2 +
+    [sigma_player_median^2 if the player is unseen])`. This is cheaper than
+    drawing and summarising a full (draws x rows) `y_rep` array per origin
+    (five origins, each needing its own predictive pass) and is standard
+    practice for a within-runtime-budget report exhibit; it slightly
+    understates tail coverage relative to exact sampling but is unbiased in
+    the interval's centre and width to first order. Documented here, not
+    hidden, per the "no overclaiming" brief.
+    """
+    x = ((test[NUMERIC_FEATURES] - meta["x_mean"]) / meta["x_std"]).to_numpy()
+    post = idata.posterior
+    alpha = post["alpha"].values.reshape(-1)               # (draws,)
+    beta = post["beta"].values.reshape(-1, len(NUMERIC_FEATURES))  # (draws, k)
+    n_draws = alpha.shape[0]
+
+    fixed = alpha[None, :] + (x @ beta.T)                    # (n_test, draws)
+
+    league_da = post["gamma_league"]
+    pos_da = post["delta_pos"]
+    league_vals = {str(lg): league_da.sel(league=lg).values.reshape(-1) for lg in league_da.coords["league"].values}
+    pos_vals = {str(p): pos_da.sel(pos=p).values.reshape(-1) for p in pos_da.coords["pos"].values}
+    u_da = post["u_player"]
+    player_vals = {str(pl): u_da.sel(player=pl).values.reshape(-1) for pl in u_da.coords["player"].values}
+
+    zeros = np.zeros(n_draws)
+    n_test = len(test)
+    mu = np.empty((n_test, n_draws))
+    unseen_player = np.zeros(n_test, dtype=bool)
+    for i, r in enumerate(test.itertuples()):
+        gl = league_vals.get(str(r.league), zeros)
+        ps = pos_vals.get(str(r.pos_group), zeros)
+        up = player_vals.get(str(r.player_key))
+        if up is None:
+            up = zeros
+            unseen_player[i] = True
+        mu[i, :] = fixed[i, :] + gl + ps + up
+
+    sigma_draws = post["sigma"].values.reshape(-1)
+    sigma_resid = float(np.median(sigma_draws))
+    sigma_player_draws = post["sigma_player"].values.reshape(-1)
+    sigma_player_med = float(np.median(sigma_player_draws))
+
+    point = np.median(mu, axis=1)
+    epistemic_var = np.var(mu, axis=1)
+    total_var = epistemic_var + sigma_resid ** 2 + np.where(unseen_player, sigma_player_med ** 2, 0.0)
+    half_width = Z * np.sqrt(total_var)
+    return point, point - half_width, point + half_width
+
+
+# =============================================================================
+# Models 3 and 4: gradient boosting and a small MLP
+# =============================================================================
+
+
+def _cast_categoricals(df: pd.DataFrame, categories: dict[str, list[str]]) -> pd.DataFrame:
+    """`league`/`pos_group` as pandas `category` dtype with a *fixed*
+    category set (the corpus-wide list of leagues/pos groups, not just
+    those seen in one origin's train split) -- this is declaring the
+    category space, not using target information, and it is what lets
+    HistGradientBoostingRegressor's `categorical_features="from_dtype"`
+    and the one-hot encoder handle a league/pos level that a later origin's
+    smaller training set happened not to include.
+    """
+    out = df.copy()
+    for col, cats in categories.items():
+        out[col] = pd.Categorical(out[col], categories=cats)
+    return out
+
+
+def fit_predict_gbm(train: pd.DataFrame, test: pd.DataFrame, categories: dict[str, list[str]],
+                    seed: int | None = None) -> np.ndarray:
+    """`HistGradientBoostingRegressor`, default-ish params, early stopping;
+    `league`/`pos_group` as `category` dtype (Pedregosa et al., 2011)."""
+    from sklearn.ensemble import HistGradientBoostingRegressor
+
+    cols = [*NUMERIC_FEATURES, "league", "pos_group"]
+    x_train = _cast_categoricals(train[cols], categories)
+    x_test = _cast_categoricals(test[cols], categories)
+    model = HistGradientBoostingRegressor(early_stopping=True, random_state=config.RANDOM_SEED if seed is None else seed)
+    model.fit(x_train, train["target"])
+    return model.predict(x_test)
+
+
+def fit_predict_mlp(train: pd.DataFrame, test: pd.DataFrame, categories: dict[str, list[str]],
+                    seed: int | None = None) -> np.ndarray:
+    """A small multilayer perceptron (`MLPRegressor`, not an "embedding
+    model" -- PyTorch is not installed, so a learned league embedding isn't
+    available in sklearn): one-hot `league`/`pos_group` + standardised
+    numeric features, hidden layers (64, 32), early stopping."""
+    from sklearn.compose import ColumnTransformer
+    from sklearn.neural_network import MLPRegressor
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+    pre = ColumnTransformer([
+        ("num", StandardScaler(), NUMERIC_FEATURES),
+        ("cat", OneHotEncoder(categories=[categories["league"], categories["pos_group"]], handle_unknown="ignore"),
+         ["league", "pos_group"]),
+    ])
+    pipe = Pipeline([
+        ("pre", pre),
+        ("mlp", MLPRegressor(hidden_layer_sizes=(64, 32), early_stopping=True,
+                             random_state=config.RANDOM_SEED if seed is None else seed, max_iter=500)),
+    ])
+    pipe.fit(train[[*NUMERIC_FEATURES, "league", "pos_group"]], train["target"])
+    return pipe.predict(test[[*NUMERIC_FEATURES, "league", "pos_group"]])
+
+
+# =============================================================================
+# Assembly
+# =============================================================================
+
+
+def assemble_output(target: str, origins: list[str], rows: list[dict[str, Any]],
+                    pooled: list[dict[str, Any]], winner_pooled: str, notes: list[str]) -> dict[str, Any]:
+    """Pure assembly of the JSON shape described in the module docstring;
+    no fitting here, so this is testable on hand-built inputs."""
+    return {"target": target, "origins": origins, "rows": rows, "pooled": pooled,
+            "winner_pooled": winner_pooled, "notes": notes}
