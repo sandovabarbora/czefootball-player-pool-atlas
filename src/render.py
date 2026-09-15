@@ -353,6 +353,35 @@ def _build_flow_urls(repo_url: str) -> dict[str, str]:
     }
 
 
+_LEDGER_EDITION_RE = re.compile(r"-(v1(?:-2)?)-progress\.md$")
+_SPEC_PATH_RE = re.compile(r"docs/superpowers/specs/[\w.\-]+\.md")
+
+
+def _build_how_built_links(repo_url: str) -> list[dict[str, str]]:
+    """One {edition, spec_url, ledger_url} entry per committed ledger under
+    `docs/superpowers/ledgers/` (Task 22 item 8: "How this was built" links
+    both specs and both ledgers). Each ledger's own header names the spec
+    it was built from -- a `Spec:` line for the v1 ledger, or the spec path
+    embedded directly in the v1.2 ledger's `plan:` line -- so the pairing
+    is read from the ledger text at render time rather than hardcoded; a
+    stray draft spec with no ledger of its own (an abandoned revision) is
+    correctly left out because nothing points to it.
+    """
+    links = []
+    for ledger in _ledger_paths():
+        text = ledger.read_text(encoding="utf-8")
+        spec_match = _SPEC_PATH_RE.search(text)
+        edition_match = _LEDGER_EDITION_RE.search(ledger.name)
+        edition = edition_match.group(1).replace("-", ".") if edition_match else ledger.stem
+        ledger_rel = ledger.relative_to(config.ROOT_DIR).as_posix()
+        links.append({
+            "edition": edition,
+            "ledger_url": f"{repo_url}/blob/main/{ledger_rel}",
+            "spec_url": f"{repo_url}/blob/main/{spec_match.group(0)}" if spec_match else None,
+        })
+    return links
+
+
 def _metrics_rows(frame: pd.DataFrame, season: str) -> pd.DataFrame:
     """One row per player in `season`: the club where they played most.
 
@@ -883,6 +912,8 @@ def _build_gk(gk_raw: dict) -> dict:
         "club_strength_proxy": gk_raw.get("club_strength_proxy", ""),
         "production": gk_raw.get("production", {}),
         "cards": gk_raw.get("cards", []),
+        "per_million": per_million,
+        "max_per_million": max((r["per_million"] for r in per_million), default=0),
     }
 
 
@@ -1847,6 +1878,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "rendered_at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
         **_build_flow_urls("https://github.com/barborasandova/czefootball-player-pool-atlas"),
+        "how_built_links": _build_how_built_links("https://github.com/barborasandova/czefootball-player-pool-atlas"),
     }
 
 
@@ -1952,7 +1984,14 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "club_tier": [{"player": "Jindřich Staněk", "player_key": "jindrich stanek|1996",
                       "league": "GER-Bundesliga", "team": "Mainz 05", "min": 2700, "club_goals_pct": 0.6}],
         "club_strength_proxy": "goals-scored percentile within league",
-        "production": {"home": [], "peer_medians": []},
+        "production": {"home": [{"player": "Jindřich Staněk", "player_key": "jindrich stanek|1996",
+                                  "team": "Mainz 05", "league": "GER-Bundesliga", "min": 2700, "ga90": 1.22,
+                                  "saves90": 2.85, "save_pct_shrunk": 68.4, "cs_share": 0.28, "ga90_q": 0.96}],
+                       "peer_medians": [{"country": "CZE", "n": 3, "median_ga90_q": 1.5, "median_saves90": 2.8,
+                                         "median_save_pct": 67.5, "median_cs_share": 0.28}]},
+        "per_million": [{"country": "CZE", "name": "Czechia", "n_gk": 3, "population_m": 10.9,
+                         "per_million": 0.28, "rank": 4}],
+        "max_per_million": 0.28,
         "cards": [
             {"player_key": "jindrich stanek|1996", "player": "Jindřich Staněk", "team": "Mainz 05",
              "league": "GER-Bundesliga", "min": 2700, "reason": "most top-9 minutes among home goalkeepers",
@@ -2240,6 +2279,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "rendered_at": "2026.09.13 00:00",  # dotted so the no-typed-season test regex does not read it as a season
         "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
         **_build_flow_urls("https://github.com/barborasandova/czefootball-player-pool-atlas"),
+        "how_built_links": _build_how_built_links("https://github.com/barborasandova/czefootball-player-pool-atlas"),
     }
 
 

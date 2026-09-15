@@ -516,6 +516,14 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   line-height: 1.5;
   color: var(--ink-soft);
 }
+.fed-tile-used-by {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--ink-faint, var(--ink-soft));
+  margin-top: 0.35rem;
+}
 .fed-note {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -550,6 +558,15 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   line-height: 1.12;
   letter-spacing: -0.02em;
   max-width: 22ch;
+  margin: 0 0 var(--space-3);
+}
+.slide-aq {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--ink-faint, var(--ink-soft));
+  max-width: var(--measure-wide);
   margin: 0 0 var(--space-3);
 }
 .slide-a {

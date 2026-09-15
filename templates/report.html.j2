@@ -260,6 +260,7 @@
 <section class="slide" id="q1">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.1.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.1.aq', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn, n=hero.n_peers) }}</p>
     <p class="slide-a">{{ t('slide.1.a', rank=ordinal(hero.rank), n=hero.n_peers, pm=f2(hero.per_million), top=term(hero.top.name), top_pm=f2(hero.top.per_million)) }}</p>
     <div class="slide-proof">
       <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
@@ -284,6 +285,7 @@
 <section class="slide" id="q2">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.2.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.2.aq', min=feature_defs.min_minutes, season=seasons.metrics) }}</p>
     {% set gap0 = cohort_gaps[0] %}
     <p class="slide-a">{{ t('slide.2.a', group=term(gap0.group_title), cohort=gap0.cohort, cze=gap0.cze_n, peer=g(gap0.peer_median_n)) }}</p>
     <div class="slide-proof">
@@ -310,6 +312,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.3.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.3.aq', season=seasons.metrics) }}</p>
     <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}{% if pw.panel_beta is defined %}{{ t('slide.3.panel', n_countries=pw.panel_n_countries, beta=signed2(pw.panel_beta), lo=f2(pw.panel_beta_lo), hi=f2(pw.panel_beta_hi), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
       {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
@@ -343,6 +346,7 @@
 <section class="slide" id="q4">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.4.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.4.aq', season=seasons.metrics, topn=topn) }}</p>
     {% if pathways.destinations %}
     {% set dest = pathways.destinations %}
     {% set top9_bucket = (dest.buckets | selectattr('bucket', 'equalto', 'top9') | list | first) %}
@@ -374,7 +378,9 @@
 <section class="slide" id="q5">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.5.q') }}</h2>
-    <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}</p>
+    <p class="slide-aq">{{ t('slide.5.aq', season=seasons.metrics) }}</p>
+    <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}
+      {% if league_strength.home and not league_strength.home_is_reference %} {{ t('slide.5.a2', m_l=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi), uefa=f2(league_strength.home.uefa)) }}{% endif %}</p>
     <div class="slide-proof">
       {% set fare_min_max = pw.fare_min | map(attribute='value') | max %}
       <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
@@ -399,6 +405,7 @@
 <section class="slide" id="q6">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.6.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.6.aq', event=nt_core_event, season=seasons.metrics) }}</p>
     <p class="slide-a">{% if squad_cze_row and squad_best_row %}{{ t('slide.6.a', cze_pct=('%.0f' | format(squad_cze_row.top9_pct)), event=squad_lens.event, topn=topn,
                             best_name=term(squad_best_row.name), best_pct=('%.0f' | format(squad_best_row.top9_pct))) }}{% endif %}</p>
     <div class="slide-proof">
@@ -436,6 +443,7 @@
 <section class="slide" id="q7">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.7.aq', min=feature_defs.min_minutes, history_start=seasons.history_start) }}</p>
     {% if big5 %}
     <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
     <div class="slide-proof">
@@ -451,6 +459,7 @@
 <section class="slide" id="q8">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8.q', a=pc_a, b=pc_b) }}</h2>
+    <p class="slide-aq">{{ t('slide.8.aq', a=pc_a, b=pc_b, topn=topn) }}</p>
     <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', a=pc_a, nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
                             nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
@@ -487,6 +496,7 @@
 <section class="slide" id="q8b">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8b.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.8b.aq', min=gk.min_minutes, topn=topn) }}</p>
     <p class="slide-a">{{ t('slide.8b.a', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
                           pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
                           gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age),
@@ -515,6 +525,54 @@
           </tbody>
         </table>
       </details>
+      {% if gk.production.home %}
+      <details class="fold">
+        <summary>{{ t('gk.production.summary', season=seasons.metrics) }}</summary>
+        <table class="kv-table">
+          <thead>
+            <tr>
+              <th>{{ t('gk.tier.th.player') }}</th><th>{{ t('gk.tier.th.club') }}</th>
+              <th>{{ t('gk.tier.th.league') }}</th><th>{{ t('gk.tier.th.min') }}</th>
+              <th>{{ t('gk.production.th.ga90') }}</th><th>{{ t('gk.production.th.saves90') }}</th>
+              <th>{{ t('gk.production.th.savepct') }}</th><th>{{ t('gk.production.th.csshare') }}</th>
+              <th>{{ t('gk.production.th.ga90q') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in gk.production.home %}
+            <tr>
+              <td>{{ r.player }}</td><td>{{ r.team }}</td><td>{{ r.league }}</td><td>{{ r.min }}</td>
+              <td>{{ f2(r.ga90) }}</td><td>{{ f2(r.saves90) }}</td>
+              <td>{{ '%.1f' | format(r.save_pct_shrunk) }} %</td><td>{{ pct(r.cs_share) }}</td>
+              <td>{{ f2(r.ga90_q) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="capita-note">{{ t('gk.production.medians_label') }}
+          {% for m in gk.production.peer_medians %}<span class="capita-code">{{ m.country }}</span> {{ f2(m.median_ga90_q) }}{% if not loop.last %} · {% endif %}{% endfor %}
+        </p>
+      </details>
+      {% endif %}
+      {% if gk.per_million %}
+      <details class="fold">
+        <summary>{{ t('gk.per_million.summary') }}</summary>
+        <div class="capita" role="list" aria-label="{{ t('gk.per_million.aria') }}">
+          {% for r in gk.per_million %}
+          <div class="capita-row" role="listitem"
+               {% if r.country == home_code %}data-highlight="cze"{% endif %}
+               style="--value: {{ r.per_million }}; --max: {{ gk.max_per_million }};">
+            <div class="capita-country">
+              <span class="capita-code">{{ r.country }}</span>
+              {{ term(r.name) }}
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">{{ f2(r.per_million) }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </details>
+      {% endif %}
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8b.how', min=gk.min_minutes, season=seasons.metrics, phantom=gk.phantom_minutes, topn=topn, history_start=seasons.history_start,
                           censored_pct=('%.0f' | format(gk.export_age.gk_censored_share * 100)),
@@ -529,6 +587,7 @@
 <section class="slide" id="q8c">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8c.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.8c.aq', n=gap_decomposition.n) }}</p>
     <p class="slide-a">{{ t('slide.8c.a', gap=f2(gdp.gap_total), contrast=term(gdp.name),
                           c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
                           c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
@@ -545,6 +604,7 @@
 <section class="slide" id="q9">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.9.q') }}</h2>
+    <p class="slide-aq">{{ t('slide.9.aq', n=cards | length, season=seasons.metrics) }}</p>
     <p class="slide-a">{{ t('slide.9.a', n=cards | length) }}</p>
     <div class="slide-proof">
       <details class="fold">
@@ -580,18 +640,22 @@
       <li class="fed-tile"><a href="#q1">
         <span class="fed-tile-title">{{ t('fed.benchmark.title') }}</span>
         <span class="fed-tile-body">{{ t('fed.benchmark.body') }}</span>
+        <span class="fed-tile-used-by">{{ t('fed.benchmark.used_by') }}</span>
       </a></li>
       <li class="fed-tile"><a href="#pathways">
         <span class="fed-tile-title">{{ t('fed.pathways.title') }}</span>
         <span class="fed-tile-body">{{ t('fed.pathways.body') }}</span>
+        <span class="fed-tile-used-by">{{ t('fed.pathways.used_by') }}</span>
       </a></li>
       <li class="fed-tile"><a href="#q6">
         <span class="fed-tile-title">{{ t('fed.squad.title') }}</span>
         <span class="fed-tile-body">{{ t('fed.squad.body') }}</span>
+        <span class="fed-tile-used-by">{{ t('fed.squad.used_by') }}</span>
       </a></li>
       <li class="fed-tile"><a href="#methodology">
         <span class="fed-tile-title">{{ t('fed.models.title') }}</span>
         <span class="fed-tile-body">{{ t('fed.models.body') }}</span>
+        <span class="fed-tile-used-by">{{ t('fed.models.used_by') }}</span>
       </a></li>
     </ul>
   </div>
@@ -1588,6 +1652,10 @@
       <p class="build-diagram-legend">{{ t('ch4.built.legend', impl=build_process.implementers, rev=build_process.reviewers, ctrl=build_process.controller) }}</p>
       <p>{{ t('ch4.built.peer_review', n_reviews=facts.n_reviews, n_tasks=facts.n_tasks) }}</p>
       <p>{{ t('ch4.built.p2', spec=spec_url, plan=plan_url, ledger=ledger_url) }}</p>
+      {% if how_built_links %}
+      <p>{{ t('ch4.built.p3') }}
+        {% for link in how_built_links %}{% if link.spec_url %}<a href="{{ link.spec_url }}">{{ link.edition }} {{ t('ch4.built.spec_word') }}</a>{% endif %}{% if link.spec_url and link.ledger_url %} · {% endif %}{% if link.ledger_url %}<a href="{{ link.ledger_url }}">{{ link.edition }} {{ t('ch4.built.ledger_word') }}</a>{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}.</p>
+      {% endif %}
     </details>
 
     <h3 id="related-methods">{{ t('ch4.related.h3') }}</h3>
