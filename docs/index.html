@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609142255">
-  <link rel="stylesheet" href="modern.css?v=202609142255">
+  <link rel="stylesheet" href="style.css?v=202609151000">
+  <link rel="stylesheet" href="modern.css?v=202609151000">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609142255"></script>
+  <script defer src="atlas.js?v=202609151000"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -58,6 +58,7 @@
       <ol>
         <li><a href="#multipliers">League multipliers</a></li>
         <li><a href="#league-strength">League strength</a></li>
+        <li><a href="#model-comparison">Three models, one task, five seasons</a></li>
         <li><a href="#shrinkage">Bayesian shrinkage</a></li>
         <li><a href="#pca-loadings">PCA loadings</a></li>
         <li><a href="#sensitivity">Sensitivity analysis</a></li>
@@ -85,7 +86,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 176 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 186 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -8416,6 +8417,117 @@
     <p>The report's rankings keep the UEFA-coefficient multiplier throughout; the model above is shown alongside it as a check on that multiplier's own assumption — that continental results track player-level strength — not as a replacement for it.</p>
     
 
+    
+    <h3 id="model-comparison">Three models, one task, five seasons</h3>
+    <p>What does a player's season tell us about the next one, given where he plays, how old he is and — for exports — at what age he moved? In model terms: predict a player's league-adjusted production next season (non-penalty goals plus assists per 90, quality-adjusted) from this season's numbers, for every player-season pair with at least 450 minutes in both seasons, every nationality in the corpus.</p>
+    <p>Evaluated by rolling-origin cross-validation (Hyndman and Athanasopoulos, 2021): for each of 5 target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real "performance over time" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, 2 chains × 400 draws per origin (Gelman et al., 2013)), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn (Pedregosa et al., 2011), hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most 2500 per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split.</p>
+    <figure class="figure-bleed">
+      <img src="model_comparison.svg" alt="Line chart of RMSE per target season, one line per model, persistence dashed.">
+    </figure>
+    <table class="kv-table compare-table">
+      <thead><tr>
+        <th>Model</th>
+        <th>2021/22</th><th>2022/23</th><th>2023/24</th><th>2024/25</th><th>2025/26</th>
+        <th>Pooled</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr >
+          <td>Persistence</td>
+          
+          <td>0.077 (0.054)</td>
+          
+          <td>0.078 (0.056)</td>
+          
+          <td>0.079 (0.056)</td>
+          
+          <td>0.079 (0.057)</td>
+          
+          <td>0.068 (0.048)</td>
+          
+          <td>0.075 (0.053)</td>
+        </tr>
+        
+        <tr >
+          <td>Shrinkage to league mean</td>
+          
+          <td>0.134 (0.104)</td>
+          
+          <td>0.129 (0.100)</td>
+          
+          <td>0.131 (0.098)</td>
+          
+          <td>0.127 (0.098)</td>
+          
+          <td>0.110 (0.089)</td>
+          
+          <td>0.125 (0.097)</td>
+        </tr>
+        
+        <tr >
+          <td>Hierarchical Bayesian</td>
+          
+          <td>—</td>
+          
+          <td>0.071 (0.052)</td>
+          
+          <td>0.076 (0.054)</td>
+          
+          <td>0.072 (0.053)</td>
+          
+          <td>0.068 (0.052)</td>
+          
+          <td>0.071 (0.053)</td>
+        </tr>
+        
+        <tr data-highlight="winner">
+          <td>Gradient boosting</td>
+          
+          <td>—</td>
+          
+          <td>0.072 (0.051)</td>
+          
+          <td>0.074 (0.051)</td>
+          
+          <td>0.070 (0.051)</td>
+          
+          <td>0.068 (0.051)</td>
+          
+          <td>0.071 (0.051)</td>
+        </tr>
+        
+        <tr >
+          <td>Small MLP</td>
+          
+          <td>—</td>
+          
+          <td>0.079 (0.059)</td>
+          
+          <td>0.079 (0.057)</td>
+          
+          <td>0.073 (0.054)</td>
+          
+          <td>0.071 (0.054)</td>
+          
+          <td>0.075 (0.056)</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">Each cell: RMSE (MAE), in league-adjusted npG+A per 90. The first origin's training set is empty by construction — the corpus's earliest feature season leaves no earlier target season to train on — so only the two baselines are reported there.</p>
+
+    
+    <p>The Bayesian model's 90 % predictive interval covered the observed value 92 % of the time, pooled across the 4 origins it was fit for (2022/23: 91 %, 2023/24: 90 %, 2024/25: 91 %, 2025/26: 93 %).</p>
+    
+
+    
+    <p>By pooled RMSE, Gradient boosting wins (0.071 vs 0.075 for persistence, 6 % lower).</p>
+    
+    
+    <p>The clearest season-to-season move in the winner's own RMSE is between 2023/24 and 2024/25 (0.005) — the kind of drift this rolling-origin table exists to surface.</p>
+    
+    
+
     <h3 id="shrinkage">Bayesian shrinkage</h3>
     <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula (Efron and Morris, 1975), with K = 10 phantom matches expressed as 900 minutes:</p>
     <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
@@ -8966,6 +9078,9 @@
     <p>Each model in this pipeline carries its own validation next to where it is described; this section collects one headline diagnostic from each as it lands. So far:</p>
     <ul>
       
+      <li>Season-to-season model comparison (M1): rolling-origin evaluation over 5 seasons, pooled RMSE favours Gradient boosting (0.071 vs 0.075 for persistence), the Bayesian model's 90 % interval covered 92 % of observed values.</li>
+      
+      
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (-2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
       
     </ul>
@@ -8975,8 +9090,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 176 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 176 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 186 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 186 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -8999,6 +9114,8 @@
       <li id="ref-hoffman_gelman_2014"><a href="https://www.jmlr.org/papers/v15/hoffman14a.html">Hoffman, M.D. and Gelman, A. (2014) &#39;The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo&#39;, Journal of Machine Learning Research, 15, pp. 1593–1623.</a></li>
       
       <li id="ref-hvattum_2019"><a href="https://doi.org/10.2478/ijcss-2019-0001">Hvattum, L.M. (2019) &#39;A comprehensive review of plus-minus ratings for evaluating individual players in team sports&#39;, International Journal of Computer Science in Sport, 18(1), pp. 1–23.</a></li>
+      
+      <li id="ref-hyndman_athanasopoulos_2021"><a href="https://otexts.com/fpp3/">Hyndman, R.J. and Athanasopoulos, G. (2021) Forecasting: Principles and Practice. 3rd edn. Melbourne: OTexts.</a></li>
       
       <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736.</a></li>
       
@@ -9174,7 +9291,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-14 22:55</p>
+    <p class="rendered-at">Rendered: 2026-09-15 10:00</p>
   </div>
 </footer>
 
