@@ -1200,6 +1200,7 @@ def _build_youth_panel(yp: dict) -> dict:
         "between": yp.get("between", {}) or {},
         "within": yp.get("within", {}) or {},
         "ols": yp.get("ols", {}) or {},
+        "ols_means": yp.get("ols_means", {}) or {},
         "chains": YOUTH_PANEL_CHAINS, "draws": YOUTH_PANEL_DRAWS, "n_boot": YOUTH_PANEL_BOOTSTRAP_N,
     }
 
@@ -2052,6 +2053,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                       "n": 16, "diagnostics": {"max_rhat": 1.01, "min_ess_bulk": 850.0, "min_ess_tail": 1000.0,
                                                "n_divergences": 0, "sigma_country_median": 5.19}},
             "ols": {"slope_per_10pp": {"point": 0.78, "lo": 0.11, "hi": 1.4}, "intercept": -0.2, "n_boot": 1000},
+            "ols_means": {"slope_per_10pp": {"point": 1.07, "lo": -0.17, "hi": 2.33}, "intercept": -0.5, "n_boot": 1000},
         }),
         "gap_decomposition": _build_gap_decomposition({
             "panel": [{"country": "CZE", "y": 2.39, "x1": 0.0635, "x2": 1.0, "x3": 22.0, "x2_source": "m_L"}],

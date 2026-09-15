@@ -1304,6 +1304,9 @@
              lo=f2(youth_panel.between.beta_per_10pp.lo), hi=f2(youth_panel.between.beta_per_10pp.hi),
              r2=f2(youth_panel.between.r2), ols=signed2(youth_panel.ols.slope_per_10pp.point),
              ols_lo=f2(youth_panel.ols.slope_per_10pp.lo), ols_hi=f2(youth_panel.ols.slope_per_10pp.hi),
+             ols_means=signed2(youth_panel.ols_means.slope_per_10pp.point),
+             ols_means_lo=f2(youth_panel.ols_means.slope_per_10pp.lo),
+             ols_means_hi=f2(youth_panel.ols_means.slope_per_10pp.hi),
              n=youth_panel.between.n) }}</p>
     <p>{{ t('ch4.panel.diagnostics', rhat=f3(youth_panel.between.diagnostics.max_rhat),
              ess=(youth_panel.between.diagnostics.min_ess_bulk | round | int),
