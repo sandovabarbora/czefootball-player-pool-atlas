@@ -489,7 +489,8 @@
     <h2 class="slide-q">{{ t('slide.8b.q') }}</h2>
     <p class="slide-a">{{ t('slide.8b.a', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
                           pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
-                          gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age)) }}</p>
+                          gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age),
+                          earlier_or_later=(t('slide.8b.earlier') if gk.earlier_or_later == 'earlier' else (t('slide.8b.later') if gk.earlier_or_later == 'later' else t('slide.8b.same_age')))) }}</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}gk_export_age.svg" alt="{{ t('slide.8b.alt') }}">
@@ -1501,7 +1502,8 @@
       <li>{{ t('ch4.validation.m3', season=series_model.break.season, prob=pct(series_model.break.prob),
                 delta=f2(series_model.break.delta), mae_model=f2(series_model.backtest.pooled.mae_model),
                 mae_naive=f2(series_model.backtest.pooled.mae_naive), coverage=pct(series_model.backtest.pooled.coverage90),
-                n=series_model.backtest.rows | length) }}</li>
+                n=series_model.backtest.rows | length,
+                verb=(t('ch4.validation.verb.beats') if series_model.backtest.pooled.beats else t('ch4.validation.verb.not_beats'))) }}</li>
       {% endif %}
       {% if youth_panel.between %}
       <li>{{ t('ch4.validation.m4', n_countries=youth_panel.between.n, n=youth_panel.between.n,

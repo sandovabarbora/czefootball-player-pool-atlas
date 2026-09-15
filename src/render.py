@@ -858,14 +858,27 @@ def _build_gk(gk_raw: dict) -> dict:
     """
     if not gk_raw:
         return {}
-    home_row = next((r for r in gk_raw.get("per_million", []) if r.get("country") == config.HOME), None)
+    per_million = gk_raw.get("per_million", [])
+    home_row = next((r for r in per_million if r.get("country") == config.HOME), None)
+    export_age = gk_raw.get("export_age", {}) or {}
+    gk_median_age = export_age.get("gk_median_age")
+    outfield_median_age = export_age.get("outfield_median_age")
+    earlier_or_later = None
+    if gk_median_age is not None and outfield_median_age is not None:
+        if gk_median_age < outfield_median_age:
+            earlier_or_later = "earlier"
+        elif gk_median_age > outfield_median_age:
+            earlier_or_later = "later"
+        else:
+            earlier_or_later = "same_age"
     return {
         "home_row": home_row,
         "home_rank": gk_raw.get("home_rank"),
         "n_peers": gk_raw.get("n_peers"),
         "min_minutes": gk_raw.get("min_minutes"),
         "phantom_minutes": gk_raw.get("phantom_minutes"),
-        "export_age": gk_raw.get("export_age", {}),
+        "export_age": export_age,
+        "earlier_or_later": earlier_or_later,
         "club_tier": gk_raw.get("club_tier", []),
         "club_strength_proxy": gk_raw.get("club_strength_proxy", ""),
         "production": gk_raw.get("production", {}),
@@ -1268,7 +1281,9 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
         {**r, "origin": season_label(r["origin"]), "next_season": season_label(r["next_season"])}
         for r in bt.get("rows", [])
     ]
-    pooled = bt.get("pooled", {})
+    pooled = dict(bt.get("pooled", {}))
+    if "mae_model" in pooled and "mae_naive" in pooled:
+        pooled["beats"] = pooled["mae_model"] < pooled["mae_naive"]
     forecast_rows = [
         {"code": code, "name": names.get(code, code), "season": season_label(f["season"]),
          "median": f["median"], "lo": f["lo"], "hi": f["hi"]}
@@ -1933,6 +1948,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                        "outfield_censored_share": 0.133,
                        "current_top9_ages": [{"player_key": "jindrich stanek|1996", "player": "Jindřich Staněk",
                                               "first_age": 21.0, "first_season": "2024-2025", "censored": False}]},
+        "earlier_or_later": "earlier",
         "club_tier": [{"player": "Jindřich Staněk", "player_key": "jindrich stanek|1996",
                       "league": "GER-Bundesliga", "team": "Mainz 05", "min": 2700, "club_goals_pct": 0.6}],
         "club_strength_proxy": "goals-scored percentile within league",
