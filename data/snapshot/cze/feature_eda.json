@@ -1,0 +1,231 @@
+{
+ "metrics_season": "2025-2026",
+ "raw_row": {
+  "league": "GER-Bundesliga",
+  "season": "2025-2026",
+  "team": "Hoffenheim",
+  "player": "Vladimír Coufal",
+  "nation": "CZE",
+  "pos": "DF",
+  "born": 1992,
+  "age": 32,
+  "mp": 34,
+  "min": 3012,
+  "gls": 1,
+  "ast": 8,
+  "pk": 0,
+  "crdy": 4,
+  "crdr": 0
+ },
+ "feature_row": {
+  "player": "Vladimír Coufal",
+  "pos_group": "DF",
+  "npg_p90": {
+   "raw": 0.0299,
+   "shrunk": 0.0338,
+   "quality": 0.0266,
+   "z": 0.2081
+  },
+  "ast_p90": {
+   "raw": 0.239,
+   "shrunk": 0.193,
+   "quality": 0.152,
+   "z": 4.3077
+  },
+  "min_share": {
+   "raw": 0.9843,
+   "shrunk": 0.9843,
+   "quality": 0.9843,
+   "z": 1.6701
+  },
+  "age": {
+   "raw": 32.0,
+   "shrunk": 32.0,
+   "quality": 32.0,
+   "z": 1.4507
+  },
+  "cards_p90": {
+   "raw": 0.1195,
+   "shrunk": 0.1353,
+   "quality": 0.1353,
+   "z": -0.8952
+  }
+ },
+ "rejected": [
+  {
+   "candidate": "gls_p90",
+   "statistic": "corr_npg",
+   "value": 0.973,
+   "decision": "replaced_npg"
+  },
+  {
+   "candidate": "mp",
+   "statistic": "corr_min",
+   "value": 0.8443,
+   "decision": "replaced_min_share"
+  },
+  {
+   "candidate": "crdr_p90",
+   "statistic": "zero_share",
+   "value": 0.8539,
+   "decision": "folded_cards"
+  },
+  {
+   "candidate": "age",
+   "statistic": "band_spread",
+   "value": 0.0283,
+   "decision": "kept"
+  },
+  {
+   "candidate": "born",
+   "statistic": "missing_share",
+   "value": 0.0028,
+   "decision": "kept_key"
+  }
+ ],
+ "penalty_top": [
+  {
+   "player": "Nabil Touaizi",
+   "league": "POR-Primeira Liga",
+   "season": "2025-2026",
+   "share": 1.0
+  },
+  {
+   "player": "Yohan Croizet",
+   "league": "HUN-NB I",
+   "season": "2025-2026",
+   "share": 1.0
+  },
+  {
+   "player": "Luca Zuffi",
+   "league": "SUI-Super League",
+   "season": "2025-2026",
+   "share": 1.0
+  }
+ ],
+ "age_bands": [
+  {
+   "band": "U22",
+   "median": 0.1734,
+   "n": 1155
+  },
+  {
+   "band": "23-25",
+   "median": 0.1751,
+   "n": 2035
+  },
+  {
+   "band": "26-29",
+   "median": 0.1693,
+   "n": 1527
+  },
+  {
+   "band": "30+",
+   "median": 0.1468,
+   "n": 939
+  }
+ ],
+ "missingness": [
+  {
+   "column": "league",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "season",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "team",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "player",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "nation",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "pos",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "born",
+   "missing": 25,
+   "share": 0.0028
+  },
+  {
+   "column": "age",
+   "missing": 25,
+   "share": 0.0028
+  },
+  {
+   "column": "mp",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "min",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "gls",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "ast",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "pk",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "crdy",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "crdr",
+   "missing": 0,
+   "share": 0.0
+  }
+ ],
+ "most_shrunk": {
+  "player": "Antonín Růsek",
+  "league": "CZE-First League",
+  "min": 454,
+  "raw": 0.5947,
+  "shrunk": 0.2499,
+  "delta": -0.3448
+ },
+ "distributions": {
+  "leagues": [
+   "ITA-Serie A",
+   "ESP-La Liga",
+   "ENG-Premier League",
+   "TUR-Süper Lig",
+   "POR-Primeira Liga",
+   "CZE-First League",
+   "POL-Ekstraklasa",
+   "FRA-Ligue 1",
+   "GER-2. Bundesliga",
+   "GER-Bundesliga"
+  ],
+  "log_scaled": [
+   "npg_p90",
+   "ast_p90"
+  ]
+ }
+}

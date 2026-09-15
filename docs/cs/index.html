@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609151000">
-  <link rel="stylesheet" href="../modern.css?v=202609151000">
+  <link rel="stylesheet" href="../style.css?v=202609151035">
+  <link rel="stylesheet" href="../modern.css?v=202609151035">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609151000"></script>
+  <script defer src="../atlas.js?v=202609151035"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -86,7 +86,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 186 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 201 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -8168,6 +8168,149 @@
       <li><strong>Eurostat</strong>: odhady populace, 2024</li>
     </ul>
 
+    
+    <h3 id="features-from-raw">Od syrových tabulek k vektoru příznaků</h3>
+    <p>Jedna hráčská sezóna 2025/26, sledovaná od syrového řádku z FBref až k pětiprvkovému vektoru, na kterém stojí zbytek této kapitoly: Vladimír Coufal, hráč Česka s nejvíce minutami v sezóně 2025/26 mezi těmi, kdo prošli vstupním prahem.</p>
+
+    <details class="fold">
+      <summary>Vladimír Coufal: syrový řádek a řádek příznaků</summary>
+      <table class="kv-table">
+        <caption>Syrový řádek z FBref, sezóna 2025/26</caption>
+        <thead><tr><th>Sloupec</th><th>Hodnota</th></tr></thead>
+        <tbody>
+          
+          <tr><td><code>league</code></td><td>GER-Bundesliga</td></tr>
+          
+          <tr><td><code>season</code></td><td>2025-2026</td></tr>
+          
+          <tr><td><code>team</code></td><td>Hoffenheim</td></tr>
+          
+          <tr><td><code>player</code></td><td>Vladimír Coufal</td></tr>
+          
+          <tr><td><code>nation</code></td><td>CZE</td></tr>
+          
+          <tr><td><code>pos</code></td><td>DF</td></tr>
+          
+          <tr><td><code>born</code></td><td>1992</td></tr>
+          
+          <tr><td><code>age</code></td><td>32</td></tr>
+          
+          <tr><td><code>mp</code></td><td>34</td></tr>
+          
+          <tr><td><code>min</code></td><td>3012</td></tr>
+          
+          <tr><td><code>gls</code></td><td>1</td></tr>
+          
+          <tr><td><code>ast</code></td><td>8</td></tr>
+          
+          <tr><td><code>pk</code></td><td>0</td></tr>
+          
+          <tr><td><code>crdy</code></td><td>4</td></tr>
+          
+          <tr><td><code>crdr</code></td><td>0</td></tr>
+          
+        </tbody>
+      </table>
+      <table class="kv-table">
+        <caption>Řádek příznaků po pipeline</caption>
+        <thead><tr>
+          <th>Příznak</th><th>Syrový</th>
+          <th>Stažený</th><th>Kvalitou upravený</th>
+          <th>Z-skóre</th>
+        </tr></thead>
+        <tbody>
+          
+          <tr>
+            <td><code>npg_p90</code></td><td>0,030</td><td>0,034</td>
+            <td>0,027</td><td>0,21</td>
+          </tr>
+          
+          <tr>
+            <td><code>ast_p90</code></td><td>0,239</td><td>0,193</td>
+            <td>0,152</td><td>4,31</td>
+          </tr>
+          
+          <tr>
+            <td><code>min_share</code></td><td>0,984</td><td>0,984</td>
+            <td>0,984</td><td>1,67</td>
+          </tr>
+          
+          <tr>
+            <td><code>age</code></td><td>32,000</td><td>32,000</td>
+            <td>32,000</td><td>1,45</td>
+          </tr>
+          
+          <tr>
+            <td><code>cards_p90</code></td><td>0,119</td><td>0,135</td>
+            <td>0,135</td><td>-0,90</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+
+    <p>Šest kontrol čištění dat mění syrové řádky výše ve fond použitý ve zbytku reportu, přepočítáno při každém běhu:</p>
+    <ul>
+      
+      <li>Odfiltrované ženské položky: 92 položek.</li>
+      
+      <li>Jmenovci ve fondu: 2 hráčů.</li>
+      
+      <li>Hráči fondu bez sezónních tabulek: 125 hráčů.</li>
+      
+      <li>Sloučené rozdělené sezóny: 441 řádků.</li>
+      
+      <li>Nespárovaná jména z nominací: 18 jmen.</li>
+      
+      <li>Chybějící ročník narození: 0 řádků.</li>
+      
+    </ul>
+    <p class="capita-note">Celý log, včetně zaznamenaných incidentů pipeline, je v <a href="#data-quality">logu kvality dat</a> níže.</p>
+
+    <p>Každá posty skupina sdílí stejný pětiprvkový vektor (spec §5): syrový sloupec se stane mírou na 90 minut, staženou k mediánu své ligy a sezóny (Efron and Morris, 1975), poté vynásobenou projekcí kvality ligy.</p>
+    <ul class="eda-feature-list">
+      <li><code>npg_p90</code> — neproměněné penalty goly na 90 minut: penalta je kvalita příležitosti, ne produkce ve hře, a nafukuje syrový počet gólů exekutora z důvodů, které nemají nic společného s tím, jak si hráč šance vytváří</li>
+      <li><code>ast_p90</code> — asistence na 90 minut: přímý kreativní doplněk neproměněných penalty gólů, na stejné základní tabulce pro každou ligu v korpusu</li>
+      <li><code>min_share</code> — odehrané minuty ÷ (zápasy klubu × 90): vlastní čtení trenéra, spolehlivější než počítání startů (viz níže)</li>
+      <li><code>age</code> — věk na začátku sezóny (počáteční rok − rok narození): mediánová produkce se v tomto korpusu podle věkového pásma stále liší (viz níže), takže zůstává vlastní osou místo toho, aby se do něčeho slévala</li>
+      <li><code>cards_p90</code> — žluté + 2 × červené karty na 90 minut: signál kázně slitý do jedné míry, protože samotné červené karty jsou samy o sobě příliš řídký signál (viz níže)</li>
+    </ul>
+
+    <p>Pět kandidátů zvažovaných pro vektor sezóny 2025/26 a co k nim řekla data, napříč celým korpusem (každá dohledaná národnost, stejná populace, kterou popisuje zbytek této kapitoly):</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Kandidát</th><th>Statistika</th>
+        <th>Hodnota</th><th>Rozhodnutí</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr><td><code>gls_p90</code></td><td>Korelace s npg_p90</td><td>0,973</td><td>Nahrazeno npg_p90</td></tr>
+        
+        <tr><td><code>mp</code></td><td>Korelace s odehranými minutami</td><td>0,844</td><td>Nahrazeno podílem minut</td></tr>
+        
+        <tr><td><code>crdr_p90</code></td><td>Podíl hráčských sezón bez červené karty</td><td>0,854</td><td>Slito do karet</td></tr>
+        
+        <tr><td><code>age</code></td><td>Rozpětí mediánové produkce napříč věkovými pásmy</td><td>0,028</td><td>Ponecháno</td></tr>
+        
+        <tr><td><code>born</code></td><td>Podíl hráčských sezón bez roku narození</td><td>0,003</td><td>Ponecháno — potřebné pro klíč hráče</td></tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">Navzdory vysoké korelaci se góly a neproměněné penalty goly rozcházejí u hráčů, kteří proměňují penalty: Nabil Touaizi (POR-Primeira Liga, 100 %); Yohan Croizet (HUN-NB I, 100 %); Luca Zuffi (SUI-Super League, 100 %). Starty (mp) korelují s minutami silně, ale ne dokonale — náhradnický vstup se počítá stejně jako 90 odehraných minut, a proto tady čas na hřišti měří podíl minut, ne starty.</p>
+
+    <p>Obrázek za ligovou úpravou: stejná syrová míra vypadá velmi jinak podle toho, ve které lize byla odehraná.</p>
+    <figure class="figure-bleed">
+      <img src="../eda_distributions.svg" alt="Malé násobky: rozdělení pěti syrových příznaků na 90 minut podle ligy, boxploty na ligu, Chance Liga zvýrazněná, zobrazeno 10 lig.">
+    </figure>
+
+    
+    <p>Co stažení udělá s hráčem s málo minutami: na vstupním prahu nese ligový medián stále většinu váhy; míra hráče Antonín Růsek se posunula nejvíc ze všech hráčů Česka tuto sezónu.</p>
+    <figure class="figure-bleed">
+      <img src="../eda_shrinkage.svg" alt="Rozptylový graf syrových vs. stažených neproměněných penalty gólů na 90 minut proti minutám pro hráče s příslušností Česka, s překrytou váhou stažení k ligovému mediánu jako funkcí minut.">
+    </figure>
+    
+    
+
     <h3 id="multipliers">Ligové násobičky (quality projekce)</h3>
     <p class="formula" data-tex="\text{npG/90}_{\text{quality}} = \text{npG/90}_{\text{shrunk}} \times m_{\text{liga}}">npG/90_quality = npG/90_shrunk × m_liga</p>
     <table class="kv-table">
@@ -8420,7 +8563,7 @@
     
     <h3 id="model-comparison">Tři modely, jeden úkol, pět sezón</h3>
     <p>Co nám sezóna hráče řekne o té příští, s ohledem na to, kde hraje, kolik mu je a — u exportů — v jakém věku odešel? V modelovém vyjádření: predikovat hráčovu ligou upravenou produkci v příští sezóně (neproniknuté góly plus asistence na 90 minut, upravené o kvalitu) z čísel této sezóny, pro každou hráčskou sezónní dvojici s aspoň 450 minutami v obou sezónách, každou národnost v korpusu.</p>
-    <p>Vyhodnoceno rolling-origin křížovou validací (Hyndman and Athanasopoulos, 2021): pro každou z 5 cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, 2 řetězce × 400 vzorků na origin (Gelman et al., 2013)), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn (Pedregosa et al., 2011), skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš 2500 na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu.</p>
+    <p>Vyhodnoceno rolling-origin křížovou validací (Hyndman and Athanasopoulos, 2021): pro každou z 5 cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, 2 řetězce × 400 vzorků na origin (Gelman et al., 2013)), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn (Pedregosa et al., 2011), skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš 2500 na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu. Cíl je upravený násobičem ligy, ve které hráč hraje příští sezónu; featury znají jen letošní ligu, takže přestup je změna, kterou žádný z modelů nevidí dopředu — omezení společné všem pěti.</p>
     <figure class="figure-bleed">
       <img src="../model_comparison.svg" alt="Čárový graf RMSE za cílovou sezónu, jedna čára na model, persistence přerušovaně.">
     </figure>
@@ -9090,8 +9233,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 186 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 186 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 23 rozhodnutí · 201 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 23 pro první edici. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 201 testy.</p>
       <ol class="build-flow">
         <li>Specifikace</li>
         <li>Plán</li>
@@ -9291,7 +9434,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 10:00</p>
+    <p class="rendered-at">Vykresleno: 2026-09-15 10:35</p>
   </div>
 </footer>
 

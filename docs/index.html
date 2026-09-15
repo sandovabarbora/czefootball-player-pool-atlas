@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609151000">
-  <link rel="stylesheet" href="modern.css?v=202609151000">
+  <link rel="stylesheet" href="style.css?v=202609151035">
+  <link rel="stylesheet" href="modern.css?v=202609151035">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609151000"></script>
+  <script defer src="atlas.js?v=202609151035"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -86,7 +86,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 186 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 201 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -8168,6 +8168,149 @@
       <li><strong>Eurostat</strong>: population estimates, 2024</li>
     </ul>
 
+    
+    <h3 id="features-from-raw">From raw tables to a feature vector</h3>
+    <p>One 2025/26 player-season, traced from its raw FBref row to the five-number vector the rest of this chapter builds on: Vladimír Coufal, the Czech player with the most 2025/26 minutes among those who cleared the inclusion floor.</p>
+
+    <details class="fold">
+      <summary>Vladimír Coufal: raw row and feature row</summary>
+      <table class="kv-table">
+        <caption>Raw FBref row, 2025/26</caption>
+        <thead><tr><th>Column</th><th>Value</th></tr></thead>
+        <tbody>
+          
+          <tr><td><code>league</code></td><td>GER-Bundesliga</td></tr>
+          
+          <tr><td><code>season</code></td><td>2025-2026</td></tr>
+          
+          <tr><td><code>team</code></td><td>Hoffenheim</td></tr>
+          
+          <tr><td><code>player</code></td><td>Vladimír Coufal</td></tr>
+          
+          <tr><td><code>nation</code></td><td>CZE</td></tr>
+          
+          <tr><td><code>pos</code></td><td>DF</td></tr>
+          
+          <tr><td><code>born</code></td><td>1992</td></tr>
+          
+          <tr><td><code>age</code></td><td>32</td></tr>
+          
+          <tr><td><code>mp</code></td><td>34</td></tr>
+          
+          <tr><td><code>min</code></td><td>3012</td></tr>
+          
+          <tr><td><code>gls</code></td><td>1</td></tr>
+          
+          <tr><td><code>ast</code></td><td>8</td></tr>
+          
+          <tr><td><code>pk</code></td><td>0</td></tr>
+          
+          <tr><td><code>crdy</code></td><td>4</td></tr>
+          
+          <tr><td><code>crdr</code></td><td>0</td></tr>
+          
+        </tbody>
+      </table>
+      <table class="kv-table">
+        <caption>Feature row after the pipeline</caption>
+        <thead><tr>
+          <th>Feature</th><th>Raw</th>
+          <th>Shrunk</th><th>Quality-adjusted</th>
+          <th>Z-score</th>
+        </tr></thead>
+        <tbody>
+          
+          <tr>
+            <td><code>npg_p90</code></td><td>0.030</td><td>0.034</td>
+            <td>0.027</td><td>0.21</td>
+          </tr>
+          
+          <tr>
+            <td><code>ast_p90</code></td><td>0.239</td><td>0.193</td>
+            <td>0.152</td><td>4.31</td>
+          </tr>
+          
+          <tr>
+            <td><code>min_share</code></td><td>0.984</td><td>0.984</td>
+            <td>0.984</td><td>1.67</td>
+          </tr>
+          
+          <tr>
+            <td><code>age</code></td><td>32.000</td><td>32.000</td>
+            <td>32.000</td><td>1.45</td>
+          </tr>
+          
+          <tr>
+            <td><code>cards_p90</code></td><td>0.119</td><td>0.135</td>
+            <td>0.135</td><td>-0.90</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+
+    <p>Six wrangling checks turn the raw rows above into the pool used everywhere else in this report, recomputed on every run:</p>
+    <ul>
+      
+      <li>Women&#39;s entries filtered: 92 entries.</li>
+      
+      <li>Namesakes in the pool: 2 players.</li>
+      
+      <li>Pool players without season tables: 125 players.</li>
+      
+      <li>Split-season rows collapsed: 441 rows.</li>
+      
+      <li>Unmatched call-up names: 18 names.</li>
+      
+      <li>Missing birth years: 0 rows.</li>
+      
+    </ul>
+    <p class="capita-note">The full log, with the recorded pipeline incidents, is in <a href="#data-quality">the data-quality log</a> below.</p>
+
+    <p>Every position group shares the same five-number vector (spec §5): a raw column becomes a per-90 rate, shrunk toward its league-season median (Efron and Morris, 1975), then multiplied by the league quality projection.</p>
+    <ul class="eda-feature-list">
+      <li><code>npg_p90</code> — non-penalty goals per 90 minutes: penalties are shot quality, not open-play production, and inflate a taker's raw goal count for reasons that have nothing to do with how the player creates chances</li>
+      <li><code>ast_p90</code> — assists per 90 minutes: the direct creative complement to non-penalty goals, on the same basic table for every league in the corpus</li>
+      <li><code>min_share</code> — minutes played ÷ (club matches × 90): the coach's own read of the player, sturdier than counting appearances (see below)</li>
+      <li><code>age</code> — age at the season's start (start year − birth year): median production still shifts by age band in this corpus (see below), so it stays as its own axis rather than being folded into anything else</li>
+      <li><code>cards_p90</code> — yellow + 2 × red cards per 90 minutes: a discipline signal folded into one rate because red cards alone are too sparse a signal on their own (see below)</li>
+    </ul>
+
+    <p>Five candidates considered for the 2025/26 vector and what the data said about each, corpus-wide (every fetched nationality, the same population the rest of this chapter describes):</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Candidate</th><th>Statistic</th>
+        <th>Value</th><th>Decision</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr><td><code>gls_p90</code></td><td>Correlation with npg_p90</td><td>0.973</td><td>Replaced by npg_p90</td></tr>
+        
+        <tr><td><code>mp</code></td><td>Correlation with minutes played</td><td>0.844</td><td>Replaced by minutes share</td></tr>
+        
+        <tr><td><code>crdr_p90</code></td><td>Share of player-seasons with zero red cards</td><td>0.854</td><td>Folded into cards</td></tr>
+        
+        <tr><td><code>age</code></td><td>Spread of median production across age bands</td><td>0.028</td><td>Kept</td></tr>
+        
+        <tr><td><code>born</code></td><td>Share of player-seasons missing a birth year</td><td>0.003</td><td>Kept — required for the player key</td></tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">Despite the high correlation, goals and non-penalty goals diverge for the players who take penalties: Nabil Touaizi (POR-Primeira Liga, 100 %); Yohan Croizet (HUN-NB I, 100 %); Luca Zuffi (SUI-Super League, 100 %). Appearances (mp) correlate strongly with minutes but not perfectly — a substitute cameo counts the same as 90 minutes started, which is why minutes share, not appearances, measures playing time here.</p>
+
+    <p>The picture behind league adjustment: the same raw rate reads very differently depending on the league it was earned in.</p>
+    <figure class="figure-bleed">
+      <img src="eda_distributions.svg" alt="Small multiples: the five raw per-90 features' distributions by league, boxplots per league, the Czech First League highlighted, 10 leagues shown.">
+    </figure>
+
+    
+    <p>What shrinkage does to a low-minute player: at the inclusion floor the league median still carries most of the weight; Antonín Růsek's rate moves the most of any Czech-eligible player this season.</p>
+    <figure class="figure-bleed">
+      <img src="eda_shrinkage.svg" alt="Scatter of raw vs shrunk non-penalty goals per 90 against minutes for Czech-eligible players, with the shrinkage weight on the league median as a function of minutes overlaid.">
+    </figure>
+    
+    
+
     <h3 id="multipliers">League multipliers (quality projection)</h3>
     <p class="formula" data-tex="\text{npG/90}_{\text{quality}} = \text{npG/90}_{\text{shrunk}} \times m_{\text{league}}">npG/90_quality = npG/90_shrunk × m_league</p>
     <table class="kv-table">
@@ -8420,7 +8563,7 @@
     
     <h3 id="model-comparison">Three models, one task, five seasons</h3>
     <p>What does a player's season tell us about the next one, given where he plays, how old he is and — for exports — at what age he moved? In model terms: predict a player's league-adjusted production next season (non-penalty goals plus assists per 90, quality-adjusted) from this season's numbers, for every player-season pair with at least 450 minutes in both seasons, every nationality in the corpus.</p>
-    <p>Evaluated by rolling-origin cross-validation (Hyndman and Athanasopoulos, 2021): for each of 5 target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real "performance over time" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, 2 chains × 400 draws per origin (Gelman et al., 2013)), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn (Pedregosa et al., 2011), hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most 2500 per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split.</p>
+    <p>Evaluated by rolling-origin cross-validation (Hyndman and Athanasopoulos, 2021): for each of 5 target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real "performance over time" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, 2 chains × 400 draws per origin (Gelman et al., 2013)), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn (Pedregosa et al., 2011), hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most 2500 per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split. The target is adjusted with the multiplier of the league the player is in next season; the features only know this season's league, so a move is a change the models cannot see coming — a limitation shared by all five.</p>
     <figure class="figure-bleed">
       <img src="model_comparison.svg" alt="Line chart of RMSE per target season, one line per model, persistence dashed.">
     </figure>
@@ -9090,8 +9233,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 186 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 186 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 23 rulings · 201 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 23 for the first edition. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 201 tests.</p>
       <ol class="build-flow">
         <li>Spec</li>
         <li>Plan</li>
@@ -9291,7 +9434,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-15 10:00</p>
+    <p class="rendered-at">Rendered: 2026-09-15 10:35</p>
   </div>
 </footer>
 
