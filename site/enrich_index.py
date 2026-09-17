@@ -370,6 +370,18 @@ if _n_top_lists < 12 or _n_mover_cells < 6:
 sub(r'<span class="cluster-top">(.*?)</span></span>', top_repl, _n_top_lists, re.S)
 sub(r'<td data-player-key="([^"]+)">([^<]+)</td>', lambda m: f'<td>{chip(m.group(1), m.group(2), "sm")}</td>', _n_mover_cells)
 
+# ---------------------------------------------------------------- squad face grid (Task 25b): portrait or monogram per tile
+def squad_repl(m):
+    key, name = m.group(1), m.group(2)
+    p = photo(key)
+    if p:
+        return f'<img class="squad-portrait" src="{P}{p["image"]}" alt="" {IMG_ATTRS}><span class="squad-name">{name}</span>'
+    return f'<span class="squad-mono" aria-hidden="true">{initials(name)}</span><span class="squad-name">{name}</span>'
+
+_n_squad = len(re.findall(r'<span class="squad-name" data-player-key="', html))
+if _n_squad:
+    sub(r'<span class="squad-name" data-player-key="([^"]+)">([^<]+)</span>', squad_repl, _n_squad)
+
 # ---------------------------------------------------------------- folds
 # limitations: each <p><strong>Title.</strong> text</p> -> details, first one open
 def lim_fold(m):

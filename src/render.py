@@ -45,7 +45,7 @@ from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
 from src.references import harvard_list, in_text, in_text_multi, refs_by_key
-from src.utils import collapse_player_seasons, normalize_name, read_parquet, resolve_processed, season_label
+from src.utils import collapse_player_seasons, normalize_name, player_key as make_player_key, read_parquet, resolve_processed, season_label
 
 matplotlib.use("Agg")
 
@@ -957,6 +957,46 @@ def _build_squad_lens(lens: dict, names: dict[str, str]) -> dict:
     }
 
 
+SQUAD_TIER_ORDER = {"top9": 0, "stepping_stone": 1, "domestic": 2, "other": 3, "unmatched": 4}
+
+
+def _build_squad_grid(squads: pd.DataFrame, tables: pd.DataFrame, headline: list[str], stepping: list[str],
+                      peer_domestic: dict[str, str], season: str, home: str) -> list[dict]:
+    """Slide 6's face grid (Task 25b): one row per home-nation `nt_core_event`
+    squad player, tier + minutes matched the same way `src.squad_lens.
+    build_squad_lens` matches a squad row to its `season` table row (name +
+    birth year), ordered by tier (`SQUAD_TIER_ORDER`, same top9 -> stepping
+    -> domestic -> other -> unmatched precedence) then minutes descending.
+    `player_key` comes from the matched table row when there is one (the
+    exact key `site/players.<NATION>.json` is keyed by); an unmatched player
+    gets the same `name|born` key `src.utils.player_key`/the pool builder use,
+    so a photo fetched for them under that key (see `src.fetch_photos.
+    squad_relevant_player_keys`) still resolves. Empty when `squads` has no
+    row for `home` or `tables` is empty (pre-fetch data)."""
+    from src.squad_lens import _tier
+
+    home_rows = squads[squads.country == home] if not squads.empty else squads
+    if home_rows.empty or tables.empty:
+        return []
+    t = tables[tables.season == season].copy()
+    t["player_norm"] = t.player.map(normalize_name)
+    rows = []
+    for r in home_rows.itertuples():
+        cand = t[t.player_norm == r.player_norm]
+        if pd.notna(r.born) and "born" in cand.columns:
+            cand = cand[cand.born.isna() | (cand.born == r.born)]
+        if cand.empty:
+            rows.append({"name": str(r.player), "player_key": make_player_key(r.player, r.born),
+                        "tier": "unmatched", "min": None})
+            continue
+        best = cand.sort_values("min", ascending=False).iloc[0]
+        rows.append({"name": str(r.player), "player_key": str(best.player_key),
+                    "tier": _tier(best.league, home, headline, stepping, peer_domestic),
+                    "min": int(best["min"])})
+    rows.sort(key=lambda r: (SQUAD_TIER_ORDER.get(r["tier"], 9), -(r["min"] or 0)))
+    return rows
+
+
 def _build_big5(big5_series: dict) -> dict:
     """Slide 7 context: the 26-season Big-5 series (Task 13a) reduced to
     the peak/low/last Czech counts, season-labelled, plus the golden
@@ -1692,6 +1732,7 @@ def load_data() -> dict[str, Any]:
         "sensitivity": _load_parquet_or_empty(p / "sensitivity.parquet"),
         "pool": read_parquet(p / "pool.parquet"),
         "fbref_players": _load_parquet_or_empty(p / "fbref_players.parquet"),
+        "peer_squads": _load_parquet_or_empty(p / "peer_squads.parquet"),
         "showcase": _load_json(p / "showcase.json", []),
         "analogs": _load_json(p / "analogs.json", {}),
         "pathways": _load_json(p / "pathways.json", {}),
@@ -1767,6 +1808,17 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     pathways = _build_pathways(data["pathways"], names, peers)
     gk = _build_gk(data["goalkeepers"])
     squad_lens = _build_squad_lens(data["squad_lens"], names)
+    if squad_lens:
+        # Slide 6's face grid (Task 25b): the home nation's individual squad
+        # players, additive to squad_lens's per-country aggregate `rows` (the
+        # golden fixture test guards `rows` byte-for-byte; `players` is new).
+        squad_lens["players"] = _build_squad_grid(
+            data["peer_squads"], data["fbref_players"], list(data["leagues"]["headline"]),
+            list(data["leagues"].get("stepping_stone", [])),
+            {**{lg: v["country"] for lg, v in data["leagues"].get("peer_domestic", {}).items()},
+             config.DOMESTIC_LEAGUE: config.HOME},
+            metrics, config.HOME,
+        )
     player_index = _build_player_index(data["features"], data["coords"], data["pool"],
                                        data["cluster_labels"], cards, metrics, tr)
 
@@ -2086,6 +2138,15 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
              "median_minutes": 900.0, "median_multiplier": 0.371},
         ],
     }, {"CZE": "Czechia", "DEN": "Denmark"})
+    # Slide 6's face grid (Task 25b): a handful of home-nation squad players,
+    # one per tier, so the fixture-driven template test exercises all four
+    # tier tints plus the unmatched fallback.
+    squad_lens["players"] = [
+        {"name": "Patrik Schick", "player_key": "patrik schick|1996", "tier": "top9", "min": 1684},
+        {"name": "Filip Vecheta", "player_key": "filip vecheta|2003", "tier": "stepping_stone", "min": 1200},
+        {"name": "Jindřich Staněk", "player_key": "jindrich stanek|1996", "tier": "domestic", "min": 900},
+        {"name": "Unmatched Player", "player_key": "unmatched player|x", "tier": "unmatched", "min": None},
+    ]
     hero = {"per_million": 1.65, "rank": 2, "n_peers": 2, "n_players": 18, "population_m": 10.9,
             "top": per_capita[0], "gap": gaps[0], "export_cze": export[0], "export_den": export[0]}
     big5_seasons_raw = ["2000-2001", "2007-2008", "2015-2016", "2025-2026"]

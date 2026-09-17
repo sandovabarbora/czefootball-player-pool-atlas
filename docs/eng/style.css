@@ -1142,8 +1142,84 @@ table .muted { color: var(--muted); font-size: 0.85rem; }
 }
 
 /* =========================================================================
+   Squad face grid (Task 25b): slide 6's primary proof — one 56px portrait
+   per home-nation squad player, ring-tinted by league tier, name below.
+   The peer-country tier bars (formerly the primary proof) fold below it
+   under "How the peers are sourced"; site/enrich_index.py swaps each
+   .squad-name span for a photo (or an initials monogram) the same way it
+   already does for .cluster-top / mover-table chips.
+   ========================================================================= */
+.squad-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  margin: var(--space-3) 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.squad-legend li { display: inline-flex; align-items: center; gap: 0.45em; }
+.squad-swatch {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+}
+.squad-swatch-top9 { background: var(--navy-700); }
+.squad-swatch-stepping { background: var(--oxblood-700); }
+.squad-swatch-domestic { background: var(--cream-200); }
+.squad-swatch-other { background: var(--muted); }
+
+.squad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+  gap: var(--space-4) var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+.squad-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+.squad-portrait, .squad-mono {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 50%;
+  border: 3px solid var(--muted);
+  object-fit: cover;
+  object-position: 50% 12%;
+  background: var(--navy-100);
+}
+.squad-mono {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.squad-tile[data-tier="top9"] .squad-portrait, .squad-tile[data-tier="top9"] .squad-mono { border-color: var(--navy-700); }
+.squad-tile[data-tier="stepping_stone"] .squad-portrait, .squad-tile[data-tier="stepping_stone"] .squad-mono { border-color: var(--oxblood-700); }
+.squad-tile[data-tier="domestic"] .squad-portrait, .squad-tile[data-tier="domestic"] .squad-mono { border-color: var(--cream-200); }
+.squad-name {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+/* =========================================================================
    Exhibit F — squad-by-tier stacked bars (task 9 "de-clutter": replaces the
-   12-column table; the full table moves into a fold below the bars)
+   12-column table; the full table moves into a fold below the bars). Now
+   the peer-country context folded under slide 6's face grid (Task 25b).
    ========================================================================= */
 .tier-bar-legend {
   display: flex;

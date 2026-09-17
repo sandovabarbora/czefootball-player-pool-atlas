@@ -4,7 +4,15 @@ from pathlib import Path
 import pandas as pd
 
 import src.fetch_photos as fp
-from src.fetch_photos import _batch_cache_key, _fetch_batches, _parse_args, _resolve_only_with_metrics, match_images, sparql_for
+from src.fetch_photos import (
+    _batch_cache_key,
+    _fetch_batches,
+    _parse_args,
+    _resolve_only_with_metrics,
+    match_images,
+    sparql_for,
+    squad_relevant_player_keys,
+)
 
 FIX = json.loads((Path(__file__).parent / "fixtures" / "wikidata_sample.json").read_text())
 BINDINGS = FIX["results"]["bindings"]
@@ -26,6 +34,31 @@ def test_match_by_name_and_birth_year():
     pool = pd.DataFrame({"fbref_id": ["x1"], "player": ["Patrik Schick"], "born": [1996]})
     out = match_images(BINDINGS, pool)
     assert len(out) == 1 and out.iloc[0].image_url.startswith("http")
+
+
+def test_squad_relevant_player_keys_matches_by_name_and_born_and_skips_unmatched():
+    squads = pd.DataFrame({
+        "country": ["CZE", "CZE", "CZE", "DEN"],
+        "player": ["Matěj Kovář", "Jan Novák", "Ghost Player", "Peter Nielsen"],
+        "player_norm": ["matej kovar", "jan novak", "ghost player", "peter nielsen"],
+        "born": [2000, 1999, None, 1995],
+    })
+    pool = pd.DataFrame({
+        "player": ["Matěj Kovář", "Jan Novák", "Jan Novák"],
+        "player_key": ["matej kovar|2000", "jan novak|1999", "jan novak|1988"],
+        "born": [2000, 1999, 1988],
+    })
+    keys = squad_relevant_player_keys(squads, pool, "CZE")
+    # the birth year disambiguates the two "Jan Novák" pool rows; the DEN
+    # player is out of scope and the unmatched "Ghost Player" is skipped
+    assert keys == {"matej kovar|2000", "jan novak|1999"}
+
+
+def test_squad_relevant_player_keys_empty_when_home_has_no_squad_rows():
+    squads = pd.DataFrame({"country": ["DEN"], "player": ["Peter Nielsen"],
+                           "player_norm": ["peter nielsen"], "born": [1995]})
+    pool = pd.DataFrame({"player": ["Peter Nielsen"], "player_key": ["peter nielsen|1995"], "born": [1995]})
+    assert squad_relevant_player_keys(squads, pool, "CZE") == set()
 
 
 def test_no_match_when_birth_year_disagrees():

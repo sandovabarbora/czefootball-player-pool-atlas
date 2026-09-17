@@ -359,6 +359,12 @@ EN: dict[str, str] = {
     "ch2.f.note": "* {unmatched} squad players have no {season} row in the fetched leagues and are counted as unmatched.",
     "ch2.f.detail": "Minutes, multipliers and age cohorts by country",
 
+    # ---- slide 6 squad face grid (Task 25b): the {event} squad as portraits,
+    # tinted by league tier; the peer-country bars fold under "how the peers
+    # are sourced" below it
+    "squad.grid.aria": "{event} squad by league tier, one portrait per player",
+    "squad.peers.summary": "How the peers are sourced",
+
     # ---- chapter III
     "ch3.cards.rules.summary": "How the {n} cards were chosen",
     "ch3.cards.rules": "Why these cards: one card per position group per rule, applied in this order — (a) highest {metric}, (b) youngest national-team call-up, (c) most top-9 minutes among the {event} squad, (d) most domestic-league minutes among the {event} squad, (e) most top-9 minutes, (f) most domestic minutes under 23 without a top-9 season. A player already chosen by an earlier rule falls through to the next name, so a later row can show the second name by its measure. Rows group the six rules; the national-team core row holds two of them.",

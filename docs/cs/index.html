@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609171331">
-  <link rel="stylesheet" href="../modern.css?v=202609171331">
+  <link rel="stylesheet" href="../style.css?v=202609171425">
+  <link rel="stylesheet" href="../modern.css?v=202609171425">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609171331"></script>
+  <script defer src="../atlas.js?v=202609171425"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -94,7 +94,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 270 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 272 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -643,90 +643,208 @@
     <p class="slide-a"><strong>35 %</strong> nominace 2026 FIFA World Cup hraje v 9 nejsilnějších ligách; Švýcarsko 88 %.</p>
     <div class="slide-proof">
       
-      <ul class="tier-bar-legend">
-        <li><span class="tier-swatch tier-top9" aria-hidden="true"></span>Top-9 %</li>
-        <li><span class="tier-swatch tier-stepping" aria-hidden="true"></span>Odrazová %</li>
-        <li><span class="tier-swatch tier-domestic" aria-hidden="true"></span>Domácí %</li>
-        <li><span class="tier-swatch tier-other" aria-hidden="true"></span>Jiná %</li>
+      <ul class="squad-legend">
+        <li><span class="squad-swatch squad-swatch-top9" aria-hidden="true"></span>Top-9 %</li>
+        <li><span class="squad-swatch squad-swatch-stepping" aria-hidden="true"></span>Odrazová %</li>
+        <li><span class="squad-swatch squad-swatch-domestic" aria-hidden="true"></span>Domácí %</li>
+        <li><span class="squad-swatch squad-swatch-other" aria-hidden="true"></span>Jiná %</li>
       </ul>
-      <div class="tier-bars" role="list" aria-label="F · Soupiska 2026 FIFA World Cup podle ligové úrovně">
+      <ul class="squad-grid" role="list" aria-label="Nominace na 2026 FIFA World Cup podle ligové úrovně, portrét každého hráče">
         
-        <div class="tier-bar-row" role="listitem" data-highlight="cze">
-          <div class="tier-bar-head">
-            <span class="capita-code">CZE</span> Česko
-            <span class="muted small">Soupiska 26</span>
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="../img/players/fdf3cb77.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Vladimír Coufal</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <span class="squad-mono" aria-hidden="true">LH</span><span class="squad-name">Lukáš Horníček</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="../img/players/bc67a0e1.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Matěj Kovář</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="../img/players/5b5c2228.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Ladislav Krejčí</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <span class="squad-mono" aria-hidden="true">RH</span><span class="squad-name">Robin Hranáč</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="../img/players/6613c819.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Tomáš Souček</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="../img/players/5d4f7d61.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Patrik Schick</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="../img/players/e9b893af.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Pavel Šulc</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="../img/players/5521f419.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Adam Hložek</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/3eb0f2df.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Vladimír Darida</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">LC</span><span class="squad-name">Lukáš Červ</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">LP</span><span class="squad-name">Lukáš Provod</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/7c9fa389.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Michal Sadílek</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/e03c2d97.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Tomáš Holeš</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/163bbd4a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Tomáš Chorý</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">SC</span><span class="squad-name">Štěpán Chaloupek</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/acf7e795.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">David Zima</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/eca17cf2.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Jindřich Staněk</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/bc647827.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Jaroslav Zelený</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">DV</span><span class="squad-name">Denis Višinský</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/4bce9c16.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Jan Kuchta</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">MC</span><span class="squad-name">Mojmír Chytil</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <img class="squad-portrait" src="../img/players/e95b4604.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">David Douděra</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">DJ</span><span class="squad-name">David Jurásek</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">AS</span><span class="squad-name">Alexandr Sojka</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="domestic" role="listitem">
+          <span class="squad-mono" aria-hidden="true">HS</span><span class="squad-name">Hugo Sochůrek</span>
+        </li>
+        
+      </ul>
+      
+      
+      <details class="fold">
+        <summary>Odkud jsou peer země</summary>
+        <ul class="tier-bar-legend">
+          <li><span class="tier-swatch tier-top9" aria-hidden="true"></span>Top-9 %</li>
+          <li><span class="tier-swatch tier-stepping" aria-hidden="true"></span>Odrazová %</li>
+          <li><span class="tier-swatch tier-domestic" aria-hidden="true"></span>Domácí %</li>
+          <li><span class="tier-swatch tier-other" aria-hidden="true"></span>Jiná %</li>
+        </ul>
+        <div class="tier-bars" role="list" aria-label="F · Soupiska 2026 FIFA World Cup podle ligové úrovně">
+          
+          <div class="tier-bar-row" role="listitem" data-highlight="cze">
+            <div class="tier-bar-head">
+              <span class="capita-code">CZE</span> Česko
+              <span class="muted small">Soupiska 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Česko: Top-9 % 35 %, Odrazová % 0 %, Domácí % 65 %, Jiná % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 34.6 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 65.4 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              
+            </div>
+            <div class="tier-bar-value">35 %</div>
           </div>
-          <div class="tier-bar" role="img" aria-label="Česko: Top-9 % 35 %, Odrazová % 0 %, Domácí % 65 %, Jiná % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 34.6 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 65.4 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">SUI</span> Švýcarsko
+              <span class="muted small">Soupiska 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Švýcarsko: Top-9 % 88 %, Odrazová % 4 %, Domácí % 8 %, Jiná % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 88.5 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 3.8 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 7.7 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              
+            </div>
+            <div class="tier-bar-value">88 %</div>
           </div>
-          <div class="tier-bar-value">35 %</div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">CRO</span> Chorvatsko
+              <span class="muted small">Soupiska 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Chorvatsko: Top-9 % 73 %, Odrazová % 0 %, Domácí % 8 %, Jiná % 8 %">
+              <span class="tier-seg tier-top9" style="flex: 73.1 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 7.7 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 7.7 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 11.5 0 0"></span>
+            </div>
+            <div class="tier-bar-value">73 %</div>
+          </div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">AUT</span> Rakousko
+              <span class="muted small">Soupiska 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Rakousko: Top-9 % 69 %, Odrazová % 4 %, Domácí % 12 %, Jiná % 8 %">
+              <span class="tier-seg tier-top9" style="flex: 69.2 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 3.8 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 11.5 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 7.7 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 7.7 0 0"></span>
+            </div>
+            <div class="tier-bar-value">69 %</div>
+          </div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">NOR</span> Norsko
+              <span class="muted small">Soupiska 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Norsko: Top-9 % 65 %, Odrazová % 0 %, Domácí % 19 %, Jiná % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 65.4 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 19.2 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 15.4 0 0"></span>
+            </div>
+            <div class="tier-bar-value">65 %</div>
+          </div>
+          
         </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">SUI</span> Švýcarsko
-            <span class="muted small">Soupiska 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Švýcarsko: Top-9 % 88 %, Odrazová % 4 %, Domácí % 8 %, Jiná % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 88.5 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 3.8 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 7.7 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            
-          </div>
-          <div class="tier-bar-value">88 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">CRO</span> Chorvatsko
-            <span class="muted small">Soupiska 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Chorvatsko: Top-9 % 73 %, Odrazová % 0 %, Domácí % 8 %, Jiná % 8 %">
-            <span class="tier-seg tier-top9" style="flex: 73.1 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 7.7 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 7.7 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 11.5 0 0"></span>
-          </div>
-          <div class="tier-bar-value">73 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">AUT</span> Rakousko
-            <span class="muted small">Soupiska 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Rakousko: Top-9 % 69 %, Odrazová % 4 %, Domácí % 12 %, Jiná % 8 %">
-            <span class="tier-seg tier-top9" style="flex: 69.2 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 3.8 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 11.5 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 7.7 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 7.7 0 0"></span>
-          </div>
-          <div class="tier-bar-value">69 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">NOR</span> Norsko
-            <span class="muted small">Soupiska 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Norsko: Top-9 % 65 %, Odrazová % 0 %, Domácí % 19 %, Jiná % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 65.4 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 19.2 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 15.4 0 0"></span>
-          </div>
-          <div class="tier-bar-value">65 %</div>
-        </div>
-        
-      </div>
+      </details>
       
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Soupisky z Wikipedie spárované s ligovými řádky sezóny 2025/26; úroveň = liga řádku s nejvíc minutami.</p>
@@ -10299,8 +10417,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 25 rozhodnutí · 270 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 270 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 25 rozhodnutí · 272 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 272 testy.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Diagram průběhu stavby</title>
         <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 32 úkoly.</desc>
@@ -10586,7 +10704,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-17 13:30</p>
+    <p class="rendered-at">Vykresleno: 2026-09-17 14:14</p>
   </div>
 </footer>
 

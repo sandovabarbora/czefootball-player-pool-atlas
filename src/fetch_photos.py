@@ -264,6 +264,46 @@ def _gk_relevant_player_keys() -> set[str]:
     return keys
 
 
+def squad_relevant_player_keys(squads: pd.DataFrame, pool_all: pd.DataFrame, home: str) -> set[str]:
+    """`player_key`s of `home`'s `nt_core_event` squad (the site's squad grid,
+    Task 25b): `squads`' home-country rows, matched to `pool_all` by
+    `normalize_name` (tie-broken by birth year when both are known — the same
+    rule `src.squad_lens` uses to match a squad row to an FBref table row). A
+    squad player not found in the pool at all (should not happen: the pool is
+    built from FBref's own "Players from <nation>" country page, which any
+    current international is on) is skipped rather than failing the whole
+    photo fetch. Most squad players are already covered by `outfield` in
+    `main()`; this closes the gap for a squad goalkeeper who is not on a GK
+    card or in the GK production table (`_gk_relevant_player_keys`) and so
+    would otherwise never be queried at all -- the same "add the missing
+    roster to the lookup list" fix Task 24 made for GK cards.
+    """
+    home_rows = squads[squads.country == home]
+    if home_rows.empty:
+        return set()
+    norm = pool_all.player.map(normalize_name)
+    keys: set[str] = set()
+    for r in home_rows.itertuples():
+        cand = pool_all[norm == r.player_norm]
+        if cand.empty:
+            continue
+        if pd.notna(r.born) and cand["born"].notna().any():
+            born_match = cand[cand.born == r.born]
+            if not born_match.empty:
+                cand = born_match
+        keys.add(str(cand.iloc[0]["player_key"]))
+    return keys
+
+
+def _squad_relevant_player_keys(pool_all: pd.DataFrame) -> set[str]:
+    """`squad_relevant_player_keys`, loading `peer_squads.parquet` for `main()`."""
+    path = config.PROCESSED_DIR / "peer_squads.parquet"
+    if not path.exists():
+        LOG.warning("photos: %s missing, skipping squad portraits", path)
+        return set()
+    return squad_relevant_player_keys(read_parquet(path), pool_all, config.HOME)
+
+
 def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO)
     args = _parse_args(argv)
@@ -273,7 +313,7 @@ def main(argv: list[str] | None = None) -> None:
     # too, but only the ones that actually appear on a GK card or in the GK
     # production table (site/goalkeepers.json's `cards` + `production.home`).
     outfield = pool_all[pool_all.pos_group.notna()]
-    gk_keys = _gk_relevant_player_keys()
+    gk_keys = _gk_relevant_player_keys() | _squad_relevant_player_keys(pool_all)
     gk = pool_all[pool_all.pos_group.isna() & pool_all.player_key.isin(gk_keys)]
     pool = pd.concat([outfield, gk], ignore_index=True)
 

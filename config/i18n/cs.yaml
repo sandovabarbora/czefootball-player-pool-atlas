@@ -293,6 +293,10 @@ strings:
   ch2.f.note: "* {unmatched} hráčů soupisky nemá řádku {season} v natažených ligách a počítají se jako nespárovaní."
   ch2.f.detail: "Minuty, násobičky a věkové kohorty podle zemí"
 
+  # ---- fotogalerie nominace na slidu 6 (Task 25b)
+  squad.grid.aria: "Nominace na {event} podle ligové úrovně, portrét každého hráče"
+  squad.peers.summary: "Odkud jsou peer země"
+
   # ---- chapter III
   ch3.cards.rules.summary: "Jak bylo vybráno {n} karet"
   ch3.cards.rules: "Proč tyto karty: jedna karta na post na pravidlo, v tomto pořadí — (a) nejvyšší {metric}, (b) nejmladší reprezentační nominace, (c) nejvíc minut v top-9 ligách mezi nominovanými na {event}, (d) nejvíc minut v domácí lize mezi nominovanými na {event}, (e) nejvíc minut v top-9 ligách, (f) nejvíc domácích minut do 23 let bez sezóny v top-9 lize. Hráč vybraný dřívějším pravidlem propadá na další jméno, takže pozdější řada může ukázat druhé jméno podle svého měřítka. Řady seskupují šest pravidel; řada jádra reprezentace obsahuje dvě z nich."

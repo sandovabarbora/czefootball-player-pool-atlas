@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609171331">
-  <link rel="stylesheet" href="modern.css?v=202609171331">
+  <link rel="stylesheet" href="style.css?v=202609171425">
+  <link rel="stylesheet" href="modern.css?v=202609171425">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609171331"></script>
+  <script defer src="atlas.js?v=202609171425"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -94,7 +94,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 270 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 272 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -610,120 +610,238 @@
     <p class="slide-a"><strong>96 %</strong> of the 2026 FIFA World Cup squad plays in the 9 strongest leagues; Germany 100 %.</p>
     <div class="slide-proof">
       
-      <ul class="tier-bar-legend">
-        <li><span class="tier-swatch tier-top9" aria-hidden="true"></span>Top-9 %</li>
-        <li><span class="tier-swatch tier-stepping" aria-hidden="true"></span>Stepping %</li>
-        <li><span class="tier-swatch tier-domestic" aria-hidden="true"></span>Domestic %</li>
-        <li><span class="tier-swatch tier-other" aria-hidden="true"></span>Other %</li>
+      <ul class="squad-legend">
+        <li><span class="squad-swatch squad-swatch-top9" aria-hidden="true"></span>Top-9 %</li>
+        <li><span class="squad-swatch squad-swatch-stepping" aria-hidden="true"></span>Stepping %</li>
+        <li><span class="squad-swatch squad-swatch-domestic" aria-hidden="true"></span>Domestic %</li>
+        <li><span class="squad-swatch squad-swatch-other" aria-hidden="true"></span>Other %</li>
       </ul>
-      <div class="tier-bars" role="list" aria-label="F · The 2026 FIFA World Cup squad by league tier">
+      <ul class="squad-grid" role="list" aria-label="2026 FIFA World Cup squad by league tier, one portrait per player">
         
-        <div class="tier-bar-row" role="listitem" data-highlight="cze">
-          <div class="tier-bar-head">
-            <span class="capita-code">ENG</span> England
-            <span class="muted small">Squad 26</span>
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/4806ec67.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Jordan Pickford</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/de31038e.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Elliot Anderson</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/e5a76dfe.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Dean Henderson</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/2e5915f1.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Morgan Rogers</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/1c7012b8.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Declan Rice</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/0313a347.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Ezri Konsa</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/aed3a70f.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Ollie Watkins</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/5515376c.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Trevoh Chalobah</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <span class="squad-mono" aria-hidden="true">NO</span><span class="squad-name">Nico O&#39;Reilly</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/21a66f6a.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Harry Kane</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/4125cb98.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Jarell Quansah</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/bc7dc64d.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Bukayo Saka</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/b2d31e83.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Dan Burn</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/9bc9a519.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Djed Spence</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/5bc2f6ca.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Reece James</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/935e6b8f.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Jordan Henderson</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/57d88cf9.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Jude Bellingham</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/ae4fc6a4.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Eberechi Eze</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/d0706b27.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Marc Guéhi</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/2bd83368.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Anthony Gordon</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/a1d5bd30.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Marcus Rashford</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/c6220452.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Kobbie Mainoo</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/bf34eebd.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Noni Madueke</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/5eecec3d.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">John Stones</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="top9" role="listitem">
+          <img class="squad-portrait" src="img/players/259fea27.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">James Trafford</span>
+        </li>
+        
+        <li class="squad-tile" data-tier="unmatched" role="listitem">
+          <img class="squad-portrait" src="img/players/e09f279b.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="squad-name">Ivan Toney</span>
+        </li>
+        
+      </ul>
+      
+      
+      <details class="fold">
+        <summary>How the peers are sourced</summary>
+        <ul class="tier-bar-legend">
+          <li><span class="tier-swatch tier-top9" aria-hidden="true"></span>Top-9 %</li>
+          <li><span class="tier-swatch tier-stepping" aria-hidden="true"></span>Stepping %</li>
+          <li><span class="tier-swatch tier-domestic" aria-hidden="true"></span>Domestic %</li>
+          <li><span class="tier-swatch tier-other" aria-hidden="true"></span>Other %</li>
+        </ul>
+        <div class="tier-bars" role="list" aria-label="F · The 2026 FIFA World Cup squad by league tier">
+          
+          <div class="tier-bar-row" role="listitem" data-highlight="cze">
+            <div class="tier-bar-head">
+              <span class="capita-code">ENG</span> England
+              <span class="muted small">Squad 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="England: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
+            </div>
+            <div class="tier-bar-value">96 %</div>
           </div>
-          <div class="tier-bar" role="img" aria-label="England: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">GER</span> Germany
+              <span class="muted small">Squad 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Germany: Top-9 % 100 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 100.0 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              
+            </div>
+            <div class="tier-bar-value">100 %</div>
           </div>
-          <div class="tier-bar-value">96 %</div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">FRA</span> France
+              <span class="muted small">Squad 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="France: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
+            </div>
+            <div class="tier-bar-value">96 %</div>
+          </div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">ESP</span> Spain
+              <span class="muted small">Squad 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Spain: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
+            </div>
+            <div class="tier-bar-value">96 %</div>
+          </div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">NED</span> Netherlands
+              <span class="muted small">Squad 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Netherlands: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
+            </div>
+            <div class="tier-bar-value">96 %</div>
+          </div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">BEL</span> Belgium
+              <span class="muted small">Squad 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Belgium: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
+            </div>
+            <div class="tier-bar-value">96 %</div>
+          </div>
+          
+          <div class="tier-bar-row" role="listitem">
+            <div class="tier-bar-head">
+              <span class="capita-code">POR</span> Portugal
+              <span class="muted small">Squad 26</span>
+            </div>
+            <div class="tier-bar" role="img" aria-label="Portugal: Top-9 % 88 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
+              <span class="tier-seg tier-top9" style="flex: 88.5 0 0"></span>
+              <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
+              <span class="tier-seg tier-unmatched" style="flex: 11.5 0 0"></span>
+            </div>
+            <div class="tier-bar-value">88 %</div>
+          </div>
+          
         </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">GER</span> Germany
-            <span class="muted small">Squad 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Germany: Top-9 % 100 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 100.0 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            
-          </div>
-          <div class="tier-bar-value">100 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">FRA</span> France
-            <span class="muted small">Squad 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="France: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
-          </div>
-          <div class="tier-bar-value">96 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">ESP</span> Spain
-            <span class="muted small">Squad 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Spain: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
-          </div>
-          <div class="tier-bar-value">96 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">NED</span> Netherlands
-            <span class="muted small">Squad 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Netherlands: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
-          </div>
-          <div class="tier-bar-value">96 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">BEL</span> Belgium
-            <span class="muted small">Squad 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Belgium: Top-9 % 96 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 96.2 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 3.8 0 0"></span>
-          </div>
-          <div class="tier-bar-value">96 %</div>
-        </div>
-        
-        <div class="tier-bar-row" role="listitem">
-          <div class="tier-bar-head">
-            <span class="capita-code">POR</span> Portugal
-            <span class="muted small">Squad 26</span>
-          </div>
-          <div class="tier-bar" role="img" aria-label="Portugal: Top-9 % 88 %, Stepping % 0 %, Domestic % 0 %, Other % 0 %">
-            <span class="tier-seg tier-top9" style="flex: 88.5 0 0"></span>
-            <span class="tier-seg tier-stepping" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-domestic" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-other" style="flex: 0.0 0 0"></span>
-            <span class="tier-seg tier-unmatched" style="flex: 11.5 0 0"></span>
-          </div>
-          <div class="tier-bar-value">88 %</div>
-        </div>
-        
-      </div>
+      </details>
       
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Wikipedia squad lists matched to 2025/26 league rows; tier = league of the most-minutes row.</p>
@@ -9211,7 +9329,7 @@
       
       <details class="fold fold-lim"><summary>National-team flag source</summary><p>The flag "called up 2024–26" is parsed from Wikipedia squad tables (2026 FIFA World Cup, UEFA Euro 2024, UEFA European Under-21 Championship 2025) and matched on normalised name plus birth year. 42 of the 144 mapped players carry it. A squad table edit or a name variant can drop a call-up; the flag is a tag, not a cap count.</p></details>
       
-      <details class="fold fold-lim"><summary>Photo coverage</summary><p>854 of the 3531 pool players have a Wikimedia Commons portrait (Wikidata P18, matched on name, citizenship and birth date, occupation filtered to association football player) used on the site. Players without a portrait on the site show initials.</p></details>
+      <details class="fold fold-lim"><summary>Photo coverage</summary><p>855 of the 3531 pool players have a Wikimedia Commons portrait (Wikidata P18, matched on name, citizenship and birth date, occupation filtered to association football player) used on the site. Players without a portrait on the site show initials.</p></details>
       
       <details class="fold fold-lim"><summary>Season split</summary><p>The headline per-capita count and every metric use the complete 2025/26 season; trajectories run 2024/25 → 2025/26; the club on a card is the 2026/27 club (season in progress at build time).</p></details>
       
@@ -9258,8 +9376,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 270 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 270 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 272 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 272 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 32 tasks.</desc>
@@ -9745,7 +9863,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-17 13:30</p>
+    <p class="rendered-at">Rendered: 2026-09-17 14:25</p>
   </div>
 </footer>
 
