@@ -161,6 +161,15 @@ EN: dict[str, str] = {
     "quickread.4": "the season Big-5 presence broke ({break_prob} posterior)",
     "quickread.note": "Everything below is the evidence for those four numbers, in eleven questions.",
 
+    # ---- act markers (Task 25d): three section breaks between the slides,
+    # a kicker and one sentence each, no numbers -- rhythm, not more findings
+    "act.1.kicker": "How deep is the pool?",
+    "act.1.line": "The next three questions count who is in the pool and where the count runs thin.",
+    "act.2.kicker": "Where does the path leak?",
+    "act.2.line": "From here the questions follow a player through youth minutes at home, the move abroad, and how that move turns out.",
+    "act.3.kicker": "What reaches the national team?",
+    "act.3.line": "The last stretch looks at what actually gets picked, and when the door to the biggest leagues opened and shut.",
+
     # ---- slides (Task 13b): nine questions between the hero and "for a
     # federation", each q (h2) / a (one sentence, headline number in
     # <strong>) / proof (one exhibit, markup in the template) / how (mono

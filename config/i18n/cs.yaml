@@ -96,6 +96,14 @@ strings:
   quickread.4: "sezóna, kdy se zlomila přítomnost v Big-5 ({break_prob} posterior)"
   quickread.note: "Vše níže je důkazem pro tato čtyři čísla, v jedenácti otázkách."
 
+  # ---- předěly (Task 25d): tři sekční předěly mezi slidy, kicker a jedna věta, bez čísel
+  act.1.kicker: "Jak hluboký je fond?"
+  act.1.line: "Další tři otázky počítají, kdo je ve fondu a kde je ho nejméně."
+  act.2.kicker: "Kde uniká cesta?"
+  act.2.line: "Odtud otázky sledují hráče přes minuty mládeže doma, přesun do zahraničí a jak tento přesun dopadá."
+  act.3.kicker: "Co se dostane do reprezentace?"
+  act.3.line: "Poslední úsek se dívá na to, kdo je skutečně nominován, a kdy se dveře do největších lig otevřely a zavřely."
+
   # ---- slidy (Task 13b): devět otázek mezi hero a "pro federaci", každý
   # q (h2) / a (jedna věta, hlavní číslo v <strong>) / proof (jeden exhibit,
   # markup v šabloně) / how (mono řádek zdroje, sdílený štítek "Jak to víme")

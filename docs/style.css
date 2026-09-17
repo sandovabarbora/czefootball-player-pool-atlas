@@ -531,6 +531,38 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
 }
 
 /* =========================================================================
+   Act markers (Task 25d): three quiet section breaks between the slides —
+   a hairline, a small mono kicker and one sentence, no numbers. The only
+   job here is rhythm: a reader scrolling fast still gets three beats that
+   say "this next stretch is about X" before the slides resume.
+   ========================================================================= */
+.act {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--space-6) clamp(1rem, 3vw, 2rem) var(--space-3);
+  border-top: 1px solid var(--rule);
+}
+.act-kicker {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+}
+.act-line {
+  margin: 0;
+  max-width: var(--measure-wide);
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* =========================================================================
    Slides — nine question / answer / proof / how-we-know units between the
    hero and "For a federation" (Task 13b). The question is the memorable
    element (display serif, largest text on the slide after the hero);
