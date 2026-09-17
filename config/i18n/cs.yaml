@@ -89,6 +89,13 @@ strings:
   hero.sublead.close: "Postaveno na FBref, Wikipedii a Wikidatech. {cs_Name} je pracovní příklad; pipeline bere kód národnosti a sadu peer zemí. Lidé z fotbalu tato čísla znají hráč po hráči; agregovaná na jednom místě nejsou nikde."
   hero.footnote: "* {n} hráčů s národností {code} podle FBref a alespoň {min} minutami na soupiskách {season} top-{topn} lig UEFA ÷ {pop} mil. obyvatel (Eurostat 2024); peer země počítány stejně. <a href=\"#methodology\">Metodologie</a>."
 
+  # ---- quickread (Task 25a): minutová verze, čtyři dlaždice mezi hero a slidy
+  quickread.1: "na milion obyvatel — {rank} z {n} peer zemí"
+  quickread.2: "největší kohortová mezera: {group} {cohort} proti peer mediánu {peer}"
+  quickread.3: "z nominace na {event} hraje v top-{topn} ligách (nejlepší peer {best_pct} %)"
+  quickread.4: "sezóna, kdy se zlomila přítomnost v Big-5 ({break_prob} posterior)"
+  quickread.note: "Vše níže je důkazem pro tato čtyři čísla, v jedenácti otázkách."
+
   # ---- slidy (Task 13b): devět otázek mezi hero a "pro federaci", každý
   # q (h2) / a (jedna věta, hlavní číslo v <strong>) / proof (jeden exhibit,
   # markup v šabloně) / how (mono řádek zdroje, sdílený štítek "Jak to víme")

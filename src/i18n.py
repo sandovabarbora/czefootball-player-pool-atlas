@@ -152,6 +152,15 @@ EN: dict[str, str] = {
     "hero.sublead.close": "Built from FBref, Wikipedia and Wikidata. {nation} is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.",
     "hero.footnote": "* {n} players with FBref nationality {code} and ≥ {min} minutes on {season} rosters of the UEFA top-{topn} leagues ÷ {pop} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href=\"#methodology\">Methodology</a>.",
 
+    # ---- quickread (Task 25a): the 60-second opener, four tiles between the
+    # hero and the slides — each tile's figure is typed in the template, its
+    # line comes from here; the closing note points at the eleven slides below
+    "quickread.1": "per million inhabitants — {rank} of {n} peer countries",
+    "quickread.2": "largest cohort gap: {group} aged {cohort} vs peer median {peer}",
+    "quickread.3": "of the {event} squad in the top-{topn} leagues (peer best {best_pct} %)",
+    "quickread.4": "the season Big-5 presence broke ({break_prob} posterior)",
+    "quickread.note": "Everything below is the evidence for those four numbers, in eleven questions.",
+
     # ---- slides (Task 13b): nine questions between the hero and "for a
     # federation", each q (h2) / a (one sentence, headline number in
     # <strong>) / proof (one exhibit, markup in the template) / how (mono

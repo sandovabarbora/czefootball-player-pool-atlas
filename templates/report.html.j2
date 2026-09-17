@@ -255,6 +255,50 @@
 {% set squad_cze_row = ((squad_lens.rows | selectattr('country', 'equalto', home_code) | list | first)) if (squad_lens and squad_lens.rows) else none %}
 {% set squad_best_row = (squad_peer_rows | sort(attribute='top9_pct', reverse=true) | first) if squad_peer_rows else none %}
 {# =============================================================================
+   QUICKREAD — the 60-second opener (Task 25a): four computed tiles, each
+   linking to the slide that proves it, between the hero and the eleven
+   questions. Replaces the old "argument" list (templates/style.css keeps
+   the dead .argument rules as commented-out history at Task 25a's commit).
+   ============================================================================= #}
+<section class="quickread" id="quickread">
+  <div class="container">
+    <ul class="quickread-grid">
+      <li class="quickread-tile">
+        <a href="#q1">
+          <span class="quickread-figure">{{ f2(hero.per_million) }}</span>
+          <span class="quickread-line">{{ t('quickread.1', rank=ordinal(hero.rank), n=hero.n_peers) }}</span>
+        </a>
+      </li>
+      {% if hero.gap %}
+      <li class="quickread-tile">
+        <a href="#q2">
+          <span class="quickread-figure">{{ hero.gap.cze_n }}</span>
+          <span class="quickread-line">{{ t('quickread.2', group=(term(hero.gap.group_title) | lower), cohort=hero.gap.cohort, peer=g(hero.gap.peer_median_n)) }}</span>
+        </a>
+      </li>
+      {% endif %}
+      {% if squad_cze_row and squad_best_row %}
+      <li class="quickread-tile">
+        <a href="#q6">
+          <span class="quickread-figure">{{ '%.0f' | format(squad_cze_row.top9_pct) }} %</span>
+          <span class="quickread-line">{{ t('quickread.3', event=squad_lens.event, topn=topn, best_pct=('%.0f' | format(squad_best_row.top9_pct))) }}</span>
+        </a>
+      </li>
+      {% endif %}
+      {% if big5 and big5.break_season %}
+      <li class="quickread-tile">
+        <a href="#q7">
+          <span class="quickread-figure">{{ big5.break_season }}</span>
+          <span class="quickread-line">{{ t('quickread.4', break_prob=pct(big5.break_prob)) }}</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    <p class="quickread-note">{{ t('quickread.note') }}</p>
+  </div>
+</section>
+
+{# =============================================================================
    SLIDES — nine questions, each one answer sentence + one proof exhibit +
    one "how we know" line. The presentation reads top to bottom; everything
    else (full tables, the remaining exhibits, the player index) is folded

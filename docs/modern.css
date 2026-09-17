@@ -494,7 +494,6 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .hero-stamp { display: none; }
   .capita-value { white-space: nowrap; }  /* "13,2 %" must not wrap in the exhibit rows */
   .capita-country { min-width: 0; overflow-wrap: anywhere; }  /* raw league keys shrink instead of pushing the value */
-  .argument li { grid-template-columns: 1fr; row-gap: 0.2rem; }
   .cast { width: 100%; flex-wrap: wrap; }
   .cast-stack > :nth-child(n+7) { display: none; }  /* twelve portraits do not fit a phone row */
   .cast-caption { font-size: 0; }

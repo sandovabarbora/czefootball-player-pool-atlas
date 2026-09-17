@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609152001">
-  <link rel="stylesheet" href="../modern.css?v=202609152001">
+  <link rel="stylesheet" href="../style.css?v=202609171331">
+  <link rel="stylesheet" href="../modern.css?v=202609171331">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609152001"></script>
+  <script defer src="../atlas.js?v=202609171331"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -134,6 +134,45 @@
 
 
 
+
+
+<section class="quickread" id="quickread">
+  <div class="container">
+    <ul class="quickread-grid">
+      <li class="quickread-tile">
+        <a href="#q1">
+          <span class="quickread-figure">2,39</span>
+          <span class="quickread-line">na milion obyvatel — 7. z 9 peer zemí</span>
+        </a>
+      </li>
+      
+      <li class="quickread-tile">
+        <a href="#q2">
+          <span class="quickread-figure">2</span>
+          <span class="quickread-line">největší kohortová mezera: záložníci 23-25 proti peer mediánu 6</span>
+        </a>
+      </li>
+      
+      
+      <li class="quickread-tile">
+        <a href="#q6">
+          <span class="quickread-figure">35 %</span>
+          <span class="quickread-line">z nominace na 2026 FIFA World Cup hraje v top-9 ligách (nejlepší peer 88 %)</span>
+        </a>
+      </li>
+      
+      
+      <li class="quickread-tile">
+        <a href="#q7">
+          <span class="quickread-figure">2014/15</span>
+          <span class="quickread-line">sezóna, kdy se zlomila přítomnost v Big-5 (62 % posterior)</span>
+        </a>
+      </li>
+      
+    </ul>
+    <p class="quickread-note">Vše níže je důkazem pro tato čtyři čísla, v jedenácti otázkách.</p>
+  </div>
+</section>
 
 
 <section class="slide" id="q1">
@@ -10264,7 +10303,7 @@
       <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 270 testy.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Diagram průběhu stavby</title>
-        <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 31 úkoly.</desc>
+        <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 32 úkoly.</desc>
         <defs>
           <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
@@ -10320,7 +10359,7 @@
           <text x="515" y="256" class="bp-ledger-count">rulingy: 25</text></g>
       </svg>
       <p class="build-diagram-legend">Implementace i review: sonnet · controller: opus.</p>
-      <p>Review je u každého úkolu dvoustupňový — nejdřív soulad se specifikací, pak kvalita kódu — a zjištění každého review se zapisují do ledgeru, ne jen verdikt: 40 řádků zmiňujících review napříč 31 úkoly této a minulé edice.</p>
+      <p>Review je u každého úkolu dvoustupňový — nejdřív soulad se specifikací, pak kvalita kódu — a zjištění každého review se zapisují do ledgeru, ne jen verdikt: 40 řádků zmiňujících review napříč 32 úkoly této a minulé edice.</p>
       <p>Specifikace: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">návrh</a> · plán: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">úkoly</a> · ledger: <a href="https://github.com/barborasandova/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulingy</a>.</p>
       
       <p>Vlastní specifikace a ledger každé edice:
@@ -10547,7 +10586,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-15 20:01</p>
+    <p class="rendered-at">Vykresleno: 2026-09-17 13:30</p>
   </div>
 </footer>
 
