@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609171724">
-  <link rel="stylesheet" href="../modern.css?v=202609171724">
+  <link rel="stylesheet" href="../style.css?v=202609171758">
+  <link rel="stylesheet" href="../modern.css?v=202609171758">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609171724"></script>
+  <script defer src="../atlas.js?v=202609171758"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -42,13 +42,11 @@
           aria-label="Skrýt obsah" data-label-show="Zobrazit obsah" data-label-hide="Skrýt obsah">
     <span class="toc-toggle-glyph" aria-hidden="true"></span>
   </button>
-  <p class="toc-heading">Obsah</p>
-  <ol>
+  <p class="toc-heading">Obsah</p><ol>
     <li><a href="#q1">Je fond tenký?</a></li>
     <li><a href="#q2">Kde je tenký?</a></li>
     <li><a href="#q3">Minuty mládeže doma</a></li>
     <li><a href="#q4">Kam odcházejí</a></li>
-    <li><a href="#q4b">Pozdější odchod</a></li>
     <li><a href="#q5">Jak se jim daří</a></li>
     <li><a href="#q6">Nominace na MS</a></li>
     <li><a href="#q7">Kdy vlak odjel</a></li>
@@ -57,24 +55,27 @@
     <li><a href="#q8c">Z čeho se rozdíl skládá</a></li>
     <li><a href="#q9">Kdo jsou hráči</a></li>
     <li><a href="#explore">Prozkoumat data</a></li>
-    <li><a href="#methodology">Jak je to postavené, validované a kde to končí</a>
-      <ol>
-        <li><a href="#multipliers">Ligové násobičky</a></li>
-        <li><a href="#league-strength">Síla ligy</a></li>
-        <li><a href="#model-comparison">Tři modely, jeden úkol, pět sezón</a></li>
-        <li><a href="#series-model">Datace zlomu a jedna prognóza</a></li>
-        <li><a href="#youth-panel">Mezinárodní panel minut mládeže</a></li>
-        <li><a href="#gap-decomposition">Z čeho se rozdíl skládá</a></li>
-        <li><a href="#export-age-model">Věk exportu</a></li>
-        <li><a href="#shrinkage">Bayesovský shrinkage</a></li>
-        <li><a href="#pca-loadings">PCA loadings</a></li>
-        <li><a href="#sensitivity">Analýza citlivosti</a></li>
-        <li><a href="#limitations">Limitace</a></li>
-        <li><a href="#validation-robustness">Validace a robustnost</a></li>
-        <li><a href="#reproducibility">Reprodukovatelnost</a></li>
-        <li><a href="#related-methods">Související metody</a></li>
-        <li><a href="#references">Reference</a></li>
-      </ol>
+    <li>
+      <details class="toc-method">
+        <summary><a href="#methodology">Jak je to postavené, validované a kde to končí</a></summary>
+        <ol>
+          <li><a href="#multipliers">Ligové násobičky</a></li>
+          <li><a href="#league-strength">Síla ligy</a></li>
+          <li><a href="#model-comparison">Tři modely, jeden úkol, pět sezón</a></li>
+          <li><a href="#series-model">Datace zlomu a jedna prognóza</a></li>
+          <li><a href="#youth-panel">Mezinárodní panel minut mládeže</a></li>
+          <li><a href="#gap-decomposition">Z čeho se rozdíl skládá</a></li>
+          <li><a href="#export-age-model">Věk exportu</a></li>
+          <li><a href="#shrinkage">Bayesovský shrinkage</a></li>
+          <li><a href="#pca-loadings">PCA loadings</a></li>
+          <li><a href="#sensitivity">Analýza citlivosti</a></li>
+          <li><a href="#limitations">Limitace</a></li>
+          <li><a href="#validation-robustness">Validace a robustnost</a></li>
+          <li><a href="#reproducibility">Reprodukovatelnost</a></li>
+          <li><a href="#related-methods">Související metody</a></li>
+          <li><a href="#references">Reference</a></li>
+        </ol>
+      </details>
     </li>
   </ol>
 </nav>
@@ -289,6 +290,7 @@
       </div>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Odlišní hráči s aspoň 450 minutami na soupiskách 2025/26 v 9 nejsilnějších ligách ÷ populace (Eurostat 2024); každá země počítána stejně.</p>
+    <p class="slide-so">Federace by sledovala pohyb pořadí na milion obyvatel napříč sezónami, ne číslo jednoho roku.</p>
   </div>
 </section>
 
@@ -345,6 +347,7 @@
       </table>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Věk na začátku sezóny; kohorty U22 / 23–25 / 26–29 / 30+; aspoň 450 minut.</p>
+    <p class="slide-so">Federace by sledovala, která kohortová mezera se napříč sezónami zužuje nebo rozšiřuje, ne jen dnešní snímek.</p>
   </div>
 </section>
 
@@ -471,6 +474,7 @@
       
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Podíl všech ligových minut odehraných hráči do 21 let na začátku sezóny, 2025/26, podle domácí nejvyšší soutěže.</p>
+    <p class="slide-so">Federace by sledovala podíl U21 sezónu po sezóně, ne počet exportů.</p>
   </div>
 </section>
 
@@ -510,6 +514,7 @@
     </div>
     
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Cílová liga poslední sezóny 2025/26 každého hráče s příslušností Česka; do strany = násobička cíle ≤ násobička české ligy (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
+    <p class="slide-so">Federace by sledovala podíl přesunů do strany v čase, ne pouhý počet hráčů v zahraničí.</p>
   </div>
 </section>
 
@@ -526,6 +531,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Věková křivka (kvadratická funkce) ligově upravené produkce, dáno silou výchozí ligy (<a href="#league-strength">§ Metodologie</a>), postem a efektem země, 115 exportů peer národností (Gelman et al., 2013; Hoffman and Gelman, 2014); lepší hráči obvykle odcházejí dříve, takže křivka mísí selekci s vývojem a tento report je neodděluje.</p>
+    <p class="slide-so">Federace by sledovala, jak se křivka věku exportu posouvá mezi kohortami, ne výsledek jednoho hráče.</p>
   </div>
 </section>
 
@@ -648,6 +654,7 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Mediánový podíl minut klubu u hráčů v zahraničí, podle země původu (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
+    <p class="slide-so">Federace by sledovala, jestli si export udrží podíl minut i po první sezóně, ne jen medián.</p>
   </div>
 </section>
 
@@ -867,6 +874,7 @@
       
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Soupisky z Wikipedie spárované s ligovými řádky sezóny 2025/26; úroveň = liga řádku s nejvíc minutami.</p>
+    <p class="slide-so">Federace by sledovala skladbu úrovní budoucích nominací napříč cykly, ne snímek jednoho turnaje.</p>
   </div>
 </section>
 
@@ -882,6 +890,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Sezónní tabulky hráčů Big-5 z FBref 2000/01 → 2025/26; peer země podle stejného pravidla; jména jsou čeští hráči s nejvíc minutami z každé vrcholné sezóny včetně brankářů — sestava přítomnosti, ne žebříček kvality: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. Datum zlomu pochází z bayesovského modelu lokální úrovně s jedním bodem zlomu (Adams and MacKay, 2007); podrobnosti v <a href="#series-model">§ Metodologie</a>.</p>
+    <p class="slide-so">Federace by sledovala, jestli úroveň po zlomu vydrží i další sezónu, a nebrala jeden zlom jako konečný.</p>
     
   </div>
 </section>
@@ -1006,6 +1015,7 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Stejné definice, stejné sezóny; srovnání, ne kauzální tvrzení. Každá metrika je pro graf výše přeškálována na 0-1 napříč třemi zeměmi, směr zvolen tak, že 1,0 je vždy otevřenější cesta (více hráčů na milion, více minut do 21 let, dřívější věk exportu, méně přesunů do strany, větší podíl minut v zahraničí, více nominace v top-9 ligách); tabulka níže má syrová čísla.</p>
+    <p class="slide-so">Federace by sledovala, které z šesti čísel se pohne jako první, ne jen celkový obrázek.</p>
   </div>
 </section>
 
@@ -1339,6 +1349,7 @@
       
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Práh 450 minut, soupisky 2025/26, stejné stahování K = 900 jako zbytek reportu; první sezóna ve stažené top-9 tabulce; hráči, kteří v ní byli už v 2020/21, jsou cenzurovaní — 0 % brankářů, 21 % exportů z pole; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení.</p>
+    <p class="slide-so">Federace by sledovala, jestli se cesta brankářů dál odchyluje od věku exportu v poli, ne rozdíl jedné sezóny.</p>
   </div>
 </section>
 
@@ -1356,6 +1367,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca (Oaxaca, 1973; Blinder, 1973), fitovaný na 8 peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, 1000 převzorkování; rozklad korelace, ne kauzální účetnictví.</p>
+    <p class="slide-so">Federace by sledovala, který kanál svůj příspěvek zvětšuje, ne brala rozklad jako pevný.</p>
   </div>
 </section>
 
@@ -2882,6 +2894,7 @@
       <p class="capita-note">* Každá karta vykresluje existující dataset; žádný výpočet nad rámec spojení. Věk na řádku se jménem je věk na začátku sezóny 2026/27 (rok začátku − rok narození); klub je z tabulek 2026/27, nebo — označený „poslední známý“ — ze stránky země na FBref, kde hráč nemá řádku 2026/27. Věk na řádku analogu sleduje konvenci hledače analogů (rok začátku sezóny + 1 − rok narození).</p>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Řádky FBref, Wikipedie a Wikidat sezóny 2025/26 spojené podle jména a ročníku narození; šest výběrových pravidel, v tomto pořadí — viz níže.</p>
+    <p class="slide-so">Federace by sledovala, jak se výběr karet mění s věkem kohorty, ne jednu kartu.</p>
   </div>
 </section>
 
@@ -10729,7 +10742,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-17 17:21</p>
+    <p class="rendered-at">Vykresleno: 2026-09-17 17:57</p>
   </div>
 </footer>
 

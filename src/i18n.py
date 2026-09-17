@@ -243,6 +243,22 @@ EN: dict[str, str] = {
     "slide.9.a": "<strong>{n} cards</strong> chosen by six rules.",
     "slide.9.how": "{season} FBref, Wikipedia and Wikidata rows joined by name and birth year; six selection rules, applied in order — see below.",
 
+    # ---- slide-so lines (Task 25e): one closing line per slide, ≤ 20 words,
+    # descriptive -- what a federation reader would watch next, never a
+    # recommendation
+    "slide.1.so": "A federation tracking this would watch the per-million rank move over seasons, not any one year's number.",
+    "slide.2.so": "A federation tracking this would watch which cohort's gap narrows or widens season to season, not just today's snapshot.",
+    "slide.3.so": "A federation tracking this would watch the U21 share season by season, not the export count.",
+    "slide.4.so": "A federation tracking this would watch the sideways-move share over time, not the raw count of players abroad.",
+    "slide.4b.so": "A federation tracking this would watch how the age-at-export curve shifts across cohorts, not any single player's outcome.",
+    "slide.5.so": "A federation tracking this would watch whether an export's minutes share holds after the first season, not just the median.",
+    "slide.6.so": "A federation tracking this would watch the tier mix of future squads over cycles, not one tournament's snapshot.",
+    "slide.7.so": "A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.",
+    "slide.8.so": "A federation tracking this would watch which of the six numbers moves first, not the overall picture alone.",
+    "slide.8b.so": "A federation tracking this would watch whether the goalkeeper pathway keeps diverging from outfield export age, not one season's gap.",
+    "slide.8c.so": "A federation tracking this would watch which channel's contribution grows, not treat the split as fixed.",
+    "slide.9.so": "A federation tracking this would watch how the showcase set changes as a cohort ages, not any one card.",
+
     # ---- slide 2 proof: compact cohort-gap table (top 5 rows)
     "cohortgap.th.group": "Group",
     "cohortgap.th.cohort": "Cohort",

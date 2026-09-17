@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609171724">
-  <link rel="stylesheet" href="modern.css?v=202609171724">
+  <link rel="stylesheet" href="style.css?v=202609171758">
+  <link rel="stylesheet" href="modern.css?v=202609171758">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609171724"></script>
+  <script defer src="atlas.js?v=202609171758"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -42,13 +42,11 @@
           aria-label="Hide contents" data-label-show="Show contents" data-label-hide="Hide contents">
     <span class="toc-toggle-glyph" aria-hidden="true"></span>
   </button>
-  <p class="toc-heading">Contents</p>
-  <ol>
+  <p class="toc-heading">Contents</p><ol>
     <li><a href="#q1">Is the pool thin?</a></li>
     <li><a href="#q2">Where is it thin?</a></li>
     <li><a href="#q3">Youth minutes at home</a></li>
     <li><a href="#q4">Where they go</a></li>
-    <li><a href="#q4b">Leaving later</a></li>
     <li><a href="#q5">How they fare</a></li>
     <li><a href="#q6">World Cup squad</a></li>
     <li><a href="#q7">When the train left</a></li>
@@ -57,24 +55,27 @@
     <li><a href="#q8c">What the gap is made of</a></li>
     <li><a href="#q9">Who the players are</a></li>
     <li><a href="#explore">Explore the data</a></li>
-    <li><a href="#methodology">How it is built, validated and where it stops</a>
-      <ol>
-        <li><a href="#multipliers">League multipliers</a></li>
-        <li><a href="#league-strength">League strength</a></li>
-        <li><a href="#model-comparison">Three models, one task, five seasons</a></li>
-        <li><a href="#series-model">Dating the break and one forecast</a></li>
-        <li><a href="#youth-panel">Cross-country youth-minutes panel</a></li>
-        <li><a href="#gap-decomposition">What the gap is made of</a></li>
-        <li><a href="#export-age-model">Age at export</a></li>
-        <li><a href="#shrinkage">Bayesian shrinkage</a></li>
-        <li><a href="#pca-loadings">PCA loadings</a></li>
-        <li><a href="#sensitivity">Sensitivity analysis</a></li>
-        <li><a href="#limitations">Limitations</a></li>
-        <li><a href="#validation-robustness">Validation & robustness</a></li>
-        <li><a href="#reproducibility">Reproducibility</a></li>
-        <li><a href="#related-methods">Related methods</a></li>
-        <li><a href="#references">References</a></li>
-      </ol>
+    <li>
+      <details class="toc-method">
+        <summary><a href="#methodology">How it is built, validated and where it stops</a></summary>
+        <ol>
+          <li><a href="#multipliers">League multipliers</a></li>
+          <li><a href="#league-strength">League strength</a></li>
+          <li><a href="#model-comparison">Three models, one task, five seasons</a></li>
+          <li><a href="#series-model">Dating the break and one forecast</a></li>
+          <li><a href="#youth-panel">Cross-country youth-minutes panel</a></li>
+          <li><a href="#gap-decomposition">What the gap is made of</a></li>
+          <li><a href="#export-age-model">Age at export</a></li>
+          <li><a href="#shrinkage">Bayesian shrinkage</a></li>
+          <li><a href="#pca-loadings">PCA loadings</a></li>
+          <li><a href="#sensitivity">Sensitivity analysis</a></li>
+          <li><a href="#limitations">Limitations</a></li>
+          <li><a href="#validation-robustness">Validation & robustness</a></li>
+          <li><a href="#reproducibility">Reproducibility</a></li>
+          <li><a href="#related-methods">Related methods</a></li>
+          <li><a href="#references">References</a></li>
+        </ol>
+      </details>
     </li>
   </ol>
 </nav>
@@ -289,6 +290,7 @@
       </div>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Distinct players with ≥ 450 minutes on 2025/26 rosters of the 9 strongest leagues ÷ population (Eurostat 2024); every country counted the same way.</p>
+    <p class="slide-so">A federation tracking this would watch the per-million rank move over seasons, not any one year's number.</p>
   </div>
 </section>
 
@@ -345,6 +347,7 @@
       </table>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Age at season start; cohorts U22 / 23–25 / 26–29 / 30+; ≥ 450 minutes.</p>
+    <p class="slide-so">A federation tracking this would watch which cohort's gap narrows or widens season to season, not just today's snapshot.</p>
   </div>
 </section>
 
@@ -471,6 +474,7 @@
       
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Share of all league minutes played by players aged ≤ 21 at season start, 2025/26, per domestic top flight.</p>
+    <p class="slide-so">A federation tracking this would watch the U21 share season by season, not the export count.</p>
   </div>
 </section>
 
@@ -510,6 +514,7 @@
     </div>
     
     <p class="slide-how"><span class="slide-how-label">How we know</span> Destination league of every Czech-eligible player's 2025/26 row; sideways = destination multiplier ≤ Czech league multiplier (<a href="#league-strength">league strength: two estimates, § Methodology</a>).</p>
+    <p class="slide-so">A federation tracking this would watch the sideways-move share over time, not the raw count of players abroad.</p>
   </div>
 </section>
 
@@ -526,6 +531,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Age curve (quadratic) on league-adjusted production, given origin-league strength (<a href="#league-strength">§ Methodology</a>), position and a country effect, 115 peer-nationality exports (Gelman et al., 2013; Hoffman and Gelman, 2014); better players tend to leave earlier, so the curve mixes selection with development and this report does not separate them.</p>
+    <p class="slide-so">A federation tracking this would watch how the age-at-export curve shifts across cohorts, not any single player's outcome.</p>
   </div>
 </section>
 
@@ -648,6 +654,7 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Median share of club minutes for players abroad, per country of origin (<a href="#league-strength">league strength: two estimates, § Methodology</a>).</p>
+    <p class="slide-so">A federation tracking this would watch whether an export's minutes share holds after the first season, not just the median.</p>
   </div>
 </section>
 
@@ -867,6 +874,7 @@
       
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Wikipedia squad lists matched to 2025/26 league rows; tier = league of the most-minutes row.</p>
+    <p class="slide-so">A federation tracking this would watch the tier mix of future squads over cycles, not one tournament's snapshot.</p>
   </div>
 </section>
 
@@ -882,6 +890,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> FBref Big-5 player tables 2000/01 → 2025/26; peers on the same rule; the names are the most-minutes Czech players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. The break date comes from a Bayesian local-level model with one change point (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
+    <p class="slide-so">A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.</p>
     
   </div>
 </section>
@@ -1006,6 +1015,7 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Same definitions, same seasons; a comparison, not a causal claim. Each metric is rescaled 0-1 across the three countries for the chart above, direction chosen so 1.0 is always the more open pathway (more players per million, more U21 minutes, an earlier export age, fewer sideways moves, a bigger minutes share abroad, more of the squad in the top-9); the table below keeps the raw numbers.</p>
+    <p class="slide-so">A federation tracking this would watch which of the six numbers moves first, not the overall picture alone.</p>
   </div>
 </section>
 
@@ -1339,6 +1349,7 @@
       
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> 450-minute floor, 2025/26 rosters, same K = 900 shrinkage as the rest of the report; first season in a fetched top-9 table; players already there in 2020/21 are censored — 0 % of the goalkeepers, 21 % of the outfield exports; a comparison of two pathways inside one nation, not a causal claim.</p>
+    <p class="slide-so">A federation tracking this would watch whether the goalkeeper pathway keeps diverging from outfield export age, not one season's gap.</p>
   </div>
 </section>
 
@@ -1356,6 +1367,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Ridge-regression linear split, Blinder-Oaxaca-style (Oaxaca, 1973; Blinder, 1973), fit on the 8 peer countries with data on all three channels; bootstrap 90 % intervals, 1000 resamples; a decomposition of a correlation, not a causal accounting.</p>
+    <p class="slide-so">A federation tracking this would watch which channel's contribution grows, not treat the split as fixed.</p>
   </div>
 </section>
 
@@ -2882,6 +2894,7 @@
       <p class="capita-note">* Each card renders the existing dataset; no computation beyond the join. Age on the name line is the 2026/27 season-start age (start year − birth year); the club is from the 2026/27 tables, or — labelled "latest known" — from FBref's country page where the player has no 2026/27 row. Age on the analog line follows the analog finder's convention (season start year + 1 − birth year).</p>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> 2025/26 FBref, Wikipedia and Wikidata rows joined by name and birth year; six selection rules, applied in order — see below.</p>
+    <p class="slide-so">A federation tracking this would watch how the showcase set changes as a cohort ages, not any one card.</p>
   </div>
 </section>
 
@@ -10729,7 +10742,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-17 17:21</p>
+    <p class="rendered-at">Rendered: 2026-09-17 17:57</p>
   </div>
 </footer>
 

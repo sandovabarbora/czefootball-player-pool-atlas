@@ -159,12 +159,17 @@
     <span class="toc-toggle-glyph" aria-hidden="true"></span>
   </button>
   <p class="toc-heading">{{ t('toc.heading') }}</p>
+  {#- Task 25e: the rail lists the eleven questions (q4b, a footnote-sized
+     extension of q4 rather than its own topic, is reachable by scrolling
+     but not itself a rail entry) plus Explore and Method -- thirteen
+     top-level items. Method's own sub-items are real navigation, just not
+     surfaced until a reader actually opens Method (JS-free details/summary,
+     same disclosure pattern as every fold elsewhere on the page). -#}
   <ol>
     <li><a href="#q1">{{ t('toc.q1') }}</a></li>
     <li><a href="#q2">{{ t('toc.q2') }}</a></li>
     <li><a href="#q3">{{ t('toc.q3') }}</a></li>
     <li><a href="#q4">{{ t('toc.q4') }}</a></li>
-    {% if export_age_model.age_curve %}<li><a href="#q4b">{{ t('toc.q4b') }}</a></li>{% endif %}
     <li><a href="#q5">{{ t('toc.q5') }}</a></li>
     <li><a href="#q6">{{ t('toc.q6') }}</a></li>
     <li><a href="#q7">{{ t('toc.q7') }}</a></li>
@@ -173,24 +178,27 @@
     {% if gap_decomposition.contrasts %}<li><a href="#q8c">{{ t('toc.q8c') }}</a></li>{% endif %}
     <li><a href="#q9">{{ t('toc.q9') }}</a></li>
     <li><a href="#explore">{{ t('toc.explore') }}</a></li>
-    <li><a href="#methodology">{{ t('toc.methodology') }}</a>
-      <ol>
-        <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
-        <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
-        <li><a href="#model-comparison">{{ t('toc.compare') }}</a></li>
-        <li><a href="#series-model">{{ t('toc.series') }}</a></li>
-        {% if youth_panel.between %}<li><a href="#youth-panel">{{ t('toc.panel') }}</a></li>{% endif %}
-        {% if gap_decomposition.contrasts %}<li><a href="#gap-decomposition">{{ t('toc.gap') }}</a></li>{% endif %}
-        {% if export_age_model.age_curve %}<li><a href="#export-age-model">{{ t('toc.short.export_age') }}</a></li>{% endif %}
-        <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
-        <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
-        <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
-        <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
-        <li><a href="#validation-robustness">{{ t('toc.validation') }}</a></li>
-        <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
-        <li><a href="#related-methods">{{ t('toc.related_methods') }}</a></li>
-        <li><a href="#references">{{ t('toc.references') }}</a></li>
-      </ol>
+    <li>
+      <details class="toc-method">
+        <summary><a href="#methodology">{{ t('toc.methodology') }}</a></summary>
+        <ol>
+          <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
+          <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
+          <li><a href="#model-comparison">{{ t('toc.compare') }}</a></li>
+          <li><a href="#series-model">{{ t('toc.series') }}</a></li>
+          {% if youth_panel.between %}<li><a href="#youth-panel">{{ t('toc.panel') }}</a></li>{% endif %}
+          {% if gap_decomposition.contrasts %}<li><a href="#gap-decomposition">{{ t('toc.gap') }}</a></li>{% endif %}
+          {% if export_age_model.age_curve %}<li><a href="#export-age-model">{{ t('toc.short.export_age') }}</a></li>{% endif %}
+          <li><a href="#shrinkage">{{ t('toc.shrinkage') }}</a></li>
+          <li><a href="#pca-loadings">{{ t('toc.pca') }}</a></li>
+          <li><a href="#sensitivity">{{ t('toc.sensitivity') }}</a></li>
+          <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
+          <li><a href="#validation-robustness">{{ t('toc.validation') }}</a></li>
+          <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
+          <li><a href="#related-methods">{{ t('toc.related_methods') }}</a></li>
+          <li><a href="#references">{{ t('toc.references') }}</a></li>
+        </ol>
+      </details>
     </li>
   </ol>
 </nav>
@@ -330,6 +338,7 @@
       </div>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.1.how', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn) }}</p>
+    <p class="slide-so">{{ t('slide.1.so') }}</p>
   </div>
 </section>
 
@@ -358,6 +367,7 @@
       </table>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.2.how', min=feature_defs.min_minutes) }}</p>
+    <p class="slide-so">{{ t('slide.2.so') }}</p>
   </div>
 </section>
 
@@ -396,6 +406,7 @@
       {% endif %}
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.3.how', season=seasons.metrics) }}</p>
+    <p class="slide-so">{{ t('slide.3.so') }}</p>
   </div>
 </section>
 
@@ -428,6 +439,7 @@
     </div>
     {% endif %}
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4.how', season=seasons.metrics, home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
+    <p class="slide-so">{{ t('slide.4.so') }}</p>
   </div>
 </section>
 
@@ -448,6 +460,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4b.how', n=eam.n, branch=(t('ch4.export.branch.spline') if eam.use_spline else t('ch4.export.branch.quadratic')), cite=cite_multi(['gelman_et_al_2013', 'hoffman_gelman_2014'])) }}</p>
+    <p class="slide-so">{{ t('slide.4b.so') }}</p>
   </div>
 </section>
 {% endif %}
@@ -482,6 +495,7 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how', home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
+    <p class="slide-so">{{ t('slide.5.so') }}</p>
   </div>
 </section>
 
@@ -542,6 +556,7 @@
       {% endif %}
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.6.how', season=seasons.metrics) }}</p>
+    <p class="slide-so">{{ t('slide.6.so') }}</p>
   </div>
 </section>
 
@@ -557,6 +572,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
+    <p class="slide-so">{{ t('slide.7.so') }}</p>
     {% endif %}
   </div>
 </section>
@@ -600,6 +616,7 @@
       </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8.how') }}</p>
+    <p class="slide-so">{{ t('slide.8.so') }}</p>
   </div>
 </section>
 
@@ -689,6 +706,7 @@
                           censored_pct=('%.0f' | format(gk.export_age.gk_censored_share * 100)),
                           censored_out_pct=('%.0f' | format(gk.export_age.outfield_censored_share * 100)),
                           home_note=(t('slide.8b.home_note', topn=topn) if (domestic_league_code in headline_leagues) else '')) }}</p>
+    <p class="slide-so">{{ t('slide.8b.so') }}</p>
   </div>
 </section>
 {% endif %}
@@ -708,6 +726,7 @@
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
+    <p class="slide-so">{{ t('slide.8c.so') }}</p>
   </div>
 </section>
 {% endif %}
@@ -737,6 +756,7 @@
       <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.9.how', season=seasons.metrics) }}</p>
+    <p class="slide-so">{{ t('slide.9.so') }}</p>
   </div>
 </section>
 

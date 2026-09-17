@@ -638,6 +638,17 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   color: var(--oxblood-700);
   margin-right: 0.6em;
 }
+/* Task 25e: one closing line per slide -- sans (not mono, this is prose, not
+   a source note), ink-soft, descriptive only. */
+.slide-so {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0.5rem 0 0;
+  max-width: var(--measure-wide);
+}
 table.peer-compare th:not(:first-child),
 table.peer-compare td:not(:first-child) {
   text-align: right;
@@ -2250,7 +2261,8 @@ li strong { font-family: var(--font-display); font-weight: 600; }
     border-bottom: none;
   }
   .toc-sticky li > a:hover { color: var(--oxblood-700); }
-  .toc-sticky > ol > li > a {
+  .toc-sticky > ol > li > a,
+  .toc-sticky > ol > li > details.toc-method > summary > a {
     font-family: var(--font-display);
     font-weight: 600;
     font-size: 0.88rem;
@@ -2260,6 +2272,17 @@ li strong { font-family: var(--font-display); font-weight: 600; }
     color: var(--muted);
     font-size: 0.76rem;
   }
+  /* Method's rail entry (Task 25e): the sub-items list is real navigation,
+     just hidden until the reader opens it -- a details/summary, same rail
+     styling as every other top-level entry, no JS. */
+  .toc-sticky details.toc-method { margin: 0; }
+  .toc-sticky details.toc-method > summary {
+    list-style: none;
+    cursor: pointer;
+    display: block;
+  }
+  .toc-sticky details.toc-method > summary::-webkit-details-marker { display: none; }
+  .toc-sticky details.toc-method > summary > a { display: inline; }
   /* Toggle button: sits flush in the corner; rotates a single chevron
      glyph to communicate collapse/expand state without an icon font. */
   .toc-toggle {

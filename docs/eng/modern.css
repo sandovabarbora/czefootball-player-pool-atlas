@@ -446,6 +446,10 @@ details.cluster[open] > summary::after { content: "−"; }
 /* the cluster code (e.g. "C3") lives in .cluster-name's title tooltip, not as
    visible text — abbreviations stay out of sight before chapter IV */
 details.cluster > summary::-webkit-details-marker { display: none; }
+/* Method's rail entry (Task 25e): same +/- disclosure glyph as .fold, sat
+   after the link rather than the grid layout .cluster uses. */
+.toc-sticky details.toc-method > summary::after { content: " +"; color: var(--muted); font-family: var(--font-mono); }
+.toc-sticky details.toc-method[open] > summary::after { content: " −"; }
 details.cluster > summary .cluster-name { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
 details.cluster > summary .cluster-meta-inline { display: block; margin-top: 0.15rem; }
 details.cluster > summary .cluster-top { grid-column: 1 / -1; margin: 0; }
@@ -477,7 +481,9 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   body.toc-open .toc-sticky ol { list-style: none; padding: 0; margin: 0; }
   body.toc-open .toc-sticky ol ol { margin: 0.1rem 0 0.7rem 1rem; }
   body.toc-open .toc-sticky li > a { text-decoration: none; color: var(--ink); display: block; padding: 0.15rem 0; }
-  body.toc-open .toc-sticky > ol > li > a { font-weight: 700; }
+  body.toc-open .toc-sticky > ol > li > a,
+  body.toc-open .toc-sticky > ol > li > details.toc-method > summary > a { font-weight: 700; }
+  body.toc-open .toc-sticky details.toc-method > summary { padding: 0.15rem 0; }
   body.toc-open .toc-sticky li > a[aria-current="true"] { color: var(--oxblood-700); }
 }
 
