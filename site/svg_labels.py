@@ -123,7 +123,9 @@ T = {
 # labels are not guaranteed to appear in a given nation's build, unlike every
 # other entry in T, and are exempt from the "T entries not found in any SVG"
 # check below.
-OPTIONAL = {"Per million", "U21 share", "Export age", "Sideways", "Minutes share", "WC top-9"}
+# only the WC-squad metric can legitimately be absent: a compare country with no
+# squad at the tournament has no value, so the slope chart drops that axis
+OPTIONAL = {"WC top-9"}
 CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern
 CAPTION_EN = re.compile(

@@ -159,8 +159,9 @@ if LANG == "cs":
     # directory up).
     sub(r'<img src="\.\./(atlas_[A-Z]{2}\.svg|intl_cohort_heatmap\.svg|big5_series\.svg|gk_export_age\.svg|'
         r'youth_panel\.svg|gap_decomposition\.svg|export_age_model\.svg|league_strength\.svg|'
-        r'league_strength_ppc\.svg|model_comparison\.svg|series_model\.svg)"',
-        r'<img src="\1"', 16)
+        r'league_strength_ppc\.svg|model_comparison\.svg|series_model\.svg|fare_dots\.svg|'
+        r'pathway_slope\.svg)"',
+        r'<img src="\1"', 18)
 
 # ---------------------------------------------------------------- top bar
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])

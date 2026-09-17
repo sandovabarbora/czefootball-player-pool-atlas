@@ -198,3 +198,16 @@ def test_sensitivity_slider_payload_matches_offline_top10_at_defaults(built):
         )
 
     assert set(_rank_top10(shrunk, multipliers)) == set(_rank_top10(offline_rows, multipliers))
+
+
+def test_cs_page_links_its_own_translated_figures():
+    """Every figure svg_labels.py translates must be linked without '../' on the cs page
+    (the bug class that shipped twice: cs prose, English chart)."""
+    import re
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    files = re.search(r"^FILES\s*=\s*\[(.*?)\]", (root / "site" / "svg_labels.py").read_text(encoding="utf-8"), re.S | re.M)
+    translated = re.findall(r'"([^"]+\.svg)"', files.group(1))
+    cs = (root / "docs" / "cs" / "index.html").read_text(encoding="utf-8")
+    for svg in translated:
+        assert f'src="../{svg}"' not in cs, f"cs page links the English {svg}"
