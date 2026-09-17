@@ -20,7 +20,8 @@ from pathlib import Path
 DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
          "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg", "series_model.svg",
-         "gk_export_age.svg", "youth_panel.svg", "gap_decomposition.svg", "export_age_model.svg"]
+         "gk_export_age.svg", "youth_panel.svg", "gap_decomposition.svg", "export_age_model.svg",
+         "fare_dots.svg", "pathway_slope.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -101,7 +102,28 @@ T = {
     "Other peer exports": "Ostatní peer exporty",
     "Home-nation exports": "Exporty domácí země",
     "Age at export (all)": "Věk exportu (všichni)",
+    # fare dot plot / pathway slope chart (Task 25c)
+    "How exports fare: club-minutes share, with each country's peer range":
+        "Jak se exportům daří: podíl minut klubu, s peer rozpětím každé země",
+    "Median share of club minutes played, exports abroad (%)":
+        "Mediánový podíl minut klubu, exporty v zahraničí (%)",
+    "Same six numbers, normalised: worst to best of the three countries, per metric":
+        "Stejných šest čísel, normalizováno: nejhorší až nejlepší ze tří zemí, podle metriky",
+    "worst of the three": "nejhorší ze tří",
+    "best of the three": "nejlepší ze tří",
+    "Per million": "Na milion",
+    "U21 share": "Podíl U21",
+    "Sideways": "Do strany",
+    "Minutes share": "Podíl minut",
+    "WC top-9": "MS top-9",
 }
+# src.pathway_slope drops a metric from the chart entirely when any of the
+# three compared countries has no value for it (e.g. a compare country with
+# no row in squad_lens.json has no "WC top-9" number) -- so these six axis
+# labels are not guaranteed to appear in a given nation's build, unlike every
+# other entry in T, and are exempt from the "T entries not found in any SVG"
+# check below.
+OPTIONAL = {"Per million", "U21 share", "Export age", "Sideways", "Minutes share", "WC top-9"}
 CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 # the PCA caption carries the corpus counts, so it is matched by pattern
 CAPTION_EN = re.compile(
@@ -191,7 +213,7 @@ for name in FILES:
     (DOCS / "cs" / name).write_text(convert(src, name), encoding="utf-8")
     print("labelled cs/" + name)
 
-unused = sorted(set(T) - seen)
+unused = sorted(set(T) - seen - OPTIONAL)
 problems = []
 if untranslated:
     problems.append("untranslated labels: " + "; ".join(untranslated))

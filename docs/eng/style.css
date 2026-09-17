@@ -1348,6 +1348,16 @@ table .muted { color: var(--muted); font-size: 0.85rem; }
 .cohort-cze .cohort-cell-n { color: var(--oxblood-700); }
 .cohort-cze .cohort-cell-median { color: var(--oxblood-500); }
 
+/* Slide 2's peer-median column (Task 25c): a pure-CSS bar sparkline behind
+   the number, width proportional to --value/--max (set inline per row) --
+   no new SVG/image asset, so it renders identically in every language pass. */
+.cohortgap-peer {
+  background-image: linear-gradient(to right,
+    color-mix(in oklch, var(--navy-700), transparent 84%) calc(100% * var(--value) / var(--max)),
+    transparent calc(100% * var(--value) / var(--max)));
+  background-repeat: no-repeat;
+}
+
 /* =========================================================================
    Movers tables — trajectory section
    ========================================================================= */

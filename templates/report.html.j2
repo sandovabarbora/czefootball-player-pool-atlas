@@ -336,6 +336,7 @@
     {% set gap0 = cohort_gaps[0] %}
     <p class="slide-a">{{ t('slide.2.a', group=term(gap0.group_title), cohort=gap0.cohort, cze=gap0.cze_n, peer=g(gap0.peer_median_n)) }}</p>
     <div class="slide-proof">
+      {% set cohortgap_peer_max = (cohort_gaps[:5] | map(attribute='peer_median_n') | max) or 1 %}
       <table class="kv-table cohort-gap-table">
         <thead>
           <tr><th>{{ t('cohortgap.th.group') }}</th><th>{{ t('cohortgap.th.cohort') }}</th><th>{{ t('cohortgap.th.cze') }}</th><th>{{ t('cohortgap.th.peer') }}</th></tr>
@@ -346,7 +347,7 @@
             <td>{{ term(r.group_title) }}</td>
             <td>{{ r.cohort }}</td>
             <td class="cohort-cze">{{ r.cze_n }}</td>
-            <td>{{ g(r.peer_median_n) }}</td>
+            <td class="cohortgap-peer" style="--value: {{ r.peer_median_n }}; --max: {{ cohortgap_peer_max }};">{{ g(r.peer_median_n) }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -450,21 +451,27 @@
     <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}
       {% if league_strength.home and not league_strength.home_is_reference %} {{ t('slide.5.a2', m_l=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi), uefa=f2(league_strength.home.uefa)) }}{% endif %}</p>
     <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="{{ assets }}fare_dots.svg" alt="{{ t('slide.5.alt') }}">
+      </figure>
       {% set fare_min_max = pw.fare_min | map(attribute='value') | max %}
-      <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
-        {% for r in pw.fare_min %}
-        <div class="capita-row" role="listitem"
-             {% if r.country == home_code %}data-highlight="cze"{% endif %}
-             style="--value: {{ r.value }}; --max: {{ fare_min_max }};">
-          <div class="capita-country">
-            <span class="capita-code">{{ r.country }}</span>
-            {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
+      <details class="fold">
+        <summary>{{ t('slide.5.table_summary') }}</summary>
+        <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
+          {% for r in pw.fare_min %}
+          <div class="capita-row" role="listitem"
+               {% if r.country == home_code %}data-highlight="cze"{% endif %}
+               style="--value: {{ r.value }}; --max: {{ fare_min_max }};">
+            <div class="capita-country">
+              <span class="capita-code">{{ r.country }}</span>
+              {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">{{ pct(r.value) }}</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">{{ pct(r.value) }}</div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
+      </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how', home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
   </div>
@@ -549,30 +556,36 @@
     <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', a=pc_a, nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
                             nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
-      <table class="kv-table peer-compare" aria-label="{{ t('peer_compare.aria', a=pc_a, b=pc_b) }}">
-        <thead>
-          <tr><th>{{ t('peer_compare.th.metric') }}</th>{% for c in peer_compare.countries %}<th{% if c == home_code %} class="cohort-cze"{% endif %}>{{ c }}</th>{% endfor %}</tr>
-        </thead>
-        <tbody>
-          {% for r in peer_compare.rows %}
-          <tr>
-            <td>{{ t(r.label_key) }}</td>
-            {% for c in peer_compare.countries %}
-            {% set cell = r.by_country[c] %}
-            <td{% if c == home_code %} class="cohort-cze"{% endif %}>
-              {%- if cell.value is none -%}<span class="muted">—</span>
-              {%- elif cell.fmt == 'f2' -%}{{ f2(cell.value) }}
-              {%- elif cell.fmt == 'pct1' -%}{{ pct1(cell.value) }}
-              {%- elif cell.fmt == 'pct' -%}{{ pct(cell.value) }}
-              {%- elif cell.fmt == 'g' -%}{{ g(cell.value) }}
-              {%- else -%}{{ cell.value }}
-              {%- endif -%}
-            </td>
+      <figure class="figure-bleed">
+        <img src="{{ assets }}pathway_slope.svg" alt="{{ t('slide.8.alt', a=pc_a, b=pc_b) }}">
+      </figure>
+      <details class="fold">
+        <summary>{{ t('slide.8.table_summary') }}</summary>
+        <table class="kv-table peer-compare" aria-label="{{ t('peer_compare.aria', a=pc_a, b=pc_b) }}">
+          <thead>
+            <tr><th>{{ t('peer_compare.th.metric') }}</th>{% for c in peer_compare.countries %}<th{% if c == home_code %} class="cohort-cze"{% endif %}>{{ c }}</th>{% endfor %}</tr>
+          </thead>
+          <tbody>
+            {% for r in peer_compare.rows %}
+            <tr>
+              <td>{{ t(r.label_key) }}</td>
+              {% for c in peer_compare.countries %}
+              {% set cell = r.by_country[c] %}
+              <td{% if c == home_code %} class="cohort-cze"{% endif %}>
+                {%- if cell.value is none -%}<span class="muted">—</span>
+                {%- elif cell.fmt == 'f2' -%}{{ f2(cell.value) }}
+                {%- elif cell.fmt == 'pct1' -%}{{ pct1(cell.value) }}
+                {%- elif cell.fmt == 'pct' -%}{{ pct(cell.value) }}
+                {%- elif cell.fmt == 'g' -%}{{ g(cell.value) }}
+                {%- else -%}{{ cell.value }}
+                {%- endif -%}
+              </td>
+              {% endfor %}
+            </tr>
             {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8.how') }}</p>
   </div>

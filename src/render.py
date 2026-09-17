@@ -2453,13 +2453,27 @@ def main() -> None:
         LOG.info("%s missing; redrawing it from per_capita + cohorts", heatmap)
         render_cohort_heatmap(data["per_capita"], data["cohorts"], heatmap)
 
+    numbers_context: dict[str, Any] | None = None
     for lang in LANGS:
         context = build_context(data, atlas_notes, lang=lang)
+        if numbers_context is None:
+            numbers_context = context  # language-independent figures below draw off the first pass
         html_out = render_html(context)
         html_path = config.OUTPUTS_DIR / ("index.html" if lang == "en" else f"{lang}/index.html")
         html_path.parent.mkdir(parents=True, exist_ok=True)
         html_path.write_text(html_out, encoding="utf-8")
         LOG.info("wrote %s (%d bytes)", html_path, len(html_out.encode("utf-8")))
+
+    # Slides 5 and 8's new figures (Task 25c): pure functions of the context
+    # already built above, no separate data pass.
+    from src.fare_dots import render_fare_dots_figure
+    from src.pathway_slope import render_pathway_slope_figure
+
+    if numbers_context is not None:
+        render_fare_dots_figure(numbers_context["pathways"]["fare_min"], config.HOME,
+                                config.OUTPUTS_DIR / "fare_dots.svg")
+        pc = numbers_context["peer_compare"]
+        render_pathway_slope_figure(pc["rows"][:6], pc["countries"], config.OUTPUTS_DIR / "pathway_slope.svg")
 
     css_src = config.TEMPLATES_DIR / "style.css"
     if css_src.exists():

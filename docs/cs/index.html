@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609171425">
-  <link rel="stylesheet" href="../modern.css?v=202609171425">
+  <link rel="stylesheet" href="../style.css?v=202609171716">
+  <link rel="stylesheet" href="../modern.css?v=202609171716">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609171425"></script>
+  <script defer src="../atlas.js?v=202609171716"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -295,6 +295,7 @@
     
     <p class="slide-a">Největší kohortová mezera: <strong>Záložníci 23-25</strong>, 2 hráčů Česka proti peer mediánu 6.</p>
     <div class="slide-proof">
+      
       <table class="kv-table cohort-gap-table">
         <thead>
           <tr><th>Skupina</th><th>Kohorta</th><th>CZE</th><th>Peer medián</th></tr>
@@ -305,35 +306,35 @@
             <td>Záložníci</td>
             <td>23-25</td>
             <td class="cohort-cze">2</td>
-            <td>6</td>
+            <td class="cohortgap-peer" style="--value: 6.0; --max: 6.0;">6</td>
           </tr>
           
           <tr>
             <td>Záložníci</td>
             <td>26-29</td>
             <td class="cohort-cze">3</td>
-            <td>6</td>
+            <td class="cohortgap-peer" style="--value: 6.0; --max: 6.0;">6</td>
           </tr>
           
           <tr>
             <td>Záložníci</td>
             <td>30+</td>
             <td class="cohort-cze">1</td>
-            <td>3,5</td>
+            <td class="cohortgap-peer" style="--value: 3.5; --max: 6.0;">3,5</td>
           </tr>
           
           <tr>
             <td>Obránci</td>
             <td>26-29</td>
             <td class="cohort-cze">3</td>
-            <td>4,5</td>
+            <td class="cohortgap-peer" style="--value: 4.5; --max: 6.0;">4,5</td>
           </tr>
           
           <tr>
             <td>Obránci</td>
             <td>U22</td>
             <td class="cohort-cze">0</td>
-            <td>1,5</td>
+            <td class="cohortgap-peer" style="--value: 1.5; --max: 6.0;">1,5</td>
           </tr>
           
         </tbody>
@@ -528,109 +529,115 @@
     <p class="slide-a">České exporty mají medián <strong>50 %</strong> minut svého klubu (3. z 9).
        Sezóna Chance Liga se přepočítává na 0,67 sezóny Premier League podle modelu transferového grafu (0,59–0,75), oproti 0,43 podle koeficientu UEFA.</p>
     <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="../fare_dots.svg" alt="Bodový graf: mediánový podíl minut klubu u hráčů v zahraničí za každou zemi, s tenkou linkou přes hodnoty ostatních zemí; Czechia zvýrazněno.">
+      </figure>
       
-      <div class="capita" role="list" aria-label="Mediánový podíl minut exportů v jejich klubu podle země">
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.758; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">SVK</span>
-            Slovensko <span class="muted small">n = 17</span>
+      <details class="fold">
+        <summary>Čísla po jednotlivých zemích</summary>
+        <div class="capita" role="list" aria-label="Mediánový podíl minut exportů v jejich klubu podle země">
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.758; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">SVK</span>
+              Slovensko <span class="muted small">n = 17</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">76 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">76 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.575; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">HUN</span>
-            Maďarsko <span class="muted small">n = 15</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.575; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">HUN</span>
+              Maďarsko <span class="muted small">n = 15</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">57 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">57 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             data-highlight="cze"
-             style="--value: 0.5; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">CZE</span>
-            Česko <span class="muted small">n = 26</span>
+          
+          <div class="capita-row" role="listitem"
+               data-highlight="cze"
+               style="--value: 0.5; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">CZE</span>
+              Česko <span class="muted small">n = 26</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">50 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">50 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.481; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">SUI</span>
-            Švýcarsko <span class="muted small">n = 54</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.481; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">SUI</span>
+              Švýcarsko <span class="muted small">n = 54</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">48 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">48 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.463; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">CRO</span>
-            Chorvatsko <span class="muted small">n = 47</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.463; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">CRO</span>
+              Chorvatsko <span class="muted small">n = 47</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">46 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">46 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.455; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">DEN</span>
-            Dánsko <span class="muted small">n = 75</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.455; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">DEN</span>
+              Dánsko <span class="muted small">n = 75</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">46 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">46 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.43; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">AUT</span>
-            Rakousko <span class="muted small">n = 44</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.43; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">AUT</span>
+              Rakousko <span class="muted small">n = 44</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">43 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">43 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.412; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">POL</span>
-            Polsko <span class="muted small">n = 45</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.412; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">POL</span>
+              Polsko <span class="muted small">n = 45</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">41 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">41 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.374; --max: 0.758;">
-          <div class="capita-country">
-            <span class="capita-code">NOR</span>
-            Norsko <span class="muted small">n = 52</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.374; --max: 0.758;">
+            <div class="capita-country">
+              <span class="capita-code">NOR</span>
+              Norsko <span class="muted small">n = 52</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">37 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">37 %</div>
+          
         </div>
-        
-      </div>
+      </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Mediánový podíl minut klubu u hráčů v zahraničí, podle země původu (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
   </div>
@@ -873,114 +880,120 @@
     <p class="slide-aq">V číslech: Norsko, Dánsko a Česko na stejných šesti definicích cesty do 9 nejsilnějších lig, stejné sezóny.</p>
     <p class="slide-a">Na stejných šesti číslech dává Norsko hráčům do 21 let <strong>12 %</strong> domácích minut proti 6 % a posílá 65 % nominace do 9 nejsilnějších lig proti 35 %.</p>
     <div class="slide-proof">
-      <table class="kv-table peer-compare" aria-label="Česko, Norsko a Dánsko na šesti stejně definovaných číslech cesty hráčů">
-        <thead>
-          <tr><th>Metrika</th><th class="cohort-cze">CZE</th><th>NOR</th><th>DEN</th></tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>Hráči na milion</td>
+      <figure class="figure-bleed">
+        <img src="../pathway_slope.svg" alt="Slope graf: Norsko, Dánsko a Czechia na šesti metrikách cesty, každá přeškálovaná 0 (nejhorší ze tří) až 1 (nejlepší ze tří), jedna linka na zemi.">
+      </figure>
+      <details class="fold">
+        <summary>Šest čísel, nepřeškálovaných</summary>
+        <table class="kv-table peer-compare" aria-label="Česko, Norsko a Dánsko na šesti stejně definovaných číslech cesty hráčů">
+          <thead>
+            <tr><th>Metrika</th><th class="cohort-cze">CZE</th><th>NOR</th><th>DEN</th></tr>
+          </thead>
+          <tbody>
             
+            <tr>
+              <td>Hráči na milion</td>
+              
+              
+              <td class="cohort-cze">2,39</td>
+              
+              
+              <td>9,37</td>
+              
+              
+              <td>12,58</td>
+              
+            </tr>
             
-            <td class="cohort-cze">2,39</td>
+            <tr>
+              <td>Podíl domácích minut U21</td>
+              
+              
+              <td class="cohort-cze">6,4 %</td>
+              
+              
+              <td>11,5 %</td>
+              
+              
+              <td>15,3 %</td>
+              
+            </tr>
             
+            <tr>
+              <td>Věk exportu (nedávní)</td>
+              
+              
+              <td class="cohort-cze">22</td>
+              
+              
+              <td>22</td>
+              
+              
+              <td>22</td>
+              
+            </tr>
             
-            <td>9,37</td>
+            <tr>
+              <td>Přesuny do strany</td>
+              
+              
+              <td class="cohort-cze">19 %</td>
+              
+              
+              <td>22 %</td>
+              
+              
+              <td>10 %</td>
+              
+            </tr>
             
+            <tr>
+              <td>Podíl klubových minut exportů</td>
+              
+              
+              <td class="cohort-cze">50 %</td>
+              
+              
+              <td>37 %</td>
+              
+              
+              <td>46 %</td>
+              
+            </tr>
             
-            <td>12,58</td>
+            <tr>
+              <td>Nominace na MS v top-9 ligách</td>
+              
+              
+              <td class="cohort-cze">35 %</td>
+              
+              
+              <td>65 %</td>
+              
+              
+              <td><span class="muted">—</span></td>
+              
+            </tr>
             
-          </tr>
-          
-          <tr>
-            <td>Podíl domácích minut U21</td>
+            <tr>
+              <td>Hráči v Big-5 teď</td>
+              
+              
+              <td class="cohort-cze">10</td>
+              
+              
+              <td>25</td>
+              
+              
+              <td>38</td>
+              
+            </tr>
             
-            
-            <td class="cohort-cze">6,4 %</td>
-            
-            
-            <td>11,5 %</td>
-            
-            
-            <td>15,3 %</td>
-            
-          </tr>
-          
-          <tr>
-            <td>Věk exportu (nedávní)</td>
-            
-            
-            <td class="cohort-cze">22</td>
-            
-            
-            <td>22</td>
-            
-            
-            <td>22</td>
-            
-          </tr>
-          
-          <tr>
-            <td>Přesuny do strany</td>
-            
-            
-            <td class="cohort-cze">19 %</td>
-            
-            
-            <td>22 %</td>
-            
-            
-            <td>10 %</td>
-            
-          </tr>
-          
-          <tr>
-            <td>Podíl klubových minut exportů</td>
-            
-            
-            <td class="cohort-cze">50 %</td>
-            
-            
-            <td>37 %</td>
-            
-            
-            <td>46 %</td>
-            
-          </tr>
-          
-          <tr>
-            <td>Nominace na MS v top-9 ligách</td>
-            
-            
-            <td class="cohort-cze">35 %</td>
-            
-            
-            <td>65 %</td>
-            
-            
-            <td><span class="muted">—</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Hráči v Big-5 teď</td>
-            
-            
-            <td class="cohort-cze">10</td>
-            
-            
-            <td>25</td>
-            
-            
-            <td>38</td>
-            
-          </tr>
-          
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </details>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Stejné definice, stejné sezóny; srovnání, ne kauzální tvrzení.</p>
+    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Stejné definice, stejné sezóny; srovnání, ne kauzální tvrzení. Každá metrika je pro graf výše přeškálována na 0-1 napříč třemi zeměmi, směr zvolen tak, že 1,0 je vždy otevřenější cesta (více hráčů na milion, více minut do 21 let, dřívější věk exportu, méně přesunů do strany, větší podíl minut v zahraničí, více nominace v top-9 ligách); tabulka níže má syrová čísla.</p>
   </div>
 </section>
 
@@ -10704,7 +10717,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-17 14:14</p>
+    <p class="rendered-at">Vykresleno: 2026-09-17 17:13</p>
   </div>
 </footer>
 

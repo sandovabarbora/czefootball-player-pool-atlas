@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609171425">
-  <link rel="stylesheet" href="modern.css?v=202609171425">
+  <link rel="stylesheet" href="style.css?v=202609171716">
+  <link rel="stylesheet" href="modern.css?v=202609171716">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609171425"></script>
+  <script defer src="atlas.js?v=202609171716"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -284,6 +284,7 @@
     
     <p class="slide-a">The largest cohort gap: <strong>Midfielders aged 30+</strong>, 9 English players vs a peer median of 23.</p>
     <div class="slide-proof">
+      
       <table class="kv-table cohort-gap-table">
         <thead>
           <tr><th>Group</th><th>Cohort</th><th>ENG</th><th>Peer median</th></tr>
@@ -294,35 +295,35 @@
             <td>Midfielders</td>
             <td>30+</td>
             <td class="cohort-cze">9</td>
-            <td>23</td>
+            <td class="cohortgap-peer" style="--value: 23.0; --max: 26.0;">23</td>
           </tr>
           
           <tr>
             <td>Defenders</td>
             <td>23-25</td>
             <td class="cohort-cze">11</td>
-            <td>23</td>
+            <td class="cohortgap-peer" style="--value: 23.0; --max: 26.0;">23</td>
           </tr>
           
           <tr>
             <td>Midfielders</td>
             <td>23-25</td>
             <td class="cohort-cze">17</td>
-            <td>26</td>
+            <td class="cohortgap-peer" style="--value: 26.0; --max: 26.0;">26</td>
           </tr>
           
           <tr>
             <td>Midfielders</td>
             <td>U22</td>
             <td class="cohort-cze">15</td>
-            <td>22</td>
+            <td class="cohortgap-peer" style="--value: 22.0; --max: 26.0;">22</td>
           </tr>
           
           <tr>
             <td>Defenders</td>
             <td>26-29</td>
             <td class="cohort-cze">20</td>
-            <td>24</td>
+            <td class="cohortgap-peer" style="--value: 24.0; --max: 26.0;">24</td>
           </tr>
           
         </tbody>
@@ -506,98 +507,104 @@
     <p class="slide-a">English exports keep <strong>33 %</strong> of their club's minutes (7th of 8).
       </p>
     <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="fare_dots.svg" alt="Dot plot: each country's median share of club minutes for players abroad, with a thin line spanning the other countries' values; England highlighted.">
+      </figure>
       
-      <div class="capita" role="list" aria-label="Median minutes share of exports at their club, by country">
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.419; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">GER</span>
-            Germany <span class="muted small">n = 262</span>
+      <details class="fold">
+        <summary>Country-by-country figures</summary>
+        <div class="capita" role="list" aria-label="Median minutes share of exports at their club, by country">
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.419; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">GER</span>
+              Germany <span class="muted small">n = 262</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">42 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">42 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.372; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">ITA</span>
-            Italy <span class="muted small">n = 201</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.372; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">ITA</span>
+              Italy <span class="muted small">n = 201</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">37 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">37 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.365; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">ESP</span>
-            Spain <span class="muted small">n = 464</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.365; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">ESP</span>
+              Spain <span class="muted small">n = 464</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">36 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">36 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.364; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">FRA</span>
-            France <span class="muted small">n = 395</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.364; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">FRA</span>
+              France <span class="muted small">n = 395</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">36 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">36 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.352; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">BEL</span>
-            Belgium <span class="muted small">n = 253</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.352; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">BEL</span>
+              Belgium <span class="muted small">n = 253</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">35 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">35 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.35; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">NED</span>
-            Netherlands <span class="muted small">n = 372</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.35; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">NED</span>
+              Netherlands <span class="muted small">n = 372</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">35 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">35 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             data-highlight="cze"
-             style="--value: 0.329; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">ENG</span>
-            England <span class="muted small">n = 208</span>
+          
+          <div class="capita-row" role="listitem"
+               data-highlight="cze"
+               style="--value: 0.329; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">ENG</span>
+              England <span class="muted small">n = 208</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">33 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">33 %</div>
-        </div>
-        
-        <div class="capita-row" role="listitem"
-             
-             style="--value: 0.286; --max: 0.419;">
-          <div class="capita-country">
-            <span class="capita-code">POR</span>
-            Portugal <span class="muted small">n = 268</span>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.286; --max: 0.419;">
+            <div class="capita-country">
+              <span class="capita-code">POR</span>
+              Portugal <span class="muted small">n = 268</span>
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">29 %</div>
           </div>
-          <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">29 %</div>
+          
         </div>
-        
-      </div>
+      </details>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Median share of club minutes for players abroad, per country of origin (<a href="#league-strength">league strength: two estimates, § Methodology</a>). Premier League is itself one of Europe's top-9 leagues; here 'abroad' means the other 8.</p>
   </div>
@@ -870,114 +877,120 @@
     <p class="slide-aq">In numbers: France and Spain against England on the same six 9-strongest-league pathway definitions, same seasons.</p>
     <p class="slide-a">On the same six numbers France gives U21 players <strong>9 %</strong> of domestic minutes against 3 % and sends 96 % of its squad to the 9 strongest leagues against 96 %.</p>
     <div class="slide-proof">
-      <table class="kv-table peer-compare" aria-label="England, France and Spain on six same-definition pathway numbers">
-        <thead>
-          <tr><th>Metric</th><th class="cohort-cze">ENG</th><th>FRA</th><th>ESP</th></tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>Players per million</td>
+      <figure class="figure-bleed">
+        <img src="pathway_slope.svg" alt="Slope chart: France, Spain and England on six pathway metrics, each rescaled 0 (worst of the three) to 1 (best of the three), one line per country.">
+      </figure>
+      <details class="fold">
+        <summary>The six numbers, unscaled</summary>
+        <table class="kv-table peer-compare" aria-label="England, France and Spain on six same-definition pathway numbers">
+          <thead>
+            <tr><th>Metric</th><th class="cohort-cze">ENG</th><th>FRA</th><th>ESP</th></tr>
+          </thead>
+          <tbody>
             
+            <tr>
+              <td>Players per million</td>
+              
+              
+              <td class="cohort-cze">3.60</td>
+              
+              
+              <td>5.79</td>
+              
+              
+              <td>9.54</td>
+              
+            </tr>
             
-            <td class="cohort-cze">3.60</td>
+            <tr>
+              <td>U21 share of domestic minutes</td>
+              
+              
+              <td class="cohort-cze">3.0 %</td>
+              
+              
+              <td>8.8 %</td>
+              
+              
+              <td>4.8 %</td>
+              
+            </tr>
             
+            <tr>
+              <td>Export age (recent)</td>
+              
+              
+              <td class="cohort-cze">20</td>
+              
+              
+              <td>21</td>
+              
+              
+              <td>21.5</td>
+              
+            </tr>
             
-            <td>5.79</td>
+            <tr>
+              <td>Sideways moves</td>
+              
+              
+              <td class="cohort-cze">100 %</td>
+              
+              
+              <td><span class="muted">—</span></td>
+              
+              
+              <td><span class="muted">—</span></td>
+              
+            </tr>
             
+            <tr>
+              <td>Exports' club-minutes share</td>
+              
+              
+              <td class="cohort-cze">33 %</td>
+              
+              
+              <td>36 %</td>
+              
+              
+              <td>36 %</td>
+              
+            </tr>
             
-            <td>9.54</td>
+            <tr>
+              <td>World Cup squad in the top-9 leagues</td>
+              
+              
+              <td class="cohort-cze">96 %</td>
+              
+              
+              <td>96 %</td>
+              
+              
+              <td>96 %</td>
+              
+            </tr>
             
-          </tr>
-          
-          <tr>
-            <td>U21 share of domestic minutes</td>
+            <tr>
+              <td>Big-5 players now</td>
+              
+              
+              <td class="cohort-cze">127</td>
+              
+              
+              <td>205</td>
+              
+              
+              <td>284</td>
+              
+            </tr>
             
-            
-            <td class="cohort-cze">3.0 %</td>
-            
-            
-            <td>8.8 %</td>
-            
-            
-            <td>4.8 %</td>
-            
-          </tr>
-          
-          <tr>
-            <td>Export age (recent)</td>
-            
-            
-            <td class="cohort-cze">20</td>
-            
-            
-            <td>21</td>
-            
-            
-            <td>21.5</td>
-            
-          </tr>
-          
-          <tr>
-            <td>Sideways moves</td>
-            
-            
-            <td class="cohort-cze">100 %</td>
-            
-            
-            <td><span class="muted">—</span></td>
-            
-            
-            <td><span class="muted">—</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Exports' club-minutes share</td>
-            
-            
-            <td class="cohort-cze">33 %</td>
-            
-            
-            <td>36 %</td>
-            
-            
-            <td>36 %</td>
-            
-          </tr>
-          
-          <tr>
-            <td>World Cup squad in the top-9 leagues</td>
-            
-            
-            <td class="cohort-cze">96 %</td>
-            
-            
-            <td>96 %</td>
-            
-            
-            <td>96 %</td>
-            
-          </tr>
-          
-          <tr>
-            <td>Big-5 players now</td>
-            
-            
-            <td class="cohort-cze">127</td>
-            
-            
-            <td>205</td>
-            
-            
-            <td>284</td>
-            
-          </tr>
-          
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </details>
     </div>
-    <p class="slide-how"><span class="slide-how-label">How we know</span> Same definitions, same seasons; a comparison, not a causal claim.</p>
+    <p class="slide-how"><span class="slide-how-label">How we know</span> Same definitions, same seasons; a comparison, not a causal claim. Each metric is rescaled 0-1 across the three countries for the chart above, direction chosen so 1.0 is always the more open pathway (more players per million, more U21 minutes, an earlier export age, fewer sideways moves, a bigger minutes share abroad, more of the squad in the top-9); the table below keeps the raw numbers.</p>
   </div>
 </section>
 
@@ -9863,7 +9876,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-17 14:25</p>
+    <p class="rendered-at">Rendered: 2026-09-17 17:16</p>
   </div>
 </footer>
 
