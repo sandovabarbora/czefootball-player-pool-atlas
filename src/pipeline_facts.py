@@ -211,8 +211,11 @@ def build_pipeline_facts(tables: pd.DataFrame, cfg: dict, seasons: dict[str, str
     return {
         "breadth": club_breadth(tables, seasons["metrics"], league_by_country).to_dict("records"),
         "age_structure": age_structure(tables, seasons["metrics"], league_by_country).to_dict("records"),
+        # the metrics season, not the current one: the current season is a
+        # few rounds old, so its 450-minute floor leaves a handful of players
+        # per country (CZE n=6) — far too thin for a median the funnel quotes
         "first_move_abroad": first_move_abroad(
-            tables, league_by_country, peers, seasons["current"]
+            tables, league_by_country, peers, seasons["metrics"]
         ).to_dict("records"),
     }
 

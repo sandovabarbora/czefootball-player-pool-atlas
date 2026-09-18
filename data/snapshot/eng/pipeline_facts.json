@@ -126,51 +126,51 @@
  "first_move_abroad": [
   {
    "country": "ENG",
-   "n": 6,
-   "median_age": 23.0,
-   "censored_share": 0.0
+   "n": 49,
+   "median_age": 22.0,
+   "censored_share": 0.08163265306122448
   },
   {
    "country": "FRA",
-   "n": 34,
-   "median_age": 24.5,
-   "censored_share": 0.14705882352941177
+   "n": 205,
+   "median_age": 23.0,
+   "censored_share": 0.15121951219512195
   },
   {
    "country": "GER",
-   "n": 54,
+   "n": 316,
    "median_age": 25.0,
-   "censored_share": 0.018518518518518517
+   "censored_share": 0.060126582278481014
   },
   {
    "country": "ESP",
-   "n": 23,
+   "n": 132,
    "median_age": 25.0,
-   "censored_share": 0.0
-  },
-  {
-   "country": "ITA",
-   "n": 5,
-   "median_age": 20.0,
-   "censored_share": 0.2
-  },
-  {
-   "country": "NED",
-   "n": 11,
-   "median_age": 24.0,
    "censored_share": 0.09090909090909091
   },
   {
+   "country": "ITA",
+   "n": 26,
+   "median_age": 22.0,
+   "censored_share": 0.07692307692307693
+  },
+  {
+   "country": "NED",
+   "n": 109,
+   "median_age": 24.0,
+   "censored_share": 0.1559633027522936
+  },
+  {
    "country": "POR",
-   "n": 11,
-   "median_age": 23.0,
-   "censored_share": 0.18181818181818182
+   "n": 90,
+   "median_age": 24.0,
+   "censored_share": 0.26666666666666666
   },
   {
    "country": "BEL",
-   "n": 15,
-   "median_age": 24.0,
-   "censored_share": 0.06666666666666667
+   "n": 81,
+   "median_age": 22.0,
+   "censored_share": 0.20987654320987653
   }
  ]
 }
