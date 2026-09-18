@@ -21,7 +21,7 @@ DOCS = Path(sys.argv[1])
 FILES = ["atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg",
          "league_strength.svg", "league_strength_ppc.svg", "model_comparison.svg", "series_model.svg",
          "gk_export_age.svg", "youth_panel.svg", "gap_decomposition.svg", "export_age_model.svg",
-         "fare_dots.svg", "pathway_slope.svg"]
+         "fare_dots.svg", "pathway_slope.svg", "why_funnel.svg"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config
@@ -116,6 +116,13 @@ T = {
     "Sideways": "Do strany",
     "Minutes share": "Podíl minut",
     "WC top-9": "MS top-9",
+    # why-funnel figure (Task 26A)
+    "Why the train left": "Proč vlak odjel",
+    "Share of minutes to young players": "Podíl minut mladých hráčů",
+    "League average age": "Průměrný věk v lize",
+    "Age at first move abroad": "Věk při prvním odchodu do zahraničí",
+    "Sideways moves": "Přestupy do strany",
+    "Players per million": "Hráči na milion",
 }
 # src.pathway_slope drops a metric from the chart entirely when any of the
 # three compared countries has no value for it (e.g. a compare country with

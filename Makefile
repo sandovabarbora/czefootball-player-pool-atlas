@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers
+.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers facts
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -34,6 +34,7 @@ help:
 	@echo "  goalkeepers      Goalkeepers chapter: per-million, export age, club tier, production, cards"
 	@echo "  panel            Cross-country youth-minutes panel (M3): Bayesian slope + OLS comparison"
 	@echo "  gap              Gap decomposition (M5): Blinder-Oaxaca-style linear split of the per-capita gap"
+	@echo "  facts            Pipeline facts for the why-funnel: club breadth of youth minutes, league age structure, age at first move abroad"
 	@echo "  eda              One raw row to a feature vector: cleaning ledger link, rejected candidates, two EDA figures"
 	@echo "  data-quality     Recompute the data-quality log checks"
 	@echo "  render           Render the HTML report (en + cs)"
@@ -116,6 +117,11 @@ panel:
 gap:
 	$(ACT) python -m src.gap_decomposition
 
+# Pipeline facts for the why-funnel (Task 26B): needs fbref_players.parquet
+# only.
+facts:
+	$(ACT) python -m src.pipeline_facts
+
 eda:
 	$(ACT) python -m src.feature_eda
 
@@ -125,7 +131,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers panel gap eda data-quality render
+all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers panel gap facts eda data-quality render
 
 test:
 	$(ACT) pytest

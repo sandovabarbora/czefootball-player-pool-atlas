@@ -39,8 +39,8 @@ if command -v uv >/dev/null 2>&1 && [ -f "$ROOT/pyproject.toml" ]; then PY="uv r
 for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.svg big5_series.svg \
          league_strength.svg league_strength_ppc.svg model_comparison.svg series_model.svg eda_distributions.svg \
          eda_shrinkage.svg gk_export_age.svg youth_panel.svg gap_decomposition.svg export_age_model.svg \
-         fare_dots.svg pathway_slope.svg style.css; do
-  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`; model_comparison.svg: \`uv run python -m src.model_comparison\`; series_model.svg: \`uv run python -m src.series_model\`; eda_*.svg: \`uv run python -m src.feature_eda\`; gk_export_age.svg: \`uv run python -m src.goalkeepers\`; youth_panel.svg: \`uv run python -m src.youth_panel\`; gap_decomposition.svg: \`uv run python -m src.gap_decomposition\`; export_age_model.svg: \`uv run python -m src.export_age_model\`; fare_dots.svg/pathway_slope.svg: \`uv run python -m src.render\`)" >&2; exit 1; }
+         fare_dots.svg pathway_slope.svg why_funnel.svg style.css; do
+  [ -f "$O/$f" ] || { echo "missing $O/$f — run \`make render\` first (big5_series.svg: \`uv run python -m src.big5_series\`; league_strength*.svg: \`uv run python -m src.league_strength\`; model_comparison.svg: \`uv run python -m src.model_comparison\`; series_model.svg: \`uv run python -m src.series_model\`; eda_*.svg: \`uv run python -m src.feature_eda\`; gk_export_age.svg: \`uv run python -m src.goalkeepers\`; youth_panel.svg: \`uv run python -m src.youth_panel\`; gap_decomposition.svg: \`uv run python -m src.gap_decomposition\`; export_age_model.svg: \`uv run python -m src.export_age_model\`; fare_dots.svg/pathway_slope.svg/why_funnel.svg: \`uv run python -m src.render\`)" >&2; exit 1; }
 done
 if [ "$NATION" = "cze" ]; then
   [ -f "$O/cs/index.html" ] || { echo "missing $O/cs/index.html — run \`make render\` first" >&2; exit 1; }
@@ -55,7 +55,7 @@ cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap
    "$O/league_strength.svg" "$O/league_strength_ppc.svg" "$O/model_comparison.svg" "$O/series_model.svg" \
    "$O/eda_distributions.svg" "$O/eda_shrinkage.svg" "$O/gk_export_age.svg" "$O/youth_panel.svg" \
    "$O/gap_decomposition.svg" "$O/export_age_model.svg" "$O/fare_dots.svg" "$O/pathway_slope.svg" \
-   "$O/style.css" "$D/"
+   "$O/why_funnel.svg" "$O/style.css" "$D/"
 
 ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
 if [ "$NATION" = "cze" ]; then

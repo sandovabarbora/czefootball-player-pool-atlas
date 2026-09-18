@@ -160,6 +160,39 @@ EN: dict[str, str] = {
     "quickread.3": "of the {event} squad in the top-{topn} leagues (peer best {best_pct} %)",
     "quickread.4": "the season Big-5 presence broke ({break_prob} posterior)",
     "quickread.note": "Everything below is the evidence for those four numbers, in eleven questions.",
+    "quickread.glossary_note": "Terms used on this page are explained in the <a href=\"#glossary\">glossary</a>.",
+
+    # ---- why the train left (Task 26A): a five-stage funnel right after the
+    # 60-second opener, home nation next to the two comparison countries
+    # used throughout the report. Every number is reused from elsewhere in
+    # this context except the club-breadth, league-age and first-move-abroad
+    # figures, which are new (Task 26B).
+    "why_funnel.h2": "Why the train left",
+    "why_funnel.lead": "Five numbers, in the order they build on each other, show where the pool of players available to the national team gets thin. Each one is shown for {adj} football and for the two countries used as a comparison throughout this report; each links to the part of the report that shows the full evidence.",
+    "why_funnel.stage1.line": "Young players do not get much of the playing time in the country's own top league.",
+    "why_funnel.stage1.metric1": "Share of league minutes that went to players aged 21 or under",
+    "why_funnel.stage1.metric2": "Clubs that gave those young players more than a tenth of their own playing time",
+    "why_funnel.breadth_cell": "{above} of {total} clubs",
+    "why_funnel.stage2.line": "The league those minutes are missing from is, on average, an old one.",
+    "why_funnel.stage2.metric1": "Average age of a minute played in the league",
+    "why_funnel.stage2.metric2": "Share of league minutes that went to players aged 30 or over",
+    "why_funnel.stage3.line": "So the first move to a foreign league, when it happens, comes late.",
+    "why_funnel.stage3.metric1": "Age the first time a player has real playing time in a foreign league",
+    "why_funnel.stage3.n_cell": "{n} players currently abroad",
+    "why_funnel.stage4.line": "And the move, when it happens, is often not a step up.",
+    "why_funnel.stage4.metric1": "Share of moves abroad to a league no stronger than the player's own",
+    "why_funnel.stage5.line": "The layer of players in Europe's strongest leagues stays thin, and it fell sharply once.",
+    "why_funnel.stage5.metric1": "Players in Europe's strongest leagues, for every million people",
+    "why_funnel.stage5.break": "The count of {adj} players in Europe's strongest leagues fell around the {season} season; the model puts {prob} probability on that season being the turning point.",
+    "why_funnel.caveat.h3": "What this does not show",
+    "why_funnel.caveat.1": "Money: transfer fees, wages and academy budgets play no part in any number above.",
+    "why_funnel.caveat.2": "How the academy and coaching set-up actually work day to day, which no public data source used here can see.",
+    "why_funnel.caveat.3": "Agents, and how a move abroad actually gets arranged, which happens off any table this pipeline can read.",
+    "why_funnel.caveat.4": "The direction of the arrow: a low share of playing time for young players at home could help cause a thin generation, or just as easily be a symptom of one — the five numbers above are associations measured the same way for every country.",
+    "why_funnel.take_one_thing.same": "If you take one thing from this: the single measured link that carries the most of the gap with both {a} and {b} is {channel}.",
+    "why_funnel.take_one_thing.diff": "If you take one thing from this: the single measured link that carries the most of the gap is different for each comparison — {channel_a} for {a}, {channel_b} for {b}.",
+    "why_funnel.figure.alt": "Five-stage funnel: {adj} football next to {a} and {b} on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.",
+    "unit.percent": "percent",
 
     # ---- act markers (Task 25d): three section breaks between the slides,
     # a kicker and one sentence each, no numbers -- rhythm, not more findings
@@ -258,6 +291,26 @@ EN: dict[str, str] = {
     "slide.8b.so": "A federation tracking this would watch whether the goalkeeper pathway keeps diverging from outfield export age, not one season's gap.",
     "slide.8c.so": "A federation tracking this would watch which channel's contribution grows, not treat the split as fixed.",
     "slide.9.so": "A federation tracking this would watch how the showcase set changes as a cohort ages, not any one card.",
+
+    # ---- slide chain kickers (Task 26C): every slide's question is followed
+    # by "As an analytics question" (the aq sentence, already present) and a
+    # new "What we did" sentence -- one plain sentence a coach can read, no
+    # symbols, no abbreviations, describing the operation rather than naming
+    # the statistics.
+    "slide.aq_label": "As an analytics question",
+    "slide.did_label": "What we did",
+    "slide.1.did": "We counted every player with the home nation's nationality who had real playing time in one of Europe's strongest leagues that season, then divided the count by the country's population.",
+    "slide.2.did": "We split players into position groups and age bands, counted how many the home nation had in each one, and compared that count with the middle value among the other countries.",
+    "slide.3.did": "We counted every minute played in the league and looked at how many of them went to players aged 21 or younger.",
+    "slide.4.did": "We looked at where every eligible player was actually playing that season and grouped each one by how strong that league is compared with the player's own home league.",
+    "slide.4b.did": "We looked at the age a player first arrived in one of the strongest leagues and checked whether players who arrived earlier ended up producing more, once we accounted for the strength of the league they came from.",
+    "slide.5.did": "We worked out what share of each club's playing time the player actually got, and where that club stood in its own league's scoring table that season.",
+    "slide.6.did": "We matched every named squad player to his club season and recorded which level of league he was actually playing in.",
+    "slide.7.did": "We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the season where that count changed level for good and stayed there.",
+    "slide.8.did": "We compared the home nation with the two comparison countries on six numbers, each one defined and measured in exactly the same way for all three.",
+    "slide.8b.did": "We counted goalkeepers the same way we counted outfield players, then compared the age each group first reached one of the strongest leagues.",
+    "slide.8c.did": "We used the players who changed leagues to work out what a season in one league is worth in another, then split the gap between countries into the parts that line up with young players' minutes, league strength and the age players move abroad.",
+    "slide.9.did": "We matched each player's season to his national-team call-ups and photo, then picked one player per position group under each of six rules.",
 
     # ---- slide 2 proof: compact cohort-gap table (top 5 rows)
     "cohortgap.th.group": "Group",
@@ -829,6 +882,9 @@ TERMS_EN: tuple[str, ...] = (
     "most top-9 minutes among home goalkeepers",
     "youngest home goalkeeper with minimum top-9 minutes",
     "U21 minutes", "League strength", "Export age",
+    "how much playing time young players get at home",
+    "how strong the domestic league is",
+    "how old players are when they move abroad",
 )
 
 _DECIMAL = re.compile(r"(?<=\d)\.(?=\d)")

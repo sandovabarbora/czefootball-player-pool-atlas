@@ -12,6 +12,7 @@
 {%- macro g(x) -%}{%- if x is none -%}—{%- else -%}{{ '%g' | format(x) }}{%- endif -%}{%- endmacro -%}
 {%- macro pct(x) -%}{%- if x is none -%}—{%- elif ((x * 100) | round(0)) == 0 -%}0 %{%- else -%}{{ ('%.0f' | format(x * 100)) | replace('-', '−') }} %{%- endif -%}{%- endmacro -%}
 {%- macro pct1(x) -%}{%- if x is none -%}—{%- elif ((x * 100) | round(1)) == 0 -%}0.0 %{%- else -%}{{ ('%.1f' | format(x * 100)) | replace('-', '−') }} %{%- endif -%}{%- endmacro -%}
+{%- macro pctword(x) -%}{%- if x is none -%}—{%- else -%}{{ '%.0f' | format(x * 100) }} {{ t('unit.percent') }}{%- endif -%}{%- endmacro -%}
 {%- macro signed(x) -%}{%- if x is none -%}—{%- elif (x | round(3)) == 0 -%}0.000{%- else -%}{{ ('%+.3f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro signed2(x) -%}{%- if x is none -%}—{%- elif (x | round(2)) == 0 -%}0.00{%- else -%}{{ ('%+.2f' | format(x)) | replace('-', '−') }}{%- endif -%}{%- endmacro -%}
 {%- macro trend_arrow(dir) -%}{%- if dir == 'improving' -%}↑{%- elif dir == 'declining' -%}↓{%- else -%}→{%- endif -%}{%- endmacro -%}
@@ -303,6 +304,131 @@
       {% endif %}
     </ul>
     <p class="quickread-note">{{ t('quickread.note') }}</p>
+    <p class="quickread-note">{{ t('quickread.glossary_note') }}</p>
+  </div>
+</section>
+
+{# =============================================================================
+   WHY THE TRAIN LEFT — a five-stage funnel (Task 26A), right after the
+   60-second opener: home nation next to the two compare countries, each
+   stage linking to the slide that carries its evidence. Every number here
+   is reused from `pathways`, `pipeline_facts` (Task 26B), `peer_compare`,
+   `big5` and `gap_decomposition` -- see `src.render._build_why_funnel`.
+   ============================================================================= #}
+{%- macro funnel_cell(cell) -%}
+  {%- if cell.value is none -%}—
+  {%- elif cell.fmt == 'pct1' -%}{{ pct1(cell.value) }}
+  {%- elif cell.fmt == 'pct' -%}{{ pct(cell.value) }}
+  {%- elif cell.fmt == 'f1' -%}{% if cell.value is none %}—{% else %}{{ '%.1f' | format(cell.value) }}{% endif %}
+  {%- elif cell.fmt == 'f2' -%}{{ f2(cell.value) }}
+  {%- else -%}{{ cell.value }}
+  {%- endif -%}
+{%- endmacro -%}
+<section class="why-funnel" id="why-funnel">
+  <div class="container">
+    <h2>{{ t('why_funnel.h2') }}</h2>
+    <p class="funnel-lead">{{ t('why_funnel.lead') }}</p>
+    <figure class="figure-bleed">
+      <img src="{{ assets }}why_funnel.svg" alt="{{ t('why_funnel.figure.alt', a=pc_a, b=pc_b) }}">
+    </figure>
+    <ol class="funnel-stages">
+      <li class="funnel-stage">
+        <a href="#q3"><p class="funnel-stage-line">{{ t('why_funnel.stage1.line') }}</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage1.metric1') }}</p>
+          <div class="funnel-metric-row">
+            {% for c in why_funnel.countries %}
+            <span class="funnel-country"{% if c.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ c.code }}</span> {{ funnel_cell(why_funnel.stage1.share_u21[loop.index0]) }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage1.metric2') }}</p>
+          <div class="funnel-metric-row">
+            {% for c in why_funnel.countries %}
+            {% set b = why_funnel.stage1.breadth[loop.index0] %}
+            <span class="funnel-country"{% if c.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ c.code }}</span> {% if b.n_total %}{{ t('why_funnel.breadth_cell', above=b.n_above, total=b.n_total) }}{% else %}—{% endif %}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="#q3"><p class="funnel-stage-line">{{ t('why_funnel.stage2.line') }}</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage2.metric1') }}</p>
+          <div class="funnel-metric-row">
+            {% for c in why_funnel.countries %}
+            <span class="funnel-country"{% if c.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ c.code }}</span> {{ funnel_cell(why_funnel.stage2.mean_age[loop.index0]) }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage2.metric2') }}</p>
+          <div class="funnel-metric-row">
+            {% for c in why_funnel.countries %}
+            <span class="funnel-country"{% if c.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ c.code }}</span> {{ funnel_cell(why_funnel.stage2.share_ge30[loop.index0]) }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="#q4b"><p class="funnel-stage-line">{{ t('why_funnel.stage3.line') }}</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage3.metric1') }}</p>
+          <div class="funnel-metric-row">
+            {% for r in why_funnel.stage3.rows %}
+            <span class="funnel-country"{% if r.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ r.code }}</span> {% if r.age is none %}—{% else %}{{ g(r.age) }}{% endif %} <span class="muted small">{% if r.n %}{{ t('why_funnel.stage3.n_cell', n=r.n) }}{% endif %}</span></span>
+            {% endfor %}
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="#q4"><p class="funnel-stage-line">{{ t('why_funnel.stage4.line') }}</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage4.metric1') }}</p>
+          <div class="funnel-metric-row">
+            {% for c in why_funnel.countries %}
+            <span class="funnel-country"{% if c.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ c.code }}</span> {{ funnel_cell(why_funnel.stage4.sideways[loop.index0]) }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="#q1"><p class="funnel-stage-line">{{ t('why_funnel.stage5.line') }}</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage5.metric1') }}</p>
+          <div class="funnel-metric-row">
+            {% for c in why_funnel.countries %}
+            <span class="funnel-country"{% if c.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ c.code }}</span> {{ funnel_cell(why_funnel.stage5.per_million[loop.index0]) }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% if why_funnel.stage5.break_season %}
+        <p class="funnel-metric-note">{{ t('why_funnel.stage5.break', season=why_funnel.stage5.break_season, prob=pctword(why_funnel.stage5.break_prob)) }} <a href="#q7">{{ t('toc.short.series') }}</a>.</p>
+        {% endif %}
+      </li>
+    </ol>
+    {% if why_funnel.take_one_thing %}
+    <p class="funnel-take-one-thing">
+      {% if why_funnel.take_one_thing.same_channel %}
+      {{ t('why_funnel.take_one_thing.same', a=pc_a, b=pc_b, channel=term(why_funnel.take_one_thing.channel)) }}
+      {% else %}
+      {% set c0 = why_funnel.take_one_thing.by_contrast[0] %}
+      {% set c1 = why_funnel.take_one_thing.by_contrast[1] %}
+      {{ t('why_funnel.take_one_thing.diff', a=term(c0.contrast), b=term(c1.contrast),
+           channel_a=term(c0.channel), channel_b=term(c1.channel)) }}
+      {% endif %}
+    </p>
+    {% endif %}
+    <div class="funnel-caveats">
+      <h3>{{ t('why_funnel.caveat.h3') }}</h3>
+      <ul>
+        <li>{{ t('why_funnel.caveat.1') }}</li>
+        <li>{{ t('why_funnel.caveat.2') }}</li>
+        <li>{{ t('why_funnel.caveat.3') }}</li>
+        <li>{{ t('why_funnel.caveat.4') }}</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -319,7 +445,8 @@
 <section class="slide" id="q1">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.1.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.1.aq', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn, n=hero.n_peers) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.1.aq', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn, n=hero.n_peers) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.1.did') }}</p>
     <p class="slide-a">{{ t('slide.1.a', rank=ordinal(hero.rank), n=hero.n_peers, pm=f2(hero.per_million), top=term(hero.top.name), top_pm=f2(hero.top.per_million)) }}</p>
     <div class="slide-proof">
       <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
@@ -345,7 +472,8 @@
 <section class="slide" id="q2">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.2.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.2.aq', min=feature_defs.min_minutes, season=seasons.metrics) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.2.aq', min=feature_defs.min_minutes, season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.2.did') }}</p>
     {% set gap0 = cohort_gaps[0] %}
     <p class="slide-a">{{ t('slide.2.a', group=term(gap0.group_title), cohort=gap0.cohort, cze=gap0.cze_n, peer=g(gap0.peer_median_n)) }}</p>
     <div class="slide-proof">
@@ -378,7 +506,8 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.3.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.3.aq', season=seasons.metrics) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.3.aq', season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.3.did') }}</p>
     <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}{% if pw.panel_beta is defined %}{{ t('slide.3.panel', n_countries=pw.panel_n_countries, beta=signed2(pw.panel_beta), lo=f2(pw.panel_beta_lo), hi=f2(pw.panel_beta_hi), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
       {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
@@ -413,7 +542,8 @@
 <section class="slide" id="q4">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.4.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.4.aq', season=seasons.metrics, topn=topn) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4.aq', season=seasons.metrics, topn=topn) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4.did') }}</p>
     {% if pathways.destinations %}
     {% set dest = pathways.destinations %}
     {% set top9_bucket = (dest.buckets | selectattr('bucket', 'equalto', 'top9') | list | first) %}
@@ -448,7 +578,8 @@
 <section class="slide" id="q4b">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.4b.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.4b.aq', topn=topn, n=eam.n) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4b.aq', topn=topn, n=eam.n) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4b.did') }}</p>
     <p class="slide-a">{{ t('slide.4b.a', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
                           y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
                           diff=signed(eam.diff_21_24.median), dlo=f3(eam.diff_21_24.lo), dhi=f3(eam.diff_21_24.hi),
@@ -468,7 +599,8 @@
 <section class="slide" id="q5">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.5.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.5.aq', season=seasons.metrics) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.5.aq', season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.5.did') }}</p>
     <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}
       {% if league_strength.home and not league_strength.home_is_reference %} {{ t('slide.5.a2', m_l=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi), uefa=f2(league_strength.home.uefa)) }}{% endif %}</p>
     <div class="slide-proof">
@@ -506,7 +638,8 @@
 <section class="slide" id="q6">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.6.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.6.aq', event=nt_core_event, season=seasons.metrics) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.6.aq', event=nt_core_event, season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.6.did') }}</p>
     <p class="slide-a">{% if squad_cze_row and squad_best_row %}{{ t('slide.6.a', cze_pct=('%.0f' | format(squad_cze_row.top9_pct)), event=squad_lens.event, topn=topn,
                             best_name=term(squad_best_row.name), best_pct=('%.0f' | format(squad_best_row.top9_pct))) }}{% endif %}</p>
     <div class="slide-proof">
@@ -563,7 +696,8 @@
 <section class="slide" id="q7">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.7.aq', min=feature_defs.min_minutes, history_start=seasons.history_start) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.7.aq', min=feature_defs.min_minutes, history_start=seasons.history_start) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.7.did') }}</p>
     {% if big5 %}
     <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
     <div class="slide-proof">
@@ -580,7 +714,8 @@
 <section class="slide" id="q8">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8.q', a=pc_a, b=pc_b) }}</h2>
-    <p class="slide-aq">{{ t('slide.8.aq', a=pc_a, b=pc_b, topn=topn) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8.aq', a=pc_a, b=pc_b, topn=topn) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8.did') }}</p>
     <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', a=pc_a, nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
                             nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
@@ -624,7 +759,8 @@
 <section class="slide" id="q8b">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8b.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.8b.aq', min=gk.min_minutes, topn=topn) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8b.aq', min=gk.min_minutes, topn=topn) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8b.did') }}</p>
     <p class="slide-a">{{ t('slide.8b.a', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
                           pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
                           gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age),
@@ -716,7 +852,8 @@
 <section class="slide" id="q8c">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8c.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.8c.aq', n=gap_decomposition.n) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8c.aq', n=gap_decomposition.n) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8c.did') }}</p>
     <p class="slide-a">{{ t('slide.8c.a', gap=f2(gdp.gap_total), contrast=term(gdp.name),
                           c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
                           c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
@@ -734,7 +871,8 @@
 <section class="slide" id="q9">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.9.q') }}</h2>
-    <p class="slide-aq">{{ t('slide.9.aq', n=cards | length, season=seasons.metrics) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.9.aq', n=cards | length, season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.9.did') }}</p>
     <p class="slide-a">{{ t('slide.9.a', n=cards | length) }}</p>
     <div class="slide-proof">
       <details class="fold">

@@ -1,0 +1,176 @@
+{
+ "breadth": [
+  {
+   "country": "ENG",
+   "league": "ENG-Premier League",
+   "n_clubs": 20,
+   "n_clubs_above": 10,
+   "share_clubs_above": 0.5
+  },
+  {
+   "country": "FRA",
+   "league": "FRA-Ligue 1",
+   "n_clubs": 18,
+   "n_clubs_above": 14,
+   "share_clubs_above": 0.7777777777777778
+  },
+  {
+   "country": "GER",
+   "league": "GER-Bundesliga",
+   "n_clubs": 18,
+   "n_clubs_above": 14,
+   "share_clubs_above": 0.7777777777777778
+  },
+  {
+   "country": "ESP",
+   "league": "ESP-La Liga",
+   "n_clubs": 20,
+   "n_clubs_above": 7,
+   "share_clubs_above": 0.35
+  },
+  {
+   "country": "ITA",
+   "league": "ITA-Serie A",
+   "n_clubs": 20,
+   "n_clubs_above": 7,
+   "share_clubs_above": 0.35
+  },
+  {
+   "country": "NED",
+   "league": "NED-Eredivisie",
+   "n_clubs": 18,
+   "n_clubs_above": 15,
+   "share_clubs_above": 0.8333333333333334
+  },
+  {
+   "country": "POR",
+   "league": "POR-Primeira Liga",
+   "n_clubs": 18,
+   "n_clubs_above": 11,
+   "share_clubs_above": 0.6111111111111112
+  },
+  {
+   "country": "BEL",
+   "league": "BEL-Pro League",
+   "n_clubs": 16,
+   "n_clubs_above": 15,
+   "share_clubs_above": 0.9375
+  }
+ ],
+ "age_structure": [
+  {
+   "country": "ENG",
+   "league": "ENG-Premier League",
+   "minutes_total": 750922.0,
+   "weighted_mean_age": 26.06683250723777,
+   "share_le22": 0.15984749414719504,
+   "share_ge30": 0.1670533024734926
+  },
+  {
+   "country": "FRA",
+   "league": "FRA-Ligue 1",
+   "minutes_total": 601199.0,
+   "weighted_mean_age": 25.57749098052392,
+   "share_le22": 0.27199479706386737,
+   "share_ge30": 0.20191151349220474
+  },
+  {
+   "country": "GER",
+   "league": "GER-Bundesliga",
+   "minutes_total": 604575.0,
+   "weighted_mean_age": 26.05941032957036,
+   "share_le22": 0.20287309266840342,
+   "share_ge30": 0.20914361328205763
+  },
+  {
+   "country": "ESP",
+   "league": "ESP-La Liga",
+   "minutes_total": 750234.0,
+   "weighted_mean_age": 26.888090819895915,
+   "share_le22": 0.167111861099337,
+   "share_ge30": 0.289091136898621
+  },
+  {
+   "country": "ITA",
+   "league": "ITA-Serie A",
+   "minutes_total": 750639.0,
+   "weighted_mean_age": 26.400187596263,
+   "share_le22": 0.1718815569135097,
+   "share_ge30": 0.20875014487656518
+  },
+  {
+   "country": "NED",
+   "league": "NED-Eredivisie",
+   "minutes_total": 604502.0,
+   "weighted_mean_age": 25.04206189947435,
+   "share_le22": 0.34251003305199984,
+   "share_ge30": 0.15687789287711207
+  },
+  {
+   "country": "POR",
+   "league": "POR-Primeira Liga",
+   "minutes_total": 604163.0,
+   "weighted_mean_age": 25.29990962688815,
+   "share_le22": 0.24809033323788449,
+   "share_ge30": 0.1422463805297577
+  },
+  {
+   "country": "BEL",
+   "league": "BEL-Pro League",
+   "minutes_total": 615724.0,
+   "weighted_mean_age": 24.52963827948886,
+   "share_le22": 0.3491889223093464,
+   "share_ge30": 0.12941999987007166
+  }
+ ],
+ "first_move_abroad": [
+  {
+   "country": "ENG",
+   "n": 6,
+   "median_age": 23.0,
+   "censored_share": 0.0
+  },
+  {
+   "country": "FRA",
+   "n": 34,
+   "median_age": 24.5,
+   "censored_share": 0.14705882352941177
+  },
+  {
+   "country": "GER",
+   "n": 54,
+   "median_age": 25.0,
+   "censored_share": 0.018518518518518517
+  },
+  {
+   "country": "ESP",
+   "n": 23,
+   "median_age": 25.0,
+   "censored_share": 0.0
+  },
+  {
+   "country": "ITA",
+   "n": 5,
+   "median_age": 20.0,
+   "censored_share": 0.2
+  },
+  {
+   "country": "NED",
+   "n": 11,
+   "median_age": 24.0,
+   "censored_share": 0.09090909090909091
+  },
+  {
+   "country": "POR",
+   "n": 11,
+   "median_age": 23.0,
+   "censored_share": 0.18181818181818182
+  },
+  {
+   "country": "BEL",
+   "n": 15,
+   "median_age": 24.0,
+   "censored_share": 0.06666666666666667
+  }
+ ]
+}

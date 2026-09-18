@@ -1,0 +1,197 @@
+{
+ "breadth": [
+  {
+   "country": "CZE",
+   "league": "CZE-First League",
+   "n_clubs": 16,
+   "n_clubs_above": 9,
+   "share_clubs_above": 0.5625
+  },
+  {
+   "country": "SVK",
+   "league": "SVK-Super Liga",
+   "n_clubs": 0,
+   "n_clubs_above": 0,
+   "share_clubs_above": null
+  },
+  {
+   "country": "AUT",
+   "league": "AUT-Bundesliga",
+   "n_clubs": 12,
+   "n_clubs_above": 9,
+   "share_clubs_above": 0.75
+  },
+  {
+   "country": "HUN",
+   "league": "HUN-NB I",
+   "n_clubs": 12,
+   "n_clubs_above": 11,
+   "share_clubs_above": 0.9166666666666666
+  },
+  {
+   "country": "POL",
+   "league": "POL-Ekstraklasa",
+   "n_clubs": 18,
+   "n_clubs_above": 11,
+   "share_clubs_above": 0.6111111111111112
+  },
+  {
+   "country": "CRO",
+   "league": "CRO-HNL",
+   "n_clubs": 10,
+   "n_clubs_above": 9,
+   "share_clubs_above": 0.9
+  },
+  {
+   "country": "DEN",
+   "league": "DEN-Superliga",
+   "n_clubs": 12,
+   "n_clubs_above": 11,
+   "share_clubs_above": 0.9166666666666666
+  },
+  {
+   "country": "SUI",
+   "league": "SUI-Super League",
+   "n_clubs": 12,
+   "n_clubs_above": 7,
+   "share_clubs_above": 0.5833333333333334
+  },
+  {
+   "country": "NOR",
+   "league": "NOR-Eliteserien",
+   "n_clubs": 16,
+   "n_clubs_above": 12,
+   "share_clubs_above": 0.75
+  }
+ ],
+ "age_structure": [
+  {
+   "country": "CZE",
+   "league": "CZE-First League",
+   "minutes_total": 543949.0,
+   "weighted_mean_age": 26.009853888081665,
+   "share_le22": 0.24611682345219865,
+   "share_ge30": 0.2114242327865296
+  },
+  {
+   "country": "SVK",
+   "league": "SVK-Super Liga",
+   "minutes_total": 0,
+   "weighted_mean_age": null,
+   "share_le22": null,
+   "share_ge30": null
+  },
+  {
+   "country": "AUT",
+   "league": "AUT-Bundesliga",
+   "minutes_total": 378712.0,
+   "weighted_mean_age": 25.3327647394326,
+   "share_le22": 0.304822662075667,
+   "share_ge30": 0.19189251990958828
+  },
+  {
+   "country": "HUN",
+   "league": "HUN-NB I",
+   "minutes_total": 391072.0,
+   "weighted_mean_age": 26.484772469238088,
+   "share_le22": 0.2396975493003846,
+   "share_ge30": 0.2962012110301939
+  },
+  {
+   "country": "POL",
+   "league": "POL-Ekstraklasa",
+   "minutes_total": 604490.0,
+   "weighted_mean_age": 26.62007858058646,
+   "share_le22": 0.17390031266025907,
+   "share_ge30": 0.26583070025972305
+  },
+  {
+   "country": "CRO",
+   "league": "CRO-HNL",
+   "minutes_total": 355500.0,
+   "weighted_mean_age": 25.549835527243797,
+   "share_le22": 0.2930632911392405,
+   "share_ge30": 0.20747679324894513
+  },
+  {
+   "country": "DEN",
+   "league": "DEN-Superliga",
+   "minutes_total": 379448.0,
+   "weighted_mean_age": 25.394859190772177,
+   "share_le22": 0.3031535282831903,
+   "share_ge30": 0.1945879277265923
+  },
+  {
+   "country": "SUI",
+   "league": "SUI-Super League",
+   "minutes_total": 449662.0,
+   "weighted_mean_age": 25.514410824130124,
+   "share_le22": 0.2743949900147222,
+   "share_ge30": 0.17260964902526788
+  },
+  {
+   "country": "NOR",
+   "league": "NOR-Eliteserien",
+   "minutes_total": 474223.0,
+   "weighted_mean_age": 25.63264922813941,
+   "share_le22": 0.23643939665516012,
+   "share_ge30": 0.1587038165588763
+  }
+ ],
+ "first_move_abroad": [
+  {
+   "country": "CZE",
+   "n": 6,
+   "median_age": 26.5,
+   "censored_share": 0.0
+  },
+  {
+   "country": "SVK",
+   "n": 20,
+   "median_age": 24.5,
+   "censored_share": 0.05
+  },
+  {
+   "country": "AUT",
+   "n": 10,
+   "median_age": 24.5,
+   "censored_share": 0.3
+  },
+  {
+   "country": "HUN",
+   "n": 3,
+   "median_age": 22.0,
+   "censored_share": 0.0
+  },
+  {
+   "country": "POL",
+   "n": 9,
+   "median_age": 22.0,
+   "censored_share": 0.1111111111111111
+  },
+  {
+   "country": "CRO",
+   "n": 9,
+   "median_age": 25.0,
+   "censored_share": 0.0
+  },
+  {
+   "country": "DEN",
+   "n": 39,
+   "median_age": 25.0,
+   "censored_share": 0.02564102564102564
+  },
+  {
+   "country": "SUI",
+   "n": 7,
+   "median_age": 26.0,
+   "censored_share": 0.2857142857142857
+  },
+  {
+   "country": "NOR",
+   "n": 14,
+   "median_age": 24.0,
+   "censored_share": 0.0
+  }
+ ]
+}

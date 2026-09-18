@@ -1465,6 +1465,97 @@ def _build_gap_decomposition(gd: dict, names: dict[str, str]) -> dict:
     }
 
 
+# Plain-language names for the gap-decomposition channels (Task 26E1),
+# translated via `term()` like every other data label in this module --
+# distinct from `GAP_CHANNEL_LABELS` (the technical "U21 minutes" / "League
+# strength" / "Export age" labels chapter IV and slide 8c's table use),
+# since the funnel's own "if you take one thing" sentence follows this
+# task's stricter no-abbreviations voice rule.
+FUNNEL_CHANNEL_PLAIN = {
+    "u21_share": "how much playing time young players get at home",
+    "league_strength": "how strong the domestic league is",
+    "export_age": "how old players are when they move abroad",
+}
+
+
+def _build_why_funnel(
+    pathways: dict, pipeline_facts: dict, per_capita: list[dict], peer_compare: dict,
+    big5: dict, gap_decomposition: dict, names: dict[str, str],
+) -> dict:
+    """`section.why-funnel` (Task 26A): five stages, home nation vs the two
+    `compare` countries, right after the 60-second opener. Every number here
+    is reused from elsewhere in this context except `stage1`'s club-breadth
+    figure, `stage2` and `stage3` (Task 26B's three new facts,
+    `pipeline_facts.json`) -- the funnel never recomputes a statistic, it
+    only re-presents ones this report already carries.
+
+    Countries are `peer_compare_countries()` (home + the two `compare`
+    peers, e.g. CZE/NOR/DEN under NATION=cze) -- the same trio slide 8 and
+    the peer-compare table already use, so the funnel and slide 8 can never
+    silently disagree on which two countries "the two compare countries"
+    means.
+    """
+    countries = peer_compare_countries()
+    country_rows = [{"code": c, "name": names.get(c, c)} for c in countries]
+
+    def _cell(value: Any, fmt: str = "pct1") -> dict:
+        return {"value": value, "fmt": fmt}
+
+    youth_by = {r["country"]: r for r in pathways.get("youth", [])}
+    breadth_by = {r["country"]: r for r in pipeline_facts.get("breadth", [])}
+    age_by = {r["country"]: r for r in pipeline_facts.get("age_structure", [])}
+    move_by = {r["country"]: r for r in pipeline_facts.get("first_move_abroad", [])}
+    pc_by = {r["country"]: r for r in per_capita}
+    sideways_row = next((r for r in peer_compare.get("rows", []) if r["key"] == "sideways"), None)
+
+    stage1_breadth = [
+        {"code": c, "n_above": (breadth_by.get(c) or {}).get("n_clubs_above"),
+         "n_total": (breadth_by.get(c) or {}).get("n_clubs")}
+        for c in countries
+    ]
+    stage3_rows = [
+        {"code": c, "age": (move_by.get(c) or {}).get("median_age"), "n": (move_by.get(c) or {}).get("n")}
+        for c in countries
+    ]
+
+    contrasts = gap_decomposition.get("contrasts") or []
+    take_one_thing = None
+    if contrasts:
+        tops = [max(c["channels"], key=lambda ch: abs(ch["contribution"])) for c in contrasts]
+        same = len({t["name"] for t in tops}) <= 1
+        take_one_thing = {
+            "same_channel": same,
+            "channel": FUNNEL_CHANNEL_PLAIN[tops[0]["name"]] if same else None,
+            "by_contrast": [
+                {"contrast": c["name"], "channel": FUNNEL_CHANNEL_PLAIN[t["name"]]}
+                for c, t in zip(contrasts, tops, strict=True)
+            ],
+        }
+
+    return {
+        "countries": country_rows,
+        "stage1": {
+            "share_u21": [_cell((youth_by.get(c) or {}).get("share_u21"), "pct1") for c in countries],
+            "breadth": stage1_breadth,
+        },
+        "stage2": {
+            "mean_age": [_cell((age_by.get(c) or {}).get("weighted_mean_age"), "f1") for c in countries],
+            "share_ge30": [_cell((age_by.get(c) or {}).get("share_ge30"), "pct1") for c in countries],
+        },
+        "stage3": {"rows": stage3_rows},
+        "stage4": {
+            "sideways": [sideways_row["by_country"][c] for c in countries] if sideways_row
+            else [_cell(None) for _ in countries],
+        },
+        "stage5": {
+            "per_million": [_cell((pc_by.get(c) or {}).get("per_million"), "f2") for c in countries],
+            "break_season": big5.get("break_season"),
+            "break_prob": big5.get("break_prob"),
+        },
+        "take_one_thing": take_one_thing,
+    }
+
+
 # Mirrors src.export_age_model.DRAWS/TUNE/CHAINS/LONO_* -- kept as literals
 # here (not imported) so render.py doesn't pull in PyMC/ArviZ just for
 # run-budget constants already carried by the JSON's own diagnostics.
@@ -1697,6 +1788,40 @@ def _photo_credits(photos: dict, used_keys: set[str]) -> list[dict]:
     return sorted(rows, key=lambda r: _last_name(r["name"]).lower())
 
 
+# Explore > Downloads (Task 26E3): one row per group of committed snapshot
+# files, each a plain one-line description key. `data/snapshot/<nation>/`
+# is the committed twin of `data/processed/<nation>/` (see
+# `src.utils.resolve_processed`'s own docstring) -- these are raw links
+# into it, so an analyst can take the tables themselves, not just the
+# report's pictures of them.
+DOWNLOAD_GROUPS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("downloads.pool", ("pool.parquet",)),
+    ("downloads.per_capita", ("per_capita.parquet",)),
+    ("downloads.features", ("features_FW.parquet", "features_MF.parquet", "features_DF.parquet")),
+    ("downloads.cohorts", ("cohorts.parquet",)),
+    ("downloads.pathways", ("pathways.json",)),
+    ("downloads.big5_history", ("big5_history.parquet",)),
+    ("downloads.fbref_players", ("fbref_players.parquet",)),
+    ("downloads.pca_loadings", ("pca_loadings.parquet",)),
+    ("downloads.sensitivity", ("sensitivity.parquet",)),
+    ("downloads.pipeline_facts", ("pipeline_facts.json",)),
+)
+
+
+def _build_downloads(repo_url: str) -> list[dict]:
+    """`{label_key, files: [{name, url}]}` per `DOWNLOAD_GROUPS` entry,
+    restricted to files actually present in `config.SNAPSHOT_DIR` (a group
+    whose files are all missing -- an edition rendered before `make
+    snapshot` has run -- is dropped rather than linking a 404)."""
+    raw_base = repo_url.replace("https://github.com/", "https://raw.githubusercontent.com/") + f"/main/data/snapshot/{config.NATION}"
+    rows = []
+    for label_key, filenames in DOWNLOAD_GROUPS:
+        files = [{"name": fn, "url": f"{raw_base}/{fn}"} for fn in filenames if (config.SNAPSHOT_DIR / fn).exists()]
+        if files:
+            rows.append({"label_key": label_key, "files": files})
+    return rows
+
+
 # =============================================================================
 # Loading and orchestration
 # =============================================================================
@@ -1746,6 +1871,7 @@ def load_data() -> dict[str, Any]:
         "youth_panel": _load_json(p / "youth_panel.json", {}),
         "gap_decomposition": _load_json(p / "gap_decomposition.json", {}),
         "export_age_model": _load_json(p / "export_age_model.json", {}),
+        "pipeline_facts": _load_json(p / "pipeline_facts.json", {}),
         "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
@@ -1905,6 +2031,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
 
     gap_decomposition = _build_gap_decomposition(data["gap_decomposition"], names)
     export_age_model = _build_export_age_model(data["export_age_model"])
+    why_funnel = _build_why_funnel(pathways, data["pipeline_facts"], per_capita, peer_compare, big5,
+                                   gap_decomposition, names)
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -1962,6 +2090,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "youth_panel": youth_panel,
         "gap_decomposition": gap_decomposition,
         "export_age_model": export_age_model,
+        "why_funnel": why_funnel,
+        "downloads": _build_downloads("https://github.com/barborasandova/czefootball-player-pool-atlas"),
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
@@ -2196,6 +2326,48 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "ascii_name": "filip vecheta", "pos_group": "FW", "age": 21, "league": "CZE-First League", "club": "Slovácko",
         "min": 2100, "npg_ast_q": 0.33, "cluster_style": "C0", "cluster_label": tr.term("High-volume scorers"), "nt_flag": False,
     }]
+    names_fixture = {"CZE": "Czechia", "NOR": "Norway", "DEN": "Denmark"}
+    gap_decomposition_raw_fixture = {
+        "panel": [{"country": "CZE", "y": 2.39, "x1": 0.0635, "x2": 1.0, "x3": 22.0, "x2_source": "m_L"}],
+        "coefficients": {"a": 39.6, "b": {"x1": 82.3, "x2": -56.5, "x3": -0.27}},
+        "contrasts": [
+            {"contrast": "NOR", "gap_total": 6.98,
+             "channels": [
+                 {"name": "u21_share", "contribution": 4.22, "share": 0.6, "lo": 1.22, "hi": 5.9},
+                 {"name": "league_strength", "contribution": 5.12, "share": 0.73, "lo": 1.9, "hi": 6.77},
+                 {"name": "export_age", "contribution": -0.0, "share": -0.0, "lo": -0.0, "hi": 0.0},
+             ], "residual": -2.37, "n": 8},
+            {"contrast": "DEN", "gap_total": 10.19,
+             "channels": [
+                 {"name": "u21_share", "contribution": 7.35, "share": 0.72, "lo": 2.17, "hi": 10.27},
+                 {"name": "league_strength", "contribution": 1.67, "share": 0.16, "lo": 0.65, "hi": 2.26},
+                 {"name": "export_age", "contribution": -0.0, "share": -0.0, "lo": -0.0, "hi": 0.0},
+             ], "residual": 1.17, "n": 8},
+        ],
+        "n": 8, "home": "CZE", "ridge_alpha": 1.0, "min_gap_for_share": 3.0,
+    }
+    gap_decomposition_fixture = _build_gap_decomposition(gap_decomposition_raw_fixture, names_fixture)
+    # Task 26B's three new facts (fixture): one row per country used by the
+    # funnel below (CZE + its two compare peers).
+    pipeline_facts_fixture = {
+        "breadth": [
+            {"country": "CZE", "n_clubs": 16, "n_clubs_above": 9, "share_clubs_above": 0.5625},
+            {"country": "NOR", "n_clubs": 16, "n_clubs_above": 12, "share_clubs_above": 0.75},
+            {"country": "DEN", "n_clubs": 12, "n_clubs_above": 11, "share_clubs_above": 0.9167},
+        ],
+        "age_structure": [
+            {"country": "CZE", "weighted_mean_age": 26.0, "share_le22": 0.247, "share_ge30": 0.212},
+            {"country": "NOR", "weighted_mean_age": 25.6, "share_le22": 0.236, "share_ge30": 0.159},
+            {"country": "DEN", "weighted_mean_age": 25.4, "share_le22": 0.303, "share_ge30": 0.195},
+        ],
+        "first_move_abroad": [
+            {"country": "CZE", "n": 6, "median_age": 26.5, "censored_share": 0.0},
+            {"country": "NOR", "n": 14, "median_age": 24.0, "censored_share": 0.0},
+            {"country": "DEN", "n": 39, "median_age": 25.0, "censored_share": 0.0257},
+        ],
+    }
+    why_funnel_fixture = _build_why_funnel(pathways, pipeline_facts_fixture, per_capita, peer_compare, big5,
+                                          gap_decomposition_fixture, names_fixture)
     return {
         **_translator_context(tr), "seasons": seasons, "groups": ["FW"], "group_titles": GROUP_TITLES,
         "hero": hero,
@@ -2354,25 +2526,12 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             "ols": {"slope_per_10pp": {"point": 0.78, "lo": 0.11, "hi": 1.4}, "intercept": -0.2, "n_boot": 1000},
             "ols_means": {"slope_per_10pp": {"point": 1.07, "lo": -0.17, "hi": 2.33}, "intercept": -0.5, "n_boot": 1000},
         }),
-        "gap_decomposition": _build_gap_decomposition({
-            "panel": [{"country": "CZE", "y": 2.39, "x1": 0.0635, "x2": 1.0, "x3": 22.0, "x2_source": "m_L"}],
-            "coefficients": {"a": 39.6, "b": {"x1": 82.3, "x2": -56.5, "x3": -0.27}},
-            "contrasts": [
-                {"contrast": "NOR", "gap_total": 6.98,
-                 "channels": [
-                     {"name": "u21_share", "contribution": 4.22, "share": 0.6, "lo": 1.22, "hi": 5.9},
-                     {"name": "league_strength", "contribution": 5.12, "share": 0.73, "lo": 1.9, "hi": 6.77},
-                     {"name": "export_age", "contribution": -0.0, "share": -0.0, "lo": -0.0, "hi": 0.0},
-                 ], "residual": -2.37, "n": 8},
-                {"contrast": "DEN", "gap_total": 10.19,
-                 "channels": [
-                     {"name": "u21_share", "contribution": 7.35, "share": 0.72, "lo": 2.17, "hi": 10.27},
-                     {"name": "league_strength", "contribution": 1.67, "share": 0.16, "lo": 0.65, "hi": 2.26},
-                     {"name": "export_age", "contribution": -0.0, "share": -0.0, "lo": -0.0, "hi": 0.0},
-                 ], "residual": 1.17, "n": 8},
-            ],
-            "n": 8, "home": "CZE", "ridge_alpha": 1.0, "min_gap_for_share": 3.0,
-        }, {"CZE": "Czechia", "NOR": "Norway", "DEN": "Denmark"}),
+        "gap_decomposition": gap_decomposition_fixture,
+        "why_funnel": why_funnel_fixture,
+        "downloads": [
+            {"label_key": "downloads.pool", "files": [
+                {"name": "pool.parquet", "url": "https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet"}]},
+        ],
         "export_age_model": _build_export_age_model({
             "n": 115, "age_range": {"min": 17.0, "max": 31.0},
             "n_seasons_counts": {"1": 71, "2": 44}, "origin_source_counts": {"m_L": 110, "uefa": 5},
@@ -2468,12 +2627,14 @@ def main() -> None:
     # already built above, no separate data pass.
     from src.fare_dots import render_fare_dots_figure
     from src.pathway_slope import render_pathway_slope_figure
+    from src.why_funnel import render_why_funnel_figure
 
     if numbers_context is not None:
         render_fare_dots_figure(numbers_context["pathways"]["fare_min"], config.HOME,
                                 config.OUTPUTS_DIR / "fare_dots.svg")
         pc = numbers_context["peer_compare"]
         render_pathway_slope_figure(pc["rows"][:6], pc["countries"], config.OUTPUTS_DIR / "pathway_slope.svg")
+        render_why_funnel_figure(numbers_context["why_funnel"], config.HOME, config.OUTPUTS_DIR / "why_funnel.svg")
 
     css_src = config.TEMPLATES_DIR / "style.css"
     if css_src.exists():

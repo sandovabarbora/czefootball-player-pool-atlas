@@ -95,6 +95,39 @@ strings:
   quickread.3: "z nominace na {event} hraje v top-{topn} ligách (nejlepší peer {best_pct} %)"
   quickread.4: "sezóna, kdy se zlomila přítomnost v Big-5 ({break_prob} posterior)"
   quickread.note: "Vše níže je důkazem pro tato čtyři čísla, v jedenácti otázkách."
+  quickread.glossary_note: "Pojmy použité na této stránce jsou vysvětlené ve <a href=\"#glossary\">slovníčku pojmů</a>."
+
+  # ---- proč vlak odjel (Task 26A): pětistupňový trychtýř hned po minutové verzi,
+  # domácí země vedle dvou srovnávacích zemí, u každého kroku odkaz na část
+  # reportu, kde je celý důkaz. Všechna čísla se přebírají odjinud v reportu
+  # kromě šíře hřišť, věkové struktury ligy a prvního odchodu do zahraničí
+  # (Task 26B, tři nová čísla).
+  why_funnel.h2: "Proč vlak odjel"
+  why_funnel.lead: "Pět čísel, v pořadí, jak na sebe navazují, ukazuje, kde je fond hráčů dostupných pro reprezentaci nejtenčí. Každé je uvedeno pro {cs_adj_m} fotbal i pro dvě země, které report používá jako srovnání všude jinde; každé odkazuje na část reportu s celým důkazem."
+  why_funnel.stage1.line: "Mladí hráči nedostávají ve vlastní nejvyšší soutěži mnoho herního času."
+  why_funnel.stage1.metric1: "Podíl ligových minut, které připadly hráčům do 21 let"
+  why_funnel.stage1.metric2: "Kluby, které těmto mladým hráčům daly víc než desetinu vlastního herního času"
+  why_funnel.breadth_cell: "{above} z {total} klubů"
+  why_funnel.stage2.line: "Liga, ve které tyto minuty chybí, je v průměru stará."
+  why_funnel.stage2.metric1: "Průměrný věk odehrané minuty v lize"
+  why_funnel.stage2.metric2: "Podíl ligových minut, které připadly hráčům od 30 let"
+  why_funnel.stage3.line: "První odchod do zahraniční ligy proto přichází pozdě, když k němu dojde."
+  why_funnel.stage3.metric1: "Věk při první sezóně se skutečným herním časem v zahraniční lize"
+  why_funnel.stage3.n_cell: "{n} hráčů aktuálně v zahraničí"
+  why_funnel.stage4.line: "A odchod, když k němu dojde, často není krokem nahoru."
+  why_funnel.stage4.metric1: "Podíl odchodů do zahraničí do ligy ne silnější než vlastní"
+  why_funnel.stage5.line: "Vrstva hráčů v nejsilnějších ligách Evropy zůstává tenká a jednou prudce klesla."
+  why_funnel.stage5.metric1: "Hráči v nejsilnějších ligách Evropy na milion obyvatel"
+  why_funnel.stage5.break: "Počet {cs_adj_pl} hráčů v nejsilnějších ligách Evropy klesl kolem sezóny {season}; model dává {prob} pravděpodobnost, že tahle sezóna je bodem zlomu."
+  why_funnel.caveat.h3: "Co tohle neukazuje"
+  why_funnel.caveat.1: "Peníze: transferové částky, mzdy a rozpočty akademií nejsou součástí žádného čísla výše."
+  why_funnel.caveat.2: "Jak akademie a trenérská práce skutečně fungují den co den — to žádný veřejný datový zdroj použitý zde nevidí."
+  why_funnel.caveat.3: "Agenty a to, jak se odchod do zahraničí skutečně domlouvá — to se odehrává mimo jakoukoli tabulku, kterou tento pipeline umí číst."
+  why_funnel.caveat.4: "Směr šipky: nízký podíl herního času mladých hráčů doma může tenkou generaci spoluzpůsobovat, stejně dobře ale může být jejím příznakem — pět čísel výše jsou souvislosti měřené stejným způsobem pro každou zemi."
+  why_funnel.take_one_thing.same: "Pokud si z tohoto máte odnést jednu věc: jediné měřené spojení, které nese většinu rozdílu s oběma zeměmi {a} i {b}, je {channel}."
+  why_funnel.take_one_thing.diff: "Pokud si z tohoto máte odnést jednu věc: jediné měřené spojení, které nese většinu rozdílu, je pro každé srovnání jiné — u země {a} je to {channel_a}, u země {b} {channel_b}."
+  why_funnel.figure.alt: "Pětistupňový trychtýř: {cs_adj_m} fotbal vedle zemí {a} a {b} v podílu herního času mladých hráčů doma, průměrném věku ligy, věku prvního odchodu do zahraničí, podílu přestupů do strany a hráčích na milion obyvatel v nejsilnějších ligách Evropy."
+  unit.percent: "procent"
 
   # ---- předěly (Task 25d): tři sekční předěly mezi slidy, kicker a jedna věta, bez čísel
   act.1.kicker: "Jak hluboký je fond?"
@@ -189,6 +222,24 @@ strings:
   slide.8b.so: "Federace by sledovala, jestli se cesta brankářů dál odchyluje od věku exportu v poli, ne rozdíl jedné sezóny."
   slide.8c.so: "Federace by sledovala, který kanál svůj příspěvek zvětšuje, ne brala rozklad jako pevný."
   slide.9.so: "Federace by sledovala, jak se výběr karet mění s věkem kohorty, ne jednu kartu."
+
+  # ---- kickery řetězce otázek (Task 26C): po "Jako analytická otázka" nově
+  # následuje "Co jsme udělali" -- jedna prostá věta, bez symbolů a zkratek,
+  # co by přečetl i trenér, popisující operaci, ne statistiku.
+  slide.aq_label: "Jako analytická otázka"
+  slide.did_label: "Co jsme udělali"
+  slide.1.did: "Spočítali jsme každého hráče s národností domácí země, který tu sezónu skutečně hrál v jedné z nejsilnějších lig Evropy, a ten počet vydělili počtem obyvatel země."
+  slide.2.did: "Rozdělili jsme hráče do postových skupin a věkových pásem, spočítali, kolik jich domácí země má v každé skupině, a ten počet porovnali se střední hodnotou mezi ostatními zeměmi."
+  slide.3.did: "Spočítali jsme každou odehranou minutu v lize a podívali se, kolik jich připadlo hráčům do 21 let."
+  slide.4.did: "Podívali jsme se, kde každý oprávněný hráč tu sezónu skutečně hrál, a zařadili ho podle toho, jak silná je ta liga ve srovnání s hráčovou vlastní domácí ligou."
+  slide.4b.did: "Podívali jsme se na věk, kdy hráč poprvé přišel do jedné z nejsilnějších lig, a ověřili, jestli hráči, kteří přišli dřív, nakonec produkovali víc, po zohlednění síly ligy, ze které přišli."
+  slide.5.did: "Zjistili jsme, jaký podíl herního času klubu hráč skutečně dostal a kde ten klub tu sezónu stál ve vlastní ligové tabulce střelců."
+  slide.6.did: "Spárovali jsme každého jmenovaného hráče nominace s jeho klubovou sezónou a zaznamenali, na jaké úrovni ligy skutečně hrál."
+  slide.7.did: "Sezónu po sezóně jsme spočítali, kolik hráčů domácí země skutečně hrálo v pěti největších ligách Evropy, a hledali sezónu, kdy se ten počet natrvalo změnil na jinou úroveň."
+  slide.8.did: "Porovnali jsme domácí zemi se dvěma srovnávacími zeměmi na šesti číslech, z nichž každé je definované a měřené úplně stejně pro všechny tři."
+  slide.8b.did: "Brankáře jsme počítali stejným způsobem jako hráče v poli a pak porovnali věk, kdy se každá skupina poprvé dostala do jedné z nejsilnějších lig."
+  slide.8c.did: "Použili jsme hráče, kteří změnili ligu, abychom zjistili, kolik je sezóna v jedné lize hodná v jiné, a pak rozdělili rozdíl mezi zeměmi na části, které souvisí s minutami mladých hráčů, silou ligy a věkem, kdy hráči odcházejí do zahraničí."
+  slide.9.did: "Spárovali jsme sezónu každého hráče s jeho reprezentačními nominacemi a fotkou a pak podle šesti pravidel vybrali jednoho hráče na postovou skupinu."
 
   # ---- proof slidu 2: kompaktní tabulka kohortových mezer (top 5 řádků)
   cohortgap.th.group: "Skupina"
@@ -788,6 +839,10 @@ terms:
   "U21 minutes": "Minuty do 21 let"
   "League strength": "Síla ligy"
   "Export age": "Věk exportu"
+  # why-funnel "if you take one thing" (Task 26E1): plain-language channel names
+  "how much playing time young players get at home": "kolik herního času dostávají mladí hráči doma"
+  "how strong the domestic league is": "jak silná je domácí liga"
+  "how old players are when they move abroad": "v jakém věku hráči odcházejí do zahraničí"
   # data-quality log units (config/data_quality_events.yaml, src/data_quality.py)
   entries: "položek"
   players: "hráčů"

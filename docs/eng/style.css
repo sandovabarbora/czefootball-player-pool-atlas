@@ -455,6 +455,103 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   max-width: var(--measure-wide);
 }
 /* =========================================================================
+   Why the train left (Task 26A) — a five-stage funnel right after the
+   opener: home nation vs the two compare countries per stage, hairline
+   family like .quickread/.act, mono only for the small country-value
+   labels (numbers), sans for everything a reader has to read as prose.
+   ========================================================================= */
+.why-funnel { padding: var(--space-6) 0 var(--space-6); border-top: 1px solid var(--rule); }
+.why-funnel h2 {
+  font-weight: 300;
+  font-size: clamp(1.7rem, 1.3rem + 1.6vw, 2.4rem);
+  line-height: 1.08;
+  margin: 0 0 var(--space-3);
+  letter-spacing: -0.02em;
+}
+.funnel-lead {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+}
+.why-funnel .figure-bleed { margin-top: 0; margin-bottom: var(--space-4); }
+.funnel-stages { list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+.funnel-stage {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--rule-soft);
+}
+.funnel-stage:first-child { border-top: none; padding-top: 0; }
+.funnel-stage > a { text-decoration: none; color: inherit; }
+.funnel-stage-line {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 0.5rem;
+}
+.funnel-stage > a:hover .funnel-stage-line { color: var(--oxblood-700); }
+.funnel-metric { margin: 0.35rem 0; }
+.funnel-metric-label {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 0.25rem;
+}
+.funnel-metric-row { display: flex; flex-wrap: wrap; gap: 0.9rem 1.4rem; }
+.funnel-country {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  font-feature-settings: "tnum", "lnum";
+}
+.funnel-country[data-highlight="cze"] { color: var(--oxblood-700); font-weight: 600; }
+.funnel-metric-note {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  margin: 0.35rem 0 0;
+  max-width: var(--measure-wide);
+}
+.funnel-take-one-thing {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--navy-700);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--rule);
+}
+.funnel-caveats {
+  padding: var(--space-3) var(--space-4);
+  background: var(--cream-100);
+  border: 1px solid var(--rule);
+}
+.funnel-caveats h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+  margin: 0 0 0.6rem;
+}
+.funnel-caveats ul { margin: 0; padding: 0 0 0 1.1rem; }
+.funnel-caveats li {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 0.4rem;
+}
+.funnel-caveats li:last-child { margin-bottom: 0; }
+
+/* =========================================================================
    For a federation — four quiet tiles right after the argument list, same
    hairline family as .argument (no boxes, no shadows), plus one mono line
    on what it takes to run the pipeline for another country
@@ -595,6 +692,28 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   line-height: 1.5;
   letter-spacing: 0.01em;
   color: var(--ink-faint, var(--ink-soft));
+  max-width: var(--measure-wide);
+  margin: 0 0 0.5rem;
+}
+/* Task 26C: the "As an analytics question" / "What we did" kickers -- same
+   small-caps mono treatment as .slide-how-label, so the chain (question ->
+   analytics question -> what we did -> answer) reads as one labelled
+   sequence rather than three differently-styled paragraphs. */
+.slide-aq-label, .slide-did-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  color: var(--navy-500);
+  margin-right: 0.6em;
+}
+.slide-did {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
   max-width: var(--measure-wide);
   margin: 0 0 var(--space-3);
 }
