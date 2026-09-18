@@ -464,3 +464,11 @@ def test_slide_8b_a_uses_czech_nominative_plural_agreement():
     a = re.search(r'id="q8b">.*?slide-a">(.*?)</p>', html, re.S).group(1)
     assert "brankáři hrají" in a
     assert "brankářů hraje" not in a
+
+
+def test_repo_urls_point_at_the_real_owner():
+    """The GitHub owner is sandovabarbora; a wrong owner makes every download 404."""
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    for rel in ("src/render.py", "README.md"):
+        assert "barborasandova/" not in (root / rel).read_text(encoding="utf-8"), rel

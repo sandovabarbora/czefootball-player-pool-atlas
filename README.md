@@ -216,4 +216,4 @@ each under its own CC licence — see the credit list in the page footer
 ## Contact
 
 Barbora Šandová · barbora@datasimply.eu ·
-[linkedin.com/in/barborasandova](https://linkedin.com/in/barborasandova)
+[linkedin.com/in/sandovabarbora](https://linkedin.com/in/sandovabarbora)

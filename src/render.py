@@ -2091,7 +2091,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "gap_decomposition": gap_decomposition,
         "export_age_model": export_age_model,
         "why_funnel": why_funnel,
-        "downloads": _build_downloads("https://github.com/barborasandova/czefootball-player-pool-atlas"),
+        "downloads": _build_downloads("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
         "cite": {key: in_text(ref) for key, ref in refs_by_key().items()},
@@ -2106,9 +2106,9 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "seed": config.RANDOM_SEED,
         "photo_credits": _photo_credits(data["photos"], used_keys),
         "rendered_at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
-        **_build_flow_urls("https://github.com/barborasandova/czefootball-player-pool-atlas"),
-        "how_built_links": _build_how_built_links("https://github.com/barborasandova/czefootball-player-pool-atlas"),
+        "repo_url": "https://github.com/sandovabarbora/czefootball-player-pool-atlas",
+        **_build_flow_urls("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
+        "how_built_links": _build_how_built_links("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
     }
 
 
@@ -2530,7 +2530,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "why_funnel": why_funnel_fixture,
         "downloads": [
             {"label_key": "downloads.pool", "files": [
-                {"name": "pool.parquet", "url": "https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet"}]},
+                {"name": "pool.parquet", "url": "https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet"}]},
         ],
         "export_age_model": _build_export_age_model({
             "n": 115, "age_range": {"min": 17.0, "max": 31.0},
@@ -2580,9 +2580,9 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
                            "image": "img/players/5d4f7d61.jpg", "credit": "Patrik Schick (cropped).jpg",
                            "license": "Wikimedia Commons"}],
         "rendered_at": "2026.09.13 00:00",  # dotted so the no-typed-season test regex does not read it as a season
-        "repo_url": "https://github.com/barborasandova/czefootball-player-pool-atlas",
-        **_build_flow_urls("https://github.com/barborasandova/czefootball-player-pool-atlas"),
-        "how_built_links": _build_how_built_links("https://github.com/barborasandova/czefootball-player-pool-atlas"),
+        "repo_url": "https://github.com/sandovabarbora/czefootball-player-pool-atlas",
+        **_build_flow_urls("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
+        "how_built_links": _build_how_built_links("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
     }
 
 
