@@ -48,6 +48,7 @@ strings:
   toc.validation: "Validace a robustnost"
   toc.reproducibility: "Reprodukovatelnost"
   toc.related_methods: "Související metody"
+  toc.glossary: "Slovníček pojmů"
   toc.references: "Reference"
   toc.how_built: "Jak report vznikl"
   toc.short.benchmark: "Benchmark"
@@ -63,6 +64,7 @@ strings:
   toc.short.sensitivity: "Citlivost"
   toc.short.limitations: "Limitace"
   toc.short.related_methods: "Související metody"
+  toc.short.glossary: "Slovníček"
   toc.short.references: "Reference"
 
   # ---- masthead (první obrazovka: stejný pitch jako hero kicker/lead pod ní)
@@ -535,6 +537,16 @@ strings:
   ch4.sens.live.th.change: "Vs. základ"
   ch4.sens.live.how: "Toto je výše uvedená offline tabulka citlivosti (§ Analýza citlivosti) udělaná interaktivní: q = (npG/90_shrunk + A/90_shrunk) × m_liga, přepočítáno na straně prohlížeče ze shrunk rates každého hráče s příslušností {cs_gen} v metrikové sezóně, bez volání serveru. Sloupec změny pořadí srovnává pořadí každého řádku při aktuálním nastavení posuvníků s jeho pořadím při výchozích hodnotách z configu."
 
+  # ---- prostým jazykem (Task 26D): jeden prostý odstavec před technickým
+  # textem každé modelové sekce, 2-4 věty, bez symbolů, s fotbalovou analogií
+  ch4.strength.plain: "Sezóna v jedné lize automaticky neznamená totéž co sezóna v jiné: góly a asistence přicházejí v některých soutěžích snáz než v jiných. Tahle sekce spočítá směnný kurz mezi ligami tak, že sleduje stejné hráče před a po změně ligy — podobně jako trenér posuzuje nový přestup podle toho, jak se jeho výkon změní v novém klubu."
+  ch4.compare.plain: "Tady klademe jednoduchou otázku pěti různým metodám: podle čísel hráče v této sezóně, jak dobře každá z nich odhadne jeho čísla v příští sezóně. Každá metoda je testovaná jen na sezónách, které ještě neviděla — podobně jako úsudek skauta se počítá jen za to, co předpoví před začátkem sezóny, ne po jejím konci."
+  ch4.series.plain: "Tahle sekce hledá sezónu, kdy se počet hráčů domácí země v pěti největších ligách Evropy přestal zvyšovat a usadil se na nižší úrovni, a dává pravděpodobnost tomu, že je to skutečný bod zlomu, ne jen obyčejný propad. Dělá také jednu prognózu na příští sezónu — jako ukázku metody, ne předpověď o žádném hráči."
+  ch4.panel.plain: "Tahle sekce se ptá, jestli vzorec z trychtýře výše — země, které dávají mladým hráčům doma víc minut, mají obvykle hlubší fond v nejsilnějších ligách — platí napříč celou srovnávací sadou zemí, ne jen u dvou ukázaných dřív. Dvě sezóny a hrstka zemí je malý vzorek, takže rozpětí kolem odhadu je široké."
+  ch4.gap.plain: "Rozdíl mezi domácí zemí a srovnávací zemí, v hráčích na milion, lze rozdělit na části, které souvisí se třemi věcmi, které tento report už měří: kolik hrají mladí hráči doma, jak silná je domácí liga a v jakém věku hráči odcházejí do zahraničí. To neříká, která ze tří rozdíl způsobuje, jen kolik se s každou z nich pohybuje společně — podobně jako si trenér může všimnout, že slabá sezóna souvisí s vlnou zranění, aniž by tvrdil, že zranění jsou jediné vysvětlení."
+  ch4.export.plain: "Hráči, kteří odejdou do zahraničí mladší, mívají tam pak vyšší produkci, ale neznamená to nutně, že mladý odchod kariéře pomáhá: kluby jsou taky ochotnější vsadit na hráče, kterého už v mladším věku hodnotí vysoko. Tahle sekce na ten vzorec proloží křivku a snaží se přitom držet sílu hráčovy původní ligy pevnou, ale obě vysvětlení úplně rozlišit nedokáže."
+  ch4.gk.plain: "Brankáři se počítají stejně jako hráči v poli všude v tomto reportu, s jedním rozdílem: protože brankářova čísla obdržených gólů se hodně mění zápas od zápasu, model potřebuje větší vzorek střel, než začne věřit brankářovým vlastním číslům víc než ligovému průměru."
+
   ch4.strength.h3: "Síla ligy: dva odhady"
   ch4.strength.p1: "Kolik je sezóna {home_league} hodná v přepočtu na Premier League? Násobička UEFA výše odpovídá z kontinentálních výsledků zemí; tento model odpovídá na stejnou otázku od hráčů, kteří ligu skutečně změnili."
   ch4.strength.p1_is_ref: "Kolik je sezóna v ostatních nejsilnějších ligách Evropy hodná v přepočtu na {home_league}? Násobička UEFA výše odpovídá z kontinentálních výsledků zemí; tento model odpovídá na stejnou otázku od hráčů, kteří ligu skutečně změnili."
@@ -672,6 +684,31 @@ strings:
   ch4.related.future.h4: "Další kroky, které nebyly podniknuty"
   ch4.related.future.embeddings: "Embeddingy hráč-sezóna a grafové metody nad transferovou sítí — kluby a přestupy jako graf, hráči jako uzly s naučenou reprezentací — jsou přirozeným dalším nástrojem (konkrétně grafové neuronové sítě) pro fond této velikosti, ale nebyly zde vyzkoušeny."
   ch4.related.future.tracking: "Featury odvozené z eventů a trackingu (intenzita presinku, progresivní vedení míče, expected threat) by zostřily osu stylu nad rámec pěti box-score čísel použitých zde, ale pro tento korpus nebyl k dispozici žádný zdroj trackingových dat."
+
+  # ---- slovníček pojmů (Task 26D): deset pojmů, jedna prostá věta s
+  # fotbalovým příkladem, před References
+  glossary.h2: "Slovníček pojmů"
+  glossary.intro: "Deset pojmů použitých v <a href=\"#methodology\">sekcích výše</a>, každý v jedné prosté větě s fotbalovým příkladem."
+  glossary.per90.term: "Na 90 minut"
+  glossary.per90.def: "Míra přepočtená na celý zápas: hráč se třemi góly v pěti zápasech, každý odehraný celých devadesát minut, má míru 0,6 gólu na 90 minut — umožňuje to spravedlivě srovnat hráče, který nastoupil jako střídající, s tím, kdo odehrál každý zápas od začátku."
+  glossary.minutes_share.term: "Podíl minut"
+  glossary.minutes_share.def: "Kolik z dostupného herního času klubu hráč skutečně dostal, ze všech minut, které zápasy klubu tu sezónu mohly nabídnout; hráč, který odehrál každou minutu každého zápasu, má podíl minut 100 procent."
+  glossary.shrinkage.term: "Stahování (shrinkage)"
+  glossary.shrinkage.def: "Způsob, jak nedůvěřovat malému vzorku příliš: hráči s jen hrstkou zápasů se jeho čísla částečně přitáhnou k typickému číslu ligy — podobně jako trenér počká na víc než jeden dobrý zápas, než uvěří, že forma mladého hráče je skutečná."
+  glossary.multiplier.term: "Ligová násobička / síla ligy"
+  glossary.multiplier.def: "Číslo, které říká, kolik je gól, asistence nebo minuta hodná v jedné lize ve srovnání s jinou; útočníkův gól ve slabší lize se počítá míň, jakmile se upraví násobičkou té ligy — stejná myšlenka jako posuzovat přestup podle úrovně, ze které hráč přichází."
+  glossary.quality_adjusted.term: "Kvalitou upravené"
+  glossary.quality_adjusted.def: "Hráčova syrová čísla poté, co se vynásobí ligovou násobičkou výše, takže se dá míra vydělaná v silné lize a míra vydělaná ve slabší lize srovnat na stejném základě."
+  glossary.interval.term: "Interval (90 %)"
+  glossary.interval.def: "Rozpětí kolem čísla, které ukazuje, jak moc si je model jistý, ne jeden odhad; devadesátiprocentní interval znamená, že model si myslí, že skutečná hodnota padne do toho rozpětí zhruba devětkrát z deseti."
+  glossary.posterior.term: "Posterior"
+  glossary.posterior.def: "Co si model o čísle myslí poté, co viděl data, vyjádřené jako rozpětí věrohodných hodnot, ne jedno jediné číslo; pravděpodobnost přiřazená sezóně zlomu v tomto reportu je posteriorní pravděpodobnost."
+  glossary.oos.term: "Mimo vzorek (out-of-sample)"
+  glossary.oos.def: "Ověření metody jen na zápasech, hráčích nebo sezónách, které při stavbě metody neviděla — podobně jako trenér posuzuje skautskou zprávu podle toho, co se skutečně stane, jakmile hráč podepíše, ne podle toho, jak dobře zpráva popsala, co se už stalo."
+  glossary.cluster.term: "Cluster"
+  glossary.cluster.def: "Skupina hráčů, jejichž sezónní čísla si jsou navzájem podobná a liší se od jiných skupin, nalezená automaticky z dat, ne přiřazená ručně; cluster je stylový štítek jako „vysokoobjemoví střelci“, ne formální post."
+  glossary.changepoint.term: "Bod zlomu"
+  glossary.changepoint.def: "Místo v řadě sezón, kde se úroveň skutečně posune na novou a na té zůstane, ne jen jedna neobvykle vysoká nebo nízká sezóna sama o sobě; tento report jeden takový bod hledá pro počet hráčů domácí země v největších ligách Evropy."
 
   ch4.refs.h3: "Reference"
 

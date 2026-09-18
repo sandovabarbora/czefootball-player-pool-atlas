@@ -809,6 +809,18 @@ table.peer-compare td:not(:first-child) {
 .explore-block h3:first-child {
   margin-top: 0;
 }
+/* Task 26D: the plain-language lead before each model section's technical
+   text -- a touch larger and warmer than the body copy around it, so a
+   reader who stops reading after this paragraph still gets the point. */
+p.plain {
+  font-family: var(--font-sans);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: var(--measure-wide);
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--oxblood-200);
+}
 
 /* =========================================================================
    Chapter divider — page-break before the last major section
@@ -1695,6 +1707,35 @@ code {
   line-height: 1.55;
 }
 .related-methods-list li a { color: var(--oxblood-700); }
+
+/* =========================================================================
+   Glossary (Task 26D) — ten terms, one plain sentence each, before References
+   ========================================================================= */
+.glossary-list {
+  max-width: var(--measure-wide);
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.glossary-list > div {
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--rule-soft);
+}
+.glossary-list > div:first-child { border-top: none; padding-top: 0; }
+.glossary-list dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--navy-700);
+  margin: 0 0 0.3rem;
+}
+.glossary-list dd {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
 #related-methods-future {
   font-family: var(--font-display);
   font-weight: 500;

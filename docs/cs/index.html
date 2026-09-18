@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609181035">
-  <link rel="stylesheet" href="../modern.css?v=202609181035">
+  <link rel="stylesheet" href="../style.css?v=202609181041">
+  <link rel="stylesheet" href="../modern.css?v=202609181041">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609181035"></script>
+  <script defer src="../atlas.js?v=202609181041"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -73,6 +73,7 @@
           <li><a href="#validation-robustness">Validace a robustnost</a></li>
           <li><a href="#reproducibility">Reprodukovatelnost</a></li>
           <li><a href="#related-methods">Související metody</a></li>
+          <li><a href="#glossary">Slovníček pojmů</a></li>
           <li><a href="#references">Reference</a></li>
         </ol>
       </details>
@@ -181,7 +182,7 @@
     <h2>Proč vlak odjel</h2>
     <p class="funnel-lead">Pět čísel, v pořadí, jak na sebe navazují, ukazuje, kde je fond hráčů dostupných pro reprezentaci nejtenčí. Každé je uvedeno pro český fotbal i pro dvě země, které report používá jako srovnání všude jinde; každé odkazuje na část reportu s celým důkazem.</p>
     <figure class="figure-bleed">
-      <img src="../why_funnel.svg" alt="Pětistupňový trychtýř: český fotbal vedle zemí Norsko a Dánsko v podílu herního času mladých hráčů doma, průměrném věku ligy, věku prvního odchodu do zahraničí, podílu přestupů do strany a hráčích na milion obyvatel v nejsilnějších ligách Evropy.">
+      <img src="why_funnel.svg" alt="Pětistupňový trychtýř: český fotbal vedle zemí Norsko a Dánsko v podílu herního času mladých hráčů doma, průměrném věku ligy, věku prvního odchodu do zahraničí, podílu přestupů do strany a hráčích na milion obyvatel v nejsilnějších ligách Evropy.">
     </figure>
     <ol class="funnel-stages">
       <li class="funnel-stage">
@@ -9172,6 +9173,7 @@
 
     
     <h3 id="league-strength">Síla ligy: dva odhady</h3>
+    <p class="plain">Sezóna v jedné lize automaticky neznamená totéž co sezóna v jiné: góly a asistence přicházejí v některých soutěžích snáz než v jiných. Tahle sekce spočítá směnný kurz mezi ligami tak, že sleduje stejné hráče před a po změně ligy — podobně jako trenér posuzuje nový přestup podle toho, jak se jeho výkon změní v novém klubu.</p>
     <p>Kolik je sezóna Czech First League hodná v přepočtu na Premier League? Násobička UEFA výše odpovídá z kontinentálních výsledků zemí; tento model odpovídá na stejnou otázku od hráčů, kteří ligu skutečně změnili.</p>
     <p>Movers — 2125 hráčů pozorovaných aspoň ve dvou ligách napříč 8108 kvalifikujícími hráčskými sezónami — kotví model, protože jen vlastní změna ligy hráče před/po odděluje jeho úroveň od skórovacího prostředí ligy. Hierarchický Poissonův model neproniknutých gólů plus asistencí na 90 minut (Gelman et al., 2013) fituje efekt ligy a efekt hráče společně, vzorkovaný NUTS (Hoffman and Gelman, 2014) v PyMC (Abril-Pla et al., 2023) a diagnostikovaný ArviZ (Kumar et al., 2019). Partial pooling drží efekty lig regularizované, zatímco efekty hráčů nechává blízko nepoolovaným — stejná within-subject logika, jaká stojí za plus-minus a RAPM hodnocením jinde v týmových sportech (Kharrat, McHale and Peña, 2020; Hvattum, 2019).</p>
     <figure class="figure-bleed">
@@ -9373,6 +9375,7 @@
 
     
     <h3 id="model-comparison">Tři modely, jeden úkol, pět sezón</h3>
+    <p class="plain">Tady klademe jednoduchou otázku pěti různým metodám: podle čísel hráče v této sezóně, jak dobře každá z nich odhadne jeho čísla v příští sezóně. Každá metoda je testovaná jen na sezónách, které ještě neviděla — podobně jako úsudek skauta se počítá jen za to, co předpoví před začátkem sezóny, ne po jejím konci.</p>
     <p>Co nám sezóna hráče řekne o té příští, s ohledem na to, kde hraje, kolik mu je a — u exportů — v jakém věku odešel? V modelovém vyjádření: predikovat hráčovu ligou upravenou produkci v příští sezóně (neproniknuté góly plus asistence na 90 minut, upravené o kvalitu) z čísel této sezóny, pro každou hráčskou sezónní dvojici s aspoň 450 minutami v obou sezónách, každou národnost v korpusu.</p>
     <p>Vyhodnoceno rolling-origin křížovou validací (Hyndman and Athanasopoulos, 2021): pro každou z 5 cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, 2 řetězce × 400 vzorků na origin (Gelman et al., 2013)), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn (Pedregosa et al., 2011), skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš 2500 na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu. Cíl je upravený násobičem ligy, ve které hráč hraje příští sezónu; featury znají jen letošní ligu, takže přestup je změna, kterou žádný z modelů nevidí dopředu — omezení společné všem pěti.</p>
     <figure class="figure-bleed">
@@ -9484,6 +9487,7 @@
 
     
     <h3 id="series-model">Datace zlomu a jedna prognóza</h3>
+    <p class="plain">Tahle sekce hledá sezónu, kdy se počet hráčů domácí země v pěti největších ligách Evropy přestal zvyšovat a usadil se na nižší úrovni, a dává pravděpodobnost tomu, že je to skutečný bod zlomu, ne jen obyčejný propad. Dělá také jednu prognózu na příští sezónu — jako ukázku metody, ne předpověď o žádném hráči.</p>
     <p>Řada je modelována jako lokální úroveň ve stavovém prostoru (Durbin and Koopman, 2012): logaritmus sezónního počtu následuje Gaussovu náhodnou procházku (σ ~ HalfNormal(0,2)), plus jeden skokový posun δ v úrovni v neznámé sezóně zlomu τ. NUTS vzorkuje jen spojité parametry, takže τ se nevzorkuje přímo — každá kandidátní sezóna vzdálená alespoň 3 sezón od obou konců je z modelu marginalizována jedním log-sum-exp potenciálem a její posterior se dopočítá až ze spojitých vzorků, standardní postup pro marginalizovaný diskrétní parametr (Gelman et al., 2013); samotná myšlenka bodu zlomu pochází od (Adams and MacKay, 2007), zde použitá na dávkové nastavení s jedním zlomem. Rolling-origin zpětný test (Hyndman and Athanasopoulos, 2021) přeučí stejnou lokální úroveň bez skoku na každém z 15 počátků, předpovídá jednu sezónu dopředu a hodnotí proti naivnímu základu „stejně jako minulou sezónu“ — poctivý pohled prognostika, protože žádný skutečný počátek dopředu neví, na které straně zlomu se nachází. Jedna prognóza níže, ze stejného modelu bez bodu zlomu vyladěného na celé řadě, je demonstrací metody na počtu hráčů, ne výrokem o žádném hráči.</p>
     <figure class="figure-bleed">
       <img src="series_model.svg" alt="Čárový graf řady Česko s vyladěnou úrovní modelu bodu zlomu a jejím pásem, sloupcový pruh pod osou pro posteriorní pravděpodobnost zlomu v každé kandidátní sezóně a jednosezónní prognóza s 90% intervalem na pravém okraji.">
@@ -9627,6 +9631,7 @@
 
     
     <h3 id="youth-panel">Mezinárodní panel minut mládeže</h3>
+    <p class="plain">Tahle sekce se ptá, jestli vzorec z trychtýře výše — země, které dávají mladým hráčům doma víc minut, mají obvykle hlubší fond v nejsilnějších ligách — platí napříč celou srovnávací sadou zemí, ne jen u dvou ukázaných dřív. Dvě sezóny a hrstka zemí je malý vzorek, takže rozpětí kolem odhadu je široké.</p>
     <p>Za každou z 8 peer zemí průměr přes 2024/25 → 2025/26 u podílu minut domácí ligy odehraných hráči do 21 let (x) proti průměru přes 2024/25 → 2025/26 u hráčů na milion v top-9 ligách (y) — jeden řádek na zemi. Bayesovská jednoduchá regrese, y ~ Normal(α + β·x, σ), slabě informativní priory (4 řetězce × 1000 vzorků (Abril-Pla et al., 2023)), odpovídá na otázku mezi zeměmi, kterou pokládá slide 3: má země s vyšším průměrným podílem do 21 let v průměru i hlubší fond (Gelman et al., 2013). Srovnáno s prostým poolovaným sklonem metodou nejmenších čtverců na celém dvousezónním panelu (numpy polyfit, bez struktury podle země, 1000 percentilových bootstrapových převzorkování — statsmodels zde není závislostí), který by měl souhlasit ve znaménku. Dvě sezóny na zemi (předchozí a metrická; běžící sezóna je neúplná a je vynechaná); peer země, jejíž nejvyšší soutěž FBref nesleduje, v panelu chybí — proto může být n menší než počet peer zemí.</p>
     <figure class="figure-bleed">
       <img src="youth_panel.svg" alt="Bodový graf panelu s fitovanou přímkou mezi zeměmi a jejím 90% pásem.">
@@ -9715,6 +9720,7 @@
 
     
     <h3 id="gap-decomposition">Z čeho se rozdíl skládá</h3>
+    <p class="plain">Rozdíl mezi domácí zemí a srovnávací zemí, v hráčích na milion, lze rozdělit na části, které souvisí se třemi věcmi, které tento report už měří: kolik hrají mladí hráči doma, jak silná je domácí liga a v jakém věku hráči odcházejí do zahraničí. To neříká, která ze tří rozdíl způsobuje, jen kolik se s každou z nich pohybuje společně — podobně jako si trenér může všimnout, že slabá sezóna souvisí s vlnou zranění, aniž by tvrdil, že zranění jsou jediné vysvětlení.</p>
     <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu (v tomto běhu použila každá země odhad z modelu)) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu (Oaxaca, 1973; Blinder, 1973), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
@@ -9800,6 +9806,7 @@
     
     
     <h3 id="export-age-model">Věk exportu</h3>
+    <p class="plain">Hráči, kteří odejdou do zahraničí mladší, mívají tam pak vyšší produkci, ale neznamená to nutně, že mladý odchod kariéře pomáhá: kluby jsou taky ochotnější vsadit na hráče, kterého už v mladším věku hodnotí vysoko. Tahle sekce na ten vzorec proloží křivku a snaží se přitom držet sílu hráčovy původní ligy pevnou, ale obě vysvětlení úplně rozlišit nedokáže.</p>
     <p>Pro každého hráče peer národnosti (včetně domácí země), jehož první sezóna v top-9 lize spadá do staženého okna a není cenzurovaná (stejné pravidlo cenzurování jako u „Kam čeští hráči odcházejí?“, zde znovu použité) — 115 hráčů, věk 17–31 — je věk při té sezóně modelován proti ligově upravené produkci za první jednu nebo dvě sezóny hráče v top-9. f(věk) je přirozený kubický spline s uzly na 19, 21, 23 a 25 (prostá kvadratická funkce pod n = 150; zde byla použita větev kvadratická funkce), spolu se silou výchozí ligy (model transferového grafu, <a href="#league-strength">§ Síla ligy</a>), postem a partial-pooled efektem země (Gelman et al., 2013), vzorkováno NUTS (Hoffman and Gelman, 2014), 4 řetězce × 1000 vzorků; každý sloupec designu i výstup byly před fitováním standardizovány — stejná lekce z panelu minut mládeže o priorech na surové škále u různě škálovaných proměnných.</p>
     <figure class="figure-bleed">
       <img src="export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, exporty domácí země jako oxblood body proti všem ostatním peer exportům v šedé a rug (čárky) věku každého exportu podél osy.">
@@ -9837,6 +9844,7 @@
     <p class="formula" data-tex="\text{stažená míra} = \dfrac{\text{události} + K \cdot \text{medián ligy}}{\text{minuty} / 90 + K},\qquad K = 10">shrunk_rate = (události + K × medián_ligy) / (minuty / 90 + K), &nbsp; K = 10</p>
     <p>Při 450 minutách (vstupní práh) nese medián ligy 67 % váhy; při 900 minutách váží vlastní míra hráče a medián stejně. Podíl minut a věk se nestahují.</p>
     
+    <p class="plain">Brankáři se počítají stejně jako hráči v poli všude v tomto reportu, s jedním rozdílem: protože brankářova čísla obdržených gólů se hodně mění zápas od zápasu, model potřebuje větší vzorek střel, než začne věřit brankářovým vlastním číslům víc než ligovému průměru.</p>
     <p>Brankářské míry (protipříklad z kapitoly II) používají stejný vzorec. Obdržené góly/90 a zákroky/90 se stahují k mediánu ligy a sezóny se stejným K = 900 minut a obdržené góly/90 jsou pak upravené o násobičku ligy — obdržený gól v silnější lize se počítá méně. Úspěšnost zákroků se stahuje stejně, ale proti počtu střel na bránu, ne minutám: počet střel za jednu sezónu je zpravidla hluboko pod K = 900, takže save_pct_shrunk se u téměř každého brankáře stáhne blízko k mediánu ligy — vypovídavější je tam velký rozdíl v syrové, nestažené úspěšnosti zákroků.</p>
     
 
@@ -10693,6 +10701,21 @@
       <li>Featury odvozené z eventů a trackingu (intenzita presinku, progresivní vedení míče, expected threat) by zostřily osu stylu nad rámec pěti box-score čísel použitých zde, ale pro tento korpus nebyl k dispozici žádný zdroj trackingových dat.</li>
     </ul>
 
+    <h3 id="glossary">Slovníček pojmů</h3>
+    <p>Deset pojmů použitých v <a href="#methodology">sekcích výše</a>, každý v jedné prosté větě s fotbalovým příkladem.</p>
+    <dl class="glossary-list">
+      <div><dt>Na 90 minut</dt><dd>Míra přepočtená na celý zápas: hráč se třemi góly v pěti zápasech, každý odehraný celých devadesát minut, má míru 0,6 gólu na 90 minut — umožňuje to spravedlivě srovnat hráče, který nastoupil jako střídající, s tím, kdo odehrál každý zápas od začátku.</dd></div>
+      <div><dt>Podíl minut</dt><dd>Kolik z dostupného herního času klubu hráč skutečně dostal, ze všech minut, které zápasy klubu tu sezónu mohly nabídnout; hráč, který odehrál každou minutu každého zápasu, má podíl minut 100 procent.</dd></div>
+      <div><dt>Stahování (shrinkage)</dt><dd>Způsob, jak nedůvěřovat malému vzorku příliš: hráči s jen hrstkou zápasů se jeho čísla částečně přitáhnou k typickému číslu ligy — podobně jako trenér počká na víc než jeden dobrý zápas, než uvěří, že forma mladého hráče je skutečná.</dd></div>
+      <div><dt>Ligová násobička / síla ligy</dt><dd>Číslo, které říká, kolik je gól, asistence nebo minuta hodná v jedné lize ve srovnání s jinou; útočníkův gól ve slabší lize se počítá míň, jakmile se upraví násobičkou té ligy — stejná myšlenka jako posuzovat přestup podle úrovně, ze které hráč přichází.</dd></div>
+      <div><dt>Kvalitou upravené</dt><dd>Hráčova syrová čísla poté, co se vynásobí ligovou násobičkou výše, takže se dá míra vydělaná v silné lize a míra vydělaná ve slabší lize srovnat na stejném základě.</dd></div>
+      <div><dt>Interval (90 %)</dt><dd>Rozpětí kolem čísla, které ukazuje, jak moc si je model jistý, ne jeden odhad; devadesátiprocentní interval znamená, že model si myslí, že skutečná hodnota padne do toho rozpětí zhruba devětkrát z deseti.</dd></div>
+      <div><dt>Posterior</dt><dd>Co si model o čísle myslí poté, co viděl data, vyjádřené jako rozpětí věrohodných hodnot, ne jedno jediné číslo; pravděpodobnost přiřazená sezóně zlomu v tomto reportu je posteriorní pravděpodobnost.</dd></div>
+      <div><dt>Mimo vzorek (out-of-sample)</dt><dd>Ověření metody jen na zápasech, hráčích nebo sezónách, které při stavbě metody neviděla — podobně jako trenér posuzuje skautskou zprávu podle toho, co se skutečně stane, jakmile hráč podepíše, ne podle toho, jak dobře zpráva popsala, co se už stalo.</dd></div>
+      <div><dt>Cluster</dt><dd>Skupina hráčů, jejichž sezónní čísla si jsou navzájem podobná a liší se od jiných skupin, nalezená automaticky z dat, ne přiřazená ručně; cluster je stylový štítek jako „vysokoobjemoví střelci“, ne formální post.</dd></div>
+      <div><dt>Bod zlomu</dt><dd>Místo v řadě sezón, kde se úroveň skutečně posune na novou a na té zůstane, ne jen jedna neobvykle vysoká nebo nízká sezóna sama o sobě; tento report jeden takový bod hledá pro počet hráčů domácí země v největších ligách Evropy.</dd></div>
+    </dl>
+
     <h3 id="references">Reference</h3>
     <ul class="references-list">
       
@@ -10890,7 +10913,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-18 10:32</p>
+    <p class="rendered-at">Vykresleno: 2026-09-18 10:41</p>
   </div>
 </footer>
 

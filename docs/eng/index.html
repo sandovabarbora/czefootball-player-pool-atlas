@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609181035">
-  <link rel="stylesheet" href="modern.css?v=202609181035">
+  <link rel="stylesheet" href="style.css?v=202609181042">
+  <link rel="stylesheet" href="modern.css?v=202609181042">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609181035"></script>
+  <script defer src="atlas.js?v=202609181042"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -73,6 +73,7 @@
           <li><a href="#validation-robustness">Validation & robustness</a></li>
           <li><a href="#reproducibility">Reproducibility</a></li>
           <li><a href="#related-methods">Related methods</a></li>
+          <li><a href="#glossary">Glossary</a></li>
           <li><a href="#references">References</a></li>
         </ol>
       </details>
@@ -8131,6 +8132,7 @@
 
     
     <h3 id="league-strength">League strength: two estimates</h3>
+    <p class="plain">A season in one league is not automatically worth the same as a season in another: goals and assists come easier in some competitions than others. This section works out an exchange rate between leagues by watching the same players before and after they change league, the way a manager judges a new signing by how his output changes at the new club.</p>
     <p>How much is a season in Europe's other strongest leagues worth in Premier League terms? The UEFA multiplier above answers that from countries' continental results; this model answers the same question from the players who actually changed leagues.</p>
     <p>Movers — 2125 players observed in at least two leagues across 8108 qualifying player-seasons — anchor the model, since only a player's own before/after change of league separates their level from the league's scoring environment. A hierarchical Poisson model of non-penalty goals plus assists per 90 (Gelman et al., 2013) fits a league effect and a player effect together, sampled with NUTS (Hoffman and Gelman, 2014) in PyMC (Abril-Pla et al., 2023) and diagnosed with ArviZ (Kumar et al., 2019). Partial pooling keeps the league effects regularised while leaving player effects close to unpooled, the same within-subject logic behind plus-minus and RAPM ratings elsewhere in team sports (Kharrat, McHale and Peña, 2020; Hvattum, 2019).</p>
     <figure class="figure-bleed">
@@ -8332,6 +8334,7 @@
 
     
     <h3 id="model-comparison">Three models, one task, five seasons</h3>
+    <p class="plain">Here we ask a simple question of five different methods: given a player's numbers this season, how well can each one guess his numbers next season. Each method is tested only on seasons it has not already seen, the way a scout's judgement only really counts for what he predicts before a season starts, not after it has finished.</p>
     <p>What does a player's season tell us about the next one, given where he plays, how old he is and — for exports — at what age he moved? In model terms: predict a player's league-adjusted production next season (non-penalty goals plus assists per 90, quality-adjusted) from this season's numbers, for every player-season pair with at least 450 minutes in both seasons, every nationality in the corpus.</p>
     <p>Evaluated by rolling-origin cross-validation (Hyndman and Athanasopoulos, 2021): for each of 5 target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real "performance over time" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, 2 chains × 400 draws per origin (Gelman et al., 2013)), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn (Pedregosa et al., 2011), hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most 2500 per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split. The target is adjusted with the multiplier of the league the player is in next season; the features only know this season's league, so a move is a change the models cannot see coming — a limitation shared by all five.</p>
     <figure class="figure-bleed">
@@ -8443,6 +8446,7 @@
 
     
     <h3 id="series-model">Dating the break and one forecast</h3>
+    <p class="plain">This section finds the season when the count of home-nation players in Europe's five biggest leagues stopped growing and settled at a lower level, and puts a probability on that season being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
     <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus one step change δ in the level at an unknown break season τ. NUTS only samples continuous parameters, so τ is not sampled directly — every candidate season at least 3 seasons from either end is marginalised out of the model with a single log-sum-exp potential and its own posterior recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, single-break setting. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
     <figure class="figure-bleed">
       <img src="series_model.svg" alt="Line chart of the England series with the change-point model's fitted level and band, a bar strip below the axis for the posterior probability of the break at each candidate season, and the one-season forecast with its 90 % interval at the right edge.">
@@ -8586,6 +8590,7 @@
 
     
     <h3 id="youth-panel">Cross-country youth-minutes panel</h3>
+    <p class="plain">This section asks whether the pattern from the funnel above — countries that give young players more minutes at home tend to have a deeper pool in the strongest leagues — holds up across every country in the comparison set, not only the two shown earlier. Two seasons and a handful of countries is a small sample, so the range around the estimate is wide.</p>
     <p>For each of the 8 peer countries, the 2024/25 → 2025/26 average U21 share of domestic-league minutes (x) against the 2024/25 → 2025/26 average top-9 players per million (y) — one row per country. A Bayesian simple regression, y ~ Normal(α + β·x, σ), weakly informative priors (4 chains × 1000 draws (Abril-Pla et al., 2023)), answers the between-country question slide 3 asks: does a country with a higher average U21 share also have a deeper pool, on average (Gelman et al., 2013). Cross-checked against a plain pooled least-squares slope on the full two-season panel (numpy polyfit, ignoring country structure entirely, 1000 percentile-bootstrap resamples — statsmodels is not a dependency here), which should agree in sign. Two seasons per country (previous and metrics; the current season is partial and left out); a peer whose top flight FBref does not track is absent from the panel, which is why n can be below the peer count.</p>
     <figure class="figure-bleed">
       <img src="youth_panel.svg" alt="Scatter of the panel with the between-country fitted line and its 90 % band.">
@@ -8674,6 +8679,7 @@
 
     
     <h3 id="gap-decomposition">What the gap is made of</h3>
+    <p class="plain">The gap between the home nation and a comparison country, in players per million, can be split into pieces that line up with three things this report already measures: how much young players play at home, how strong the domestic league is, and how old players are when they move abroad. This does not say which of the three causes the gap, only how much of it moves together with each one — the way a manager might note that a poor season lines up with an injury crisis without claiming the injuries alone explain it.</p>
     <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier (every country in this run used the model estimate)) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
@@ -8759,6 +8765,7 @@
     
     
     <h3 id="export-age-model">Age at export</h3>
+    <p class="plain">Players who move abroad younger tend to end up producing more once they are there, but that is not necessarily because moving young helps a career: clubs are also more willing to take a chance on a player they already rate highly at a younger age. This section fits a curve to that pattern while trying to hold the strength of the player's original league fixed, but it cannot fully tell the two explanations apart.</p>
     <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do English players go when they leave?", reused here) — 691 players, ages 16–36 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the natural cubic spline branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
     <figure class="figure-bleed">
       <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as oxblood points against every other peer export in grey, and a rug of every export's age along the axis.">
@@ -8796,6 +8803,7 @@
     <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
     <p>At 450 minutes (the inclusion floor) the league median carries 67 % of the weight; at 900 minutes the player's own rate and the median weigh the same. Minutes share and age are not shrunk.</p>
     
+    <p class="plain">Goalkeepers are counted the same way as outfield players throughout this report, with one difference: because a goalkeeper's save numbers swing around a lot from game to game, the model needs a bigger sample of shots faced before it trusts a keeper's own numbers over the league average.</p>
     <p>Goalkeeper rates (chapter II's counter-example) use the same formula. GA/90 and saves/90 are shrunk toward their league-season median with the same K = 900 minutes, and GA/90 is then quality-adjusted by the league multiplier — a goal conceded in a stronger league counts less. Save percentage is shrunk the same way but against shots on target faced, not minutes: a single season's shot count sits far below K = 900, so save_pct_shrunk compresses hard toward the league median for almost every goalkeeper — a large gap in the raw, unshrunk save percentage is the more informative read there.</p>
     
 
@@ -9652,6 +9660,21 @@
       <li>Event- and tracking-derived features (pressing intensity, progressive carries, expected threat) would sharpen the style axis beyond the five box-score numbers used here, but no tracking data source was available for this corpus.</li>
     </ul>
 
+    <h3 id="glossary">Glossary</h3>
+    <p>Ten terms used in the <a href="#methodology">sections above</a>, each in one plain sentence with a football example.</p>
+    <dl class="glossary-list">
+      <div><dt>Per 90</dt><dd>A rate scaled to a full match: a player with three goals in five matches, each played the full ninety minutes, has a rate of 0.6 goals per 90 — it lets a player who came on as a substitute be compared fairly with one who started every match.</dd></div>
+      <div><dt>Minutes share</dt><dd>How much of a club's available playing time a player actually got, out of every minute the club's matches could have offered that season; a player who played every minute of every match has a minutes share of 100 percent.</dd></div>
+      <div><dt>Shrinkage</dt><dd>A way of not trusting a small sample too much: a player with only a handful of matches has his numbers pulled part of the way toward the league's typical number, the way a manager waits for more than one good game before trusting that a young player's form is real.</dd></div>
+      <div><dt>League multiplier / league strength</dt><dd>A number saying how much a goal, an assist or a minute is worth in one league compared with another; a striker's goal in a weaker league counts for less once it is adjusted by that league's own multiplier — the same idea as judging a transfer by the level the player is coming from.</dd></div>
+      <div><dt>Quality-adjusted</dt><dd>A player's raw numbers after they have been multiplied by the league multiplier above, so a rate earned in a strong league and one earned in a weaker league can be compared on the same footing.</dd></div>
+      <div><dt>Interval (90 percent)</dt><dd>A range around a number that shows how sure the model is, not a single guess; a ninety percent interval means the model thinks the true value falls inside that range about nine times out of ten.</dd></div>
+      <div><dt>Posterior</dt><dd>What the model believes about a number after it has seen the data, expressed as a range of plausible values rather than one single figure; the probability attached to a break season in this report is a posterior probability.</dd></div>
+      <div><dt>Out-of-sample</dt><dd>Checking a method only on matches, players or seasons it was not shown while it was being built — the way a manager judges a scouting report by what actually happens once the player signs, not by how well the report described what had already happened.</dd></div>
+      <div><dt>Cluster</dt><dd>A group of players whose season numbers look similar to each other and different from other groups, found automatically from the data rather than assigned by hand; a cluster is a style label such as "high-volume scorers", not a formal position.</dd></div>
+      <div><dt>Change point</dt><dd>The point in a series of seasons where the level genuinely shifts to a new one and stays there, rather than just one unusually high or low season on its own; this report finds one for the count of home-nation players in Europe's biggest leagues.</dd></div>
+    </dl>
+
     <h3 id="references">References</h3>
     <ul class="references-list">
       
@@ -10049,7 +10072,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-18 10:33</p>
+    <p class="rendered-at">Rendered: 2026-09-18 10:42</p>
   </div>
 </footer>
 

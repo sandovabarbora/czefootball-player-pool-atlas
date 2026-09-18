@@ -111,6 +111,7 @@ EN: dict[str, str] = {
     "toc.validation": "Validation & robustness",
     "toc.reproducibility": "Reproducibility",
     "toc.related_methods": "Related methods",
+    "toc.glossary": "Glossary",
     "toc.references": "References",
     "toc.how_built": "How this was built",
     "toc.short.benchmark": "Benchmark",
@@ -126,6 +127,7 @@ EN: dict[str, str] = {
     "toc.short.sensitivity": "Sensitivity",
     "toc.short.limitations": "Limitations",
     "toc.short.related_methods": "Related methods",
+    "toc.short.glossary": "Glossary",
     "toc.short.references": "References",
 
     # ---- masthead (first screen: same pitch as the hero kicker/lead below it)
@@ -608,6 +610,17 @@ EN: dict[str, str] = {
     "ch4.sens.live.th.change": "Vs. default",
     "ch4.sens.live.how": "This is the offline sensitivity table above (§ Sensitivity analysis) made interactive: q = (npG/90_shrunk + A/90_shrunk) × m_league, recomputed client-side from the shrunk rates of every {adj}-eligible metrics-season player, no server round-trip. The rank-change column compares each row's rank under the current sliders to its rank at the config defaults.",
 
+    # ---- "in plain terms" leads (Task 26D): one plain paragraph before each
+    # model section's technical text, 2-4 sentences, no symbols, a football
+    # analogy where one is honest.
+    "ch4.strength.plain": "A season in one league is not automatically worth the same as a season in another: goals and assists come easier in some competitions than others. This section works out an exchange rate between leagues by watching the same players before and after they change league, the way a manager judges a new signing by how his output changes at the new club.",
+    "ch4.compare.plain": "Here we ask a simple question of five different methods: given a player's numbers this season, how well can each one guess his numbers next season. Each method is tested only on seasons it has not already seen, the way a scout's judgement only really counts for what he predicts before a season starts, not after it has finished.",
+    "ch4.series.plain": "This section finds the season when the count of home-nation players in Europe's five biggest leagues stopped growing and settled at a lower level, and puts a probability on that season being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.",
+    "ch4.panel.plain": "This section asks whether the pattern from the funnel above — countries that give young players more minutes at home tend to have a deeper pool in the strongest leagues — holds up across every country in the comparison set, not only the two shown earlier. Two seasons and a handful of countries is a small sample, so the range around the estimate is wide.",
+    "ch4.gap.plain": "The gap between the home nation and a comparison country, in players per million, can be split into pieces that line up with three things this report already measures: how much young players play at home, how strong the domestic league is, and how old players are when they move abroad. This does not say which of the three causes the gap, only how much of it moves together with each one — the way a manager might note that a poor season lines up with an injury crisis without claiming the injuries alone explain it.",
+    "ch4.export.plain": "Players who move abroad younger tend to end up producing more once they are there, but that is not necessarily because moving young helps a career: clubs are also more willing to take a chance on a player they already rate highly at a younger age. This section fits a curve to that pattern while trying to hold the strength of the player's original league fixed, but it cannot fully tell the two explanations apart.",
+    "ch4.gk.plain": "Goalkeepers are counted the same way as outfield players throughout this report, with one difference: because a goalkeeper's save numbers swing around a lot from game to game, the model needs a bigger sample of shots faced before it trusts a keeper's own numbers over the league average.",
+
     "ch4.strength.h3": "League strength: two estimates",
     "ch4.strength.p1": "How much is a {home_league} season worth in Premier League terms? The UEFA multiplier above answers that from countries' continental results; this model answers the same question from the players who actually changed leagues.",
     "ch4.strength.p1_is_ref": "How much is a season in Europe's other strongest leagues worth in {home_league} terms? The UEFA multiplier above answers that from countries' continental results; this model answers the same question from the players who actually changed leagues.",
@@ -745,6 +758,31 @@ EN: dict[str, str] = {
     "ch4.related.future.h4": "Next steps not attempted",
     "ch4.related.future.embeddings": "Player-season embeddings and graph methods over the transfer network — clubs and moves as a graph, players as nodes with learned representations — are natural next tools (graph neural networks, specifically) for a pool this size, but were not attempted here.",
     "ch4.related.future.tracking": "Event- and tracking-derived features (pressing intensity, progressive carries, expected threat) would sharpen the style axis beyond the five box-score numbers used here, but no tracking data source was available for this corpus.",
+    # ---- glossary (Task 26D): ten terms, one plain sentence each with a
+    # football example, before References.
+    "glossary.h2": "Glossary",
+    "glossary.intro": "Ten terms used in the <a href=\"#methodology\">sections above</a>, each in one plain sentence with a football example.",
+    "glossary.per90.term": "Per 90",
+    "glossary.per90.def": "A rate scaled to a full match: a player with three goals in five matches, each played the full ninety minutes, has a rate of 0.6 goals per 90 — it lets a player who came on as a substitute be compared fairly with one who started every match.",
+    "glossary.minutes_share.term": "Minutes share",
+    "glossary.minutes_share.def": "How much of a club's available playing time a player actually got, out of every minute the club's matches could have offered that season; a player who played every minute of every match has a minutes share of 100 percent.",
+    "glossary.shrinkage.term": "Shrinkage",
+    "glossary.shrinkage.def": "A way of not trusting a small sample too much: a player with only a handful of matches has his numbers pulled part of the way toward the league's typical number, the way a manager waits for more than one good game before trusting that a young player's form is real.",
+    "glossary.multiplier.term": "League multiplier / league strength",
+    "glossary.multiplier.def": "A number saying how much a goal, an assist or a minute is worth in one league compared with another; a striker's goal in a weaker league counts for less once it is adjusted by that league's own multiplier — the same idea as judging a transfer by the level the player is coming from.",
+    "glossary.quality_adjusted.term": "Quality-adjusted",
+    "glossary.quality_adjusted.def": "A player's raw numbers after they have been multiplied by the league multiplier above, so a rate earned in a strong league and one earned in a weaker league can be compared on the same footing.",
+    "glossary.interval.term": "Interval (90 percent)",
+    "glossary.interval.def": "A range around a number that shows how sure the model is, not a single guess; a ninety percent interval means the model thinks the true value falls inside that range about nine times out of ten.",
+    "glossary.posterior.term": "Posterior",
+    "glossary.posterior.def": "What the model believes about a number after it has seen the data, expressed as a range of plausible values rather than one single figure; the probability attached to a break season in this report is a posterior probability.",
+    "glossary.oos.term": "Out-of-sample",
+    "glossary.oos.def": "Checking a method only on matches, players or seasons it was not shown while it was being built — the way a manager judges a scouting report by what actually happens once the player signs, not by how well the report described what had already happened.",
+    "glossary.cluster.term": "Cluster",
+    "glossary.cluster.def": "A group of players whose season numbers look similar to each other and different from other groups, found automatically from the data rather than assigned by hand; a cluster is a style label such as \"high-volume scorers\", not a formal position.",
+    "glossary.changepoint.term": "Change point",
+    "glossary.changepoint.def": "The point in a series of seasons where the level genuinely shifts to a new one and stays there, rather than just one unusually high or low season on its own; this report finds one for the count of home-nation players in Europe's biggest leagues.",
+
     "ch4.refs.h3": "References",
 
     "ch4.dq.h3": "Data-quality log",
