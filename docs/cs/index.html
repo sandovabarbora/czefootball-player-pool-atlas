@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609181041">
-  <link rel="stylesheet" href="../modern.css?v=202609181041">
+  <link rel="stylesheet" href="../style.css?v=202609181053">
+  <link rel="stylesheet" href="../modern.css?v=202609181053">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609181041"></script>
+  <script defer src="../atlas.js?v=202609181053"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -287,7 +287,7 @@
           </div>
         </div>
         
-        <p class="funnel-metric-note">Počet čeští hráčů v nejsilnějších ligách Evropy klesl kolem sezóny 2014/15; model dává 62 procent pravděpodobnost, že tahle sezóna je bodem zlomu. <a href="#q7">Zlom a prognóza</a>.</p>
+        <p class="funnel-metric-note">Kolem sezóny 2014/15 model nachází možný zlom v počtu čeští hráčů v nejsilnějších ligách Evropy, s 62 procent pravděpodobností, že jde o skutečnou změnu, ne jen o běžný výkyv mezi sezónami. <a href="#q7">Zlom a prognóza</a>.</p>
         
       </li>
     </ol>
@@ -3073,6 +3073,58 @@
         <span class="fed-tile-used-by">Využívá: analytik, který pipeline provozuje.</span>
       </a></li>
     </ul>
+  </div>
+</section>
+
+
+<section class="brief" id="brief">
+  <div class="container">
+    <div class="brief-head">
+      <h2>Jednostránkový brief</h2>
+      <button type="button" class="print-link" onclick="window.print()">Vytisknout tuto stránku</button>
+    </div>
+    <p class="brief-intro">Celý argument na jedné obrazovce: pět čísel za tím, proč je fond hráčů tenký, jediné spojení, které nese většinu rozdílu, dvě kontroly modelů za těmi čísly a to, co z toho nic neukazuje.</p>
+    <table class="brief-table">
+      <thead>
+        <tr>
+          <th>Číslo</th>
+          <th class="cohort-cze">CZE</th><th>NOR</th><th>DEN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Podíl ligových minut, které připadly hráčům do 21 let</td><td class="num">6,4 %</td><td class="num">11,5 %</td><td class="num">15,3 %</td></tr>
+        <tr><td>Průměrný věk odehrané minuty v lize</td><td class="num">26,0</td><td class="num">25,6</td><td class="num">25,4</td></tr>
+        <tr><td>Věk při první sezóně se skutečným herním časem v zahraniční lize</td><td class="num">26,5</td><td class="num">24</td><td class="num">25</td></tr>
+        <tr><td>Podíl odchodů do zahraničí do ligy ne silnější než vlastní</td><td class="num">19 %</td><td class="num">22 %</td><td class="num">10 %</td></tr>
+        <tr><td>Hráči v nejsilnějších ligách Evropy na milion obyvatel</td><td class="num">2,39</td><td class="num">9,37</td><td class="num">12,58</td></tr>
+      </tbody>
+    </table>
+    
+    <p class="brief-take-one-thing">
+      
+      
+      
+      Pokud si z tohoto máte odnést jednu věc: jediné měřené spojení, které nese většinu rozdílu, je pro každé srovnání jiné — u země Norsko je to jak silná je domácí liga, u země Dánsko kolik herního času dostávají mladí hráči doma.
+      
+    </p>
+    
+    <dl class="brief-checks">
+      
+      <div><dt>Jak silná je domácí liga</dt><dd>Sezóna v domácí lize je hodná zhruba 0,67 sezóny v Premier League (0,59–0,75).</dd></div>
+      
+      
+      <div><dt>Kdy se počet hráčů v nejsilnějších ligách zlomil</dt><dd>Kolem sezóny 2014/15, s 62 procent pravděpodobností, že je ta změna skutečná, ne jen běžný výkyv mezi sezónami.</dd></div>
+      
+    </dl>
+    <div class="brief-caveats">
+      <h3>Co tohle neukazuje</h3>
+      <ul>
+        <li>Peníze: transferové částky, mzdy a rozpočty akademií nejsou součástí žádného čísla výše.</li>
+        <li>Jak akademie a trenérská práce skutečně fungují den co den — to žádný veřejný datový zdroj použitý zde nevidí.</li>
+        <li>Agenty a to, jak se odchod do zahraničí skutečně domlouvá — to se odehrává mimo jakoukoli tabulku, kterou tento pipeline umí číst.</li>
+        <li>Směr šipky: nízký podíl herního času mladých hráčů doma může tenkou generaci spoluzpůsobovat, stejně dobře ale může být jejím příznakem — pět čísel výše jsou souvislosti měřené stejným způsobem pro každou zemi.</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -8953,6 +9005,69 @@
     <p class="capita-note">* Sezóna 2025/26, aspoň 450 minut; klub je ten s nejvíc minutami v sezóně. Repre = reprezentační nominace 2024–26.</p>
       </div>
     </details>
+
+    
+    <details class="fold">
+      <summary>Stáhnout tabulky</summary>
+      <div class="explore-block">
+    <h3 id="downloads">Stáhnout tabulky</h3>
+    <p>Tabulky za tímto reportem, přesně jak je pipeline vyprodukovala, commitnuté do veřejného repozitáře. Analytik si je může vzít a pracovat s nimi přímo, ne jen s obrázky výše.</p>
+    <ul class="downloads-list">
+      
+      <li>
+        <span class="downloads-label">Každý hráč nalezený ve fondu, jeden řádek na hráče, před připojením čísel jakékoli sezóny.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet">pool.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Hráči na milion obyvatel, jeden řádek na zemi — číslo za úplně prvním slidem.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/per_capita.parquet">per_capita.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Pětičíselný sezónní vektor pro každého pokrytého hráče, jeden soubor na postovou skupinu (útočníci, záložníci, obránci).</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/features_FW.parquet">features_FW.parquet</a> · <a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/features_MF.parquet">features_MF.parquet</a> · <a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/features_DF.parquet">features_DF.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Produkce podle země, postové skupiny a věkového pásma, čísla za mezinárodním srovnáním.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/cohorts.parquet">cohorts.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Minuty mládeže doma, věk a cesta odchodu do zahraničí, jak se exportům daří a kam se dostávají — všechna čísla za exhibity o cestách, v jednom souboru.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pathways.json">pathways.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Počty hráčů domácí země v pěti největších ligách Evropy, sezónu po sezóně, zpět až na začátek stažené historie.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/big5_history.parquet">big5_history.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Každý sezónní řádek, který tato pipeline stáhla, pro každou ligu a národnost, kterou pokrývá — syrová tabulka, ze které je postaveno všechno ostatní v tomto reportu.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_players.parquet">fbref_players.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Jak každé z pěti sezónních čísel přispívá do stylové a kvalitní mapy.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pca_loadings.parquet">pca_loadings.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Jak moc se změní nejlepší hráči, když se síla ligy posune nahoru nebo dolů.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/sensitivity.parquet">sensitivity.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Tři nová čísla za trychtýřem proč vlak odjel: šíře klubů v minutách mládeže, vlastní věková struktura ligy a věk prvního odchodu hráče do zahraničí.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pipeline_facts.json">pipeline_facts.json</a></span>
+      </li>
+      
+    </ul>
+      </div>
+    </details>
+    
   </div>
 </section>
 
@@ -10913,7 +11028,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-18 10:41</p>
+    <p class="rendered-at">Vykresleno: 2026-09-18 10:53</p>
   </div>
 </footer>
 

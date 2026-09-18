@@ -120,7 +120,7 @@ strings:
   why_funnel.stage4.metric1: "Podíl odchodů do zahraničí do ligy ne silnější než vlastní"
   why_funnel.stage5.line: "Vrstva hráčů v nejsilnějších ligách Evropy zůstává tenká a jednou prudce klesla."
   why_funnel.stage5.metric1: "Hráči v nejsilnějších ligách Evropy na milion obyvatel"
-  why_funnel.stage5.break: "Počet {cs_adj_pl} hráčů v nejsilnějších ligách Evropy klesl kolem sezóny {season}; model dává {prob} pravděpodobnost, že tahle sezóna je bodem zlomu."
+  why_funnel.stage5.break: "Kolem sezóny {season} model nachází možný zlom v počtu {cs_adj_pl} hráčů v nejsilnějších ligách Evropy, s {prob} pravděpodobností, že jde o skutečnou změnu, ne jen o běžný výkyv mezi sezónami."
   why_funnel.caveat.h3: "Co tohle neukazuje"
   why_funnel.caveat.1: "Peníze: transferové částky, mzdy a rozpočty akademií nejsou součástí žádného čísla výše."
   why_funnel.caveat.2: "Jak akademie a trenérská práce skutečně fungují den co den — to žádný veřejný datový zdroj použitý zde nevidí."
@@ -277,6 +277,31 @@ strings:
   fed.models.title: "Validované modely"
   fed.models.body: "Shrinkage, ligové násobičky s tabulkou citlivosti, cluster archetypy, analogy — každé číslo přepočítané při každém běhu; log kvality dat a review ledger v repozitáři."
   fed.models.used_by: "Využívá: analytik, který pipeline provozuje."
+
+  # ---- jednostránkový brief (Task 26E2): celý argument na jedné obrazovce,
+  # před Prozkoumat data, velikostí na jednu stránku A4 (viz @media print)
+  brief.h2: "Jednostránkový brief"
+  brief.print: "Vytisknout tuto stránku"
+  brief.intro: "Celý argument na jedné obrazovce: pět čísel za tím, proč je fond hráčů tenký, jediné spojení, které nese většinu rozdílu, dvě kontroly modelů za těmi čísly a to, co z toho nic neukazuje."
+  brief.th.number: "Číslo"
+  brief.check.strength: "Jak silná je domácí liga"
+  brief.check.strength_value: "Sezóna v domácí lize je hodná zhruba {median} sezóny v Premier League ({lo}–{hi})."
+  brief.check.break: "Kdy se počet hráčů v nejsilnějších ligách zlomil"
+  brief.check.break_value: "Kolem sezóny {season}, s {prob} pravděpodobností, že je ta změna skutečná, ne jen běžný výkyv mezi sezónami."
+
+  # ---- stažení (Task 26E3): přímé odkazy do commitnutého snapshotu dat, uvnitř Prozkoumat data
+  explore.downloads.h3: "Stáhnout tabulky"
+  explore.downloads.intro: "Tabulky za tímto reportem, přesně jak je pipeline vyprodukovala, commitnuté do veřejného repozitáře. Analytik si je může vzít a pracovat s nimi přímo, ne jen s obrázky výše."
+  downloads.pool: "Každý hráč nalezený ve fondu, jeden řádek na hráče, před připojením čísel jakékoli sezóny."
+  downloads.per_capita: "Hráči na milion obyvatel, jeden řádek na zemi — číslo za úplně prvním slidem."
+  downloads.features: "Pětičíselný sezónní vektor pro každého pokrytého hráče, jeden soubor na postovou skupinu (útočníci, záložníci, obránci)."
+  downloads.cohorts: "Produkce podle země, postové skupiny a věkového pásma, čísla za mezinárodním srovnáním."
+  downloads.pathways: "Minuty mládeže doma, věk a cesta odchodu do zahraničí, jak se exportům daří a kam se dostávají — všechna čísla za exhibity o cestách, v jednom souboru."
+  downloads.big5_history: "Počty hráčů domácí země v pěti největších ligách Evropy, sezónu po sezóně, zpět až na začátek stažené historie."
+  downloads.fbref_players: "Každý sezónní řádek, který tato pipeline stáhla, pro každou ligu a národnost, kterou pokrývá — syrová tabulka, ze které je postaveno všechno ostatní v tomto reportu."
+  downloads.pca_loadings: "Jak každé z pěti sezónních čísel přispívá do stylové a kvalitní mapy."
+  downloads.sensitivity: "Jak moc se změní nejlepší hráči, když se síla ligy posune nahoru nebo dolů."
+  downloads.pipeline_facts: "Tři nová čísla za trychtýřem proč vlak odjel: šíře klubů v minutách mládeže, vlastní věková struktura ligy a věk prvního odchodu hráče do zahraničí."
 
   # ---- plain-language metric labels (všude mimo kapitolu IV; ta si nechává
   # "npG+A/90 q" a vysvětlí ho jednou)

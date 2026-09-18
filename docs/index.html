@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609181041">
-  <link rel="stylesheet" href="modern.css?v=202609181041">
+  <link rel="stylesheet" href="style.css?v=202609181053">
+  <link rel="stylesheet" href="modern.css?v=202609181053">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609181041"></script>
+  <script defer src="atlas.js?v=202609181053"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -287,7 +287,7 @@
           </div>
         </div>
         
-        <p class="funnel-metric-note">The count of Czech players in Europe's strongest leagues fell around the 2014/15 season; the model puts 62 percent probability on that season being the turning point. <a href="#q7">Break & forecast</a>.</p>
+        <p class="funnel-metric-note">Around the 2014/15 season, the model finds a possible shift in the count of Czech players in Europe's strongest leagues, with 62 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
         
       </li>
     </ol>
@@ -3073,6 +3073,58 @@
         <span class="fed-tile-used-by">Used by: the analyst running this pipeline.</span>
       </a></li>
     </ul>
+  </div>
+</section>
+
+
+<section class="brief" id="brief">
+  <div class="container">
+    <div class="brief-head">
+      <h2>One-page brief</h2>
+      <button type="button" class="print-link" onclick="window.print()">Print this page</button>
+    </div>
+    <p class="brief-intro">The whole argument on one screen: the five numbers behind why the pool of players runs thin, the single link that carries most of the gap, two checks on the models behind the numbers, and what none of this shows.</p>
+    <table class="brief-table">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th class="cohort-cze">CZE</th><th>NOR</th><th>DEN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Share of league minutes that went to players aged 21 or under</td><td class="num">6.4 %</td><td class="num">11.5 %</td><td class="num">15.3 %</td></tr>
+        <tr><td>Average age of a minute played in the league</td><td class="num">26.0</td><td class="num">25.6</td><td class="num">25.4</td></tr>
+        <tr><td>Age the first time a player has real playing time in a foreign league</td><td class="num">26.5</td><td class="num">24</td><td class="num">25</td></tr>
+        <tr><td>Share of moves abroad to a league no stronger than the player's own</td><td class="num">19 %</td><td class="num">22 %</td><td class="num">10 %</td></tr>
+        <tr><td>Players in Europe's strongest leagues, for every million people</td><td class="num">2.39</td><td class="num">9.37</td><td class="num">12.58</td></tr>
+      </tbody>
+    </table>
+    
+    <p class="brief-take-one-thing">
+      
+      
+      
+      If you take one thing from this: the single measured link that carries the most of the gap is different for each comparison — how strong the domestic league is for Norway, how much playing time young players get at home for Denmark.
+      
+    </p>
+    
+    <dl class="brief-checks">
+      
+      <div><dt>How strong is the home league</dt><dd>A season in the home league is worth about 0.67 of a season in the Premier League (0.59–0.75).</dd></div>
+      
+      
+      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2014/15 season, with 62 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
+      
+    </dl>
+    <div class="brief-caveats">
+      <h3>What this does not show</h3>
+      <ul>
+        <li>Money: transfer fees, wages and academy budgets play no part in any number above.</li>
+        <li>How the academy and coaching set-up actually work day to day, which no public data source used here can see.</li>
+        <li>Agents, and how a move abroad actually gets arranged, which happens off any table this pipeline can read.</li>
+        <li>The direction of the arrow: a low share of playing time for young players at home could help cause a thin generation, or just as easily be a symptom of one — the five numbers above are associations measured the same way for every country.</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -8953,6 +9005,69 @@
     <p class="capita-note">* 2025/26 season, at least 450 minutes; the club is the one with the most minutes that season. NT = national-team call-up 2024–26.</p>
       </div>
     </details>
+
+    
+    <details class="fold">
+      <summary>Download the tables</summary>
+      <div class="explore-block">
+    <h3 id="downloads">Download the tables</h3>
+    <p>The tables behind this report, exactly as the pipeline produced them, committed to the public repository. An analyst can take these and work from them directly, not only from the pictures above.</p>
+    <ul class="downloads-list">
+      
+      <li>
+        <span class="downloads-label">Every player found in the pool, one row per player, before any season's numbers are attached.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet">pool.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Players per million people, one row per country — the number behind the very first slide.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/per_capita.parquet">per_capita.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The five-number season vector for every covered player, one file per position group (forwards, midfielders, defenders).</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/features_FW.parquet">features_FW.parquet</a> · <a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/features_MF.parquet">features_MF.parquet</a> · <a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/features_DF.parquet">features_DF.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Production by country, position group and age band, the numbers behind the international comparison.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/cohorts.parquet">cohorts.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Youth minutes at home, the age and route of the move abroad, how exports fare, and where they land — every number behind the pathway exhibits, in one file.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pathways.json">pathways.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Season-by-season counts of home-nation players in Europe's five biggest leagues, back to the start of the fetched history.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/big5_history.parquet">big5_history.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Every season row this pipeline has fetched, for every league and nationality it covers — the raw table everything else in this report is built from.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_players.parquet">fbref_players.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">How each of the five season numbers contributes to the style and quality maps.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pca_loadings.parquet">pca_loadings.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">How much the top players change when a league's strength is nudged up or down.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/sensitivity.parquet">sensitivity.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The three new numbers behind the why-the-train-left funnel: club breadth of youth minutes, the league's own age structure, and the age at a player's first move abroad.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/barborasandova/czefootball-player-pool-atlas/main/data/snapshot/cze/pipeline_facts.json">pipeline_facts.json</a></span>
+      </li>
+      
+    </ul>
+      </div>
+    </details>
+    
   </div>
 </section>
 
@@ -10913,7 +11028,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-18 10:41</p>
+    <p class="rendered-at">Rendered: 2026-09-18 10:53</p>
   </div>
 </footer>
 

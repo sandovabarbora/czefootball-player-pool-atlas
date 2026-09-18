@@ -185,7 +185,7 @@ EN: dict[str, str] = {
     "why_funnel.stage4.metric1": "Share of moves abroad to a league no stronger than the player's own",
     "why_funnel.stage5.line": "The layer of players in Europe's strongest leagues stays thin, and it fell sharply once.",
     "why_funnel.stage5.metric1": "Players in Europe's strongest leagues, for every million people",
-    "why_funnel.stage5.break": "The count of {adj} players in Europe's strongest leagues fell around the {season} season; the model puts {prob} probability on that season being the turning point.",
+    "why_funnel.stage5.break": "Around the {season} season, the model finds a possible shift in the count of {adj} players in Europe's strongest leagues, with {prob} probability that it is a genuine change rather than an ordinary season-to-season dip.",
     "why_funnel.caveat.h3": "What this does not show",
     "why_funnel.caveat.1": "Money: transfer fees, wages and academy budgets play no part in any number above.",
     "why_funnel.caveat.2": "How the academy and coaching set-up actually work day to day, which no public data source used here can see.",
@@ -348,6 +348,32 @@ EN: dict[str, str] = {
     "fed.models.title": "Models, validated",
     "fed.models.body": "Shrinkage, league multipliers with a sensitivity table, cluster archetypes, analogs — every number recomputed each run; data-quality log and review ledger in the repo.",
     "fed.models.used_by": "Used by: the analyst running this pipeline.",
+
+    # ---- one-page brief (Task 26E2): the whole argument on one screen,
+    # before Explore, sized to print on a single A4 page (see @media print)
+    "brief.h2": "One-page brief",
+    "brief.print": "Print this page",
+    "brief.intro": "The whole argument on one screen: the five numbers behind why the pool of players runs thin, the single link that carries most of the gap, two checks on the models behind the numbers, and what none of this shows.",
+    "brief.th.number": "Number",
+    "brief.check.strength": "How strong is the home league",
+    "brief.check.strength_value": "A season in the home league is worth about {median} of a season in the Premier League ({lo}–{hi}).",
+    "brief.check.break": "When the count of players in the strongest leagues turned",
+    "brief.check.break_value": "Around the {season} season, with {prob} probability that the shift is genuine rather than an ordinary season-to-season dip.",
+
+    # ---- downloads (Task 26E3): raw links into the committed data snapshot,
+    # inside Explore
+    "explore.downloads.h3": "Download the tables",
+    "explore.downloads.intro": "The tables behind this report, exactly as the pipeline produced them, committed to the public repository. An analyst can take these and work from them directly, not only from the pictures above.",
+    "downloads.pool": "Every player found in the pool, one row per player, before any season's numbers are attached.",
+    "downloads.per_capita": "Players per million people, one row per country — the number behind the very first slide.",
+    "downloads.features": "The five-number season vector for every covered player, one file per position group (forwards, midfielders, defenders).",
+    "downloads.cohorts": "Production by country, position group and age band, the numbers behind the international comparison.",
+    "downloads.pathways": "Youth minutes at home, the age and route of the move abroad, how exports fare, and where they land — every number behind the pathway exhibits, in one file.",
+    "downloads.big5_history": "Season-by-season counts of home-nation players in Europe's five biggest leagues, back to the start of the fetched history.",
+    "downloads.fbref_players": "Every season row this pipeline has fetched, for every league and nationality it covers — the raw table everything else in this report is built from.",
+    "downloads.pca_loadings": "How each of the five season numbers contributes to the style and quality maps.",
+    "downloads.sensitivity": "How much the top players change when a league's strength is nudged up or down.",
+    "downloads.pipeline_facts": "The three new numbers behind the why-the-train-left funnel: club breadth of youth minutes, the league's own age structure, and the age at a player's first move abroad.",
 
     # ---- plain-language metric labels (used everywhere outside chapter IV;
     # chapter IV keeps "npG+A/90 q" and explains it once)

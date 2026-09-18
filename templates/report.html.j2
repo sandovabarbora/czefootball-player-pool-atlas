@@ -932,6 +932,68 @@
 </section>
 
 {# =============================================================================
+   ONE-PAGE BRIEF (Task 26E2) — the whole argument on one screen, meant to
+   print on a single A4 page (see the @media print rules in style.css): the
+   funnel's five numbers (home nation vs the two compare countries), the
+   two model checks (league strength, the break season), the take-one-thing
+   line, and the four what-this-does-not-show lines. Right before Explore,
+   so it reads as the report's own executive summary, not a separate document.
+   ============================================================================= #}
+<section class="brief" id="brief">
+  <div class="container">
+    <div class="brief-head">
+      <h2>{{ t('brief.h2') }}</h2>
+      <button type="button" class="print-link" onclick="window.print()">{{ t('brief.print') }}</button>
+    </div>
+    <p class="brief-intro">{{ t('brief.intro') }}</p>
+    <table class="brief-table">
+      <thead>
+        <tr>
+          <th>{{ t('brief.th.number') }}</th>
+          {% for c in why_funnel.countries %}<th{% if c.code == home_code %} class="cohort-cze"{% endif %}>{{ c.code }}</th>{% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>{{ t('why_funnel.stage1.metric1') }}</td>{% for cell in why_funnel.stage1.share_u21 %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
+        <tr><td>{{ t('why_funnel.stage2.metric1') }}</td>{% for cell in why_funnel.stage2.mean_age %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
+        <tr><td>{{ t('why_funnel.stage3.metric1') }}</td>{% for r in why_funnel.stage3.rows %}<td class="num">{% if r.age is none %}—{% else %}{{ g(r.age) }}{% endif %}</td>{% endfor %}</tr>
+        <tr><td>{{ t('why_funnel.stage4.metric1') }}</td>{% for cell in why_funnel.stage4.sideways %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
+        <tr><td>{{ t('why_funnel.stage5.metric1') }}</td>{% for cell in why_funnel.stage5.per_million %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
+      </tbody>
+    </table>
+    {% if why_funnel.take_one_thing %}
+    <p class="brief-take-one-thing">
+      {% if why_funnel.take_one_thing.same_channel %}
+      {{ t('why_funnel.take_one_thing.same', a=pc_a, b=pc_b, channel=term(why_funnel.take_one_thing.channel)) }}
+      {% else %}
+      {% set bc0 = why_funnel.take_one_thing.by_contrast[0] %}
+      {% set bc1 = why_funnel.take_one_thing.by_contrast[1] %}
+      {{ t('why_funnel.take_one_thing.diff', a=term(bc0.contrast), b=term(bc1.contrast),
+           channel_a=term(bc0.channel), channel_b=term(bc1.channel)) }}
+      {% endif %}
+    </p>
+    {% endif %}
+    <dl class="brief-checks">
+      {% if league_strength.home and not league_strength.home_is_reference %}
+      <div><dt>{{ t('brief.check.strength') }}</dt><dd>{{ t('brief.check.strength_value', median=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi)) }}</dd></div>
+      {% endif %}
+      {% if big5 and big5.break_season %}
+      <div><dt>{{ t('brief.check.break') }}</dt><dd>{{ t('brief.check.break_value', season=big5.break_season, prob=pctword(big5.break_prob)) }}</dd></div>
+      {% endif %}
+    </dl>
+    <div class="brief-caveats">
+      <h3>{{ t('why_funnel.caveat.h3') }}</h3>
+      <ul>
+        <li>{{ t('why_funnel.caveat.1') }}</li>
+        <li>{{ t('why_funnel.caveat.2') }}</li>
+        <li>{{ t('why_funnel.caveat.3') }}</li>
+        <li>{{ t('why_funnel.caveat.4') }}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+{# =============================================================================
    EXPLORE THE DATA — folded; today's chapters I-III material, minus the
    exhibits already used as a slide's proof above. Six top-level folds
    (Task 13b brief); ids kept so old deep links still land somewhere.
@@ -1325,6 +1387,24 @@
     <p class="capita-note">{{ t('pi.note', season=seasons.metrics, min=feature_defs.min_minutes, nt_years=facts.nt_years) }}</p>
       </div>
     </details>
+
+    {% if downloads %}
+    <details class="fold">
+      <summary>{{ t('explore.downloads.h3') }}</summary>
+      <div class="explore-block">
+    <h3 id="downloads">{{ t('explore.downloads.h3') }}</h3>
+    <p>{{ t('explore.downloads.intro') }}</p>
+    <ul class="downloads-list">
+      {% for row in downloads %}
+      <li>
+        <span class="downloads-label">{{ t(row.label_key) }}</span>
+        <span class="downloads-links">{% for f in row.files %}<a href="{{ f.url }}">{{ f.name }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</span>
+      </li>
+      {% endfor %}
+    </ul>
+      </div>
+    </details>
+    {% endif %}
   </div>
 </section>
 

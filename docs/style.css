@@ -552,6 +552,142 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
 .funnel-caveats li:last-child { margin-bottom: 0; }
 
 /* =========================================================================
+   One-page brief (Task 26E2) — the whole argument on one screen, right
+   before Explore. Sized (with @media print, below) to print on a single
+   A4 page together with the quickread opener.
+   ========================================================================= */
+.brief { padding: var(--space-6) 0; border-top: 1px solid var(--rule); background: var(--cream-100); }
+.brief-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+}
+.brief-head h2 {
+  font-weight: 300;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.print-link {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--navy-700);
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+.print-link:hover { border-color: var(--navy-700); color: var(--oxblood-700); }
+.brief-intro {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+}
+.brief-table {
+  width: 100%;
+  max-width: var(--container);
+  border-collapse: collapse;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.brief-table th, .brief-table td {
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+.brief-table td.num, .brief-table th:not(:first-child) {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum", "lnum";
+}
+.brief-table th.cohort-cze, .brief-table td.cohort-cze { color: var(--oxblood-700); font-weight: 600; }
+.brief-take-one-thing {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--navy-700);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+}
+.brief-checks {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+}
+.brief-checks dt {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.15rem;
+}
+.brief-checks dd {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--ink);
+  margin: 0;
+}
+.brief-caveats {
+  padding: var(--space-3) var(--space-4);
+  background: var(--page-bg);
+  border: 1px solid var(--rule);
+}
+.brief-caveats h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+  margin: 0 0 0.6rem;
+}
+.brief-caveats ul { margin: 0; padding: 0 0 0 1.1rem; }
+.brief-caveats li {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0 0 0.35rem;
+}
+.brief-caveats li:last-child { margin-bottom: 0; }
+
+/* =========================================================================
+   Downloads (Task 26E3) — raw links into the committed data snapshot,
+   inside Explore.
+   ========================================================================= */
+.downloads-list { list-style: none; margin: 0; padding: 0; }
+.downloads-list li {
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--rule-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  align-items: baseline;
+}
+.downloads-list li:first-child { border-top: none; }
+.downloads-label {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  flex: 1 1 320px;
+}
+.downloads-links {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+.downloads-links a { color: var(--navy-700); }
+
+/* =========================================================================
    For a federation — four quiet tiles right after the argument list, same
    hairline family as .argument (no boxes, no shadows), plus one mono line
    on what it takes to run the pipeline for another country
@@ -2556,28 +2692,23 @@ footer a:hover { border-bottom-color: var(--ink); }
 /* =========================================================================
    Print / PDF (weasyprint)
    ========================================================================= */
+/* Task 26E2: "Print this page" prints ONLY the 60-second opener
+   (#quickread) plus the one-page brief (#brief) -- together sized to fit
+   a single A4 sheet -- and nothing else on the page. Every other top-level
+   section (nav, header, the funnel, the slides, Explore, Method, footer)
+   is hidden; only #quickread and #brief are forced back to `block`. */
 @media print {
+  @page { size: A4; margin: 14mm; }
   :root { --page-bg: #fdfdfc; }
-  body { font-size: 10.5pt; line-height: 1.4; color: #1a1a1a; }
-  .toc-sticky, .toc-mobile, .skip-link { display: none !important; }
-  .hero {
-    background: transparent !important;
-    color: var(--ink) !important;
-    padding: 1rem 0;
-    margin: 0;
-  }
-  .hero::before { display: none; }
-  .hero-kicker { color: var(--oxblood-700); }
-  .hero-num-figure { color: var(--ink); font-size: 4.5rem; }
-  .hero-num-unit, .hero-lead p { color: var(--ink) !important; }
-  .hero-lead p { font-size: 1rem; }
-  .hero-pull { color: var(--oxblood-700); }
-  h2 { page-break-after: avoid; }
-  figure, .hero-figure, .observation, .cluster-list dt, .cluster-list dd {
+  body { font-size: 10pt; line-height: 1.4; color: #1a1a1a; background: #fdfdfc; }
+  body > *:not(#quickread):not(#brief) { display: none !important; }
+  #quickread, #brief { display: block !important; }
+  #quickread { border-top: none; padding-top: 0; }
+  .quickread-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  #brief { background: transparent; border-top: none; padding-top: var(--space-3); }
+  .print-link { display: none !important; }
+  .brief-table, .brief-caveats, .brief-take-one-thing, .brief-checks, figure {
     page-break-inside: avoid;
   }
-  .figure-bleed { margin-left: 0; margin-right: 0; }
-  .figure-bleed figcaption { padding: 0; }
-  .observations { grid-template-columns: 1fr 1fr 1fr; }
-  .movers-grid { grid-template-columns: 1fr 1fr; }
+  a { color: inherit; text-decoration: none; }
 }
