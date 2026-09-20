@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609202304">
-  <link rel="stylesheet" href="modern.css?v=202609202304">
+  <link rel="stylesheet" href="style.css?v=202609210050">
+  <link rel="stylesheet" href="modern.css?v=202609210050">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609202304"></script>
+  <script defer src="atlas.js?v=202609210050"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -8759,6 +8759,7 @@
     <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier (every country in this run used the model estimate)) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
+      <figcaption>Values written inside each segment when they fit; the residual hatched.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr>
@@ -8845,6 +8846,7 @@
     <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do English players go when they leave?", reused here) — 691 players, ages 16–36 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the natural cubic spline branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
     <figure class="figure-bleed">
       <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as oxblood points against every other peer export in grey, and a rug of every export's age along the axis.">
+      <figcaption>The 21-vs-24 comparison, marked directly on the curve.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr><th>Age</th><th>Expected G+A/90 (median)</th><th>90 % HDI</th></tr></thead>
@@ -9650,7 +9652,7 @@
       <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 285 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
-        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 34 tasks.</desc>
+        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 35 tasks.</desc>
         <defs>
           <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
@@ -9706,7 +9708,7 @@
           <text x="515" y="256" class="bp-ledger-count">rulings: 25</text></g>
       </svg>
       <p class="build-diagram-legend">Implementers and reviewers: sonnet · controller: opus.</p>
-      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 34 tasks of this edition and the last.</p>
+      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 35 tasks of this edition and the last.</p>
       <p>Spec: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">design</a> · plan: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">tasks</a> · ledger: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulings</a>.</p>
       
       <p>Every edition's own design spec and ledger:
@@ -10148,7 +10150,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-20 23:04</p>
+    <p class="rendered-at">Rendered: 2026-09-21 00:27</p>
   </div>
 </footer>
 

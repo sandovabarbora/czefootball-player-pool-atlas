@@ -303,34 +303,94 @@ def assemble_output(panel: pd.DataFrame, coeffs: dict[str, Any], results: list[d
 
 
 def render_figure(results: list[dict[str, Any]], out_path: Path) -> None:
-    """Task 27B7: one horizontal stacked bar per contrast: three channel
-    segments in the channel palette (placed cumulatively, waterfall-style,
-    so a negative contribution extends the bar leftward), plus the residual
-    drawn hatched rather than a fourth solid colour. Each segment's value is
-    written inside it when the segment is wide enough to hold the text,
-    otherwise just past its end; each channel segment's own bootstrap
-    interval is a whisker at its place in the stack."""
+    """Task 27B7 (label crowding fixed Task 28): one horizontal stacked bar
+    per contrast: three channel segments in the channel palette (placed
+    cumulatively, waterfall-style, so a negative contribution extends the
+    bar leftward, and a later segment can redraw over part of an earlier
+    one's own span when the running total doubles back -- normal for a
+    bridge/waterfall chart, but it means two segments' natural label centres
+    can end up close together even when each segment is, on its own, wide
+    enough for its label). Each segment's value is written inside it,
+    centred, when the segment is wide enough to hold the text on its own
+    AND its centre doesn't sit close enough to another in-segment label to
+    touch it (`_resolve_inside_labels` below, priority to the wider
+    segment); otherwise it is written outside the bar with a short leader
+    (`figstyle.annotate_point`) rather than nudged right up against the
+    segment's own edge -- the latter used to collide with whatever segment
+    came next when a contribution rounded to about zero. A segment under
+    ~3% of the row's own total bar width (`TINY_SEGMENT_FRAC`) never gets
+    in-segment text, regardless of how short its label is; outside labels
+    are staggered above/below the row (more levels than two narrow
+    neighbours could need) so they don't stack on top of each other. Each
+    channel segment's own bootstrap interval is a whisker at its place in
+    the stack."""
     import matplotlib.pyplot as plt
 
-    from src.figstyle import CREAM, INK, MUTED, OXBLOOD, PEER_A, PEER_B, RULE, legend_row, use_style
+    from src.figstyle import CREAM, INK, MUTED, OXBLOOD, PEER_A, PEER_B, RULE, annotate_point, legend_row, use_style
 
     use_style()
     channel_colors = {"u21_share": PEER_A, "league_strength": PEER_B, "export_age": OXBLOOD}
     residual_color = MUTED
+
+    # A segment narrower than this share of its own row's total bar width
+    # (sum of every segment's absolute contribution in that row) never gets
+    # in-segment text -- the brief's ~3% floor for a contribution that
+    # rounds to about zero.
+    TINY_SEGMENT_FRAC = 0.03
+    # A label's estimated required share of the row's bar width, linear in
+    # its character count (roughly uniform-width digits/sign/dot at 9pt) --
+    # a segment narrower than this doesn't reliably hold its own centred
+    # label without touching the segment's own edges.
+    CHARS_TO_FRAC = 0.045
+    LABEL_MARGIN_FRAC = 0.02
+    # A much tighter per-character estimate used only to check whether two
+    # *different* segments' in-segment labels would touch each other --
+    # this is the rendered glyph width, not "wide enough to sit centred and
+    # padded inside its own bar", so it is deliberately smaller than
+    # CHARS_TO_FRAC above.
+    COLLISION_CHARS_TO_FRAC = 0.022
+
+    def _resolve_inside_labels(candidates: list[dict[str, Any]], row_width: float) -> set[int]:
+        """Which `candidates` (each `{idx, w, center, text}`, one per
+        segment that individually fits its own bar) keep their in-segment
+        label -- widest contribution first, skipping any whose centre is
+        closer than both labels' estimated half-widths to an already-kept
+        one, since that means the two bars' own overlap (see above) would
+        carry their text into each other."""
+        kept: list[dict[str, Any]] = []
+        for c in sorted(candidates, key=lambda c: -abs(c["w"])):
+            half = (COLLISION_CHARS_TO_FRAC * len(c["text"]) / 2) * row_width
+            if any(abs(c["center"] - k["center"]) < half + (COLLISION_CHARS_TO_FRAC * len(k["text"]) / 2) * row_width
+                   for k in kept):
+                continue
+            kept.append(c)
+        return {c["idx"] for c in kept}
 
     fig, ax = plt.subplots(figsize=(10.4, 1.5 + 1.15 * len(results)))
     fig.patch.set_facecolor(CREAM)
     ax.set_facecolor(CREAM)
 
     n = len(results)
-    all_widths = [abs(seg["contribution"]) for r in results for seg in r["channels"]]
-    label_min_width = (max(all_widths) if all_widths else 1) * 0.14
+    # Levels an outside label's leader can be staggered to (points, above
+    # alternating with below); four covers every segment in a row needing
+    # one at once.
+    OUTSIDE_DY_LEVELS = [13, -17, 24, -28]
 
     for i, r in enumerate(results):
         y = n - 1 - i
         cum = 0.0
         segments = [*r["channels"], {"name": "residual", "contribution": r["residual"], "lo": None, "hi": None}]
-        for seg in segments:
+        # The row's own total bar width -- every threshold below is relative
+        # to this row, not to the figure's widest segment, so a row with one
+        # dominant channel doesn't crowd out the labels on a row where all
+        # three channels are closer in size.
+        row_width = sum(abs(seg["contribution"]) for seg in segments) or 1.0
+
+        # Pass 1: draw every bar + whisker, and record each segment's own
+        # candidacy for an in-segment label (own width vs. its own text).
+        fit_candidates = []
+        seg_labels = []  # (center_x, text, own_fits) per segment, in order
+        for idx, seg in enumerate(segments):
             w = seg["contribution"]
             is_residual = seg["name"] == "residual"
             color = residual_color if is_residual else channel_colors.get(seg["name"], residual_color)
@@ -338,17 +398,41 @@ def render_figure(results: list[dict[str, Any]], out_path: Path) -> None:
                     hatch="////" if is_residual else None)
             if seg.get("lo") is not None:
                 ax.plot([cum + seg["lo"], cum + seg["hi"]], [y, y], color=INK, lw=1.5, zorder=3, solid_capstyle="round")
-            # Value inside the segment when it's wide enough to hold the
-            # text; otherwise just past the segment's outer edge.
+
             text = f"{w:+.1f}"
-            if abs(w) >= label_min_width:
-                ax.annotate(text, xy=(cum + w / 2, y), ha="center", va="center",
+            center = cum + w / 2
+            frac = abs(w) / row_width
+            required_frac = CHARS_TO_FRAC * len(text) + LABEL_MARGIN_FRAC
+            own_fits = frac >= TINY_SEGMENT_FRAC and frac >= required_frac
+            if own_fits:
+                fit_candidates.append({"idx": idx, "w": w, "center": center, "text": text})
+            seg_labels.append((center, text))
+            cum += w
+
+        # Pass 2: two segments that each individually fit their own bar can
+        # still sit close enough (a later segment redrawing over part of an
+        # earlier one's span, see docstring) that their labels would touch
+        # -- keep the wider one inside, bump the other outside.
+        keep_inside = _resolve_inside_labels(fit_candidates, row_width)
+
+        # Pass 3: render every label, inside or on an outside leader.
+        outside_i = 0
+        for idx, (center, text) in enumerate(seg_labels):
+            if idx in keep_inside:
+                # Wide enough, and not crowded by another in-segment label:
+                # the value sits centred inside the segment, in the
+                # background-contrasting colour.
+                ax.annotate(text, xy=(center, y), ha="center", va="center",
                            fontsize=9, color=CREAM, fontweight=600, zorder=4)
             else:
-                dx = 6 if w >= 0 else -6
-                ax.annotate(text, xy=(cum + w, y), xytext=(dx, 0), textcoords="offset points",
-                           ha="left" if w >= 0 else "right", va="center", fontsize=9, color=INK, fontweight=600)
-            cum += w
+                # Too narrow on its own, below the ~3% floor, or crowded by
+                # a wider neighbour's in-segment label: the label moves off
+                # the bar entirely, on a short leader above/below the row,
+                # staggered per segment so two narrow neighbours in
+                # the same row don't stack their leaders on each other.
+                dy = OUTSIDE_DY_LEVELS[outside_i % len(OUTSIDE_DY_LEVELS)]
+                annotate_point(ax, center, y, text, dy=dy, color=INK)
+                outside_i += 1
         ax.axvline(0, color=RULE, lw=1, zorder=1)
 
     ax.set_yticks(range(n))

@@ -429,32 +429,31 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
         ring.set_gid(f"{group}-{proj}-nt")
         for _, row in sub.nlargest(ATLAS_NAMES_N, "q").iterrows():
             ax.annotate(_last_name(row["player"]), (row[x_col], row[y_col]),
-                        xytext=(3, 3), textcoords="offset points", fontsize=7,
+                        xytext=(3, 3), textcoords="offset points", fontsize=9.5,
                         color=INK, zorder=10)
         ax.set_title(title, fontsize=11.5, fontfamily="sans-serif", color=INK, pad=12, loc="left")
-        ax.set_xlabel("PC1", fontsize=8.5, color=MUTED, fontfamily="sans-serif")
-        ax.set_ylabel("PC2", fontsize=8.5, color=MUTED, fontfamily="sans-serif")
+        ax.set_xlabel("PC1", fontsize=9.5, color=MUTED, fontfamily="sans-serif")
+        ax.set_ylabel("PC2", fontsize=9.5, color=MUTED, fontfamily="sans-serif")
         for side in ("top", "right"):
             ax.spines[side].set_visible(False)
         for side in ("left", "bottom"):
             ax.spines[side].set_color(RULE)
-        ax.tick_params(colors=MUTED, labelsize=8)
+        ax.tick_params(colors=MUTED, labelsize=9.5)
         ax.set_facecolor(CREAM)
-        leg = ax.legend(loc="lower right", fontsize=7.5, frameon=False, labelcolor=INK)
+        leg = ax.legend(loc="lower right", fontsize=9, frameon=False, labelcolor=INK)
         for txt in leg.get_texts():
             txt.set_fontfamily("sans-serif")
 
     adj = config.nation()["adjective"]
     fig.suptitle(f"{adj} football · {GROUP_TITLES[group]} {season_label(season)}",
-                 fontsize=14, fontfamily="sans-serif", color=INK, y=1.02, x=0.02, ha="left",
-                 weight="normal")
+                 fontsize=14, fontfamily="sans-serif", color=INK, y=1.02, x=0.02, ha="left")
     fig.text(
         0.02, -0.025,
         f"PCA of the five-feature vector (npG/90, A/90, minutes share, age, cards/90), "
         f"{season_label(season)}. Grey: the whole corpus (n = {len(cur)}); coloured: "
         f"{adj}-eligible players by cluster (n = {len(cz)}). Oxblood rings: national-team "
         f"call-up {config.nt_years()}.",
-        ha="left", fontsize=8.2, color=MUTED, fontfamily="sans-serif",
+        ha="left", fontsize=9.5, color=MUTED, fontfamily="sans-serif",
     )
     plt.tight_layout()
     plt.savefig(out_path, bbox_inches="tight", format="svg", dpi=160)

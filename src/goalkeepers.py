@@ -556,7 +556,7 @@ def render_export_age_figure(
     ax.set_xlabel("Age at first top-9 season", fontsize=9.5, color=MUTED, fontfamily="sans-serif")
     ax.set_title("Age at first top-9 season: goalkeepers vs. outfield exports",
                  fontsize=12, fontfamily="sans-serif", color=INK, pad=12, loc="left")
-    ax.tick_params(colors=MUTED, labelsize=9)
+    ax.tick_params(colors=MUTED, labelsize=9.5)
     for side in ("top", "right", "left"):
         ax.spines[side].set_visible(False)
     ax.spines["bottom"].set_color(RULE)

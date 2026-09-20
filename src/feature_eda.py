@@ -54,7 +54,7 @@ from scipy.stats import skew
 
 from src import config
 from src.features import FEATURES
-from src.figstyle import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE, use_style
+from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, use_style
 from src.logging_setup import setup as logging_setup
 from src.utils import read_parquet
 
@@ -266,7 +266,11 @@ def render_distributions_figure(
             by_league.append(np.log1p(v) if use_log else v)
         bp = ax.boxplot(by_league, patch_artist=True, showfliers=False)
         for patch, lg in zip(bp["boxes"], leagues, strict=True):
-            patch.set_facecolor(OXBLOOD if lg == config.DOMESTIC_LEAGUE else NAVY_DEEP)
+            # Palette discipline (Task 28 audit): the domestic league is the
+            # home nation, so oxblood; every other league is "the rest",
+            # so grey (MUTED) -- not navy, which this report reserves for a
+            # specific first comparison, not an arbitrary group of leagues.
+            patch.set_facecolor(OXBLOOD if lg == config.DOMESTIC_LEAGUE else MUTED)
             patch.set_alpha(0.75)
         for element in ("whiskers", "caps", "medians"):
             for line in bp[element]:
@@ -321,7 +325,7 @@ def render_shrinkage_figure(
     ax.scatter(d["min"], d["npg_p90"], s=22, color=MUTED, alpha=0.6, zorder=2, label="raw npG/90")
     ax.scatter(d["min"], d["npg_p90_shrunk"], s=22, color=NAVY, alpha=0.9, zorder=3, label="shrunk npG/90")
     ax.annotate(str(most_shrunk["player"]).split()[-1], (most_shrunk["min"], most_shrunk["npg_p90_shrunk"]),
-                xytext=(6, 6), textcoords="offset points", fontsize=8, color=INK, zorder=5)
+                xytext=(6, 6), textcoords="offset points", fontsize=9.5, color=INK, zorder=5)
 
     ax2 = ax.twinx()
     lo, hi = float(d["min"].min()), float(d["min"].max())

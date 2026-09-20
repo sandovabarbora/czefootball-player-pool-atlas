@@ -175,7 +175,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
                             color=INK, weight="medium")
         ax.set_title(
             f"{POS_GROUP_TITLES[group]}  ·  median npG+A per 90 (quality-adjusted)",
-            fontsize=11, fontfamily="sans-serif", color=INK, pad=12, loc="left", weight="normal",
+            fontsize=11, fontfamily="sans-serif", color=INK, pad=12, loc="left",
         )
         ax.tick_params(axis="both", which="both", length=0, colors=INK, pad=6)
         for spine in ax.spines.values():
@@ -191,10 +191,10 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
                     val = matrix[i, j]
                     text_color = CREAM if (vmax and val > 0.55 * vmax) else INK
                     ax.text(j, i - 0.10, f"n={n}", ha="center", va="center",
-                            fontsize=8.5, color=text_color, fontfamily="sans-serif",
+                            fontsize=9.5, color=text_color, fontfamily="sans-serif",
                             weight="medium")
                     ax.text(j, i + 0.20, f"{val:.2f}", ha="center", va="center",
-                            fontsize=9, color=text_color, fontfamily="sans-serif", weight="normal")
+                            fontsize=9.5, color=text_color, fontfamily="sans-serif", weight="normal")
 
         cz_idx = country_order.index(config.HOME) if config.HOME in country_order else None
         if cz_idx is not None:
@@ -214,7 +214,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
 
     fig.suptitle(
         f"International cohort benchmark  ·  UEFA top-9 leagues {season_label(config.seasons()['metrics'])}",
-        fontsize=14, fontfamily="sans-serif", color=INK, x=0.02, ha="left", y=1.04, weight="normal",
+        fontsize=14, fontfamily="sans-serif", color=INK, x=0.02, ha="left", y=1.04,
     )
     # the cell-reading note used to be baked into the figure here; it now
     # lives in the HTML <figure title="..."> tooltip (ch1.heatmap.note in

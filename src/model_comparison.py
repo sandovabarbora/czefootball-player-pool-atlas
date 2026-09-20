@@ -417,8 +417,48 @@ MODEL_LABELS = {
 }
 
 
+def _stack_labels(ax, end_points: list[tuple[str, float, str, str]], min_gap_frac: float = 0.062) -> None:
+    """`figstyle.label_right`, but for a cluster of right-edge labels close
+    enough in `y` to overlap: sorts by `y`, pushes any label closer than
+    `min_gap_frac` of the axes' y-range to its already-placed neighbour up
+    by exactly that gap, and draws a short leader tick from the line's real
+    endpoint to a label that had to move."""
+    import matplotlib.pyplot as plt
+
+    from src.figstyle import RULE
+
+    if not end_points:
+        return
+    ax.margins(y=0.14)
+    plt.draw()
+    y0, y1 = ax.get_ylim()
+    min_gap = (y1 - y0) * min_gap_frac
+
+    ordered = sorted(end_points, key=lambda p: p[1])
+    label_y = [ordered[0][1]]
+    for _, y, _, _ in ordered[1:]:
+        label_y.append(max(y, label_y[-1] + min_gap))
+
+    for (x, y, text, color), ly in zip(ordered, label_y, strict=True):
+        if abs(ly - y) > 1e-9:
+            ax.plot([x, x], [y, ly], color=RULE, lw=0.8, zorder=1)
+        ax.annotate(text, xy=(x, ly), xytext=(8, 0), textcoords="offset points",
+                   fontsize=10, color=color, va="center", ha="left", fontweight=600,
+                   annotation_clip=False)
+
+
 def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
-    """RMSE per origin season, one line per model (palette), persistence dashed."""
+    """RMSE per origin season, one line per model (palette), persistence
+    dashed; each line labelled directly at its right end (Task 28 --
+    replaces a legend for what is, like every other series chart in this
+    report, a set of lines a reader compares by following them to their own
+    label rather than by cross-checking a key). Five models can end a
+    rolling-origin series close enough in RMSE that their right-edge labels
+    would otherwise overlap (the three ML/Bayesian models routinely
+    converge by the last origin here) -- `_stack_labels` below spaces them
+    out vertically and draws a short leader tick back to the line's own
+    endpoint whenever a label had to move off it, the same convention
+    `figstyle.annotate_point` uses elsewhere in this report."""
     import matplotlib.pyplot as plt
 
     from src.figstyle import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE, use_style
@@ -428,10 +468,11 @@ def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
     colors = {"persistence": RULE, "shrinkage_league_mean": MUTED, "bayesian": NAVY,
              "gbm": OXBLOOD, "mlp": NAVY_DEEP}
     df = pd.DataFrame(rows)
-    fig, ax = plt.subplots(figsize=(8.0, 4.6))
+    fig, ax = plt.subplots(figsize=(8.6, 4.6))
     fig.patch.set_facecolor(CREAM)
     ax.set_facecolor(CREAM)
 
+    end_points = []
     for model in MODEL_ORDER:
         sub = df[df["model"] == model].sort_values("origin")
         if sub.empty:
@@ -439,7 +480,9 @@ def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
         xs = [season_label(o) for o in sub["origin"]]
         ax.plot(xs, sub["rmse"], color=colors[model], lw=2.2,
                linestyle="--" if model == "persistence" else "-",
-               marker="o", markersize=4, label=MODEL_LABELS[model])
+               marker="o", markersize=4)
+        end_points.append((xs[-1], sub["rmse"].iloc[-1], MODEL_LABELS[model], colors[model]))
+    _stack_labels(ax, end_points)
 
     ax.set_ylabel("RMSE (npG+A per 90, quality-adjusted)", fontsize=10, fontfamily="sans-serif", color=INK)
     ax.set_xlabel("Target season (origin)", fontsize=10, fontfamily="sans-serif", color=INK)
@@ -449,7 +492,7 @@ def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
     for spine in ("left", "bottom"):
         ax.spines[spine].set_color(RULE)
     ax.tick_params(colors=INK)
-    ax.legend(frameon=False, fontsize=9, labelcolor=INK)
+    ax.margins(x=0.10)
     plt.tight_layout()
     plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
     plt.close(fig)

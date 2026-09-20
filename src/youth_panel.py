@@ -466,17 +466,19 @@ def render_figure(
 ) -> None:
     """Scatter of `x` (U21 share, %) against `y` (top-9 per million), one
     line per country connecting its two seasons, the between-country
-    fitted line + 90% band, home nation in oxblood."""
+    fitted line + 90% band, home nation in oxblood. The fitted line carries
+    its own direct label at its right end (Task 28 -- a legend with a
+    single entry for one line is a key nobody needs to look up)."""
     import matplotlib.pyplot as plt
 
-    from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, use_style
+    from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, label_right, use_style
     use_style()
 
     fig, ax = plt.subplots(figsize=(8.5, 5.8))
     fig.patch.set_facecolor(CREAM)
     ax.set_facecolor(CREAM)
 
-    ax.plot(xs * 100, fitted, color=NAVY, lw=2.0, zorder=2, label="Fitted line (between-country, 90% band)")
+    ax.plot(xs * 100, fitted, color=NAVY, lw=2.0, zorder=2)
     ax.fill_between(xs * 100, fitted_lo, fitted_hi, color=NAVY, alpha=0.12, zorder=1, lw=0)
 
     for country, g in panel.groupby("country"):
@@ -488,8 +490,10 @@ def render_figure(
                   zorder=4, edgecolors=CREAM, linewidths=0.6)
         last = g.iloc[-1]
         ax.annotate(country, xy=(last["x"] * 100, last["y"]), xytext=(5, 3), textcoords="offset points",
-                   fontsize=9, fontfamily="sans-serif", color=color,
+                   fontsize=9.5, fontfamily="sans-serif", color=color,
                    weight="bold" if is_home else "normal")
+
+    label_right(ax, [(xs[-1] * 100, fitted[-1], "Fitted line (90% band)", NAVY)])
 
     ax.set_xlabel("U21 share of domestic-league minutes (%)", fontsize=10, fontfamily="sans-serif", color=INK)
     ax.set_ylabel("Top-9-league players per million population", fontsize=10, fontfamily="sans-serif", color=INK)
@@ -500,7 +504,7 @@ def render_figure(
     for spine in ("left", "bottom"):
         ax.spines[spine].set_color(RULE)
     ax.tick_params(colors=INK)
-    ax.legend(frameon=False, fontsize=9, labelcolor=INK, loc="upper left")
+    ax.margins(x=0.10)
     plt.tight_layout()
     plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
     plt.close(fig)

@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609202304">
-  <link rel="stylesheet" href="../modern.css?v=202609202304">
+  <link rel="stylesheet" href="../style.css?v=202609210050">
+  <link rel="stylesheet" href="../modern.css?v=202609210050">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609202304"></script>
+  <script defer src="../atlas.js?v=202609210050"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -9793,6 +9793,7 @@
     <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu (v tomto běhu použila každá země odhad z modelu)) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu (Oaxaca, 1973; Blinder, 1973), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
+      <figcaption>Hodnoty napsané uvnitř každého segmentu, pokud se vejdou; reziduum šrafované.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr>
@@ -9879,6 +9880,7 @@
     <p>Pro každého hráče peer národnosti (včetně domácí země), jehož první sezóna v top-9 lize spadá do staženého okna a není cenzurovaná (stejné pravidlo cenzurování jako u „Kam čeští hráči odcházejí?“, zde znovu použité) — 115 hráčů, věk 17–31 — je věk při té sezóně modelován proti ligově upravené produkci za první jednu nebo dvě sezóny hráče v top-9. f(věk) je přirozený kubický spline s uzly na 19, 21, 23 a 25 (prostá kvadratická funkce pod n = 150; zde byla použita větev kvadratická funkce), spolu se silou výchozí ligy (model transferového grafu, <a href="#league-strength">§ Síla ligy</a>), postem a partial-pooled efektem země (Gelman et al., 2013), vzorkováno NUTS (Hoffman and Gelman, 2014), 4 řetězce × 1000 vzorků; každý sloupec designu i výstup byly před fitováním standardizovány — stejná lekce z panelu minut mládeže o priorech na surové škále u různě škálovaných proměnných.</p>
     <figure class="figure-bleed">
       <img src="export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, exporty domácí země jako oxblood body proti všem ostatním peer exportům v šedé a rug (čárky) věku každého exportu podél osy.">
+      <figcaption>Srovnání 21 vs 24 vyznačené přímo na křivce.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr><th>Věk</th><th>Očekávané G+A/90 (medián)</th><th>90% HDI</th></tr></thead>
@@ -10684,7 +10686,7 @@
       <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 285 testy.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Diagram průběhu stavby</title>
-        <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 34 úkoly.</desc>
+        <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 35 úkoly.</desc>
         <defs>
           <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
@@ -10740,7 +10742,7 @@
           <text x="515" y="256" class="bp-ledger-count">rulingy: 25</text></g>
       </svg>
       <p class="build-diagram-legend">Implementace i review: sonnet · controller: opus.</p>
-      <p>Review je u každého úkolu dvoustupňový — nejdřív soulad se specifikací, pak kvalita kódu — a zjištění každého review se zapisují do ledgeru, ne jen verdikt: 40 řádků zmiňujících review napříč 34 úkoly této a minulé edice.</p>
+      <p>Review je u každého úkolu dvoustupňový — nejdřív soulad se specifikací, pak kvalita kódu — a zjištění každého review se zapisují do ledgeru, ne jen verdikt: 40 řádků zmiňujících review napříč 35 úkoly této a minulé edice.</p>
       <p>Specifikace: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">návrh</a> · plán: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">úkoly</a> · ledger: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulingy</a>.</p>
       
       <p>Vlastní specifikace a ledger každé edice:
@@ -10982,7 +10984,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-20 23:04</p>
+    <p class="rendered-at">Vykresleno: 2026-09-21 00:23</p>
   </div>
 </footer>
 
