@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="576pt" height="331.2pt" viewBox="0 0 576 331.2" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="566.4pt" height="321.84pt" viewBox="0 0 566.4 321.84" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-09-15T09:52:33.047971</dc:date>
+    <dc:date>2026-09-20T22:25:31.657798</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -21,19 +21,19 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 331.2 
-L 576 331.2 
-L 576 0 
+   <path d="M 0 321.84 
+L 566.4 321.84 
+L 566.4 0 
 L 0 0 
 z
 " style="fill: #fdfbf6"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 54.72 287.988555 
-L 565.2 287.988555 
-L 565.2 26.63252 
-L 54.72 26.63252 
+    <path d="M 50.43 277.58 
+L 559.2 277.58 
+L 559.2 26.2 
+L 50.43 26.2 
 z
 " style="fill: #fdfbf6"/>
    </g>
@@ -41,741 +41,707 @@ z
     <g id="xtick_1">
      <g id="line2d_1">
       <defs>
-       <path id="mf1e05ec375" d="M 0 0 
+       <path id="mde3688afcb" d="M 0 0 
 L 0 3.5 
 " style="stroke: #2a261f; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#mf1e05ec375" x="77.923636" y="287.988555" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#mde3688afcb" x="73.555909" y="277.58" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
       <!-- 2021/22 -->
-      <g style="fill: #2a261f" transform="translate(59.190824 302.552031) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(54.666065 294.58) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-15" d="M 3272 0 
-L 344 0 
-L 344 425 
-Q 428 522 578 642 
-Q 728 763 934 903 
-Q 1059 988 1234 1088 
-Q 1409 1188 1631 1306 
-Q 1878 1438 2011 1538 
-Q 2144 1638 2253 1784 
-Q 2325 1881 2369 2026 
-Q 2413 2172 2413 2441 
-Q 2413 2831 2203 3014 
-Q 1994 3197 1666 3197 
-Q 1463 3197 1281 3117 
-Q 1100 3038 1009 2897 
-Q 1031 2797 1064 2659 
-Q 1097 2522 1097 2391 
-Q 1097 2272 998 2180 
-Q 900 2088 706 2088 
-Q 550 2088 465 2195 
-Q 381 2303 381 2484 
-Q 381 2653 475 2823 
-Q 569 2994 744 3138 
-Q 916 3278 1169 3365 
-Q 1422 3453 1716 3453 
-Q 2356 3453 2732 3167 
-Q 3109 2881 3109 2403 
-Q 3109 2175 3042 1987 
-Q 2975 1800 2825 1656 
-Q 2659 1497 2437 1383 
-Q 2216 1269 1759 1066 
-Q 1488 944 1253 811 
-Q 1019 678 869 553 
-L 3272 553 
-L 3272 0 
+        <path id="HankenGrotesk-Regular-1d1" d="M 307 0 
+L 307 448 
+Q 531 627 828 844 
+Q 1126 1062 1430 1318 
+Q 1734 1574 1993 1862 
+Q 2253 2150 2413 2470 
+Q 2573 2790 2573 3130 
+Q 2573 3507 2361 3744 
+Q 2150 3981 1741 3981 
+Q 1440 3981 1238 3843 
+Q 1037 3706 937 3466 
+Q 838 3226 832 2918 
+L 301 2957 
+Q 301 3270 397 3548 
+Q 493 3827 678 4041 
+Q 864 4256 1136 4381 
+Q 1408 4506 1760 4506 
+Q 2163 4506 2464 4336 
+Q 2765 4166 2934 3862 
+Q 3104 3558 3104 3149 
+Q 3104 2790 2973 2457 
+Q 2842 2125 2608 1824 
+Q 2374 1523 2073 1254 
+Q 1773 986 1433 749 
+Q 1094 512 742 314 
+L 883 506 
+L 3283 506 
+L 3283 0 
+L 307 0 
 z
 " transform="scale(0.015625)"/>
-        <path id="Georgia-13" d="M 3209 2919 
-Q 3409 2678 3507 2354 
-Q 3606 2031 3606 1678 
-Q 3606 1253 3484 917 
-Q 3363 581 3150 359 
-Q 2931 131 2631 15 
-Q 2331 -100 1963 -100 
-Q 1559 -100 1243 34 
-Q 928 169 731 403 
-Q 525 647 423 973 
-Q 322 1300 322 1678 
-Q 322 2050 420 2362 
-Q 519 2675 728 2928 
-Q 928 3172 1243 3312 
-Q 1559 3453 1966 3453 
-Q 2394 3453 2700 3309 
-Q 3006 3166 3209 2919 
+        <path id="HankenGrotesk-Regular-1cf" d="M 1805 -51 
+Q 1434 -51 1174 86 
+Q 915 224 748 461 
+Q 582 698 496 995 
+Q 410 1293 374 1616 
+Q 339 1939 339 2246 
+Q 339 2547 371 2867 
+Q 403 3187 489 3481 
+Q 576 3776 739 4009 
+Q 902 4243 1158 4380 
+Q 1414 4518 1786 4518 
+Q 2144 4518 2397 4387 
+Q 2650 4256 2816 4029 
+Q 2982 3802 3075 3510 
+Q 3168 3219 3206 2892 
+Q 3245 2566 3245 2240 
+Q 3245 1907 3206 1580 
+Q 3168 1254 3075 960 
+Q 2982 666 2819 438 
+Q 2656 211 2406 80 
+Q 2157 -51 1805 -51 
 z
-M 2916 1678 
-Q 2916 2422 2661 2831 
-Q 2406 3241 1969 3241 
-Q 1525 3241 1269 2831 
-Q 1013 2422 1013 1678 
-Q 1013 972 1258 542 
-Q 1503 113 1963 113 
-Q 2422 113 2669 542 
-Q 2916 972 2916 1678 
-z
-" transform="scale(0.015625)"/>
-        <path id="Georgia-14" d="M 2528 0 
-L 422 0 
-L 422 222 
-Q 516 228 714 248 
-Q 913 269 988 291 
-Q 1084 322 1136 392 
-Q 1188 463 1188 603 
-L 1188 2797 
-L 409 2797 
-L 409 3059 
-L 581 3059 
-Q 919 3059 1186 3184 
-Q 1453 3309 1569 3453 
-L 1828 3453 
-Q 1819 3250 1809 2978 
-Q 1800 2706 1800 2491 
-L 1800 638 
-Q 1800 528 1848 442 
-Q 1897 356 1988 316 
-Q 2069 281 2253 253 
-Q 2438 225 2528 222 
-L 2528 0 
+M 1805 474 
+Q 2138 474 2333 704 
+Q 2528 934 2611 1331 
+Q 2694 1728 2694 2221 
+Q 2694 2739 2608 3139 
+Q 2522 3539 2323 3769 
+Q 2125 4000 1786 4000 
+Q 1517 4000 1344 3859 
+Q 1171 3718 1075 3472 
+Q 979 3226 937 2906 
+Q 896 2586 896 2227 
+Q 896 1882 937 1565 
+Q 979 1248 1078 1005 
+Q 1178 762 1354 618 
+Q 1530 474 1805 474 
 z
 " transform="scale(0.015625)"/>
-        <path id="Georgia-12" d="M 2719 4759 
-L 559 -1325 
-L 153 -1325 
-L 2306 4759 
-L 2719 4759 
+        <path id="HankenGrotesk-Regular-1d0" d="M 1862 0 
+L 1862 3597 
+L 2029 3315 
+L 698 3315 
+L 698 3750 
+L 1472 3750 
+Q 1664 3750 1763 3833 
+Q 1862 3917 1862 4122 
+L 1862 4461 
+L 2406 4461 
+L 2406 0 
+L 1862 0 
+z
+" transform="scale(0.015625)"/>
+        <path id="HankenGrotesk-Regular-20c" d="M -269 -1350 
+L 2016 4461 
+L 2438 4461 
+L 147 -1350 
+L -269 -1350 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-15"/>
-       <use xlink:href="#Georgia-13" transform="translate(55.859375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(117.234375 0)"/>
-       <use xlink:href="#Georgia-14" transform="translate(173.09375 0)"/>
-       <use xlink:href="#Georgia-12" transform="translate(216.0625 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(262.9375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(318.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(321.796875 0)"/>
       </g>
      </g>
     </g>
     <g id="xtick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#mf1e05ec375" x="193.941818" y="287.988555" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#mde3688afcb" x="189.185455" y="277.58" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
       <!-- 2022/23 -->
-      <g style="fill: #2a261f" transform="translate(174.598849 302.552031) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(170.295611 294.58) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-16" d="M 1522 -1141 
-Q 1228 -1141 984 -1067 
-Q 741 -994 566 -869 
-Q 391 -744 295 -581 
-Q 200 -419 200 -247 
-Q 200 -94 275 29 
-Q 350 153 516 153 
-Q 703 153 801 61 
-Q 900 -31 900 -150 
-Q 900 -250 867 -403 
-Q 834 -556 816 -622 
-Q 838 -650 895 -697 
-Q 953 -744 1038 -781 
-Q 1138 -828 1247 -856 
-Q 1356 -884 1556 -884 
-Q 1744 -884 1917 -821 
-Q 2091 -759 2222 -622 
-Q 2359 -478 2436 -286 
-Q 2513 -94 2513 219 
-Q 2513 388 2477 553 
-Q 2441 719 2344 841 
-Q 2247 963 2080 1030 
-Q 1913 1097 1656 1097 
-L 1247 1097 
-L 1247 1456 
-L 1519 1456 
-Q 1950 1456 2140 1693 
-Q 2331 1931 2331 2409 
-Q 2331 2800 2147 2998 
-Q 1963 3197 1625 3197 
-Q 1463 3197 1358 3158 
-Q 1253 3119 1188 3081 
-Q 1109 3038 1059 2984 
-Q 1009 2931 984 2906 
-Q 1006 2806 1037 2661 
-Q 1069 2516 1069 2384 
-Q 1069 2269 970 2176 
-Q 872 2084 681 2084 
-Q 516 2084 439 2203 
-Q 363 2322 363 2478 
-Q 363 2641 453 2809 
-Q 544 2978 722 3125 
-Q 900 3272 1156 3362 
-Q 1413 3453 1747 3453 
-Q 2131 3453 2382 3339 
-Q 2634 3225 2778 3063 
-Q 2919 2903 2972 2728 
-Q 3025 2553 3025 2428 
-Q 3025 2272 2981 2114 
-Q 2938 1956 2838 1822 
-Q 2728 1675 2548 1554 
-Q 2369 1434 2097 1359 
-L 2097 1309 
-Q 2272 1294 2470 1231 
-Q 2669 1169 2828 1047 
-Q 2994 919 3100 717 
-Q 3206 516 3206 206 
-Q 3206 -394 2725 -767 
-Q 2244 -1141 1522 -1141 
+        <path id="HankenGrotesk-Regular-1d2" d="M 1760 -51 
+Q 1280 -51 921 125 
+Q 563 301 364 617 
+Q 166 934 166 1357 
+L 704 1389 
+Q 704 966 998 720 
+Q 1293 474 1779 474 
+Q 2099 474 2329 576 
+Q 2560 678 2685 870 
+Q 2810 1062 2810 1318 
+Q 2810 1555 2707 1712 
+Q 2605 1869 2429 1961 
+Q 2253 2054 2016 2092 
+Q 1779 2131 1510 2131 
+L 1510 2560 
+Q 1709 2560 1897 2595 
+Q 2086 2630 2236 2713 
+Q 2387 2797 2473 2937 
+Q 2560 3078 2560 3290 
+Q 2560 3501 2457 3661 
+Q 2355 3821 2176 3907 
+Q 1997 3994 1754 3994 
+Q 1357 3994 1133 3776 
+Q 909 3558 902 3219 
+L 371 3251 
+Q 371 3622 550 3907 
+Q 730 4192 1046 4352 
+Q 1363 4512 1773 4512 
+Q 2163 4512 2460 4361 
+Q 2758 4211 2931 3948 
+Q 3104 3686 3104 3341 
+Q 3104 3149 3046 2998 
+Q 2989 2848 2883 2733 
+Q 2778 2618 2640 2538 
+Q 2502 2458 2349 2406 
+Q 2541 2362 2720 2278 
+Q 2899 2195 3040 2060 
+Q 3181 1926 3264 1740 
+Q 3347 1555 3347 1312 
+Q 3347 909 3145 601 
+Q 2944 294 2589 121 
+Q 2234 -51 1760 -51 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-15"/>
-       <use xlink:href="#Georgia-13" transform="translate(55.859375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(117.234375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(173.09375 0)"/>
-       <use xlink:href="#Georgia-12" transform="translate(228.953125 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(275.828125 0)"/>
-       <use xlink:href="#Georgia-16" transform="translate(331.6875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d2" transform="translate(321.796875 0)"/>
       </g>
      </g>
     </g>
     <g id="xtick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#mf1e05ec375" x="309.96" y="287.988555" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#mde3688afcb" x="304.815" y="277.58" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
       <!-- 2023/24 -->
-      <g style="fill: #2a261f" transform="translate(290.585 302.552031) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(285.925156 294.58) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-17" d="M 3388 281 
-L 2753 281 
-L 2753 -1141 
-L 2153 -1141 
-L 2153 281 
-L 153 281 
-L 153 763 
-L 2344 3434 
-L 2753 3434 
-L 2753 691 
-L 3388 691 
-L 3388 281 
+        <path id="HankenGrotesk-Regular-1d3" d="M 2227 0 
+L 2227 1062 
+L 102 1062 
+L 102 1491 
+L 2272 4461 
+L 2771 4461 
+L 2771 1568 
+L 3488 1568 
+L 3488 1062 
+L 2771 1062 
+L 2771 0 
+L 2227 0 
 z
-M 2153 691 
-L 2153 2738 
-L 466 691 
-L 2153 691 
+M 557 1376 
+L 512 1568 
+L 2227 1568 
+L 2227 3853 
+L 2291 3808 
+L 557 1376 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-15"/>
-       <use xlink:href="#Georgia-13" transform="translate(55.859375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(117.234375 0)"/>
-       <use xlink:href="#Georgia-16" transform="translate(173.09375 0)"/>
-       <use xlink:href="#Georgia-12" transform="translate(228.265625 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(275.140625 0)"/>
-       <use xlink:href="#Georgia-17" transform="translate(331 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d2" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d3" transform="translate(321.796875 0)"/>
       </g>
      </g>
     </g>
     <g id="xtick_4">
      <g id="line2d_4">
       <g>
-       <use xlink:href="#mf1e05ec375" x="425.978182" y="287.988555" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#mde3688afcb" x="420.444545" y="277.58" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
       <!-- 2024/25 -->
-      <g style="fill: #2a261f" transform="translate(406.720369 302.552031) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(401.554702 294.58) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-18" d="M 2634 1466 
-Q 2841 1303 2977 1047 
-Q 3113 791 3113 406 
-Q 3113 -266 2653 -703 
-Q 2194 -1141 1488 -1141 
-Q 941 -1141 562 -881 
-Q 184 -622 184 -278 
-Q 184 -119 262 0 
-Q 341 119 503 119 
-Q 691 119 789 20 
-Q 888 -78 888 -194 
-Q 888 -294 853 -444 
-Q 819 -594 800 -666 
-Q 825 -688 881 -725 
-Q 938 -763 1016 -797 
-Q 1097 -831 1214 -857 
-Q 1331 -884 1488 -884 
-Q 1688 -884 1866 -803 
-Q 2044 -722 2166 -563 
-Q 2300 -388 2367 -164 
-Q 2434 59 2434 403 
-Q 2434 844 2189 1133 
-Q 1944 1422 1544 1422 
-Q 1294 1422 1076 1328 
-Q 859 1234 688 1016 
-L 478 1097 
-L 744 3353 
-L 2981 3353 
-L 2981 2797 
-L 997 2797 
-L 834 1472 
-Q 975 1572 1204 1670 
-Q 1434 1769 1709 1769 
-Q 1938 1769 2183 1698 
-Q 2428 1628 2634 1466 
+        <path id="HankenGrotesk-Regular-1d4" d="M 1779 -51 
+Q 1389 -51 1059 115 
+Q 730 282 515 576 
+Q 301 870 230 1248 
+L 762 1344 
+Q 806 1101 937 899 
+Q 1069 698 1283 582 
+Q 1498 467 1773 467 
+Q 2093 467 2317 617 
+Q 2541 768 2659 1011 
+Q 2778 1254 2778 1530 
+Q 2778 1798 2666 2019 
+Q 2554 2240 2339 2371 
+Q 2125 2502 1811 2502 
+Q 1530 2502 1299 2374 
+Q 1069 2246 902 2003 
+L 371 2150 
+L 787 4461 
+L 3142 4461 
+L 3142 3955 
+L 986 3955 
+L 1274 4186 
+L 960 2458 
+L 806 2490 
+Q 1056 2784 1334 2899 
+Q 1613 3014 1888 3014 
+Q 2317 3014 2646 2812 
+Q 2976 2611 3161 2272 
+Q 3347 1933 3347 1530 
+Q 3347 1210 3232 925 
+Q 3117 640 2905 419 
+Q 2694 198 2406 73 
+Q 2118 -51 1779 -51 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-15"/>
-       <use xlink:href="#Georgia-13" transform="translate(55.859375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(117.234375 0)"/>
-       <use xlink:href="#Georgia-17" transform="translate(173.09375 0)"/>
-       <use xlink:href="#Georgia-12" transform="translate(229.59375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(276.46875 0)"/>
-       <use xlink:href="#Georgia-18" transform="translate(332.328125 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d3" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d4" transform="translate(321.796875 0)"/>
       </g>
      </g>
     </g>
     <g id="xtick_5">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#mf1e05ec375" x="541.996364" y="287.988555" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#mde3688afcb" x="536.074091" y="277.58" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
       <!-- 2025/26 -->
-      <g style="fill: #2a261f" transform="translate(522.733864 302.552031) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(517.184247 294.58) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-19" d="M 3359 1441 
-Q 3359 1116 3242 831 
-Q 3125 547 2928 347 
-Q 2700 119 2423 9 
-Q 2147 -100 1847 -100 
-Q 1500 -100 1219 28 
-Q 938 156 741 391 
-Q 541 628 431 972 
-Q 322 1316 322 1744 
-Q 322 2859 986 3625 
-Q 1650 4391 2766 4544 
-L 2822 4263 
-L 2541 4213 
-Q 1863 3994 1492 3531 
-Q 1122 3069 1013 2409 
-Q 1281 2644 1543 2741 
-Q 1806 2838 2097 2838 
-Q 2619 2838 2989 2438 
-Q 3359 2038 3359 1441 
+        <path id="HankenGrotesk-Regular-1d5" d="M 2310 4461 
+L 1171 2637 
+L 1107 2720 
+Q 1254 2816 1414 2867 
+Q 1574 2918 1734 2918 
+Q 2150 2918 2486 2720 
+Q 2822 2522 3017 2189 
+Q 3213 1856 3213 1446 
+Q 3213 1018 3001 678 
+Q 2790 339 2441 144 
+Q 2093 -51 1664 -51 
+Q 1242 -51 886 144 
+Q 531 339 320 678 
+Q 109 1018 109 1440 
+Q 109 1658 176 1866 
+Q 243 2074 352 2253 
+L 1690 4461 
+L 2310 4461 
 z
-M 2681 1356 
-Q 2681 1863 2448 2169 
-Q 2216 2475 1825 2475 
-Q 1591 2475 1389 2387 
-Q 1188 2300 1000 2094 
-Q 997 2056 990 1920 
-Q 984 1784 984 1706 
-Q 984 975 1223 561 
-Q 1463 147 1853 147 
-Q 2225 147 2453 470 
-Q 2681 794 2681 1356 
+M 1664 2438 
+Q 1395 2438 1168 2310 
+Q 941 2182 803 1958 
+Q 666 1734 666 1446 
+Q 666 1165 800 941 
+Q 934 717 1161 589 
+Q 1389 461 1664 461 
+Q 1939 461 2166 589 
+Q 2394 717 2528 941 
+Q 2662 1165 2662 1453 
+Q 2662 1734 2528 1958 
+Q 2394 2182 2170 2310 
+Q 1946 2438 1664 2438 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-15"/>
-       <use xlink:href="#Georgia-13" transform="translate(55.859375 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(117.234375 0)"/>
-       <use xlink:href="#Georgia-18" transform="translate(173.09375 0)"/>
-       <use xlink:href="#Georgia-12" transform="translate(225.921875 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(272.796875 0)"/>
-       <use xlink:href="#Georgia-19" transform="translate(328.65625 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d4" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d5" transform="translate(321.796875 0)"/>
       </g>
      </g>
     </g>
     <g id="text_6">
      <!-- Target season (origin) -->
-     <g style="fill: #2a261f" transform="translate(262.507656 318.24) scale(0.1 -0.1)">
+     <g style="fill: #2a261f" transform="translate(257.779063 311.61) scale(0.1 -0.1)">
       <defs>
-       <path id="HelveticaNeue-3b" d="M 1536 4058 
-L 1536 0 
-L 2144 0 
-L 2144 4058 
-L 3667 4058 
-L 3667 4570 
-L 13 4570 
-L 13 4058 
-L 1536 4058 
+       <path id="HankenGrotesk-Regular-8f" d="M 1594 0 
+L 1594 3955 
+L 96 3955 
+L 96 4461 
+L 3654 4461 
+L 3654 3955 
+L 2163 3955 
+L 2163 0 
+L 1594 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-48" d="M 3341 13 
-Q 3200 -70 2950 -70 
-Q 2739 -70 2614 48 
-Q 2490 166 2490 435 
-Q 2266 166 1968 48 
-Q 1670 -70 1325 -70 
-Q 1101 -70 899 -19 
-Q 698 32 550 141 
-Q 403 250 316 426 
-Q 230 602 230 851 
-Q 230 1133 326 1312 
-Q 422 1491 579 1603 
-Q 736 1715 937 1772 
-Q 1139 1830 1350 1869 
-Q 1574 1914 1776 1936 
-Q 1978 1958 2131 2000 
-Q 2285 2042 2374 2122 
-Q 2464 2202 2464 2355 
-Q 2464 2534 2397 2643 
-Q 2330 2752 2224 2809 
-Q 2118 2867 1987 2886 
-Q 1856 2906 1728 2906 
-Q 1382 2906 1152 2774 
-Q 922 2643 902 2278 
-L 358 2278 
-Q 371 2586 486 2797 
-Q 602 3008 794 3139 
-Q 986 3270 1232 3328 
-Q 1478 3386 1760 3386 
-Q 1984 3386 2205 3354 
-Q 2426 3322 2605 3222 
-Q 2784 3123 2893 2944 
-Q 3002 2765 3002 2477 
-L 3002 774 
-Q 3002 582 3024 492 
-Q 3046 403 3174 403 
-Q 3245 403 3341 435 
-L 3341 13 
+       <path id="HankenGrotesk-Regular-d8" d="M 2534 0 
+L 2496 634 
+L 2496 1978 
+Q 2496 2342 2294 2540 
+Q 2093 2739 1696 2739 
+Q 1440 2739 1216 2633 
+Q 992 2528 781 2278 
+L 390 2611 
+Q 653 2918 992 3062 
+Q 1331 3206 1734 3206 
+Q 2355 3206 2694 2886 
+Q 3034 2566 3034 1978 
+L 3034 0 
+L 2534 0 
 z
-M 2458 1709 
-Q 2355 1632 2188 1597 
-Q 2022 1562 1840 1539 
-Q 1658 1517 1472 1488 
-Q 1286 1459 1139 1395 
-Q 992 1331 899 1212 
-Q 806 1094 806 890 
-Q 806 755 860 662 
-Q 915 570 1001 512 
-Q 1088 454 1203 428 
-Q 1318 403 1446 403 
-Q 1715 403 1907 476 
-Q 2099 550 2220 662 
-Q 2342 774 2400 905 
-Q 2458 1037 2458 1152 
-L 2458 1709 
+M 1491 -51 
+Q 1133 -51 867 73 
+Q 602 198 458 422 
+Q 314 646 314 941 
+Q 314 1203 419 1385 
+Q 525 1568 691 1670 
+Q 858 1779 1072 1820 
+Q 1286 1862 1523 1862 
+L 2547 1862 
+L 2547 1453 
+L 1600 1453 
+Q 1459 1453 1305 1427 
+Q 1152 1402 1037 1318 
+Q 954 1254 906 1158 
+Q 858 1062 858 934 
+Q 858 685 1043 537 
+Q 1229 390 1542 390 
+Q 1805 390 2019 512 
+Q 2234 634 2365 848 
+Q 2496 1062 2496 1331 
+L 2720 1101 
+Q 2682 762 2515 499 
+Q 2349 237 2089 93 
+Q 1830 -51 1491 -51 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-59" d="M 390 3309 
-L 390 0 
-L 934 0 
-L 934 1472 
-Q 934 1792 998 2038 
-Q 1062 2285 1203 2457 
-Q 1344 2630 1574 2720 
-Q 1805 2810 2131 2810 
-L 2131 3386 
-Q 1690 3398 1402 3206 
-Q 1114 3014 915 2611 
-L 902 2611 
-L 902 3309 
-L 390 3309 
+       <path id="HankenGrotesk-Regular-15f" d="M 461 0 
+L 461 3155 
+L 1005 3155 
+L 1005 2310 
+L 864 2278 
+Q 909 2560 1078 2768 
+Q 1248 2976 1475 3091 
+Q 1702 3206 1920 3206 
+Q 2067 3206 2201 3174 
+Q 2336 3142 2477 3066 
+L 2208 2579 
+Q 2131 2618 2025 2643 
+Q 1920 2669 1824 2669 
+Q 1670 2669 1520 2611 
+Q 1370 2554 1248 2432 
+Q 1126 2310 1062 2106 
+Q 1037 2016 1021 1872 
+Q 1005 1728 1005 1478 
+L 1005 0 
+L 461 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-4e" d="M 3264 282 
-L 3264 3309 
-L 2752 3309 
-L 2752 2835 
-L 2746 2835 
-Q 2598 3110 2336 3248 
-Q 2074 3386 1760 3386 
-Q 1331 3386 1036 3222 
-Q 742 3059 563 2806 
-Q 384 2554 307 2243 
-Q 230 1933 230 1638 
-Q 230 1299 323 995 
-Q 416 691 601 464 
-Q 787 237 1062 102 
-Q 1338 -32 1709 -32 
-Q 2029 -32 2313 112 
-Q 2598 256 2739 563 
-L 2752 563 
-L 2752 346 
-Q 2752 70 2697 -160 
-Q 2643 -390 2521 -553 
-Q 2400 -717 2214 -809 
-Q 2029 -902 1760 -902 
-Q 1626 -902 1478 -873 
-Q 1331 -845 1206 -781 
-Q 1082 -717 995 -614 
-Q 909 -512 902 -365 
-L 358 -365 
-Q 371 -634 499 -819 
-Q 627 -1005 822 -1120 
-Q 1018 -1235 1258 -1286 
-Q 1498 -1338 1728 -1338 
-Q 2522 -1338 2893 -934 
-Q 3264 -531 3264 282 
+       <path id="HankenGrotesk-Regular-111" d="M 1734 -1363 
+Q 1056 -1363 659 -1113 
+Q 262 -864 262 -422 
+Q 262 -390 265 -339 
+Q 269 -288 282 -243 
+L 1069 326 
+L 1254 198 
+L 806 -358 
+Q 800 -384 800 -403 
+Q 800 -422 800 -442 
+Q 800 -698 1069 -822 
+Q 1338 -947 1734 -947 
+Q 2086 -947 2316 -848 
+Q 2547 -749 2547 -525 
+Q 2547 -397 2473 -317 
+Q 2400 -237 2262 -192 
+Q 2125 -147 1939 -115 
+Q 1754 -83 1523 -51 
+Q 1235 -6 963 77 
+Q 691 160 515 320 
+Q 339 480 339 742 
+Q 339 966 496 1152 
+Q 653 1338 909 1459 
+L 1254 1235 
+Q 1037 1184 947 1078 
+Q 858 973 858 826 
+Q 858 704 944 627 
+Q 1030 550 1193 508 
+Q 1357 467 1587 435 
+Q 1894 390 2163 339 
+Q 2432 288 2640 195 
+Q 2848 102 2963 -54 
+Q 3078 -211 3078 -461 
+Q 3078 -896 2720 -1129 
+Q 2362 -1363 1734 -1363 
 z
-M 1741 442 
-Q 1472 442 1293 554 
-Q 1114 666 1005 848 
-Q 896 1030 851 1254 
-Q 806 1478 806 1702 
-Q 806 1939 860 2156 
-Q 915 2374 1033 2540 
-Q 1152 2707 1337 2806 
-Q 1523 2906 1786 2906 
-Q 2042 2906 2221 2803 
-Q 2400 2701 2512 2531 
-Q 2624 2362 2675 2150 
-Q 2726 1939 2726 1722 
-Q 2726 1491 2672 1260 
-Q 2618 1030 2502 848 
-Q 2387 666 2198 554 
-Q 2010 442 1741 442 
+M 1658 986 
+Q 1293 986 1011 1126 
+Q 730 1267 573 1516 
+Q 416 1766 416 2086 
+Q 416 2419 579 2672 
+Q 742 2925 1020 3065 
+Q 1299 3206 1638 3206 
+Q 1971 3206 2246 3065 
+Q 2522 2925 2688 2669 
+Q 2854 2413 2854 2067 
+Q 2854 1741 2700 1497 
+Q 2547 1254 2278 1120 
+Q 2010 986 1658 986 
 z
-" transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-4c" d="M 2707 1971 
-L 806 1971 
-Q 819 2163 889 2332 
-Q 960 2502 1081 2630 
-Q 1203 2758 1372 2832 
-Q 1542 2906 1754 2906 
-Q 1958 2906 2128 2832 
-Q 2298 2758 2422 2633 
-Q 2547 2509 2620 2336 
-Q 2694 2163 2707 1971 
+M 1645 1427 
+Q 1965 1427 2141 1622 
+Q 2317 1818 2317 2099 
+Q 2317 2400 2131 2585 
+Q 1946 2771 1645 2771 
+Q 1338 2771 1146 2582 
+Q 954 2394 954 2106 
+Q 954 1818 1139 1622 
+Q 1325 1427 1645 1427 
 z
-M 3232 1050 
-L 2694 1050 
-Q 2624 723 2403 563 
-Q 2182 403 1837 403 
-Q 1568 403 1369 492 
-Q 1171 582 1043 732 
-Q 915 883 857 1078 
-Q 800 1274 806 1491 
-L 3283 1491 
-Q 3296 1792 3229 2125 
-Q 3162 2458 2986 2739 
-Q 2810 3021 2518 3203 
-Q 2227 3386 1786 3386 
-Q 1446 3386 1161 3258 
-Q 877 3130 669 2899 
-Q 461 2669 345 2355 
-Q 230 2042 230 1664 
-Q 243 1286 342 966 
-Q 442 646 640 416 
-Q 838 186 1129 58 
-Q 1421 -70 1818 -70 
-Q 2381 -70 2752 211 
-Q 3123 493 3232 1050 
+M 2650 2566 
+L 2259 2829 
+L 2925 3379 
+L 3200 3040 
+L 2650 2566 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-5b" d="M 1165 3309 
-L 1165 4301 
-L 621 4301 
-L 621 3309 
-L 58 3309 
-L 58 2829 
-L 621 2829 
-L 621 723 
-Q 621 493 665 352 
-Q 710 211 803 134 
-Q 896 58 1046 29 
-Q 1197 0 1408 0 
-L 1824 0 
-L 1824 480 
-L 1574 480 
-Q 1446 480 1366 489 
-Q 1286 499 1241 531 
-Q 1197 563 1181 620 
-Q 1165 678 1165 774 
-L 1165 2829 
-L 1824 2829 
-L 1824 3309 
-L 1165 3309 
+       <path id="HankenGrotesk-Regular-fd" d="M 1792 -51 
+Q 1421 -51 1142 73 
+Q 864 198 681 422 
+Q 499 646 406 937 
+Q 314 1229 314 1555 
+Q 314 1882 403 2179 
+Q 493 2477 669 2707 
+Q 845 2938 1113 3072 
+Q 1382 3206 1741 3206 
+Q 2106 3206 2371 3081 
+Q 2637 2957 2806 2739 
+Q 2976 2522 3059 2253 
+Q 3142 1984 3142 1696 
+Q 3142 1670 3139 1577 
+Q 3136 1485 3123 1414 
+L 851 1414 
+Q 870 954 1120 698 
+Q 1370 442 1798 442 
+Q 2074 442 2278 531 
+Q 2483 621 2662 819 
+L 3040 486 
+Q 2867 301 2675 182 
+Q 2483 64 2268 6 
+Q 2054 -51 1792 -51 
+z
+M 2605 1690 
+Q 2618 1741 2621 1792 
+Q 2624 1843 2624 1894 
+Q 2624 2048 2569 2201 
+Q 2515 2355 2409 2480 
+Q 2304 2605 2141 2678 
+Q 1978 2752 1754 2752 
+Q 1478 2752 1280 2624 
+Q 1082 2496 973 2285 
+Q 864 2074 845 1818 
+L 2784 1818 
+L 2605 1690 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-3" transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-5a" d="M 742 1043 
-L 198 1043 
-Q 211 736 326 521 
-Q 442 307 634 176 
-Q 826 45 1075 -12 
-Q 1325 -70 1600 -70 
-Q 1850 -70 2102 -22 
-Q 2355 26 2556 147 
-Q 2758 269 2883 467 
-Q 3008 666 3008 966 
-Q 3008 1203 2915 1363 
-Q 2822 1523 2672 1628 
-Q 2522 1734 2326 1798 
-Q 2131 1862 1926 1907 
-Q 1734 1952 1542 1993 
-Q 1350 2035 1196 2096 
-Q 1043 2157 944 2249 
-Q 845 2342 845 2483 
-Q 845 2611 909 2691 
-Q 973 2771 1075 2819 
-Q 1178 2867 1302 2886 
-Q 1427 2906 1549 2906 
-Q 1683 2906 1814 2877 
-Q 1946 2848 2054 2784 
-Q 2163 2720 2233 2614 
-Q 2304 2509 2317 2349 
-L 2861 2349 
-Q 2842 2650 2733 2851 
-Q 2624 3053 2441 3171 
-Q 2259 3290 2022 3338 
-Q 1786 3386 1504 3386 
-Q 1286 3386 1065 3331 
-Q 845 3277 669 3165 
-Q 493 3053 381 2873 
-Q 269 2694 269 2445 
-Q 269 2125 429 1945 
-Q 589 1766 829 1667 
-Q 1069 1568 1350 1513 
-Q 1632 1459 1872 1392 
-Q 2112 1325 2272 1216 
-Q 2432 1107 2432 896 
-Q 2432 742 2355 643 
-Q 2278 544 2160 493 
-Q 2042 442 1901 422 
-Q 1760 403 1632 403 
-Q 1466 403 1309 435 
-Q 1152 467 1027 540 
-Q 902 614 825 739 
-Q 749 864 742 1043 
+       <path id="HankenGrotesk-Regular-16a" d="M 1510 -51 
+Q 1286 -51 1104 35 
+Q 922 122 819 314 
+Q 717 506 717 806 
+L 717 4000 
+L 1267 4307 
+L 1267 947 
+Q 1267 685 1350 541 
+Q 1434 397 1651 397 
+Q 1715 397 1804 413 
+Q 1894 429 1997 454 
+L 1997 32 
+Q 1875 -13 1750 -32 
+Q 1626 -51 1510 -51 
+z
+M 64 2733 
+L 64 3155 
+L 1997 3155 
+L 1997 2733 
+L 64 2733 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-56" d="M 806 1651 
-Q 806 1952 886 2185 
-Q 966 2419 1107 2579 
-Q 1248 2739 1437 2822 
-Q 1626 2906 1837 2906 
-Q 2048 2906 2237 2822 
-Q 2426 2739 2566 2579 
-Q 2707 2419 2787 2185 
-Q 2867 1952 2867 1651 
-Q 2867 1350 2787 1116 
-Q 2707 883 2566 726 
-Q 2426 570 2237 486 
-Q 2048 403 1837 403 
-Q 1626 403 1437 486 
-Q 1248 570 1107 726 
-Q 966 883 886 1116 
-Q 806 1350 806 1651 
-z
-M 230 1651 
-Q 230 1286 332 972 
-Q 435 659 640 425 
-Q 845 192 1145 61 
-Q 1446 -70 1837 -70 
-Q 2234 -70 2531 61 
-Q 2829 192 3033 425 
-Q 3238 659 3340 972 
-Q 3443 1286 3443 1651 
-Q 3443 2016 3340 2333 
-Q 3238 2650 3033 2883 
-Q 2829 3117 2531 3251 
-Q 2234 3386 1837 3386 
-Q 1446 3386 1145 3251 
-Q 845 3117 640 2883 
-Q 435 2650 332 2333 
-Q 230 2016 230 1651 
-z
-" transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-55" d="M 410 3309 
-L 410 0 
-L 954 0 
-L 954 1869 
-Q 954 2093 1014 2281 
-Q 1075 2470 1196 2611 
-Q 1318 2752 1500 2829 
-Q 1683 2906 1933 2906 
-Q 2246 2906 2425 2726 
-Q 2605 2547 2605 2240 
-L 2605 0 
-L 3149 0 
-L 3149 2176 
-Q 3149 2445 3094 2665 
-Q 3040 2886 2905 3046 
-Q 2771 3206 2553 3296 
-Q 2336 3386 2010 3386 
-Q 1274 3386 934 2784 
-L 922 2784 
-L 922 3309 
-L 410 3309 
+       <path id="HankenGrotesk-Regular-1f9" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-163" d="M 1504 -51 
+Q 1184 -51 928 45 
+Q 672 141 489 301 
+Q 307 461 198 640 
+L 576 960 
+Q 698 717 938 560 
+Q 1178 403 1510 403 
+Q 1811 403 1990 531 
+Q 2170 659 2170 877 
+Q 2170 1056 2061 1158 
+Q 1952 1261 1773 1325 
+Q 1594 1389 1382 1440 
+Q 1203 1485 1020 1549 
+Q 838 1613 691 1709 
+Q 544 1805 454 1958 
+Q 365 2112 365 2336 
+Q 365 2726 669 2966 
+Q 973 3206 1466 3206 
+Q 1824 3206 2121 3056 
+Q 2419 2906 2586 2605 
+L 2240 2349 
+Q 2112 2573 1904 2672 
+Q 1696 2771 1446 2771 
+Q 1197 2771 1030 2668 
+Q 864 2566 864 2387 
+Q 864 2253 941 2169 
+Q 1018 2086 1168 2028 
+Q 1318 1971 1536 1920 
+Q 1734 1875 1939 1811 
+Q 2144 1747 2317 1644 
+Q 2490 1542 2595 1372 
+Q 2701 1203 2701 934 
+Q 2701 640 2553 416 
+Q 2406 192 2137 70 
+Q 1869 -51 1504 -51 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-f" d="M 1306 -1261 
-L 1722 -1261 
-Q 1267 -525 1072 198 
-Q 877 922 877 1728 
-Q 877 2515 1069 3232 
-Q 1261 3949 1722 4678 
-L 1306 4678 
-Q 806 4019 553 3251 
-Q 301 2483 301 1728 
-Q 301 1306 371 922 
-Q 442 538 573 173 
-Q 704 -192 889 -547 
-Q 1075 -902 1306 -1261 
+       <path id="HankenGrotesk-Regular-141" d="M 1850 -51 
+Q 1408 -51 1059 157 
+Q 710 365 512 736 
+Q 314 1107 314 1581 
+Q 314 2054 509 2422 
+Q 704 2790 1053 2998 
+Q 1402 3206 1850 3206 
+Q 2298 3206 2640 2998 
+Q 2982 2790 3180 2422 
+Q 3379 2054 3379 1581 
+Q 3379 1107 3180 739 
+Q 2982 371 2636 160 
+Q 2291 -51 1850 -51 
+z
+M 1850 429 
+Q 2150 429 2371 573 
+Q 2592 717 2713 976 
+Q 2835 1235 2835 1581 
+Q 2835 1933 2713 2192 
+Q 2592 2451 2371 2592 
+Q 2150 2733 1850 2733 
+Q 1542 2733 1318 2589 
+Q 1094 2445 972 2189 
+Q 851 1933 851 1581 
+Q 851 1235 972 976 
+Q 1094 717 1318 573 
+Q 1542 429 1850 429 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-50" d="M 986 3904 
-L 986 4570 
-L 442 4570 
-L 442 3904 
-L 986 3904 
-z
-M 442 3309 
-L 442 0 
-L 986 0 
-L 986 3309 
-L 442 3309 
+       <path id="HankenGrotesk-Regular-138" d="M 461 0 
+L 461 3155 
+L 1005 3155 
+L 1005 2483 
+L 877 2438 
+Q 966 2682 1120 2851 
+Q 1274 3021 1491 3113 
+Q 1709 3206 1971 3206 
+Q 2490 3206 2784 2902 
+Q 3078 2598 3078 2003 
+L 3078 0 
+L 2534 0 
+L 2534 1805 
+Q 2534 2285 2358 2512 
+Q 2182 2739 1824 2739 
+Q 1562 2739 1379 2617 
+Q 1197 2496 1101 2237 
+Q 1005 1978 1005 1574 
+L 1005 0 
+L 461 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-10" d="M -58 -1261 
-L 352 -1261 
-Q 851 -602 1104 163 
-Q 1357 928 1357 1683 
-Q 1357 2106 1286 2490 
-Q 1216 2874 1085 3242 
-Q 954 3610 768 3965 
-Q 582 4320 352 4678 
-L -58 4678 
-Q 390 3942 585 3216 
-Q 781 2490 781 1683 
-Q 781 902 589 182 
-Q 397 -538 -58 -1261 
+       <path id="HankenGrotesk-Regular-221" d="M 915 -1306 
+Q 730 -1043 589 -694 
+Q 448 -346 352 41 
+Q 256 429 208 822 
+Q 160 1216 160 1568 
+Q 160 2093 246 2621 
+Q 333 3149 502 3622 
+Q 672 4096 922 4461 
+L 1414 4461 
+Q 1133 4070 950 3584 
+Q 768 3098 681 2582 
+Q 595 2067 595 1574 
+Q 595 1216 646 825 
+Q 698 435 803 48 
+Q 909 -339 1062 -688 
+Q 1216 -1037 1414 -1306 
+L 915 -1306 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-11b" d="M 454 0 
+L 454 3155 
+L 992 3155 
+L 992 0 
+L 454 0 
+z
+M 404 3725 
+L 404 4461 
+L 1044 4461 
+L 1044 3725 
+L 404 3725 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-222" d="M 506 -1306 
+L 6 -1306 
+Q 211 -1037 361 -688 
+Q 512 -339 617 48 
+Q 723 435 774 825 
+Q 826 1216 826 1574 
+Q 826 2067 739 2582 
+Q 653 3098 470 3584 
+Q 288 4070 6 4461 
+L 499 4461 
+Q 755 4096 921 3622 
+Q 1088 3149 1174 2621 
+Q 1261 2093 1261 1568 
+Q 1261 1216 1213 822 
+Q 1165 429 1069 41 
+Q 973 -346 832 -694 
+Q 691 -1043 506 -1306 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#HelveticaNeue-3b"/>
-      <use xlink:href="#HelveticaNeue-48" transform="translate(46.3125 0)"/>
-      <use xlink:href="#HelveticaNeue-59" transform="translate(100.015625 0)"/>
-      <use xlink:href="#HelveticaNeue-4e" transform="translate(130.515625 0)"/>
-      <use xlink:href="#HelveticaNeue-4c" transform="translate(187.921875 0)"/>
-      <use xlink:href="#HelveticaNeue-5b" transform="translate(241.625 0)"/>
-      <use xlink:href="#HelveticaNeue-3" transform="translate(273.125 0)"/>
-      <use xlink:href="#HelveticaNeue-5a" transform="translate(300.921875 0)"/>
-      <use xlink:href="#HelveticaNeue-4c" transform="translate(350.921875 0)"/>
-      <use xlink:href="#HelveticaNeue-48" transform="translate(404.625 0)"/>
-      <use xlink:href="#HelveticaNeue-5a" transform="translate(458.328125 0)"/>
-      <use xlink:href="#HelveticaNeue-56" transform="translate(508.328125 0)"/>
-      <use xlink:href="#HelveticaNeue-55" transform="translate(565.734375 0)"/>
-      <use xlink:href="#HelveticaNeue-3" transform="translate(621.328125 0)"/>
-      <use xlink:href="#HelveticaNeue-f" transform="translate(649.125 0)"/>
-      <use xlink:href="#HelveticaNeue-56" transform="translate(675.03125 0)"/>
-      <use xlink:href="#HelveticaNeue-59" transform="translate(732.4375 0)"/>
-      <use xlink:href="#HelveticaNeue-50" transform="translate(765.734375 0)"/>
-      <use xlink:href="#HelveticaNeue-4e" transform="translate(787.9375 0)"/>
-      <use xlink:href="#HelveticaNeue-50" transform="translate(845.34375 0)"/>
-      <use xlink:href="#HelveticaNeue-55" transform="translate(867.546875 0)"/>
-      <use xlink:href="#HelveticaNeue-10" transform="translate(923.140625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-8f"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(49.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(103.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-111" transform="translate(141.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(192.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(245.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(280.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(306.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(353.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(407.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(461.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-141" transform="translate(508.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(565.90625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(620.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-221" transform="translate(646.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-141" transform="translate(668.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(726.515625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(767.21875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-111" transform="translate(789.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(841.21875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(863.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-222" transform="translate(918.515625 0)"/>
      </g>
     </g>
    </g>
@@ -783,792 +749,642 @@ z
     <g id="ytick_1">
      <g id="line2d_6">
       <defs>
-       <path id="m902e5d5149" d="M 0 0 
+       <path id="m7f9e33b527" d="M 0 0 
 L -3.5 0 
 " style="stroke: #2a261f; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m902e5d5149" x="54.72" y="267.903454" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#m7f9e33b527" x="50.43" y="258.261553" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
       <!-- 0.07 -->
-      <g style="fill: #2a261f" transform="translate(27.724688 271.685192) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(24.23 263.261553) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-11" d="M 1297 359 
-Q 1297 184 1170 60 
-Q 1044 -63 869 -63 
-Q 694 -63 567 60 
-Q 441 184 441 359 
-Q 441 534 567 661 
-Q 694 788 869 788 
-Q 1044 788 1170 661 
-Q 1297 534 1297 359 
+        <path id="HankenGrotesk-Regular-1ff" d="M 448 0 
+L 448 742 
+L 1088 742 
+L 1088 0 
+L 448 0 
 z
 " transform="scale(0.015625)"/>
-        <path id="Georgia-1a" d="M 3216 3150 
-L 988 -1141 
-L 597 -1141 
-L 2694 2828 
-L 1466 2828 
-Q 1194 2828 1041 2822 
-Q 888 2816 759 2763 
-Q 663 2722 586 2555 
-Q 509 2388 469 2128 
-L 278 2128 
-L 278 3353 
-L 3216 3353 
-L 3216 3150 
+        <path id="HankenGrotesk-Regular-1d6" d="M 666 0 
+L 2842 4147 
+L 2989 3955 
+L 179 3955 
+L 179 4461 
+L 3379 4461 
+L 3379 4045 
+L 1267 0 
+L 666 0 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-13"/>
-       <use xlink:href="#Georgia-11" transform="translate(61.375 0)"/>
-       <use xlink:href="#Georgia-13" transform="translate(88.328125 0)"/>
-       <use xlink:href="#Georgia-1a" transform="translate(149.703125 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d6" transform="translate(136 0)"/>
       </g>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_7">
       <g>
-       <use xlink:href="#m902e5d5149" x="54.72" y="232.22832" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#m7f9e33b527" x="50.43" y="223.948149" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_8">
       <!-- 0.08 -->
-      <g style="fill: #2a261f" transform="translate(26.787188 236.010058) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(24.23 228.948149) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-1b" d="M 3491 1175 
-Q 3491 650 3037 272 
-Q 2584 -106 1847 -106 
-Q 1156 -106 740 241 
-Q 325 588 325 1134 
-Q 325 1538 570 1808 
-Q 816 2078 1297 2266 
-Q 900 2488 703 2753 
-Q 506 3019 506 3353 
-Q 506 3863 939 4206 
-Q 1372 4550 1975 4550 
-Q 2578 4550 2951 4225 
-Q 3325 3900 3325 3409 
-Q 3325 3094 3119 2811 
-Q 2913 2528 2513 2347 
-Q 3031 2125 3261 1856 
-Q 3491 1588 3491 1175 
+        <path id="HankenGrotesk-Regular-1d7" d="M 1792 -51 
+Q 1395 -51 1040 99 
+Q 685 250 464 547 
+Q 243 845 243 1286 
+Q 243 1683 444 1984 
+Q 646 2285 1018 2426 
+Q 774 2547 627 2780 
+Q 480 3014 480 3328 
+Q 480 3706 672 3968 
+Q 864 4230 1165 4371 
+Q 1466 4512 1798 4512 
+Q 2157 4512 2454 4365 
+Q 2752 4218 2928 3949 
+Q 3104 3680 3104 3309 
+Q 3104 2995 2960 2771 
+Q 2816 2547 2566 2426 
+Q 2938 2285 3139 1984 
+Q 3341 1683 3341 1286 
+Q 3341 845 3120 547 
+Q 2899 250 2547 99 
+Q 2195 -51 1792 -51 
 z
-M 2734 3444 
-Q 2734 3825 2507 4064 
-Q 2281 4303 1928 4303 
-Q 1575 4303 1350 4073 
-Q 1125 3844 1125 3503 
-Q 1125 3175 1381 2947 
-Q 1638 2719 2294 2459 
-Q 2528 2609 2631 2856 
-Q 2734 3103 2734 3444 
+M 1792 461 
+Q 2067 461 2294 560 
+Q 2522 659 2659 854 
+Q 2797 1050 2797 1338 
+Q 2797 1606 2669 1801 
+Q 2541 1997 2313 2102 
+Q 2086 2208 1792 2208 
+Q 1498 2208 1270 2102 
+Q 1043 1997 912 1801 
+Q 781 1606 781 1338 
+Q 781 1050 921 854 
+Q 1062 659 1292 560 
+Q 1523 461 1792 461 
 z
-M 2866 1028 
-Q 2866 1225 2781 1373 
-Q 2697 1522 2538 1644 
-Q 2384 1763 2111 1892 
-Q 1838 2022 1519 2156 
-Q 1219 1994 1078 1742 
-Q 938 1491 938 1169 
-Q 938 709 1208 426 
-Q 1478 144 1928 144 
-Q 2359 144 2612 394 
-Q 2866 644 2866 1028 
+M 1805 2579 
+Q 2138 2579 2352 2771 
+Q 2566 2963 2566 3270 
+Q 2566 3597 2358 3798 
+Q 2150 4000 1798 4000 
+Q 1587 4000 1411 3917 
+Q 1235 3834 1129 3677 
+Q 1024 3520 1024 3296 
+Q 1024 2970 1241 2774 
+Q 1459 2579 1805 2579 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-13"/>
-       <use xlink:href="#Georgia-11" transform="translate(61.375 0)"/>
-       <use xlink:href="#Georgia-13" transform="translate(88.328125 0)"/>
-       <use xlink:href="#Georgia-1b" transform="translate(149.703125 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d7" transform="translate(136 0)"/>
       </g>
      </g>
     </g>
     <g id="ytick_3">
      <g id="line2d_8">
       <g>
-       <use xlink:href="#m902e5d5149" x="54.72" y="196.553185" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#m7f9e33b527" x="50.43" y="189.634745" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
       <!-- 0.09 -->
-      <g style="fill: #2a261f" transform="translate(27.090313 200.334923) scale(0.1 -0.1)">
+      <g style="fill: #2a261f" transform="translate(24.23 194.634745) scale(0.1 -0.1)">
        <defs>
-        <path id="Georgia-1c" d="M 3300 1613 
-Q 3300 1069 3128 589 
-Q 2956 109 2634 -253 
-Q 2319 -609 1864 -845 
-Q 1409 -1081 847 -1156 
-L 791 -875 
-L 1072 -825 
-Q 1744 -613 2122 -172 
-Q 2500 269 2609 947 
-Q 2353 728 2098 626 
-Q 1844 525 1525 525 
-Q 1016 525 639 922 
-Q 263 1319 263 1922 
-Q 263 2569 698 3012 
-Q 1134 3456 1775 3456 
-Q 2472 3456 2886 2959 
-Q 3300 2463 3300 1613 
+        <path id="HankenGrotesk-Regular-1d8" d="M 1139 0 
+L 2278 1824 
+L 2342 1741 
+Q 2202 1645 2038 1593 
+Q 1875 1542 1715 1542 
+Q 1299 1542 963 1740 
+Q 627 1939 432 2272 
+Q 237 2605 237 3014 
+Q 237 3443 448 3782 
+Q 659 4122 1011 4317 
+Q 1363 4512 1786 4512 
+Q 2214 4512 2566 4317 
+Q 2918 4122 3129 3786 
+Q 3341 3450 3341 3021 
+Q 3341 2803 3273 2598 
+Q 3206 2394 3098 2208 
+L 1760 0 
+L 1139 0 
 z
-M 2638 1650 
-Q 2638 2381 2398 2795 
-Q 2159 3209 1769 3209 
-Q 1397 3209 1169 2889 
-Q 941 2569 941 2006 
-Q 941 1500 1173 1194 
-Q 1406 888 1797 888 
-Q 2041 888 2244 977 
-Q 2447 1066 2622 1263 
-Q 2622 1275 2626 1312 
-Q 2631 1350 2631 1419 
-Q 2631 1463 2634 1525 
-Q 2638 1588 2638 1650 
+M 1786 2022 
+Q 2061 2022 2285 2150 
+Q 2509 2278 2646 2502 
+Q 2784 2726 2784 3014 
+Q 2784 3302 2649 3523 
+Q 2515 3744 2288 3872 
+Q 2061 4000 1786 4000 
+Q 1510 4000 1283 3872 
+Q 1056 3744 921 3520 
+Q 787 3296 787 3008 
+Q 787 2726 921 2502 
+Q 1056 2278 1283 2150 
+Q 1510 2022 1786 2022 
 z
 " transform="scale(0.015625)"/>
        </defs>
-       <use xlink:href="#Georgia-13"/>
-       <use xlink:href="#Georgia-11" transform="translate(61.375 0)"/>
-       <use xlink:href="#Georgia-13" transform="translate(88.328125 0)"/>
-       <use xlink:href="#Georgia-1c" transform="translate(149.703125 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d8" transform="translate(136 0)"/>
       </g>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#m902e5d5149" x="54.72" y="160.878051" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#m7f9e33b527" x="50.43" y="155.32134" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_10">
       <!-- 0.10 -->
-      <g style="fill: #2a261f" transform="translate(28.452813 164.659789) scale(0.1 -0.1)">
-       <use xlink:href="#Georgia-13"/>
-       <use xlink:href="#Georgia-11" transform="translate(61.375 0)"/>
-       <use xlink:href="#Georgia-14" transform="translate(88.328125 0)"/>
-       <use xlink:href="#Georgia-13" transform="translate(131.296875 0)"/>
+      <g style="fill: #2a261f" transform="translate(24.23 160.32134) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(136 0)"/>
       </g>
      </g>
     </g>
     <g id="ytick_5">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#m902e5d5149" x="54.72" y="125.202916" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#m7f9e33b527" x="50.43" y="121.007936" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
       <!-- 0.11 -->
-      <g style="fill: #2a261f" transform="translate(30.293438 128.984654) scale(0.1 -0.1)">
-       <use xlink:href="#Georgia-13"/>
-       <use xlink:href="#Georgia-11" transform="translate(61.375 0)"/>
-       <use xlink:href="#Georgia-14" transform="translate(88.328125 0)"/>
-       <use xlink:href="#Georgia-14" transform="translate(131.296875 0)"/>
+      <g style="fill: #2a261f" transform="translate(24.23 126.007936) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(136 0)"/>
       </g>
      </g>
     </g>
     <g id="ytick_6">
      <g id="line2d_11">
       <g>
-       <use xlink:href="#m902e5d5149" x="54.72" y="89.527782" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#m7f9e33b527" x="50.43" y="86.694532" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_12">
       <!-- 0.12 -->
-      <g style="fill: #2a261f" transform="translate(29.004375 93.30952) scale(0.1 -0.1)">
-       <use xlink:href="#Georgia-13"/>
-       <use xlink:href="#Georgia-11" transform="translate(61.375 0)"/>
-       <use xlink:href="#Georgia-14" transform="translate(88.328125 0)"/>
-       <use xlink:href="#Georgia-15" transform="translate(131.296875 0)"/>
+      <g style="fill: #2a261f" transform="translate(24.23 91.694532) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(136 0)"/>
       </g>
      </g>
     </g>
     <g id="ytick_7">
      <g id="line2d_12">
       <g>
-       <use xlink:href="#m902e5d5149" x="54.72" y="53.852647" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
+       <use xlink:href="#m7f9e33b527" x="50.43" y="52.381127" style="fill: #2a261f; stroke: #2a261f; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_13">
       <!-- 0.13 -->
-      <g style="fill: #2a261f" transform="translate(29.073125 57.634385) scale(0.1 -0.1)">
-       <use xlink:href="#Georgia-13"/>
-       <use xlink:href="#Georgia-11" transform="translate(61.375 0)"/>
-       <use xlink:href="#Georgia-14" transform="translate(88.328125 0)"/>
-       <use xlink:href="#Georgia-16" transform="translate(131.296875 0)"/>
+      <g style="fill: #2a261f" transform="translate(24.23 57.381127) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d2" transform="translate(136 0)"/>
       </g>
      </g>
     </g>
     <g id="text_14">
      <!-- RMSE (npG+A per 90, quality-adjusted) -->
-     <g style="fill: #2a261f" transform="translate(20.657187 245.513662) rotate(-90) scale(0.1 -0.1)">
+     <g style="fill: #2a261f" transform="translate(17.2 237.950937) rotate(-90) scale(0.1 -0.1)">
       <defs>
-       <path id="HelveticaNeue-39" d="M 499 4570 
-L 499 0 
-L 1107 0 
-L 1107 1952 
-L 2592 1952 
-Q 2816 1952 2950 1885 
-Q 3085 1818 3168 1706 
-Q 3251 1594 3289 1443 
-Q 3328 1293 3354 1126 
-Q 3386 960 3392 787 
-Q 3398 614 3404 464 
-Q 3411 314 3433 192 
-Q 3456 70 3520 0 
-L 4198 0 
-Q 4102 115 4054 265 
-Q 4006 416 3980 582 
-Q 3955 749 3948 921 
-Q 3942 1094 3930 1261 
-Q 3910 1427 3875 1580 
-Q 3840 1734 3766 1859 
-Q 3693 1984 3568 2073 
-Q 3443 2163 3245 2202 
-L 3245 2214 
-Q 3661 2330 3849 2643 
-Q 4038 2957 4038 3373 
-Q 4038 3930 3670 4250 
-Q 3302 4570 2650 4570 
-L 499 4570 
+       <path id="HankenGrotesk-Regular-84" d="M 506 0 
+L 506 4461 
+L 1837 4461 
+Q 2349 4461 2675 4310 
+Q 3002 4160 3162 3878 
+Q 3322 3597 3322 3206 
+Q 3322 2650 3002 2326 
+Q 2682 2003 2074 1946 
+Q 1978 1939 1843 1939 
+Q 1709 1939 1581 1939 
+L 1069 1939 
+L 1069 0 
+L 506 0 
 z
-M 2374 2464 
-L 1107 2464 
-L 1107 4058 
-L 2618 4058 
-Q 3046 4058 3238 3840 
-Q 3430 3622 3430 3277 
-Q 3430 3027 3344 2870 
-Q 3258 2714 3114 2621 
-Q 2970 2528 2778 2496 
-Q 2586 2464 2374 2464 
+M 3002 0 
+L 1843 2010 
+L 2419 2080 
+L 3648 0 
+L 3002 0 
+z
+M 1069 2438 
+L 1779 2438 
+Q 2074 2438 2291 2515 
+Q 2509 2592 2633 2758 
+Q 2758 2925 2758 3200 
+Q 2758 3482 2633 3645 
+Q 2509 3808 2288 3881 
+Q 2067 3955 1779 3955 
+L 1069 3955 
+L 1069 2438 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-34" d="M 512 4570 
-L 512 0 
-L 1088 0 
-L 1088 3802 
-L 1101 3802 
-L 2528 0 
-L 3046 0 
-L 4474 3802 
-L 4486 3802 
-L 4486 0 
-L 5062 0 
-L 5062 4570 
-L 4230 4570 
-L 2784 730 
-L 1344 4570 
-L 512 4570 
+       <path id="HankenGrotesk-Regular-5d" d="M 506 0 
+L 506 4461 
+L 1338 4461 
+L 2739 934 
+L 2637 934 
+L 4038 4461 
+L 4864 4461 
+L 4864 0 
+L 4301 0 
+L 4301 3808 
+L 4346 3802 
+L 2963 378 
+L 2413 378 
+L 1024 3802 
+L 1069 3808 
+L 1069 0 
+L 506 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-3a" d="M 3142 3232 
-L 3718 3232 
-Q 3706 3610 3574 3882 
-Q 3443 4154 3216 4333 
-Q 2989 4512 2688 4595 
-Q 2387 4678 2035 4678 
-Q 1722 4678 1424 4598 
-Q 1126 4518 892 4355 
-Q 659 4192 518 3939 
-Q 378 3686 378 3341 
-Q 378 3027 502 2819 
-Q 627 2611 835 2480 
-Q 1043 2349 1305 2269 
-Q 1568 2189 1840 2128 
-Q 2112 2067 2374 2009 
-Q 2637 1952 2845 1859 
-Q 3053 1766 3177 1619 
-Q 3302 1472 3302 1235 
-Q 3302 986 3200 826 
-Q 3098 666 2931 573 
-Q 2765 480 2557 441 
-Q 2349 403 2144 403 
-Q 1888 403 1645 467 
-Q 1402 531 1219 665 
-Q 1037 800 925 1008 
-Q 813 1216 813 1504 
-L 237 1504 
-Q 237 1088 387 784 
-Q 538 480 797 285 
-Q 1056 90 1398 -6 
-Q 1741 -102 2125 -102 
-Q 2438 -102 2755 -28 
-Q 3072 45 3328 208 
-Q 3584 371 3747 630 
-Q 3910 890 3910 1254 
-Q 3910 1594 3785 1818 
-Q 3661 2042 3453 2189 
-Q 3245 2336 2982 2422 
-Q 2720 2509 2448 2573 
-Q 2176 2637 1913 2691 
-Q 1651 2746 1443 2829 
-Q 1235 2912 1110 3043 
-Q 986 3174 986 3386 
-Q 986 3610 1072 3760 
-Q 1158 3910 1302 4000 
-Q 1446 4090 1632 4128 
-Q 1818 4166 2010 4166 
-Q 2483 4166 2787 3945 
-Q 3091 3725 3142 3232 
+       <path id="HankenGrotesk-Regular-88" d="M 1869 -70 
+Q 1197 -70 768 282 
+Q 339 634 243 1216 
+L 794 1350 
+Q 864 902 1161 668 
+Q 1459 435 1888 435 
+Q 2138 435 2336 531 
+Q 2534 627 2649 803 
+Q 2765 979 2765 1203 
+Q 2765 1440 2637 1593 
+Q 2509 1747 2281 1862 
+Q 2054 1978 1754 2093 
+Q 1382 2234 1104 2400 
+Q 826 2566 672 2800 
+Q 518 3034 518 3373 
+Q 518 3712 684 3974 
+Q 851 4237 1152 4387 
+Q 1453 4538 1850 4538 
+Q 2272 4538 2598 4346 
+Q 2925 4154 3123 3776 
+L 2675 3501 
+Q 2528 3763 2317 3900 
+Q 2106 4038 1830 4038 
+Q 1613 4038 1443 3955 
+Q 1274 3872 1178 3725 
+Q 1082 3578 1082 3386 
+Q 1082 3181 1197 3037 
+Q 1312 2893 1529 2784 
+Q 1747 2675 2054 2560 
+Q 2445 2413 2726 2240 
+Q 3008 2067 3165 1827 
+Q 3322 1587 3322 1235 
+Q 3322 858 3136 563 
+Q 2950 269 2624 99 
+Q 2298 -70 1869 -70 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-2c" d="M 499 4570 
-L 499 0 
-L 3674 0 
-L 3674 512 
-L 1107 512 
-L 1107 2093 
-L 3482 2093 
-L 3482 2605 
-L 1107 2605 
-L 1107 4058 
-L 3654 4058 
-L 3654 4570 
-L 499 4570 
+       <path id="HankenGrotesk-Regular-26" d="M 506 0 
+L 506 4461 
+L 3443 4461 
+L 3443 3955 
+L 1069 3955 
+L 1069 2528 
+L 3226 2528 
+L 3226 2022 
+L 1069 2022 
+L 1069 506 
+L 3443 506 
+L 3443 0 
+L 506 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-57" d="M 429 3309 
-L 429 -1261 
-L 973 -1261 
-L 973 442 
-L 986 442 
-Q 1075 294 1206 195 
-Q 1338 96 1485 38 
-Q 1632 -19 1782 -44 
-Q 1933 -70 2054 -70 
-Q 2432 -70 2717 64 
-Q 3002 198 3190 432 
-Q 3379 666 3472 979 
-Q 3565 1293 3565 1645 
-Q 3565 1997 3469 2310 
-Q 3373 2624 3184 2864 
-Q 2995 3104 2710 3245 
-Q 2426 3386 2042 3386 
-Q 1696 3386 1408 3261 
-Q 1120 3136 986 2861 
-L 973 2861 
-L 973 3309 
-L 429 3309 
+       <path id="HankenGrotesk-Regular-15c" d="M 461 -1306 
+L 461 3155 
+L 998 3155 
+L 998 2214 
+L 826 2336 
+Q 909 2611 1072 2806 
+Q 1235 3002 1472 3104 
+Q 1709 3206 2010 3206 
+Q 2438 3206 2761 2992 
+Q 3085 2778 3264 2410 
+Q 3443 2042 3443 1574 
+Q 3443 1082 3251 714 
+Q 3059 346 2732 147 
+Q 2406 -51 2010 -51 
+Q 1709 -51 1472 57 
+Q 1235 166 1075 358 
+Q 915 550 845 794 
+L 998 941 
+L 998 -1306 
+L 461 -1306 
 z
-M 2989 1683 
-Q 2989 1440 2937 1209 
-Q 2886 979 2771 800 
-Q 2656 621 2467 512 
-Q 2278 403 1997 403 
-Q 1715 403 1516 508 
-Q 1318 614 1193 787 
-Q 1069 960 1011 1187 
-Q 954 1414 954 1658 
-Q 954 1888 1008 2112 
-Q 1062 2336 1184 2512 
-Q 1306 2688 1498 2797 
-Q 1690 2906 1965 2906 
-Q 2227 2906 2422 2803 
-Q 2618 2701 2742 2528 
-Q 2867 2355 2928 2134 
-Q 2989 1914 2989 1683 
+M 1920 442 
+Q 2208 442 2429 586 
+Q 2650 730 2774 986 
+Q 2899 1242 2899 1574 
+Q 2899 1907 2774 2163 
+Q 2650 2419 2429 2563 
+Q 2208 2707 1920 2707 
+Q 1632 2707 1414 2563 
+Q 1197 2419 1075 2163 
+Q 954 1907 954 1574 
+Q 954 1242 1075 986 
+Q 1197 730 1414 586 
+Q 1632 442 1920 442 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-2e" d="M 3917 570 
-L 4077 0 
-L 4461 0 
-L 4461 2406 
-L 2458 2406 
-L 2458 1894 
-L 3917 1894 
-Q 3930 1581 3834 1309 
-Q 3738 1037 3549 835 
-Q 3360 634 3085 518 
-Q 2810 403 2451 403 
-Q 2067 403 1776 553 
-Q 1485 704 1286 957 
-Q 1088 1210 985 1539 
-Q 883 1869 883 2227 
-Q 883 2592 972 2941 
-Q 1062 3290 1251 3562 
-Q 1440 3834 1737 4000 
-Q 2035 4166 2451 4166 
-Q 2707 4166 2934 4105 
-Q 3162 4045 3341 3923 
-Q 3520 3802 3641 3613 
-Q 3763 3424 3808 3162 
-L 4416 3162 
-Q 4352 3565 4176 3849 
-Q 4000 4134 3741 4320 
-Q 3482 4506 3152 4592 
-Q 2822 4678 2451 4678 
-Q 1907 4678 1500 4476 
-Q 1094 4275 822 3936 
-Q 550 3597 412 3145 
-Q 275 2694 275 2195 
-Q 275 1747 422 1331 
-Q 570 915 851 595 
-Q 1133 275 1536 86 
-Q 1939 -102 2451 -102 
-Q 2854 -102 3251 54 
-Q 3648 211 3917 570 
+       <path id="HankenGrotesk-Regular-3a" d="M 2349 -77 
+Q 1747 -77 1289 211 
+Q 832 499 576 1020 
+Q 320 1542 320 2234 
+Q 320 2925 579 3443 
+Q 838 3962 1302 4250 
+Q 1766 4538 2381 4538 
+Q 3053 4538 3545 4205 
+Q 4038 3872 4256 3283 
+L 3731 3085 
+Q 3565 3520 3219 3760 
+Q 2874 4000 2381 4000 
+Q 1926 4000 1587 3782 
+Q 1248 3565 1065 3171 
+Q 883 2778 883 2234 
+Q 883 1690 1065 1293 
+Q 1248 896 1587 678 
+Q 1926 461 2381 461 
+Q 2611 461 2854 525 
+Q 3098 589 3302 749 
+Q 3507 909 3632 1187 
+Q 3757 1466 3757 1894 
+L 3757 2221 
+L 3885 1837 
+L 2630 1837 
+L 2630 2342 
+L 4256 2342 
+L 4256 0 
+L 3757 0 
+L 3680 870 
+L 3776 800 
+Q 3661 493 3443 301 
+Q 3226 109 2941 16 
+Q 2656 -77 2349 -77 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-12" d="M 2138 1837 
-L 2138 3238 
-L 1702 3238 
-L 1702 1837 
-L 307 1837 
-L 307 1402 
-L 1702 1402 
-L 1702 0 
-L 2138 0 
-L 2138 1402 
-L 3533 1402 
-L 3533 1837 
-L 2138 1837 
+       <path id="HankenGrotesk-Regular-253" d="M 1574 58 
+L 1574 1370 
+L 262 1370 
+L 262 1798 
+L 1574 1798 
+L 1574 3110 
+L 2010 3110 
+L 2010 1798 
+L 3322 1798 
+L 3322 1370 
+L 2010 1370 
+L 2010 58 
+L 1574 58 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-28" d="M 1286 1888 
-L 2061 4019 
-L 2074 4019 
-L 2835 1888 
-L 1286 1888 
+       <path id="HankenGrotesk-Regular-1" d="M 109 0 
+L 1811 4461 
+L 2259 4461 
+L 3962 0 
+L 3347 0 
+L 2042 3654 
+L 730 0 
+L 109 0 
 z
-M 1741 4570 
-L -38 0 
-L 582 0 
-L 1094 1376 
-L 3027 1376 
-L 3526 0 
-L 4198 0 
-L 2413 4570 
-L 1741 4570 
-z
-" transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-20" d="M 858 1094 
-L 314 1094 
-Q 365 506 742 218 
-Q 1120 -70 1690 -70 
-Q 2515 -70 2889 560 
-Q 3264 1190 3264 2368 
-Q 3264 3014 3139 3433 
-Q 3014 3853 2803 4096 
-Q 2592 4339 2310 4438 
-Q 2029 4538 1709 4538 
-Q 1382 4538 1107 4429 
-Q 832 4320 633 4125 
-Q 435 3930 326 3658 
-Q 218 3386 218 3059 
-Q 218 2726 310 2444 
-Q 403 2163 585 1964 
-Q 768 1766 1037 1654 
-Q 1306 1542 1651 1542 
-Q 1984 1542 2265 1712 
-Q 2547 1882 2701 2170 
-L 2714 2157 
-Q 2688 1267 2438 835 
-Q 2189 403 1690 403 
-Q 1363 403 1126 582 
-Q 890 762 858 1094 
-z
-M 2618 3021 
-Q 2618 2822 2554 2640 
-Q 2490 2458 2368 2320 
-Q 2246 2182 2073 2102 
-Q 1901 2022 1690 2022 
-Q 1491 2022 1328 2102 
-Q 1165 2182 1046 2316 
-Q 928 2451 861 2624 
-Q 794 2797 794 2982 
-Q 794 3194 842 3386 
-Q 890 3578 995 3728 
-Q 1101 3878 1270 3968 
-Q 1440 4058 1683 4058 
-Q 1914 4058 2086 3974 
-Q 2259 3891 2377 3747 
-Q 2496 3603 2557 3417 
-Q 2618 3232 2618 3021 
+M 1056 1050 
+L 1229 1555 
+L 2842 1555 
+L 3027 1050 
+L 1056 1050 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-17" d="M 845 2234 
-Q 845 2400 848 2601 
-Q 851 2803 880 3004 
-Q 909 3206 963 3398 
-Q 1018 3590 1123 3734 
-Q 1229 3878 1389 3968 
-Q 1549 4058 1779 4058 
-Q 2010 4058 2170 3968 
-Q 2330 3878 2435 3734 
-Q 2541 3590 2595 3398 
-Q 2650 3206 2678 3004 
-Q 2707 2803 2710 2601 
-Q 2714 2400 2714 2234 
-Q 2714 1978 2698 1661 
-Q 2682 1344 2595 1065 
-Q 2509 787 2317 595 
-Q 2125 403 1779 403 
-Q 1434 403 1242 595 
-Q 1050 787 963 1065 
-Q 877 1344 861 1661 
-Q 845 1978 845 2234 
-z
-M 269 2227 
-Q 269 1978 281 1709 
-Q 294 1440 345 1184 
-Q 397 928 493 701 
-Q 589 474 755 301 
-Q 922 128 1174 29 
-Q 1427 -70 1779 -70 
-Q 2138 -70 2387 29 
-Q 2637 128 2803 301 
-Q 2970 474 3066 701 
-Q 3162 928 3213 1184 
-Q 3264 1440 3277 1709 
-Q 3290 1978 3290 2227 
-Q 3290 2477 3277 2745 
-Q 3264 3014 3213 3270 
-Q 3162 3526 3066 3756 
-Q 2970 3987 2803 4160 
-Q 2637 4333 2384 4435 
-Q 2131 4538 1779 4538 
-Q 1427 4538 1174 4435 
-Q 922 4333 755 4160 
-Q 589 3987 493 3756 
-Q 397 3526 345 3270 
-Q 294 3014 281 2745 
-Q 269 2477 269 2227 
+       <path id="HankenGrotesk-Regular-200" d="M 154 -986 
+L 749 941 
+L 1350 941 
+L 518 -986 
+L 154 -986 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-13" d="M 531 710 
-L 531 0 
-L 909 0 
-Q 915 -77 899 -166 
-Q 883 -256 838 -342 
-Q 794 -429 720 -502 
-Q 646 -576 538 -614 
-L 538 -934 
-Q 909 -826 1075 -563 
-Q 1242 -301 1242 64 
-L 1242 710 
-L 531 710 
+       <path id="HankenGrotesk-Regular-15e" d="M 2758 -1306 
+L 2758 941 
+L 2912 794 
+Q 2848 550 2685 358 
+Q 2522 166 2285 57 
+Q 2048 -51 1747 -51 
+Q 1350 -51 1024 147 
+Q 698 346 506 714 
+Q 314 1082 314 1574 
+Q 314 2042 493 2410 
+Q 672 2778 995 2992 
+Q 1318 3206 1747 3206 
+Q 2048 3206 2285 3104 
+Q 2522 3002 2685 2806 
+Q 2848 2611 2931 2336 
+L 2758 2214 
+L 2758 3155 
+L 3296 3155 
+L 3296 -1306 
+L 2758 -1306 
+z
+M 1837 442 
+Q 2125 442 2342 586 
+Q 2560 730 2681 986 
+Q 2803 1242 2803 1574 
+Q 2803 1907 2681 2163 
+Q 2560 2419 2342 2563 
+Q 2125 2707 1837 2707 
+Q 1549 2707 1328 2563 
+Q 1107 2419 982 2163 
+Q 858 1907 858 1574 
+Q 858 1242 982 986 
+Q 1107 730 1328 586 
+Q 1549 442 1837 442 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-58" d="M 806 1626 
-Q 806 1869 857 2099 
-Q 909 2330 1024 2509 
-Q 1139 2688 1331 2797 
-Q 1523 2906 1798 2906 
-Q 2080 2906 2278 2800 
-Q 2477 2694 2601 2521 
-Q 2726 2349 2784 2121 
-Q 2842 1894 2842 1651 
-Q 2842 1421 2787 1197 
-Q 2733 973 2611 797 
-Q 2490 621 2298 512 
-Q 2106 403 1830 403 
-Q 1568 403 1373 505 
-Q 1178 608 1053 781 
-Q 928 954 867 1174 
-Q 806 1395 806 1626 
-z
-M 3366 -1261 
-L 3366 3309 
-L 2822 3309 
-L 2822 2867 
-L 2810 2867 
-Q 2720 3014 2589 3113 
-Q 2458 3213 2310 3273 
-Q 2163 3334 2016 3360 
-Q 1869 3386 1741 3386 
-Q 1363 3386 1078 3248 
-Q 794 3110 605 2876 
-Q 416 2643 323 2329 
-Q 230 2016 230 1664 
-Q 230 1312 326 998 
-Q 422 685 611 448 
-Q 800 211 1085 70 
-Q 1370 -70 1754 -70 
-Q 2099 -70 2387 51 
-Q 2675 173 2810 448 
-L 2822 448 
-L 2822 -1261 
-L 3366 -1261 
+       <path id="HankenGrotesk-Regular-16f" d="M 1523 -51 
+Q 1184 -51 934 86 
+Q 685 224 553 493 
+Q 422 762 422 1158 
+L 422 3155 
+L 960 3155 
+L 960 1350 
+Q 960 1037 1040 829 
+Q 1120 621 1280 521 
+Q 1440 422 1677 422 
+Q 1939 422 2121 547 
+Q 2304 672 2400 928 
+Q 2496 1184 2496 1587 
+L 2496 3155 
+L 3034 3155 
+L 3034 0 
+L 2496 0 
+L 2496 672 
+L 2630 672 
+Q 2496 320 2201 134 
+Q 1907 -51 1523 -51 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-5c" d="M 3149 0 
-L 3149 3309 
-L 2605 3309 
-L 2605 1440 
-Q 2605 1216 2544 1027 
-Q 2483 838 2361 697 
-Q 2240 557 2057 480 
-Q 1875 403 1626 403 
-Q 1312 403 1133 582 
-Q 954 762 954 1069 
-L 954 3309 
-L 410 3309 
-L 410 1133 
-Q 410 864 464 643 
-Q 518 422 652 262 
-Q 787 102 1004 16 
-Q 1222 -70 1549 -70 
-Q 1914 -70 2182 74 
-Q 2451 218 2624 525 
-L 2637 525 
-L 2637 0 
-L 3149 0 
+       <path id="HankenGrotesk-Regular-131" d="M 1094 -51 
+Q 806 -51 627 128 
+Q 448 307 448 698 
+L 448 4461 
+L 986 4461 
+L 986 800 
+Q 986 614 1062 531 
+Q 1139 448 1267 448 
+Q 1325 448 1395 461 
+Q 1466 474 1542 499 
+L 1542 38 
+Q 1434 -6 1312 -28 
+Q 1190 -51 1094 -51 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-53" d="M 442 4570 
-L 442 0 
-L 986 0 
-L 986 4570 
-L 442 4570 
+       <path id="HankenGrotesk-Regular-18a" d="M 774 -1299 
+L 1376 154 
+L 147 3155 
+L 742 3155 
+L 1664 698 
+L 2592 3155 
+L 3181 3155 
+L 1363 -1299 
+L 774 -1299 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-60" d="M 1709 -442 
-Q 1613 -685 1520 -851 
-Q 1427 -1018 1315 -1123 
-Q 1203 -1229 1065 -1277 
-Q 928 -1325 749 -1325 
-Q 653 -1325 557 -1312 
-Q 461 -1299 371 -1267 
-L 371 -768 
-Q 442 -800 534 -822 
-Q 627 -845 691 -845 
-Q 858 -845 970 -765 
-Q 1082 -685 1139 -538 
-L 1363 19 
-L 51 3309 
-L 666 3309 
-L 1632 602 
-L 1645 602 
-L 2573 3309 
-L 3149 3309 
-L 1709 -442 
+       <path id="HankenGrotesk-Regular-21b" d="M 256 1741 
+L 256 2144 
+L 1843 2144 
+L 1843 1741 
+L 256 1741 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-14" d="M 320 2035 
-L 320 1523 
-L 2170 1523 
-L 2170 2035 
-L 320 2035 
+       <path id="HankenGrotesk-Regular-f9" d="M 1747 -51 
+Q 1318 -51 995 163 
+Q 672 378 493 749 
+Q 314 1120 314 1581 
+Q 314 2080 506 2445 
+Q 698 2810 1024 3008 
+Q 1350 3206 1747 3206 
+Q 2048 3206 2285 3088 
+Q 2522 2970 2685 2768 
+Q 2848 2566 2912 2317 
+L 2758 2214 
+L 2758 4461 
+L 3296 4461 
+L 3296 0 
+L 2758 0 
+L 2758 941 
+L 2938 883 
+Q 2854 608 2688 397 
+Q 2522 186 2285 67 
+Q 2048 -51 1747 -51 
+z
+M 1837 448 
+Q 2125 448 2342 592 
+Q 2560 736 2681 992 
+Q 2803 1248 2803 1581 
+Q 2803 1914 2681 2170 
+Q 2560 2426 2342 2570 
+Q 2125 2714 1837 2714 
+Q 1549 2714 1328 2570 
+Q 1107 2426 982 2170 
+Q 858 1914 858 1581 
+Q 858 1248 982 992 
+Q 1107 736 1328 592 
+Q 1549 448 1837 448 
 z
 " transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-4b" d="M 806 1626 
-Q 806 1869 857 2099 
-Q 909 2330 1024 2509 
-Q 1139 2688 1331 2797 
-Q 1523 2906 1798 2906 
-Q 2080 2906 2278 2800 
-Q 2477 2694 2601 2521 
-Q 2726 2349 2784 2121 
-Q 2842 1894 2842 1651 
-Q 2842 1421 2787 1197 
-Q 2733 973 2611 797 
-Q 2490 621 2298 512 
-Q 2106 403 1830 403 
-Q 1568 403 1373 505 
-Q 1178 608 1053 781 
-Q 928 954 867 1174 
-Q 806 1395 806 1626 
+       <path id="HankenGrotesk-Regular-12a" d="M 333 -1357 
+Q 224 -1357 96 -1334 
+Q -32 -1312 -160 -1274 
+L -160 -800 
+Q -58 -832 19 -845 
+Q 96 -858 141 -858 
+Q 294 -858 374 -771 
+Q 454 -685 454 -467 
+L 454 3155 
+L 992 3155 
+L 992 -608 
+Q 992 -998 813 -1177 
+Q 634 -1357 333 -1357 
 z
-M 3366 0 
-L 3366 4570 
-L 2822 4570 
-L 2822 2867 
-L 2810 2867 
-Q 2720 3014 2589 3113 
-Q 2458 3213 2310 3273 
-Q 2163 3334 2016 3360 
-Q 1869 3386 1741 3386 
-Q 1363 3386 1078 3248 
-Q 794 3110 605 2876 
-Q 416 2643 323 2329 
-Q 230 2016 230 1664 
-Q 230 1312 326 998 
-Q 422 685 611 448 
-Q 800 211 1085 70 
-Q 1370 -70 1754 -70 
-Q 2099 -70 2387 51 
-Q 2675 173 2810 448 
-L 2822 448 
-L 2822 0 
-L 3366 0 
-z
-" transform="scale(0.015625)"/>
-       <path id="HelveticaNeue-51" d="M 986 3904 
-L 986 4570 
-L 442 4570 
-L 442 3904 
-L 986 3904 
-z
-M 986 -416 
-L 986 3309 
-L 442 3309 
-L 442 -326 
-Q 442 -582 378 -681 
-Q 314 -781 134 -781 
-L 19 -781 
-Q -6 -781 -28 -777 
-Q -51 -774 -83 -768 
-L -83 -1235 
-Q 45 -1261 192 -1261 
-Q 557 -1261 771 -1059 
-Q 986 -858 986 -416 
+M 410 3725 
+L 410 4461 
+L 1050 4461 
+L 1050 3725 
+L 410 3725 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#HelveticaNeue-39"/>
-      <use xlink:href="#HelveticaNeue-34" transform="translate(68.5 0)"/>
-      <use xlink:href="#HelveticaNeue-3a" transform="translate(155.59375 0)"/>
-      <use xlink:href="#HelveticaNeue-2c" transform="translate(220.390625 0)"/>
-      <use xlink:href="#HelveticaNeue-3" transform="translate(281.484375 0)"/>
-      <use xlink:href="#HelveticaNeue-f" transform="translate(309.28125 0)"/>
-      <use xlink:href="#HelveticaNeue-55" transform="translate(335.1875 0)"/>
-      <use xlink:href="#HelveticaNeue-57" transform="translate(390.78125 0)"/>
-      <use xlink:href="#HelveticaNeue-2e" transform="translate(450.078125 0)"/>
-      <use xlink:href="#HelveticaNeue-12" transform="translate(525.984375 0)"/>
-      <use xlink:href="#HelveticaNeue-28" transform="translate(585.984375 0)"/>
-      <use xlink:href="#HelveticaNeue-3" transform="translate(650.78125 0)"/>
-      <use xlink:href="#HelveticaNeue-57" transform="translate(678.578125 0)"/>
-      <use xlink:href="#HelveticaNeue-4c" transform="translate(737.875 0)"/>
-      <use xlink:href="#HelveticaNeue-59" transform="translate(791.578125 0)"/>
-      <use xlink:href="#HelveticaNeue-3" transform="translate(824.875 0)"/>
-      <use xlink:href="#HelveticaNeue-20" transform="translate(852.671875 0)"/>
-      <use xlink:href="#HelveticaNeue-17" transform="translate(908.265625 0)"/>
-      <use xlink:href="#HelveticaNeue-13" transform="translate(963.859375 0)"/>
-      <use xlink:href="#HelveticaNeue-3" transform="translate(991.65625 0)"/>
-      <use xlink:href="#HelveticaNeue-58" transform="translate(1019.453125 0)"/>
-      <use xlink:href="#HelveticaNeue-5c" transform="translate(1078.75 0)"/>
-      <use xlink:href="#HelveticaNeue-48" transform="translate(1134.34375 0)"/>
-      <use xlink:href="#HelveticaNeue-53" transform="translate(1188.046875 0)"/>
-      <use xlink:href="#HelveticaNeue-50" transform="translate(1210.25 0)"/>
-      <use xlink:href="#HelveticaNeue-5b" transform="translate(1232.453125 0)"/>
-      <use xlink:href="#HelveticaNeue-60" transform="translate(1263.953125 0)"/>
-      <use xlink:href="#HelveticaNeue-14" transform="translate(1313.953125 0)"/>
-      <use xlink:href="#HelveticaNeue-48" transform="translate(1352.859375 0)"/>
-      <use xlink:href="#HelveticaNeue-4b" transform="translate(1406.5625 0)"/>
-      <use xlink:href="#HelveticaNeue-51" transform="translate(1465.859375 0)"/>
-      <use xlink:href="#HelveticaNeue-5c" transform="translate(1488.0625 0)"/>
-      <use xlink:href="#HelveticaNeue-5a" transform="translate(1543.65625 0)"/>
-      <use xlink:href="#HelveticaNeue-5b" transform="translate(1593.65625 0)"/>
-      <use xlink:href="#HelveticaNeue-4c" transform="translate(1625.15625 0)"/>
-      <use xlink:href="#HelveticaNeue-4b" transform="translate(1678.859375 0)"/>
-      <use xlink:href="#HelveticaNeue-10" transform="translate(1738.15625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-84"/>
+      <use xlink:href="#HankenGrotesk-Regular-5d" transform="translate(59.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-88" transform="translate(143.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-26" transform="translate(199.515625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(258.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-221" transform="translate(284.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(306.21875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15c" transform="translate(360.921875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-3a" transform="translate(419.625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-253" transform="translate(492.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1" transform="translate(548.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(612.421875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15c" transform="translate(638.421875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(697.125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(751.125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(791.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1d8" transform="translate(817.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(873.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-200" transform="translate(929.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(953.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15e" transform="translate(979.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16f" transform="translate(1038.53125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(1093.234375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-131" transform="translate(1147.234375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(1173.734375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(1196.328125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-18a" transform="translate(1230.921875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-21b" transform="translate(1283.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(1315.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f9" transform="translate(1369.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-12a" transform="translate(1428.421875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16f" transform="translate(1451.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(1505.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(1552.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(1586.3125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f9" transform="translate(1640.3125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-222" transform="translate(1699.015625 0)"/>
      </g>
     </g>
    </g>
    <g id="line2d_13">
-    <path d="M 77.923636 243.644363 
-L 193.941818 238.649844 
-L 309.96 236.152584 
-L 425.978182 236.866087 
-L 541.996364 273.611475 
-" clip-path="url(#pf11a5963cf)" style="fill: none; stroke-dasharray: 8.14,3.52; stroke-dashoffset: 0; stroke: #c8c2b7; stroke-width: 2.2"/>
+    <path d="M 73.555909 234.928438 
+L 189.185455 230.124562 
+L 304.815 227.722624 
+L 420.444545 228.408892 
+L 536.074091 263.751698 
+" clip-path="url(#p8847988e5a)" style="fill: none; stroke-dasharray: 8.14,3.52; stroke-dashoffset: 0; stroke: #c8c2b7; stroke-width: 2.2"/>
     <defs>
-     <path id="ma9ac79e6b5" d="M 0 2 
+     <path id="m5617add5bc" d="M 0 2 
 C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
 C 1.789267 1.03916 2 0.530406 2 0 
 C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
@@ -1580,23 +1396,23 @@ C -1.03916 1.789267 -0.530406 2 0 2
 z
 " style="stroke: #c8c2b7"/>
     </defs>
-    <g clip-path="url(#pf11a5963cf)">
-     <use xlink:href="#ma9ac79e6b5" x="77.923636" y="243.644363" style="fill: #c8c2b7; stroke: #c8c2b7"/>
-     <use xlink:href="#ma9ac79e6b5" x="193.941818" y="238.649844" style="fill: #c8c2b7; stroke: #c8c2b7"/>
-     <use xlink:href="#ma9ac79e6b5" x="309.96" y="236.152584" style="fill: #c8c2b7; stroke: #c8c2b7"/>
-     <use xlink:href="#ma9ac79e6b5" x="425.978182" y="236.866087" style="fill: #c8c2b7; stroke: #c8c2b7"/>
-     <use xlink:href="#ma9ac79e6b5" x="541.996364" y="273.611475" style="fill: #c8c2b7; stroke: #c8c2b7"/>
+    <g clip-path="url(#p8847988e5a)">
+     <use xlink:href="#m5617add5bc" x="73.555909" y="234.928438" style="fill: #c8c2b7; stroke: #c8c2b7"/>
+     <use xlink:href="#m5617add5bc" x="189.185455" y="230.124562" style="fill: #c8c2b7; stroke: #c8c2b7"/>
+     <use xlink:href="#m5617add5bc" x="304.815" y="227.722624" style="fill: #c8c2b7; stroke: #c8c2b7"/>
+     <use xlink:href="#m5617add5bc" x="420.444545" y="228.408892" style="fill: #c8c2b7; stroke: #c8c2b7"/>
+     <use xlink:href="#m5617add5bc" x="536.074091" y="263.751698" style="fill: #c8c2b7; stroke: #c8c2b7"/>
     </g>
    </g>
    <g id="line2d_14">
-    <path d="M 77.923636 38.512339 
-L 193.941818 56.349907 
-L 309.96 49.928382 
-L 425.978182 64.198436 
-L 541.996364 125.559667 
-" clip-path="url(#pf11a5963cf)" style="fill: none; stroke: #8a857b; stroke-width: 2.2; stroke-linecap: square"/>
+    <path d="M 73.555909 37.626364 
+L 189.185455 54.783066 
+L 304.815 48.606653 
+L 420.444545 62.332015 
+L 536.074091 121.35107 
+" clip-path="url(#p8847988e5a)" style="fill: none; stroke: #8a857b; stroke-width: 2.2; stroke-linecap: square"/>
     <defs>
-     <path id="m173b5b840e" d="M 0 2 
+     <path id="ma85ee28c18" d="M 0 2 
 C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
 C 1.789267 1.03916 2 0.530406 2 0 
 C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
@@ -1608,22 +1424,22 @@ C -1.03916 1.789267 -0.530406 2 0 2
 z
 " style="stroke: #8a857b"/>
     </defs>
-    <g clip-path="url(#pf11a5963cf)">
-     <use xlink:href="#m173b5b840e" x="77.923636" y="38.512339" style="fill: #8a857b; stroke: #8a857b"/>
-     <use xlink:href="#m173b5b840e" x="193.941818" y="56.349907" style="fill: #8a857b; stroke: #8a857b"/>
-     <use xlink:href="#m173b5b840e" x="309.96" y="49.928382" style="fill: #8a857b; stroke: #8a857b"/>
-     <use xlink:href="#m173b5b840e" x="425.978182" y="64.198436" style="fill: #8a857b; stroke: #8a857b"/>
-     <use xlink:href="#m173b5b840e" x="541.996364" y="125.559667" style="fill: #8a857b; stroke: #8a857b"/>
+    <g clip-path="url(#p8847988e5a)">
+     <use xlink:href="#ma85ee28c18" x="73.555909" y="37.626364" style="fill: #8a857b; stroke: #8a857b"/>
+     <use xlink:href="#ma85ee28c18" x="189.185455" y="54.783066" style="fill: #8a857b; stroke: #8a857b"/>
+     <use xlink:href="#ma85ee28c18" x="304.815" y="48.606653" style="fill: #8a857b; stroke: #8a857b"/>
+     <use xlink:href="#ma85ee28c18" x="420.444545" y="62.332015" style="fill: #8a857b; stroke: #8a857b"/>
+     <use xlink:href="#ma85ee28c18" x="536.074091" y="121.35107" style="fill: #8a857b; stroke: #8a857b"/>
     </g>
    </g>
    <g id="line2d_15">
-    <path d="M 193.941818 264.335941 
-L 309.96 246.855125 
-L 425.978182 260.054924 
-L 541.996364 274.68173 
-" clip-path="url(#pf11a5963cf)" style="fill: none; stroke: #1f3a5f; stroke-width: 2.2; stroke-linecap: square"/>
+    <path d="M 189.185455 253.114543 
+L 304.815 237.673511 
+L 420.444545 250.712604 
+L 536.074091 264.7811 
+" clip-path="url(#p8847988e5a)" style="fill: none; stroke: #1f3a5f; stroke-width: 2.2; stroke-linecap: square"/>
     <defs>
-     <path id="mf069e3e976" d="M 0 2 
+     <path id="m873aa3d314" d="M 0 2 
 C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
 C 1.789267 1.03916 2 0.530406 2 0 
 C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
@@ -1635,21 +1451,21 @@ C -1.03916 1.789267 -0.530406 2 0 2
 z
 " style="stroke: #1f3a5f"/>
     </defs>
-    <g clip-path="url(#pf11a5963cf)">
-     <use xlink:href="#mf069e3e976" x="193.941818" y="264.335941" style="fill: #1f3a5f; stroke: #1f3a5f"/>
-     <use xlink:href="#mf069e3e976" x="309.96" y="246.855125" style="fill: #1f3a5f; stroke: #1f3a5f"/>
-     <use xlink:href="#mf069e3e976" x="425.978182" y="260.054924" style="fill: #1f3a5f; stroke: #1f3a5f"/>
-     <use xlink:href="#mf069e3e976" x="541.996364" y="274.68173" style="fill: #1f3a5f; stroke: #1f3a5f"/>
+    <g clip-path="url(#p8847988e5a)">
+     <use xlink:href="#m873aa3d314" x="189.185455" y="253.114543" style="fill: #1f3a5f; stroke: #1f3a5f"/>
+     <use xlink:href="#m873aa3d314" x="304.815" y="237.673511" style="fill: #1f3a5f; stroke: #1f3a5f"/>
+     <use xlink:href="#m873aa3d314" x="420.444545" y="250.712604" style="fill: #1f3a5f; stroke: #1f3a5f"/>
+     <use xlink:href="#m873aa3d314" x="536.074091" y="264.7811" style="fill: #1f3a5f; stroke: #1f3a5f"/>
     </g>
    </g>
    <g id="line2d_16">
-    <path d="M 193.941818 259.698173 
-L 309.96 252.206395 
-L 425.978182 268.616957 
-L 541.996364 276.108735 
-" clip-path="url(#pf11a5963cf)" style="fill: none; stroke: #9c3a2a; stroke-width: 2.2; stroke-linecap: square"/>
+    <path d="M 189.185455 250.36947 
+L 304.815 243.163655 
+L 420.444545 258.947821 
+L 536.074091 266.153636 
+" clip-path="url(#p8847988e5a)" style="fill: none; stroke: #9c3a2a; stroke-width: 2.2; stroke-linecap: square"/>
     <defs>
-     <path id="mded9b09869" d="M 0 2 
+     <path id="m65e4b7f2b2" d="M 0 2 
 C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
 C 1.789267 1.03916 2 0.530406 2 0 
 C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
@@ -1661,21 +1477,21 @@ C -1.03916 1.789267 -0.530406 2 0 2
 z
 " style="stroke: #9c3a2a"/>
     </defs>
-    <g clip-path="url(#pf11a5963cf)">
-     <use xlink:href="#mded9b09869" x="193.941818" y="259.698173" style="fill: #9c3a2a; stroke: #9c3a2a"/>
-     <use xlink:href="#mded9b09869" x="309.96" y="252.206395" style="fill: #9c3a2a; stroke: #9c3a2a"/>
-     <use xlink:href="#mded9b09869" x="425.978182" y="268.616957" style="fill: #9c3a2a; stroke: #9c3a2a"/>
-     <use xlink:href="#mded9b09869" x="541.996364" y="276.108735" style="fill: #9c3a2a; stroke: #9c3a2a"/>
+    <g clip-path="url(#p8847988e5a)">
+     <use xlink:href="#m65e4b7f2b2" x="189.185455" y="250.36947" style="fill: #9c3a2a; stroke: #9c3a2a"/>
+     <use xlink:href="#m65e4b7f2b2" x="304.815" y="243.163655" style="fill: #9c3a2a; stroke: #9c3a2a"/>
+     <use xlink:href="#m65e4b7f2b2" x="420.444545" y="258.947821" style="fill: #9c3a2a; stroke: #9c3a2a"/>
+     <use xlink:href="#m65e4b7f2b2" x="536.074091" y="266.153636" style="fill: #9c3a2a; stroke: #9c3a2a"/>
     </g>
    </g>
    <g id="line2d_17">
-    <path d="M 193.941818 234.368828 
-L 309.96 235.08233 
-L 425.978182 255.417157 
-L 541.996364 262.908935 
-" clip-path="url(#pf11a5963cf)" style="fill: none; stroke: #162a44; stroke-width: 2.2; stroke-linecap: square"/>
+    <path d="M 189.185455 226.006953 
+L 304.815 226.693221 
+L 420.444545 246.251862 
+L 536.074091 253.457677 
+" clip-path="url(#p8847988e5a)" style="fill: none; stroke: #162a44; stroke-width: 2.2; stroke-linecap: square"/>
     <defs>
-     <path id="m47344a8599" d="M 0 2 
+     <path id="m1279d0b79e" d="M 0 2 
 C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
 C 1.789267 1.03916 2 0.530406 2 0 
 C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
@@ -1687,1535 +1503,1043 @@ C -1.03916 1.789267 -0.530406 2 0 2
 z
 " style="stroke: #162a44"/>
     </defs>
-    <g clip-path="url(#pf11a5963cf)">
-     <use xlink:href="#m47344a8599" x="193.941818" y="234.368828" style="fill: #162a44; stroke: #162a44"/>
-     <use xlink:href="#m47344a8599" x="309.96" y="235.08233" style="fill: #162a44; stroke: #162a44"/>
-     <use xlink:href="#m47344a8599" x="425.978182" y="255.417157" style="fill: #162a44; stroke: #162a44"/>
-     <use xlink:href="#m47344a8599" x="541.996364" y="262.908935" style="fill: #162a44; stroke: #162a44"/>
+    <g clip-path="url(#p8847988e5a)">
+     <use xlink:href="#m1279d0b79e" x="189.185455" y="226.006953" style="fill: #162a44; stroke: #162a44"/>
+     <use xlink:href="#m1279d0b79e" x="304.815" y="226.693221" style="fill: #162a44; stroke: #162a44"/>
+     <use xlink:href="#m1279d0b79e" x="420.444545" y="246.251862" style="fill: #162a44; stroke: #162a44"/>
+     <use xlink:href="#m1279d0b79e" x="536.074091" y="253.457677" style="fill: #162a44; stroke: #162a44"/>
     </g>
    </g>
    <g id="patch_3">
-    <path d="M 54.72 287.988555 
-L 54.72 26.63252 
+    <path d="M 50.43 277.58 
+L 50.43 26.2 
 " style="fill: none; stroke: #c8c2b7; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_4">
-    <path d="M 54.72 287.988555 
-L 565.2 287.988555 
+    <path d="M 50.43 277.58 
+L 559.2 277.58 
 " style="fill: none; stroke: #c8c2b7; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_15">
     <!-- Model comparison: RMSE by origin season -->
-    <g style="fill: #2a261f" transform="translate(54.72 20.63252) scale(0.13 -0.13)">
+    <g style="fill: #2a261f" transform="translate(50.43 20.2) scale(0.13 -0.13)">
      <defs>
-      <path id="Georgia-30" d="M 5644 0 
-L 3684 0 
-L 3684 222 
-Q 3791 225 3958 244 
-Q 4125 263 4188 297 
-Q 4284 356 4329 432 
-Q 4375 509 4375 625 
-L 4375 3850 
-L 4328 3850 
-L 2816 72 
-L 2659 72 
-L 1219 3928 
-L 1178 3928 
-L 1178 1281 
-Q 1178 897 1226 697 
-Q 1275 497 1375 409 
-Q 1444 344 1659 284 
-Q 1875 225 1941 222 
-L 1941 0 
-L 150 0 
-L 150 222 
-Q 291 234 445 268 
-Q 600 303 684 372 
-Q 794 459 834 640 
-Q 875 822 875 1247 
-L 875 3516 
-Q 875 3713 828 3838 
-Q 781 3963 694 4041 
-Q 597 4125 456 4165 
-Q 316 4206 178 4213 
-L 178 4434 
-L 1691 4434 
-L 2959 1109 
-L 4044 3891 
-Q 4103 4044 4145 4211 
-Q 4188 4378 4191 4434 
-L 5638 4434 
-L 5638 4213 
-Q 5550 4209 5414 4184 
-Q 5278 4159 5216 4138 
-Q 5109 4100 5071 4012 
-Q 5034 3925 5034 3822 
-L 5034 625 
-Q 5034 516 5071 441 
-Q 5109 366 5216 309 
-Q 5272 278 5415 251 
-Q 5559 225 5644 222 
-L 5644 0 
+      <path id="HankenGrotesk-SemiBold-5d" d="M 454 0 
+L 454 4461 
+L 1542 4461 
+L 2790 1126 
+L 2656 1126 
+L 3910 4461 
+L 4992 4461 
+L 4992 0 
+L 4250 0 
+L 4250 3597 
+L 4314 3584 
+L 3085 390 
+L 2362 390 
+L 1126 3584 
+L 1197 3597 
+L 1197 0 
+L 454 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-52" d="M 3228 1572 
-Q 3228 1247 3125 933 
-Q 3022 619 2831 400 
-Q 2616 150 2331 28 
-Q 2047 -94 1694 -94 
-Q 1400 -94 1134 17 
-Q 869 128 663 341 
-Q 459 550 339 851 
-Q 219 1153 219 1528 
-Q 219 2250 639 2709 
-Q 1059 3169 1741 3169 
-Q 2388 3169 2808 2733 
-Q 3228 2297 3228 1572 
+      <path id="HankenGrotesk-SemiBold-141" d="M 1837 -58 
+Q 1389 -58 1030 153 
+Q 672 365 470 736 
+Q 269 1107 269 1581 
+Q 269 2054 470 2425 
+Q 672 2797 1027 3005 
+Q 1382 3213 1837 3213 
+Q 2298 3213 2646 3005 
+Q 2995 2797 3200 2425 
+Q 3405 2054 3405 1581 
+Q 3405 1107 3203 736 
+Q 3002 365 2646 153 
+Q 2291 -58 1837 -58 
 z
-M 2581 1566 
-Q 2581 1800 2534 2061 
-Q 2488 2322 2394 2503 
-Q 2294 2697 2131 2814 
-Q 1969 2931 1734 2931 
-Q 1494 2931 1323 2812 
-Q 1153 2694 1047 2488 
-Q 947 2297 906 2053 
-Q 866 1809 866 1581 
-Q 866 1281 914 1026 
-Q 963 772 1069 572 
-Q 1175 372 1336 258 
-Q 1497 144 1734 144 
-Q 2125 144 2353 522 
-Q 2581 900 2581 1566 
+M 1843 570 
+Q 2106 570 2298 691 
+Q 2490 813 2592 1043 
+Q 2694 1274 2694 1581 
+Q 2694 1894 2592 2121 
+Q 2490 2349 2298 2470 
+Q 2106 2592 1843 2592 
+Q 1568 2592 1376 2467 
+Q 1184 2342 1081 2118 
+Q 979 1894 979 1581 
+Q 979 1274 1081 1043 
+Q 1184 813 1376 691 
+Q 1568 570 1843 570 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-47" d="M 3600 56 
-L 2525 -13 
-L 2478 31 
-L 2478 319 
-L 2453 325 
-Q 2291 144 2052 28 
-Q 1813 -88 1559 -88 
-Q 1297 -88 1051 29 
-Q 806 147 625 359 
-Q 441 575 333 878 
-Q 225 1181 225 1547 
-Q 225 1881 340 2181 
-Q 456 2481 659 2706 
-Q 850 2916 1126 3041 
-Q 1403 3166 1691 3166 
-Q 1906 3166 2114 3111 
-Q 2322 3056 2472 2972 
-L 2472 4044 
-Q 2472 4175 2428 4283 
-Q 2384 4391 2306 4447 
-Q 2219 4506 2070 4532 
-Q 1922 4559 1750 4572 
-L 1750 4766 
-L 3009 4838 
-L 3056 4791 
-L 3056 634 
-Q 3056 525 3098 448 
-Q 3141 372 3222 319 
-Q 3281 281 3393 272 
-Q 3506 263 3600 259 
-L 3600 56 
+      <path id="HankenGrotesk-SemiBold-f9" d="M 1645 -58 
+Q 1222 -58 912 156 
+Q 602 371 435 742 
+Q 269 1114 269 1581 
+Q 269 2093 451 2457 
+Q 634 2822 947 3017 
+Q 1261 3213 1645 3213 
+Q 1914 3213 2141 3104 
+Q 2368 2995 2525 2787 
+Q 2682 2579 2746 2278 
+L 2579 2272 
+L 2579 4461 
+L 3290 4461 
+L 3290 0 
+L 2579 0 
+L 2579 877 
+L 2771 922 
+Q 2688 576 2518 361 
+Q 2349 147 2125 44 
+Q 1901 -58 1645 -58 
 z
-M 2472 597 
-L 2472 2400 
-Q 2447 2481 2390 2575 
-Q 2334 2669 2250 2747 
-Q 2159 2825 2037 2876 
-Q 1916 2928 1753 2928 
-Q 1566 2928 1408 2831 
-Q 1250 2734 1128 2553 
-Q 1013 2378 945 2108 
-Q 878 1838 878 1509 
-Q 878 1247 928 1033 
-Q 978 819 1097 634 
-Q 1206 459 1376 353 
-Q 1547 247 1781 247 
-Q 2031 247 2195 356 
-Q 2359 466 2472 597 
+M 1818 595 
+Q 2067 595 2252 716 
+Q 2438 838 2540 1062 
+Q 2643 1286 2643 1581 
+Q 2643 1875 2540 2096 
+Q 2438 2317 2252 2441 
+Q 2067 2566 1818 2566 
+Q 1568 2566 1379 2444 
+Q 1190 2323 1084 2099 
+Q 979 1875 979 1581 
+Q 979 1286 1084 1062 
+Q 1190 838 1379 716 
+Q 1568 595 1818 595 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-48" d="M 2963 725 
-Q 2769 356 2444 137 
-Q 2119 -81 1697 -81 
-Q 1325 -81 1045 50 
-Q 766 181 584 406 
-Q 403 631 314 931 
-Q 225 1231 225 1566 
-Q 225 1866 320 2155 
-Q 416 2444 600 2675 
-Q 778 2897 1042 3033 
-Q 1306 3169 1634 3169 
-Q 1972 3169 2212 3062 
-Q 2453 2956 2603 2772 
-Q 2747 2597 2817 2359 
-Q 2888 2122 2888 1844 
-L 2888 1638 
-L 847 1638 
-Q 847 1334 905 1087 
-Q 963 841 1088 653 
-Q 1209 472 1406 367 
-Q 1603 263 1875 263 
-Q 2153 263 2354 392 
-Q 2556 522 2744 859 
-L 2963 725 
+      <path id="HankenGrotesk-SemiBold-fd" d="M 1798 -58 
+Q 1402 -58 1110 70 
+Q 819 198 633 428 
+Q 448 659 358 950 
+Q 269 1242 269 1555 
+Q 269 1869 355 2166 
+Q 442 2464 621 2701 
+Q 800 2938 1081 3075 
+Q 1363 3213 1747 3213 
+Q 2112 3213 2384 3088 
+Q 2656 2963 2835 2742 
+Q 3014 2522 3100 2240 
+Q 3187 1958 3187 1638 
+Q 3187 1594 3184 1510 
+Q 3181 1427 3168 1344 
+L 979 1344 
+Q 1005 966 1235 768 
+Q 1466 570 1824 570 
+Q 2086 570 2304 653 
+Q 2522 736 2701 915 
+L 3091 442 
+Q 2893 262 2694 153 
+Q 2496 45 2281 -6 
+Q 2067 -58 1798 -58 
 z
-M 2272 1900 
-Q 2272 2075 2242 2275 
-Q 2213 2475 2147 2609 
-Q 2075 2753 1950 2843 
-Q 1825 2934 1628 2934 
-Q 1300 2934 1083 2661 
-Q 866 2388 847 1900 
-L 2272 1900 
-z
-" transform="scale(0.015625)"/>
-      <path id="Georgia-4f" d="M 1669 0 
-L 166 0 
-L 166 206 
-Q 238 213 319 220 
-Q 400 228 453 244 
-Q 541 272 584 342 
-Q 628 413 628 525 
-L 628 4094 
-Q 628 4206 579 4304 
-Q 531 4403 453 4459 
-Q 397 4497 247 4528 
-Q 97 4559 6 4566 
-L 6 4766 
-L 1166 4838 
-L 1209 4791 
-L 1209 563 
-Q 1209 453 1250 383 
-Q 1291 313 1381 275 
-Q 1450 244 1517 228 
-Q 1584 213 1669 206 
-L 1669 0 
+M 2490 1702 
+Q 2502 1754 2505 1805 
+Q 2509 1856 2509 1907 
+Q 2509 2048 2461 2176 
+Q 2413 2304 2317 2403 
+Q 2221 2502 2080 2563 
+Q 1939 2624 1760 2624 
+Q 1510 2624 1340 2515 
+Q 1171 2406 1078 2236 
+Q 986 2067 966 1869 
+L 2720 1869 
+L 2490 1702 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-3" transform="scale(0.015625)"/>
-      <path id="Georgia-46" d="M 1650 -81 
-Q 981 -81 603 362 
-Q 225 806 225 1553 
-Q 225 1878 326 2161 
-Q 428 2444 622 2675 
-Q 806 2897 1084 3033 
-Q 1363 3169 1691 3169 
-Q 2144 3169 2428 2951 
-Q 2713 2734 2713 2359 
-Q 2713 2203 2638 2083 
-Q 2563 1963 2391 1963 
-Q 2206 1963 2104 2056 
-Q 2003 2150 2003 2266 
-Q 2003 2406 2040 2554 
-Q 2078 2703 2084 2772 
-Q 2028 2869 1917 2901 
-Q 1806 2934 1678 2934 
-Q 1528 2934 1392 2870 
-Q 1256 2806 1128 2634 
-Q 1013 2478 941 2212 
-Q 869 1947 869 1578 
-Q 869 997 1126 630 
-Q 1384 263 1803 263 
-Q 2106 263 2311 409 
-Q 2516 556 2691 850 
-L 2891 719 
-Q 2684 350 2346 134 
-Q 2009 -81 1650 -81 
+      <path id="HankenGrotesk-SemiBold-131" d="M 1114 -58 
+Q 806 -58 601 131 
+Q 397 320 397 736 
+L 397 4461 
+L 1107 4461 
+L 1107 877 
+Q 1107 730 1174 662 
+Q 1242 595 1350 595 
+Q 1408 595 1469 608 
+Q 1530 621 1594 640 
+L 1594 38 
+Q 1472 -13 1344 -35 
+Q 1216 -58 1114 -58 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-50" d="M 5503 0 
-L 4000 0 
-L 4000 206 
-Q 4072 213 4145 219 
-Q 4219 225 4275 244 
-Q 4363 272 4405 342 
-Q 4447 413 4447 525 
-L 4447 2116 
-Q 4447 2441 4298 2617 
-Q 4150 2794 3928 2794 
-Q 3775 2794 3640 2747 
-Q 3506 2700 3394 2616 
-Q 3303 2547 3242 2467 
-Q 3181 2388 3150 2334 
-L 3150 556 
-Q 3150 447 3187 376 
-Q 3225 306 3316 269 
-Q 3388 241 3445 227 
-Q 3503 213 3597 206 
-L 3597 0 
-L 2125 0 
-L 2125 206 
-Q 2197 213 2264 219 
-Q 2331 225 2388 244 
-Q 2475 272 2517 342 
-Q 2559 413 2559 525 
-L 2559 2116 
-Q 2559 2441 2411 2617 
-Q 2263 2794 2041 2794 
-Q 1888 2794 1753 2745 
-Q 1619 2697 1506 2613 
-Q 1416 2544 1353 2458 
-Q 1291 2372 1259 2328 
-L 1259 563 
-Q 1259 456 1303 384 
-Q 1347 313 1434 275 
-Q 1500 244 1569 228 
-Q 1638 213 1722 206 
-L 1722 0 
-L 225 0 
-L 225 206 
-Q 297 213 373 219 
-Q 450 225 506 244 
-Q 594 272 636 342 
-Q 678 413 678 525 
-L 678 2441 
-Q 678 2541 633 2620 
-Q 588 2700 506 2756 
-Q 447 2794 359 2817 
-Q 272 2841 178 2847 
-L 178 3050 
-L 1209 3119 
-L 1253 3075 
-L 1253 2634 
-L 1275 2634 
-Q 1353 2713 1465 2819 
-Q 1578 2925 1675 2991 
-Q 1784 3066 1948 3116 
-Q 2113 3166 2303 3166 
-Q 2603 3166 2818 3005 
-Q 3034 2844 3128 2616 
-Q 3241 2725 3327 2808 
-Q 3413 2891 3553 2984 
-Q 3672 3066 3833 3116 
-Q 3994 3166 4191 3166 
-Q 4581 3166 4809 2909 
-Q 5038 2653 5038 2122 
-L 5038 556 
-Q 5038 447 5075 376 
-Q 5113 306 5203 269 
-Q 5275 241 5345 227 
-Q 5416 213 5503 206 
-L 5503 0 
+      <path id="HankenGrotesk-SemiBold-1f9" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-f3" d="M 1779 -58 
+Q 1408 -58 1123 73 
+Q 838 205 649 438 
+Q 461 672 365 966 
+Q 269 1261 269 1581 
+Q 269 1901 365 2195 
+Q 461 2490 649 2720 
+Q 838 2950 1123 3081 
+Q 1408 3213 1779 3213 
+Q 2246 3213 2595 2989 
+Q 2944 2765 3110 2298 
+L 2483 2054 
+Q 2406 2298 2233 2448 
+Q 2061 2598 1779 2598 
+Q 1498 2598 1322 2451 
+Q 1146 2304 1062 2073 
+Q 979 1843 979 1581 
+Q 979 1318 1062 1084 
+Q 1146 851 1322 707 
+Q 1498 563 1779 563 
+Q 2061 563 2233 710 
+Q 2406 858 2483 1101 
+L 3110 858 
+Q 2944 397 2595 169 
+Q 2246 -58 1779 -58 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-53" d="M 3041 2716 
-Q 3225 2497 3326 2208 
-Q 3428 1919 3428 1547 
-Q 3428 1181 3306 879 
-Q 3184 578 2984 366 
-Q 2775 150 2519 34 
-Q 2263 -81 1975 -81 
-Q 1697 -81 1519 -18 
-Q 1341 44 1228 128 
-L 1203 128 
-L 1203 -797 
-Q 1203 -909 1247 -984 
-Q 1291 -1059 1381 -1094 
-Q 1456 -1122 1595 -1148 
-Q 1734 -1175 1825 -1178 
-L 1825 -1388 
-L 103 -1388 
-L 103 -1178 
-Q 200 -1172 290 -1162 
-Q 381 -1153 453 -1131 
-Q 547 -1100 584 -1022 
-Q 622 -944 622 -838 
-L 622 2441 
-Q 622 2534 575 2621 
-Q 528 2709 453 2763 
-Q 397 2800 297 2820 
-Q 197 2841 103 2847 
-L 103 3050 
-L 1153 3119 
-L 1197 3081 
-L 1197 2734 
-L 1222 2728 
-Q 1384 2916 1625 3041 
-Q 1866 3166 2103 3166 
-Q 2391 3166 2630 3044 
-Q 2869 2922 3041 2716 
-z
-M 2531 500 
-Q 2656 694 2715 950 
-Q 2775 1206 2775 1522 
-Q 2775 1753 2725 1993 
-Q 2675 2234 2569 2413 
-Q 2463 2594 2291 2706 
-Q 2119 2819 1878 2819 
-Q 1647 2819 1484 2717 
-Q 1322 2616 1203 2475 
-L 1203 653 
-Q 1231 569 1295 478 
-Q 1359 388 1438 322 
-Q 1534 244 1646 195 
-Q 1759 147 1922 147 
-Q 2097 147 2259 239 
-Q 2422 331 2531 500 
+      <path id="HankenGrotesk-SemiBold-137" d="M 416 0 
+L 416 3155 
+L 1126 3155 
+L 1126 2336 
+L 973 2246 
+Q 1030 2522 1136 2707 
+Q 1242 2893 1382 3005 
+Q 1523 3117 1686 3165 
+Q 1850 3213 2016 3213 
+Q 2272 3213 2496 3113 
+Q 2720 3014 2877 2793 
+Q 3034 2573 3091 2195 
+L 2675 2080 
+Q 2771 2490 2944 2736 
+Q 3117 2982 3350 3097 
+Q 3584 3213 3859 3213 
+Q 4262 3213 4508 3037 
+Q 4755 2861 4870 2576 
+Q 4986 2291 4986 1965 
+L 4986 0 
+L 4275 0 
+L 4275 1792 
+Q 4275 2054 4214 2233 
+Q 4154 2413 4026 2505 
+Q 3898 2598 3699 2598 
+Q 3488 2598 3347 2492 
+Q 3206 2387 3132 2169 
+Q 3059 1952 3059 1632 
+L 3059 0 
+L 2349 0 
+L 2349 1824 
+Q 2349 2214 2201 2406 
+Q 2054 2598 1786 2598 
+Q 1574 2598 1427 2489 
+Q 1280 2381 1203 2166 
+Q 1126 1952 1126 1632 
+L 1126 0 
+L 416 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-44" d="M 3144 56 
-Q 2997 3 2886 -30 
-Q 2775 -63 2634 -63 
-Q 2391 -63 2245 51 
-Q 2100 166 2059 384 
-L 2041 384 
-Q 1838 159 1605 40 
-Q 1372 -78 1044 -78 
-Q 697 -78 473 134 
-Q 250 347 250 691 
-Q 250 869 300 1009 
-Q 350 1150 450 1263 
-Q 528 1356 656 1429 
-Q 784 1503 897 1547 
-Q 1038 1600 1467 1744 
-Q 1897 1888 2047 1969 
-L 2047 2278 
-Q 2047 2319 2030 2434 
-Q 2013 2550 1956 2653 
-Q 1894 2769 1780 2855 
-Q 1666 2941 1456 2941 
-Q 1313 2941 1189 2892 
-Q 1066 2844 1016 2791 
-Q 1016 2728 1045 2606 
-Q 1075 2484 1075 2381 
-Q 1075 2272 976 2181 
-Q 878 2091 703 2091 
-Q 547 2091 473 2202 
-Q 400 2313 400 2450 
-Q 400 2594 501 2725 
-Q 603 2856 766 2959 
-Q 906 3047 1106 3108 
-Q 1306 3169 1497 3169 
-Q 1759 3169 1954 3133 
-Q 2150 3097 2309 2978 
-Q 2469 2863 2551 2664 
-Q 2634 2466 2634 2153 
-Q 2634 1706 2625 1361 
-Q 2616 1016 2616 606 
-Q 2616 484 2658 412 
-Q 2700 341 2788 291 
-Q 2834 263 2936 259 
-Q 3038 256 3144 256 
-L 3144 56 
+      <path id="HankenGrotesk-SemiBold-15c" d="M 416 -1306 
+L 416 3155 
+L 1120 3155 
+L 1120 2278 
+L 941 2272 
+Q 1024 2618 1187 2822 
+Q 1350 3027 1577 3120 
+Q 1805 3213 2061 3213 
+Q 2483 3213 2790 2998 
+Q 3098 2784 3267 2413 
+Q 3437 2042 3437 1574 
+Q 3437 1069 3251 701 
+Q 3066 333 2755 137 
+Q 2445 -58 2061 -58 
+Q 1792 -58 1565 44 
+Q 1338 147 1181 352 
+Q 1024 557 960 851 
+L 1120 883 
+L 1120 -1306 
+L 416 -1306 
 z
-M 2053 1706 
-Q 1788 1628 1588 1553 
-Q 1388 1478 1216 1366 
-Q 1059 1259 968 1114 
-Q 878 969 878 769 
-Q 878 509 1014 387 
-Q 1150 266 1359 266 
-Q 1581 266 1750 373 
-Q 1919 481 2034 628 
-L 2053 1706 
+M 1888 589 
+Q 2138 589 2326 710 
+Q 2515 832 2617 1056 
+Q 2720 1280 2720 1574 
+Q 2720 1869 2617 2093 
+Q 2515 2317 2326 2438 
+Q 2138 2560 1888 2560 
+Q 1638 2560 1449 2438 
+Q 1261 2317 1158 2093 
+Q 1056 1869 1056 1574 
+Q 1056 1280 1158 1059 
+Q 1261 838 1449 713 
+Q 1638 589 1888 589 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-55" d="M 2584 2684 
-Q 2584 2525 2506 2401 
-Q 2428 2278 2266 2278 
-Q 2091 2278 1998 2368 
-Q 1906 2459 1906 2569 
-Q 1906 2638 1917 2694 
-Q 1928 2750 1938 2806 
-Q 1791 2806 1594 2687 
-Q 1397 2569 1259 2350 
-L 1259 556 
-Q 1259 447 1301 378 
-Q 1344 309 1434 275 
-Q 1513 244 1636 228 
-Q 1759 213 1850 206 
-L 1850 0 
-L 225 0 
-L 225 206 
-Q 297 213 373 219 
-Q 450 225 506 244 
-Q 594 272 636 342 
-Q 678 413 678 525 
-L 678 2428 
-Q 678 2525 633 2619 
-Q 588 2713 506 2769 
-Q 447 2806 365 2823 
-Q 284 2841 191 2847 
-L 191 3050 
-L 1216 3119 
-L 1259 3075 
-L 1259 2641 
-L 1275 2641 
-Q 1469 2894 1706 3025 
-Q 1944 3156 2141 3156 
-Q 2338 3156 2461 3028 
-Q 2584 2900 2584 2684 
+      <path id="HankenGrotesk-SemiBold-d8" d="M 2451 0 
+L 2400 531 
+L 2400 1990 
+Q 2400 2298 2214 2454 
+Q 2029 2611 1696 2611 
+Q 1440 2611 1193 2512 
+Q 947 2413 742 2208 
+L 346 2675 
+Q 653 2963 998 3088 
+Q 1344 3213 1754 3213 
+Q 2394 3213 2749 2889 
+Q 3104 2566 3104 1990 
+L 3104 0 
+L 2451 0 
+z
+M 1472 -58 
+Q 1120 -58 848 70 
+Q 576 198 425 428 
+Q 275 659 275 966 
+Q 275 1229 387 1421 
+Q 499 1613 678 1722 
+Q 832 1818 1037 1859 
+Q 1242 1901 1466 1901 
+L 2458 1901 
+L 2458 1370 
+L 1568 1370 
+Q 1453 1370 1337 1347 
+Q 1222 1325 1133 1267 
+Q 1069 1216 1027 1139 
+Q 986 1062 986 960 
+Q 986 755 1142 636 
+Q 1299 518 1562 518 
+Q 1792 518 1981 620 
+Q 2170 723 2285 902 
+Q 2400 1082 2400 1306 
+L 2618 954 
+Q 2541 621 2374 393 
+Q 2208 166 1977 54 
+Q 1747 -58 1472 -58 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-4c" d="M 1722 0 
-L 231 0 
-L 231 206 
-Q 303 213 379 219 
-Q 456 225 513 244 
-Q 600 272 642 342 
-Q 684 413 684 525 
-L 684 2428 
-Q 684 2528 639 2611 
-Q 594 2694 513 2750 
-Q 453 2788 340 2814 
-Q 228 2841 134 2847 
-L 134 3050 
-L 1222 3119 
-L 1266 3075 
-L 1266 563 
-Q 1266 453 1308 381 
-Q 1350 309 1441 275 
-Q 1509 247 1575 230 
-Q 1641 213 1722 206 
-L 1722 0 
-z
-M 1328 4334 
-Q 1328 4156 1211 4023 
-Q 1094 3891 922 3891 
-Q 763 3891 645 4017 
-Q 528 4144 528 4306 
-Q 528 4478 645 4606 
-Q 763 4734 922 4734 
-Q 1100 4734 1214 4614 
-Q 1328 4494 1328 4334 
+      <path id="HankenGrotesk-SemiBold-15f" d="M 416 0 
+L 416 3155 
+L 1133 3155 
+L 1133 2304 
+L 998 2285 
+Q 1030 2560 1184 2768 
+Q 1338 2976 1558 3094 
+Q 1779 3213 1997 3213 
+Q 2150 3213 2291 3174 
+Q 2432 3136 2586 3046 
+L 2240 2406 
+Q 2170 2451 2058 2480 
+Q 1946 2509 1843 2509 
+Q 1709 2509 1577 2457 
+Q 1446 2406 1344 2300 
+Q 1242 2195 1190 2029 
+Q 1158 1939 1142 1795 
+Q 1126 1651 1126 1395 
+L 1126 0 
+L 416 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-56" d="M 2259 1509 
-Q 2388 1397 2456 1250 
-Q 2525 1103 2525 891 
-Q 2525 463 2204 191 
-Q 1884 -81 1375 -81 
-Q 1106 -81 879 16 
-Q 653 113 556 194 
-L 494 -9 
-L 259 -9 
-L 228 1063 
-L 444 1063 
-Q 469 941 550 778 
-Q 631 616 747 484 
-Q 869 347 1039 253 
-Q 1209 159 1422 159 
-Q 1722 159 1884 295 
-Q 2047 431 2047 684 
-Q 2047 816 1995 911 
-Q 1944 1006 1844 1078 
-Q 1741 1150 1591 1208 
-Q 1441 1266 1256 1322 
-Q 1109 1366 929 1442 
-Q 750 1519 622 1622 
-Q 484 1731 396 1890 
-Q 309 2050 309 2266 
-Q 309 2644 590 2906 
-Q 872 3169 1344 3169 
-Q 1525 3169 1714 3122 
-Q 1903 3075 2022 3009 
-L 2094 3172 
-L 2319 3172 
-L 2366 2181 
-L 2150 2181 
-Q 2084 2513 1867 2720 
-Q 1650 2928 1338 2928 
-Q 1081 2928 934 2800 
-Q 788 2672 788 2491 
-Q 788 2350 836 2256 
-Q 884 2163 981 2097 
-Q 1075 2034 1217 1979 
-Q 1359 1925 1569 1856 
-Q 1775 1791 1958 1703 
-Q 2141 1616 2259 1509 
+      <path id="HankenGrotesk-SemiBold-11b" d="M 410 0 
+L 410 3155 
+L 1120 3155 
+L 1120 0 
+L 410 0 
+z
+M 378 3674 
+L 378 4461 
+L 1152 4461 
+L 1152 3674 
+L 378 3674 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-51" d="M 3628 0 
-L 2119 0 
-L 2119 206 
-Q 2191 213 2277 219 
-Q 2363 225 2419 244 
-Q 2506 272 2548 342 
-Q 2591 413 2591 525 
-L 2591 2109 
-Q 2591 2438 2436 2616 
-Q 2281 2794 2059 2794 
-Q 1894 2794 1756 2742 
-Q 1619 2691 1513 2616 
-Q 1409 2544 1348 2461 
-Q 1288 2378 1259 2328 
-L 1259 556 
-Q 1259 450 1303 381 
-Q 1347 313 1434 275 
-Q 1500 244 1576 228 
-Q 1653 213 1734 206 
-L 1734 0 
-L 225 0 
-L 225 206 
-Q 297 213 373 219 
-Q 450 225 506 244 
-Q 594 272 636 342 
-Q 678 413 678 525 
-L 678 2428 
-Q 678 2534 633 2623 
-Q 588 2713 506 2769 
-Q 447 2806 365 2823 
-Q 284 2841 191 2847 
-L 191 3050 
-L 1216 3119 
-L 1259 3075 
-L 1259 2641 
-L 1275 2641 
-Q 1350 2716 1462 2820 
-Q 1575 2925 1675 2991 
-Q 1791 3066 1950 3116 
-Q 2109 3166 2309 3166 
-Q 2753 3166 2967 2889 
-Q 3181 2613 3181 2153 
-L 3181 550 
-Q 3181 441 3218 373 
-Q 3256 306 3347 269 
-Q 3422 238 3476 225 
-Q 3531 213 3628 206 
-L 3628 0 
+      <path id="HankenGrotesk-SemiBold-163" d="M 1491 -58 
+Q 1152 -58 889 41 
+Q 627 141 448 294 
+Q 269 448 154 602 
+L 640 1024 
+Q 762 826 976 672 
+Q 1190 518 1498 518 
+Q 1754 518 1904 627 
+Q 2054 736 2054 896 
+Q 2054 1037 1958 1117 
+Q 1862 1197 1708 1254 
+Q 1555 1312 1370 1357 
+Q 1190 1402 1004 1469 
+Q 819 1536 662 1638 
+Q 506 1741 410 1901 
+Q 314 2061 314 2298 
+Q 314 2714 634 2963 
+Q 954 3213 1472 3213 
+Q 1843 3213 2150 3065 
+Q 2458 2918 2630 2624 
+L 2189 2285 
+Q 2061 2477 1869 2573 
+Q 1677 2669 1453 2669 
+Q 1248 2669 1110 2585 
+Q 973 2502 973 2368 
+Q 973 2266 1037 2202 
+Q 1101 2138 1235 2086 
+Q 1370 2035 1574 1984 
+Q 1766 1939 1971 1875 
+Q 2176 1811 2352 1705 
+Q 2528 1600 2640 1424 
+Q 2752 1248 2752 973 
+Q 2752 666 2595 432 
+Q 2438 198 2153 70 
+Q 1869 -58 1491 -58 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-1d" d="M 1428 2666 
-Q 1428 2491 1301 2366 
-Q 1175 2241 1000 2241 
-Q 825 2241 698 2366 
-Q 572 2491 572 2666 
-Q 572 2841 697 2967 
-Q 822 3094 1000 3094 
-Q 1178 3094 1303 2967 
-Q 1428 2841 1428 2666 
-z
-M 1428 359 
-Q 1428 184 1301 60 
-Q 1175 -63 1000 -63 
-Q 825 -63 698 60 
-Q 572 184 572 359 
-Q 572 534 698 661 
-Q 825 788 1000 788 
-Q 1175 788 1301 661 
-Q 1428 534 1428 359 
-z
-" transform="scale(0.015625)"/>
-      <path id="Georgia-35" d="M 4625 0 
-L 3431 0 
-Q 3034 622 2714 1075 
-Q 2394 1528 2019 2009 
-L 1566 2009 
-L 1566 603 
-Q 1566 494 1600 411 
-Q 1634 328 1747 284 
-Q 1803 263 1943 244 
-Q 2084 225 2181 222 
-L 2181 0 
-L 306 0 
-L 306 222 
-Q 381 228 523 243 
-Q 666 259 722 284 
-Q 816 325 858 403 
-Q 900 481 900 603 
-L 900 3809 
-Q 900 3919 869 4003 
-Q 838 4088 722 4131 
-Q 644 4159 519 4182 
-Q 394 4206 306 4213 
-L 306 4434 
-L 2353 4434 
-Q 2634 4434 2881 4376 
-Q 3128 4319 3328 4191 
-Q 3522 4066 3637 3864 
-Q 3753 3663 3753 3378 
-Q 3753 3122 3675 2925 
-Q 3597 2728 3444 2584 
-Q 3303 2450 3106 2351 
-Q 2909 2253 2672 2184 
-Q 3000 1750 3217 1453 
-Q 3434 1156 3750 731 
-Q 3888 544 3998 455 
-Q 4109 366 4219 309 
-Q 4300 269 4422 247 
-Q 4544 225 4625 222 
-L 4625 0 
-z
-M 2981 3306 
-Q 2981 3709 2750 3945 
-Q 2519 4181 2097 4181 
-L 1566 4181 
-L 1566 2278 
-L 1975 2278 
-Q 2406 2278 2693 2554 
-Q 2981 2831 2981 3306 
+      <path id="HankenGrotesk-SemiBold-138" d="M 416 0 
+L 416 3155 
+L 1126 3155 
+L 1126 2458 
+L 998 2426 
+Q 1082 2701 1242 2873 
+Q 1402 3046 1616 3129 
+Q 1830 3213 2067 3213 
+Q 2598 3213 2896 2909 
+Q 3194 2605 3194 2042 
+L 3194 0 
+L 2483 0 
+L 2483 1779 
+Q 2483 2202 2329 2400 
+Q 2176 2598 1856 2598 
+Q 1619 2598 1456 2486 
+Q 1293 2374 1209 2137 
+Q 1126 1901 1126 1536 
+L 1126 0 
+L 416 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-36" d="M 3066 2034 
-Q 3206 1878 3273 1692 
-Q 3341 1506 3341 1259 
-Q 3341 672 2906 290 
-Q 2472 -91 1828 -91 
-Q 1531 -91 1234 1 
-Q 938 94 722 225 
-L 588 -3 
-L 338 -3 
-L 294 1516 
-L 547 1516 
-Q 625 1234 729 1007 
-Q 834 781 1006 584 
-Q 1169 400 1386 290 
-Q 1603 181 1891 181 
-Q 2106 181 2267 237 
-Q 2428 294 2528 397 
-Q 2628 500 2676 639 
-Q 2725 778 2725 959 
-Q 2725 1225 2575 1454 
-Q 2425 1684 2128 1803 
-Q 1925 1884 1662 1982 
-Q 1400 2081 1209 2169 
-Q 834 2338 626 2611 
-Q 419 2884 419 3325 
-Q 419 3578 522 3797 
-Q 625 4016 816 4188 
-Q 997 4350 1244 4442 
-Q 1491 4534 1759 4534 
-Q 2066 4534 2308 4440 
-Q 2550 4347 2750 4222 
-L 2878 4434 
-L 3128 4434 
-L 3153 2963 
-L 2900 2963 
-Q 2831 3216 2745 3447 
-Q 2659 3678 2522 3866 
-Q 2388 4047 2194 4155 
-Q 2000 4263 1719 4263 
-Q 1422 4263 1212 4072 
-Q 1003 3881 1003 3606 
-Q 1003 3319 1137 3130 
-Q 1272 2941 1528 2819 
-Q 1756 2709 1976 2629 
-Q 2197 2550 2403 2459 
-Q 2591 2378 2764 2275 
-Q 2938 2172 3066 2034 
+      <path id="HankenGrotesk-SemiBold-201" d="M 378 2195 
+L 378 3014 
+L 1158 3014 
+L 1158 2195 
+L 378 2195 
+z
+M 378 0 
+L 378 806 
+L 1158 806 
+L 1158 0 
+L 378 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-28" d="M 4034 1306 
-L 3950 0 
-L 269 0 
-L 269 222 
-Q 363 228 519 248 
-Q 675 269 722 291 
-Q 822 338 861 413 
-Q 900 488 900 603 
-L 900 3791 
-Q 900 3894 865 3973 
-Q 831 4053 722 4103 
-Q 638 4144 495 4175 
-Q 353 4206 269 4213 
-L 269 4434 
-L 3700 4434 
-L 3700 3366 
-L 3466 3366 
-Q 3403 3603 3195 3870 
-Q 2988 4138 2800 4163 
-Q 2703 4175 2568 4181 
-Q 2434 4188 2263 4188 
-L 1566 4188 
-L 1566 2425 
-L 2066 2425 
-Q 2306 2425 2417 2470 
-Q 2528 2516 2613 2622 
-Q 2681 2713 2729 2864 
-Q 2778 3016 2794 3150 
-L 3028 3150 
-L 3028 1416 
-L 2794 1416 
-Q 2781 1566 2726 1733 
-Q 2672 1900 2613 1975 
-Q 2516 2097 2392 2134 
-Q 2269 2172 2066 2172 
-L 1566 2172 
-L 1566 841 
-Q 1566 641 1594 525 
-Q 1622 409 1703 350 
-Q 1784 291 1925 273 
-Q 2066 256 2325 256 
-Q 2428 256 2597 256 
-Q 2766 256 2881 269 
-Q 3000 281 3126 314 
-Q 3253 347 3306 403 
-Q 3450 553 3608 858 
-Q 3766 1163 3809 1306 
-L 4034 1306 
+      <path id="HankenGrotesk-SemiBold-84" d="M 454 0 
+L 454 4461 
+L 1882 4461 
+Q 2413 4461 2745 4304 
+Q 3078 4147 3235 3859 
+Q 3392 3571 3392 3181 
+Q 3392 2586 3049 2256 
+Q 2707 1926 2074 1875 
+Q 1946 1875 1798 1875 
+Q 1651 1875 1536 1875 
+L 1197 1875 
+L 1197 0 
+L 454 0 
+z
+M 2899 0 
+L 1766 1958 
+L 2528 2048 
+L 3757 0 
+L 2899 0 
+z
+M 1197 2528 
+L 1805 2528 
+Q 2048 2528 2237 2585 
+Q 2426 2643 2538 2784 
+Q 2650 2925 2650 3174 
+Q 2650 3424 2538 3558 
+Q 2426 3693 2234 3747 
+Q 2042 3802 1805 3802 
+L 1197 3802 
+L 1197 2528 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-45" d="M 3353 1544 
-Q 3353 850 2915 378 
-Q 2478 -94 1900 -94 
-Q 1647 -94 1401 -15 
-Q 1156 63 941 194 
-L 709 -166 
-L 516 -122 
-Q 531 109 537 434 
-Q 544 759 544 1063 
-L 544 4113 
-Q 544 4219 495 4325 
-Q 447 4431 372 4478 
-Q 313 4519 173 4539 
-Q 34 4559 -50 4566 
-L -50 4766 
-L 1081 4838 
-L 1125 4791 
-L 1125 2759 
-L 1147 2753 
-Q 1341 2959 1570 3062 
-Q 1800 3166 2022 3166 
-Q 2591 3166 2972 2716 
-Q 3353 2266 3353 1544 
-z
-M 2700 1522 
-Q 2700 1753 2650 1993 
-Q 2600 2234 2494 2413 
-Q 2388 2594 2216 2706 
-Q 2044 2819 1803 2819 
-Q 1584 2819 1420 2733 
-Q 1256 2647 1125 2500 
-L 1125 706 
-Q 1144 631 1198 531 
-Q 1253 431 1347 341 
-Q 1441 253 1559 198 
-Q 1678 144 1850 144 
-Q 2231 144 2465 512 
-Q 2700 881 2700 1522 
+      <path id="HankenGrotesk-SemiBold-88" d="M 1894 -83 
+Q 1190 -83 745 281 
+Q 301 646 198 1254 
+L 922 1434 
+Q 992 1011 1257 793 
+Q 1523 576 1914 576 
+Q 2131 576 2304 656 
+Q 2477 736 2576 883 
+Q 2675 1030 2675 1216 
+Q 2675 1414 2566 1545 
+Q 2458 1677 2253 1782 
+Q 2048 1888 1754 2003 
+Q 1350 2157 1068 2336 
+Q 787 2515 640 2761 
+Q 493 3008 493 3347 
+Q 493 3699 665 3971 
+Q 838 4243 1152 4396 
+Q 1466 4550 1875 4550 
+Q 2317 4550 2656 4352 
+Q 2995 4154 3200 3750 
+L 2611 3392 
+Q 2477 3635 2285 3766 
+Q 2093 3898 1850 3898 
+Q 1677 3898 1536 3830 
+Q 1395 3763 1315 3641 
+Q 1235 3520 1235 3360 
+Q 1235 3194 1331 3069 
+Q 1427 2944 1628 2841 
+Q 1830 2739 2144 2618 
+Q 2547 2464 2828 2285 
+Q 3110 2106 3260 1859 
+Q 3411 1613 3411 1261 
+Q 3411 870 3219 569 
+Q 3027 269 2684 93 
+Q 2342 -83 1894 -83 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-5c" d="M -9 -1006 
-Q -9 -850 77 -751 
-Q 163 -653 291 -653 
-Q 391 -653 462 -690 
-Q 534 -728 591 -788 
-Q 638 -834 691 -915 
-Q 744 -997 775 -1050 
-Q 931 -966 1148 -609 
-Q 1366 -253 1463 16 
-Q 1166 756 925 1340 
-Q 684 1925 422 2550 
-Q 363 2694 222 2773 
-Q 81 2853 -59 2875 
-L -59 3081 
-L 1347 3081 
-L 1347 2863 
-Q 1253 2859 1122 2823 
-Q 991 2788 991 2741 
-Q 991 2722 1005 2678 
-Q 1019 2634 1038 2588 
-Q 1156 2278 1400 1695 
-Q 1644 1113 1778 763 
-Q 1919 1097 2070 1455 
-Q 2222 1813 2409 2300 
-Q 2431 2359 2472 2464 
-Q 2513 2569 2513 2644 
-Q 2513 2725 2370 2795 
-Q 2228 2866 2100 2881 
-L 2100 3081 
-L 3244 3081 
-L 3244 2888 
-Q 3150 2872 2997 2780 
-Q 2844 2688 2769 2519 
-Q 2397 1656 2108 947 
-Q 1819 238 1669 -97 
-Q 1472 -534 1317 -779 
-Q 1163 -1025 1016 -1166 
-Q 872 -1297 755 -1342 
-Q 638 -1388 513 -1388 
-Q 269 -1388 130 -1272 
-Q -9 -1156 -9 -1006 
+      <path id="HankenGrotesk-SemiBold-26" d="M 454 0 
+L 454 4461 
+L 3418 4461 
+L 3418 3802 
+L 1197 3802 
+L 1197 2618 
+L 3245 2618 
+L 3245 1952 
+L 1197 1952 
+L 1197 659 
+L 3418 659 
+L 3418 0 
+L 454 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="Georgia-4a" d="M 2866 319 
-Q 2991 200 3062 50 
-Q 3134 -100 3134 -322 
-Q 3134 -544 3037 -739 
-Q 2941 -934 2744 -1078 
-Q 2534 -1225 2243 -1306 
-Q 1953 -1388 1525 -1388 
-Q 825 -1388 478 -1183 
-Q 131 -978 131 -584 
-Q 131 -266 381 -81 
-Q 631 103 1019 119 
-L 1019 163 
-Q 925 191 825 233 
-Q 725 275 653 331 
-Q 572 397 522 486 
-Q 472 575 472 706 
-Q 472 872 589 1011 
-Q 706 1150 944 1250 
-L 944 1297 
-Q 644 1438 478 1658 
-Q 313 1878 313 2169 
-Q 313 2606 639 2887 
-Q 966 3169 1475 3169 
-Q 1616 3169 1755 3141 
-Q 1894 3113 2038 3069 
-L 3113 3069 
-L 3113 2769 
-L 2388 2769 
-L 2388 2750 
-Q 2503 2616 2559 2453 
-Q 2616 2291 2616 2134 
-Q 2616 1728 2286 1447 
-Q 1956 1166 1519 1166 
-L 1141 1166 
-Q 1069 1141 991 1075 
-Q 913 1009 913 897 
-Q 913 781 978 720 
-Q 1044 659 1138 638 
-Q 1228 613 1348 606 
-Q 1469 600 1597 597 
-Q 1734 594 1973 578 
-Q 2213 563 2313 559 
-Q 2456 553 2601 490 
-Q 2747 428 2866 319 
+      <path id="HankenGrotesk-SemiBold-f2" d="M 2061 -58 
+Q 1805 -58 1577 44 
+Q 1350 147 1184 361 
+Q 1018 576 934 922 
+L 1120 877 
+L 1120 0 
+L 416 0 
+L 416 4461 
+L 1120 4461 
+L 1120 2272 
+L 960 2272 
+Q 1024 2573 1181 2781 
+Q 1338 2989 1565 3101 
+Q 1792 3213 2061 3213 
+Q 2445 3213 2755 3017 
+Q 3066 2822 3251 2457 
+Q 3437 2093 3437 1581 
+Q 3437 1114 3267 742 
+Q 3098 371 2790 156 
+Q 2483 -58 2061 -58 
 z
-M 2022 2147 
-Q 2022 2513 1873 2730 
-Q 1725 2947 1456 2947 
-Q 1309 2947 1204 2886 
-Q 1100 2825 1034 2713 
-Q 972 2609 945 2464 
-Q 919 2319 919 2166 
-Q 919 1819 1070 1600 
-Q 1222 1381 1463 1381 
-Q 1731 1381 1876 1598 
-Q 2022 1816 2022 2147 
+M 1888 595 
+Q 2138 595 2326 716 
+Q 2515 838 2617 1062 
+Q 2720 1286 2720 1581 
+Q 2720 1875 2617 2099 
+Q 2515 2323 2326 2444 
+Q 2138 2566 1888 2566 
+Q 1638 2566 1449 2441 
+Q 1261 2317 1158 2096 
+Q 1056 1875 1056 1581 
+Q 1056 1286 1158 1062 
+Q 1261 838 1449 716 
+Q 1638 595 1888 595 
 z
-M 2622 -438 
-Q 2622 -263 2540 -150 
-Q 2459 -38 2294 3 
-Q 2206 16 1934 31 
-Q 1663 47 1303 47 
-Q 966 -19 823 -173 
-Q 681 -328 681 -572 
-Q 681 -681 728 -781 
-Q 775 -881 891 -966 
-Q 1000 -1047 1184 -1098 
-Q 1369 -1150 1634 -1150 
-Q 2094 -1150 2358 -973 
-Q 2622 -797 2622 -438 
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-18a" d="M 691 -1299 
+L 1318 211 
+L 115 3155 
+L 896 3155 
+L 1696 922 
+L 2509 3155 
+L 3277 3155 
+L 1459 -1299 
+L 691 -1299 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-111" d="M 1728 -1370 
+Q 1030 -1370 627 -1117 
+Q 224 -864 224 -429 
+Q 224 -390 227 -339 
+Q 230 -288 243 -237 
+L 1101 320 
+L 1293 134 
+L 877 -384 
+Q 870 -403 870 -419 
+Q 870 -435 870 -454 
+Q 870 -653 1110 -758 
+Q 1350 -864 1728 -864 
+Q 2048 -864 2240 -777 
+Q 2432 -691 2432 -518 
+Q 2432 -422 2374 -361 
+Q 2317 -301 2201 -262 
+Q 2086 -224 1916 -195 
+Q 1747 -166 1517 -141 
+Q 1229 -96 950 -13 
+Q 672 70 489 236 
+Q 307 403 307 678 
+Q 307 922 473 1123 
+Q 640 1325 915 1453 
+L 1280 1171 
+Q 1101 1133 1011 1040 
+Q 922 947 922 819 
+Q 922 710 1005 643 
+Q 1088 576 1245 541 
+Q 1402 506 1619 474 
+Q 1946 435 2221 384 
+Q 2496 333 2701 240 
+Q 2906 147 3018 -13 
+Q 3130 -173 3130 -429 
+Q 3130 -883 2762 -1126 
+Q 2394 -1370 1728 -1370 
+z
+M 1658 915 
+Q 1274 915 979 1062 
+Q 685 1210 521 1469 
+Q 358 1728 358 2054 
+Q 358 2406 531 2665 
+Q 704 2925 995 3069 
+Q 1286 3213 1632 3213 
+Q 1978 3213 2266 3069 
+Q 2554 2925 2730 2659 
+Q 2906 2394 2906 2029 
+Q 2906 1696 2749 1443 
+Q 2592 1190 2310 1052 
+Q 2029 915 1658 915 
+z
+M 1645 1485 
+Q 1920 1485 2061 1654 
+Q 2202 1824 2202 2061 
+Q 2202 2317 2048 2473 
+Q 1894 2630 1645 2630 
+Q 1382 2630 1225 2473 
+Q 1069 2317 1069 2067 
+Q 1069 1824 1216 1654 
+Q 1363 1485 1645 1485 
+z
+M 2701 2515 
+L 2182 2848 
+L 2893 3424 
+L 3258 2982 
+L 2701 2515 
 z
 " transform="scale(0.015625)"/>
      </defs>
-     <use xlink:href="#Georgia-30"/>
-     <use xlink:href="#Georgia-52" transform="translate(92.71875 0)"/>
-     <use xlink:href="#Georgia-47" transform="translate(146.625 0)"/>
-     <use xlink:href="#Georgia-48" transform="translate(204.046875 0)"/>
-     <use xlink:href="#Georgia-4f" transform="translate(252.390625 0)"/>
-     <use xlink:href="#Georgia-3" transform="translate(281 0)"/>
-     <use xlink:href="#Georgia-46" transform="translate(305.125 0)"/>
-     <use xlink:href="#Georgia-52" transform="translate(350.53125 0)"/>
-     <use xlink:href="#Georgia-50" transform="translate(404.4375 0)"/>
-     <use xlink:href="#Georgia-53" transform="translate(492.53125 0)"/>
-     <use xlink:href="#Georgia-44" transform="translate(549.65625 0)"/>
-     <use xlink:href="#Georgia-55" transform="translate(600.046875 0)"/>
-     <use xlink:href="#Georgia-4c" transform="translate(641.015625 0)"/>
-     <use xlink:href="#Georgia-56" transform="translate(670.3125 0)"/>
-     <use xlink:href="#Georgia-52" transform="translate(713.53125 0)"/>
-     <use xlink:href="#Georgia-51" transform="translate(767.4375 0)"/>
-     <use xlink:href="#Georgia-1d" transform="translate(826.515625 0)"/>
-     <use xlink:href="#Georgia-3" transform="translate(857.765625 0)"/>
-     <use xlink:href="#Georgia-35" transform="translate(881.890625 0)"/>
-     <use xlink:href="#Georgia-30" transform="translate(952.0625 0)"/>
-     <use xlink:href="#Georgia-36" transform="translate(1044.78125 0)"/>
-     <use xlink:href="#Georgia-28" transform="translate(1100.890625 0)"/>
-     <use xlink:href="#Georgia-3" transform="translate(1166.21875 0)"/>
-     <use xlink:href="#Georgia-45" transform="translate(1190.34375 0)"/>
-     <use xlink:href="#Georgia-5c" transform="translate(1246.34375 0)"/>
-     <use xlink:href="#Georgia-3" transform="translate(1295.5625 0)"/>
-     <use xlink:href="#Georgia-52" transform="translate(1319.6875 0)"/>
-     <use xlink:href="#Georgia-55" transform="translate(1373.59375 0)"/>
-     <use xlink:href="#Georgia-4c" transform="translate(1414.5625 0)"/>
-     <use xlink:href="#Georgia-4a" transform="translate(1443.859375 0)"/>
-     <use xlink:href="#Georgia-4c" transform="translate(1494.78125 0)"/>
-     <use xlink:href="#Georgia-51" transform="translate(1524.078125 0)"/>
-     <use xlink:href="#Georgia-3" transform="translate(1583.15625 0)"/>
-     <use xlink:href="#Georgia-56" transform="translate(1607.28125 0)"/>
-     <use xlink:href="#Georgia-48" transform="translate(1650.5 0)"/>
-     <use xlink:href="#Georgia-44" transform="translate(1698.84375 0)"/>
-     <use xlink:href="#Georgia-56" transform="translate(1749.234375 0)"/>
-     <use xlink:href="#Georgia-52" transform="translate(1792.453125 0)"/>
-     <use xlink:href="#Georgia-51" transform="translate(1846.359375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-5d"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(85.09375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f9" transform="translate(142.5 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(200.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-131" transform="translate(254.5 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(281.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f3" transform="translate(307.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(359.890625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-137" transform="translate(417.296875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15c" transform="translate(501.09375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(559 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(613.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(655.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(679.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(726.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(783.8125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-201" transform="translate(839.71875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(863.71875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-84" transform="translate(889.71875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-5d" transform="translate(950.015625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-88" transform="translate(1035.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-26" transform="translate(1092.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(1150.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f2" transform="translate(1176.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-18a" transform="translate(1232.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(1285.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(1311.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(1369.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(1411.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-111" transform="translate(1434.9375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(1486.9375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(1510.84375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(1566.75 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(1592.75 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(1639.84375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(1693.9375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(1748.34375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(1795.4375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(1852.84375 0)"/>
     </g>
    </g>
    <g id="legend_1">
     <g id="line2d_18">
-     <path d="M 62.82 130.070859 
-L 71.82 130.070859 
-L 80.82 130.070859 
+     <path d="M 58.53 119.4225 
+L 67.53 119.4225 
+L 76.53 119.4225 
 " style="fill: none; stroke-dasharray: 8.14,3.52; stroke-dashoffset: 0; stroke: #c8c2b7; stroke-width: 2.2"/>
      <g>
-      <use xlink:href="#ma9ac79e6b5" x="71.82" y="130.070859" style="fill: #c8c2b7; stroke: #c8c2b7"/>
+      <use xlink:href="#m5617add5bc" x="67.53" y="119.4225" style="fill: #c8c2b7; stroke: #c8c2b7"/>
      </g>
     </g>
     <g id="text_16">
      <!-- Persistence -->
-     <g style="fill: #2a261f" transform="translate(88.02 133.220859) scale(0.09 -0.09)">
+     <g style="fill: #2a261f" transform="translate(83.73 122.5725) scale(0.09 -0.09)">
       <defs>
-       <path id="Georgia-33" d="M 3700 3341 
-Q 3700 2994 3564 2726 
-Q 3428 2459 3188 2284 
-Q 2950 2109 2665 2028 
-Q 2381 1947 2063 1947 
-L 1566 1947 
-L 1566 603 
-Q 1566 494 1602 411 
-Q 1638 328 1750 284 
-Q 1806 263 1948 244 
-Q 2091 225 2209 222 
-L 2209 0 
-L 306 0 
-L 306 222 
-Q 381 228 523 243 
-Q 666 259 722 284 
-Q 816 325 858 403 
-Q 900 481 900 603 
-L 900 3803 
-Q 900 3913 869 4000 
-Q 838 4088 722 4131 
-Q 603 4172 486 4189 
-Q 369 4206 284 4213 
-L 284 4434 
-L 2309 4434 
-Q 2928 4434 3314 4136 
-Q 3700 3838 3700 3341 
+       <path id="HankenGrotesk-Regular-81" d="M 506 0 
+L 506 4461 
+L 1837 4461 
+Q 2560 4461 2941 4141 
+Q 3322 3821 3322 3200 
+Q 3322 2579 2938 2249 
+Q 2554 1920 1837 1920 
+L 1062 1920 
+L 1062 0 
+L 506 0 
 z
-M 2750 2584 
-Q 2856 2734 2890 2895 
-Q 2925 3056 2925 3184 
-Q 2925 3363 2883 3547 
-Q 2841 3731 2738 3869 
-Q 2628 4016 2450 4097 
-Q 2272 4178 2006 4178 
-L 1566 4178 
-L 1566 2219 
-L 1884 2219 
-Q 2222 2219 2433 2323 
-Q 2644 2428 2750 2584 
+M 1062 2419 
+L 1779 2419 
+Q 2240 2419 2499 2608 
+Q 2758 2797 2758 3194 
+Q 2758 3584 2505 3769 
+Q 2253 3955 1779 3955 
+L 1062 3955 
+L 1062 2419 
 z
 " transform="scale(0.015625)"/>
-       <path id="Georgia-57" d="M 2128 134 
-Q 1925 50 1744 -8 
-Q 1563 -66 1300 -66 
-Q 913 -66 755 129 
-Q 597 325 597 681 
-L 597 2769 
-L 41 2769 
-L 41 3069 
-L 609 3069 
-L 609 4028 
-L 1178 4028 
-L 1178 3069 
-L 2063 3069 
-L 2063 2769 
-L 1184 2769 
-L 1184 1047 
-Q 1184 853 1198 723 
-Q 1213 594 1266 497 
-Q 1316 406 1416 359 
-Q 1516 313 1684 313 
-Q 1763 313 1914 327 
-Q 2066 341 2128 363 
-L 2128 134 
+       <path id="HankenGrotesk-Regular-f3" d="M 1773 -51 
+Q 1421 -51 1149 77 
+Q 877 205 691 432 
+Q 506 659 410 953 
+Q 314 1248 314 1581 
+Q 314 1907 410 2201 
+Q 506 2496 691 2723 
+Q 877 2950 1149 3078 
+Q 1421 3206 1773 3206 
+Q 2221 3206 2557 2988 
+Q 2893 2771 3053 2323 
+L 2573 2138 
+Q 2483 2406 2284 2572 
+Q 2086 2739 1773 2739 
+Q 1459 2739 1254 2572 
+Q 1050 2406 950 2144 
+Q 851 1882 851 1581 
+Q 851 1280 950 1014 
+Q 1050 749 1254 585 
+Q 1459 422 1773 422 
+Q 2086 422 2284 585 
+Q 2483 749 2573 1024 
+L 3053 838 
+Q 2893 390 2557 169 
+Q 2221 -51 1773 -51 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Georgia-33"/>
-      <use xlink:href="#Georgia-48" transform="translate(60.984375 0)"/>
-      <use xlink:href="#Georgia-55" transform="translate(109.328125 0)"/>
-      <use xlink:href="#Georgia-56" transform="translate(150.296875 0)"/>
-      <use xlink:href="#Georgia-4c" transform="translate(193.515625 0)"/>
-      <use xlink:href="#Georgia-56" transform="translate(222.8125 0)"/>
-      <use xlink:href="#Georgia-57" transform="translate(266.03125 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(300.546875 0)"/>
-      <use xlink:href="#Georgia-51" transform="translate(348.890625 0)"/>
-      <use xlink:href="#Georgia-46" transform="translate(407.96875 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(453.375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-81"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(52.40625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(106.40625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(145.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(192.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(215.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(262.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(295.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(349.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f3" transform="translate(404.5 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(456.296875 0)"/>
      </g>
     </g>
     <g id="line2d_19">
-     <path d="M 62.82 143.32916 
-L 71.82 143.32916 
-L 80.82 143.32916 
+     <path d="M 58.53 135.6495 
+L 67.53 135.6495 
+L 76.53 135.6495 
 " style="fill: none; stroke: #8a857b; stroke-width: 2.2; stroke-linecap: square"/>
      <g>
-      <use xlink:href="#m173b5b840e" x="71.82" y="143.32916" style="fill: #8a857b; stroke: #8a857b"/>
+      <use xlink:href="#ma85ee28c18" x="67.53" y="135.6495" style="fill: #8a857b; stroke: #8a857b"/>
      </g>
     </g>
     <g id="text_17">
      <!-- Shrinkage to league mean -->
-     <g style="fill: #2a261f" transform="translate(88.02 146.47916) scale(0.09 -0.09)">
+     <g style="fill: #2a261f" transform="translate(83.73 138.7995) scale(0.09 -0.09)">
       <defs>
-       <path id="Georgia-4b" d="M 3572 0 
-L 2059 0 
-L 2059 206 
-Q 2131 213 2218 219 
-Q 2306 225 2363 244 
-Q 2450 272 2492 342 
-Q 2534 413 2534 525 
-L 2534 2109 
-Q 2534 2438 2379 2616 
-Q 2225 2794 2003 2794 
-Q 1841 2794 1702 2742 
-Q 1563 2691 1453 2616 
-Q 1347 2538 1290 2459 
-Q 1234 2381 1203 2328 
-L 1203 556 
-Q 1203 450 1245 381 
-Q 1288 313 1375 275 
-Q 1444 244 1517 228 
-Q 1591 213 1678 206 
-L 1678 0 
-L 166 0 
-L 166 206 
-Q 238 213 316 220 
-Q 394 228 447 244 
-Q 534 272 578 342 
-Q 622 413 622 525 
-L 622 4113 
-Q 622 4219 573 4325 
-Q 525 4431 447 4484 
-Q 391 4525 248 4542 
-Q 106 4559 19 4566 
-L 19 4766 
-L 1159 4838 
-L 1203 4791 
-L 1203 2641 
-L 1216 2641 
-Q 1319 2744 1403 2823 
-Q 1488 2903 1625 2991 
-Q 1744 3066 1905 3116 
-Q 2066 3166 2266 3166 
-Q 2678 3166 2900 2905 
-Q 3122 2644 3122 2153 
-L 3122 550 
-Q 3122 441 3161 373 
-Q 3200 306 3291 269 
-Q 3363 241 3420 227 
-Q 3478 213 3572 206 
-L 3572 0 
+       <path id="HankenGrotesk-Regular-118" d="M 461 0 
+L 461 4461 
+L 1005 4461 
+L 1005 2483 
+L 870 2432 
+Q 960 2675 1120 2848 
+Q 1280 3021 1497 3113 
+Q 1715 3206 1971 3206 
+Q 2490 3206 2784 2902 
+Q 3078 2598 3078 2003 
+L 3078 0 
+L 2534 0 
+L 2534 1805 
+Q 2534 2285 2358 2512 
+Q 2182 2739 1824 2739 
+Q 1434 2739 1219 2460 
+Q 1005 2182 1005 1574 
+L 1005 0 
+L 461 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="Georgia-4e" d="M 3491 0 
-L 2559 0 
-Q 2316 353 2037 756 
-Q 1759 1159 1459 1541 
-L 1203 1300 
-L 1203 569 
-Q 1203 456 1243 382 
-Q 1284 309 1375 275 
-Q 1450 244 1519 228 
-Q 1588 213 1678 206 
-L 1678 0 
-L 166 0 
-L 166 206 
-Q 238 213 316 220 
-Q 394 228 447 244 
-Q 534 272 578 342 
-Q 622 413 622 525 
-L 622 4106 
-Q 622 4222 573 4323 
-Q 525 4425 447 4478 
-Q 381 4528 242 4543 
-Q 103 4559 19 4566 
-L 19 4766 
-L 1159 4838 
-L 1203 4791 
-L 1203 1531 
-Q 1447 1775 1730 2054 
-Q 2013 2334 2206 2553 
-Q 2231 2581 2261 2626 
-Q 2291 2672 2291 2700 
-Q 2291 2784 2155 2825 
-Q 2019 2866 1894 2881 
-L 1894 3081 
-L 3250 3081 
-L 3250 2888 
-Q 2988 2809 2786 2692 
-Q 2584 2575 2478 2481 
-Q 2403 2419 2265 2278 
-Q 2128 2138 1881 1909 
-Q 2138 1594 2458 1153 
-Q 2778 713 2925 516 
-Q 3063 331 3172 275 
-Q 3281 219 3491 206 
-L 3491 0 
+       <path id="HankenGrotesk-Regular-12e" d="M 2611 0 
+L 1562 1626 
+L 941 960 
+L 941 1658 
+L 2394 3155 
+L 3091 3155 
+L 1958 1990 
+L 3258 0 
+L 2611 0 
+z
+M 461 0 
+L 461 4461 
+L 1005 4461 
+L 1005 0 
+L 461 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="Georgia-58" d="M 3528 56 
-L 2525 -13 
-L 2478 31 
-L 2478 422 
-L 2459 422 
-Q 2384 344 2290 255 
-Q 2197 166 2075 94 
-Q 1934 9 1803 -34 
-Q 1672 -78 1431 -78 
-Q 1022 -78 808 189 
-Q 594 456 594 966 
-L 594 2441 
-Q 594 2553 551 2629 
-Q 509 2706 428 2763 
-Q 372 2800 287 2817 
-Q 203 2834 109 2841 
-L 109 3044 
-L 1138 3119 
-L 1184 3075 
-L 1184 934 
-Q 1184 600 1334 431 
-Q 1484 263 1694 263 
-Q 1866 263 2000 316 
-Q 2134 369 2225 441 
-Q 2309 506 2373 579 
-Q 2438 653 2472 716 
-L 2472 2463 
-Q 2472 2566 2428 2645 
-Q 2384 2725 2306 2781 
-Q 2250 2819 2139 2826 
-Q 2028 2834 1891 2841 
-L 1891 3044 
-L 3009 3119 
-L 3056 3075 
-L 3056 628 
-Q 3056 522 3100 447 
-Q 3144 372 3222 319 
-Q 3278 284 3356 273 
-Q 3434 263 3528 259 
-L 3528 56 
+       <path id="HankenGrotesk-Regular-137" d="M 461 0 
+L 461 3155 
+L 1005 3155 
+L 1005 2342 
+L 896 2342 
+Q 954 2566 1053 2729 
+Q 1152 2893 1286 2998 
+Q 1421 3104 1577 3155 
+Q 1734 3206 1907 3206 
+Q 2195 3206 2412 3097 
+Q 2630 2989 2771 2768 
+Q 2912 2547 2963 2208 
+L 2656 2189 
+Q 2752 2515 2899 2742 
+Q 3046 2970 3267 3088 
+Q 3488 3206 3795 3206 
+Q 4186 3206 4422 3030 
+Q 4659 2854 4768 2563 
+Q 4877 2272 4877 1920 
+L 4877 0 
+L 4339 0 
+L 4339 1792 
+Q 4339 2086 4272 2297 
+Q 4205 2509 4061 2624 
+Q 3917 2739 3674 2739 
+Q 3443 2739 3280 2624 
+Q 3117 2509 3030 2275 
+Q 2944 2042 2944 1696 
+L 2944 0 
+L 2400 0 
+L 2400 1837 
+Q 2400 2291 2233 2515 
+Q 2067 2739 1747 2739 
+Q 1517 2739 1350 2620 
+Q 1184 2502 1094 2272 
+Q 1005 2042 1005 1696 
+L 1005 0 
+L 461 0 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Georgia-36"/>
-      <use xlink:href="#Georgia-4b" transform="translate(56.109375 0)"/>
-      <use xlink:href="#Georgia-55" transform="translate(114.3125 0)"/>
-      <use xlink:href="#Georgia-4c" transform="translate(155.28125 0)"/>
-      <use xlink:href="#Georgia-51" transform="translate(184.578125 0)"/>
-      <use xlink:href="#Georgia-4e" transform="translate(243.65625 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(297.21875 0)"/>
-      <use xlink:href="#Georgia-4a" transform="translate(347.609375 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(398.53125 0)"/>
-      <use xlink:href="#Georgia-3" transform="translate(446.875 0)"/>
-      <use xlink:href="#Georgia-57" transform="translate(471 0)"/>
-      <use xlink:href="#Georgia-52" transform="translate(505.515625 0)"/>
-      <use xlink:href="#Georgia-3" transform="translate(559.421875 0)"/>
-      <use xlink:href="#Georgia-4f" transform="translate(583.546875 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(612.15625 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(660.5 0)"/>
-      <use xlink:href="#Georgia-4a" transform="translate(710.890625 0)"/>
-      <use xlink:href="#Georgia-58" transform="translate(761.8125 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(819.328125 0)"/>
-      <use xlink:href="#Georgia-3" transform="translate(867.671875 0)"/>
-      <use xlink:href="#Georgia-50" transform="translate(891.796875 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(979.890625 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(1028.234375 0)"/>
-      <use xlink:href="#Georgia-51" transform="translate(1078.625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-88"/>
+      <use xlink:href="#HankenGrotesk-Regular-118" transform="translate(56.40625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(111.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(151.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(174.40625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-12e" transform="translate(229.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(282.3125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-111" transform="translate(336.3125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(386.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(440.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(466.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-141" transform="translate(500.40625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(558.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-131" transform="translate(584.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(610.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(664.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-111" transform="translate(718.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16f" transform="translate(770.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(824.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(878.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-137" transform="translate(904.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(987.515625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(1041.515625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(1095.515625 0)"/>
      </g>
     </g>
     <g id="line2d_20">
-     <path d="M 62.82 156.588164 
-L 71.82 156.588164 
-L 80.82 156.588164 
+     <path d="M 58.53 151.8765 
+L 67.53 151.8765 
+L 76.53 151.8765 
 " style="fill: none; stroke: #1f3a5f; stroke-width: 2.2; stroke-linecap: square"/>
      <g>
-      <use xlink:href="#mf069e3e976" x="71.82" y="156.588164" style="fill: #1f3a5f; stroke: #1f3a5f"/>
+      <use xlink:href="#m873aa3d314" x="67.53" y="151.8765" style="fill: #1f3a5f; stroke: #1f3a5f"/>
      </g>
     </g>
     <g id="text_18">
      <!-- Hierarchical Bayesian -->
-     <g style="fill: #2a261f" transform="translate(88.02 159.738164) scale(0.09 -0.09)">
+     <g style="fill: #2a261f" transform="translate(83.73 155.0265) scale(0.09 -0.09)">
       <defs>
-       <path id="Georgia-2b" d="M 4897 0 
-L 3056 0 
-L 3056 222 
-Q 3131 228 3273 240 
-Q 3416 253 3469 278 
-Q 3563 316 3606 392 
-Q 3650 469 3650 591 
-L 3650 2169 
-L 1566 2169 
-L 1566 625 
-Q 1566 516 1602 441 
-Q 1638 366 1744 309 
-Q 1797 281 1933 253 
-Q 2069 225 2147 222 
-L 2147 0 
-L 306 0 
-L 306 222 
-Q 381 228 523 240 
-Q 666 253 719 278 
-Q 813 316 856 392 
-Q 900 469 900 591 
-L 900 3791 
-Q 900 3891 859 3973 
-Q 819 4056 719 4103 
-Q 634 4144 514 4175 
-Q 394 4206 306 4213 
-L 306 4434 
-L 2147 4434 
-L 2147 4213 
-Q 2059 4209 1932 4184 
-Q 1806 4159 1744 4138 
-Q 1638 4100 1602 4012 
-Q 1566 3925 1566 3822 
-L 1566 2447 
-L 3650 2447 
-L 3650 3791 
-Q 3650 3891 3609 3973 
-Q 3569 4056 3469 4103 
-Q 3384 4144 3264 4175 
-Q 3144 4206 3056 4213 
-L 3056 4434 
-L 4897 4434 
-L 4897 4213 
-Q 4809 4209 4682 4184 
-Q 4556 4159 4494 4138 
-Q 4388 4100 4352 4012 
-Q 4316 3925 4316 3822 
-L 4316 625 
-Q 4316 516 4352 441 
-Q 4388 366 4494 309 
-Q 4547 281 4683 253 
-Q 4819 225 4897 222 
-L 4897 0 
+       <path id="HankenGrotesk-Regular-41" d="M 506 0 
+L 506 4461 
+L 1069 4461 
+L 1069 2547 
+L 3270 2547 
+L 3270 4461 
+L 3834 4461 
+L 3834 0 
+L 3270 0 
+L 3270 2022 
+L 1069 2022 
+L 1069 0 
+L 506 0 
 z
 " transform="scale(0.015625)"/>
-       <path id="Georgia-25" d="M 3450 2066 
-Q 3644 1934 3772 1721 
-Q 3900 1509 3900 1206 
-Q 3900 897 3765 669 
-Q 3631 441 3416 294 
-Q 3206 150 2942 75 
-Q 2678 0 2397 0 
-L 297 0 
-L 297 222 
-Q 372 228 515 248 
-Q 659 269 722 297 
-Q 819 341 859 414 
-Q 900 488 900 603 
-L 900 3791 
-Q 900 3897 864 3978 
-Q 828 4059 722 4109 
-Q 628 4156 512 4181 
-Q 397 4206 319 4213 
-L 319 4434 
-L 2366 4434 
-Q 2603 4434 2820 4387 
-Q 3038 4341 3234 4222 
-Q 3419 4113 3537 3925 
-Q 3656 3738 3656 3469 
-Q 3656 3234 3572 3051 
-Q 3488 2869 3334 2738 
-Q 3191 2613 3005 2527 
-Q 2819 2441 2603 2394 
-L 2603 2366 
-Q 2794 2344 3030 2270 
-Q 3266 2197 3450 2066 
+       <path id="HankenGrotesk-Regular-1b" d="M 506 0 
+L 506 4461 
+L 1933 4461 
+Q 2566 4461 2928 4166 
+Q 3290 3872 3290 3347 
+Q 3290 3014 3142 2764 
+Q 2995 2515 2726 2387 
+Q 3117 2278 3318 1990 
+Q 3520 1702 3520 1261 
+Q 3520 659 3145 329 
+Q 2771 0 2086 0 
+L 506 0 
 z
-M 2697 2734 
-Q 2813 2869 2858 3028 
-Q 2903 3188 2903 3406 
-Q 2903 3772 2703 3980 
-Q 2503 4188 2072 4188 
-Q 1972 4188 1820 4183 
-Q 1669 4178 1566 4175 
-L 1566 2472 
-L 1963 2472 
-Q 2219 2472 2401 2537 
-Q 2584 2603 2697 2734 
+M 1069 518 
+L 2048 518 
+Q 2963 518 2963 1286 
+Q 2963 1651 2755 1852 
+Q 2547 2054 2170 2054 
+L 1069 2054 
+L 1069 518 
 z
-M 3128 1319 
-Q 3128 1713 2864 1966 
-Q 2600 2219 2109 2219 
-Q 1909 2219 1771 2214 
-Q 1634 2209 1566 2206 
-L 1566 644 
-Q 1566 447 1725 347 
-Q 1884 247 2169 247 
-Q 2634 247 2881 519 
-Q 3128 791 3128 1319 
+M 1069 2560 
+L 2022 2560 
+Q 2342 2560 2537 2749 
+Q 2733 2938 2733 3264 
+Q 2733 3584 2521 3763 
+Q 2310 3942 1933 3942 
+L 1069 3942 
+L 1069 2560 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Georgia-2b"/>
-      <use xlink:href="#Georgia-4c" transform="translate(81.5 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(110.796875 0)"/>
-      <use xlink:href="#Georgia-55" transform="translate(159.140625 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(200.109375 0)"/>
-      <use xlink:href="#Georgia-55" transform="translate(250.5 0)"/>
-      <use xlink:href="#Georgia-46" transform="translate(291.46875 0)"/>
-      <use xlink:href="#Georgia-4b" transform="translate(336.875 0)"/>
-      <use xlink:href="#Georgia-4c" transform="translate(395.078125 0)"/>
-      <use xlink:href="#Georgia-46" transform="translate(424.375 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(469.78125 0)"/>
-      <use xlink:href="#Georgia-4f" transform="translate(520.171875 0)"/>
-      <use xlink:href="#Georgia-3" transform="translate(548.78125 0)"/>
-      <use xlink:href="#Georgia-25" transform="translate(572.90625 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(638.28125 0)"/>
-      <use xlink:href="#Georgia-5c" transform="translate(688.671875 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(737.890625 0)"/>
-      <use xlink:href="#Georgia-56" transform="translate(786.234375 0)"/>
-      <use xlink:href="#Georgia-4c" transform="translate(829.453125 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(858.75 0)"/>
-      <use xlink:href="#Georgia-51" transform="translate(909.140625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-41"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(67.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(90.390625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(144.390625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(183.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(237.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f3" transform="translate(275.703125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-118" transform="translate(327.5 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(382.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f3" transform="translate(404.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(456.59375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-131" transform="translate(510.59375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(537.09375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1b" transform="translate(563.09375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(623.1875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-18a" transform="translate(675.890625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(726.578125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(780.578125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(827.578125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(850.171875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(904.171875 0)"/>
      </g>
     </g>
     <g id="line2d_21">
-     <path d="M 62.82 169.847168 
-L 71.82 169.847168 
-L 80.82 169.847168 
+     <path d="M 58.53 168.1035 
+L 67.53 168.1035 
+L 76.53 168.1035 
 " style="fill: none; stroke: #9c3a2a; stroke-width: 2.2; stroke-linecap: square"/>
      <g>
-      <use xlink:href="#mded9b09869" x="71.82" y="169.847168" style="fill: #9c3a2a; stroke: #9c3a2a"/>
+      <use xlink:href="#m65e4b7f2b2" x="67.53" y="168.1035" style="fill: #9c3a2a; stroke: #9c3a2a"/>
      </g>
     </g>
     <g id="text_19">
      <!-- Gradient boosting -->
-     <g style="fill: #2a261f" transform="translate(88.02 172.997168) scale(0.09 -0.09)">
+     <g style="fill: #2a261f" transform="translate(83.73 171.2535) scale(0.09 -0.09)">
       <defs>
-       <path id="Georgia-2a" d="M 4597 1772 
-Q 4522 1763 4395 1742 
-Q 4269 1722 4191 1684 
-Q 4097 1638 4058 1552 
-Q 4019 1466 4019 1350 
-L 4019 1006 
-Q 4019 631 4023 500 
-Q 4028 369 4034 284 
-Q 3619 97 3206 -3 
-Q 2794 -103 2397 -103 
-Q 1972 -103 1578 56 
-Q 1184 216 891 509 
-Q 594 806 419 1231 
-Q 244 1656 244 2181 
-Q 244 2688 411 3120 
-Q 578 3553 884 3872 
-Q 1181 4184 1592 4357 
-Q 2003 4531 2472 4531 
-Q 2847 4531 3125 4440 
-Q 3403 4350 3616 4222 
-L 3744 4434 
-L 3994 4434 
-L 4022 2884 
-L 3766 2884 
-Q 3700 3141 3603 3389 
-Q 3506 3638 3353 3834 
-Q 3200 4031 2979 4148 
-Q 2759 4266 2453 4266 
-Q 2119 4266 1856 4130 
-Q 1594 3994 1400 3725 
-Q 1209 3466 1106 3078 
-Q 1003 2691 1003 2213 
-Q 1003 1791 1104 1417 
-Q 1206 1044 1400 772 
-Q 1594 494 1884 334 
-Q 2175 175 2544 175 
-Q 2819 175 3045 259 
-Q 3272 344 3366 438 
-Q 3391 600 3392 765 
-Q 3394 931 3394 1047 
-L 3394 1291 
-Q 3394 1422 3358 1523 
-Q 3322 1625 3209 1672 
-Q 3106 1719 2929 1742 
-Q 2753 1766 2653 1772 
-L 2653 2000 
-L 4597 2000 
-L 4597 1772 
+       <path id="HankenGrotesk-Regular-f2" d="M 2010 -51 
+Q 1709 -51 1469 67 
+Q 1229 186 1065 397 
+Q 902 608 819 883 
+L 998 941 
+L 998 0 
+L 461 0 
+L 461 4461 
+L 998 4461 
+L 998 2214 
+L 845 2304 
+Q 915 2554 1075 2758 
+Q 1235 2963 1472 3084 
+Q 1709 3206 2010 3206 
+Q 2406 3206 2732 3008 
+Q 3059 2810 3251 2445 
+Q 3443 2080 3443 1581 
+Q 3443 1120 3264 749 
+Q 3085 378 2761 163 
+Q 2438 -51 2010 -51 
+z
+M 1920 448 
+Q 2208 448 2429 592 
+Q 2650 736 2774 992 
+Q 2899 1248 2899 1581 
+Q 2899 1914 2774 2170 
+Q 2650 2426 2429 2570 
+Q 2208 2714 1920 2714 
+Q 1632 2714 1414 2570 
+Q 1197 2426 1075 2170 
+Q 954 1914 954 1581 
+Q 954 1248 1075 992 
+Q 1197 736 1414 592 
+Q 1632 448 1920 448 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Georgia-2a"/>
-      <use xlink:href="#Georgia-55" transform="translate(72.515625 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(113.484375 0)"/>
-      <use xlink:href="#Georgia-47" transform="translate(163.875 0)"/>
-      <use xlink:href="#Georgia-4c" transform="translate(221.296875 0)"/>
-      <use xlink:href="#Georgia-48" transform="translate(250.59375 0)"/>
-      <use xlink:href="#Georgia-51" transform="translate(298.9375 0)"/>
-      <use xlink:href="#Georgia-57" transform="translate(358.015625 0)"/>
-      <use xlink:href="#Georgia-3" transform="translate(392.53125 0)"/>
-      <use xlink:href="#Georgia-45" transform="translate(416.65625 0)"/>
-      <use xlink:href="#Georgia-52" transform="translate(472.65625 0)"/>
-      <use xlink:href="#Georgia-52" transform="translate(526.5625 0)"/>
-      <use xlink:href="#Georgia-56" transform="translate(580.46875 0)"/>
-      <use xlink:href="#Georgia-57" transform="translate(623.6875 0)"/>
-      <use xlink:href="#Georgia-4c" transform="translate(658.203125 0)"/>
-      <use xlink:href="#Georgia-51" transform="translate(687.5 0)"/>
-      <use xlink:href="#Georgia-4a" transform="translate(746.578125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-3a"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(73.09375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(112.5 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f9" transform="translate(166.5 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(225.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(247.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(301.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(356.5 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(391.09375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f2" transform="translate(417.09375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-141" transform="translate(475.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-141" transform="translate(533.5 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(591.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(638.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(672.796875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(695.390625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-111" transform="translate(750.09375 0)"/>
      </g>
     </g>
     <g id="line2d_22">
-     <path d="M 62.82 183.106172 
-L 71.82 183.106172 
-L 80.82 183.106172 
+     <path d="M 58.53 184.3305 
+L 67.53 184.3305 
+L 76.53 184.3305 
 " style="fill: none; stroke: #162a44; stroke-width: 2.2; stroke-linecap: square"/>
      <g>
-      <use xlink:href="#m47344a8599" x="71.82" y="183.106172" style="fill: #162a44; stroke: #162a44"/>
+      <use xlink:href="#m1279d0b79e" x="67.53" y="184.3305" style="fill: #162a44; stroke: #162a44"/>
      </g>
     </g>
     <g id="text_20">
      <!-- Small MLP -->
-     <g style="fill: #2a261f" transform="translate(88.02 186.256172) scale(0.09 -0.09)">
+     <g style="fill: #2a261f" transform="translate(83.73 187.4805) scale(0.09 -0.09)">
       <defs>
-       <path id="Georgia-2f" d="M 3866 1319 
-L 3772 0 
-L 306 0 
-L 306 222 
-Q 381 228 523 243 
-Q 666 259 722 284 
-Q 816 325 858 403 
-Q 900 481 900 603 
-L 900 3778 
-Q 900 3884 864 3965 
-Q 828 4047 722 4097 
-Q 650 4134 520 4170 
-Q 391 4206 306 4213 
-L 306 4434 
-L 2178 4434 
-L 2178 4213 
-Q 2091 4209 1952 4181 
-Q 1813 4153 1750 4131 
-Q 1644 4094 1605 4003 
-Q 1566 3913 1566 3809 
-L 1566 831 
-Q 1566 625 1586 511 
-Q 1606 397 1681 334 
-Q 1753 278 1895 261 
-Q 2038 244 2294 244 
-Q 2409 244 2534 250 
-Q 2659 256 2772 275 
-Q 2881 294 2973 326 
-Q 3066 359 3109 409 
-Q 3238 553 3408 845 
-Q 3578 1138 3644 1319 
-L 3866 1319 
+       <path id="HankenGrotesk-Regular-57" d="M 506 0 
+L 506 4461 
+L 1069 4461 
+L 1069 506 
+L 3066 506 
+L 3066 0 
+L 506 0 
 z
 " transform="scale(0.015625)"/>
       </defs>
-      <use xlink:href="#Georgia-36"/>
-      <use xlink:href="#Georgia-50" transform="translate(56.109375 0)"/>
-      <use xlink:href="#Georgia-44" transform="translate(144.203125 0)"/>
-      <use xlink:href="#Georgia-4f" transform="translate(194.59375 0)"/>
-      <use xlink:href="#Georgia-4f" transform="translate(223.203125 0)"/>
-      <use xlink:href="#Georgia-3" transform="translate(251.8125 0)"/>
-      <use xlink:href="#Georgia-30" transform="translate(275.9375 0)"/>
-      <use xlink:href="#Georgia-2f" transform="translate(368.65625 0)"/>
-      <use xlink:href="#Georgia-33" transform="translate(429.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-88"/>
+      <use xlink:href="#HankenGrotesk-Regular-137" transform="translate(56.40625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(139.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-131" transform="translate(193.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-131" transform="translate(219.703125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(246.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-5d" transform="translate(272.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-57" transform="translate(356.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-81" transform="translate(405.609375 0)"/>
      </g>
     </g>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="pf11a5963cf">
-   <rect x="54.72" y="26.63252" width="510.48" height="261.356035"/>
+  <clipPath id="p8847988e5a">
+   <rect x="50.43" y="26.2" width="508.77" height="251.38"/>
   </clipPath>
  </defs>
 </svg>

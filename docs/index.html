@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609181529">
-  <link rel="stylesheet" href="modern.css?v=202609181529">
+  <link rel="stylesheet" href="style.css?v=202609202248">
+  <link rel="stylesheet" href="modern.css?v=202609202248">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609181529"></script>
+  <script defer src="atlas.js?v=202609202248"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -183,6 +183,7 @@
     <p class="funnel-lead">Five numbers, in the order they build on each other, show where the pool of players available to the national team gets thin. Each one is shown for Czech football and for the two countries used as a comparison throughout this report; each links to the part of the report that shows the full evidence.</p>
     <figure class="figure-bleed">
       <img src="why_funnel.svg" alt="Five-stage funnel: Czech football next to Norway and Denmark on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.">
+      <figcaption>Each rung: Czechia next to its two comparison countries, value written at the bar's end.</figcaption>
     </figure>
     <ol class="funnel-stages">
       <li class="funnel-stage">
@@ -670,6 +671,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, Czech exports as points against every other peer export, and a rug of every export's age along the axis.">
+        <figcaption>The 21-vs-24 comparison, marked directly on the curve.</figcaption>
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Age curve (quadratic) on league-adjusted production, given origin-league strength (<a href="#league-strength">§ Methodology</a>), position and a country effect, 115 peer-nationality exports (Gelman et al., 2013; Hoffman and Gelman, 2014); better players tend to leave earlier, so the curve mixes selection with development and this report does not separate them.</p>
@@ -688,6 +690,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="fare_dots.svg" alt="Dot plot: each country's median share of club minutes for players abroad, with a thin line spanning the other countries' values; Czechia highlighted.">
+        <figcaption>Czech in oxblood; each row's value written at its dot.</figcaption>
       </figure>
       
       <details class="fold">
@@ -1032,6 +1035,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5">
         <img src="big5_series.svg" alt="Line chart: Czech players with at least 450 minutes in the Big-5 leagues, 2000/01 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Czechia, Denmark and Croatia.">
+        <figcaption>Czech in oxblood; peaks, lows and the last season marked directly.</figcaption>
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> FBref Big-5 player tables 2000/01 → 2025/26; peers on the same rule; the names are the most-minutes Czech players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. The break date comes from a Bayesian local-level model with one change point (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
@@ -1049,6 +1053,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="pathway_slope.svg" alt="Slope chart: Norway, Denmark and Czechia on six pathway metrics, each rescaled 0 (worst of the three) to 1 (best of the three), one line per country.">
+        <figcaption>Country codes labelled at both ends of each line; no legend.</figcaption>
       </figure>
       <details class="fold">
         <summary>The six numbers, unscaled</summary>
@@ -1512,6 +1517,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="gap_decomposition.svg" alt="One horizontal stacked bar per contrast country: the contribution of U21 minutes, league strength and export age to its per-capita gap with Czechia, plus the residual; whiskers show each channel's bootstrap interval.">
+        <figcaption>Values written inside each segment when they fit; the residual hatched.</figcaption>
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> Ridge-regression linear split, Blinder-Oaxaca-style (Oaxaca, 1973; Blinder, 1973), fit on the 8 peer countries with data on all three channels; bootstrap 90 % intervals, 1000 resamples; a decomposition of a correlation, not a causal accounting.</p>
@@ -3139,180 +3145,152 @@
     <h3 id="benchmark">Structural benchmark vs peer countries</h3>
     <p>Football intuition recognises the Czech pool player by player. <strong>Its structural position among the peer countries needs an aggregation nobody holds in one place.</strong> Three numbers below that are usually not collected together.</p>
 
-    <figure class="figure-bleed" data-atlas="heatmap" title="Each cell: player count and the median value; rows ordered by per-capita rank, Czechia highlighted.">
-      <img src="intl_cohort_heatmap.svg"
-           alt="Heatmap of the international cohort benchmark: 9 countries by position group and age cohort, 2025/26 season; the Czech row is outlined.">
-      <figcaption>Median non-penalty goals + assists per 90 by country, position group and age cohort, 2025/26; the outlined row is Czechia.</figcaption>
-    </figure>
-
     
     <h4>Cohort gaps — forwards</h4>
-    <table class="cohort-table">
+    <table class="cohort-grid">
       <thead>
         <tr>
-          <th>Cohort</th>
-          <th class="cohort-cze">CZE</th><th>DEN</th><th>CRO</th><th>AUT</th><th>SUI</th>
+          <th scope="col">Cohort</th>
+          <th scope="col">U22</th><th scope="col">23-25</th><th scope="col">26-29</th><th scope="col">30+</th>
         </tr>
       </thead>
       <tbody>
         
-        <tr>
-          <td>U22</td>
+        <tr class="cohort-cze">
+          <th scope="row">Czechia</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.42</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #70829f; color: #fdfbf6;"
+                title="23-25: n=1, 0.27">1</td>
+            
           
             
-            <td>
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #475d7e; color: #fdfbf6;"
+                title="26-29: n=2, 0.32">2</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.18</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #3e5678; color: #fdfbf6;"
+                title="30+: n=2, 0.33">2</td>
+            
           
         </tr>
         
         <tr>
-          <td>23-25</td>
+          <th scope="row">Denmark</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.27</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #1a3150; color: #fdfbf6;"
+                title="U22: n=1, 0.42">1</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">7</span><span class="cohort-cell-median">0.30</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #576c8b; color: #fdfbf6;"
+                title="23-25: n=7, 0.30">7</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">3</span><span class="cohort-cell-median">0.31</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #7889a5; color: #fdfbf6;"
+                title="26-29: n=2, 0.26">2</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.21</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.25</span>
-              
-            </td>
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
         </tr>
         
         <tr>
-          <td>26-29</td>
+          <th scope="row">Croatia</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.32</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.26</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #4f6485; color: #fdfbf6;"
+                title="23-25: n=3, 0.31">3</td>
+            
           
             
-            <td>
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
             
-            <td>
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">3</span><span class="cohort-cell-median">0.35</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #8694ac; color: #2a261f;"
+                title="30+: n=2, 0.24">2</td>
+            
           
         </tr>
         
         <tr>
-          <td>30+</td>
+          <th scope="row">Austria</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.33</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #aab0b5; color: #2a261f;"
+                title="U22: n=1, 0.18">1</td>
+            
           
             
-            <td>
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #98a2b1; color: #2a261f;"
+                title="23-25: n=2, 0.21">2</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.24</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.46</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #162a44; color: #fdfbf6;"
+                title="30+: n=1, 0.46">1</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Switzerland</th>
           
             
-            <td>
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #808faa; color: #2a261f;"
+                title="23-25: n=1, 0.25">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #2e476b; color: #fdfbf6;"
+                title="26-29: n=3, 0.35">3</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
         </tr>
         
@@ -3320,172 +3298,156 @@
     </table>
     
     <h4>Cohort gaps — midfielders</h4>
-    <table class="cohort-table">
+    <table class="cohort-grid">
       <thead>
         <tr>
-          <th>Cohort</th>
-          <th class="cohort-cze">CZE</th><th>DEN</th><th>CRO</th><th>AUT</th><th>SUI</th>
+          <th scope="col">Cohort</th>
+          <th scope="col">U22</th><th scope="col">23-25</th><th scope="col">26-29</th><th scope="col">30+</th>
         </tr>
       </thead>
       <tbody>
         
-        <tr>
-          <td>U22</td>
+        <tr class="cohort-cze">
+          <th scope="row">Czechia</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.15</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #bdbdba; color: #2a261f;"
+                title="U22: n=1, 0.15">1</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.18</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #d6d3c9; color: #2a261f;"
+                title="23-25: n=2, 0.08">2</td>
+            
           
             
-            <td>
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #cac8c0; color: #2a261f;"
+                title="26-29: n=3, 0.12">3</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.12</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">4</span><span class="cohort-cell-median">0.24</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #98a2b1; color: #2a261f;"
+                title="30+: n=1, 0.21">1</td>
+            
           
         </tr>
         
         <tr>
-          <td>23-25</td>
+          <th scope="row">Denmark</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.08</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #aab0b5; color: #2a261f;"
+                title="U22: n=6, 0.18">6</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.12</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #cac8c0; color: #2a261f;"
+                title="23-25: n=6, 0.12">6</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">4</span><span class="cohort-cell-median">0.21</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #9ea6b2; color: #2a261f;"
+                title="26-29: n=13, 0.20">13</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.15</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.12</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #a4abb4; color: #2a261f;"
+                title="30+: n=6, 0.19">6</td>
+            
           
         </tr>
         
         <tr>
-          <td>26-29</td>
+          <th scope="row">Croatia</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">3</span><span class="cohort-cell-median">0.12</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">13</span><span class="cohort-cell-median">0.20</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #98a2b1; color: #2a261f;"
+                title="23-25: n=4, 0.21">4</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">8</span><span class="cohort-cell-median">0.13</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #c6c5be; color: #2a261f;"
+                title="26-29: n=8, 0.13">8</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">4</span><span class="cohort-cell-median">0.18</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">10</span><span class="cohort-cell-median">0.14</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #929daf; color: #2a261f;"
+                title="30+: n=6, 0.22">6</td>
+            
           
         </tr>
         
         <tr>
-          <td>30+</td>
+          <th scope="row">Austria</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.21</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #cac8c0; color: #2a261f;"
+                title="U22: n=2, 0.12">2</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.19</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #bdbdba; color: #2a261f;"
+                title="23-25: n=6, 0.15">6</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.22</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #aab0b5; color: #2a261f;"
+                title="26-29: n=4, 0.18">4</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">7</span><span class="cohort-cell-median">0.13</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #c6c5be; color: #2a261f;"
+                title="30+: n=7, 0.13">7</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Switzerland</th>
           
             
-            <td>
-              
-                <span class="cohort-cell-n">3</span><span class="cohort-cell-median">0.14</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #8694ac; color: #2a261f;"
+                title="U22: n=4, 0.24">4</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #cac8c0; color: #2a261f;"
+                title="23-25: n=6, 0.12">6</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #c3c2bc; color: #2a261f;"
+                title="26-29: n=10, 0.14">10</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #c3c2bc; color: #2a261f;"
+                title="30+: n=3, 0.14">3</td>
+            
           
         </tr>
         
@@ -3493,172 +3455,156 @@
     </table>
     
     <h4>Cohort gaps — defenders</h4>
-    <table class="cohort-table">
+    <table class="cohort-grid">
       <thead>
         <tr>
-          <th>Cohort</th>
-          <th class="cohort-cze">CZE</th><th>DEN</th><th>CRO</th><th>AUT</th><th>SUI</th>
+          <th scope="col">Cohort</th>
+          <th scope="col">U22</th><th scope="col">23-25</th><th scope="col">26-29</th><th scope="col">30+</th>
         </tr>
       </thead>
       <tbody>
         
-        <tr>
-          <td>U22</td>
+        <tr class="cohort-cze">
+          <th scope="row">Czechia</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="muted" title="no player">—</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.01</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #ece6da; color: #2a261f;"
+                title="23-25: n=1, 0.01">1</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.12</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #e3ded3; color: #2a261f;"
+                title="26-29: n=3, 0.04">3</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.07</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.05</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #e6e1d5; color: #2a261f;"
+                title="30+: n=3, 0.03">3</td>
+            
           
         </tr>
         
         <tr>
-          <td>23-25</td>
+          <th scope="row">Denmark</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.01</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #ece6da; color: #2a261f;"
+                title="U22: n=2, 0.01">2</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">5</span><span class="cohort-cell-median">0.05</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #dfdbd0; color: #2a261f;"
+                title="23-25: n=5, 0.05">5</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.18</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #e3ded3; color: #2a261f;"
+                title="26-29: n=7, 0.04">7</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">3</span><span class="cohort-cell-median">0.04</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">5</span><span class="cohort-cell-median">0.03</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #e6e1d5; color: #2a261f;"
+                title="30+: n=2, 0.03">2</td>
+            
           
         </tr>
         
         <tr>
-          <td>26-29</td>
+          <th scope="row">Croatia</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">3</span><span class="cohort-cell-median">0.04</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #cac8c0; color: #2a261f;"
+                title="U22: n=1, 0.12">1</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">7</span><span class="cohort-cell-median">0.04</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #aab0b5; color: #2a261f;"
+                title="23-25: n=1, 0.18">1</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.03</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #e6e1d5; color: #2a261f;"
+                title="26-29: n=6, 0.03">6</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">5</span><span class="cohort-cell-median">0.03</span>
-              
-            </td>
-          
             
-            <td>
-              
-                <span class="cohort-cell-n">4</span><span class="cohort-cell-median">0.04</span>
-              
-            </td>
+            <td class="cohort-grid-cell" style="background-color: #e3ded3; color: #2a261f;"
+                title="30+: n=1, 0.04">1</td>
+            
           
         </tr>
         
         <tr>
-          <td>30+</td>
+          <th scope="row">Austria</th>
           
             
-            <td class="cohort-cze">
-              
-                <span class="cohort-cell-n">3</span><span class="cohort-cell-median">0.03</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #d9d6cc; color: #2a261f;"
+                title="U22: n=1, 0.07">1</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">2</span><span class="cohort-cell-median">0.03</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #e3ded3; color: #2a261f;"
+                title="23-25: n=3, 0.04">3</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.04</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #e6e1d5; color: #2a261f;"
+                title="26-29: n=5, 0.03">5</td>
+            
           
             
-            <td>
-              
-                <span class="cohort-cell-n">1</span><span class="cohort-cell-median">0.06</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #dcd8ce; color: #2a261f;"
+                title="30+: n=1, 0.06">1</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Switzerland</th>
           
             
-            <td>
-              
-                <span class="cohort-cell-n">6</span><span class="cohort-cell-median">0.05</span>
-              
-            </td>
+            
+            <td class="cohort-grid-cell" style="background-color: #dfdbd0; color: #2a261f;"
+                title="U22: n=2, 0.05">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #e6e1d5; color: #2a261f;"
+                title="23-25: n=5, 0.03">5</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #e3ded3; color: #2a261f;"
+                title="26-29: n=4, 0.04">4</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #dfdbd0; color: #2a261f;"
+                title="30+: n=6, 0.05">6</td>
+            
           
         </tr>
         
@@ -3670,6 +3616,13 @@
     <p class="capita-note">
       * Count and median npG+A per 90 of players with the country's nationality in a top-9 league, 2025/26, at least 450 minutes; cohort by age at the season's calendar turn (start year + 1 − birth year). 5 of the 9 countries are shown; the heatmap above carries all of them. Largest Czech shortfalls against the peer median count: midfielders 23-25 (2 vs 6), midfielders 26-29 (3 vs 6), midfielders 30+ (1 vs 3.5).
     </p>
+
+    <p class="plain">The full picture, all nine peer countries at once, as a heatmap:</p>
+    <figure class="figure-bleed" data-atlas="heatmap" title="Each cell: player count and the median value; rows ordered by per-capita rank, Czechia highlighted.">
+      <img src="intl_cohort_heatmap.svg"
+           alt="Heatmap of the international cohort benchmark: 9 countries by position group and age cohort, 2025/26 season; the Czech row is outlined.">
+      <figcaption>Median non-penalty goals + assists per 90 by country, position group and age cohort, 2025/26; the outlined row is Czechia.</figcaption>
+    </figure>
 
     <h3 id="observations">Observations</h3>
     <details class="fold">
@@ -9474,7 +9427,7 @@
       
     </ul>
 
-    <p>R-hat ≤ 1.003, minimum bulk ESS 1224, 0 divergent transitions across 8108 player-seasons from 2125 movers; fit in 206 s.</p>
+    <p>R-hat ≤ 1.003, minimum bulk ESS 1224, 0 divergent transitions across 8108 player-seasons from 2125 movers; fit in 228 s.</p>
 
     <details class="fold">
       <summary>Posterior predictive check</summary>
@@ -9517,7 +9470,7 @@
           
           <td>0.0684 (0.048)</td>
           
-          <td>0.0754 (0.053)</td>
+          <td class="compare-rmse-bar" style="--value: 0.0754; --max: 0.1247;">0.0754 (0.053)</td>
         </tr>
         
         <tr >
@@ -9533,7 +9486,7 @@
           
           <td>0.1099 (0.089)</td>
           
-          <td>0.1247 (0.097)</td>
+          <td class="compare-rmse-bar" style="--value: 0.1247; --max: 0.1247;">0.1247 (0.097)</td>
         </tr>
         
         <tr >
@@ -9541,15 +9494,15 @@
           
           <td>—</td>
           
-          <td>0.0710 (0.052)</td>
+          <td>0.0715 (0.053)</td>
           
-          <td>0.0759 (0.054)</td>
+          <td>0.0760 (0.054)</td>
           
           <td>0.0722 (0.053)</td>
           
           <td>0.0681 (0.052)</td>
           
-          <td>0.0713 (0.053)</td>
+          <td class="compare-rmse-bar" style="--value: 0.0714; --max: 0.1247;">0.0714 (0.053)</td>
         </tr>
         
         <tr data-highlight="winner">
@@ -9565,7 +9518,7 @@
           
           <td>0.0677 (0.051)</td>
           
-          <td>0.0706 (0.051)</td>
+          <td class="compare-rmse-bar" style="--value: 0.0706; --max: 0.1247;">0.0706 (0.051)</td>
         </tr>
         
         <tr >
@@ -9581,7 +9534,7 @@
           
           <td>0.0714 (0.054)</td>
           
-          <td>0.0753 (0.056)</td>
+          <td class="compare-rmse-bar" style="--value: 0.0753; --max: 0.1247;">0.0753 (0.056)</td>
         </tr>
         
       </tbody>
@@ -9589,7 +9542,7 @@
     <p class="capita-note">Each cell: RMSE (MAE), in league-adjusted npG+A per 90. The first origin's training set is empty by construction — the corpus's earliest feature season leaves no earlier target season to train on — so only the two baselines are reported there.</p>
 
     
-    <p>The Bayesian model's 90 % predictive interval covered the observed value 92 % of the time, pooled across the 4 origins it was fit for (2022/23: 91 %, 2023/24: 90 %, 2024/25: 91 %, 2025/26: 93 %).</p>
+    <p>The Bayesian model's 90 % predictive interval covered the observed value 91 % of the time, pooled across the 4 origins it was fit for (2022/23: 90 %, 2023/24: 90 %, 2024/25: 91 %, 2025/26: 93 %).</p>
     
 
     
@@ -9605,7 +9558,8 @@
     <p class="plain">This section finds the season when the count of home-nation players in Europe's five biggest leagues stopped growing and settled at a lower level, and puts a probability on that season being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
     <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus one step change δ in the level at an unknown break season τ. NUTS only samples continuous parameters, so τ is not sampled directly — every candidate season at least 3 seasons from either end is marginalised out of the model with a single log-sum-exp potential and its own posterior recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, single-break setting. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
     <figure class="figure-bleed">
-      <img src="series_model.svg" alt="Line chart of the Czechia series with the change-point model's fitted level and band, a bar strip below the axis for the posterior probability of the break at each candidate season, and the one-season forecast with its 90 % interval at the right edge.">
+      <img src="series_model.svg" alt="Line chart of the Czechia series with the change-point model's fitted level in a pale band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
+      <figcaption>The break season and its posterior probability, marked on the curve.</figcaption>
     </figure>
     <p>For Czechia, the model dates the break to 2014/15 (62 % posterior probability), a ×0.57 (0.38–0.86, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.049.</p>
     <ul class="break-top">
@@ -9950,7 +9904,7 @@
       <summary>Posterior predictive check</summary>
       <p>Observed vs. replicated y (mean league-adjusted G+A/90 over the first two top-9 seasons): mean 0.14 vs 0.14, sd 0.10 vs 0.10, 10th percentile 0.02 vs 0.01, 90th percentile 0.27 vs 0.28.</p>
     </details>
-    <p>R-hat ≤ 1.002, minimum bulk ESS 1190, 0 divergent transitions across 115 players; fit in 7.2 s.</p>
+    <p>R-hat ≤ 1.002, minimum bulk ESS 1190, 0 divergent transitions across 115 players; fit in 5.5 s.</p>
     <p>What this model does not separate: the corpus is not a random sample of players who could have left later. Players who leave earlier tend to be the ones judged ready earliest — a selection effect the age curve mixes with any genuine development effect of arriving young, and this report does not try to tell the two apart.</p>
     
 
@@ -10701,7 +10655,7 @@
     <p>Each model in this pipeline carries its own validation next to where it is described; this section collects one headline diagnostic from each as it lands. So far:</p>
     <ul>
       
-      <li>Season-to-season model comparison (M1): rolling-origin evaluation over 5 seasons, pooled RMSE favours Gradient boosting (0.071 vs 0.075 for persistence), the Bayesian model's 90 % interval covered 92 % of observed values.</li>
+      <li>Season-to-season model comparison (M1): rolling-origin evaluation over 5 seasons, pooled RMSE favours Gradient boosting (0.071 vs 0.075 for persistence), the Bayesian model's 90 % interval covered 91 % of observed values.</li>
       
       
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
@@ -10730,7 +10684,7 @@
       <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 285 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
-        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 33 tasks.</desc>
+        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 34 tasks.</desc>
         <defs>
           <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
@@ -10786,7 +10740,7 @@
           <text x="515" y="256" class="bp-ledger-count">rulings: 25</text></g>
       </svg>
       <p class="build-diagram-legend">Implementers and reviewers: sonnet · controller: opus.</p>
-      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 33 tasks of this edition and the last.</p>
+      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 34 tasks of this edition and the last.</p>
       <p>Spec: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">design</a> · plan: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">tasks</a> · ledger: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulings</a>.</p>
       
       <p>Every edition's own design spec and ledger:
@@ -11028,7 +10982,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-18 15:29</p>
+    <p class="rendered-at">Rendered: 2026-09-20 22:48</p>
   </div>
 </footer>
 
