@@ -1692,9 +1692,11 @@ table .muted { color: var(--muted); font-size: 0.85rem; }
   font-size: 0.86rem;
   font-weight: 600;
   color: var(--ink);
-  background: color-mix(in oklch, var(--navy-700) calc(var(--v, 0) * 55%), var(--cream-50));
+  /* background-color set inline per cell (src.render._cohort_tint) -- a
+     plain-sRGB interpolation along the same stops as the SVG heatmap's
+     CMAP_NAVY, computed in Python rather than CSS color-mix() so it can't
+     drift from oklch/oklab hue-rotation between navy and cream. */
 }
-.cohort-grid tr:not(.cohort-cze) .cohort-grid-cell[style*="--v"] { color: var(--navy-900); }
 .cohort-grid-empty { color: var(--muted); }
 .cohort-grid tr.cohort-cze .cohort-grid-cell { font-weight: 700; }
 

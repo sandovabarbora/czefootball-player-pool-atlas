@@ -194,7 +194,7 @@ EN: dict[str, str] = {
     "why_funnel.take_one_thing.same": "If you take one thing from this: the single measured link that carries the most of the gap with both {a} and {b} is {channel}.",
     "why_funnel.take_one_thing.diff": "If you take one thing from this: the single measured link that carries the most of the gap is different for each comparison — {channel_a} for {a}, {channel_b} for {b}.",
     "why_funnel.figure.alt": "Five-stage funnel: {adj} football next to {a} and {b} on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.",
-    "why_funnel.figure.caption": "Each rung: {nation} next to its two comparison countries, value written at the bar's end.",
+    "why_funnel.figure.caption": "Each rung is one stage on its own scale: the filled dot is {nation}, the open dots the two comparison countries, each with its value.",
     "unit.percent": "percent",
 
     # ---- act markers (Task 25d): three section breaks between the slides,

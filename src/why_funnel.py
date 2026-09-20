@@ -21,7 +21,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 
 from src import config
-from src.figstyle import CREAM, INK, OXBLOOD, PEER_A, PEER_B, use_style
+from src.figstyle import RULE, CREAM, INK, OXBLOOD, PEER_A, PEER_B, use_style
 
 LOG = logging.getLogger(__name__)
 use_style()
@@ -37,43 +37,45 @@ STAGE_SPECS: tuple[tuple[str, Any, bool, str], ...] = (
 
 
 def render_why_funnel_figure(why_funnel: dict, home_code: str, out_path: Path) -> None:
-    """`why_funnel`: the context dict `src.render._build_why_funnel` returns
-    (`countries` + `stage1`..`stage5`). One horizontal-bar rung per stage,
-    one bar per country in `why_funnel["countries"]` (home first, then the
-    two compare peers, the order `peer_compare_countries()` already fixes),
-    the value written at the bar's end instead of read off an axis. A
-    missing value (a country absent from a source table) draws as a
-    zero-width bar rather than raising.
+    """One rung per stage, drawn as a dot on a zoomed axis rather than a bar
+    from zero: the stages differ by tenths (average age 26.0 vs 25.4) and a
+    zero-based bar hides exactly that. The home nation is the filled oxblood
+    dot with its value written beside it; the two compare peers are open dots
+    with theirs; the axis spans only the three values plus a margin, and the
+    direction that means "more open pathway" is written under the first rung.
+    A missing value is skipped rather than drawn at zero.
     """
     countries = [c["code"] for c in why_funnel["countries"]]
     colors = [OXBLOOD, PEER_A, PEER_B][: len(countries)]
     n = len(STAGE_SPECS)
-    fig, axes = plt.subplots(n, 1, figsize=(10.4, 1.5 * n + 0.6))
+    fig, axes = plt.subplots(n, 1, figsize=(10.4, 1.15 * n + 0.7))
     fig.patch.set_facecolor(CREAM)
 
-    for ax, (title, extractor, is_pct, unit) in zip(axes, STAGE_SPECS, strict=True):
-        raw_values = extractor(why_funnel)
-        values = [(v * 100 if is_pct else v) if v is not None else 0 for v in raw_values]
-        y = list(range(len(countries)))
-        ax.barh(y, values, color=colors, height=0.5, zorder=2)
-        vmax = max(values) if values else 1
-        pad = vmax * 0.045 if vmax else 0.5
-        for yi, (v, c) in enumerate(zip(values, colors, strict=True)):
-            fmt = f"{v:.1f}" if (is_pct and v < 10) else f"{v:.0f}"
-            ax.annotate(f"{fmt}{unit}", xy=(v, yi), xytext=(pad, 0), textcoords="offset points",
-                       fontsize=10, color=c, va="center", ha="left", fontweight=600)
-        ax.set_yticks(y)
-        ax.set_yticklabels(countries, fontsize=9.5, color=INK, fontweight=600)
-        ax.invert_yaxis()
-        ax.set_title(title, fontsize=11, color=INK, loc="left", pad=8)
-        ax.set_xlim(0, vmax * 1.22 if vmax else 1)
+    for row, (ax, (title, extractor, is_pct, unit)) in enumerate(zip(axes, STAGE_SPECS, strict=True)):
+        raw = extractor(why_funnel)
+        pairs = [(c, col, (v * 100 if is_pct else v))
+                 for c, col, v in zip(countries, colors, raw, strict=True) if v is not None]
+        vals = [v for _, _, v in pairs]
+        lo, hi = (min(vals), max(vals)) if vals else (0.0, 1.0)
+        span = (hi - lo) or max(abs(hi), 1.0) * 0.1
+        ax.set_xlim(lo - span * 0.45, hi + span * 0.6)
+        ax.axhline(0, color=RULE, lw=1.0, zorder=1)
+        for i, (code, col, v) in enumerate(pairs):
+            home = code == home_code
+            ax.scatter([v], [0], s=150 if home else 110, zorder=3, color=col if home else CREAM,
+                       edgecolors=col, linewidths=1.8)
+            fmt = f"{v:,.1f}"   # always a decimal: the stages differ by tenths
+            ax.annotate(f"{code} {fmt}{unit}", xy=(v, 0), xytext=(0, 14 if i % 2 == 0 else -22),
+                        textcoords="offset points", ha="center", fontsize=10.5, color=col,
+                        fontweight=600 if home else 500)
+        ax.set_title(title, fontsize=11.5, color=INK, loc="left", pad=10)
+        ax.set_ylim(-1, 1)
         for side in ("top", "right", "bottom", "left"):
             ax.spines[side].set_visible(False)
-        ax.set_xticks([])
-        ax.tick_params(length=0)
+        ax.set_xticks([]); ax.set_yticks([]); ax.tick_params(length=0)
         ax.set_facecolor(CREAM)
 
-    plt.subplots_adjust(hspace=0.85, left=0.07, right=0.96, top=0.98, bottom=0.02)
+    plt.subplots_adjust(hspace=1.05, left=0.04, right=0.97, top=0.95, bottom=0.03)
     plt.savefig(out_path, format="svg")
     plt.close(fig)
     LOG.info("wrote %s", out_path)

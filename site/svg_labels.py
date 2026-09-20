@@ -144,7 +144,10 @@ BIG5_TITLE_CS = f"{ADJ_CS_PL.capitalize()} hráči v ligách Big-5"
 # bars ("+4.2", "6.4 %") -- identical in both languages, no translation needed)
 KEEP = re.compile(
     r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d+\+|[A-Z]{3}|n=\d+|—|[-−+]?\d+(\.\d+)?( %)?|[A-ZÀ-Ž][a-zà-ž]+|"
-    r"\d{4}/\d\d: \d+|\d{4}/\d\d|\d{4}/\d\d · \d+ %|\d\d[–-]\d\d: [-−+]\d+(\.\d+)?|[A-Z]{3}-[\w .]+)$")
+    r"\d{4}/\d\d: \d+|\d{4}/\d\d|\d{4}/\d\d · \d+ %|\d\d[–-]\d\d: [-−+]\d+(\.\d+)?|[A-Z]{3}-[\w .]+|"
+    # "CZE 6.4 %" — a country code with its own value, a machine label like the
+    # bare code and the bare number that already pass
+    r"[A-Z]{3} [-−+]?\d+(\.\d+)?( %)?)$")
 # per-string font scale, for a Czech entry that would otherwise leave its panel
 SHRINK: dict[str, float] = {}
 FONT = {"Georgia": "Georgia, 'Times New Roman', serif",

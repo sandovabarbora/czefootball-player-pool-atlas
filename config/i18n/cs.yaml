@@ -129,7 +129,7 @@ strings:
   why_funnel.take_one_thing.same: "Pokud si z tohoto máte odnést jednu věc: jediné měřené spojení, které nese většinu rozdílu s oběma zeměmi {a} i {b}, je {channel}."
   why_funnel.take_one_thing.diff: "Pokud si z tohoto máte odnést jednu věc: jediné měřené spojení, které nese většinu rozdílu, je pro každé srovnání jiné — u země {a} je to {channel_a}, u země {b} {channel_b}."
   why_funnel.figure.alt: "Pětistupňový trychtýř: {cs_adj_m} fotbal vedle zemí {a} a {b} v podílu herního času mladých hráčů doma, průměrném věku ligy, věku prvního odchodu do zahraničí, podílu přestupů do strany a hráčích na milion obyvatel v nejsilnějších ligách Evropy."
-  why_funnel.figure.caption: "Každý stupeň: {cs_name} vedle dvou srovnávaných zemí, hodnota napsaná na konci sloupce."
+  why_funnel.figure.caption: "Každá příčka je jedna fáze na vlastní škále: plný bod je {cs_name}, prázdné body dvě srovnávané země, u každého jeho hodnota."
   unit.percent: "procent"
 
   # ---- předěly (Task 25d): tři sekční předěly mezi slidy, kicker a jedna věta, bez čísel
