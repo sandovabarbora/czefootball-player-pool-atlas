@@ -62,6 +62,9 @@ fetch:
 	$(ACT) python -m src.fetch_elo
 	$(ACT) python -m src.fetch_squads
 
+roles:
+	$(ACT) python -m src.fetch_roles
+
 fetch-big5:
 	$(ACT) python -m src.fetch_big5_history
 
@@ -131,7 +134,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers panel gap facts eda data-quality render
+all: fetch roles pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers panel gap facts eda data-quality render
 
 test:
 	$(ACT) pytest

@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609210050">
-  <link rel="stylesheet" href="modern.css?v=202609210050">
+  <link rel="stylesheet" href="style.css?v=202609210106">
+  <link rel="stylesheet" href="modern.css?v=202609210106">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609210050"></script>
+  <script defer src="atlas.js?v=202609210106"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -96,7 +96,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 285 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 291 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -9144,6 +9144,8 @@
       
       <li>Unjoined goalkeeper rows: 12 rows.</li>
       
+      <li>Czech First League rows without a nationality: 232 rows.</li>
+      
     </ul>
     <p class="capita-note">The full log, with the recorded pipeline incidents, is in <a href="#data-quality">the data-quality log</a> below.</p>
 
@@ -10618,10 +10620,10 @@
     
     <h3 id="data-quality">Data-quality log</h3>
     <details class="fold">
-      <summary>7 recomputed checks · 6 recorded incidents</summary>
+      <summary>8 recomputed checks · 6 recorded incidents</summary>
       <p>Every wrangling decision that changed a count, with the count. The first block is recomputed on every run; the second is the incident record (dates and counts as recorded at the time).</p>
       <table class="dq-table"><thead><tr><th>Check</th><th>Count</th><th>What it counts</th></tr></thead>
-      <tbody><tr><td>Women&#39;s entries filtered</td><td class="num">92 entries</td><td>FBref country-page entries dropped for a surname ending in -ová (see Limitations).</td></tr><tr><td>Namesakes in the pool</td><td class="num">2 players</td><td>Active pool players sharing a normalised name (e.g. father and son), disambiguated by club.</td></tr><tr><td>Pool players without season tables</td><td class="num">125 players</td><td>Czech professionals on FBref&#39;s country page who play in a league without season tables and carry no metrics.</td></tr><tr><td>Split-season rows collapsed</td><td class="num">441 rows</td><td>Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).</td></tr><tr><td>Unmatched call-up names</td><td class="num">18 names</td><td>National-team squad-table names that match no Czech-eligible row in the feature tables.</td></tr><tr><td>Missing birth years</td><td class="num">0 rows</td><td>Season-table rows of nation CZE with no birth year, which cannot form a player_key.</td></tr><tr><td>Unjoined goalkeeper rows</td><td class="num">12 rows</td><td>Keeper-page rows with no matching GK row in the season tables on (league, season, team, player_key); dropped from every goalkeeper exhibit.</td></tr></tbody></table>
+      <tbody><tr><td>Women&#39;s entries filtered</td><td class="num">92 entries</td><td>FBref country-page entries dropped for a surname ending in -ová (see Limitations).</td></tr><tr><td>Namesakes in the pool</td><td class="num">2 players</td><td>Active pool players sharing a normalised name (e.g. father and son), disambiguated by club.</td></tr><tr><td>Pool players without season tables</td><td class="num">125 players</td><td>Czech professionals on FBref&#39;s country page who play in a league without season tables and carry no metrics.</td></tr><tr><td>Split-season rows collapsed</td><td class="num">441 rows</td><td>Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).</td></tr><tr><td>Unmatched call-up names</td><td class="num">18 names</td><td>National-team squad-table names that match no Czech-eligible row in the feature tables.</td></tr><tr><td>Missing birth years</td><td class="num">0 rows</td><td>Season-table rows of nation CZE with no birth year, which cannot form a player_key.</td></tr><tr><td>Unjoined goalkeeper rows</td><td class="num">12 rows</td><td>Keeper-page rows with no matching GK row in the season tables on (league, season, team, player_key); dropped from every goalkeeper exhibit.</td></tr><tr><td>Czech First League rows without a nationality</td><td class="num">232 rows</td><td>Season-table rows in the Czech First League where FBref records no nationality — the highest rate of any league in this pipeline. Every “own nationals” share reads that column as its numerator while the denominator keeps the league’s full minutes, so those shares are floors, not point estimates.</td></tr></tbody></table>
       <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li><li><span class="mono">2026-09-14</span> The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); caught in review. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model&#39;s margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported.</li></ul>
     </details>
     
@@ -10682,8 +10684,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 285 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 285 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 291 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 291 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 35 tasks.</desc>
@@ -10984,7 +10986,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 00:23</p>
+    <p class="rendered-at">Rendered: 2026-09-21 01:06</p>
   </div>
 </footer>
 

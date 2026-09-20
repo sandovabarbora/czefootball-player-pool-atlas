@@ -2,7 +2,7 @@
 
 Chapter IV carries two things side by side:
 
-- Seven checks recomputed from the processed data on every run, so "how many
+- Eight checks recomputed from the processed data on every run, so "how many
   rows did this drop" always matches whatever is on disk right now, not a
   number typed once and left to rot.
 - A small dated list of pipeline incidents, recorded by hand in
@@ -120,6 +120,24 @@ def _nt_unmatched_count(nt_flags: pd.DataFrame, features_by_group: dict[str, pd.
     return len(nt) - len(matched)
 
 
+def _home_league_no_nation_count(tables: pd.DataFrame) -> int:
+    """Home-league season rows FBref left without a nationality.
+
+    This one is not a wrangling decision of ours but a gap in the source, and
+    it is not symmetric across leagues: in the 2025/26 tables the home
+    league is the only one of the nine benchmark leagues with any missing
+    nationality at all. It matters because every "own nationals" share --
+    the youth-minutes share that opens the argument above all -- takes the
+    nationality column as its numerator while the denominator stays the
+    league's full minutes. A missing nationality therefore does not raise
+    anything; it quietly moves a player out of the numerator and pushes the
+    share down. Counting the rows here is what lets the funnel quote that
+    share as a floor with a stated upper bound rather than a point estimate.
+    """
+    t = tables[tables["league"] == config.DOMESTIC_LEAGUE]
+    return int((t["nation"].fillna("") == "").sum())
+
+
 def compute_checks(
     pool: pd.DataFrame,
     tables: pd.DataFrame,
@@ -128,7 +146,7 @@ def compute_checks(
     country_page_html: str | None = None,
     keepers: pd.DataFrame | None = None,
 ) -> list[dict]:
-    """Seven recomputed wrangling-check rows: `{"id", "count", "unit"}` each.
+    """Eight recomputed wrangling-check rows: `{"id", "count", "unit"}` each.
 
     See the module docstring for what each check recomputes and why.
     `country_page_html` is the cached FBref country page's text, or `None`
@@ -153,6 +171,8 @@ def compute_checks(
         {"id": "missing_born",
          "count": int(tables.loc[tables["nation"] == config.HOME, "born"].isna().sum()), "unit": "rows"},
         {"id": "gk_unjoined", "count": gk_unjoined, "unit": "rows"},
+        {"id": "home_league_no_nation",
+         "count": _home_league_no_nation_count(tables), "unit": "rows"},
     ]
 
 

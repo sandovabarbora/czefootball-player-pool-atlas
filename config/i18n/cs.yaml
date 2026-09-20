@@ -766,6 +766,8 @@ strings:
   dq.missing_born.what: "Řádky sezónních tabulek národnosti {code} bez ročníku narození, ze kterých nejde sestavit player_key."
   dq.gk_unjoined.label: "Nespárované řádky brankářů"
   dq.gk_unjoined.what: "Řádky ze stránek brankářů bez odpovídajícího řádku GK v sezónních tabulkách podle (liga, sezóna, klub, player_key); vypuštěné ze všech brankářských exhibitů."
+  dq.home_league_no_nation.label: "Řádky {cs_home_league} bez národnosti"
+  dq.home_league_no_nation.what: "Řádky sezónních tabulek {cs_home_league}, u kterých FBref neeviduje národnost — nejvyšší podíl ze všech lig v této pipeline. Každý podíl „vlastních hráčů“ bere tento sloupec jako čitatel, zatímco jmenovatel zůstává celými minutami ligy, takže takové podíly jsou dolní meze, ne bodové odhady."
   ch4.lim.h3: "Limitace této analýzy"
   ch4.repro.h3: "Reprodukovatelnost"
   ch4.repro.p: "Celá pipeline je veřejná: <a href=\"{url}\">{url_short}</a>. Licence MIT. Z čistého klonu <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> vykreslí tento report z commitnutého datového snapshotu a <code>make pages</code> sestaví web; <code>make all</code> vše znovu stáhne a spustí celou pipeline. Náhodný seed {seed} pro každý stochastický krok (KMeans). Fetchery cachují surové stránky a jsou idempotentní; krok renderu se nikdy nedotkne sítě."

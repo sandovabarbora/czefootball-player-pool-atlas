@@ -840,6 +840,8 @@ EN: dict[str, str] = {
     "dq.missing_born.what": "Season-table rows of nation {code} with no birth year, which cannot form a player_key.",
     "dq.gk_unjoined.label": "Unjoined goalkeeper rows",
     "dq.gk_unjoined.what": "Keeper-page rows with no matching GK row in the season tables on (league, season, team, player_key); dropped from every goalkeeper exhibit.",
+    "dq.home_league_no_nation.label": "{home_league} rows without a nationality",
+    "dq.home_league_no_nation.what": "Season-table rows in the {home_league} where FBref records no nationality — the highest rate of any league in this pipeline. Every “own nationals” share reads that column as its numerator while the denominator keeps the league’s full minutes, so those shares are floors, not point estimates.",
     "ch4.lim.h3": "Limitations of this analysis",
     "ch4.repro.h3": "Reproducibility",
     "ch4.repro.p": "The full pipeline is public: <a href=\"{url}\">{url_short}</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed {seed} for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.",

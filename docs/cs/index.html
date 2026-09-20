@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609210050">
-  <link rel="stylesheet" href="../modern.css?v=202609210050">
+  <link rel="stylesheet" href="../style.css?v=202609210106">
+  <link rel="stylesheet" href="../modern.css?v=202609210106">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609210050"></script>
+  <script defer src="../atlas.js?v=202609210106"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -96,7 +96,7 @@
       <span class="cast-stack"><img src="../img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="../img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="../img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 profilů hráčů">17 profilů hráčů</span>
     </a>
-    <p class="masthead-facts">19 lig · 7 sezón · 285 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
+    <p class="masthead-facts">19 lig · 7 sezón · 291 testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení</p>
   </div>
 </header>
 
@@ -9144,6 +9144,8 @@
       
       <li>Nespárované řádky brankářů: 12 řádků.</li>
       
+      <li>Řádky Chance Liga bez národnosti: 232 řádků.</li>
+      
     </ul>
     <p class="capita-note">Celý log, včetně zaznamenaných incidentů pipeline, je v <a href="#data-quality">logu kvality dat</a> níže.</p>
 
@@ -10618,10 +10620,10 @@
     
     <h3 id="data-quality">Log kvality dat</h3>
     <details class="fold">
-      <summary>7 přepočítaných kontrol · 6 zaznamenaných incidentů</summary>
+      <summary>8 přepočítaných kontrol · 6 zaznamenaných incidentů</summary>
       <p>Každé rozhodnutí při čištění dat, které změnilo nějaký počet, s tím počtem. První blok je přepočítán při každém běhu; druhý je záznam incidentů (data a počty tak, jak byly zaznamenány).</p>
       <table class="dq-table"><thead><tr><th>Kontrola</th><th>Počet</th><th>Co počítá</th></tr></thead>
-      <tbody><tr><td>Odfiltrované ženské položky</td><td class="num">92 položek</td><td>Položky na stránce země FBref vypuštěné pro příjmení končící na -ová (viz Limitace).</td></tr><tr><td>Jmenovci ve fondu</td><td class="num">2 hráčů</td><td>Aktivní hráči fondu sdílející normalizované jméno (např. otec a syn), rozlišení podle klubu.</td></tr><tr><td>Hráči fondu bez sezónních tabulek</td><td class="num">125 hráčů</td><td>Čeští profesionálové ze stránky země FBref hrající v lize bez sezónních tabulek, bez jakýchkoli metrik.</td></tr><tr><td>Sloučené rozdělené sezóny</td><td class="num">441 řádků</td><td>Řádky hráč-sezóna-post sloučené do jednoho po přestupu uprostřed sezóny (minuty sečteny, míry vážené minutami).</td></tr><tr><td>Nespárovaná jména z nominací</td><td class="num">18 jmen</td><td>Jména z tabulek reprezentačních nominací, která neodpovídají žádnému řádku Česka ve featurových tabulkách.</td></tr><tr><td>Chybějící ročník narození</td><td class="num">0 řádků</td><td>Řádky sezónních tabulek národnosti CZE bez ročníku narození, ze kterých nejde sestavit player_key.</td></tr><tr><td>Nespárované řádky brankářů</td><td class="num">12 řádků</td><td>Řádky ze stránek brankářů bez odpovídajícího řádku GK v sezónních tabulkách podle (liga, sezóna, klub, player_key); vypuštěné ze všech brankářských exhibitů.</td></tr></tbody></table>
+      <tbody><tr><td>Odfiltrované ženské položky</td><td class="num">92 položek</td><td>Položky na stránce země FBref vypuštěné pro příjmení končící na -ová (viz Limitace).</td></tr><tr><td>Jmenovci ve fondu</td><td class="num">2 hráčů</td><td>Aktivní hráči fondu sdílející normalizované jméno (např. otec a syn), rozlišení podle klubu.</td></tr><tr><td>Hráči fondu bez sezónních tabulek</td><td class="num">125 hráčů</td><td>Čeští profesionálové ze stránky země FBref hrající v lize bez sezónních tabulek, bez jakýchkoli metrik.</td></tr><tr><td>Sloučené rozdělené sezóny</td><td class="num">441 řádků</td><td>Řádky hráč-sezóna-post sloučené do jednoho po přestupu uprostřed sezóny (minuty sečteny, míry vážené minutami).</td></tr><tr><td>Nespárovaná jména z nominací</td><td class="num">18 jmen</td><td>Jména z tabulek reprezentačních nominací, která neodpovídají žádnému řádku Česka ve featurových tabulkách.</td></tr><tr><td>Chybějící ročník narození</td><td class="num">0 řádků</td><td>Řádky sezónních tabulek národnosti CZE bez ročníku narození, ze kterých nejde sestavit player_key.</td></tr><tr><td>Nespárované řádky brankářů</td><td class="num">12 řádků</td><td>Řádky ze stránek brankářů bez odpovídajícího řádku GK v sezónních tabulkách podle (liga, sezóna, klub, player_key); vypuštěné ze všech brankářských exhibitů.</td></tr><tr><td>Řádky Chance Liga bez národnosti</td><td class="num">232 řádků</td><td>Řádky sezónních tabulek Chance Liga, u kterých FBref neeviduje národnost — nejvyšší podíl ze všech lig v této pipeline. Každý podíl „vlastních hráčů“ bere tento sloupec jako čitatel, zatímco jmenovatel zůstává celými minutami ligy, takže takové podíly jsou dolní meze, ne bodové odhady.</td></tr></tbody></table>
       <ul class="dq-events"><li><span class="mono">2026-09-14</span> Zastaralý sezónní index FBref způsobil, že soccerdata stáhla URL bez sezóny, kterou FBref servíruje jako běžící sezónu: tabulky 2025/26 devíti lig byly po čtyřech kolech 2026/27. Opraveno kontrolou vlastního nadpisu stránky proti požadované sezóně. <span class="mono">(9 lig, zaznamenáno)</span></li><li><span class="mono">2026-09-14</span> FBref občas servírovala jen soupisku (bez sezónní tabulky) pro sezónu, která ještě probíhá. Opraveno jedním opakovaným stažením v téže kontrole nadpisu stránky.</li><li><span class="mono">2026-09-13</span> API ClubElo odpovídalo 502 po celou dobu běhu; ligové násobičky spadly zpět na koeficienty asociací UEFA.</li><li><span class="mono">2026-09-13</span> Dotaz na portréty ve Wikidatech spároval jen podle jména, občanství a data narození; sedm portrétů patřilo jmenovcům z jiných sportů, dokud nebyl přidán filtr na povolání. <span class="mono">(7 portrétů, zaznamenáno)</span></li><li><span class="mono">2026-09-13</span> Slovenská nejvyšší soutěž na FBref vůbec není; slovenské exhibity v tomto reportu proto stojí jen na hráčích v zahraničí.</li><li><span class="mono">2026-09-14</span> První out-of-sample srovnání modelu síly lig aplikovalo baseline s UEFA násobiči obráceně a obě baseline startovaly ze surové rate minulé sezóny (sezóna bez gólu předpovídala nulu); zachyceno v review. Opraveno: poměr násobičů m_prev / m_new, baseline ze shrunk rate. Náskok modelu před baseline klesl z asi 3 natů na 0,5 a to je číslo v reportu.</li></ul>
     </details>
     
@@ -10682,8 +10684,8 @@
 
     <h3 id="how-built">Jak report vznikl</h3>
     <details class="fold">
-      <summary>Spec → plán → agenti na tasky → review → ledger · 25 rozhodnutí · 285 testů</summary>
-      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 285 testy.</p>
+      <summary>Spec → plán → agenti na tasky → review → ledger · 25 rozhodnutí · 291 testů</summary>
+      <p>Report vznikl agentním workflow: psaná specifikace návrhu, implementační plán malých úkolů, čerstvý coding agent na každý úkol, po každém kontrola souladu se specifikací a kvality kódu, na konci revize celé větve. Každé rozhodnutí, které controller udělal bez autorky, je datovaný <em>ruling</em> v ledgeru — 25 napříč touto a minulou edicí. Autorka napsala rámec, čtení clusterů a rulingy; agenti napsali kód pod 291 testy.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Diagram průběhu stavby</title>
         <desc id="build-diagram-desc">Specifikace, pak plán, pak jeden task agent na úkol, dvoustupňový review tasku, až pět opravných kol, revize celé větve, pak deploy; ledger na straně zaznamenává každý ruling — zatím 25 napříč 35 úkoly.</desc>
@@ -10984,7 +10986,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-21 00:23</p>
+    <p class="rendered-at">Vykresleno: 2026-09-21 01:06</p>
   </div>
 </footer>
 
