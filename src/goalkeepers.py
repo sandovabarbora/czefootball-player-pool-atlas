@@ -102,6 +102,7 @@ import numpy as np
 import pandas as pd
 
 from src import config
+from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, use_style
 from src.pathways import _age, _dedupe_player_season
 from src.utils import normalize_name, read_parquet
 
@@ -115,19 +116,9 @@ __all__ = [
 
 CLUB_STRENGTH_PROXY = "goals-scored percentile within league"
 
-# Palette matches src.international_benchmark / src.render (OKLCH tokens
-# converted to sRGB hex).
-NAVY = "#1f3a5f"
-OXBLOOD = "#9c3a2a"
-INK = "#2a261f"
-MUTED = "#8a857b"
-RULE = "#c8c2b7"
-CREAM = "#fdfbf6"
-
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
-plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
-plt.rcParams["text.color"] = INK
+# Palette now lives in src.figstyle (Task 27A, the single source of figure
+# style) -- imported above instead of redefined here.
+use_style()
 
 
 def _opt_float(value: object, digits: int = 2) -> float | None:
@@ -564,7 +555,7 @@ def render_export_age_figure(
     ax.set_ylim(-0.6, 1.6)
     ax.set_xlabel("Age at first top-9 season", fontsize=9.5, color=MUTED, fontfamily="sans-serif")
     ax.set_title("Age at first top-9 season: goalkeepers vs. outfield exports",
-                 fontsize=12, fontfamily="serif", color=INK, pad=12, loc="left")
+                 fontsize=12, fontfamily="sans-serif", color=INK, pad=12, loc="left")
     ax.tick_params(colors=MUTED, labelsize=9)
     for side in ("top", "right", "left"):
         ax.spines[side].set_visible(False)

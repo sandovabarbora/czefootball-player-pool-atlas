@@ -392,55 +392,61 @@ def render_figure(
     seasons: list[str], y: np.ndarray, tau_grid: np.ndarray, tau_probs: np.ndarray,
     fitted: np.ndarray, fitted_lo: np.ndarray, fitted_hi: np.ndarray,
     forecast_season: str, forecast_median: float, forecast_lo: float, forecast_hi: float,
-    out_path: Path,
+    out_path: Path, break_season: str | None = None, break_prob: float | None = None,
 ) -> None:
-    """One matplotlib SVG, home-nation series only: the observed counts
-    against the change-point model's fitted level (median + band), a bar
-    strip under the x-axis for the marginal posterior break probability at
-    each candidate season, and the one-step forecast (point + 90% interval)
-    at the right edge, one season past the series.
+    """Task 27B3: one matplotlib SVG, home-nation series only: the observed
+    counts against the change-point model's fitted level, drawn as a pale
+    oxblood band; the break itself marked with a vertical rule labelled
+    "<season> · <prob>%"; the one-step forecast, one season past the
+    series, separated from the observed run by a thin dashed rule and drawn
+    with its 90% interval at the right edge. `tau_grid`/`tau_probs` are
+    still accepted (unused by the drawing) so callers don't need to change;
+    the full marginal posterior over candidate break seasons lives in the
+    JSON and the surrounding prose instead of a second panel here.
     """
     import matplotlib.pyplot as plt
 
-    from src.international_benchmark import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE
+    from src.figstyle import CREAM, INK, OXBLOOD, OXBLOOD_TINT, RULE, use_style
     from src.utils import season_label
 
+    use_style()
     years = [int(s[:4]) for s in seasons]
     forecast_year = int(forecast_season[:4])
 
-    fig, (ax_n, ax_tau) = plt.subplots(
-        2, 1, figsize=(9.5, 6.4), sharex=True, gridspec_kw={"height_ratios": [3, 1]},
-    )
+    fig, ax = plt.subplots(figsize=(10.4, 5.6))
     fig.patch.set_facecolor(CREAM)
 
-    ax_n.scatter(years, y, color=INK, s=22, zorder=4, label="Observed")
-    ax_n.plot(years, fitted, color=NAVY, lw=2.2, zorder=3, label="Fitted level (change point)")
-    ax_n.fill_between(years, fitted_lo, fitted_hi, color=NAVY, alpha=0.15, zorder=2, lw=0)
+    ax.fill_between(years, fitted_lo, fitted_hi, color=OXBLOOD_TINT, zorder=1, lw=0)
+    ax.plot(years, fitted, color=OXBLOOD, lw=2.2, zorder=3)
+    ax.scatter(years, y, color=INK, s=24, zorder=4)
 
-    ax_n.errorbar([forecast_year], [forecast_median], yerr=[[forecast_median - forecast_lo], [forecast_hi - forecast_median]],
-                 fmt="o", color=OXBLOOD, capsize=4, zorder=5, label="Forecast (90% interval)")
-    ax_n.annotate(season_label(forecast_season), xy=(forecast_year, forecast_median), xytext=(6, 0),
-                 textcoords="offset points", fontsize=9, fontfamily="sans-serif", color=OXBLOOD, va="center")
+    if break_season is not None:
+        break_year = int(break_season[:4])
+        ax.axvline(break_year, color=INK, lw=1.1, ls=(0, (3, 2)), zorder=2)
+        prob_txt = f" · {round(break_prob * 100)} %" if break_prob is not None else ""
+        ax.annotate(
+            f"{season_label(break_season)}{prob_txt}", xy=(break_year, 1), xycoords=("data", "axes fraction"),
+            xytext=(6, -4), textcoords="offset points", ha="left", va="top", fontsize=10, color=INK, fontweight=600,
+        )
 
-    ax_n.set_ylabel("Players (≥ 450 min)", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax_n.set_title("Dating the break and one forecast", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    divider_x = years[-1] + 0.5
+    ax.axvline(divider_x, color=RULE, lw=1.0, ls=(0, (2, 2)), zorder=2)
+    ax.errorbar([forecast_year], [forecast_median],
+               yerr=[[forecast_median - forecast_lo], [forecast_hi - forecast_median]],
+               fmt="o", color=OXBLOOD, capsize=4, zorder=5, markersize=6)
+    ax.annotate(f"{season_label(forecast_season)}: {forecast_median:.0f}", xy=(forecast_year, forecast_median),
+               xytext=(8, 0), textcoords="offset points", fontsize=10, color=OXBLOOD, va="center", fontweight=600)
+
+    ax.set_ylabel("Players (≥ 450 min)", color=INK)
+    ax.set_title("Dating the break and one forecast", loc="left")
+    ax.set_xlim(years[0] - 0.6, forecast_year + 1.6)
     for spine in ("top", "right"):
-        ax_n.spines[spine].set_visible(False)
-    ax_n.tick_params(colors=INK)
-    ax_n.legend(frameon=False, fontsize=9, labelcolor=INK)
-
-    tau_years = [years[i] for i in tau_grid]
-    ax_tau.bar(tau_years, tau_probs, color=MUTED, width=0.8)
-    ax_tau.set_ylabel("P(break)", fontsize=9, fontfamily="sans-serif", color=INK)
-    ax_tau.set_xlabel("Season start year", fontsize=10, fontfamily="sans-serif", color=INK)
-    for spine in ("top", "right"):
-        ax_tau.spines[spine].set_visible(False)
+        ax.spines[spine].set_visible(False)
     for spine in ("left", "bottom"):
-        ax_tau.spines[spine].set_color(RULE)
-    ax_tau.tick_params(colors=INK, labelsize=8.5)
+        ax.spines[spine].set_color(RULE)
+    ax.tick_params(colors=INK)
 
-    plt.tight_layout()
-    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
+    plt.savefig(out_path, format="svg")
     plt.close(fig)
     LOG.info("wrote %s", out_path)
 
@@ -518,9 +524,11 @@ def main() -> None:
     tau_probs = tau_posterior(idata_home, y_home, tau_grid)
     fitted_med, fitted_lo, fitted_hi = fitted_level(idata_home, tau_grid, mode_tau)
     home_forecast = forecast[home]
+    top_break = break_result["top"][0]
     render_figure(seasons, y_home, tau_grid, tau_probs, fitted_med, fitted_lo, fitted_hi,
                  home_forecast["season"], home_forecast["median"], home_forecast["lo"], home_forecast["hi"],
-                 config.OUTPUTS_DIR / "series_model.svg")
+                 config.OUTPUTS_DIR / "series_model.svg",
+                 break_season=top_break["season"], break_prob=top_break["prob"])
 
     LOG.info("done: %s, %.1f s total", config.NATION, time.time() - t_start)
 

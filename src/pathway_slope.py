@@ -20,15 +20,10 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-from src import config
-from src.international_benchmark import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE
+from src.figstyle import CREAM, CREAM_TINT, MUTED, OXBLOOD, PEER_A, PEER_B, strip_chrome, use_style
 
 LOG = logging.getLogger(__name__)
-
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
-plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
-plt.rcParams["text.color"] = INK
+use_style()
 
 # Row keys in `peer_compare["rows"]`'s canonical order (excludes the seventh
 # "big5_now" row -- slide 8's own text calls these "the same six numbers").
@@ -46,12 +41,15 @@ METRIC_HIGHER_IS_OPEN = {
     "per_million": True, "u21_share": True, "export_age": False,
     "sideways": False, "minutes_share": True, "wc_top9": True,
 }
-LINE_COLORS = [OXBLOOD, NAVY, MUTED]  # home country first, by construction of peer_compare_countries()
+LINE_COLORS = [OXBLOOD, PEER_A, PEER_B]  # home country first, by construction of peer_compare_countries()
 
 
 def render_pathway_slope_figure(rows: list[dict], countries: list[str], out_path: Path) -> None:
-    """`rows`: `peer_compare["rows"][:6]`; `countries`: `peer_compare["countries"]`
-    ([home, a, b])."""
+    """Task 27B5: `rows`: `peer_compare["rows"][:6]`; `countries`:
+    `peer_compare["countries"]` ([home, a, b]). Direct country-code labels
+    at both ends of each line (no legend); metric names as x-axis ticks; a
+    light `CREAM_TINT` band across the full 0-1 range so "worst" and "best"
+    read as a range, not just two edge labels."""
     metrics = []
     for key in METRIC_KEYS:
         row = next((r for r in rows if r["key"] == key), None)
@@ -67,35 +65,35 @@ def render_pathway_slope_figure(rows: list[dict], countries: list[str], out_path
             norm = {c: 1 - v for c, v in norm.items()}
         metrics.append((key, norm))
 
-    fig, ax = plt.subplots(figsize=(8.2, 4.6))
+    fig, ax = plt.subplots(figsize=(10.4, 5.0))
     fig.patch.set_facecolor(CREAM)
     xs = list(range(len(metrics)))
+    ax.axhspan(0, 1, color=CREAM_TINT, zorder=0, lw=0)
+
     for i, country in enumerate(countries):
         ys = [norm[country] for _key, norm in metrics]
         color = LINE_COLORS[i] if i < len(LINE_COLORS) else MUTED
         # Code only (not the country name) -- see fare_dots.py's matching
         # comment: no per-country entry needed in svg_labels.py this way.
-        ax.plot(xs, ys, color=color, lw=2.2, marker="o", ms=5.5, zorder=3, label=country)
+        ax.plot(xs, ys, color=color, lw=2.4 if country == countries[0] else 1.8,
+                 marker="o", ms=6, zorder=3)
+        left_dx = -9 if len(xs) > 1 else -12
+        ax.annotate(country, xy=(xs[0], ys[0]), xytext=(left_dx, 0), textcoords="offset points",
+                    fontsize=10, color=color, va="center", ha="right", fontweight=600)
+        ax.annotate(country, xy=(xs[-1], ys[-1]), xytext=(9, 0), textcoords="offset points",
+                    fontsize=10, color=color, va="center", ha="left", fontweight=600)
 
     ax.set_xticks(xs)
-    ax.set_xticklabels([METRIC_LABELS[key] for key, _norm in metrics], fontsize=9.5,
-                       fontfamily="sans-serif", color=INK)
+    ax.set_xticklabels([METRIC_LABELS[key] for key, _norm in metrics])
     ax.set_yticks([0, 1])
-    ax.set_yticklabels(["worst of the three", "best of the three"], fontsize=9,
-                       fontfamily="sans-serif", color=MUTED)
-    ax.set_ylim(-0.08, 1.08)
-    ax.set_title("Same six numbers, normalised: worst to best of the three countries, per metric",
-                fontsize=12, fontfamily="serif", color=INK, pad=12, loc="left")
-    ax.tick_params(colors=MUTED, labelsize=9)
-    for side in ("top", "right", "left"):
-        ax.spines[side].set_visible(False)
-    ax.spines["bottom"].set_color(RULE)
-    ax.grid(axis="x", color=RULE, lw=0.6, alpha=0.6)
-    ax.set_facecolor(CREAM)
-    legend = ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=3, frameon=False, fontsize=9.5)
-    for text in legend.get_texts():
-        text.set_fontfamily("sans-serif")
-    plt.tight_layout()
-    plt.savefig(out_path, bbox_inches="tight", format="svg", facecolor=CREAM, edgecolor="none")
+    ax.set_yticklabels(["worst of the three", "best of the three"], color=MUTED)
+    ax.set_ylim(-0.1, 1.1)
+    ax.set_xlim(-0.55, len(xs) - 0.45)
+    ax.set_title("Same six numbers, normalised", loc="left")
+    strip_chrome(ax)
+    for spine in ("left", "bottom"):
+        ax.spines[spine].set_visible(False)
+    ax.tick_params(length=0)
+    plt.savefig(out_path, format="svg")
     plt.close(fig)
     LOG.info("wrote %s", out_path)

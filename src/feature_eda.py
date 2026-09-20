@@ -54,7 +54,7 @@ from scipy.stats import skew
 
 from src import config
 from src.features import FEATURES
-from src.international_benchmark import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE
+from src.figstyle import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE, use_style
 from src.logging_setup import setup as logging_setup
 from src.utils import read_parquet
 
@@ -66,10 +66,7 @@ RAW_COLUMNS = ["league", "season", "team", "player", "nation", "pos", "born", "a
 _INT_RAW_COLUMNS = {"born", "age", "mp", "min", "gls", "ast", "pk", "crdy", "crdr"}
 AGE_BAND_ORDER = ["U22", "23-25", "26-29", "30+"]
 
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
-plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
-plt.rcParams["text.color"] = INK
+use_style()
 
 
 # =============================================================================
@@ -276,7 +273,7 @@ def render_distributions_figure(
                 line.set_color(INK)
         ax.set_xticks(range(1, len(leagues) + 1))
         ax.set_xticklabels(leagues, rotation=90, fontsize=9, fontfamily="sans-serif", color=INK)
-        ax.set_title(feat + (" (log1p)" if use_log else ""), fontsize=10, fontfamily="serif", color=INK)
+        ax.set_title(feat + (" (log1p)" if use_log else ""), fontsize=10, fontfamily="sans-serif", color=INK)
         ax.set_facecolor(CREAM)
         for spine in ("top", "right"):
             ax.spines[spine].set_visible(False)
@@ -286,7 +283,7 @@ def render_distributions_figure(
         if use_log:
             log_scaled.append(feat)
 
-    fig.suptitle("Raw per-90 feature distributions by league", fontsize=13, fontfamily="serif",
+    fig.suptitle("Raw per-90 feature distributions by league", fontsize=13, fontfamily="sans-serif",
                  color=INK, y=1.02, x=0.01, ha="left")
     plt.tight_layout()
     plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none", bbox_inches="tight")
@@ -338,7 +335,7 @@ def render_shrinkage_figure(
 
     ax.set_xlabel("minutes", fontsize=10.5, color=INK, fontfamily="sans-serif")
     ax.set_ylabel("npG/90", fontsize=10.5, color=INK, fontfamily="sans-serif")
-    ax.set_title("Shrinkage: raw vs shrunk npG/90 against minutes", fontsize=13, fontfamily="serif",
+    ax.set_title("Shrinkage: raw vs shrunk npG/90 against minutes", fontsize=13, fontfamily="sans-serif",
                  color=INK, loc="left")
     ax.spines["top"].set_visible(False)
     for spine in ("left", "bottom"):

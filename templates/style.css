@@ -479,7 +479,8 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
 .why-funnel .figure-bleed { margin-top: 0; margin-bottom: var(--space-4); }
 .funnel-stages { list-style: none; margin: 0 0 var(--space-4); padding: 0; }
 .funnel-stage {
-  padding: var(--space-3) 0;
+  /* Task 27D: more vertical rhythm between the ladder's five rungs */
+  padding: var(--space-4) 0;
   border-top: 1px solid var(--rule-soft);
 }
 .funnel-stage:first-child { border-top: none; padding-top: 0; }
@@ -859,7 +860,8 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   line-height: 1.55;
   color: var(--ink-soft);
   max-width: var(--measure-wide);
-  margin: 0 0 var(--space-5);
+  /* Task 27D: more room between the answer and its proof below */
+  margin: 0 0 var(--space-6);
 }
 .slide-a strong {
   font-family: var(--font-display);
@@ -1196,16 +1198,18 @@ figure img {
   width: 100%;
   height: auto;
   background: var(--surface);
-  border: 1px solid var(--rule);
 }
+/* Task 27D: one consistent frame for every figure -- no border, 24px of
+   breathing room between the image and its one-line caption, the caption
+   in the page's small sans (not the display serif, not inside the image). */
 figcaption {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 300;
-  font-size: 0.95rem;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--ink-soft);
-  margin-top: var(--space-3);
+  color: var(--muted);
+  margin-top: 24px;
   max-width: 60ch;
   /* When inside .figure-bleed, push caption back into the reading column */
 }
@@ -1658,12 +1662,59 @@ table .muted { color: var(--muted); font-size: 0.85rem; }
 .cohort-cze .cohort-cell-n { color: var(--oxblood-700); }
 .cohort-cze .cohort-cell-median { color: var(--oxblood-500); }
 
+/* Task 27C: the cohort heatmap moved HTML-native -- a table styled as a
+   tinted grid (row = country, column = cohort, cell background tint from
+   --v ∈ [0,1], set inline per cell). The SVG a few lines below stays for
+   the Explore section's full nine-country version. */
+.cohort-grid { margin: var(--space-3) 0 var(--space-4); }
+.cohort-grid th, .cohort-grid td { text-align: center; padding: 0.45rem 0.6rem; }
+.cohort-grid thead th {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+}
+.cohort-grid thead th:first-child { text-align: left; }
+.cohort-grid tbody th {
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+  white-space: nowrap;
+  padding-right: var(--space-3);
+}
+.cohort-grid-cell {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink);
+  /* background-color set inline per cell (src.render._cohort_tint) -- a
+     plain-sRGB interpolation along the same stops as the SVG heatmap's
+     CMAP_NAVY, computed in Python rather than CSS color-mix() so it can't
+     drift from oklch/oklab hue-rotation between navy and cream. */
+}
+.cohort-grid-empty { color: var(--muted); }
+.cohort-grid tr.cohort-cze .cohort-grid-cell { font-weight: 700; }
+
 /* Slide 2's peer-median column (Task 25c): a pure-CSS bar sparkline behind
    the number, width proportional to --value/--max (set inline per row) --
    no new SVG/image asset, so it renders identically in every language pass. */
 .cohortgap-peer {
   background-image: linear-gradient(to right,
     color-mix(in oklch, var(--navy-700), transparent 84%) calc(100% * var(--value) / var(--max)),
+    transparent calc(100% * var(--value) / var(--max)));
+  background-repeat: no-repeat;
+}
+
+/* Task 27C: the model-comparison pooled table's RMSE column, same pattern
+   as .cohortgap-peer above -- a CSS bar behind the number, no separate SVG. */
+.compare-rmse-bar {
+  background-image: linear-gradient(to right,
+    color-mix(in oklch, var(--oxblood-700), transparent 84%) calc(100% * var(--value) / var(--max)),
     transparent calc(100% * var(--value) / var(--max)));
   background-repeat: no-repeat;
 }

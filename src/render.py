@@ -41,6 +41,7 @@ from markupsafe import Markup
 from src import config
 from src.feature_eda import RAW_COLUMNS as FEATURE_EDA_RAW_COLUMNS
 from src.features import FEATURES as FEATURE_EDA_FEATURES
+from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, use_style
 from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
@@ -117,15 +118,10 @@ ATLAS_NAMES_N = 10
 MOVERS_N = 5
 SITE_PLAYERS = config.ROOT_DIR / "site" / f"players.{config.NATION}.json"
 
-# Palette aligned with templates/style.css (OKLCH tokens converted to sRGB hex
-# for matplotlib). Navy load-bearing, oxblood for highlights, warm neutrals.
-NAVY = "#1f3a5f"
+# Palette now lives in src.figstyle (Task 27A, the single source of figure
+# style) -- imported above instead of redefined here. NAVY_SOFT is a local
+# mid-tone (not part of the shared palette) kept only for the cluster ramp.
 NAVY_SOFT = "#7e8eaa"
-OXBLOOD = "#9c3a2a"
-INK = "#2a261f"
-MUTED = "#8a857b"
-RULE = "#c8c2b7"
-CREAM = "#fdfbf6"
 
 # Curated cluster palette: navy variants + warm earth tones. OXBLOOD is
 # reserved for NT rings and the CZE row highlight.
@@ -140,14 +136,7 @@ CLUSTER_PALETTE = [
     "#806b53",  # umber dark
 ]
 
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
-plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
-plt.rcParams["axes.edgecolor"] = RULE
-plt.rcParams["axes.labelcolor"] = MUTED
-plt.rcParams["xtick.color"] = MUTED
-plt.rcParams["ytick.color"] = MUTED
-plt.rcParams["text.color"] = INK
+use_style()
 
 
 # =============================================================================
@@ -442,7 +431,7 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
             ax.annotate(_last_name(row["player"]), (row[x_col], row[y_col]),
                         xytext=(3, 3), textcoords="offset points", fontsize=7,
                         color=INK, zorder=10)
-        ax.set_title(title, fontsize=11.5, fontfamily="serif", color=INK, pad=12, loc="left")
+        ax.set_title(title, fontsize=11.5, fontfamily="sans-serif", color=INK, pad=12, loc="left")
         ax.set_xlabel("PC1", fontsize=8.5, color=MUTED, fontfamily="sans-serif")
         ax.set_ylabel("PC2", fontsize=8.5, color=MUTED, fontfamily="sans-serif")
         for side in ("top", "right"):
@@ -457,7 +446,7 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
 
     adj = config.nation()["adjective"]
     fig.suptitle(f"{adj} football · {GROUP_TITLES[group]} {season_label(season)}",
-                 fontsize=14, fontfamily="serif", color=INK, y=1.02, x=0.02, ha="left",
+                 fontsize=14, fontfamily="sans-serif", color=INK, y=1.02, x=0.02, ha="left",
                  weight="normal")
     fig.text(
         0.02, -0.025,
@@ -508,6 +497,47 @@ def _build_cohorts(coh: pd.DataFrame, countries: list[str]) -> dict[str, list[di
             rows.append({"cohort": cohort, "cells": cells})
         out[group] = rows
     return out
+
+
+def _cohort_vmax(cohorts: dict[str, list[dict]]) -> float:
+    """Largest median npG+A/90 across every cell `_build_cohorts` returns --
+    the CSS-grid heatmap's background-tint scale (Task 27C)."""
+    values = [cell["median"] for rows in cohorts.values() for row in rows for cell in row["cells"].values()
+              if cell.get("median") is not None]
+    return max(values) if values else 1.0
+
+
+# Same cream -> navy stops as src.figstyle.CMAP_NAVY, interpolated in plain
+# sRGB (not oklch/oklab -- color-mix() between hues this far apart rotates
+# through green in both spaces in the browsers tested) so the HTML cohort
+# grid's cell tint (Task 27C) matches the SVG heatmap's ramp exactly.
+_TINT_STOPS: tuple[tuple[float, str], ...] = (
+    (0.00, "#efe9dc"), (0.30, "#c4c3bc"), (0.55, "#7e8eaa"), (0.80, "#1f3a5f"), (1.00, "#162a44"),
+)
+
+
+def _cohort_tint(value: float | None, vmax: float) -> str | None:
+    """Hex colour for one cohort-grid cell, `value / vmax` along `_TINT_STOPS`."""
+    if value is None:
+        return None
+    t = max(0.0, min(1.0, value / vmax)) if vmax else 0.0
+    for (t0, c0), (t1, c1) in zip(_TINT_STOPS, _TINT_STOPS[1:], strict=False):
+        if t <= t1 or (t0, c0) == _TINT_STOPS[-2]:
+            frac = 0.0 if t1 == t0 else (t - t0) / (t1 - t0)
+            frac = max(0.0, min(1.0, frac))
+            rgb0 = tuple(int(c0[i:i + 2], 16) for i in (1, 3, 5))
+            rgb1 = tuple(int(c1[i:i + 2], 16) for i in (1, 3, 5))
+            rgb = tuple(round(a + (b - a) * frac) for a, b in zip(rgb0, rgb1, strict=True))
+            return "#{:02x}{:02x}{:02x}".format(*rgb)
+    return _TINT_STOPS[-1][1]
+
+
+def _cohort_text(value: float | None, vmax: float) -> str:
+    """Cream text on the darkest cells, ink everywhere else -- same 55%
+    threshold `international_benchmark.render_cohort_heatmap` uses."""
+    if value is not None and vmax and value > 0.55 * vmax:
+        return "#fdfbf6"
+    return "#2a261f"
 
 
 def _cohort_gaps(coh: pd.DataFrame, peers: list[str]) -> list[dict]:
@@ -1310,9 +1340,15 @@ def _build_model_comparison(mc: dict, tr: Translator | None = None) -> dict:
 
     bayesian_rows = [r for r in rows if r["model"] == "bayesian" and r["coverage90"] is not None]
 
+    # Task 27C: the pooled RMSE column gets a small inline bar behind the
+    # number (CSS, like the peer-median sparkline in #q2) -- scaled against
+    # the widest pooled RMSE shown, so the winner's shorter bar reads at a
+    # glance without a separate legend.
+    pooled_rmse_max = max((row["pooled"]["rmse"] for row in table), default=1.0) or 1.0
+
     return {
         "target": mc.get("target", ""), "origins": origins, "origin_labels": origin_labels,
-        "table": table,
+        "table": table, "pooled_rmse_max": pooled_rmse_max,
         "winner": winner, "winner_label": tr.raw(f"ch4.compare.model.{winner_key}") if winner_key else "",
         "margin": margin,
         "drift": drift,
@@ -2055,6 +2091,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "per_capita": per_capita,
         "max_per_million": max(r["per_million"] for r in per_capita),
         "cohorts": cohorts,
+        "cohort_vmax": _cohort_vmax(cohorts),
+        "cohort_tint": _cohort_tint, "cohort_text": _cohort_text,
         "cohort_countries": COHORT_COUNTRIES,
         "cohort_names": names,
         "cohort_gaps": gaps,
@@ -2374,7 +2412,8 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "big5": big5,
         "peer_compare": peer_compare,
         "per_capita": per_capita, "max_per_million": 9.9,
-        "cohorts": cohorts, "cohort_countries": ["CZE", "DEN"], "cohort_names": {"CZE": "Czechia", "DEN": "Denmark"},
+        "cohorts": cohorts, "cohort_vmax": _cohort_vmax(cohorts), "cohort_tint": _cohort_tint, "cohort_text": _cohort_text,
+        "cohort_countries": ["CZE", "DEN"], "cohort_names": {"CZE": "Czechia", "DEN": "Denmark"},
         "cohort_gaps": gaps,
         "observations": _build_observations(hero, per_capita, gaps, movers | {"MF": movers["FW"], "DF": movers["FW"]},
                                             thresholds, seasons, n_headline=1, tr=tr),

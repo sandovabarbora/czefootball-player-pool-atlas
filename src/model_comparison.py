@@ -421,7 +421,8 @@ def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
     """RMSE per origin season, one line per model (palette), persistence dashed."""
     import matplotlib.pyplot as plt
 
-    from src.international_benchmark import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE
+    from src.figstyle import CREAM, INK, MUTED, NAVY, NAVY_DEEP, OXBLOOD, RULE, use_style
+    use_style()
     from src.utils import season_label
 
     colors = {"persistence": RULE, "shrinkage_league_mean": MUTED, "bayesian": NAVY,
@@ -442,7 +443,7 @@ def render_figure(rows: list[dict[str, Any]], out_path: Path) -> None:
 
     ax.set_ylabel("RMSE (npG+A per 90, quality-adjusted)", fontsize=10, fontfamily="sans-serif", color=INK)
     ax.set_xlabel("Target season (origin)", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax.set_title("Model comparison: RMSE by origin season", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    ax.set_title("Model comparison: RMSE by origin season", fontsize=13, fontfamily="sans-serif", color=INK, loc="left")
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     for spine in ("left", "bottom"):

@@ -469,7 +469,8 @@ def render_figure(
     fitted line + 90% band, home nation in oxblood."""
     import matplotlib.pyplot as plt
 
-    from src.international_benchmark import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE
+    from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, use_style
+    use_style()
 
     fig, ax = plt.subplots(figsize=(8.5, 5.8))
     fig.patch.set_facecolor(CREAM)
@@ -493,7 +494,7 @@ def render_figure(
     ax.set_xlabel("U21 share of domestic-league minutes (%)", fontsize=10, fontfamily="sans-serif", color=INK)
     ax.set_ylabel("Top-9-league players per million population", fontsize=10, fontfamily="sans-serif", color=INK)
     ax.set_title("Youth minutes and pool depth, across countries and two seasons",
-                fontsize=13, fontfamily="serif", color=INK, loc="left")
+                fontsize=13, fontfamily="sans-serif", color=INK, loc="left")
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     for spine in ("left", "bottom"):

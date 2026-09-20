@@ -44,7 +44,7 @@ def _render(ctx: dict) -> str:
 def _check(html: str, groups: list[str]) -> None:
     assert '<html lang="en">' in html
     assert 'class="hero-num-figure"' in html and "*" in html
-    for cls in ("capita-row", "cohort-table", "cluster-list", "cycle-card", "analog-block", "limitations",
+    for cls in ("capita-row", "cohort-grid", "cluster-list", "cycle-card", "analog-block", "limitations",
                 "slide", "slide-q", "slide-a", "slide-proof", "slide-how"):
         assert f'class="{cls}' in html, cls
     assert "peer-compare" in html

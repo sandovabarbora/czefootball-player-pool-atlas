@@ -331,6 +331,7 @@
     <p class="funnel-lead">{{ t('why_funnel.lead') }}</p>
     <figure class="figure-bleed">
       <img src="{{ assets }}why_funnel.svg" alt="{{ t('why_funnel.figure.alt', a=pc_a, b=pc_b) }}">
+      <figcaption>{{ t('why_funnel.figure.caption') }}</figcaption>
     </figure>
     <ol class="funnel-stages">
       <li class="funnel-stage">
@@ -589,6 +590,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}export_age_model.svg" alt="{{ t('slide.4b.alt') }}">
+        <figcaption>{{ t('slide.4b.caption') }}</figcaption>
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4b.how', n=eam.n, branch=(t('ch4.export.branch.spline') if eam.use_spline else t('ch4.export.branch.quadratic')), cite=cite_multi(['gelman_et_al_2013', 'hoffman_gelman_2014'])) }}</p>
@@ -607,6 +609,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}fare_dots.svg" alt="{{ t('slide.5.alt') }}">
+        <figcaption>{{ t('slide.5.caption') }}</figcaption>
       </figure>
       {% set fare_min_max = pw.fare_min | map(attribute='value') | max %}
       <details class="fold">
@@ -704,6 +707,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
+        <figcaption>{{ t('slide.7.caption') }}</figcaption>
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
@@ -722,6 +726,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}pathway_slope.svg" alt="{{ t('slide.8.alt', a=pc_a, b=pc_b) }}">
+        <figcaption>{{ t('slide.8.caption') }}</figcaption>
       </figure>
       <details class="fold">
         <summary>{{ t('slide.8.table_summary') }}</summary>
@@ -861,6 +866,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}gap_decomposition.svg" alt="{{ t('slide.8c.alt') }}">
+        <figcaption>{{ t('slide.8c.caption') }}</figcaption>
       </figure>
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
@@ -1008,34 +1014,27 @@
     <h3 id="benchmark">{{ t('ch1.benchmark.h3') }}</h3>
     <p>{{ t('ch1.benchmark.p') }}</p>
 
-    <figure class="figure-bleed" data-atlas="heatmap" title="{{ t('ch1.heatmap.note') }}">
-      <img src="{{ assets }}intl_cohort_heatmap.svg"
-           alt="{{ t('ch1.heatmap.alt', n=hero.n_peers, season=seasons.metrics) }}">
-      <figcaption>{{ t('ch1.heatmap.caption', season=seasons.metrics) }}</figcaption>
-    </figure>
-
     {% for grp in groups %}
     <h4>{{ t('ch1.cohorts.h4', group=gt[grp] | lower) }}</h4>
-    <table class="cohort-table">
+    <table class="cohort-grid">
       <thead>
         <tr>
-          <th>{{ t('ch1.cohorts.th') }}</th>
-          {% for cc in cohort_countries %}<th{% if cc == home_code %} class="cohort-cze"{% endif %}>{{ cc }}</th>{% endfor %}
+          <th scope="col">{{ t('ch1.cohorts.th') }}</th>
+          {% for r in cohorts[grp] %}<th scope="col">{{ r.cohort }}</th>{% endfor %}
         </tr>
       </thead>
       <tbody>
-        {% for r in cohorts[grp] %}
-        <tr>
-          <td>{{ r.cohort }}</td>
-          {% for cc in cohort_countries %}
+        {% for cc in cohort_countries %}
+        <tr{% if cc == home_code %} class="cohort-cze"{% endif %}>
+          <th scope="row">{{ cohort_names.get(cc, cc) }}</th>
+          {% for r in cohorts[grp] %}
             {% set cell = r.cells[cc] %}
-            <td{% if cc == home_code %} class="cohort-cze"{% endif %}>
-              {% if cell.n > 0 %}
-                <span class="cohort-cell-n">{{ cell.n }}</span><span class="cohort-cell-median">{{ f2(cell.median) }}</span>
-              {% else %}
-                <span class="muted" title="{{ t('ch1.cohorts.none') }}">—</span>
-              {% endif %}
-            </td>
+            {% if cell.n > 0 %}
+            <td class="cohort-grid-cell" style="background-color: {{ cohort_tint(cell.median, cohort_vmax) }}; color: {{ cohort_text(cell.median, cohort_vmax) }};"
+                title="{{ r.cohort }}: n={{ cell.n }}, {{ f2(cell.median) }}">{{ cell.n }}</td>
+            {% else %}
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="{{ t('ch1.cohorts.none') }}">—</span></td>
+            {% endif %}
           {% endfor %}
         </tr>
         {% endfor %}
@@ -1048,6 +1047,13 @@
       {{ t('ch1.cohorts.note', topn=topn, season=seasons.metrics, min=feature_defs.min_minutes, shown=cohort_countries | length,
            n=hero.n_peers, gaps=gap_items | join(', ')) }}
     </p>
+
+    <p class="plain">{{ t('ch1.heatmap.full_lead') }}</p>
+    <figure class="figure-bleed" data-atlas="heatmap" title="{{ t('ch1.heatmap.note') }}">
+      <img src="{{ assets }}intl_cohort_heatmap.svg"
+           alt="{{ t('ch1.heatmap.alt', n=hero.n_peers, season=seasons.metrics) }}">
+      <figcaption>{{ t('ch1.heatmap.caption', season=seasons.metrics) }}</figcaption>
+    </figure>
 
     <h3 id="observations">{{ t('ch1.observations.h3') }}</h3>
     <details class="fold">
@@ -1624,7 +1630,7 @@
           {% for cell in row.cells %}
           <td>{% if cell %}{{ f4(cell.rmse) }} ({{ f3(cell.mae) }}){% else %}—{% endif %}</td>
           {% endfor %}
-          <td>{{ f4(row.pooled.rmse) }} ({{ f3(row.pooled.mae) }})</td>
+          <td class="compare-rmse-bar" style="--value: {{ row.pooled.rmse }}; --max: {{ model_comparison.pooled_rmse_max }};">{{ f4(row.pooled.rmse) }} ({{ f3(row.pooled.mae) }})</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -1653,6 +1659,7 @@
              n_backtest=series_model.backtest.rows | length) }}</p>
     <figure class="figure-bleed">
       <img src="{{ assets }}series_model.svg" alt="{{ t('ch4.series.fig_alt') }}">
+      <figcaption>{{ t('ch4.series.caption') }}</figcaption>
     </figure>
     <p>{{ t('ch4.series.break.p', season=series_model.break.season, prob=pct(series_model.break.prob),
              delta=f2(series_model.break.delta), lo=f2(series_model.break.lo), hi=f2(series_model.break.hi),

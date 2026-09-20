@@ -303,51 +303,75 @@ def assemble_output(panel: pd.DataFrame, coeffs: dict[str, Any], results: list[d
 
 
 def render_figure(results: list[dict[str, Any]], out_path: Path) -> None:
-    """One horizontal stacked bar per contrast: three channel segments
-    (placed cumulatively, waterfall-style, so a negative contribution
-    extends the bar leftward) plus the residual, each channel segment's own
-    bootstrap interval drawn as a whisker at its place in the stack."""
+    """Task 27B7: one horizontal stacked bar per contrast: three channel
+    segments in the channel palette (placed cumulatively, waterfall-style,
+    so a negative contribution extends the bar leftward), plus the residual
+    drawn hatched rather than a fourth solid colour. Each segment's value is
+    written inside it when the segment is wide enough to hold the text,
+    otherwise just past its end; each channel segment's own bootstrap
+    interval is a whisker at its place in the stack."""
     import matplotlib.pyplot as plt
 
-    from src.international_benchmark import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE
+    from src.figstyle import CREAM, INK, MUTED, OXBLOOD, PEER_A, PEER_B, RULE, legend_row, use_style
 
-    channel_colors = {"u21_share": NAVY, "league_strength": OXBLOOD, "export_age": "#5b7a5e"}
+    use_style()
+    channel_colors = {"u21_share": PEER_A, "league_strength": PEER_B, "export_age": OXBLOOD}
     residual_color = MUTED
 
-    fig, ax = plt.subplots(figsize=(9.0, 1.4 + 1.15 * len(results)))
+    fig, ax = plt.subplots(figsize=(10.4, 1.5 + 1.15 * len(results)))
     fig.patch.set_facecolor(CREAM)
     ax.set_facecolor(CREAM)
 
     n = len(results)
+    all_widths = [abs(seg["contribution"]) for r in results for seg in r["channels"]]
+    label_min_width = (max(all_widths) if all_widths else 1) * 0.14
+
     for i, r in enumerate(results):
         y = n - 1 - i
         cum = 0.0
         segments = [*r["channels"], {"name": "residual", "contribution": r["residual"], "lo": None, "hi": None}]
         for seg in segments:
             w = seg["contribution"]
-            color = channel_colors.get(seg["name"], residual_color)
-            ax.barh(y, w, left=cum, height=0.5, color=color, edgecolor=CREAM, linewidth=0.7, zorder=2)
+            is_residual = seg["name"] == "residual"
+            color = residual_color if is_residual else channel_colors.get(seg["name"], residual_color)
+            ax.barh(y, w, left=cum, height=0.52, color=color, edgecolor=CREAM, linewidth=0.7, zorder=2,
+                    hatch="////" if is_residual else None)
             if seg.get("lo") is not None:
                 ax.plot([cum + seg["lo"], cum + seg["hi"]], [y, y], color=INK, lw=1.5, zorder=3, solid_capstyle="round")
+            # Value inside the segment when it's wide enough to hold the
+            # text; otherwise just past the segment's outer edge.
+            text = f"{w:+.1f}"
+            if abs(w) >= label_min_width:
+                ax.annotate(text, xy=(cum + w / 2, y), ha="center", va="center",
+                           fontsize=9, color=CREAM, fontweight=600, zorder=4)
+            else:
+                dx = 6 if w >= 0 else -6
+                ax.annotate(text, xy=(cum + w, y), xytext=(dx, 0), textcoords="offset points",
+                           ha="left" if w >= 0 else "right", va="center", fontsize=9, color=INK, fontweight=600)
             cum += w
         ax.axvline(0, color=RULE, lw=1, zorder=1)
 
     ax.set_yticks(range(n))
-    ax.set_yticklabels([r["contrast"] for r in reversed(results)], fontsize=10, fontfamily="sans-serif", color=INK)
-    ax.set_xlabel("Contribution to the gap (top-9 players per million)", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax.set_title("What the gap is made of", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    ax.set_yticklabels([r["contrast"] for r in reversed(results)], color=INK, fontweight=600)
+    ax.set_xlabel("Contribution to the gap (top-9 players per million)", color=INK)
+    ax.set_title("What the gap is made of", loc="left", pad=34)
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     for spine in ("left", "bottom"):
         ax.spines[spine].set_color(RULE)
     ax.tick_params(colors=INK)
 
-    handles = [plt.Rectangle((0, 0), 1, 1, color=c) for c in (*channel_colors.values(), residual_color)]
+    handles = [
+        plt.Rectangle((0, 0), 1, 1, color=channel_colors["u21_share"]),
+        plt.Rectangle((0, 0), 1, 1, color=channel_colors["league_strength"]),
+        plt.Rectangle((0, 0), 1, 1, color=channel_colors["export_age"]),
+        plt.Rectangle((0, 0), 1, 1, facecolor=residual_color, hatch="////", edgecolor=CREAM),
+    ]
     labels = ["U21 minutes", "League strength", "Export age", "Residual"]
-    ax.legend(handles, labels, frameon=False, fontsize=9, labelcolor=INK, loc="lower right", ncol=2)
+    legend_row(ax, handles, labels, bbox_to_anchor=(0.5, 1.12))
 
-    plt.tight_layout()
-    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
+    plt.subplots_adjust(right=0.97, top=0.76)
+    plt.savefig(out_path, format="svg")
     plt.close(fig)
     LOG.info("wrote %s", out_path)
 

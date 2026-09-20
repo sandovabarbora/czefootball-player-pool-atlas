@@ -39,48 +39,19 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.colors import LinearSegmentedColormap
 
 from src import config
+from src.figstyle import CMAP_NAVY, CREAM, INK, MUTED, OXBLOOD, use_style
 from src.logging_setup import setup as logging_setup
 from src.utils import read_parquet, season_label, write_parquet
 
 LOG = logging.getLogger(__name__)
 
-# --- Palette (kept from the hockey module's styling) -------------------------
-
-NAVY        = "#1f3a5f"
-NAVY_DEEP   = "#162a44"
-OXBLOOD     = "#9c3a2a"
-INK         = "#2a261f"
-MUTED       = "#8a857b"
-RULE        = "#c8c2b7"
-CREAM       = "#fdfbf6"
-CREAM_TINT  = "#efe9dc"
-
-# Sequential ramp cream -> navy. Reads as "more production = more visual
-# weight" without the YlGnBu green-teal SaaS-dashboard vocabulary.
-CMAP_NAVY = LinearSegmentedColormap.from_list(
-    "cream_to_navy",
-    [
-        (0.00, CREAM_TINT),
-        (0.30, "#c4c3bc"),
-        (0.55, "#7e8eaa"),
-        (0.80, NAVY),
-        (1.00, NAVY_DEEP),
-    ],
-    N=256,
-)
-
-# Matplotlib font defaults, shared with render.py.
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = [
-    "Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif",
-]
-plt.rcParams["font.sans-serif"] = [
-    "Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans",
-]
-plt.rcParams["text.color"] = INK
+# Palette + sequential ramp now live in `src.figstyle` (Task 27A, the single
+# source of figure style); re-imported above so every existing `from
+# src.international_benchmark import CREAM, ...` elsewhere in the codebase
+# keeps working unchanged.
+use_style()
 
 COHORTS = [("U22", 0, 21), ("23-25", 23, 25), ("26-29", 26, 29), ("30+", 30, 99)]
 POS_GROUPS = ["FW", "MF", "DF"]
@@ -204,7 +175,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
                             color=INK, weight="medium")
         ax.set_title(
             f"{POS_GROUP_TITLES[group]}  ·  median npG+A per 90 (quality-adjusted)",
-            fontsize=11, fontfamily="serif", color=INK, pad=12, loc="left", weight="normal",
+            fontsize=11, fontfamily="sans-serif", color=INK, pad=12, loc="left", weight="normal",
         )
         ax.tick_params(axis="both", which="both", length=0, colors=INK, pad=6)
         for spine in ax.spines.values():
@@ -215,7 +186,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
                 n = n_matrix[i, j]
                 if n == 0:
                     ax.text(j, i, "—", ha="center", va="center",
-                            fontsize=10, color=MUTED, fontfamily="serif")
+                            fontsize=10, color=MUTED, fontfamily="sans-serif")
                 else:
                     val = matrix[i, j]
                     text_color = CREAM if (vmax and val > 0.55 * vmax) else INK
@@ -223,7 +194,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
                             fontsize=8.5, color=text_color, fontfamily="sans-serif",
                             weight="medium")
                     ax.text(j, i + 0.20, f"{val:.2f}", ha="center", va="center",
-                            fontsize=9, color=text_color, fontfamily="serif", weight="normal")
+                            fontsize=9, color=text_color, fontfamily="sans-serif", weight="normal")
 
         cz_idx = country_order.index(config.HOME) if config.HOME in country_order else None
         if cz_idx is not None:
@@ -243,7 +214,7 @@ def render_cohort_heatmap(per_capita_table: pd.DataFrame, cohorts: pd.DataFrame,
 
     fig.suptitle(
         f"International cohort benchmark  ·  UEFA top-9 leagues {season_label(config.seasons()['metrics'])}",
-        fontsize=14, fontfamily="serif", color=INK, x=0.02, ha="left", y=1.04, weight="normal",
+        fontsize=14, fontfamily="sans-serif", color=INK, x=0.02, ha="left", y=1.04, weight="normal",
     )
     # the cell-reading note used to be baked into the figure here; it now
     # lives in the HTML <figure title="..."> tooltip (ch1.heatmap.note in

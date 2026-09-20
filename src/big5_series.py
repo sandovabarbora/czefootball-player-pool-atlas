@@ -26,11 +26,24 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from src import config
-from src.international_benchmark import CREAM, INK, MUTED, NAVY, OXBLOOD
+from src.figstyle import (
+    CORPUS,
+    CREAM,
+    INK,
+    MUTED,
+    OXBLOOD,
+    annotate_point,
+    label_right,
+    season_axis,
+    strip_chrome,
+    use_style,
+    y_grid_only,
+)
 from src.logging_setup import setup as logging_setup
 from src.utils import read_parquet, season_label
 
 LOG = logging.getLogger(__name__)
+use_style()
 
 MID_TONE_COUNTRIES = list(config.nation()["series_contrast"])
 
@@ -91,79 +104,68 @@ def build_series(history: pd.DataFrame, peers: dict[str, dict], min_minutes: int
 
 
 def render_series(series: dict, out_path: Path) -> None:
-    """One matplotlib SVG: Czech `n` (thick navy, peak/low/last annotated)
-    against the eight peers (thin grey, DEN/CRO mid-tone and labelled at the
-    right edge) above a shared-x panel of `per_million` for CZE/DEN/CRO."""
+    """One matplotlib SVG (Task 27B2): the home nation's `n` one thick
+    oxblood line, peak/low/last each a small callout; every other country a
+    thin grey line, the two `MID_TONE_COUNTRIES` labelled directly at the
+    right edge (muted grey) and every other peer left unlabelled (`CORPUS`,
+    the palest grey -- present for shape/context only). A `per_million`
+    panel below shares the x-axis and carries no legend of its own, only
+    the same direct right-edge labels."""
     seasons = series["seasons"]
     years = [int(s[:4]) for s in seasons]
     countries = series["countries"]
 
     fig, (ax_n, ax_pm) = plt.subplots(
-        2, 1, figsize=(11, 8), sharex=True, gridspec_kw={"height_ratios": [2, 1]},
+        2, 1, figsize=(10.4, 7.4), sharex=True, gridspec_kw={"height_ratios": [2, 1]},
     )
     fig.patch.set_facecolor(CREAM)
 
+    n_end_points = []
     for code, data in countries.items():
         if code == config.HOME:
             continue
-        color = MUTED if code in MID_TONE_COUNTRIES else "#d4cfc3"
-        lw = 1.4 if code in MID_TONE_COUNTRIES else 1.0
-        ax_n.plot(years, data["n"], color=color, lw=lw, zorder=2)
-        if code in MID_TONE_COUNTRIES:
-            ax_n.annotate(
-                code, xy=(years[-1], data["n"][-1]), xytext=(6, 0),
-                textcoords="offset points", fontsize=9, fontfamily="sans-serif",
-                color=color, va="center",
-            )
+        labelled = code in MID_TONE_COUNTRIES
+        color = MUTED if labelled else CORPUS
+        ax_n.plot(years, data["n"], color=color, lw=1.4 if labelled else 1.0, zorder=2)
+        if labelled:
+            n_end_points.append((years[-1], data["n"][-1], code, MUTED))
 
     cze_n = countries[config.HOME]["n"]
-    ax_n.plot(years, cze_n, color=NAVY, lw=2.6, zorder=5, label=config.nation()["name"])
+    ax_n.plot(years, cze_n, color=OXBLOOD, lw=2.6, zorder=5)
+    label_right(ax_n, [*n_end_points, (years[-1], cze_n[-1], config.nation()["name"], OXBLOOD)])
 
     peak, low = series["cze_peak"], series["cze_low"]
     last_season, last_n = seasons[-1], cze_n[-1]
-    for point, marker_color, dy in (
-        (peak, OXBLOOD, 12),
-        (low, OXBLOOD, -16),
-        ({"season": last_season, "n": last_n}, NAVY, 12),
-    ):
+    for point, dy in ((peak, 14), (low, -18), ({"season": last_season, "n": last_n}, -18)):
         x = int(point["season"][:4])
-        ax_n.scatter([x], [point["n"]], color=marker_color, s=28, zorder=6)
-        ax_n.annotate(
-            f"{season_label(point['season'])}: {point['n']}", xy=(x, point["n"]),
-            xytext=(0, dy), textcoords="offset points", ha="center",
-            fontsize=9.5, fontfamily="sans-serif", color=INK, weight="medium",
-        )
+        ax_n.scatter([x], [point["n"]], color=OXBLOOD, s=26, zorder=6, edgecolors=CREAM, linewidths=0.6)
+        annotate_point(ax_n, x, point["n"], f"{season_label(point['season'])}: {point['n']}", dy=dy)
 
-    ax_n.set_ylabel("Players (≥ 450 min)", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax_n.tick_params(axis="both", colors=INK, labelsize=9)
-    for spine in ("top", "right"):
-        ax_n.spines[spine].set_visible(False)
+    ax_n.set_ylabel("Players (≥ 450 min)", fontsize=10, color=INK)
+    ax_n.set_title(
+        f"{config.nation()['adjective']} players in the Big-5 leagues", fontsize=13, color=INK, loc="left",
+    )
+    strip_chrome(ax_n)
+    y_grid_only(ax_n)
+    ax_n.margins(x=0.06)
 
-    for code in [config.HOME, *MID_TONE_COUNTRIES]:
+    pm_end_points = []
+    for code in [*MID_TONE_COUNTRIES]:
         if code not in countries:
             continue
-        color = NAVY if code == config.HOME else MUTED
-        lw = 2.2 if code == config.HOME else 1.4
-        ax_pm.plot(years, countries[code]["per_million"], color=color, lw=lw, label=code)
-        ax_pm.annotate(
-            code, xy=(years[-1], countries[code]["per_million"][-1]), xytext=(6, 0),
-            textcoords="offset points", fontsize=9, fontfamily="sans-serif",
-            color=color, va="center",
-        )
+        ax_pm.plot(years, countries[code]["per_million"], color=MUTED, lw=1.4, zorder=2)
+        pm_end_points.append((years[-1], countries[code]["per_million"][-1], code, MUTED))
+    ax_pm.plot(years, countries[config.HOME]["per_million"], color=OXBLOOD, lw=2.2, zorder=5)
+    label_right(ax_pm, [*pm_end_points, (years[-1], countries[config.HOME]["per_million"][-1], config.HOME, OXBLOOD)])
 
-    ax_pm.set_ylabel("Per million population", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax_pm.set_xlabel("Season start year", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax_pm.tick_params(axis="both", colors=INK, labelsize=9)
-    for spine in ("top", "right"):
-        ax_pm.spines[spine].set_visible(False)
+    ax_pm.set_ylabel("Per million", fontsize=10, color=INK)
+    season_axis(ax_pm, seasons, step=4)
+    strip_chrome(ax_pm)
+    y_grid_only(ax_pm)
+    ax_pm.margins(x=0.06)
 
-    fig.suptitle(
-        f"{config.nation()['adjective']} players in the Big-5 leagues, "
-        f"{season_label(seasons[0])} → {season_label(seasons[-1])}",
-        fontsize=15, fontfamily="serif", color=INK, x=0.02, ha="left", y=0.98, weight="normal",
-    )
-    plt.subplots_adjust(top=0.92, hspace=0.12)
-    plt.savefig(out_path, bbox_inches="tight", format="svg", facecolor=CREAM, edgecolor="none")
+    plt.subplots_adjust(top=0.94, hspace=0.16, right=0.90)
+    plt.savefig(out_path, format="svg")
     plt.close(fig)
     LOG.info("wrote %s", out_path)
 

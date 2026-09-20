@@ -47,10 +47,10 @@ T = {
     "Midfielders  ·  median npG+A per 90 (quality-adjusted)": "Záložníci  ·  medián npG+A na 90 (kvalitou upravené)",
     "Defenders  ·  median npG+A per 90 (quality-adjusted)": "Obránci  ·  medián npG+A na 90 (kvalitou upravené)",
     f"International cohort benchmark  ·  UEFA top-9 leagues {METRICS}": f"Mezinárodní kohortový benchmark  ·  top-9 ligy UEFA {METRICS}",
-    # big5 series (Task 13a exhibit / Task 13b slide 7)
+    # big5 series (Task 13a exhibit / Task 13b slide 7; restyled Task 27B2 --
+    # "Per million" now shared with pathway_slope's axis tick below; season
+    # ticks come from season_axis(), no "Season start year" xlabel any more)
     "Players (≥ 450 min)": "Hráči (≥ 450 min)",
-    "Per million population": "Na milion obyvatel",
-    "Season start year": "Počáteční rok sezóny",
     # league strength (Task 15)
     "League strength: two estimates": "Síla ligy: dva odhady",
     "m_L  ·  Premier-League-equivalent rate multiplier": "m_L  ·  násobička míry ekvivalentní Premier League",
@@ -70,11 +70,8 @@ T = {
     "Hierarchical Bayesian": "Hierarchický bayesovský",
     "Gradient boosting": "Gradient boosting",
     "Small MLP": "Malý MLP",
-    # series model: change point, backtest, forecast (Task 19)
+    # series model: change point, backtest, forecast (Task 19; redrawn Task 27B3)
     "Dating the break and one forecast": "Datace zlomu a jedna prognóza",
-    "Fitted level (change point)": "Vyladěná úroveň (bod zlomu)",
-    "Forecast (90% interval)": "Prognóza (90% interval)",
-    "P(break)": "P(zlom)",
     # goalkeepers (Task 18)
     "Age at first top-9 season: goalkeepers vs. outfield exports":
         "Věk při prvním startu v top-9 lize: brankáři vs. hráči v poli",
@@ -87,28 +84,22 @@ T = {
     "U21 share of domestic-league minutes (%)": "Podíl minut domácí ligy hráčů do 21 let (%)",
     "Top-9-league players per million population": "Hráči top-9 lig na milion obyvatel",
     "Fitted line (between-country, 90% band)": "Fitovaná přímka (mezi zeměmi, 90% pásmo)",
-    # gap decomposition (Task 20, M5)
+    # gap decomposition (Task 20, M5; restyled Task 27B7)
     "What the gap is made of": "Z čeho se rozdíl skládá",
     "Contribution to the gap (top-9 players per million)": "Příspěvek k rozdílu (hráči top-9 lig na milion)",
     "U21 minutes": "Minuty do 21 let",
     "League strength": "Síla ligy",
     "Export age": "Věk exportu",
     "Residual": "Reziduum",
-    # age-at-export model (Task 23, M1 proper)
+    # age-at-export model (Task 23, M1 proper; restyled Task 27B4)
     "Age at export and production": "Věk exportu a produkce",
-    "Mean npG+A/90, league-adjusted (first two top-9 seasons)":
-        "Průměr npG+A/90, ligově upravené (první dvě sezóny v top-9)",
-    "Fitted curve (90% band)": "Fitovaná křivka (90% pásmo)",
-    "Other peer exports": "Ostatní peer exporty",
-    "Home-nation exports": "Exporty domácí země",
-    "Age at export (all)": "Věk exportu (všichni)",
-    # fare dot plot / pathway slope chart (Task 25c)
-    "How exports fare: club-minutes share, with each country's peer range":
-        "Jak se exportům daří: podíl minut klubu, s peer rozpětím každé země",
+    "Mean npG+A/90, league-adjusted": "Průměr npG+A/90, ligově upravené",
+    # (x-axis "Age at first top-9 season" reuses the goalkeepers section's entry above)
+    # fare dot plot / pathway slope chart (Task 25c; restyled Task 27B5/B6)
+    "How exports fare": "Jak se exportům daří",
     "Median share of club minutes played, exports abroad (%)":
         "Mediánový podíl minut klubu, exporty v zahraničí (%)",
-    "Same six numbers, normalised: worst to best of the three countries, per metric":
-        "Stejných šest čísel, normalizováno: nejhorší až nejlepší ze tří zemí, podle metriky",
+    "Same six numbers, normalised": "Stejných šest čísel, normalizováno",
     "worst of the three": "nejhorší ze tří",
     "best of the three": "nejlepší ze tří",
     "Per million": "Na milion",
@@ -116,8 +107,8 @@ T = {
     "Sideways": "Do strany",
     "Minutes share": "Podíl minut",
     "WC top-9": "MS top-9",
-    # why-funnel figure (Task 26A)
-    "Why the train left": "Proč vlak odjel",
+    # why-funnel figure (Task 26A; redrawn as a ladder Task 27B1 -- no
+    # suptitle any more, the section heading above the figure says it)
     "Share of minutes to young players": "Podíl minut mladých hráčů",
     "League average age": "Průměrný věk v lize",
     "Age at first move abroad": "Věk při prvním odchodu do zahraničí",
@@ -142,14 +133,18 @@ CAPTION_EN = re.compile(
 CAPTION_CS = ("PCA pětiprvkového vektoru (npG/90, A/90, podíl minut, věk, karty/90), {season}. "
               "Šedě: celý korpus (n = {corpus}); barevně: hráči s příslušností " + CS_GEN + " podle clusteru (n = {czech}). "
               "Oxbloodové kroužky: reprezentační nominace {nt}.")
-# the big5_series suptitle carries the season span, so it is matched by pattern too
-BIG5_TITLE_EN = re.compile(rf"{re.escape(ADJ_EN)} players in the Big-5 leagues, (?P<start>\S+) → (?P<end>\S+)")
-BIG5_TITLE_CS = f"{ADJ_CS_PL.capitalize()} hráči v ligách Big-5, " + "{start} → {end}"
+# the big5_series title (Task 27B2: no season span in the title any more --
+# the axis already carries it) is matched by pattern so ADJ_EN/ADJ_CS_PL stay dynamic
+BIG5_TITLE_EN = re.compile(rf"{re.escape(ADJ_EN)} players in the Big-5 leagues")
+BIG5_TITLE_CS = f"{ADJ_CS_PL.capitalize()} hráči v ligách Big-5"
 # labels that stay as they are (axis names, cluster codes, cohorts, countries, numbers, surnames,
-# and the big5_series point annotations "YYYY/YY: N", identical in both languages)
+# the big5_series point annotations "YYYY/YY: N", the series-model break label
+# "YYYY/YY · NN %", the export-age-model "21–24: +0.00" comparison label, and
+# signed/percent value labels on the why-funnel ladder and gap-decomposition
+# bars ("+4.2", "6.4 %") -- identical in both languages, no translation needed)
 KEEP = re.compile(
-    r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d+\+|[A-Z]{3}|n=\d+|—|[-−]?\d+(\.\d+)?|[A-ZÀ-Ž][a-zà-ž]+|"
-    r"\d{4}/\d\d: \d+|\d{4}/\d\d|[A-Z]{3}-[\w .]+)$")
+    r"^(PC[12]|C\d|U\d\d|\d\d[-–]\d\d|\d+\+|[A-Z]{3}|n=\d+|—|[-−+]?\d+(\.\d+)?( %)?|[A-ZÀ-Ž][a-zà-ž]+|"
+    r"\d{4}/\d\d: \d+|\d{4}/\d\d|\d{4}/\d\d · \d+ %|\d\d[–-]\d\d: [-−+]\d+(\.\d+)?|[A-Z]{3}-[\w .]+)$")
 # per-string font scale, for a Czech entry that would otherwise leave its panel
 SHRINK: dict[str, float] = {}
 FONT = {"Georgia": "Georgia, 'Times New Roman', serif",

@@ -108,7 +108,7 @@ import pandas as pd
 import pymc as pm
 
 from src import config
-from src.international_benchmark import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE
+from src.figstyle import CORPUS, CREAM, INK, OXBLOOD, PEER_A, RULE, use_style
 from src.logging_setup import setup as logging_setup
 from src.utils import collapse_player_seasons, read_parquet
 
@@ -116,10 +116,7 @@ LOG = logging.getLogger(__name__)
 
 # Matplotlib defaults shared with the rest of the report's figures (same
 # literal block as src.league_strength/src.youth_panel).
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
-plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
-plt.rcParams["text.color"] = INK
+use_style()
 
 AGE_KNOTS: tuple[float, ...] = (19.0, 21.0, 23.0, 25.0)
 SPLINE_MIN_N = 150
@@ -578,48 +575,67 @@ def run_lono(
 # =============================================================================
 
 
-def render_figure(corpus: pd.DataFrame, curve: list[dict[str, Any]], home_code: str, out_path: Path) -> None:
-    """The fitted curve with its 90% band, the home nation's own exports as
-    points against every other peer export, and a rug of every corpus
-    player's age at export along the bottom axis."""
+def render_figure(
+    corpus: pd.DataFrame, curve: list[dict[str, Any]], home_code: str, out_path: Path,
+    diff_21_24: dict[str, Any] | None = None, y24: dict[str, Any] | None = None,
+) -> None:
+    """Task 27B4: the fitted curve with its 90% band (pale navy tint), the
+    home nation's own exports as filled oxblood dots against every other
+    peer export in light grey, a rug of every corpus player's age at export
+    along the bottom, and the 21-vs-24 comparison as two vertical ticks on
+    the curve with the difference written between them."""
     ages = [r["age"] for r in curve]
     med = [r["median"] for r in curve]
     lo = [r["lo"] for r in curve]
     hi = [r["hi"] for r in curve]
 
-    fig, ax = plt.subplots(figsize=(8.5, 5.6))
+    fig, ax = plt.subplots(figsize=(10.4, 6.2))
     fig.patch.set_facecolor(CREAM)
     ax.set_facecolor(CREAM)
 
-    ax.plot(ages, med, color=NAVY, lw=2.0, zorder=3, label="Fitted curve (90% band)")
-    ax.fill_between(ages, lo, hi, color=NAVY, alpha=0.15, zorder=1, lw=0)
+    ax.fill_between(ages, lo, hi, color=PEER_A, alpha=0.12, zorder=1, lw=0)
+    ax.plot(ages, med, color=PEER_A, lw=2.2, zorder=3)
 
     other = corpus[corpus["nation"] != home_code]
     home = corpus[corpus["nation"] == home_code]
-    ax.scatter(other["age_export"], other["y"], color=MUTED, s=16, alpha=0.55, zorder=2,
-              label="Other peer exports", edgecolors="none")
+    ax.scatter(other["age_export"], other["y"], color=CORPUS, s=16, alpha=0.8, zorder=2, edgecolors="none")
     if not home.empty:
         ax.scatter(home["age_export"], home["y"], color=OXBLOOD, s=42, zorder=4,
-                  edgecolors=CREAM, linewidths=0.6, label="Home-nation exports")
+                  edgecolors=CREAM, linewidths=0.6)
 
     ymin, ymax = ax.get_ylim()
-    rug_y = ymin - 0.05 * (ymax - ymin)
+    rug_y = ymin - 0.06 * (ymax - ymin)
     ax.plot(corpus["age_export"], np.full(len(corpus), rug_y), marker="|", linestyle="none",
-           color=RULE, markersize=9, zorder=1, label="Age at export (all)")
+           color=RULE, markersize=9, zorder=1)
     ax.set_ylim(rug_y - 0.03 * (ymax - ymin), ymax)
 
-    ax.set_xlabel("Age at first top-9 season", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax.set_ylabel("Mean npG+A/90, league-adjusted (first two top-9 seasons)", fontsize=10,
-                 fontfamily="sans-serif", color=INK)
-    ax.set_title("Age at export and production", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    if diff_21_24:
+        age_a, age_b = diff_21_24["age_a"], diff_21_24["age_b"]
+        y_a = next((r["median"] for r in curve if r["age"] == age_a), None)
+        y_b = (y24 or {}).get("median") if age_b == (y24 or {}).get("age") else \
+            next((r["median"] for r in curve if r["age"] == age_b), None)
+        if y_a is not None and y_b is not None:
+            for age, y in ((age_a, y_a), (age_b, y_b)):
+                ax.plot([age, age], [ax.get_ylim()[0], y], color=INK, lw=1.0, ls=(0, (2, 2)), zorder=2)
+                ax.scatter([age], [y], color=INK, s=22, zorder=5)
+            mid_age = (age_a + age_b) / 2
+            mid_y = max(y_a, y_b) + 0.04 * (ymax - ymin)
+            diff = diff_21_24["median"]
+            sign = "+" if diff >= 0 else "−"
+            ax.annotate(
+                f"{age_a}–{age_b}: {sign}{abs(diff):.2f}", xy=(mid_age, mid_y),
+                ha="center", fontsize=10, color=INK, fontweight=600,
+            )
+
+    ax.set_xlabel("Age at first top-9 season", color=INK)
+    ax.set_ylabel("Mean npG+A/90, league-adjusted", color=INK)
+    ax.set_title("Age at export and production", loc="left")
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     for spine in ("left", "bottom"):
         ax.spines[spine].set_color(RULE)
     ax.tick_params(colors=INK)
-    ax.legend(frameon=False, fontsize=9, labelcolor=INK, loc="upper left")
-    plt.tight_layout()
-    plt.savefig(out_path, format="svg", facecolor=CREAM, edgecolor="none")
+    plt.savefig(out_path, format="svg")
     plt.close(fig)
     LOG.info("wrote %s", out_path)
 
@@ -727,7 +743,7 @@ def main() -> None:
     out_json.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
     LOG.info("wrote %s", out_json)
 
-    render_figure(corpus, curve, config.HOME, config.OUTPUTS_DIR / "export_age_model.svg")
+    render_figure(corpus, curve, config.HOME, config.OUTPUTS_DIR / "export_age_model.svg", diff_21_24=diff, y24=y24)
     LOG.info("done: %s", config.NATION)
 
 

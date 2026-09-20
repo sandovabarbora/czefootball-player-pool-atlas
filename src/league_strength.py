@@ -100,7 +100,7 @@ from scipy.stats import poisson as poisson_dist
 from scipy.stats import spearmanr
 
 from src import config
-from src.international_benchmark import CREAM, CREAM_TINT, INK, NAVY, OXBLOOD, RULE
+from src.figstyle import CREAM, CREAM_TINT, INK, NAVY, OXBLOOD, RULE, use_style
 from src.logging_setup import setup as logging_setup
 from src.utils import collapse_player_seasons, read_parquet, season_label
 
@@ -112,10 +112,7 @@ POS_GROUPS = ["FW", "MF", "DF"]
 GROUPS = POS_GROUPS  # alias used by main()
 
 # Matplotlib defaults shared with the rest of the report's figures.
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = ["Spectral", "Cambria", "Georgia", "Times New Roman", "DejaVu Serif"]
-plt.rcParams["font.sans-serif"] = ["Bricolage Grotesque", "Helvetica Neue", "Arial", "DejaVu Sans"]
-plt.rcParams["text.color"] = INK
+use_style()
 
 
 # =============================================================================
@@ -358,7 +355,7 @@ def render_ppc_figure(idata: az.InferenceData, observed_y: np.ndarray, out_path:
     ax.set_xticklabels(labels, fontsize=10, fontfamily="sans-serif", color=INK)
     ax.set_ylabel("Share of player-seasons", fontsize=10, fontfamily="sans-serif", color=INK)
     ax.set_xlabel("npG + A that season", fontsize=10, fontfamily="sans-serif", color=INK)
-    ax.set_title("Posterior predictive check", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    ax.set_title("Posterior predictive check", fontsize=13, fontfamily="sans-serif", color=INK, loc="left")
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     for spine in ("left", "bottom"):
@@ -573,7 +570,7 @@ def render_strength_figure(table: pd.DataFrame, out_path: Path) -> None:
     ax.axvline(1.0, color=CREAM_TINT, lw=10, zorder=0)
     ax.set_xlabel("m_L  ·  Premier-League-equivalent rate multiplier", fontsize=10,
                  fontfamily="sans-serif", color=INK)
-    ax.set_title("League strength: two estimates", fontsize=13, fontfamily="serif", color=INK, loc="left")
+    ax.set_title("League strength: two estimates", fontsize=13, fontfamily="sans-serif", color=INK, loc="left")
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     for spine in ("left", "bottom"):
