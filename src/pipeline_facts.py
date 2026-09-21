@@ -26,6 +26,15 @@ tasks.
         or over (any nationality, same reasoning as club_breadth). Answers
         "does the league run on old legs".
 
+    youth_starts: for each country's own domestic league (metrics season),
+        whether its own U21 nationals are selected at all -- their share of
+        the league's STARTS beside their share of its minutes, how many are
+        regulars, per club, and how long they last when they start --
+        together with an upper bound on the minutes share that counts every
+        row the source left without a nationality as an own national.
+        Answers "are there few young players, or the same few brought on
+        late", which minutes alone cannot separate.
+
     first_move_abroad: for each country's players CURRENTLY (the table's
         latest season) rostered abroad with at least 450 minutes, in ANY
         league other than the country's own domestic one -- not restricted
@@ -69,6 +78,7 @@ LOG = logging.getLogger(__name__)
 __all__ = [
     "club_breadth",
     "age_structure",
+    "youth_starts",
     "first_move_abroad",
     "build_pipeline_facts",
     "main",
@@ -78,6 +88,12 @@ BREADTH_THRESHOLD = 0.10
 """A club counts toward `club_breadth`'s numerator when its own players
 aged 21 or under take MORE than this share of the club's total minutes
 (strict `>`, matching the brief's "more than a tenth")."""
+
+REGULAR_STARTS = 10
+"""Starts from which `youth_starts` counts a young player a regular rather
+than an occasional pick. Ten of a 30-plus-match league season is roughly a
+third of it -- low enough to include a player who broke through at the
+winter break, high enough to exclude one who covered three injuries."""
 
 MIN_MINUTES_FIRST_MOVE = 450
 """Same inclusion floor `src.pathways.destinations` uses for "a real
@@ -113,6 +129,95 @@ def club_breadth(tables: pd.DataFrame, season: str, league_by_country: dict[str,
             "country": country, "league": league,
             "n_clubs": n_clubs, "n_clubs_above": n_above,
             "share_clubs_above": n_above / n_clubs if n_clubs else None,
+        })
+    return pd.DataFrame(rows, dtype=object)
+
+
+def youth_starts(
+    tables: pd.DataFrame,
+    roles: pd.DataFrame | None,
+    season: str,
+    league_by_country: dict[str, str],
+) -> pd.DataFrame:
+    """Per country's own domestic league: whether its young nationals are
+    *selected*, and whether the games they get are real ones.
+
+    `src.pathways.youth_exposure` answers the first funnel rung with a share
+    of MINUTES. Minutes conflate two different football claims -- few young
+    players, or the same few brought on late -- and the answer matters,
+    because the two have nothing in common as problems. FBref's playing-time
+    page separates them, so this function reports, on exactly
+    `youth_exposure`'s population (the league's own nationals aged 21 or
+    under, same `_age` convention):
+
+    * `share_starts` -- their starts over the league's total starts, the
+      direct counterpart of `youth_exposure`'s `share_u21`;
+    * `regulars` (at least `REGULAR_STARTS` starts), `clubs`, and
+      `regulars_per_club` -- headcount rather than volume;
+    * `mn_per_start` against `league_mn_per_start` -- how long they stay on
+      when they do start, against the league's own median.
+
+    It also computes `share_minutes_upper`: the same minutes share with
+    every row the source left WITHOUT a nationality counted as an own
+    national. FBref's missing nationalities are not spread evenly across
+    leagues (see `src.data_quality._home_league_no_nation_count`), and a
+    blank sits in the denominator of every own-nationals share while being
+    silently excluded from the numerator. The true share therefore lies
+    between `share_minutes` and `share_minutes_upper`, and a comparison
+    between two countries is only safe when the interval says so.
+
+    `roles` is `fbref_roles.parquet` or None when it has not been fetched;
+    the starts-derived fields are then None and the two minutes shares are
+    still computed. One row per `league_by_country` entry either way -- a
+    league with no data for `season` (SVK, which FBref does not carry) gets
+    a row of Nones rather than being dropped, the same contract every other
+    fact in this module keeps.
+    """
+    rows = []
+    for country, league in league_by_country.items():
+        t = tables[(tables.league == league) & (tables.season == season)]
+        base = {"country": country, "league": league}
+        if t.empty:
+            rows.append(base | {
+                "share_minutes": None, "share_minutes_upper": None, "share_starts": None,
+                "players": 0, "regulars": None, "clubs": 0, "regulars_per_club": None,
+                "mn_per_start": None, "league_mn_per_start": None,
+            })
+            continue
+        age = t["born"].map(lambda b: _age(b, season))
+        nation = t["nation"].fillna("")
+        own_u21 = (nation == country) & (age <= 21)
+        unattributed_u21 = (nation == "") & (age <= 21)
+        total_min = float(t["min"].sum())
+        base |= {
+            "share_minutes": float(t.loc[own_u21, "min"].sum()) / total_min if total_min else None,
+            "share_minutes_upper": (
+                float(t.loc[own_u21 | unattributed_u21, "min"].sum()) / total_min if total_min else None),
+            "players": int(own_u21.sum()),
+            "clubs": int(t["team"].nunique()),
+        }
+        if roles is None:
+            rows.append(base | {"share_starts": None, "regulars": None,
+                                "regulars_per_club": None, "mn_per_start": None,
+                                "league_mn_per_start": None})
+            continue
+        r = roles[(roles.league == league) & (roles.season == season)]
+        m = t.merge(r[["league", "season", "team", "player_key", "starts", "mn_per_start"]],
+                    on=["league", "season", "team", "player_key"], how="left")
+        # recomputed on the merged frame: `t`'s row order is not `m`'s once
+        # the merge has run, so the mask above cannot be reused here
+        m_age = m["born"].map(lambda b: _age(b, season))
+        m_own = (m["nation"].fillna("") == country) & (m_age <= 21)
+        young, started = m[m_own], m[m_own & m["starts"].gt(0)]
+        total_starts = float(m["starts"].sum())
+        clubs = int(base["clubs"])
+        regulars = int((young["starts"] >= REGULAR_STARTS).sum())
+        rows.append(base | {
+            "share_starts": float(young["starts"].sum()) / total_starts if total_starts else None,
+            "regulars": regulars,
+            "regulars_per_club": regulars / clubs if clubs else None,
+            "mn_per_start": float(started["mn_per_start"].median()) if len(started) else None,
+            "league_mn_per_start": float(m.loc[m["starts"].gt(0), "mn_per_start"].median()),
         })
     return pd.DataFrame(rows, dtype=object)
 
@@ -205,12 +310,15 @@ def first_move_abroad(
     return pd.DataFrame(rows)
 
 
-def build_pipeline_facts(tables: pd.DataFrame, cfg: dict, seasons: dict[str, str], peers: list[str]) -> dict:
+def build_pipeline_facts(tables: pd.DataFrame, cfg: dict, seasons: dict[str, str], peers: list[str],
+                         roles: pd.DataFrame | None = None) -> dict:
     """Assemble the full `pipeline_facts.json` payload (no disk I/O)."""
     league_by_country = domestic_league_by_country(cfg, peers)
     return {
         "breadth": club_breadth(tables, seasons["metrics"], league_by_country).to_dict("records"),
         "age_structure": age_structure(tables, seasons["metrics"], league_by_country).to_dict("records"),
+        "youth_starts": youth_starts(
+            tables, roles, seasons["metrics"], league_by_country).to_dict("records"),
         # the metrics season, not the current one: the current season is a
         # few rounds old, so its 450-minute floor leaves a handful of players
         # per country (CZE n=6) — far too thin for a median the funnel quotes
@@ -224,7 +332,11 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO)
     cfg, seasons, peers = config.leagues(), config.seasons(), config.PEER_COUNTRIES
     tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
-    out = build_pipeline_facts(tables, cfg, seasons, peers)
+    roles_path = config.PROCESSED_DIR / "fbref_roles.parquet"
+    roles = read_parquet(roles_path) if roles_path.exists() else None
+    if roles is None:
+        LOG.warning("%s not found; the youth_starts fact will carry no starts columns", roles_path)
+    out = build_pipeline_facts(tables, cfg, seasons, peers, roles)
     (config.PROCESSED_DIR / "pipeline_facts.json").write_text(json.dumps(out, indent=1, default=float))
     LOG.info("pipeline_facts written")
 

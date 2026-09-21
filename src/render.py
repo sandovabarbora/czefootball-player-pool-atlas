@@ -1513,6 +1513,19 @@ FUNNEL_CHANNEL_PLAIN = {
 }
 
 
+FUNNEL_EARLY_HOOK_MINUTES = 5
+"""Minutes by which a young starter has to be taken off before the league's
+own median start before stage 1's note stops reading "they last as long as
+anyone else" and says the opposite. Five is about a substitution window --
+below it the difference is not something a coach would notice."""
+
+
+def _funnel_early_hook(home_starts: dict) -> bool:
+    """Is the home nation's young starter hooked materially early?"""
+    own, league = home_starts.get("mn_per_start"), home_starts.get("league_mn_per_start")
+    return own is not None and league is not None and league - own >= FUNNEL_EARLY_HOOK_MINUTES
+
+
 def _build_why_funnel(
     pathways: dict, pipeline_facts: dict, per_capita: list[dict], peer_compare: dict,
     big5: dict, gap_decomposition: dict, names: dict[str, str],
@@ -1540,6 +1553,7 @@ def _build_why_funnel(
     breadth_by = {r["country"]: r for r in pipeline_facts.get("breadth", [])}
     age_by = {r["country"]: r for r in pipeline_facts.get("age_structure", [])}
     move_by = {r["country"]: r for r in pipeline_facts.get("first_move_abroad", [])}
+    starts_by = {r["country"]: r for r in pipeline_facts.get("youth_starts", [])}
     pc_by = {r["country"]: r for r in per_capita}
     sideways_row = next((r for r in peer_compare.get("rows", []) if r["key"] == "sideways"), None)
 
@@ -1548,6 +1562,26 @@ def _build_why_funnel(
          "n_total": (breadth_by.get(c) or {}).get("n_clubs")}
         for c in countries
     ]
+    # Task 29: the same rung, counted as heads rather than as volume. The
+    # share of STARTS tracks the share of minutes to within a point in every
+    # league measured, so "the young ones only come on late" is not what
+    # separates these countries -- how many of them are picked at all is.
+    stage1_regulars = [
+        {"code": c,
+         "regulars": (starts_by.get(c) or {}).get("regulars"),
+         "clubs": (starts_by.get(c) or {}).get("clubs"),
+         "per_club": (starts_by.get(c) or {}).get("regulars_per_club")}
+        for c in countries
+    ]
+    home_starts = starts_by.get(config.HOME) or {}
+    # the bound, not a second estimate: rows the source left without a
+    # nationality sit in the denominator of an own-nationals share while
+    # being excluded from its numerator, so the measured share can only be
+    # too low. Shown only where it actually moves the number.
+    lo, hi = home_starts.get("share_minutes"), home_starts.get("share_minutes_upper")
+    stage1_bound = (
+        {"lo": lo, "hi": hi} if lo is not None and hi is not None and hi - lo >= 0.001 else None)
+
     stage3_rows = [
         {"code": c, "age": (move_by.get(c) or {}).get("median_age"), "n": (move_by.get(c) or {}).get("n")}
         for c in countries
@@ -1572,6 +1606,17 @@ def _build_why_funnel(
         "stage1": {
             "share_u21": [_cell((youth_by.get(c) or {}).get("share_u21"), "pct1") for c in countries],
             "breadth": stage1_breadth,
+            "regulars": stage1_regulars,
+            "starts_share": [_cell((starts_by.get(c) or {}).get("share_starts"), "pct1")
+                             for c in countries],
+            "bound": stage1_bound,
+            "mn_per_start": home_starts.get("mn_per_start"),
+            "league_mn_per_start": home_starts.get("league_mn_per_start"),
+            # the "they are not late substitutes" reading only holds while a
+            # young starter lasts about as long as anyone else. Where he is
+            # taken off materially earlier (England: 72 against the league's
+            # 82) the copy has to say that instead of asserting the opposite.
+            "early_hook": _funnel_early_hook(home_starts),
         },
         "stage2": {
             "mean_age": [_cell((age_by.get(c) or {}).get("weighted_mean_age"), "f1") for c in countries],

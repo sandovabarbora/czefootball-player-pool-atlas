@@ -353,6 +353,27 @@
             {% endfor %}
           </div>
         </div>
+        {% if why_funnel.stage1.regulars[0].per_club is not none %}
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">{{ t('why_funnel.stage1.metric3') }}</p>
+          <div class="funnel-metric-row">
+            {% for c in why_funnel.countries %}
+            {% set g = why_funnel.stage1.regulars[loop.index0] %}
+            <span class="funnel-country"{% if c.code == home_code %} data-highlight="cze"{% endif %}><span class="capita-code">{{ c.code }}</span> {% if g.per_club is not none %}{{ t('why_funnel.regulars_cell', per_club='%.2f' | format(g.per_club), n=g.regulars, clubs=g.clubs) }}{% else %}—{% endif %}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <p class="funnel-note">{{ t('why_funnel.stage1.note_early' if why_funnel.stage1.early_hook else 'why_funnel.stage1.note',
+             starts='%.1f' | format(why_funnel.stage1.starts_share[0].value * 100),
+             minutes='%.1f' | format(why_funnel.stage1.share_u21[0].value * 100),
+             mn=why_funnel.stage1.mn_per_start | round | int,
+             league_mn=why_funnel.stage1.league_mn_per_start | round | int) }}</p>
+        {% endif %}
+        {% if why_funnel.stage1.bound %}
+        <p class="funnel-note">{{ t('why_funnel.stage1.bound',
+             lo='%.1f' | format(why_funnel.stage1.bound.lo * 100),
+             hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }}</p>
+        {% endif %}
       </li>
       <li class="funnel-stage">
         <a href="#q3"><p class="funnel-stage-line">{{ t('why_funnel.stage2.line') }}</p></a>
