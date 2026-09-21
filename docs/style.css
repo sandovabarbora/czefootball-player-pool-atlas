@@ -23,40 +23,52 @@
    Tokens
    ========================================================================= */
 :root {
-  /* Navy ramp (primary, load-bearing) */
-  --navy-900: oklch(0.19 0.055 252);
-  --navy-800: oklch(0.25 0.075 250);
-  --navy-700: oklch(0.32 0.080 250);
-  --navy-500: oklch(0.46 0.085 250);
-  --navy-300: oklch(0.68 0.060 250);
-  --navy-100: oklch(0.92 0.020 250);
+  /* Concrete register (2026-09-21), from bsandova.com -- the author's own
+     system: concrete dark ground, chalk text, hairlines, one acid accent,
+     a light serif for what is said and mono capitals for what labels it.
+     Token NAMES are kept from the cream / navy / oxblood original so no
+     selector had to change; they name roles now. cream-* is the ground,
+     oxblood-* the acid accent (the home nation, always), navy-* the cool
+     neutral used for the comparison countries and links. src/figstyle.py
+     carries the same values as hex for the figures. */
+  --navy-900: #111111;   /* hero ground */
+  --navy-800: #161616;
+  --navy-700: #F2F2EE;   /* "hot": peer A, links, the brightest text */
+  --navy-500: #DCDCD6;
+  --navy-300: #7E7E78;
+  --navy-100: #2A2A27;
 
-  /* Cream ramp (warm page surface) */
-  --cream-50:  oklch(0.985 0.006 78);
-  --cream-100: oklch(0.96 0.014 75);
-  --cream-200: oklch(0.92 0.022 72);
+  /* Ground ramp */
+  --cream-50:  #161616;   /* = figstyle.CREAM */
+  --cream-100: #1F1F1F;   /* = figstyle.CREAM_TINT */
+  --cream-200: #262624;   /* = figstyle.GRID */
 
-  /* Oxblood / terracotta (secondary accent — CZE highlight, rank pull) */
-  --oxblood-700: oklch(0.46 0.135 28);
-  --oxblood-500: oklch(0.58 0.140 32);
-  --oxblood-200: oklch(0.88 0.060 30);
+  /* Acid (the home nation, always) */
+  --oxblood-700: #D6FF3A;
+  --oxblood-500: #E3FF6B;
+  --oxblood-200: #3F4A12;
 
-  /* Warm-tinted neutrals */
-  --ink:       oklch(0.20 0.010 80);
-  --ink-soft:  oklch(0.34 0.010 80);
-  --muted:     oklch(0.50 0.008 80);
-  --rule:      oklch(0.86 0.006 80);
-  --rule-soft: oklch(0.93 0.004 80);
+  /* Chalk neutrals */
+  --ink:       #DCDCD6;
+  --ink-soft:  #B9B9B3;
+  --muted:     #7E7E78;
+  --rule:      #3A3A36;   /* = figstyle.RULE */
+  --rule-soft: #2C2C29;
 
-  /* On-navy text variants */
-  --cream-on-navy:       oklch(0.97 0.014 75);
-  --cream-on-navy-soft:  oklch(0.82 0.024 75);
-  --cream-on-navy-muted: oklch(0.68 0.025 75);
-  --navy-divider:        oklch(0.38 0.060 250);
+  /* Sequencer colours for multi-category marks (tiers, clusters) */
+  --seq-orange: #FF6A3D;
+  --seq-mint:   #7ED9A6;
+  --seq-violet: #B78CFF;
+
+  /* On-hero text variants */
+  --cream-on-navy:       #F2F2EE;
+  --cream-on-navy-soft:  #DCDCD6;
+  --cream-on-navy-muted: #7E7E78;
+  --navy-divider:        #3A3A36;
 
   /* Semantic */
   --page-bg: var(--cream-50);
-  --surface: oklch(1 0 0);
+  --surface: #1F1F1F;
   --text:    var(--ink);
   --link:    var(--navy-700);
   --accent:  var(--navy-700);
@@ -369,7 +381,7 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   right: max(1.4rem, calc((100vw - var(--container)) / 2 + 1.4rem));
   z-index: 2;
   padding: 0.55rem 0.85rem 0.5rem;
-  background: oklch(0.155 0.05 252);
+  background: var(--navy-900);
   border: 1px solid var(--navy-divider);
   font-family: var(--font-mono);
   font-size: 0.68rem;

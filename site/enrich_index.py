@@ -1,9 +1,9 @@
 """Site layer over one rendered page (English or the home nation's language —
 `--lang` picks the strings; only the home nation `cze` has a `cs` page):
 
-- head: Space Grotesk + JetBrains Mono, modern.css, hreflang alternates,
+- head: Space Grotesk + Fraunces + JetBrains Mono, modern.css, hreflang alternates,
   KaTeX, atlas.js (cache-busted with ?v=)
-- top bar with brand, section links, Contents button and the EN/CS switch
+- top bar with brand, section links and the Contents button
 - masthead cast strip (the card players' portraits)
 - hero: posterised cut-out of the first card player with a portrait; the
   sublead folds under the tiles
@@ -132,12 +132,11 @@ def sub(pat, repl, want, flags=0):
 
 # ---------------------------------------------------------------- head
 sub(r'<link href="https://fonts\.googleapis\.com/css2\?family=Spectral[^"]*" rel="stylesheet">',
-    '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">',
+    '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">',
     1)
 sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
     f'<link rel="stylesheet" href="{P}style.css">\n  <link rel="stylesheet" href="{P}modern.css">\n'
     f'  <link rel="alternate" hreflang="en" href="{SITE}">\n'
-    f'  <link rel="alternate" hreflang="cs" href="{SITE}cs/">\n'
     f'  <link rel="alternate" hreflang="x-default" href="{SITE}">\n'
     '  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">\n'
     '  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>\n'
@@ -165,11 +164,7 @@ if LANG == "cs":
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in S["nav"])
 # EN/CS: only the home nation `cze` has a `cs` page (site/build.sh skips the
 # CS pass for any other NATION) -- the toggle is EN-only there.
-if NATION == "cze":
-    switch = ('<span aria-current="page" lang="en">EN</span><a href="cs/" hreflang="cs" lang="cs">CS</a>' if LANG == "en"
-              else '<a href="../" hreflang="en" lang="en">EN</a><span aria-current="page" lang="cs">CS</span>')
-else:
-    switch = '<span aria-current="page" lang="en">EN</span>'
+switch = ""   # English only since 2026-09-21; the Czech edition is retired
 # Atlas switch: which home nation this run is ("CZE · ENG"), current nation
 # plain, the other(s) linking to their published root (docs/ for cze, docs/
 # <nation>/ for any other -- see site/build.sh); root-relative so it works
@@ -188,9 +183,6 @@ TOPBAR = f'''<nav class="topbar" aria-label="{S["nav_aria"]}">
   <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">{S["contents"]}</button>
   <div class="atlas-switch" aria-label="Atlas">
     {atlas_switch}
-  </div>
-  <div class="lang-switch" aria-label="{S["lang_aria"]}">
-    {switch}
   </div>
 </nav>
 '''

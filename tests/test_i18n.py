@@ -21,11 +21,14 @@ from src.i18n import (
 from src.render import build_context_from_fixtures, render_html
 
 
-def test_cs_yaml_is_complete_and_has_no_stray_keys():
+def test_cs_yaml_placeholders_agree_where_a_czech_string_exists():
+    """The Czech edition is retired (2026-09-21): cs.yaml is dormant and need
+    not be complete, but a Czech string that does exist must still use the
+    English string's placeholders, or a future return of the edition would
+    KeyError on render."""
     cs = load_cs()
-    check_complete(cs)  # raises on a missing string or term
     assert check_placeholders(cs) == []
-    assert set(cs["strings"]) == set(EN)
+    assert set(cs["strings"]) <= set(EN), sorted(set(cs["strings"]) - set(EN))
 
 
 def test_check_complete_fails_loudly():
@@ -41,22 +44,12 @@ def test_check_complete_fails_loudly():
         check_complete(stray)
 
 
-def test_every_cluster_label_has_a_czech_term():
-    labels = yaml.safe_load((config.CONFIG_DIR / "cluster_labels.yaml").read_text(encoding="utf-8"))
-    terms = load_cs()["terms"]
-    wanted = {lab for grp in ("FW", "MF", "DF") for proj in ("style", "quality") for lab in labels[grp][proj].values()}
-    assert wanted <= set(terms), sorted(wanted - set(terms))
-    # every tactical read carries both languages
-    for grp, reads in labels["tactical"].items():
-        for cid, r in reads.items():
-            assert r.get("en") and r.get("cs"), (grp, cid)
 
 
 def test_translator_terms_reasons_and_numbers():
     en, cs = Translator("en"), Translator("cs")
     assert en.term("Forwards") == "Forwards" and cs.term("Forwards") == "Útočníci"
-    with pytest.raises(KeyError):
-        cs.term("no such label")
+    assert cs.term("no such label") == "no such label"   # dormant edition: pass-through, never a failure
     assert cs.term_soft("no such label") == "no such label"
     for pattern in (p for p in TERMS_EN if "{pos}" in p):
         reason = pattern.format(pos="MF")
@@ -155,9 +148,8 @@ def test_terms_cover_both_configured_nations_peer_countries():
         assert name in TERMS_EN and name in cs_terms
 
 
-def test_every_template_key_has_an_english_default_and_a_czech_entry():
+def test_every_template_key_has_an_english_default():
     template = (config.TEMPLATES_DIR / "report.html.j2").read_text(encoding="utf-8")
     used = set(re.findall(r"""\bt\(\s*['"]([a-z0-9_.]+)['"]""", template))
     assert used, "template calls no t()"
     assert used <= set(EN), sorted(used - set(EN))
-    assert used <= set(load_cs()["strings"]), sorted(used - set(load_cs()["strings"]))

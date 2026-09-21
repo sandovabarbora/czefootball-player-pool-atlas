@@ -1118,9 +1118,12 @@ class Translator:
         self.terms: dict[str, str] = {}
         self.auto: dict[str, str] = _auto_params()
         if lang == "cs":
+            # The Czech edition was retired on 2026-09-21 (the site publishes
+            # English only). The strings stay in cs.yaml for a possible return,
+            # but they are no longer a contract: a key without a Czech entry
+            # falls back to the English one instead of failing the render.
             cs = cs or load_cs()
-            check_complete(cs)
-            self.strings = cs["strings"]
+            self.strings = {**EN, **cs["strings"]}
             self.terms = cs["terms"]
 
     # -- strings ---------------------------------------------------------
@@ -1142,12 +1145,10 @@ class Translator:
 
     # -- data labels -----------------------------------------------------
     def term(self, label: str) -> str:
-        """Translate an English data label; Czech render fails on an unknown one."""
+        """Translate an English data label; an unknown one passes through."""
         if self.lang == "en" or not label:
             return label
-        if label not in self.terms:
-            raise KeyError(f"no Czech term for {label!r}")
-        return self.terms[label]
+        return self.terms.get(label, label)
 
     def term_soft(self, label: str) -> str:
         """Like term(), but an unknown label passes through (proper names)."""

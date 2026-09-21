@@ -32,7 +32,7 @@ RENDERED = ROOT / "outputs" / NATION / "index.html"
 # (the published site keeps its original, un-prefixed layout) -- see its own
 # `if [ "$NATION" = "cze" ]` gates. Every cs-specific assertion below is
 # skipped for a nation with no CS edition.
-HAS_CS = NATION == "cze"
+HAS_CS = False   # the Czech edition was retired on 2026-09-21; the site is English only
 DOCS_DIR = ROOT / "docs" if NATION == "cze" else ROOT / "docs" / NATION
 
 pytestmark = pytest.mark.skipif(not RENDERED.exists(), reason="no render in outputs/ (run `make render`)")
@@ -85,9 +85,9 @@ def test_build_produces_both_languages(built):
 def test_site_layer_is_applied_to_both_pages(built):
     for lang, html in built.items():
         prefix = "" if lang == "en" else "../"
-        assert '<nav class="topbar"' in html and 'class="lang-switch"' in html
+        assert '<nav class="topbar"' in html and 'class="lang-switch"' not in html
         assert f'href="{prefix}modern.css?v=' in html and f'src="{prefix}atlas.js?v=' in html
-        assert 'hreflang="cs" href="https://football.datasimply.eu/cs/"' in html
+        assert 'hreflang="cs"' not in html
         # one card per position group per showcase rule (currently 5 rules, 3
         # groups); a rule can miss a group, so the count is a range.
         assert 12 <= html.count('class="cycle-card-visual') <= 18
@@ -107,17 +107,6 @@ def test_site_layer_is_applied_to_both_pages(built):
         assert "data-cluster-names=" in html
 
 
-@pytest.mark.skipif(not HAS_CS, reason="no CS edition for this nation")
-def test_czech_page_points_at_czech_figures(built, site_dir):
-    out, _ = site_dir
-    cs = built["cs"]
-    for name in ("atlas_FW.svg", "atlas_MF.svg", "atlas_DF.svg", "intl_cohort_heatmap.svg", "big5_series.svg"):
-        assert f'<img src="{name}"' in cs, name
-        assert (out / "cs" / name).exists()
-        svg = (out / "cs" / name).read_text(encoding="utf-8")
-        assert "<text " in svg and ("Český fotbal" in svg or "Mezinárodní" in svg or "Čeští hráči" in svg)
-    for name in ("atlas_FW.svg", "intl_cohort_heatmap.svg", "big5_series.svg"):
-        assert f'<img src="{name}"' in built["en"]
 
 
 def test_atlas_meta_covers_three_atlases_and_the_heatmap(site_dir):
@@ -199,15 +188,3 @@ def test_sensitivity_slider_payload_matches_offline_top10_at_defaults(built):
 
     assert set(_rank_top10(shrunk, multipliers)) == set(_rank_top10(offline_rows, multipliers))
 
-
-def test_cs_page_links_its_own_translated_figures():
-    """Every figure svg_labels.py translates must be linked without '../' on the cs page
-    (the bug class that shipped twice: cs prose, English chart)."""
-    import re
-    from pathlib import Path
-    root = Path(__file__).resolve().parents[1]
-    files = re.search(r"^FILES\s*=\s*\[(.*?)\]", (root / "site" / "svg_labels.py").read_text(encoding="utf-8"), re.S | re.M)
-    translated = re.findall(r'"([^"]+\.svg)"', files.group(1))
-    cs = (root / "docs" / "cs" / "index.html").read_text(encoding="utf-8")
-    for svg in translated:
-        assert f'src="../{svg}"' not in cs, f"cs page links the English {svg}"

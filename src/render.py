@@ -8,7 +8,6 @@ Reads only `data/processed/<NATION>/*` (falling back to the committed
 Output:
   outputs/atlas_FW.svg, outputs/atlas_MF.svg, outputs/atlas_DF.svg
   outputs/index.html          (full report, English)
-  outputs/cs/index.html       (the same report in Czech; assets via ../)
   outputs/style.css           (copy of templates/style.css)
 
 Languages: the template calls `t()` / `term()` from the context; both come
@@ -54,6 +53,10 @@ matplotlib.use("Agg")
 LOG = logging.getLogger(__name__)
 
 GROUPS = ["FW", "MF", "DF"]
+# The site publishes English only since 2026-09-21; the Czech render path
+# stays in src.i18n for tests and a possible return, but nothing writes it.
+PUBLISHED_LANGS = ("en",)
+
 GROUP_TITLES = {"FW": "Forwards", "MF": "Midfielders", "DF": "Defenders"}
 # Mirrors src.league_strength.REFERENCE_LEAGUE -- kept as a literal here (not
 # imported) so render.py, imported by most of the test suite, doesn't pull in
@@ -122,19 +125,19 @@ SITE_PLAYERS = config.ROOT_DIR / "site" / f"players.{config.NATION}.json"
 # Palette now lives in src.figstyle (Task 27A, the single source of figure
 # style) -- imported above instead of redefined here. NAVY_SOFT is a local
 # mid-tone (not part of the shared palette) kept only for the cluster ramp.
-NAVY_SOFT = "#7e8eaa"
+NAVY_SOFT = "#DCDCD6"
 
 # Curated cluster palette: navy variants + warm earth tones. OXBLOOD is
 # reserved for NT rings and the CZE row highlight.
 CLUSTER_PALETTE = [
     NAVY,
     NAVY_SOFT,
-    "#b08968",  # warm tan
-    "#7a5c63",  # rose brown
-    "#5e7e64",  # sage mute
-    "#7e6678",  # plum mute
-    "#3d6b6e",  # deep teal
-    "#806b53",  # umber dark
+    "#FF6A3D",  # orange (sequencer)
+    "#B78CFF",  # violet
+    "#7ED9A6",  # mint
+    "#E3A0FF",  # lilac
+    "#7ED9D9",  # aqua
+    "#FFB07A",  # peach
 ]
 
 use_style()
@@ -512,7 +515,7 @@ def _cohort_vmax(cohorts: dict[str, list[dict]]) -> float:
 # through green in both spaces in the browsers tested) so the HTML cohort
 # grid's cell tint (Task 27C) matches the SVG heatmap's ramp exactly.
 _TINT_STOPS: tuple[tuple[float, str], ...] = (
-    (0.00, "#efe9dc"), (0.30, "#c4c3bc"), (0.55, "#7e8eaa"), (0.80, "#1f3a5f"), (1.00, "#162a44"),
+    (0.00, "#1F1F1F"), (0.30, "#3A3A36"), (0.55, "#6B7A2E"), (0.80, "#A7CC32"), (1.00, "#D6FF3A"),
 )
 
 
@@ -535,9 +538,10 @@ def _cohort_tint(value: float | None, vmax: float) -> str | None:
 def _cohort_text(value: float | None, vmax: float) -> str:
     """Cream text on the darkest cells, ink everywhere else -- same 55%
     threshold `international_benchmark.render_cohort_heatmap` uses."""
+    # the ramp is light at the top now: ink on the brightest cells, chalk elsewhere
     if value is not None and vmax and value > 0.55 * vmax:
-        return "#fdfbf6"
-    return "#2a261f"
+        return "#161616"
+    return "#DCDCD6"
 
 
 def _cohort_gaps(coh: pd.DataFrame, peers: list[str]) -> list[dict]:
@@ -2804,7 +2808,7 @@ def main() -> None:
         render_cohort_heatmap(data["per_capita"], data["cohorts"], heatmap)
 
     numbers_context: dict[str, Any] | None = None
-    for lang in LANGS:
+    for lang in PUBLISHED_LANGS:
         context = build_context(data, atlas_notes, lang=lang)
         if numbers_context is None:
             numbers_context = context  # language-independent figures below draw off the first pass

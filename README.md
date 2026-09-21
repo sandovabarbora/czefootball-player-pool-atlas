@@ -1,7 +1,7 @@
 # Czech Football — Player Pool Atlas
 
-Live at **[football.datasimply.eu](https://football.datasimply.eu)** (English) /
-**[football.datasimply.eu/cs/](https://football.datasimply.eu/cs/)** (Czech).
+Live at **[football.datasimply.eu](https://football.datasimply.eu)** — England edition at
+**[football.datasimply.eu/eng/](https://football.datasimply.eu/eng/)**.
 
 ## What it is
 
@@ -35,7 +35,7 @@ computed from the fetched data, not typed in by hand.*
 make install            # uv venv + deps
 make all                # fetch -> pool -> photos -> features -> reduce -> benchmark
                         #   -> analogs -> sensitivity -> pathways -> render
-make pages              # render, then build docs/index.html (en) + docs/cs/index.html (cs)
+make pages              # render, then build docs/index.html (NATION=eng: docs/eng/)
 ```
 
 Each stage is its own target (`make fetch`, `make pool`, `make photos`,
@@ -163,11 +163,14 @@ section against the page rather than assuming it can't drift:
 
 ## How the site is built
 
-`make pages` runs `site/build.sh` on top of `make render`'s two rendered
-pages (`outputs/index.html` English, `outputs/cs/index.html` Czech):
-copies them plus the SVG figures and stylesheet into `docs/` and
-`docs/cs/`, then `site/enrich_index.py` applies the site layer (top bar,
-photos, folds, search) to each one.
+`make pages` runs `site/build.sh` on top of `make render`'s page
+(`outputs/<nation>/index.html`): copies it plus the SVG figures and
+stylesheet into `docs/` (or `docs/<nation>/`), then `site/enrich_index.py`
+applies the site layer (top bar, photos, folds, search) and
+`site/svg_theme.py` brings any figure drawn under the earlier cream-paper
+palette into the current theme. The site publishes English only; the Czech
+strings in `config/i18n/cs.yaml` are dormant (a missing Czech entry falls
+back to English) since 2026-09-21.
 
 Translation is template-level, not page-level: `src/i18n.py` reads English
 strings from the module and Czech strings/terms from `config/i18n/cs.yaml`,

@@ -7,9 +7,9 @@
  */
 
 :root {
-  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-display: "Fraunces", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --font-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --paper: oklch(0.995 0.004 78);
+  --paper: #16211c;
   --topbar-h: 56px;
   --container: 1120px;
   --t-micro: 0.6875rem;
@@ -137,9 +137,9 @@ a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
    ========================================================================= */
 .hero { position: relative; overflow: hidden; }
 .hero-num-figure { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; font-size: clamp(4.5rem, 8.5vw, 9.5rem); }
-.hero-num-figure .ast { color: oklch(0.80 0.12 40); font-size: 0.55em; vertical-align: super; margin-left: 0.05em; }
+.hero-num-figure .ast { color: var(--oxblood-700); font-size: 0.55em; vertical-align: super; margin-left: 0.05em; }
 .hero-lead p { font-family: var(--font-sans); font-size: 1.3rem; line-height: 1.35; font-weight: 400; letter-spacing: -0.01em; }
-.hero-pull { color: oklch(0.80 0.12 40); font-weight: 700; }
+.hero-pull { color: var(--oxblood-700); font-weight: 700; }
 .hero-footnote {
   margin: var(--space-3) 0 0; max-width: 60ch;
   font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.6; color: var(--cream-on-navy-muted);
@@ -248,7 +248,7 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
    not .cycle-card -- see site/enrich_index.py's gk_card_repl comment. */
 .cycle-card-visual, .gk-card-visual {
   position: relative; height: 190px; isolation: isolate;
-  background: radial-gradient(120% 90% at 100% 100%, oklch(0.46 0.135 28 / 0.55), transparent 55%),
+  background: radial-gradient(120% 90% at 100% 100%, oklch(0.83 0.17 78 / 0.16), transparent 55%),
               linear-gradient(160deg, var(--navy-900), var(--navy-700));
 }
 .cycle-card-visual::before, .gk-card-visual::before {
@@ -258,8 +258,8 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
   transform: scale(1.08);
   mix-blend-mode: luminosity; opacity: 0.28;
 }
-.cycle-card-visual::after, .gk-card-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, oklch(0.19 0.055 252 / 0.85)); }
-.cycle-card-mug { position: absolute; right: 12px; bottom: 0; height: 178px; z-index: 2; filter: drop-shadow(0 12px 18px oklch(0.19 0.055 252 / 0.6)); }
+.cycle-card-visual::after, .gk-card-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, oklch(0.12 0.02 165 / 0.85)); }
+.cycle-card-mug { position: absolute; right: 12px; bottom: 0; height: 178px; z-index: 2; filter: drop-shadow(0 12px 18px oklch(0.08 0.02 165 / 0.7)); }
 .cycle-card-jersey {
   position: absolute; left: 18px; bottom: -14px; z-index: 1;
   font-family: var(--font-display); font-weight: 700; font-size: 7rem; line-height: 1; letter-spacing: -0.06em;
@@ -268,7 +268,7 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .cycle-card-team {
   position: absolute; top: 14px; left: 18px; z-index: 2;
   font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 500; letter-spacing: 0.16em;
-  color: var(--navy-900); background: oklch(0.85 0.12 85); padding: 0.25rem 0.55rem;
+  color: var(--navy-900); background: var(--oxblood-700); padding: 0.25rem 0.55rem;
 }
 .cycle-card-head { margin-top: var(--space-4); }
 .cycle-card-name { font-size: 1.5rem; letter-spacing: -0.025em; }
@@ -358,11 +358,11 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .atlas-tip span { display: flex; align-items: center; gap: 0.4rem; color: var(--cream-on-navy-soft); }
 .atlas-tip span i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
 .atlas-tip .mono { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em; }
-.atlas-tip .ring-tag { color: oklch(0.80 0.12 40); font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; }
-.atlas-tip .tip-open { color: oklch(0.80 0.12 40); font-size: 0.72rem; margin-top: 0.2rem; }
+.atlas-tip .ring-tag { color: var(--oxblood-700); font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.atlas-tip .tip-open { color: var(--oxblood-700); font-size: 0.72rem; margin-top: 0.2rem; }
 .hm-cell { fill: transparent; stroke: none; cursor: crosshair; }
-.hm-cell.on { stroke: var(--oxblood-700); stroke-width: 1.5; fill: oklch(0.46 0.135 28 / 0.08); }
-.hm-row { fill: oklch(0.32 0.08 250 / 0.07); pointer-events: none; }
+.hm-cell.on { stroke: var(--oxblood-700); stroke-width: 1.5; fill: oklch(0.83 0.17 78 / 0.12); }
+.hm-row { fill: oklch(0.80 0.06 200 / 0.08); pointer-events: none; }
 .cycle-card.flash { outline: 2px solid var(--oxblood-700); outline-offset: 3px; }
 
 /* figures: no bleed under the TOC rail; captions get a readable measure */
@@ -561,14 +561,14 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   height: 100%; max-height: 190px; width: auto; object-fit: cover; object-position: 50% 0;
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%);
   mask-image: linear-gradient(90deg, transparent 0%, #000 28%);
-  filter: drop-shadow(0 12px 18px oklch(0.19 0.055 252 / 0.6));
+  filter: drop-shadow(0 12px 18px oklch(0.08 0.02 165 / 0.7));
 }
 /* cards without a portrait: monogram in the same header */
 .cycle-card-monogram {
   position: absolute; right: 18px; bottom: 18px; z-index: 2;
   width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
   font-family: var(--font-mono); font-size: 1.6rem; font-weight: 500; letter-spacing: 0.08em;
-  color: var(--cream-on-navy); background: oklch(0.32 0.08 250 / 0.7); border: 1px solid var(--navy-divider);
+  color: var(--cream-on-navy); background: oklch(0.21 0.015 165 / 0.85); border: 1px solid var(--navy-divider);
 }
 .cycle-card-visual-mono::before, .gk-card-visual-mono::before { display: none; }
 /* cast strip: monogram discs for players without a portrait */
@@ -701,129 +701,129 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
 .framing.lede.clamp { -webkit-line-clamp: 2; }
 
 /* =========================================================================
-   Modern pass (distill, round 3). Loaded last, so it wins the cascade.
-   The identity stays (cream, navy, oxblood, Space Grotesk + JetBrains Mono);
-   what changes is the register: fewer hairlines, sentence-case labels
-   instead of tracked capitals, wider and larger answers, one fold style.
+   Concrete register (2026-09-21) — the author's own system from bsandova.com,
+   applied to the atlas. Loaded last, so it wins the cascade.
+     ground   #161616 / #1F1F1F, hairlines #3A3A36
+     text     #DCDCD6 chalk, #F2F2EE "hot" for what matters most
+     accent   #D6FF3A acid — the home nation, and nothing else
+     type     Fraunces light serif for what is said; Space Grotesk for
+              running text; JetBrains Mono capitals for what labels it
    ========================================================================= */
-
-/* answers: the slide's hero, wide enough to breathe */
-.slide-a {
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem);
-  line-height: 1.38;
-  letter-spacing: -0.012em;
-  max-width: 52ch;
-  margin: 0 0 var(--space-6);
-}
-.slide-a strong { font-weight: 600; color: var(--oxblood-700); }
-.slide-q { max-width: 26ch; }
-
-/* sections separated by air, not rules */
-.slide { border-top: 0; padding: var(--space-7) 0 var(--space-6); }
-.act { border-top: 0; padding-top: var(--space-7); }
-.act-line { max-width: 40ch; }
-
-/* one fold style: sentence case, a small chevron, no boxes, no tracking */
-details.fold > summary,
-.slide-method > summary, .funnel-caveats > summary, .pool-fold > summary, .brief-body > summary, .fed-fold > summary {
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ink-soft);
-  gap: 0.5rem;
-  padding: 0.75rem 0;
-}
-details.fold > summary::before {
-  content: "";
-  width: 0.45rem; height: 0.45rem;
-  border: 0; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
-  transform: rotate(-45deg);
-  transition: transform 0.15s ease;
-  margin-right: 0.25rem;
-}
-details.fold[open] > summary::before { content: ""; transform: rotate(45deg); }
-details.fold > summary::after { content: none; }
-details.fold > summary:hover { color: var(--ink); }
-details.fold { border-top: 1px solid var(--rule-soft); }
-
-/* prose kickers: small, sentence case, one weight */
-.slide-aq-label, .slide-did-label, .slide-how-label, .act-kicker, .scoreboard-kicker,
-.cycle-row-kicker, .funnel-metric-label, .changes-tier-label, .pool-head {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--navy-500);
-}
-.slide-how-label, .scoreboard-kicker { color: var(--oxblood-700); }
-.funnel-metric-label, .changes-tier-label, .pool-head { font-weight: 500; color: var(--muted); }
-.cycle-row-kicker { color: var(--oxblood-700); font-size: 0.82rem; }
-
-/* bars: a thinner mark on a quieter track */
-.capita-bar { height: 6px; background: var(--cream-200); }
-.capita-bar-fill { height: 6px; }
-.capita-row { padding: 0.55rem 0; }
-
-/* body measure and size a touch up */
-.slide-so { font-size: 0.92rem; }
-.slide-detail, .slide-aq, .slide-did { font-size: 0.95rem; line-height: 1.55; }
-section.slide { border-top: 0; }
-figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size: 0.82rem; color: var(--muted); letter-spacing: 0; }
-
-/* =========================================================================
-   Modern pass, round 4: width and register.
-   The reading column was ~940px at 1440 because the rail took 250px of the
-   viewport on every screen above 1280. The rail now appears only where
-   there is room beside a full column (>= 1600px); below that the top bar
-   and the mobile contents do the wayfinding. Body text is set larger, on a
-   longer measure, with a slightly heavier question weight.
-   ========================================================================= */
-:root { --container: min(1200px, calc(100vw - 4rem)); --measure: 70ch; --measure-wide: 78ch; }
-html { font-size: 17px; }
+:root { --container: min(1200px, calc(100vw - 4rem)); --measure: 70ch; --measure-wide: 78ch; --hot: #F2F2EE; --acid: #D6FF3A; }
+html { font-size: 16px; }
+body { background: var(--page-bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+body::after { content: ""; position: fixed; inset: 0; background: url(img/grain.png); opacity: .13; mix-blend-mode: screen; pointer-events: none; z-index: 9; }
 @media (min-width: 1280px) and (max-width: 1599px) {
   .toc-sticky { display: none !important; }
   body.toc-open .toc-sticky { display: block !important; }
-  :root { --container: min(1200px, calc(100vw - 4rem)); }
 }
-@media (min-width: 1600px) {
-  :root { --container: min(1200px, calc(100vw - 2 * (200px + 3rem))); }
-}
-.slide-q { font-weight: 500; letter-spacing: -0.025em; max-width: 30ch; font-size: clamp(2rem, 1.4rem + 2.2vw, 3.2rem); }
-.slide-a { max-width: 60ch; font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.8rem); }
-.slide-so, .slide-detail, .slide-aq, .slide-did, .slide-method, .funnel-caveats, .funnel-lead, .scoreboard,
-.pool-card, .capita-note, .explore-block p, .methodology p, .brief-intro { max-width: var(--measure-wide); }
-.slide-so { font-size: 0.95rem; }
+@media (min-width: 1600px) { :root { --container: min(1200px, calc(100vw - 2 * (200px + 3rem))); } }
 
-/* figures sit on the page: no frame, no padding, no card */
+/* --- type: serif says, mono labels --- */
+h1, h2, h3, .slide-q, .quickread-figure, .hero-num-figure, .changes-tier-n, .scoreboard-claim, .funnel-take-one-thing, .pool-card {
+  font-family: var(--font-display);
+}
+h1 { font-weight: 300; letter-spacing: -0.02em; color: var(--hot); }
+h1 em { font-style: italic; font-weight: 300; color: var(--hot); }
+.slide-q { font-weight: 300; font-size: clamp(2.2rem, 1.5rem + 2.6vw, 3.8rem); letter-spacing: -0.03em; line-height: 1; max-width: 26ch; color: var(--hot); font-variation-settings: "opsz" 144; }
+.slide-a { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); line-height: 1.25; letter-spacing: -0.015em; max-width: 34em; color: var(--ink); }
+.slide-a strong { font-weight: 400; color: var(--hot); border-bottom: 2px solid var(--acid); }
+.quickread-figure { font-weight: 300; font-size: clamp(2.6rem, 2rem + 2.6vw, 4rem); letter-spacing: -0.035em; color: var(--hot); }
+.hero-num-figure { font-weight: 300; font-size: clamp(5.5rem, 11vw, 12rem); letter-spacing: -0.05em; color: var(--hot); font-variation-settings: "opsz" 144; }
+.hero-num-figure .ast { color: var(--acid); }
+.hero-lead p { font-family: var(--font-display); font-weight: 300; font-size: 1.35rem; line-height: 1.25; max-width: 24em; color: var(--ink); }
+h3 { font-weight: 400; letter-spacing: -0.02em; color: var(--hot); }
+h4, .movers-col h4 { font-family: var(--font-sans); font-weight: 500; color: var(--hot); }
+
+/* mono capitals: every label, kicker, fold summary, table head */
+.slide-aq-label, .slide-did-label, .slide-how-label, .act-kicker, .scoreboard-kicker, .cycle-row-kicker,
+.funnel-metric-label, .changes-tier-label, .pool-head, .masthead-subtitle, .quickread-note, .capita-code,
+details.fold > summary, .slide-method > summary, .funnel-caveats > summary, .pool-fold > summary, .brief-body > summary, .fed-fold > summary,
+figcaption, .capita-note, .slide-how, .hero-num-unit, .hero-footnote, .quickread-line, .changes-tier-min, th, .pool-control, .pool-count,
+.topbar-links a, .toc-sticky li > a, .toc-sticky .toc-heading, .lang-switch, .atlas-switch, .tile-club, .tile-pos, .print-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.slide-how-label, .scoreboard-kicker, .cycle-row-kicker, .act-kicker { color: var(--acid); }
+.quickread-line, .hero-num-unit, .changes-tier-label { color: var(--ink); text-transform: none; letter-spacing: 0.04em; font-size: 12px; max-width: 26ch; }
+.quickread-line { max-width: 22ch; }
+.slide-aq, .slide-did, .slide-detail, .slide-so { font-family: var(--font-sans); font-size: 0.95rem; text-transform: none; letter-spacing: 0; color: var(--ink-soft); }
+.slide-so { font-style: normal; color: var(--muted); }
+.masthead-subtitle { max-width: 40rem; }
+details.fold > summary::before { content: "+"; width: auto; height: auto; border: 0; transform: none; margin-right: 0.6rem; color: var(--muted); }
+details.fold[open] > summary::before { content: "−"; transform: none; }
+details.fold > summary:hover, details.fold > summary:hover::before { color: var(--acid); }
+details.fold { border-top: 1px solid var(--rule); }
+.topbar { background: var(--page-bg); border-bottom: 1px solid var(--rule); }
+.topbar-brand { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400; color: var(--ink); }
+.topbar-brand span { color: var(--acid); }
+.topbar-links a:hover, a:hover { color: var(--acid); text-decoration: none; }
+a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 0.2em; }
+.toc-sticky { background: var(--page-bg); border-left: 1px solid var(--rule); }
+.toc-sticky li > a[aria-current="true"] { background: var(--hot); color: var(--page-bg); }
+
+/* --- sections: hairline grid, air, no cards --- */
+section.slide, .slide { border-top: 1px solid var(--rule); padding: var(--space-7) 0 var(--space-6); }
+.act { border-top: 1px solid var(--rule); padding-top: var(--space-6); }
 figure.figure-bleed img { border: 0; background: transparent; padding: 0; }
 .figure-bleed { margin-left: 0; margin-right: 0; }
 .figure-bleed figcaption { padding-left: 0; padding-right: 0; }
+.capita, .cohort-grid-wrap, .tier-bars { border: 0 !important; background: transparent !important; padding-left: 0 !important; padding-right: 0 !important; }
+.capita-bar { height: 4px; background: var(--rule); }
+.capita-bar-fill { height: 4px; background: var(--hot); }
+.capita-row { padding: 0.6rem 0; border-bottom: 1px solid var(--rule-soft); }
+.capita-row[data-highlight="cze"] { background: transparent; }
+.capita-row[data-highlight="cze"] .capita-bar-fill { background: var(--acid); }
+.capita-row[data-highlight="cze"] .capita-value, .capita-row[data-highlight="cze"] .capita-country { color: var(--acid); }
+.capita-row:hover { background: var(--hot); color: var(--page-bg); }
+.capita-row:hover .capita-code, .capita-row:hover .capita-value, .capita-row:hover .capita-country { color: var(--page-bg); }
+.capita-row:hover .capita-bar-fill { background: var(--page-bg); }
+.slide-method, .funnel-caveats { max-width: none; }
+.slide-method > p, .funnel-caveats li { max-width: var(--measure-wide); }
 
-/* the three opening numbers: large, on air, a hairline between them only */
+/* --- the opening: number, statement, and the photo as a duotone on acid --- */
+.report-header { border-bottom: 1px solid var(--rule); padding-bottom: var(--space-4); }
+.hero { background: var(--page-bg); border-bottom: 1px solid var(--rule); padding-top: var(--space-6); padding-bottom: var(--space-6); }
+.hero .container { position: relative; }
+@media (min-width: 1100px) {
+  .hero { background: linear-gradient(90deg, var(--page-bg) 0 calc(50% + 300px), var(--acid) calc(50% + 300px)); }
+  .hero-grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: var(--space-6); padding-right: 300px; }
+  .hero-cutout { height: min(100%, 520px); right: calc((100vw - var(--container)) / 2 - 1rem); bottom: 0; opacity: 1;
+    filter: grayscale(1) contrast(1.25) brightness(0.95); mix-blend-mode: multiply; -webkit-mask-image: none; mask-image: none; }
+}
+.hero-footnote { color: var(--muted); }
 .quickread-grid { gap: 0; background: transparent; border-top: 0; border-bottom: 0; }
 .quickread-tile { border-left: 1px solid var(--rule); background: transparent; }
 .quickread-tile:first-child { border-left: 0; }
-.quickread-tile a { padding: var(--space-2) var(--space-4) var(--space-2) var(--space-4); }
+.quickread-tile a { padding: var(--space-2) var(--space-4); }
 .quickread-tile:first-child a { padding-left: 0; }
-.quickread-figure { font-weight: 500; font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.6rem); letter-spacing: -0.04em; color: var(--ink); }
-.quickread-line { font-size: 0.95rem; max-width: 24ch; }
-.quickread-note { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-soft); }
+.quickread-tile a:hover .quickread-figure { color: var(--acid); }
 
-/* hero: the number fills its side, the photo its corner */
-.hero-num-figure { font-size: clamp(5.5rem, 11vw, 12rem); font-weight: 500; letter-spacing: -0.06em; }
-.hero-num-unit { font-size: 1.05rem; max-width: 22ch; }
-@media (min-width: 1100px) { .hero-cutout { height: min(78%, 460px); opacity: 0.95; } }
-.hero { padding-top: var(--space-7); padding-bottom: var(--space-7); }
-
-/* pool rows and tables at the larger base size */
+/* --- rows that invert on hover, like the works list on the author's site --- */
+.pool-row > summary:hover, .pool-row[open] > summary { background: var(--hot); color: var(--page-bg); }
+.pool-row > summary:hover *, .pool-row[open] > summary * { color: var(--page-bg) !important; border-color: var(--page-bg) !important; }
 .pool-summary { font-size: 0.95rem; }
-.pool-card { font-size: 1.05rem; }
-/* exhibits sit on the page like the figures do */
-.capita, .cohort-grid-wrap, .tier-bars { border: 0 !important; background: transparent !important; padding-left: 0 !important; padding-right: 0 !important; }
-.slide-method, .funnel-caveats { max-width: none; }
-.slide-method > p, .funnel-caveats li { max-width: var(--measure-wide); }
+.pool-card { font-weight: 300; font-size: 1.15rem; line-height: 1.35; }
+.pool-nt { border-color: var(--rule); color: var(--acid); }
+.changes-list li:hover { background: var(--hot); color: var(--page-bg); }
+.changes-list li:hover * { color: var(--page-bg) !important; }
+.changes-curr { color: var(--acid); }
+
+/* --- cards, scoreboard, brief --- */
+.cycle-card, .gk-card { background: var(--surface); border: 1px solid var(--rule); }
+.scoreboard { border-top: 1px solid var(--hot); border-bottom: 1px solid var(--rule); background: transparent; padding-left: 0; padding-right: 0; }
+.scoreboard-claim { font-weight: 300; font-size: 1.4rem; color: var(--ink); }
+.scoreboard-claim strong { font-weight: 400; color: var(--hot); border-bottom: 2px solid var(--acid); }
+.scoreboard-meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; }
+.brief, #brief { background: var(--surface) !important; }
+.print-link { border: 1px solid var(--rule); background: transparent; color: var(--ink); }
+.print-link:hover { background: var(--hot); color: var(--page-bg); }
+.pool-control input, .pool-control select { background: var(--surface); color: var(--ink); border-color: var(--rule); }
+.sensitivity-live-table { display: block; overflow-x: auto; max-width: 100%; }
+.funnel-country[data-highlight="cze"] { color: var(--acid); }
+.funnel-take-one-thing { font-weight: 300; color: var(--hot); }

@@ -32,18 +32,29 @@ LOG = logging.getLogger(__name__)
 # Palette
 # =============================================================================
 
-NAVY         = "#1f3a5f"   # --navy-700  -- PEER_A, the first comparison country
-NAVY_DEEP    = "#162a44"   # --navy-900
-OXBLOOD      = "#9c3a2a"   # --oxblood-700 -- HOME, the home nation, always
-OXBLOOD_TINT = "#f1ddd7"   # a pale wash of OXBLOOD -- level bands, not lines
-SLATE        = "#5b7290"   # PEER_B, the second comparison country
-INK          = "#2a261f"   # --ink -- text, ticks, axis labels
-MUTED        = "#8a857b"   # grey ~55% -- secondary series, muted labels
-CORPUS       = "#d4cfc3"   # grey ~25% -- background corpus / "everyone else"
-RULE         = "#c8c2b7"   # --rule -- spines, hairlines, dividers
-GRID         = "#ece6d8"   # --cream-200 -- the y-grid only
-CREAM        = "#fdfbf6"   # --cream-50 -- figure/axes background
-CREAM_TINT   = "#efe9dc"   # --cream-100
+# Concrete register (2026-09-21), from bsandova.com: concrete dark ground,
+# chalk text, hairlines, one acid accent for the home nation. The names
+# NAVY / OXBLOOD / CREAM are kept from the cream-paper original so every
+# figure module still reads; they name roles now, and the page's CSS tokens
+# (templates/style.css) carry the same values.
+NAVY         = "#F2F2EE"   # --navy-700  -- PEER_A, the first comparison country ("hot")
+NAVY_DEEP    = "#D6FF3A"   # the bright end of the sequential ramp (acid)
+OXBLOOD      = "#D6FF3A"   # --oxblood-700 -- HOME, the home nation, always (acid)
+OXBLOOD_TINT = "#3F4A12"   # a dark wash of acid -- level bands, not lines
+SLATE        = "#7E7E78"   # PEER_B, the second comparison country
+INK          = "#DCDCD6"   # --ink -- text, ticks, axis labels (chalk)
+MUTED        = "#7E7E78"   # secondary series, muted labels
+CORPUS       = "#3A3A36"   # background corpus / "everyone else"
+RULE         = "#3A3A36"   # --rule -- spines, hairlines, dividers
+GRID         = "#262624"   # the y-grid only
+CREAM        = "#161616"   # --cream-50 -- figure/axes background (the page ground)
+CREAM_TINT   = "#1F1F1F"   # --cream-100
+
+# Sequencer colours (the author's site) for marks that need more than two
+# categories -- tiers, clusters -- never for the home-vs-peer contrast.
+SEQ_ORANGE = "#FF6A3D"
+SEQ_MINT   = "#7ED9A6"
+SEQ_VIOLET = "#B78CFF"
 
 # Named per the brief's own convention (`HOME`/`PEER_A`/`PEER_B`), aliasing
 # the hex constants above so a figure can say `figstyle.HOME` and mean it.
@@ -51,19 +62,36 @@ HOME = OXBLOOD
 PEER_A = NAVY
 PEER_B = SLATE
 
-# Sequential ramp cream -> navy, for heatmaps ("more production/count = more
-# visual weight" without a green-teal SaaS-dashboard vocabulary).
+# Sequential ramp ground -> acid, for heatmaps ("more production/count =
+# more visual weight"; on a dark ground weight is light, not dark).
 CMAP_NAVY = LinearSegmentedColormap.from_list(
-    "cream_to_navy",
+    "ground_to_acid",
     [
         (0.00, CREAM_TINT),
-        (0.30, "#c4c3bc"),
-        (0.55, "#7e8eaa"),
-        (0.80, NAVY),
+        (0.30, "#3A3A36"),
+        (0.55, "#6B7A2E"),
+        (0.80, "#A7CC32"),
         (1.00, NAVY_DEEP),
     ],
     N=256,
 )
+
+# The cream-paper palette every figure was drawn with before this theme,
+# mapped to its replacement. `site/svg_theme.py` applies this to the SVGs
+# at build time, so a figure whose model was not refitted (and therefore
+# was not redrawn) still ships in the theme; a figure drawn with the
+# constants above contains none of these keys and passes through unchanged.
+LEGACY_TO_THEME: dict[str, str] = {
+    "#1f3a5f": NAVY, "#162a44": NAVY_DEEP, "#9c3a2a": OXBLOOD, "#f1ddd7": OXBLOOD_TINT,
+    "#5b7290": SLATE, "#2a261f": INK, "#8a857b": MUTED, "#d4cfc3": CORPUS,
+    "#c8c2b7": RULE, "#ece6d8": GRID, "#fdfbf6": CREAM, "#efe9dc": CREAM_TINT,
+    "#000000": INK,
+    # the cluster palette of the atlases (src/render.py), in sequencer colours
+    "#7e8eaa": "#DCDCD6", "#b08968": SEQ_ORANGE, "#7a5c63": SEQ_VIOLET, "#5e7e64": SEQ_MINT,
+    "#7e6678": "#E3A0FF", "#3d6b6e": "#7ED9D9", "#806b53": "#FFB07A",
+    # the cream-to-navy heatmap ramp stops
+    "#c4c3bc": "#3A3A36",
+}
 
 # =============================================================================
 # Fonts
