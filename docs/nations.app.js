@@ -205,7 +205,33 @@
     const leg = document.createElement('p'); leg.className = 'ax-legend';
     leg.innerHTML = '<span>◆ a dated break (hover: which, how big, how sure)</span><span>┆ a documented reform, cited below — a marker, not a cause</span>';
     box.appendChild(leg);
+    renderAnalogies();
     renderBreaksTable();
+  }
+  // the analogies, in one sentence each: who else fell after 2000, who stepped up, and whose long run looks most like the home nation's
+  function renderAnalogies() {
+    const box = root.querySelector('[data-nx-analogies]'); if (!box || !D.long_run) return;
+    const L = D.long_run, home = L.countries[HOME];
+    if (!home) { box.replaceChildren(); return; }
+    const bigFive = new Set(['ENG', 'FRA', 'GER', 'ESP', 'ITA']);
+    const small = Object.entries(L.countries).filter(([c, v]) => !bigFive.has(c) && v.breaks);
+    // each country's two steps in time order, each a rise or a fall by its factor
+    const steps = (v) => [v.breaks.fall, v.breaks.other].map((s) => ({ season: s.season, factor: s.factor, kind: s.factor > 1 ? 'rise' : 'fall' })).sort((a, b) => (a.season < b.season ? -1 : 1));
+    const gap = (a, b) => +b.slice(0, 4) - +a.slice(0, 4);
+    const name = (c) => esc(nameOf(c));
+    const fmtStep = (s) => `${short(s.season)} ×${f2(s.factor)}`;
+    const endsInFall = small.filter(([, v]) => steps(v)[1].kind === 'fall');
+    const cameBack = small.filter(([, v]) => { const [a, b] = steps(v); return a.kind === 'fall' && b.kind === 'rise' && b.factor >= 1.2; });
+    const onlyUp = small.filter(([, v]) => steps(v).every((s) => s.kind === 'rise') && steps(v)[1].factor >= 1.2).sort((a, b) => steps(b[1])[1].factor - steps(a[1])[1].factor);
+    const corr = (a, b) => { const ma = d3.mean(a), mb = d3.mean(b); const num = d3.sum(a, (v, i) => (v - ma) * (b[i] - mb)); const den = Math.sqrt(d3.sum(a, (v) => (v - ma) ** 2) * d3.sum(b, (v) => (v - mb) ** 2)); return den ? num / den : 0; };
+    const like = Object.entries(L.countries).filter(([c]) => c !== HOME).map(([c, v]) => [c, corr(home.per_million, v.per_million)]).sort((a, b) => b[1] - a[1]);
+    const parts = [];
+    parts.push(endsInFall.length ? `${endsInFall.map(([c, v]) => `${name(c)} (${fmtStep(steps(v)[1])})`).join(', ')} ${endsInFall.length === 1 ? 'is the one small nation whose later step is a fall' : 'are the small nations whose later step is a fall'}` : 'No small nation\'s later step is a fall');
+    if (cameBack.length) parts.push(`${cameBack.length === 1 ? "One" : cameBack.length === 2 ? "Two" : cameBack.length} that fell and came back: ${cameBack.map(([c, v]) => { const [a, b] = steps(v); return `${name(c)} (${fmtStep(a)} → ${fmtStep(b)}, ${gap(a.season, b.season)} seasons later)`; }).join('; ')}`);
+    if (onlyUp.length) parts.push(`Stepped up without a fall first: ${onlyUp.slice(0, 6).map(([c, v]) => `${name(c)} (${fmtStep(steps(v)[1])})`).join(', ')}`);
+    const nearest = like[0];
+    const shape = nearest && nearest[1] >= 0.5 ? `The long run shaped most like ${name(HOME)}'s is ${name(nearest[0])}'s (r = ${nearest[1].toFixed(2)}).` : `No long run closely resembles ${name(HOME)}'s${nearest ? ` (nearest: ${name(nearest[0])}, r = ${nearest[1].toFixed(2)})` : ''}.`;
+    box.innerHTML = `<p class="nx-lead">${parts.join('. ')}. ${shape}</p>`;
   }
   function renderBreaksTable() {
     const box = root.querySelector('[data-nx-breaks]'); if (!box || !D.long_run) return;
