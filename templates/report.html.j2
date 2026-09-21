@@ -382,6 +382,8 @@
             {% endfor %}
           </div>
         </div>
+        {% set reg0 = why_funnel.stage1.regulars[0] %}
+        {% if reg0.per_club_5 is defined and reg0.per_club_5 is not none %}<p class="funnel-note funnel-note-small">{{ t('why_funnel.stage1.threshold', five='%.1f' | format(reg0.per_club_5), ten='%.1f' | format(reg0.per_club), fifteen='%.1f' | format(reg0.per_club_15)) }}</p>{% endif %}
         <p class="funnel-note">{{ t('why_funnel.stage1.note_early' if why_funnel.stage1.early_hook else 'why_funnel.stage1.note',
              starts='%.1f' | format(why_funnel.stage1.starts_share[0].value * 100),
              minutes='%.1f' | format(why_funnel.stage1.share_u21[0].value * 100),
@@ -448,12 +450,12 @@
     {% if why_funnel.take_one_thing %}
     <p class="funnel-take-one-thing">
       {% if why_funnel.take_one_thing.same_channel %}
-      {{ t('why_funnel.take_one_thing.same', a=pc_a, b=pc_b, channel=term(why_funnel.take_one_thing.channel)) }}
+      {{ t('why_funnel.take_one_thing.same', a=pc_a, b=pc_b, channel=term(why_funnel.take_one_thing.channel)) }} {{ t('why_funnel.take_one_thing.note', n=gap_decomposition.n) }}
       {% else %}
       {% set c0 = why_funnel.take_one_thing.by_contrast[0] %}
       {% set c1 = why_funnel.take_one_thing.by_contrast[1] %}
       {{ t('why_funnel.take_one_thing.diff', a=term(c0.contrast), b=term(c1.contrast),
-           channel_a=term(c0.channel), channel_b=term(c1.channel)) }}
+           channel_a=term(c0.channel), channel_b=term(c1.channel)) }} {{ t('why_funnel.take_one_thing.note', n=gap_decomposition.n) }}
       {% endif %}
     </p>
     {% endif %}
@@ -467,7 +469,7 @@
         {% if why_funnel.stage1.bound %}
         <li>{{ t('why_funnel.stage1.bound',
              lo='%.1f' | format(why_funnel.stage1.bound.lo * 100),
-             hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }}</li>
+             hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }} {{ t('why_funnel.stage1.bound_starts') }}</li>
         {% endif %}
       </ul>
     </details>
@@ -557,6 +559,12 @@
     <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}</p>
     <div class="slide-proof">
       {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
+      {% if youth_panel.between and youth_panel.within %}
+      <p class="slide-caveat">{{ t('slide.3.uncertain', n=youth_panel.between.n,
+           beta=signed2(youth_panel.between.beta_per_10pp.median), lo=f2(youth_panel.between.beta_per_10pp.lo), hi=f2(youth_panel.between.beta_per_10pp.hi),
+           within=signed2(youth_panel.within.beta_per_10pp.median), wlo=f2(youth_panel.within.beta_per_10pp.lo), whi=f2(youth_panel.within.beta_per_10pp.hi),
+           topn=topn) }}</p>
+      {% endif %}
       <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
         {% for r in pw.youth %}
         <div class="capita-row" role="listitem"
@@ -796,6 +804,9 @@
         </dl>
         {% if pr.live and pr.live.moved %}
         <p class="scoreboard-drift">{{ t('pred.drift', point=pr.live.point, lo=pr.live.lo, hi=pr.live.hi) }}</p>
+        {% endif %}
+        {% if series_model.backtest and series_model.backtest.pooled %}
+        <p class="scoreboard-backtest">{{ t('pred.backtest', mae_model=f2(series_model.backtest.pooled.mae_model), mae_naive=f2(series_model.backtest.pooled.mae_naive), n=series_model.backtest.rows | length) }}</p>
         {% endif %}
         <p class="scoreboard-why">{{ t('pred.why') }}</p>
       </aside>
@@ -1199,7 +1210,7 @@
     {% if why_funnel.take_one_thing %}
     <p class="brief-take-one-thing">
       {% if why_funnel.take_one_thing.same_channel %}
-      {{ t('why_funnel.take_one_thing.same', a=pc_a, b=pc_b, channel=term(why_funnel.take_one_thing.channel)) }}
+      {{ t('why_funnel.take_one_thing.same', a=pc_a, b=pc_b, channel=term(why_funnel.take_one_thing.channel)) }} {{ t('why_funnel.take_one_thing.note', n=gap_decomposition.n) }}
       {% else %}
       {% set bc0 = why_funnel.take_one_thing.by_contrast[0] %}
       {% set bc1 = why_funnel.take_one_thing.by_contrast[1] %}
@@ -1226,7 +1237,7 @@
         {% if why_funnel.stage1.bound %}
         <li>{{ t('why_funnel.stage1.bound',
              lo='%.1f' | format(why_funnel.stage1.bound.lo * 100),
-             hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }}</li>
+             hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }} {{ t('why_funnel.stage1.bound_starts') }}</li>
         {% endif %}
       </ul>
     </div>

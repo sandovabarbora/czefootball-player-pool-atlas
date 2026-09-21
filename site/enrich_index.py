@@ -39,6 +39,7 @@ args = ap.parse_args()
 SRC: Path = args.page
 LANG: str = args.lang
 NATION = os.environ.get("NATION", "cze").lower()
+HOME_CODE = NATION.upper()   # the FBref nation code the pipeline uses (config/nations/<nation>.yaml::code)
 P = "" if LANG == "en" else "../"          # asset prefix relative to the page
 _PLAYERS_PATH = Path(__file__).with_name(f"players.{NATION}.json")
 # A nation without a photo run yet (no fetch_photos output) still builds --
@@ -190,6 +191,8 @@ TOPBAR = f'''<nav class="topbar" aria-label="{S["nav_aria"]}">
 </nav>
 '''
 sub(r'<body>\n', '<body id="top">\n' + TOPBAR, 1)
+# the home nation for docs/charts.js (tooltips label home-nation players with it)
+sub(r'<html lang="en">', f'<html lang="en" data-home="{HOME_CODE}">', 1)
 
 # ---------------------------------------------------------------- cards on the page (order of appearance)
 CARD_RE = re.compile(

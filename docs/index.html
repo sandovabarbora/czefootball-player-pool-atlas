@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-home="CZE">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211553">
-  <link rel="stylesheet" href="modern.css?v=202609211553">
+  <link rel="stylesheet" href="style.css?v=202609211601">
+  <link rel="stylesheet" href="modern.css?v=202609211601">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609211553"></script>
-  <script defer src="atlas.js?v=202609211553"></script>
+  <script defer src="charts.js?v=202609211601"></script>
+  <script defer src="atlas.js?v=202609211601"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -218,6 +218,8 @@
             
           </div>
         </div>
+        
+        <p class="funnel-note funnel-note-small">The regular-starter line is drawn at ten starts; at five it is 1.5 per club, at fifteen 0.5 (ten: 1.1).</p>
         <p class="funnel-note">They are not being used as late substitutes: 6.0 % of the league’s starts went to them against 6.4 % of its minutes, and when one of them started he was on the pitch for 76 minutes against the league’s own 79. The difference between these countries is how many young players are picked at all, not how they are used once picked.</p>
         
       </li>
@@ -302,7 +304,7 @@
       
       
       
-      If you take one thing from this: the single measured link that carries the most of the gap is different for each comparison — how strong the domestic league is for Norway, how much playing time young players get at home for Denmark.
+      If you take one thing from this: the single measured link that carries the most of the gap is different for each comparison — how strong the domestic league is for Norway, how much playing time young players get at home for Denmark. That is one decomposition over 8 countries — a description of the gap, not a weight to plan by.
       
     </p>
     
@@ -314,7 +316,7 @@
         <li>Agents, and how a move abroad actually gets arranged, which happens off any table this pipeline can read.</li>
         <li>The direction of the arrow: a low share of playing time for young players at home could help cause a thin generation, or just as easily be a symptom of one — the five numbers above are associations measured the same way for every country.</li>
         
-        <li>This share is a floor. FBref records no nationality for part of this league’s rows, and every “own nationals” share counts those players as foreign while keeping their minutes in the total, so the true figure lies between 6.4 % and 7.6 % — an error that moves this country’s number and almost none of its peers’ (see the data-quality log).</li>
+        <li>This share is a floor. FBref records no nationality for part of this league’s rows, and every “own nationals” share counts those players as foreign while keeping their minutes in the total, so the true figure lies between 6.4 % and 7.6 % — an error that moves this country’s number and almost none of its peers’ (see the data-quality log). The same floor applies to the share of starts.</li>
         
       </ul>
     </details>
@@ -514,6 +516,9 @@
     <h2 class="slide-q">Do young players get minutes at home?</h2>
     <p class="slide-a">Under-21s get <strong>6.4 %</strong> of the home league’s minutes. In Denmark, the best of the peers, 15.3 %.</p>
     <div class="slide-proof">
+      
+      
+      <p class="slide-caveat">How sure is the link to the top? Across 8 countries, ten points more under-21 share go with +10.11 more top-9 players per million, but the interval (−1.69 to 23.26) includes zero; within countries, from one season to the next, the estimate is −0.16 (−2.53 to 2.17) — nothing. The share is a fact; its weight in the gap is not settled.</p>
       
       <div class="capita" role="list" aria-label="Share of domestic-league minutes played by own under-21 nationals">
         
@@ -1078,6 +1083,9 @@
           <div><dt>Scored by</dt><dd>whether the observed count falls inside the 90 % interval, and whether the point forecast’s error is smaller than the baseline’s</dd></div>
           <div><dt>Outcome</dt><dd>open — resolves after 2027-06-30, when the season’s tables are final</dd></div>
         </dl>
+        
+        
+        <p class="scoreboard-backtest">The model behind this number, refitted at 15 past origins, missed by 2.80 players on average against 2.73 for “same as last year” — it has not yet beaten the baseline it is scored against.</p>
         
         <p class="scoreboard-why">The numbers are fixed in the repository on the day they were made, with the commit they came from, and are scored by a rule written down before the answer is known. A forecast that can be revised afterwards is not a forecast.</p>
       </aside>
@@ -15108,7 +15116,7 @@
         <li>Agents, and how a move abroad actually gets arranged, which happens off any table this pipeline can read.</li>
         <li>The direction of the arrow: a low share of playing time for young players at home could help cause a thin generation, or just as easily be a symptom of one — the five numbers above are associations measured the same way for every country.</li>
         
-        <li>This share is a floor. FBref records no nationality for part of this league’s rows, and every “own nationals” share counts those players as foreign while keeping their minutes in the total, so the true figure lies between 6.4 % and 7.6 % — an error that moves this country’s number and almost none of its peers’ (see the data-quality log).</li>
+        <li>This share is a floor. FBref records no nationality for part of this league’s rows, and every “own nationals” share counts those players as foreign while keeping their minutes in the total, so the true figure lies between 6.4 % and 7.6 % — an error that moves this country’s number and almost none of its peers’ (see the data-quality log). The same floor applies to the share of starts.</li>
         
       </ul>
     </div>
@@ -23010,7 +23018,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 15:53</p>
+    <p class="rendered-at">Rendered: 2026-09-21 16:01</p>
   </div>
 </footer>
 

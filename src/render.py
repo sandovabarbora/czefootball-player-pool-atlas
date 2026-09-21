@@ -1575,7 +1575,9 @@ def _build_why_funnel(
         {"code": c,
          "regulars": (starts_by.get(c) or {}).get("regulars"),
          "clubs": (starts_by.get(c) or {}).get("clubs"),
-         "per_club": (starts_by.get(c) or {}).get("regulars_per_club")}
+         "per_club": (starts_by.get(c) or {}).get("regulars_per_club"),
+         "per_club_5": (starts_by.get(c) or {}).get("regulars_per_club_5"),
+         "per_club_15": (starts_by.get(c) or {}).get("regulars_per_club_15")}
         for c in countries
     ]
     home_starts = starts_by.get(config.HOME) or {}

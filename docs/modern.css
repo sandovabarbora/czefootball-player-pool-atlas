@@ -912,3 +912,6 @@ figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size:
 .hero-lead p.hero-path { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--acid); line-height: 1.8; }
 .hero-lead p.hero-sublead { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-soft); line-height: 1.5; }
 .hero-lead p.hero-finding { font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.7rem); }
+.slide-caveat { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-soft); border-left: 0; margin: -0.6rem 0 var(--space-4); max-width: none; }
+.funnel-note-small { font-size: 10px; color: var(--muted); }
+.scoreboard-backtest { font-family: var(--font-sans); font-size: 0.9rem; color: var(--ink-soft); margin: 0.8rem 0 0; }

@@ -181,6 +181,7 @@ def youth_starts(
             rows.append(base | {
                 "share_minutes": None, "share_minutes_upper": None, "share_starts": None,
                 "players": 0, "regulars": None, "clubs": 0, "regulars_per_club": None,
+                "regulars_per_club_5": None, "regulars_per_club_15": None,
                 "mn_per_start": None, "league_mn_per_start": None,
             })
             continue
@@ -198,7 +199,8 @@ def youth_starts(
         }
         if roles is None:
             rows.append(base | {"share_starts": None, "regulars": None,
-                                "regulars_per_club": None, "mn_per_start": None,
+                                "regulars_per_club": None, "regulars_per_club_5": None, "regulars_per_club_15": None,
+                                "mn_per_start": None,
                                 "league_mn_per_start": None})
             continue
         r = roles[(roles.league == league) & (roles.season == season)]
@@ -212,10 +214,15 @@ def youth_starts(
         total_starts = float(m["starts"].sum())
         clubs = int(base["clubs"])
         regulars = int((young["starts"] >= REGULAR_STARTS).sum())
+        # the threshold is a choice; the two neighbours let the page show how
+        # much the per-club figure depends on it
+        reg5, reg15 = int((young["starts"] >= 5).sum()), int((young["starts"] >= 15).sum())
         rows.append(base | {
             "share_starts": float(young["starts"].sum()) / total_starts if total_starts else None,
             "regulars": regulars,
             "regulars_per_club": regulars / clubs if clubs else None,
+            "regulars_per_club_5": reg5 / clubs if clubs else None,
+            "regulars_per_club_15": reg15 / clubs if clubs else None,
             "mn_per_start": float(started["mn_per_start"].median()) if len(started) else None,
             "league_mn_per_start": float(m.loc[m["starts"].gt(0), "mn_per_start"].median()),
         })
