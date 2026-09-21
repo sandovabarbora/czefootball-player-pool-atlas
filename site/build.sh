@@ -3,6 +3,7 @@
 #   docs/index.html        English (outputs/<NATION>/index.html)
 #   docs/*.svg, style.css  copied from outputs/<NATION>/
 #   docs/atlas_meta.json   interaction metadata for atlas.js (atlas_meta.py)
+#   docs/atlas/index.html  the player atlas (build_atlas.py + atlas.app.js)
 # enrich_index.py applies the site layer (top bar, photos, folds, search) to
 # each page; every script asserts its match counts and fails loudly when the
 # render changed under it.
@@ -42,8 +43,9 @@ for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.s
 done
 
 if [ "$D" != "$ROOT/docs" ]; then
-  for a in modern.css atlas.js charts.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
+  for a in modern.css atlas.js charts.js atlas.app.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
   [ -d "$ROOT/docs/img" ] && [ ! -e "$D/img" ] && cp -R "$ROOT/docs/img" "$D/img"
+  [ -e "$ROOT/docs/img/grain.png" ] && mkdir -p "$D/img" && cp -n "$ROOT/docs/img/grain.png" "$D/img/" 2>/dev/null || true
 fi
 cp "$O/index.html" "$D/index.html"
 cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap.svg" "$O/big5_series.svg" \
@@ -57,4 +59,13 @@ if [ -d "$O/charts" ]; then mkdir -p "$D/charts" && cp "$O/charts/"*.json "$D/ch
 ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
 ${=PY} "$S/atlas_meta.py" "$D" >/dev/null
 ${=PY} "$S/svg_theme.py" "$D" >/dev/null   # legacy-palette figures into the theme (idempotent)
+# the player atlas (docs/atlas/): needs charts/careers.json (src.careers_export)
+if [ -f "$D/charts/careers.json" ]; then ${=PY} "$S/build_atlas.py" "$D"; else echo "no charts/careers.json -- \`uv run python -m src.careers_export\` for the player atlas" >&2; fi
+# cut-outs (site/cutouts.py) are made once into docs/img/players/; another
+# site dir gets only the ones its pages reference, not the whole folder
+if [ "$D" != "$ROOT/docs" ]; then
+  for f in $(grep -oh 'img/players/[A-Za-z0-9_-]*-cut\.png' "$D/index.html" "$D/charts/careers.json" 2>/dev/null | sort -u); do
+    [ -e "$D/$f" ] || { [ -e "$ROOT/docs/$f" ] && cp "$ROOT/docs/$f" "$D/$f"; }
+  done
+fi
 echo "built $D/index.html (en, NATION=$NATION), atlas_meta.json"

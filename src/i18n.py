@@ -437,6 +437,7 @@ EN: dict[str, str] = {
     "pool.profile.aria": "Percentile profile against his position group",
     "pool.profile.note": "Percentiles among all {pos_pl} with at least 450 minutes in the covered leagues, {season} \u2014 100 is the top.",
     "pool.link": "Link to this player",
+    "pool.career": "Career, season by season →",
     "pool.line.id": "{age}, {pos}, {club} ({where}).",
     "pool.line.usage_starts": "Started {starts} games and came on {subs} times, finishing {compl} of the starts; {mn} minutes in a typical start and {share} % of his club\u2019s available minutes.",
     "pool.line.usage_min": "{min} minutes, {share} % of his club\u2019s available minutes.",

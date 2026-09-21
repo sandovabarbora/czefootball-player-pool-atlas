@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers facts
+.PHONY: help install fetch fetch-big5 fetch-history pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers facts
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -134,6 +134,12 @@ changes:
 charts:
 	$(ACT) python -m src.charts_export
 	$(ACT) python -m src.tracking_showcase
+	$(ACT) python -m src.careers_export
+
+# the history seasons of the non-headline leagues, for the player atlas's
+# career view (slow: one FBref request per league-season, rate-limited)
+fetch-history:
+	$(ACT) python -m src.fetch_history
 
 eda:
 	$(ACT) python -m src.feature_eda

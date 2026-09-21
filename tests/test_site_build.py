@@ -109,6 +109,21 @@ def test_site_layer_is_applied_to_both_pages(built):
 
 
 
+def test_player_atlas_page_is_built_with_portraits(site_dir):
+    """site/build_atlas.py: the player atlas page next to the report, and the
+    careers data it reads decorated with each player's portrait."""
+    out, _ = site_dir
+    page = (out / "atlas" / "index.html").read_text(encoding="utf-8")
+    assert "data-atlas-app" in page and 'src="../atlas.app.js"' in page and '<nav class="topbar"' in page
+    assert (out / "atlas.app.js").exists()
+    data = json.loads((out / "charts" / "careers.json").read_text(encoding="utf-8"))
+    assert data["players"] and data["seasons_covered"] and data["metrics_season"] in data["seasons_covered"]
+    assert any(p.get("photo") for p in data["players"]), "no portrait made it into the careers data"
+    # the report links every pool row to its career
+    en = (out / "index.html").read_text(encoding="utf-8")
+    assert 'href="atlas/#p/' in en and 'href="atlas/"' in en
+
+
 def test_atlas_meta_covers_three_atlases_and_the_heatmap(site_dir):
     out, _ = site_dir
     meta = json.loads((out / "atlas_meta.json").read_text(encoding="utf-8"))

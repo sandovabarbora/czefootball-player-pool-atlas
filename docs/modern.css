@@ -938,3 +938,104 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .pool-link { margin: -0.4rem 0 0.8rem 0.5rem; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
 .pool-link a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--rule); }
 .pool-link a:hover { color: var(--acid); border-color: var(--acid); }
+
+/* =========================================================================
+   Player atlas (docs/atlas/, atlas.app.js) — the same register, one more
+   surface: a list to find in, a pane to read in, rows that invert on hover.
+   ========================================================================= */
+.ax-page .topbar-links a[aria-current="page"] { color: var(--hot); }
+.ax { padding-top: calc(var(--topbar-h) + var(--space-4)); padding-bottom: var(--space-5); }
+.ax-head { border-bottom: 1px solid var(--rule); padding-bottom: var(--space-4); margin-bottom: var(--space-4); }
+.ax-kicker, .ax-browse-label, .ax-count, .ax-calls-label, .ax-panel-meta, .ax-panel-rank, .ax-legend, .ax-note, .ax-foot p, .ax-row-meta, .ax-row-min, .ax-table th, .ax-table .mono, .ax-check {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 1.8;
+}
+.ax-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 1.6rem + 3vw, 4.4rem); letter-spacing: -0.03em; line-height: 1; margin: var(--space-2) 0 var(--space-3); color: var(--hot); font-variation-settings: "opsz" 144; max-width: 22ch; }
+.ax-lead { font-family: var(--font-display); font-weight: 300; font-size: 1.3rem; line-height: 1.3; max-width: 62ch; margin: 0; color: var(--ink); }
+.ax-lead a { color: var(--hot); border-bottom: 1px solid var(--acid); text-decoration: none; }
+.ax-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); align-items: start; }
+@media (min-width: 960px) {
+  .ax-body { grid-template-columns: 380px minmax(0, 1fr); gap: var(--space-5); }
+  .ax-side { position: sticky; top: calc(var(--topbar-h) + 1rem); max-height: calc(100vh - var(--topbar-h) - 2rem); display: flex; flex-direction: column; }
+  .ax-list { overflow-y: auto; min-height: 0; flex: 1 1 auto; scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+}
+.ax-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; margin-bottom: var(--space-3); }
+.ax-controls .pool-control-search { grid-column: 1 / -1; }
+.ax-controls .pool-control input, .ax-controls .pool-control select { width: 100%; box-sizing: border-box; }
+.ax-check { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 0.5rem; }
+.ax-controls .ax-check input { accent-color: var(--acid); width: auto; flex: 0 0 auto; margin: 0; }
+.ax-browse-label { margin: 0 0 0.3rem; }
+.ax-browse { margin-bottom: var(--space-3); }
+.ax-count { margin: 0; padding: 0.4rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.ax-list { list-style: none; margin: 0; padding: 0; }
+.ax-row { border-bottom: 1px solid var(--rule); }
+.ax-row-btn { all: unset; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) 84px 3.2rem; grid-template-rows: auto auto; column-gap: 0.8rem; align-items: center; width: 100%; padding: 0.55rem 0.5rem; cursor: pointer; color: var(--ink); }
+.ax-row-btn:hover, .ax-row-btn:focus-visible, .ax-row.is-open .ax-row-btn { background: var(--hot); color: var(--page-bg); }
+.ax-row-btn:hover *, .ax-row-btn:focus-visible *, .ax-row.is-open .ax-row-btn * { color: var(--page-bg) !important; }
+.ax-row-btn:focus-visible { outline: 2px solid var(--acid); outline-offset: -2px; }
+.ax-row-name { grid-column: 1; grid-row: 1; font-family: var(--font-display); font-weight: 400; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--hot); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ax-row-meta { grid-column: 1; grid-row: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.5; }
+.ax-spark { grid-column: 2; grid-row: 1 / 3; display: block; }
+.ax-row-min { grid-column: 3; grid-row: 1 / 3; text-align: right; color: var(--ink); font-size: 12px; letter-spacing: 0.06em; }
+.ax-nt { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; border: 1px solid var(--rule); color: var(--acid); padding: 0 0.3rem; vertical-align: 0.2em; margin-left: 0.3rem; }
+.ax-row.is-open .ax-nt, .ax-row-btn:hover .ax-nt { border-color: var(--page-bg); }
+/* the detail pane: one panel, or two or three across */
+.ax-detail { display: grid; gap: var(--space-4); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1100px) {
+  .ax-detail[data-n="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ax-detail[data-n="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.ax-panel { border-top: 1px solid var(--hot); padding-top: var(--space-3); min-width: 0; }
+/* side by side, the charts share a baseline: each panel is a subgrid of the pane's rows */
+@supports (grid-template-rows: subgrid) {
+  .ax-detail[data-n="2"] .ax-panel, .ax-detail[data-n="3"] .ax-panel { display: grid; grid-template-rows: subgrid; grid-row: span 4; align-content: start; }
+}
+.ax-panel-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start; margin-bottom: var(--space-3); }
+.ax-panel-id { min-width: 0; }
+.ax-mug { display: grid; place-items: center; width: 84px; height: 84px; background: var(--surface); border: 1px solid var(--rule); overflow: hidden; position: relative; }
+.ax-mug img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; filter: grayscale(1) contrast(1.15); background: var(--surface); }
+.ax-mug-cut img { object-fit: contain; object-position: 50% 100%; filter: grayscale(1) contrast(1.2) drop-shadow(0 6px 8px rgba(0,0,0,.5)); }
+.ax-mug > span { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; color: var(--muted); }
+/* three across: a smaller head so the names keep their line */
+.ax-panel-name { overflow-wrap: anywhere; }
+.ax-detail[data-n="3"] .ax-mug { width: 56px; height: 56px; }
+.ax-detail[data-n="3"] .ax-panel-name { font-size: clamp(1.3rem, 1rem + 0.9vw, 1.7rem); }
+.ax-detail[data-n="3"] .ax-panel-head { gap: var(--space-2); }
+.ax-panel-name { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.4rem); letter-spacing: -0.025em; line-height: 1; margin: 0 0 0.4rem; color: var(--hot); }
+.ax-panel-meta, .ax-panel-rank { margin: 0; text-transform: none; letter-spacing: 0.06em; font-size: 12px; color: var(--ink); }
+.ax-panel-rank { color: var(--muted); }
+.ax-tier { border-bottom: 2px solid var(--tier, var(--rule)); color: var(--hot); }
+.ax-calls { margin: 0.4rem 0 0; display: flex; flex-wrap: wrap; gap: 0.3rem 0.4rem; align-items: center; }
+.ax-calls-label { color: var(--acid); margin-right: 0.3rem; }
+.ax-call { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; border: 1px solid var(--rule); padding: 0.05rem 0.4rem; color: var(--ink); }
+.ax-panel-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+.ax-btn { all: unset; box-sizing: border-box; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid var(--rule); padding: 0.3rem 0.6rem; color: var(--ink); cursor: pointer; text-align: center; white-space: nowrap; }
+.ax-btn:hover, .ax-btn:focus-visible { border-color: var(--acid); color: var(--acid); }
+.ax-chart { position: relative; margin: 0 0 var(--space-2); }
+.ax-chart svg { display: block; width: 100%; height: auto; }
+.ax-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; margin: 0.4rem 0 0; }
+.ax-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.ax-legend i { display: inline-block; width: 10px; height: 10px; }
+.ax-legend-line { width: 14px !important; height: 0 !important; border-top: 2px solid #FF6A3D; }
+.ax-fold > summary { padding: 0.55rem 0; }
+.ax-table-wrap { overflow-x: auto; }
+.ax-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.9rem; margin: 0.4rem 0 0; }
+.ax-table th, .ax-table td { padding: 0.35rem 0.5rem 0.35rem 0; border-bottom: 1px solid var(--rule); text-align: left; white-space: nowrap; }
+.ax-table th.num, .ax-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.ax-table .mono { letter-spacing: 0.06em; color: var(--ink); }
+.ax-table .ax-under td { color: var(--muted); }
+.ax-dot { display: inline-block; width: 8px; height: 8px; margin-right: 0.4rem; vertical-align: 0.05em; }
+.ax-note, .ax-foot p { text-transform: none; letter-spacing: 0.04em; font-size: 12px; line-height: 1.6; margin: 0.6rem 0 0; }
+.ax-foot { border-top: 1px solid var(--rule); margin-top: var(--space-5); padding-top: var(--space-3); }
+.ax-foot a, .ax-note a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); }
+.ax-profile { padding-left: 0; padding-right: 0; }
+.ax-overview { border-top: 1px solid var(--hot); padding-top: var(--space-3); }
+.ax-statement { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); line-height: 1.25; letter-spacing: -0.015em; margin: 0.3rem 0 var(--space-3); color: var(--ink); max-width: 40ch; }
+@media (max-width: 959px) {
+  /* a phone reads the open player first; the list scrolls in its own box */
+  .ax-detail { order: -1; }
+  .ax-list { max-height: 70vh; overflow-y: auto; border-bottom: 1px solid var(--rule); }
+  .ax-controls { grid-template-columns: 1fr; }
+  .ax-row-btn { grid-template-columns: minmax(0, 1fr) 64px 3rem; }
+  .ax-spark { width: 64px; }
+}
+@media print { .ax-side { display: none; } }
