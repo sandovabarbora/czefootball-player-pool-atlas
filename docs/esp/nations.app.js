@@ -147,6 +147,77 @@
     box.appendChild(leg);
   }
 
+  // ------------------------------------------------------------ B2 · six seasons at home: the within-country change
+  function renderRecent() {
+    const box = root.querySelector('[data-nx-recent]'); if (!box || !hasD3 || !D.recent || !D.recent.seasons) return;
+    box.replaceChildren();
+    const R = D.recent, S = R.seasons, codes = Object.keys(R.leagues);
+    if (!state.show) state.show = [HOME, ...D.editions.map((e) => e.code).filter((c) => c !== HOME), 'DEN', 'NOR', 'CRO'].filter((c, i, a) => a.indexOf(c) === i).slice(0, 6);
+    const ctrl = document.createElement('div'); ctrl.className = 'chart-row';
+    for (const c of codes) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'chart-chip'; b.setAttribute('aria-pressed', state.show.includes(c));
+      b.innerHTML = `<i style="background:${colour(c)}"></i>${c}`;
+      b.addEventListener('click', () => { state.show = state.show.includes(c) ? state.show.filter((k) => k !== c) : [...state.show, c]; renderRecent(); renderLongRun(); renderDebut(); });
+      ctrl.appendChild(b);
+    }
+    box.appendChild(ctrl);
+    const vis = state.show.filter((c) => R.leagues[c]);
+    const w = Math.max(320, box.clientWidth || 800), narrow = w < 640, H = 340, M = { t: 30, r: narrow ? 30 : 56, b: 40, l: 44 };
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'own-national under-21 share of home-league minutes per season, selected countries');
+    const x = d3.scalePoint().domain(S).range([M.l, w - M.r]);
+    const y = d3.scaleLinear().domain([0, d3.max(vis, (c) => d3.max(R.leagues[c].u21_share)) || 0.1]).nice().range([H - M.b, M.t]);
+    const gy = svg.append('g').attr('transform', `translate(${M.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(w - M.l - M.r)).tickFormat((v) => `${Math.round(v * 100)} %`));
+    gy.select('.domain').remove(); gy.selectAll('line').attr('stroke', C.rule).attr('stroke-dasharray', '2 3'); mono(gy.selectAll('text'));
+    const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
+    gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? 'OWN U-21 SHARE AT HOME' : 'OWN-NATIONAL UNDER-21 SHARE OF HOME-LEAGUE MINUTES');
+    const line = d3.line().defined((v) => v != null).x((v, i) => x(S[i])).y((v) => y(v)).curve(d3.curveMonotoneX);
+    for (const c of vis) {
+      const col = colour(c), ys = R.leagues[c].u21_share;
+      svg.append('path').datum(ys).attr('d', line).attr('fill', 'none').attr('stroke', col).attr('stroke-width', c === HOME ? 2.4 : 1.5).attr('opacity', c === HOME ? 1 : 0.85);
+      const last = ys.map((v, i) => [v, i]).filter(([v]) => v != null).pop();
+      if (last) mono(svg.append('text').attr('x', x(S[last[1]]) + 5).attr('y', y(last[0]) + 3).attr('fill', col)).text(c);
+      svg.append('g').selectAll('circle').data(ys.map((v, i) => ({ v, s: S[i], i })).filter((d) => d.v != null)).join('circle').attr('cx', (d) => x(d.s)).attr('cy', (d) => y(d.v)).attr('r', 6).attr('fill', 'transparent')
+        .on('mousemove', (ev, d) => showTip(`<b>${esc(nameOf(c))} · ${short(d.s)}</b><span>own under-21s: ${pct(d.v, 1)} of ${esc(R.leagues[c].league.replace(/^[A-Z]{3}-/, ''))} minutes</span><span>own under-23s: ${pct(R.leagues[c].u23_share[d.i], 1)}</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+    }
+    renderChange();
+  }
+  // the change over those seasons against the change in Big-5 presence: one point per country
+  function renderChange() {
+    const box = root.querySelector('[data-nx-change]'); if (!box || !hasD3 || !D.recent || !D.long_run) return;
+    box.replaceChildren();
+    const R = D.recent, L = D.long_run, S = R.seasons, s0 = S[0], s1 = S[S.length - 1];
+    const i0 = L.seasons.indexOf(s0), i1 = L.seasons.indexOf(s1);
+    const rows = Object.entries(R.leagues).map(([c, v]) => {
+      const a = v.u21_share.find((x) => x != null), b = v.u21_share.slice().reverse().find((x) => x != null);
+      const lr = L.countries[c];
+      if (a == null || b == null || !lr || i0 < 0 || i1 < 0) return null;
+      return { c, dx: (b - a) * 100, dy: lr.per_million[i1] - lr.per_million[i0], from: a, to: b, pm0: lr.per_million[i0], pm1: lr.per_million[i1] };
+    }).filter(Boolean);
+    if (!rows.length) return;
+    const w = Math.max(320, box.clientWidth || 800), narrow = w < 640, H = 360, M = { t: 30, r: 24, b: 44, l: 48 };
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'change in own under-21 share against change in Big-5 presence per million, one point per country');
+    const x = d3.scaleLinear().domain(d3.extent(rows, (r) => r.dx)).nice().range([M.l, w - M.r]);
+    const y = d3.scaleLinear().domain(d3.extent(rows, (r) => r.dy)).nice().range([H - M.b, M.t]);
+    const gy = svg.append('g').attr('transform', `translate(${M.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(w - M.l - M.r)));
+    gy.select('.domain').remove(); gy.selectAll('line').attr('stroke', C.rule).attr('stroke-dasharray', '2 3'); mono(gy.selectAll('text'));
+    const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).ticks(6).tickSize(0).tickFormat((v) => `${v > 0 ? '+' : ''}${v} pp`));
+    gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', C.rule);
+    svg.append('line').attr('x1', M.l).attr('x2', w - M.r).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', C.rule);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? `Δ BIG-5 PER MILLION, ${short(s0)}→${short(s1)}` : `CHANGE IN BIG-5 PLAYERS PER MILLION, ${short(s0)} → ${short(s1)}`);
+    mono(svg.append('text').attr('x', w - M.r).attr('y', H - 6).attr('text-anchor', 'end')).text(narrow ? 'Δ OWN U-21 SHARE AT HOME' : `CHANGE IN OWN UNDER-21 SHARE OF HOME MINUTES, ${short(s0)} → ${short(s1)}`);
+    const n = rows.length, mx = d3.mean(rows, (r) => r.dx), my = d3.mean(rows, (r) => r.dy);
+    const sxy = d3.sum(rows, (r) => (r.dx - mx) * (r.dy - my)), sxx = d3.sum(rows, (r) => (r.dx - mx) ** 2), syy = d3.sum(rows, (r) => (r.dy - my) ** 2);
+    const rr = sxx && syy ? sxy / Math.sqrt(sxx * syy) : 0;
+    mono(svg.append('text').attr('x', w - M.r).attr('y', M.t + 12).attr('text-anchor', 'end')).text(`r ${rr.toFixed(2)} · n ${n}`);
+    const eds = new Set(D.editions.map((e) => e.code));
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r) => `translate(${x(r.dx)},${y(r.dy)})`);
+    g.append('circle').attr('r', 6).attr('fill', (r) => (r.c === HOME ? C.acid : eds.has(r.c) ? C.hot : C.page)).attr('stroke', (r) => (r.c === HOME ? C.acid : C.ink)).attr('stroke-width', 1.2)
+      .on('mousemove', (ev, r) => showTip(`<b>${esc(nameOf(r.c))}</b><span>own U-21 share ${pct(r.from, 1)} → ${pct(r.to, 1)}</span><span>Big-5 per million ${f2(r.pm0)} → ${f2(r.pm1)}</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+    mono(g.append('text').attr('x', 9).attr('y', 4).attr('fill', (r) => (r.c === HOME ? C.acid : C.ink))).text((r) => r.c);
+  }
+
   // ------------------------------------------------------------ D · the long run
   const state = { show: null, metric: 'pm' };
   function renderLongRun() {
@@ -159,7 +230,7 @@
     for (const c of all) {
       const b = document.createElement('button'); b.type = 'button'; b.className = 'chart-chip'; b.setAttribute('aria-pressed', state.show.includes(c));
       b.innerHTML = `<i style="background:${colour(c)}"></i>${c}`;
-      b.addEventListener('click', () => { state.show = state.show.includes(c) ? state.show.filter((k) => k !== c) : [...state.show, c]; renderLongRun(); renderDebut(); });
+      b.addEventListener('click', () => { state.show = state.show.includes(c) ? state.show.filter((k) => k !== c) : [...state.show, c]; renderRecent(); renderLongRun(); renderDebut(); });
       row1.appendChild(b);
     }
     const row2 = document.createElement('div'); row2.className = 'chart-row';
@@ -326,7 +397,7 @@
     if (!data || !data.editions) { root.querySelectorAll('[data-nx-table],[data-nx-decomp]').forEach((b) => empty(b, 'the comparison data did not load')); return; }
     D = data;
     for (const e of D.editions) colour(e.code);
-    renderTable(); renderDecomp(); renderScatter(); renderLongRun(); renderDebut(); renderYouth();
-    let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { renderScatter(); renderLongRun(); renderDebut(); renderYouth(); }, 150); });
+    renderTable(); renderDecomp(); renderScatter(); renderRecent(); renderLongRun(); renderDebut(); renderYouth();
+    let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { renderScatter(); renderRecent(); renderLongRun(); renderDebut(); renderYouth(); }, 150); });
   }).catch((e) => { console.warn('nations failed', e); root.querySelectorAll('[data-nx-table]').forEach((b) => empty(b, 'the comparison data did not load')); });
 })();

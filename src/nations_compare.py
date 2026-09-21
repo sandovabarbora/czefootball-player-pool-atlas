@@ -234,7 +234,9 @@ def recent_youth(nations: list[str], countries: dict[str, dict]) -> dict:
         return {}
     t = pd.concat(frames, ignore_index=True).drop_duplicates(["league", "season", "team", "player_key"])
     lg = config.leagues()
-    league_country = {**{k: v["country"] for k, v in lg["custom"].items()}, **{k: v["country"] for k, v in lg.get("peer_domestic", {}).items()},
+    # top flights only: the second tiers in the fetched set (GER-2. Bundesliga) are not a country's home league here
+    league_country = {**{k: v["country"] for k, v in lg["custom"].items() if v.get("tier", 1) == 1},
+                      **{k: v["country"] for k, v in lg.get("peer_domestic", {}).items() if v.get("tier", 1) == 1},
                       "ENG-Premier League": "ENG", "ITA-Serie A": "ITA", "ESP-La Liga": "ESP", "GER-Bundesliga": "GER", "FRA-Ligue 1": "FRA"}
     t = t[t.league.isin(league_country)]
     t["age_jul1"] = t["season"].str.slice(0, 4).astype(int) - t["born"]

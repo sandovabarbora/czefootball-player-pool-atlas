@@ -1409,6 +1409,8 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
             "season": season_label((rs.get("modal") or rs["top"][0])["season"]), "prob": (rs.get("modal") or rs["top"][0])["prob"],
             "delta": rs["delta_factor"]["median"], "lo": rs["delta_factor"]["lo"], "hi": rs["delta_factor"]["hi"],
             "top": [{"season": season_label(r["season"]), "prob": r["prob"]} for r in rs["top"]],
+            # a rise after the fall is a recovery (Norway), not the rise before it
+            "after": (rs.get("modal") or rs["top"][0])["season"] > (br.get("modal") or br["top"][0])["season"],
         }
         home_break["fall_is_a_fall"] = br.get("fall_is_a_fall", True)
     elif br.get("rise") and br["rise"]["delta_factor"]["median"] <= 0.95:
@@ -2221,6 +2223,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
             big5["rise_season"] = series_model["break"]["rise"]["season"]
             big5["rise_prob"] = series_model["break"]["rise"]["prob"]
             big5["rise_delta"] = series_model["break"]["rise"]["delta"]
+            big5["rise_after"] = series_model["break"]["rise"].get("after", False)
     peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
                                        features_all, lq, lg, metrics, names)
 
