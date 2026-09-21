@@ -942,7 +942,7 @@ EN: dict[str, str] = {
 
     "close.kicker": "What this is for",
     "close.statement": "A federation does not need another opinion about its pool. It needs the same measured questions asked every summer, answered the same way, with the uncertainty on the page \u2014 and a name for every player the staff ask about.",
-    "close.line": "This is one country, built from public data in the open. The pipeline takes a nationality code and a peer set; the same code produced the other edition linked below. With a federation\u2019s own data \u2014 tracking, academy, medical \u2014 the tables get deeper and the questions stay the same.",
+    "close.line": "This is one country, built from public data in the open. The pipeline takes a nationality code and a peer set; the same code produced the other editions linked below, and the comparison across them. With a federation\u2019s own data \u2014 tracking, academy, medical \u2014 the tables get deeper and the questions stay the same.",
     "close.link.brief": "The one-page brief",
     "close.link.pool": "Every player in the pool",
     "close.link.data": "Download the tables",

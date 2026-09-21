@@ -58,9 +58,6 @@
       { label: 'first move abroad, median age', get: (e) => e.export.first_move_median_age, fmt: f1, best: 'min' },
       { label: 'national-team squad in a top-9 league', get: (e) => e.squad.top9_share, fmt: (v) => pct(v, 0), best: 'max' },
       { label: 'Big-5 players now (≥ 450 min)', get: (e) => (e.big5.n ? e.big5.n[e.big5.n.length - 1] : null), fmt: (v) => (v == null ? '—' : String(v)), best: null },
-      { label: 'Big-5 players at the peak', get: (e) => (e.big5.n ? Math.max(...e.big5.n) : null), fmt: (v, e) => (v == null ? '—' : `${v} · ${short(e.big5.seasons[e.big5.n.indexOf(v)])}`), best: null },
-      { label: 'the break the model dates', get: (e) => e.big5.break.season, fmt: (v, e) => (v ? `${short(v)} · ${pct(e.big5.break.prob)} · ×${f2(e.big5.break.factor)}` : '—'), best: null },
-      { label: 'the rise the model dates', get: (e) => (e.big5.rise ? e.big5.rise.season : null), fmt: (v, e) => (v ? `${short(v)} · ${pct(e.big5.rise.prob)} · ×${f2(e.big5.rise.factor)}` : 'none'), best: null },
     ];
     let html = `<div class="ax-table-wrap"><table class="ax-table nx-table"><thead><tr><th></th>${eds.map((e) => `<th class="num${e.code === HOME ? ' is-home' : ''}"><a href="${e.nation === 'cze' ? '/' : '/' + e.nation + '/'}">${esc(e.name)}</a></th>`).join('')}</tr></thead><tbody>`;
     for (const r of rows) {
@@ -80,7 +77,8 @@
     for (const e of D.editions) {
       const dc = e.decomposition;
       if (!dc || !dc.contrasts || !dc.contrasts.length) continue;
-      const art = document.createElement('article'); art.className = 'nx-decomp';
+      const home = e.code === HOME;
+      const art = document.createElement(home ? 'article' : 'details'); art.className = 'nx-decomp' + (home ? '' : ' fold ax-fold');
       const lead = dc.contrasts.map((c) => {
         const top = c.channels.slice().sort((a, b) => b.contribution - a.contribution)[0];
         const dir = c.gap_total >= 0 ? 'behind' : 'ahead of';
@@ -88,7 +86,7 @@
         const attrib = top.share == null ? `the gap is too small to attribute (largest channel: ${CHANNEL[top.name]}, ${top.contribution >= 0 ? '+' : '−'}${Math.abs(top.contribution).toFixed(1)})` : `${CHANNEL[top.name]} carries ${pct(top.share)} of that gap`;
         return `${esc(e.name)} is ${Math.abs(c.gap_total).toFixed(1)} per million ${dir} ${esc(nameOf(c.contrast))}; ${attrib}`;
       });
-      art.innerHTML = `<h3 class="nx-h3">${esc(e.name)} against its peers</h3>` +
+      art.innerHTML = (home ? `<h3 class="nx-h3">${esc(e.name)} against its peers</h3>` : `<summary>${esc(e.name)} against its peers</summary>`) +
         `<p class="nx-lead">${lead.join('. ')}.</p>` +
         `<div class="nx-bars">${dc.contrasts.map((c) => `<div class="nx-contrast"><p class="ax-kicker">vs ${esc(nameOf(c.contrast))} · gap ${c.gap_total.toFixed(1)} per million · residual ${c.residual == null ? '—' : c.residual.toFixed(1)}</p>` +
           c.channels.map((ch) => `<div class="nx-bar"><span class="nx-bar-label">${CHANNEL[ch.name] || ch.name}</span><span class="nx-bar-track"><span class="nx-bar-fill${ch.contribution < 0 ? ' is-neg' : ''}" style="width:${Math.min(100, Math.abs(ch.share != null ? ch.share : ch.contribution / (c.gap_total || 1)) * 100)}%"></span></span><span class="nx-bar-val">${ch.contribution >= 0 ? '+' : '−'}${Math.abs(ch.contribution).toFixed(1)}${ch.share != null ? ` · ${pct(ch.share)}` : ''}</span></div>`).join('') +
@@ -96,8 +94,17 @@
       box.appendChild(art);
     }
     const note = document.createElement('p'); note.className = 'ax-note';
-    note.textContent = 'Each edition\'s own decomposition (a ridge regression of players-per-million on youth share, home-league strength and the age of the first move across that edition\'s peer set; the channels can sum to more than the gap, the residual takes the rest). A channel\'s share says how much of the gap that mechanism accounts for at the fitted coefficients — an accounting identity on a cross-section of eight or nine countries, not a causal estimate.';
+    note.textContent = 'How to read it: each bar is one mechanism\'s share of the gap to that peer at the fitted coefficients; the bars can sum to more than the gap.';
     box.appendChild(note);
+    // the youth link measured the two ways that matter: across countries, and within them over time
+    const home = D.editions.find((e) => e.code === HOME);
+    const yl = home && home.youth_link;
+    if (yl && yl.between && yl.within) {
+      const p = document.createElement('p'); p.className = 'ax-statement nx-within';
+      const b = yl.between, w = yl.within;
+      p.innerHTML = `Is the youth share a cause? Across ${yl.n_countries} countries, ten points more under-21 share go with <strong>${b.median >= 0 ? '+' : ''}${f1(b.median)}</strong> players per million (${f1(b.lo)} to ${f1(b.hi)}). Within countries, from one season to the next, <strong>${w.median >= 0 ? '+' : ''}${f1(w.median)}</strong> (${f1(w.lo)} to ${f1(w.hi)}) — nothing yet, on ${yl.n} country-seasons. The share is a fact; its weight is not settled.`;
+      box.appendChild(p);
+    }
   }
 
   // ------------------------------------------------------------ C · the panel as a scatter

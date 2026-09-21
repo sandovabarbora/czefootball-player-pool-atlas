@@ -79,6 +79,7 @@ def edition_summary(nation: str) -> dict | None:
     gap = _load(nation, "gap_decomposition.json")
     sm = _load(nation, "series_model.json")
     b5 = _load(nation, "big5_series.json")
+    yp = _load(nation, "youth_panel.json")
     if pc is None or facts is None or paths is None:
         return None
     row = pc[pc.country == code]
@@ -119,6 +120,11 @@ def edition_summary(nation: str) -> dict | None:
                            "factor": brk["rise"]["delta_factor"]["median"]}
                           if brk.get("rise") and brk["rise"]["delta_factor"]["median"] > 1 else None)},
         "decomposition": {"contrasts": contrasts, "coefficients": (gap or {}).get("coefficients"), "n": (gap or {}).get("n")},
+        # the youth-share link measured two ways (src.youth_panel): across
+        # countries, and within countries season to season -- the second is
+        # the one that would speak to change, and is the honest zero so far
+        "youth_link": ({"between": (yp.get("between") or {}).get("beta_per_10pp"), "within": (yp.get("within") or {}).get("beta_per_10pp"),
+                        "n_countries": yp.get("n_countries"), "n": yp.get("n"), "seasons": yp.get("seasons_used")} if yp else None),
     }
 
 

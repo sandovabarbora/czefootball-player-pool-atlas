@@ -205,6 +205,29 @@ TOPBAR = f'''<nav class="topbar" aria-label="{S["nav_aria"]}">
 </nav>
 '''
 sub(r'<body>\n', '<body id="top">\n' + TOPBAR, 1)
+
+# ---------------------------------------------------------------- the closing links: every built edition, the atlas, the nations page
+EDITION_NAMES = {"cze": "Czechia", "eng": "England", "ger": "Germany", "den": "Denmark", "nor": "Norway", "esp": "Spain"}
+_others = " · ".join(f'<a href="{root}">The {EDITION_NAMES.get(code, code.upper())} edition</a>'
+                     for code, root in ATLAS_ROOTS.items() if code != NATION)
+_more = f' · <a href="{P}atlas/">The player atlas</a>' + (' · <a href="/nations/">Nations, side by side</a>'
+        if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists() else "")
+sub(r' · <a href="/(?:eng/)?">The (?:England|Czech) edition</a></p>', f' · {_others}{_more}</p>' if _others else f'{_more}</p>', 1)
+
+# ---------------------------------------------------------------- cross-links to the nations page (root site only)
+# The comparison across editions lives at /nations/; the three slides whose
+# question it extends (youth minutes, the long run, what the gap is made of)
+# get one line after their "so what", when that page exists in this build.
+NATIONS_LINKS = {
+    "q3": ("How the youth share compares across the editions, and what it weighs →", "/nations/#why"),
+    "q7": ("The same series for 17 countries since 1995/96, with two dated steps each →", "/nations/#long-run"),
+    "q8c": ("The decomposition for every edition, side by side →", "/nations/#why"),
+}
+if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists():
+    for sid, (label, href) in NATIONS_LINKS.items():
+        sub(rf'(<section class="slide" id="{sid}".*?<p class="slide-so">.*?</p>)',
+            rf'\1\n    <p class="pool-link nations-link"><a href="{href}">{label}</a></p>', 1, flags=re.S)
+
 # the home nation for docs/charts.js (tooltips label home-nation players with it)
 sub(r'<html lang="en">', f'<html lang="en" data-home="{HOME_CODE}">', 1)
 

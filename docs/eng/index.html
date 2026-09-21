@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609212330">
-  <link rel="stylesheet" href="modern.css?v=202609212330">
+  <link rel="stylesheet" href="style.css?v=202609212358">
+  <link rel="stylesheet" href="modern.css?v=202609212358">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609212330"></script>
-  <script defer src="atlas.js?v=202609212330"></script>
+  <script defer src="charts.js?v=202609212358"></script>
+  <script defer src="atlas.js?v=202609212358"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -32,7 +32,7 @@
   </div>
   <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Contents</button>
   <div class="atlas-switch" aria-label="Atlas">
-    <a href="/">CZE</a> · <span aria-current="page">ENG</span> · <a href="/ger/">GER</a>
+    <a href="/">CZE</a> · <span aria-current="page">ENG</span> · <a href="/ger/">GER</a> · <a href="/den/">DEN</a>
   </div>
 </nav>
 
@@ -617,6 +617,7 @@
     <p class="slide-how"><span class="slide-how-label">Sources</span> Share of all league minutes played by players aged ≤ 21 at season start, 2025/26, per domestic top flight.</p>
     </details>
     <p class="slide-so">A federation tracking this would watch the U21 share season by season, not the export count.</p>
+    <p class="pool-link nations-link"><a href="/nations/#why">How the youth share compares across the editions, and what it weighs →</a></p>
   </div>
 </section>
 
@@ -1098,6 +1099,7 @@
     <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1995/96 → 2025/26; peers on the same rule; the names are the most-minutes English players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 1995/96: David Seaman, Alan Wright, Ian Walker; 1996/97: David James, Alan Wright, Ugo Ehiogu; 1997/98: Kevin Miller, Des Walker, Nigel Martyn. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
     </details>
     <p class="slide-so">A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.</p>
+    <p class="pool-link nations-link"><a href="/nations/#long-run">The same series for 17 countries since 1995/96, with two dated steps each →</a></p>
     
   </div>
 </section>
@@ -1467,6 +1469,7 @@
     <p class="slide-how"><span class="slide-how-label">Sources</span> Ridge-regression linear split, Blinder-Oaxaca-style (Oaxaca, 1973; Blinder, 1973), fit on the 8 peer countries with data on all three channels; bootstrap 90 % intervals, 1000 resamples; a decomposition of a correlation, not a causal accounting.</p>
     </details>
     <p class="slide-so">A federation tracking this would watch which channel's contribution grows, not treat the split as fixed.</p>
+    <p class="pool-link nations-link"><a href="/nations/#why">The decomposition for every edition, side by side →</a></p>
   </div>
 </section>
 
@@ -18746,8 +18749,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 315 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 315 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 317 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 317 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
@@ -18908,8 +18911,8 @@
   <div class="container">
     <p class="close-kicker">What this is for</p>
     <p class="close-statement">A federation does not need another opinion about its pool. It needs the same measured questions asked every summer, answered the same way, with the uncertainty on the page — and a name for every player the staff ask about.</p>
-    <p class="close-line">This is one country, built from public data in the open. The pipeline takes a nationality code and a peer set; the same code produced the other edition linked below. With a federation’s own data — tracking, academy, medical — the tables get deeper and the questions stay the same.</p>
-    <p class="close-links"><a href="#brief">The one-page brief</a> · <a href="#pool">Every player in the pool</a> · <a href="#downloads">Download the tables</a> · <a href="/">The Czech edition</a></p>
+    <p class="close-line">This is one country, built from public data in the open. The pipeline takes a nationality code and a peer set; the same code produced the other editions linked below, and the comparison across them. With a federation’s own data — tracking, academy, medical — the tables get deeper and the questions stay the same.</p>
+    <p class="close-links"><a href="#brief">The one-page brief</a> · <a href="#pool">Every player in the pool</a> · <a href="#downloads">Download the tables</a> · <a href="/">The Czechia edition</a> · <a href="/ger/">The Germany edition</a> · <a href="/den/">The Denmark edition</a> · <a href="atlas/">The player atlas</a> · <a href="/nations/">Nations, side by side</a></p>
   </div>
 </section>
 
@@ -19271,7 +19274,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 23:20</p>
+    <p class="rendered-at">Rendered: 2026-09-21 23:58</p>
   </div>
 </footer>
 
