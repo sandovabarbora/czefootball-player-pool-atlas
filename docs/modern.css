@@ -195,7 +195,7 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .observation:nth-child(2) { border-top-color: var(--oxblood-700); }
 .observation:nth-child(3) { border-top-color: var(--navy-300); }
 
-.cluster-tactical { font-style: normal; font-family: var(--font-sans); padding: var(--space-3) var(--space-4); border-left: 3px solid var(--navy-700); }
+.cluster-tactical { font-style: normal; font-family: var(--font-sans); padding: var(--space-3) 0; border-top: 1px solid var(--rule); }
 
 /* =========================================================================
    Player chips & avatars — the bust rule: people are circles

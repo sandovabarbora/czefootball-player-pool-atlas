@@ -195,7 +195,7 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .observation:nth-child(2) { border-top-color: var(--oxblood-700); }
 .observation:nth-child(3) { border-top-color: var(--navy-300); }
 
-.cluster-tactical { font-style: normal; font-family: var(--font-sans); padding: var(--space-3) var(--space-4); border-left: 3px solid var(--navy-700); }
+.cluster-tactical { font-style: normal; font-family: var(--font-sans); padding: var(--space-3) 0; border-top: 1px solid var(--rule); }
 
 /* =========================================================================
    Player chips & avatars — the bust rule: people are circles
@@ -793,7 +793,8 @@ figure.figure-bleed img { border: 0; background: transparent; padding: 0; }
 @media (min-width: 1100px) {
   .hero { background: linear-gradient(90deg, var(--page-bg) 0 calc(50% + 300px), var(--acid) calc(50% + 300px)); }
   .hero-grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: var(--space-6); padding-right: 300px; }
-  .hero-cutout { height: min(100%, 520px); right: calc((100vw - var(--container)) / 2 - 1rem); bottom: 0; opacity: 1;
+  /* the photo fills the acid panel edge to edge as a black duotone (multiply) */
+  .hero-cutout { top: 0; bottom: 0; right: 0; height: 100%; width: calc(50% - 300px); object-fit: cover; object-position: 60% 20%; opacity: 1;
     filter: grayscale(1) contrast(1.25) brightness(0.95); mix-blend-mode: multiply; -webkit-mask-image: none; mask-image: none; }
 }
 .hero-footnote { color: var(--muted); }
