@@ -43,7 +43,7 @@ for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.s
 done
 
 if [ "$D" != "$ROOT/docs" ]; then
-  for a in modern.css atlas.js charts.js atlas.app.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
+  for a in modern.css atlas.js charts.js atlas.app.js nations.app.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
   # images live once in docs/img; another site dir gets the grain and, below,
   # only the portraits its pages reference (not the whole folder)
   mkdir -p "$D/img/players"
@@ -71,4 +71,7 @@ if [ "$D" != "$ROOT/docs" ]; then
     [ -e "$D/$f" ] || { [ -e "$ROOT/docs/$f" ] && cp "$ROOT/docs/$f" "$D/$f"; }
   done
 fi
+# the cross-nation page lives in the root site only (it compares editions);
+# needs outputs/nations/nations.json (src.nations_compare)
+if [ "$NATION" = "cze" ] && [ -f "$ROOT/outputs/nations/nations.json" ]; then ${=PY} "$S/build_nations.py" "$D"; fi
 echo "built $D/index.html (en, NATION=$NATION), atlas_meta.json"

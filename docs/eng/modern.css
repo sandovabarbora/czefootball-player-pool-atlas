@@ -1054,3 +1054,30 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .ax-eras .ax-table tr.is-open td { color: var(--hot); }
 .ax-past { color: var(--muted); }
 @media print { .ax-side { display: none; } }
+
+/* --- the nations page (docs/nations/, nations.app.js) --- */
+.nx-section { border-top: 1px solid var(--hot); padding-top: var(--space-3); margin-top: var(--space-5); }
+.nx-h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; letter-spacing: -0.015em; color: var(--hot); margin: var(--space-4) 0 var(--space-2); }
+.nx-lead { font-family: var(--font-display); font-weight: 300; font-size: 1.15rem; line-height: 1.35; color: var(--ink); margin: 0 0 var(--space-3); }
+.nx-table, .nx-table th, .nx-table td, .nx-table tr { background: transparent; }
+.nx-table th.is-home, .nx-table td.is-home { color: var(--acid); }
+.nx-table td.is-best { color: var(--hot); font-weight: 500; }
+.nx-table th a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule); }
+.nx-table th a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+.nx-table td:first-child { white-space: normal; }
+.nx-decomp { margin-bottom: var(--space-4); }
+.nx-bars { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: var(--space-3) var(--space-5); }
+.nx-contrast .ax-kicker { margin: 0 0 0.4rem; }
+.nx-bar { display: grid; grid-template-columns: 11rem 1fr 7.5rem; gap: 0.6rem; align-items: center; margin-bottom: 0.35rem; }
+.nx-bar-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.nx-bar-track { display: block; height: 6px; background: var(--rule); }
+.nx-bar-fill { display: block; height: 6px; background: var(--hot); }
+.nx-bar-fill.is-neg { background: var(--orange, #FF6A3D); }
+.nx-bar-val { font-family: var(--font-mono); font-size: 11px; color: var(--ink); text-align: right; white-space: nowrap; }
+.nx-limits { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); }
+.nx-limits li { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.55; color: var(--ink); border-top: 1px solid var(--rule); padding-top: var(--space-2); }
+.nx-limits strong { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400; color: var(--acid); margin-right: 0.4rem; }
+.nx-refs { font-family: var(--font-sans); font-size: 0.85rem; line-height: 1.5; color: var(--ink-soft); padding-left: 1.2rem; }
+.nx-refs li { margin-bottom: 0.4rem; }
+.nx-page .ax-chart .chart-controls { margin: 0 0 var(--space-2); }
+@media (max-width: 640px) { .nx-bar { grid-template-columns: 1fr; gap: 0.2rem; } .nx-bar-val { text-align: left; } }

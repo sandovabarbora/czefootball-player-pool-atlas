@@ -57,6 +57,12 @@ def build_series(history: pd.DataFrame, peers: dict[str, dict], min_minutes: int
     minutes that season (no floor -- every minute played counts) divided by
     all minutes played by anyone in the Big-5 that season.
     """
+    # only seasons every one of the five leagues is present for: FBref's
+    # Ligue 1 starts in 1995/96 and the Premier League page in 1992/93, so a
+    # "Big-5 count" for 1990-1995 would be a three- or four-league count
+    n_leagues = history.groupby("season")["league"].nunique()
+    full = n_leagues[n_leagues == n_leagues.max()].index
+    history = history[history["season"].isin(full)]
     seasons = sorted(history["season"].unique())
     season_totals = history.groupby("season")["min"].sum()
 

@@ -67,7 +67,7 @@ fails: list[tuple] = []
 S = {
     "en": {
         "nav_aria": "Navigation", "brand": f"{ADJ_EN} Football <span>Atlas</span>",
-        "nav": [("#summary", "Summary"), ("#pathways", "Pathways"), ("#q9", "Cards"), ("#methodology", "Methodology"), ("atlas/", "Players")],
+        "nav": [("#summary", "Summary"), ("#pathways", "Pathways"), ("#q9", "Cards"), ("#methodology", "Methodology"), ("atlas/", "Players"), ("/nations/", "Nations")],
         "lang_aria": "Language", "contents": "Contents",
         "in_context": "In context",
         "analog_fold": "{n} nearest analogs and what followed",

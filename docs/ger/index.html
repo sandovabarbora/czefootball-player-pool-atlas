@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609212248">
-  <link rel="stylesheet" href="modern.css?v=202609212248">
+  <link rel="stylesheet" href="style.css?v=202609212330">
+  <link rel="stylesheet" href="modern.css?v=202609212330">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609212248"></script>
-  <script defer src="atlas.js?v=202609212248"></script>
+  <script defer src="charts.js?v=202609212330"></script>
+  <script defer src="atlas.js?v=202609212330"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -28,6 +28,7 @@
     <a href="#q9">Cards</a>
     <a href="#methodology">Methodology</a>
     <a href="atlas/">Players</a>
+    <a href="/nations/">Nations</a>
   </div>
   <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Contents</button>
   <div class="atlas-switch" aria-label="Atlas">
@@ -48,7 +49,7 @@
     <li><a href="#q3">Youth minutes at home</a></li>
     <li><a href="#q4">Where they go</a></li>
     <li><a href="#q5">How they fare</a></li>
-    <li><a href="#q6">World Cup squad</a></li>
+    <li><a href="#q6">National-team squad</a></li>
     <li><a href="#q7">When the train left</a></li>
     <li><a href="#q8">France and Spain</a></li>
     <li><a href="#q8b">Goalkeepers</a></li>
@@ -110,7 +111,7 @@
         
         <p class="hero-finding">
           Per head, Germany ranks 8th of 8 peer countries for players in Europe’s strongest leagues.
-          The reasons below are measured, not guessed: 1.1 regular under-21 starters per club at home against 1.3 in France; and a first move abroad at 25.
+          The reasons below are measured, not guessed: 1.1 regular under-21 starters per club at home against 1.3 in France; a first move abroad at 25; and a layer at the top that stepped down in 2000/01.
         </p>
         <p class="hero-path">Three minutes: this number, the five rungs below it, and the one-page brief. Everything else is the evidence.</p>
         <details class="fold fold-hero"><summary>In context</summary>
@@ -148,7 +149,7 @@
       <li class="quickread-tile">
         <a href="#q7">
           <span class="quickread-figure">2000/01</span>
-          <span class="quickread-line">the season Big-5 presence broke (39 % posterior)</span>
+          <span class="quickread-line">the season Big-5 presence broke (69 % posterior)</span>
         </a>
       </li>
       
@@ -289,7 +290,7 @@
           </div>
         </div>
         
-        <p class="funnel-metric-note">Around the 2000/01 season, the model finds a possible shift in the count of German players in Europe's strongest leagues, with 39 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
+        <p class="funnel-metric-note">Around the 2000/01 season, the model finds a possible shift in the count of German players in Europe's strongest leagues, with 69 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
         
       </li>
     </ol>
@@ -813,7 +814,7 @@
 </div>
 <section class="slide" id="q6">
   <div class="container">
-    <h2 class="slide-q">What is the World Cup squad built from?</h2>
+    <h2 class="slide-q">What is the national-team squad built from?</h2>
     <p class="slide-a"></p>
     <div class="slide-proof">
       
@@ -833,20 +834,20 @@
   <div class="container">
     <h2 class="slide-q">When did the train leave?</h2>
     
-    <p class="slide-a">German players with ≥ 450 Big-5 minutes: <strong>301</strong> at the 1991/92 peak, 128 at the 2009/10 low, 161 in 2025/26. The break is dated to 2000/01.</p>
+    <p class="slide-a">German players with ≥ 450 Big-5 minutes: <strong>253</strong> at the 1995/96 peak, 128 at the 2009/10 low, 161 in 2025/26. The break is dated to 2000/01. The rise before it is dated to 2010/11.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
-        <img src="big5_series.svg" alt="Line chart: German players with at least 450 minutes in the Big-5 leagues, 1990/91 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Germany, France and Spain.">
-        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1990/91. German players are the acid line; the dashed rules are the seasons the model dates the rise and the fall to, with their probabilities; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
+        <img src="big5_series.svg" alt="Line chart: German players with at least 450 minutes in the Big-5 leagues, 1995/96 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Germany, France and Spain.">
+        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1995/96. German players are the acid line; the dashed rules are the seasons the model dates the rise and the fall to, with their probabilities; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
       </figure>
       
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">Break posterior 39 %; a level change of ×0.87 (0.67–1.18).</p>
+      <p class="slide-detail">Break posterior 69 %; a level change of ×0.76 (0.65–0.98). Rise posterior 21 %; ×1.04.</p>
     <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: German players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with the rise and the fall each dated by a change-point model.</p>
     <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the two seasons where that count changed level for good — once up, once down — and stayed there.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1990/91 → 2025/26; peers on the same rule; the names are the most-minutes German players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 1991/92: Eike Immel, André Golke, Gerald Ehrmann; 1990/91: Manfred Binz, Rüdiger Vollborn, Eike Immel; 1992/93: Rüdiger Vollborn, Manfred Binz, Oliver Kahn. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1995/96 → 2025/26; peers on the same rule; the names are the most-minutes German players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 1995/96: Eike Immel, Jörg Schmadtke, Jörg Albertz; 1996/97: Bodo Illgner, Andreas Köpke, Oliver Reck; 1997/98: Jens Lehmann, Oliver Kahn, Uwe Kamps. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
     </details>
     <p class="slide-so">A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.</p>
     
@@ -941,7 +942,7 @@
             </tr>
             
             <tr>
-              <td>World Cup squad in the top-9 leagues</td>
+              <td>National-team squad in the top-9 leagues</td>
               
               
               <td class="cohort-cze"><span class="muted">—</span></td>
@@ -28688,7 +28689,7 @@
       <div><dt>How strong is the home league</dt><dd>A season in the home league is worth about 0.78 of a season in the Premier League (0.74–0.81).</dd></div>
       
       
-      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2000/01 season, with 39 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
+      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2000/01 season, with 69 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
       
     </dl>
     <div class="brief-caveats">
@@ -37536,27 +37537,21 @@
       <img src="series_model.svg" alt="Line chart of the Germany series with the change-point model's fitted level in a pale band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
       <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
     </figure>
-    <p>For Germany, the model dates the break to 2000/01 (39 % posterior probability), a ×0.87 (0.67–1.18, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.038.</p>
-    
-    <p>The other step is a fall too, dated to 1993/94 (16 % posterior), a ×0.85 (0.69–0.99) change: the level came down in two moves rather than rising first.</p>
+    <p>For Germany, the model dates the break to 2000/01 (69 % posterior probability), a ×0.76 (0.65–0.98, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.033.</p>
     
     
+    <p>The rise before it is dated to 2010/11 (21 % posterior), a ×1.04 (0.84–1.22) change in the level. The most probable seasons for each:</p>
     <ul class="break-top">
-      
-      <li>2000/01: 39 %</li>
-      
-      <li>2010/11: 10 %</li>
-      
-      <li>2001/02: 6 %</li>
-      
+      <li>rise: 2010/11: 21 % · 2011/12: 7 % · 2013/14: 6 %</li>
+      <li>fall: 2000/01: 69 % · 2001/02: 6 % · 1999/00: 6 %</li>
     </ul>
     
     <p>The same model, fit separately for the two contrast countries:</p>
     <ul class="contrast-break">
       
-      <li>France: 2023/24 (15 % posterior), ×0.93 (0.83–1.06). Rise: 1995/96 (100 %), ×62.86.</li>
+      <li>France: 2023/24 (26 % posterior), ×0.93 (0.82–1.04).</li>
       
-      <li>Spain: 1997/98 (91 % posterior), ×0.81 (0.73–0.88). Rise: 2000/01 (47 %), ×1.11.</li>
+      <li>Spain: 2001/02 (2 % posterior), ×1.02 (0.90–1.12). Rise: 1998/99 (23 %), ×1.00.</li>
       
     </ul>
 
@@ -37571,82 +37566,82 @@
         
         <tr>
           <td>2010/11</td><td>2011/12</td><td class="num">164</td>
-          <td class="num">153 (122–188)</td><td class="num">166</td>
+          <td class="num">152 (120–188)</td><td class="num">166</td>
         </tr>
         
         <tr>
           <td>2011/12</td><td>2012/13</td><td class="num">159</td>
-          <td class="num">160 (130–197)</td><td class="num">164</td>
+          <td class="num">160 (127–197)</td><td class="num">164</td>
         </tr>
         
         <tr>
           <td>2012/13</td><td>2013/14</td><td class="num">179</td>
-          <td class="num">160 (129–199)</td><td class="num">159</td>
+          <td class="num">161 (128–195)</td><td class="num">159</td>
         </tr>
         
         <tr>
           <td>2013/14</td><td>2014/15</td><td class="num">165</td>
-          <td class="num">170 (136–210)</td><td class="num">179</td>
+          <td class="num">170 (138–210)</td><td class="num">179</td>
         </tr>
         
         <tr>
           <td>2014/15</td><td>2015/16</td><td class="num">161</td>
-          <td class="num">167 (133–203)</td><td class="num">165</td>
+          <td class="num">167 (135–204)</td><td class="num">165</td>
         </tr>
         
         <tr>
           <td>2015/16</td><td>2016/17</td><td class="num">165</td>
-          <td class="num">162 (134–197)</td><td class="num">161</td>
+          <td class="num">163 (131–200)</td><td class="num">161</td>
         </tr>
         
         <tr>
           <td>2016/17</td><td>2017/18</td><td class="num">162</td>
-          <td class="num">166 (133–200)</td><td class="num">165</td>
+          <td class="num">164 (133–198)</td><td class="num">165</td>
         </tr>
         
         <tr>
           <td>2017/18</td><td>2018/19</td><td class="num">170</td>
-          <td class="num">164 (133–200)</td><td class="num">162</td>
+          <td class="num">163 (132–197)</td><td class="num">162</td>
         </tr>
         
         <tr>
           <td>2018/19</td><td>2019/20</td><td class="num">159</td>
-          <td class="num">165 (135–201)</td><td class="num">170</td>
+          <td class="num">166 (135–202)</td><td class="num">170</td>
         </tr>
         
         <tr>
           <td>2019/20</td><td>2020/21</td><td class="num">150</td>
-          <td class="num">162 (133–197)</td><td class="num">159</td>
+          <td class="num">162 (131–195)</td><td class="num">159</td>
         </tr>
         
         <tr>
           <td>2020/21</td><td>2021/22</td><td class="num">164</td>
-          <td class="num">155 (127–190)</td><td class="num">150</td>
+          <td class="num">156 (126–187)</td><td class="num">150</td>
         </tr>
         
         <tr>
           <td>2021/22</td><td>2022/23</td><td class="num">160</td>
-          <td class="num">160 (130–195)</td><td class="num">164</td>
+          <td class="num">159 (131–195)</td><td class="num">164</td>
         </tr>
         
         <tr>
           <td>2022/23</td><td>2023/24</td><td class="num">176</td>
-          <td class="num">160 (130–191)</td><td class="num">160</td>
+          <td class="num">159 (131–190)</td><td class="num">160</td>
         </tr>
         
         <tr>
           <td>2023/24</td><td>2024/25</td><td class="num">167</td>
-          <td class="num">169 (139–205)</td><td class="num">176</td>
+          <td class="num">168 (136–204)</td><td class="num">176</td>
         </tr>
         
         <tr>
           <td>2024/25</td><td>2025/26</td><td class="num">161</td>
-          <td class="num">168 (138–202)</td><td class="num">167</td>
+          <td class="num">168 (139–200)</td><td class="num">167</td>
         </tr>
         
       </tbody>
     </table>
-    <p>Pooled across 15 origins: MAE 7.13 for the model against 8.60 for the naive baseline, 100 % of the 90 % intervals covered the observed value.</p>
+    <p>Pooled across 15 origins: MAE 7.07 for the model against 8.60 for the naive baseline, 100 % of the 90 % intervals covered the observed value.</p>
 
     <p>The one forecast, for next season (2026/27), from the same change-point-free model fitted on the full series:</p>
     <table class="kv-table series-forecast-table">
@@ -37657,17 +37652,17 @@
       <tbody>
         
         <tr data-highlight="cze">
-          <td>Germany</td><td>2026/27</td><td class="num">163</td>
-          <td class="num">135–198</td>
+          <td>Germany</td><td>2026/27</td><td class="num">162</td>
+          <td class="num">134–195</td>
         </tr>
         
         <tr >
-          <td>France</td><td>2026/27</td><td class="num">203</td>
-          <td class="num">76–500</td>
+          <td>France</td><td>2026/27</td><td class="num">210</td>
+          <td class="num">182–242</td>
         </tr>
         
         <tr >
-          <td>Spain</td><td>2026/27</td><td class="num">282</td>
+          <td>Spain</td><td>2026/27</td><td class="num">283</td>
           <td class="num">248–319</td>
         </tr>
         
@@ -37675,7 +37670,7 @@
     </table>
     <p class="capita-note">A demonstration of the method on a count of players, not a statement about any player.</p>
 
-    <p>Change-point fit: R-hat ≤ 1.027, minimum bulk ESS 105, 0 divergent transitions across 36 seasons.</p>
+    <p>Change-point fit: R-hat ≤ 1.010, minimum bulk ESS 114, 16 divergent transitions across 31 seasons.</p>
     </details>
     
 
@@ -38653,7 +38648,7 @@
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
       
       
-      <li>The break and forecast (M4): the break dates to 2000/01 (39 % posterior) for Germany, a ×0.87 level change; the plain local level beats the naive baseline on MAE (7.13 vs 8.60) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
+      <li>The break and forecast (M4): the break dates to 2000/01 (69 % posterior) for Germany, a ×0.76 level change; the plain local level beats the naive baseline on MAE (7.07 vs 8.60) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
       
       <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +13.94 per 10 percentage points of U21 share (−4.93–33.09), R² = 0.22; a plain pooled OLS slope agrees in sign at +13.57 (5.36–20.82) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = +1.56.</li>
@@ -38801,6 +38796,8 @@
       
       <li id="ref-hoffman_gelman_2014"><a href="https://www.jmlr.org/papers/v15/hoffman14a.html">Hoffman, M.D. and Gelman, A. (2014) &#39;The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo&#39;, Journal of Machine Learning Research, 15, pp. 1593–1623.</a></li>
       
+      <li id="ref-honigstein2015"><a href="https://openlibrary.org/works/OL20016699W">Honigstein, R. (2015) Das Reboot: How German Football Reinvented Itself and Conquered the World. London: Yellow Jersey Press.</a></li>
+      
       <li id="ref-hvattum_2019"><a href="https://doi.org/10.2478/ijcss-2019-0001">Hvattum, L.M. (2019) &#39;A comprehensive review of plus-minus ratings for evaluating individual players in team sports&#39;, International Journal of Computer Science in Sport, 18(1), pp. 1–23.</a></li>
       
       <li id="ref-hyndman_athanasopoulos_2021"><a href="https://otexts.com/fpp3/">Hyndman, R.J. and Athanasopoulos, G. (2021) Forecasting: Principles and Practice. 3rd edn. Melbourne: OTexts.</a></li>
@@ -38814,6 +38811,8 @@
       <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830.</a></li>
       
       <li id="ref-poli_ravenel_besson_2024"><a href="https://football-observatory.com/IMG/sites/mr/mr95/en/">Poli, R., Ravenel, L. and Besson, R. (2024) Origins and destinations of football expatriates (2020-2024). CIES Football Observatory Monthly Report, 95. Available at: https://football-observatory.com/IMG/sites/mr/mr95/en/ (Accessed: 14 September 2026).</a></li>
+      
+      <li id="ref-premierleague2011"><a href="https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html">Premier League (2011) Elite Player Performance Plan. Premier League (archived page), web.archive.org, 22 April 2016. Available at: https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html (Accessed: 21 September 2026).</a></li>
       
       <li id="ref-rousseeuw_1987"><a href="https://doi.org/10.1016/0377-0427(87)90125-7">Rousseeuw, P.J. (1987) &#39;Silhouettes: a graphical aid to the interpretation and validation of cluster analysis&#39;, Journal of Computational and Applied Mathematics, 20, pp. 53–65.</a></li>
       
@@ -39137,7 +39136,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 22:48</p>
+    <p class="rendered-at">Rendered: 2026-09-21 23:22</p>
   </div>
 </footer>
 

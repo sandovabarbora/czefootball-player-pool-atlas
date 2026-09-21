@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-home="CZE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nations — Czech Football Atlas</title>
+  <meta name="description" content="3 national player pools measured the same way — youth minutes, export age, league strength, the national-team squad — with each nation's gap decomposed against its peers and every country's Big-5 presence since 1995.">
+  <link rel="canonical" href="https://football.datasimply.eu/nations/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../modern.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="../nations.app.js"></script>
+</head>
+<body id="top" class="ax-page nx-page">
+<nav class="topbar" aria-label="Navigation">
+  <a class="topbar-brand" href="../">Czech Football <span>Atlas</span></a>
+  <div class="topbar-links">
+    <a href="../#summary">Summary</a>
+    <a href="../#pathways">Pathways</a>
+    <a href="../#q9">Cards</a>
+    <a href="../atlas/">Players</a>
+    <a href="./" aria-current="page">Nations</a>
+  </div>
+  <div class="atlas-switch" aria-label="Atlas">
+    <a href="/">CZE</a> · <a href="/eng/">ENG</a> · <a href="/ger/">GER</a>
+  </div>
+</nav>
+<main class="ax container" data-nations-app>
+  <header class="ax-head">
+    <p class="ax-kicker">Nations · 3 editions · 17 countries in the long run · 95/96–25/26</p>
+    <h1 class="ax-title">The same five questions, asked of 3 nations.</h1>
+    <p class="ax-lead">Each edition — Czechia, England and Germany — measures its pool the same way: how many players reach the strongest leagues per million, how many minutes the home league gives its own under-21s, when the first move abroad comes, how strong the home league is, and what the national-team squad is built from. Side by side, the numbers say where a nation is out of line. The decomposition says which mechanism carries most of a gap. The long run says when each country's presence in the Big-5 changed level. None of it proves a cause; the page says where that line is.</p>
+  </header>
+
+  <section class="nx-section" id="side-by-side">
+    <p class="ax-kicker">A · side by side</p>
+    <h2 class="ax-statement">Where Czechia is out of line, in the numbers every edition shares.</h2>
+    <div data-nx-table></div>
+    <p class="ax-note">Each value is the edition's own headline number (its metrics season, its peer set); the brightest in a row is the best of the editions. Per-million counts players with a season in the nine strongest leagues; for a nation whose home league is one of them (England, Germany) that includes the home league, which is why the rank is against its own peer set, not across editions.</p>
+  </section>
+
+  <section class="nx-section" id="why">
+    <p class="ax-kicker">B · why a nation lags — youth, or something else</p>
+    <h2 class="ax-statement">Czechia against Norway, home-league strength carries 73 % of a 7.0-per-million gap; against Denmark, youth minutes at home carries 72 % of a 10.2-per-million gap.</h2>
+    <div data-nx-decomp></div>
+    <p class="ax-note">The decomposition is the report's own (a Oaxaca–Blinder-style accounting on a cross-country regression, <a href="#ref-oaxaca_1973">(Oaxaca, 1973)</a>; <a href="#ref-blinder_1973">(Blinder, 1973)</a>). It answers "which measured mechanism accounts for the gap at the fitted coefficients", on eight or nine countries. It does not answer "what would happen if the youth share rose": that needs a change over time within a country, which the panel below is the beginning of and the long run the only long view of.</p>
+    <h3 class="nx-h3">The cross-section behind it</h3>
+    <div class="ax-chart" data-nx-scatter></div>
+    <p class="ax-note">One point per country in the union of the editions' peer sets, last completed season. Choose the mechanism on the x-axis; the dashed line is a plain least-squares fit with its R², for the direction only — 16 countries is a picture, not an estimate, and the three mechanisms move together (a stronger league keeps more of its own young players and exports them later).</p>
+  </section>
+
+  <section class="nx-section" id="long-run">
+    <p class="ax-kicker">C · the long run, 95/96–25/26</p>
+    <h2 class="ax-statement">Who fell, who rose, and when — every country's presence in the Big-5, with two dated steps each.</h2>
+    <div class="ax-chart" data-nx-long></div>
+    <p class="ax-note">Players with at least 450 minutes in the Premier League, Serie A, La Liga, Bundesliga or Ligue 1 that season, from FBref's season tables, per million of the country's population; the series starts at the first season all five leagues are covered. Each country gets the report's two-step change-point model (<a href="#ref-adams_mackay_2007">(Adams and MacKay, 2007)</a>, applied to a batch, two-break setting); the diamonds mark each step's season, with the step's size and its posterior probability on hover. For a Big-5 nation the count includes its own league, so its series is mostly about how international that league became.</p>
+    <p class="ax-note">Reform markers: Germany 01/02, DFB/DFL academy licensing <a href="#ref-honigstein2015">(Honigstein, 2015)</a>; England 12/13, Elite Player Performance Plan <a href="#ref-premierleague2011">(Premier League, 2011)</a>. A marker is a date a reader can check. Whether the series moved <em>because</em> of the reform is not something a marker on a chart can tell — the honest reading is the sequence and its timing, against the same sequence in countries that did nothing.</p>
+    <details class="fold ax-fold"><summary>every country's steps as a table</summary><div data-nx-breaks></div>
+      <p class="ax-note">"Shape vs CZE" is the correlation of the per-million series with Czechia's: the countries whose long run looks most like Czechia's are the analogies worth reading, whatever their level. A second step that is a rise is a recovery after a plateau; Czechia's second step is the one fall among the small nations.</p></details>
+    <h3 class="nx-h3">When a country's players arrive, and how young</h3>
+    <div class="ax-chart" data-nx-debut></div>
+    <p class="ax-note">The same countries as above (the chips up there choose them). Age at a player's first Big-5 season of 450+ minutes, smoothed over three seasons because a small nation sends two or three players a year; the share of the nation's Big-5 minutes played by its under-23s; and the plain count of first seasons. This is the export mechanism the history can carry back — read whether a country's recovery came with younger arrivals, and whether Czechia's arrivals got older around its fall.</p>
+    <h3 class="nx-h3">Youth minutes in the Big-5 leagues themselves</h3>
+    <div class="ax-chart" data-nx-youth></div>
+    <p class="ax-note">The share of each Big-5 league's minutes played by its own nationals aged 21 or under at the season's start (age at 1 July, the report's convention), season by season — the one youth series the data carries back this far. The reform markers sit on it for the same reading as above: did the league's own young players get more minutes after the date, and did the country's presence follow? Germany's series is the case to read first.</p>
+  </section>
+
+  <section class="nx-section" id="limits">
+    <p class="ax-kicker">D · what this can and cannot say</p>
+    <ul class="nx-limits">
+      <li><strong>Can:</strong> put 3 nations on the same ruler; say which measured mechanism carries most of a nation's gap to a peer; date when a country's Big-5 presence changed level; show whether a documented reform preceded a change in youth minutes and in presence.</li>
+      <li><strong>Cannot:</strong> attribute a change to a reform (no counterfactual country, no randomisation); separate the three mechanisms cleanly (they move together across countries); see youth minutes in the small leagues before FBref covers them; count a player the leagues in scope never carried.</li>
+      <li><strong>Next honest step:</strong> the same decomposition within a country over time as the covered seasons accumulate, and a synthetic-control read of the two dated reforms against the countries that did nothing — both need more seasons than the small leagues have yet.</li>
+    </ul>
+  </section>
+
+  <footer class="ax-foot">
+    <h3 class="nx-h3">References</h3>
+    <ol class="nx-refs">
+      <li id="ref-adams_mackay_2007">Adams, R.P. and MacKay, D.J.C. (2007) Bayesian online changepoint detection. arXiv, 0710.3742. Available at: https://arxiv.org/abs/0710.3742 (Accessed: 15 September 2026).</li>
+      <li id="ref-blinder_1973">Blinder, A.S. (1973) 'Wage discrimination: reduced form and structural estimates', Journal of Human Resources, 8(4), pp. 436–455.</li>
+      <li id="ref-honigstein2015">Honigstein, R. (2015) Das Reboot: How German Football Reinvented Itself and Conquered the World. London: Yellow Jersey Press.</li>
+      <li id="ref-oaxaca_1973">Oaxaca, R. (1973) 'Male-female wage differentials in urban labor markets', International Economic Review, 14(3), pp. 693–709.</li>
+      <li id="ref-premierleague2011">Premier League (2011) Elite Player Performance Plan. Premier League (archived page), web.archive.org, 22 April 2016. Available at: https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html (Accessed: 21 September 2026).</li>
+    </ol>
+  </footer>
+</main>
+</body>
+</html>

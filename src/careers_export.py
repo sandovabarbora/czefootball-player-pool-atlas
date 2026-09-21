@@ -71,6 +71,7 @@ def eras(big5: pd.DataFrame) -> list[dict]:
     table, so the first season of the history has none by construction."""
     h = big5[big5.nation == config.HOME].copy()
     seasons_all = sorted(big5.season.unique())
+    covered = big5.groupby("season")["league"].nunique()   # FBref's Ligue 1 starts 1995/96, the PL page 1992/93
     first = h.groupby("player_key")["season"].min()
     h["debut"] = (h["season"] == h["player_key"].map(first)) & (h["season"] != seasons_all[0])
     out = []
@@ -82,7 +83,7 @@ def eras(big5: pd.DataFrame) -> list[dict]:
         deb = per[per.debut & (per["min"] >= 450)]
         ages = per["age"].dropna()
         out.append({
-            "season": s, "n": int(len(per)), "min": int(per["min"].sum()),
+            "season": s, "n": int(len(per)), "min": int(per["min"].sum()), "leagues": int(covered.get(s, 0)),
             "age_median": float(ages.median()) if len(ages) else None,
             "u23_share": round(float((ages <= 22).mean()), 3) if len(ages) else None,
             "debut_n": int(len(deb)), "debut_age_median": float(deb["age"].median()) if len(deb) else None,

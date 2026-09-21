@@ -115,6 +115,7 @@ HTML = f'''<!DOCTYPE html>
   <div class="topbar-links">
 {links}
     <a href="./" aria-current="page">Players</a>
+    <a href="/nations/">Nations</a>
   </div>
   <div class="atlas-switch" aria-label="Atlas">
     {atlas_switch}

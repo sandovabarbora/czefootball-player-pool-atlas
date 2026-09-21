@@ -124,6 +124,20 @@ def test_player_atlas_page_is_built_with_portraits(site_dir):
     assert 'href="atlas/#p/' in en and 'href="atlas/"' in en
 
 
+@pytest.mark.skipif(NATION != "cze", reason="the nations page is built into the root site only")
+def test_nations_page_is_built_into_the_root_site(site_dir):
+    """site/build_nations.py: the cross-nation page and its data, with the
+    references it cites rendered from config/refs.yaml."""
+    out, _ = site_dir
+    if not (ROOT / "outputs" / "nations" / "nations.json").exists():
+        pytest.skip("no outputs/nations/nations.json (run `uv run python -m src.nations_compare`)")
+    page = (out / "nations" / "index.html").read_text(encoding="utf-8")
+    assert "data-nations-app" in page and 'src="../nations.app.js"' in page
+    assert 'id="ref-honigstein2015"' in page and 'id="ref-adams_mackay_2007"' in page
+    data = json.loads((out / "charts" / "nations.json").read_text(encoding="utf-8"))
+    assert data["editions"] and data["long_run"]["countries"]
+
+
 def test_atlas_meta_covers_three_atlases_and_the_heatmap(site_dir):
     out, _ = site_dir
     meta = json.loads((out / "atlas_meta.json").read_text(encoding="utf-8"))

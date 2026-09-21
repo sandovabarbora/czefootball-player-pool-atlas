@@ -29,13 +29,14 @@ series_contrast: [NOR, CZE]
 compare: [NOR, CZE]
 
 squads:
-  nt_core_event: "2026 FIFA World Cup"
+  # Denmark did not qualify for the 2026 World Cup (the squads page has no
+  # Danish section), so the last full tournament squad is the core one
+  nt_core_event: "UEFA Euro 2024"
   events:
     - {team: A,   event: "UEFA Euro 2024",                  year: 2024, url: "https://en.wikipedia.org/wiki/UEFA_Euro_2024_squads", section: "Denmark"}
     - {team: A,   event: "2024–25 Nations League",          year: 2025, url: "https://en.wikipedia.org/wiki/Denmark_national_football_team", section: "Current squad"}
     - {team: A,   event: "2026 World Cup qualification",    year: 2025, url: "https://en.wikipedia.org/wiki/Denmark_national_football_team", section: "Recent call-ups"}
     - {team: U21, event: "UEFA European Under-21 Championship 2025", year: 2025, url: "https://en.wikipedia.org/wiki/2025_UEFA_European_Under-21_Championship_squads", section: "Denmark"}
-    - {team: A,   event: "2026 FIFA World Cup",              year: 2026, url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads", section: "Denmark"}
   peer_squads:
     - {country: NOR, section: "Norway"}
     - {country: SUI, section: "Switzerland"}

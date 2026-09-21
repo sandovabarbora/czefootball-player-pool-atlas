@@ -179,3 +179,25 @@
   number: "SkillCorner/opendata"
   url: "https://github.com/SkillCorner/opendata"
   accessed: "21 September 2026"
+
+# Reform dates drawn as timing markers on the cross-nation page (2026-09-21,
+# src/nations_compare.py) -- documented dates, cited so a reader can check
+# them; the page says explicitly that a marker on a series is not a cause.
+- key: honigstein2015
+  type: book
+  authors: ["Honigstein, R."]
+  year: 2015
+  title: "Das Reboot: How German Football Reinvented Itself and Conquered the World"
+  place: London
+  publisher: Yellow Jersey Press
+  url: "https://openlibrary.org/works/OL20016699W"
+
+- key: premierleague2011
+  type: report
+  authors: ["Premier League"]
+  year: 2011
+  title: "Elite Player Performance Plan"
+  series: Premier League (archived page)
+  number: "web.archive.org, 22 April 2016"
+  url: "https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html"
+  accessed: "21 September 2026"

@@ -83,7 +83,7 @@ EN: dict[str, str] = {
     "toc.q4": "Where they go",
     "toc.q4b": "Leaving later",
     "toc.q5": "How they fare",
-    "toc.q6": "World Cup squad",
+    "toc.q6": "National-team squad",
     "toc.q7": "When the train left",
     "toc.q8": "{a} and {b}",
     "toc.q8b": "Goalkeepers",
@@ -268,7 +268,7 @@ EN: dict[str, str] = {
     "slide.5.table_summary": "Country-by-country figures",
     "ch2.headline_note": "Not informative for this nation: {home_league} and every peer's own league are themselves top-{topn} leagues, so the domestic / top-{topn} split has no content here; the exhibit is kept for comparability with other nations.",
     "slide.home_note": " {home_league} is itself one of Europe's top-{topn} leagues; here 'abroad' means the other {topn_minus_1}.",
-    "slide.6.q": "What is the World Cup squad built from?",
+    "slide.6.q": "What is the national-team squad built from?",
     "slide.6.aq": "In numbers: league tier of every {event} squad member's most-minutes {season} row, matched by name and birth year, per country.",
     "slide.6.a": "<strong>{cze_pct} %</strong> of the {event} squad plays in the {topn} strongest leagues; {best_name} {best_pct} %.",
     "slide.6.how": "Wikipedia squad lists matched to {season} league rows; tier = league of the most-minutes row.",
@@ -397,7 +397,7 @@ EN: dict[str, str] = {
     "peer_compare.export_age": "Export age (recent)",
     "peer_compare.sideways": "Sideways moves",
     "peer_compare.minutes_share": "Exports' club-minutes share",
-    "peer_compare.wc_top9": "World Cup squad in the top-9 leagues",
+    "peer_compare.wc_top9": "National-team squad in the top-9 leagues",
     "peer_compare.big5_now": "Big-5 players now",
 
     # ---- explore the data (folded; today's chapters I-III material)
