@@ -699,3 +699,78 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
 /* chapter ledes: two-line preview with the existing More/Less clamp control */
 .framing.lede { margin-bottom: 0; }
 .framing.lede.clamp { -webkit-line-clamp: 2; }
+
+/* =========================================================================
+   Modern pass (distill, round 3). Loaded last, so it wins the cascade.
+   The identity stays (cream, navy, oxblood, Space Grotesk + JetBrains Mono);
+   what changes is the register: fewer hairlines, sentence-case labels
+   instead of tracked capitals, wider and larger answers, one fold style.
+   ========================================================================= */
+
+/* answers: the slide's hero, wide enough to breathe */
+.slide-a {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem);
+  line-height: 1.38;
+  letter-spacing: -0.012em;
+  max-width: 52ch;
+  margin: 0 0 var(--space-6);
+}
+.slide-a strong { font-weight: 600; color: var(--oxblood-700); }
+.slide-q { max-width: 26ch; }
+
+/* sections separated by air, not rules */
+.slide { border-top: 0; padding: var(--space-7) 0 var(--space-6); }
+.act { border-top: 0; padding-top: var(--space-7); }
+.act-line { max-width: 40ch; }
+
+/* one fold style: sentence case, a small chevron, no boxes, no tracking */
+details.fold > summary,
+.slide-method > summary, .funnel-caveats > summary, .pool-fold > summary, .brief-body > summary, .fed-fold > summary {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-soft);
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+details.fold > summary::before {
+  content: "";
+  width: 0.45rem; height: 0.45rem;
+  border: 0; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  margin-right: 0.25rem;
+}
+details.fold[open] > summary::before { content: ""; transform: rotate(45deg); }
+details.fold > summary::after { content: none; }
+details.fold > summary:hover { color: var(--ink); }
+details.fold { border-top: 1px solid var(--rule-soft); }
+
+/* prose kickers: small, sentence case, one weight */
+.slide-aq-label, .slide-did-label, .slide-how-label, .act-kicker, .scoreboard-kicker,
+.cycle-row-kicker, .funnel-metric-label, .changes-tier-label, .pool-head {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--navy-500);
+}
+.slide-how-label, .scoreboard-kicker { color: var(--oxblood-700); }
+.funnel-metric-label, .changes-tier-label, .pool-head { font-weight: 500; color: var(--muted); }
+.cycle-row-kicker { color: var(--oxblood-700); font-size: 0.82rem; }
+
+/* bars: a thinner mark on a quieter track */
+.capita-bar { height: 6px; background: var(--cream-200); }
+.capita-bar-fill { height: 6px; }
+.capita-row { padding: 0.55rem 0; }
+
+/* body measure and size a touch up */
+.slide-so { font-size: 0.92rem; }
+.slide-detail, .slide-aq, .slide-did { font-size: 0.95rem; line-height: 1.55; }
+section.slide { border-top: 0; }
+figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size: 0.82rem; color: var(--muted); letter-spacing: 0; }

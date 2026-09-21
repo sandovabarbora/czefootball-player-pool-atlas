@@ -619,7 +619,8 @@
 <section class="slide" id="q4b">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.4b.q') }}</h2>
-    <p class="slide-a">{{ t('slide.4b.a', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
+    {% set eam_zero = (eam.diff_21_24.lo <= 0 and eam.diff_21_24.hi >= 0) %}
+    <p class="slide-a">{{ t('slide.4b.a_zero' if eam_zero else 'slide.4b.a', n=eam.n, topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
                           y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
                           diff=signed(eam.diff_21_24.median), dlo=f3(eam.diff_21_24.lo), dhi=f3(eam.diff_21_24.hi),
                           age_home=g(eam.home_median_age),
