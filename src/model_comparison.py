@@ -535,6 +535,36 @@ def _subsample(df: pd.DataFrame, n: int, seed: int) -> pd.DataFrame:
     return df.sample(n=n, random_state=seed).reset_index(drop=True)
 
 
+def pool_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Pooled RMSE / MAE / coverage per model over the origins EVERY model
+    reported on.
+
+    The first origin has no training set by construction, so only the two
+    baselines score there; pooling them over one origin more than the fitted
+    models would compare RMSEs on different test sets and quietly flatter
+    whichever side drew the easier season. Weighted by each origin's test
+    rows; RMSE pooled in quadrature.
+    """
+    origins_by_model = {m: {r["origin"] for r in rows if r["model"] == m} for m in MODEL_ORDER}
+    reported = [o for o in origins_by_model.values() if o]
+    common = set.intersection(*reported) if reported else set()
+    pooled = []
+    for model in MODEL_ORDER:
+        model_rows = [r for r in rows if r["model"] == model and r["origin"] in common]
+        if not model_rows:
+            continue
+        n_test = sum(r["n_test"] for r in model_rows)
+        w_rmse = float(np.sqrt(sum(r["rmse"] ** 2 * r["n_test"] for r in model_rows) / n_test))
+        w_mae = float(sum(r["mae"] * r["n_test"] for r in model_rows) / n_test)
+        cov_rows = [r for r in model_rows if r["coverage90"] is not None]
+        cov = float(sum(r["coverage90"] * r["n_test"] for r in cov_rows) / sum(r["n_test"] for r in cov_rows)) \
+            if cov_rows else None
+        pooled.append({"model": model, "n_test": n_test, "rmse": round(w_rmse, 4), "mae": round(w_mae, 4),
+                       "coverage90": round(cov, 4) if cov is not None else None,
+                       "origins": sorted(common)})
+    return pooled
+
+
 def main() -> None:
     logging_setup()
     config.ensure_dirs()
@@ -599,20 +629,7 @@ def main() -> None:
         rows.append({"model": "mlp", "origin": origin, "n_test": len(test),
                      "rmse": rmse(test["target"], pred), "mae": mae(test["target"], pred), "coverage90": None})
 
-    pooled = []
-    for model in MODEL_ORDER:
-        model_rows = [r for r in rows if r["model"] == model]
-        if not model_rows:
-            continue
-        n_test = sum(r["n_test"] for r in model_rows)
-        w_rmse = float(np.sqrt(sum(r["rmse"] ** 2 * r["n_test"] for r in model_rows) / n_test))
-        w_mae = float(sum(r["mae"] * r["n_test"] for r in model_rows) / n_test)
-        cov_rows = [r for r in model_rows if r["coverage90"] is not None]
-        cov = float(sum(r["coverage90"] * r["n_test"] for r in cov_rows) / sum(r["n_test"] for r in cov_rows)) \
-            if cov_rows else None
-        pooled.append({"model": model, "n_test": n_test, "rmse": round(w_rmse, 4), "mae": round(w_mae, 4),
-                       "coverage90": round(cov, 4) if cov is not None else None})
-
+    pooled = pool_rows(rows)
     winner = min(pooled, key=lambda r: r["rmse"])["model"]
     gbm_row = next((r for r in pooled if r["model"] == "gbm"), None)
     mlp_row = next((r for r in pooled if r["model"] == "mlp"), None)

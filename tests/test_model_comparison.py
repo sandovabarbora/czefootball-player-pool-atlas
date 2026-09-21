@@ -205,3 +205,19 @@ def test_assemble_output_shape():
     assert out["winner_pooled"] == "persistence"
     import json
     json.dumps(out)  # round-trips through plain JSON types
+
+
+def test_pool_rows_uses_only_the_origins_every_model_reported():
+    """The first origin has only the baselines; pooling must not count it,
+    or the baselines are scored on a test set the models never saw."""
+    from src.model_comparison import pool_rows
+    rows = [
+        {"model": "persistence", "origin": "2021-2022", "n_test": 100, "rmse": 0.01, "mae": 0.01, "coverage90": None},
+        {"model": "persistence", "origin": "2022-2023", "n_test": 100, "rmse": 0.08, "mae": 0.05, "coverage90": None},
+        {"model": "bayesian", "origin": "2022-2023", "n_test": 100, "rmse": 0.07, "mae": 0.05, "coverage90": 0.9},
+        {"model": "gbm", "origin": "2022-2023", "n_test": 100, "rmse": 0.075, "mae": 0.05, "coverage90": None},
+    ]
+    pooled = {r["model"]: r for r in pool_rows(rows)}
+    assert pooled["persistence"]["origins"] == ["2022-2023"]
+    assert pooled["persistence"]["n_test"] == 100 and pooled["persistence"]["rmse"] == 0.08   # the 0.01 origin is out
+    assert pooled["bayesian"]["coverage90"] == 0.9

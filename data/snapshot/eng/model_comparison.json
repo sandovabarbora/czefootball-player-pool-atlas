@@ -188,38 +188,68 @@
  "pooled": [
   {
    "model": "persistence",
-   "n_test": 10805,
-   "rmse": 0.0754,
-   "mae": 0.0533,
-   "coverage90": null
+   "n_test": 8850,
+   "rmse": 0.0751,
+   "mae": 0.0531,
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
   },
   {
    "model": "shrinkage_league_mean",
-   "n_test": 10805,
-   "rmse": 0.1247,
-   "mae": 0.0968,
-   "coverage90": null
+   "n_test": 8850,
+   "rmse": 0.1225,
+   "mae": 0.095,
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
   },
   {
    "model": "bayesian",
    "n_test": 8850,
    "rmse": 0.0714,
    "mae": 0.0526,
-   "coverage90": 0.9137
+   "coverage90": 0.9137,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
   },
   {
    "model": "gbm",
    "n_test": 8850,
    "rmse": 0.0706,
    "mae": 0.051,
-   "coverage90": null
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
   },
   {
    "model": "mlp",
    "n_test": 8850,
    "rmse": 0.0753,
    "mae": 0.0557,
-   "coverage90": null
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
   }
  ],
  "winner_pooled": "gbm",
@@ -228,6 +258,7 @@
   "Origin 2021-2022's training set is empty by construction (the corpus's earliest feature season, 2020-2021, makes 2021-2022 the first possible target season) -- only the two baselines are reported for that origin.",
   "The M2 league-strength multiplier m_L (Task 15, league_strength.json) is used as an extra feature for the Bayesian model only, alongside the config-based league_multiplier already in every model's feature set.",
   "The MLP does not beat gradient boosting on pooled RMSE (0.0753 vs 0.0706).",
-  "Largest season-to-season RMSE change for the winner (gbm): 0.0046."
+  "Largest season-to-season RMSE change for the winner (gbm): 0.0046.",
+  "Pooled over the origins every model reported on (the first origin, baselines only, is excluded from the pooled comparison since 2026-09-21)."
  ]
 }
