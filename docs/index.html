@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211046">
-  <link rel="stylesheet" href="modern.css?v=202609211046">
+  <link rel="stylesheet" href="style.css?v=202609211053">
+  <link rel="stylesheet" href="modern.css?v=202609211053">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609211046"></script>
+  <script defer src="atlas.js?v=202609211053"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -97,7 +97,7 @@
       <span class="cast-stack"><img src="img/players/5d4f7d61.jpg" alt="Patrik Schick" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bb1cf301.jpg" alt="Václav Černý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/fdf3cb77.jpg" alt="Vladimír Coufal" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e9b893af.jpg" alt="Pavel Šulc" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/6613c819.jpg" alt="Tomáš Souček" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/5b5c2228.jpg" alt="Ladislav Krejčí" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/163bbd4a.jpg" alt="Tomáš Chorý" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/3eb0f2df.jpg" alt="Vladimír Darida" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/e03c2d97.jpg" alt="Tomáš Holeš" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Christophe Kabongo">CK</span><span class="cast-mono" aria-label="Hugo Sochůrek">HS</span><span class="cast-mono" aria-label="Jan Paluska">JP</span><img src="img/players/69b2bb80.jpg" alt="Roman Květ" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Robin Hranáč">RH</span><span class="cast-mono" aria-label="Lukáš Mašek">LM</span><span class="cast-mono" aria-label="Vojtech Stransky">VS</span><span class="cast-mono" aria-label="Denis Halinský">DH</span></span>
       <span class="cast-caption" data-short="17 player profiles">17 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 300 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 307 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -1059,6 +1059,20 @@
         <img src="big5_series.svg" alt="Line chart: Czech players with at least 450 minutes in the Big-5 leagues, 2000/01 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Czechia, Denmark and Croatia.">
         <figcaption>Czech in oxblood; peaks, lows and the last season marked directly.</figcaption>
       </figure>
+      
+      <aside class="scoreboard" id="prediction-1">
+        <p class="scoreboard-kicker">A forecast on the record</p>
+        <p class="scoreboard-claim">In 2026/27, <strong>11</strong> Czech players will have at least 450 minutes in the Big-5 leagues — between 5 and 18 with 90 % probability.</p>
+        <dl class="scoreboard-meta">
+          <div><dt>Registered</dt><dd>2026-09-21 · <code>9505779</code></dd></div>
+          <div><dt>Baseline to beat</dt><dd>10 — last season’s count, the “same as last year” forecast</dd></div>
+          <div><dt>Scored by</dt><dd>whether the observed count falls inside the 90 % interval, and whether the point forecast’s error is smaller than the baseline’s</dd></div>
+          <div><dt>Outcome</dt><dd>open — resolves after 2027-06-30, when the season’s tables are final</dd></div>
+        </dl>
+        
+        <p class="scoreboard-why">The numbers are fixed in the repository on the day they were made, with the commit they came from, and are scored by a rule written down before the answer is known. A forecast that can be revised afterwards is not a forecast.</p>
+      </aside>
+      
     </div>
     <p class="slide-how"><span class="slide-how-label">How we know</span> FBref Big-5 player tables 2000/01 → 2025/26; peers on the same rule; the names are the most-minutes Czech players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. The break date comes from a Bayesian local-level model with one change point (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
     <p class="slide-so">A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.</p>
@@ -14503,8 +14517,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 300 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 300 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 307 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 307 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
@@ -14805,7 +14819,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 10:46</p>
+    <p class="rendered-at">Rendered: 2026-09-21 10:53</p>
   </div>
 </footer>
 

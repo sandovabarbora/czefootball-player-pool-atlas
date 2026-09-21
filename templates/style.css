@@ -2850,3 +2850,20 @@ footer a:hover { border-bottom-color: var(--ink); }
 .changes-list li { padding: 0.15rem 0; border-bottom: 1px solid var(--rule-soft); }
 .changes-list .changes-name { color: var(--ink); }
 .changes-list .muted { font-size: 0.78rem; }
+
+/* ---- pre-registered forecast scoreboard (Task 32) --------------------- */
+.scoreboard {
+  margin: var(--space-4) 0 0; padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--rule); border-left: 4px solid var(--oxblood-700);
+  background: var(--surface); max-width: var(--measure-wide);
+}
+.scoreboard-kicker { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--oxblood-700); margin: 0 0 0.4rem; }
+.scoreboard-claim { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.5; margin: 0 0 0.8rem; color: var(--ink); }
+.scoreboard-claim strong { font-size: 1.4em; color: var(--oxblood-700); }
+.scoreboard-meta { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; margin: 0; font-family: var(--font-sans); font-size: 0.86rem; }
+.scoreboard-meta > div { display: contents; }
+.scoreboard-meta dt { color: var(--muted); }
+.scoreboard-meta dd { margin: 0; color: var(--ink-soft); }
+.scoreboard-meta code { font-size: 0.8em; }
+.scoreboard-drift { font-family: var(--font-sans); font-size: 0.86rem; color: var(--oxblood-700); margin: 0.8rem 0 0; }
+.scoreboard-why { font-family: var(--font-sans); font-size: 0.8rem; color: var(--muted); margin: 0.8rem 0 0; line-height: 1.5; }

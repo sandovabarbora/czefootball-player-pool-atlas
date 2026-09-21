@@ -755,6 +755,30 @@
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
         <figcaption>{{ t('slide.7.caption') }}</figcaption>
       </figure>
+      {% for pr in predictions %}
+      <aside class="scoreboard" id="prediction-{{ loop.index }}">
+        <p class="scoreboard-kicker">{{ t('pred.kicker') }}</p>
+        <p class="scoreboard-claim">{{ t('pred.claim', point=pr.point, lo=pr.lo, hi=pr.hi, season=pr.target_season | replace('-', '/') | replace('/20', '/'), min=feature_defs.min_minutes, pct=(pr.interval * 100) | round | int) }}</p>
+        <dl class="scoreboard-meta">
+          <div><dt>{{ t('pred.registered') }}</dt><dd>{{ pr.registered_on }} · <code>{{ pr.registered_commit }}</code></dd></div>
+          <div><dt>{{ t('pred.baseline') }}</dt><dd>{{ t('pred.baseline_value', n=pr.naive) }}</dd></div>
+          <div><dt>{{ t('pred.scoring') }}</dt><dd>{{ t('pred.scoring_rule', pct=(pr.interval * 100) | round | int) }}</dd></div>
+          <div><dt>{{ t('pred.outcome') }}</dt><dd>
+            {%- if pr.score -%}
+              <strong>{{ pr.score.observed }}</strong> · {{ t('pred.hit') if pr.score.hit else t('pred.miss') }} · {{ t('pred.vs_naive', model=pr.score.err_model, naive=pr.score.err_naive) }} · {{ pr.resolved_on }}
+            {%- elif pr.due -%}
+              {{ t('pred.due', date=pr.resolve_after) }}
+            {%- else -%}
+              {{ t('pred.open', date=pr.resolve_after) }}
+            {%- endif -%}
+          </dd></div>
+        </dl>
+        {% if pr.live and pr.live.moved %}
+        <p class="scoreboard-drift">{{ t('pred.drift', point=pr.live.point, lo=pr.live.lo, hi=pr.live.hi) }}</p>
+        {% endif %}
+        <p class="scoreboard-why">{{ t('pred.why') }}</p>
+      </aside>
+      {% endfor %}
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
     <p class="slide-so">{{ t('slide.7.so') }}</p>

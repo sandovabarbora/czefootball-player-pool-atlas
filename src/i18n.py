@@ -320,6 +320,22 @@ EN: dict[str, str] = {
     "slide.10.left_note": "\u201cNo longer in a covered league\u201d means exactly that: retired, injured for the season, or playing in a league this report does not fetch. The data cannot tell those apart and this page does not guess. \u201cNew to the pool\u201d likewise mixes debutants with players returning from leagues outside the set.",
     "slide.10.how": "Season feature tables for both seasons; a player\u2019s league is the one he played most minutes in; {min}-minute floor in a season to count as present in it; rungs as defined in the pathways chapter.",
     "slide.10.so": "A federation tracking this would watch the two moving columns each summer, and the stepping-stone count above all.",
+    # ---- pre-registered forecast scoreboard on slide 7 (Task 32)
+    "pred.kicker": "A forecast on the record",
+    "pred.claim": "In {season}, <strong>{point}</strong> {adj} players will have at least {min} minutes in the Big-5 leagues \u2014 between {lo} and {hi} with {pct} % probability.",
+    "pred.registered": "Registered",
+    "pred.baseline": "Baseline to beat",
+    "pred.baseline_value": "{n} \u2014 last season\u2019s count, the \u201csame as last year\u201d forecast",
+    "pred.scoring": "Scored by",
+    "pred.scoring_rule": "whether the observed count falls inside the {pct} % interval, and whether the point forecast\u2019s error is smaller than the baseline\u2019s",
+    "pred.outcome": "Outcome",
+    "pred.open": "open \u2014 resolves after {date}, when the season\u2019s tables are final",
+    "pred.due": "due \u2014 the season ended on {date} and the count has not been entered yet",
+    "pred.hit": "inside the interval",
+    "pred.miss": "outside the interval",
+    "pred.vs_naive": "error {model} against the baseline\u2019s {naive}",
+    "pred.drift": "The model has been refitted since registration and now says {point} ({lo}\u2013{hi}). The registered numbers above are the ones that will be scored.",
+    "pred.why": "The numbers are fixed in the repository on the day they were made, with the commit they came from, and are scored by a rule written down before the answer is known. A forecast that can be revised afterwards is not a forecast.",
     "slide.9.so": "A federation tracking this would watch how the showcase set changes as a cohort ages, not any one card.",
 
     # ---- slide chain kickers (Task 26C): every slide's question is followed

@@ -1,0 +1,50 @@
+# Pre-registered predictions (Task 32). Append-only.
+#
+# A forecast that can be revised after the fact is not a forecast. Each entry
+# here fixes, on the day it was made, what was predicted, from which data cut
+# and which commit of the model output, how it will be scored, and when it
+# can be resolved. The page shows the entry, not the live model: if the model
+# is refitted and its forecast moves, `src.predictions` shows both numbers
+# and says so, and this file keeps the original. An entry is resolved by
+# filling `outcome` and `resolved_on` in a later commit -- the git history is
+# the audit trail -- and never by editing the registered numbers.
+#
+# `quantity` is the exact thing counted, in the pipeline's own terms, so the
+# resolution is mechanical: run src.big5_series on the target season and read
+# the home nation's count.
+predictions:
+  - id: cze_big5_count_2026_27
+    nation: CZE
+    registered_on: 2026-09-21
+    registered_commit: 9505779          # data/snapshot/cze/series_model.json at registration
+    data_cut: "2025-2026 completed; FBref fetched 2026-09-14"
+    target_season: "2026-2027"
+    quantity: "Players of nation CZE with at least 450 minutes in the Big-5 leagues in 2026/27, counted as src.big5_series counts every season of the series"
+    model: "local level without a change point, fitted on the full 2000/01-2025/26 series (src.series_model)"
+    point: 11
+    lo: 5
+    hi: 18
+    interval: 0.90
+    naive: 10                           # 2025/26 observed count: the "same as last season" baseline
+    scoring: "hit if the observed count lies within [lo, hi]; absolute error of `point` against the observed count, compared with the naive baseline's"
+    resolve_after: 2027-06-30
+    outcome: null
+    resolved_on: null
+
+  - id: eng_big5_count_2026_27
+    nation: ENG
+    registered_on: 2026-09-21
+    registered_commit: 9505779          # data/snapshot/eng/series_model.json at registration
+    data_cut: "2025-2026 completed; FBref fetched 2026-09-14"
+    target_season: "2026-2027"
+    quantity: "Players of nation ENG with at least 450 minutes in the Big-5 leagues in 2026/27, counted as src.big5_series counts every season of the series"
+    model: "local level without a change point, fitted on the full 2000/01-2025/26 series (src.series_model)"
+    point: 130
+    lo: 107
+    hi: 157
+    interval: 0.90
+    naive: 127
+    scoring: "hit if the observed count lies within [lo, hi]; absolute error of `point` against the observed count, compared with the naive baseline's"
+    resolve_after: 2027-06-30
+    outcome: null
+    resolved_on: null

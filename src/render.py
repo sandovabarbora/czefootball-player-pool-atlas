@@ -46,6 +46,7 @@ from src.i18n import LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
 from src.references import harvard_list, in_text, in_text_multi, refs_by_key
+from src.predictions import build as build_predictions
 from src.utils import collapse_player_seasons, normalize_name, player_key as make_player_key, read_parquet, resolve_processed, season_label
 
 matplotlib.use("Agg")
@@ -2200,6 +2201,10 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                                    gap_decomposition, names)
     pool_table = _build_pool_table(data["pool_table"], tr)
     season_changes = _build_season_changes(data["season_changes"])
+    # the pre-registered forecast beside the live one (src.predictions): the
+    # ledger is what the page quotes, the live model only says whether it moved
+    live_forecast = (data["series_model"].get("forecast") or {}).get(config.HOME)
+    predictions = build_predictions(live_forecast)
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -2262,6 +2267,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "why_funnel": why_funnel,
         "pool_table": pool_table,
         "season_changes": season_changes,
+        "predictions": predictions,
         "downloads": _build_downloads("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
@@ -2709,6 +2715,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             "crs_p90": 1.2, "interceptions_p90": 0.4, "tklw_p90": 0.6, "fld_p90": 1.1, "fls_p90": 0.9,
             "rank_q": 1, "n_group": 1}]}),
         "season_changes": {},
+        "predictions": [],
         "downloads": [
             {"label_key": "downloads.pool", "files": [
                 {"name": "pool.parquet", "url": "https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet"}]},
