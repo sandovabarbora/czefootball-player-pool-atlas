@@ -232,6 +232,8 @@ EN: dict[str, str] = {
     "slide.1.q": "Is the {adj} pool thin?",
     "slide.1.aq": "In numbers: distinct players with ≥ {min} minutes on {season} rosters of the {topn} strongest leagues, per million inhabitants, against {n} peers.",
     "slide.1.a": "{nation} ranks <strong>{rank} of {n}</strong> countries at {pm} per million; {top} leads at {top_pm}.",
+    "slide.7.a_nobreak": "{Adj} players with ≥ {min} Big-5 minutes: <strong>{peak_n}</strong> at the {peak_season} peak, {low_n} at the {low_season} low, {last_n} in {last_season}. The model finds no step change: its best candidate, {break_season}, carries {break_prob} and a ×{delta} change — a flat series.",
+    "ch4.series.nobreak.p": "For {nation}, the model finds no step change worth dating: the best candidate is {season} at {prob} posterior with a ×{delta} ({lo}–{hi}) change in the level; the random walk's own innovation scale is σ = {sigma}.",
     "slide.1.a_leader": "{nation} leads <strong>{n}</strong> countries at {pm} per million; {second} is next at {second_pm}.",
     "slide.1.how": "Distinct players with ≥ {min} minutes on {season} rosters of the {topn} strongest leagues ÷ population (Eurostat 2024); every country counted the same way.",
     "slide.2.q": "Where exactly is it thin?",

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-home="ESP">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Player atlas — Spanish Football Atlas</title>
+  <meta name="description" content="Every player in the Spanish pool, season by season: minutes by league rung, goals and assists per 90 league-adjusted, national-team call-ups; compare up to three.">
+  <link rel="canonical" href="https://football.datasimply.eu/esp/atlas/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../modern.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="../atlas.app.js"></script>
+</head>
+<body id="top" class="ax-page">
+<nav class="topbar" aria-label="Navigation">
+  <a class="topbar-brand" href="../">Spanish Football <span>Atlas</span></a>
+  <div class="topbar-links">
+    <a href="../#summary">Summary</a>
+    <a href="../#pathways">Pathways</a>
+    <a href="../#q9">Cards</a>
+    <a href="../#methodology">Methodology</a>
+    <a href="./" aria-current="page">Players</a>
+    <a href="/nations/">Nations</a>
+  </div>
+  <div class="atlas-switch" aria-label="Atlas">
+    <a href="/atlas/">CZE</a> · <a href="/eng/atlas/">ENG</a> · <a href="/ger/atlas/">GER</a> · <a href="/den/atlas/">DEN</a> · <span aria-current="page">ESP</span>
+  </div>
+</nav>
+<main class="ax container" data-atlas-app data-home-name="Spanish">
+  <header class="ax-head">
+    <p class="ax-kicker">Player atlas · <span data-ax-n>1047</span> players · <span data-ax-span>20/21–26/27</span> · the Big-5 since 90/91</p>
+    <h1 class="ax-title">Every player in the pool, season by season.</h1>
+    <p class="ax-lead">The <a href="../">report</a> says what the pool does. This is where you check any one player in it: his seasons in the covered leagues — minutes by the rung of the league, goals and assists per 90 adjusted for that league, national-team call-ups — and up to three players on the same axes. A second view follows the nation in the five biggest leagues season by season since 90/91, and 1528 past players can be pulled into the list.</p>
+    <div class="ax-tabs" role="tablist" data-ax-tabs><button type="button" role="tab" class="ax-tab" data-ax-view="players" aria-selected="true">Players</button><button type="button" role="tab" class="ax-tab" data-ax-view="eras" aria-selected="false">The nation in the Big-5, 90/91–</button></div>
+  </header>
+  <section class="ax-eras" data-ax-view-eras hidden aria-label="The nation in the Big-5"></section>
+  <div class="ax-body" data-ax-view-players>
+    <aside class="ax-side" aria-label="Players">
+      <div class="ax-controls">
+        <label class="pool-control pool-control-search">Search <input type="search" data-ax-search autocomplete="off" placeholder="name, club or league"></label>
+        <label class="pool-control">Position <select data-ax-pos><option value="">all</option><option value="FW">forwards</option><option value="MF">midfielders</option><option value="DF">defenders</option><option value="GK">goalkeepers</option></select></label>
+        <label class="pool-control">League 25/26 <select data-ax-tier><option value="">all</option><option value="domestic">home league</option><option value="stepping_stone">stepping stone</option><option value="top9">top-9 league</option><option value="other">other league</option></select></label>
+        <label class="pool-control">Sort by <select data-ax-sort><option value="name">name</option><option value="min">minutes 25/26</option><option value="rank">rank in position group</option><option value="ga">G+A / 90 adj.</option><option value="age">age</option><option value="trend">change in minutes this season</option><option value="climb">rungs climbed since 20/21</option><option value="calls">national-team call-ups</option></select></label>
+        <label class="pool-control ax-check"><input type="checkbox" data-ax-nt> national team only</label>
+        <label class="pool-control ax-check"><input type="checkbox" data-ax-past> include past players (1528, Big-5 since 90/91)</label>
+      </div>
+      <p class="ax-browse-label">or start from a question</p>
+      <div class="chart-row ax-browse" data-ax-browse></div>
+      <p class="ax-count"><span data-ax-count>1047 of 1047</span> · click a row to open, up to three at once</p>
+      <ol class="ax-list" data-ax-list aria-label="players"></ol>
+      <p class="chart-empty" data-ax-empty hidden>no player matches</p>
+    </aside>
+    <section class="ax-detail" data-ax-detail data-n="0" aria-live="polite"></section>
+  </div>
+  <footer class="ax-foot">
+    <p>Season lines are FBref standard tables for the leagues the pipeline covers (nine headline leagues, the home league, its peers and the stepping-stone leagues), 20/21–26/27; a season elsewhere is absent, not zero. G+A / 90 adj. is non-penalty goals plus assists per 90 minutes, times the league multiplier from the report's <a href="../#league-strength">league-strength model</a>; it is the raw rate, not the shrunk one the report ranks on. National-team call-ups come from the squad lists the report uses. Portraits: Chance Liga official portraits, Wikimedia Commons where none exists — credits on the <a href="../#photo-credits">report page</a>.</p>
+  </footer>
+</main>
+</body>
+</html>

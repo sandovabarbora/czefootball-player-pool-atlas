@@ -1400,7 +1400,10 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     # one-break JSON simply has none
     # only a rise that is one (factor > 1) is written up as the rise; a flat
     # series (England) has two steps near ×1 and no story to tell there
-    if br.get("rise") and br["rise"]["delta_factor"]["median"] > 1.0:
+    # a step is written up only when it is one: a factor within ±5 % of one
+    # is a flat series (Spain), and the page says so instead of dating noise
+    home_break["is_step"] = abs(br["delta_factor"]["median"] - 1.0) >= 0.05
+    if br.get("rise") and br["rise"]["delta_factor"]["median"] >= 1.05:
         rs = br["rise"]
         home_break["rise"] = {
             "season": season_label((rs.get("modal") or rs["top"][0])["season"]), "prob": (rs.get("modal") or rs["top"][0])["prob"],
@@ -1408,7 +1411,7 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
             "top": [{"season": season_label(r["season"]), "prob": r["prob"]} for r in rs["top"]],
         }
         home_break["fall_is_a_fall"] = br.get("fall_is_a_fall", True)
-    elif br.get("rise"):
+    elif br.get("rise") and br["rise"]["delta_factor"]["median"] <= 0.95:
         # both steps lower the level (Germany: the Bundesliga internationalised
         # in two moves) -- the other step is written up as an earlier fall
         rs = br["rise"]
@@ -1659,7 +1662,7 @@ def _build_why_funnel(
         },
         "stage5": {
             "per_million": [_cell((pc_by.get(c) or {}).get("per_million"), "f2") for c in countries],
-            "break_season": big5.get("break_season"),
+            "break_season": None if big5.get("no_break") else big5.get("break_season"),
             "break_prob": big5.get("break_prob"),
         },
         "take_one_thing": take_one_thing,
@@ -2208,6 +2211,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         # Slide 7's answer sentence gains the break (Task 19): sourced from
         # the same change-point fit that backs #series-model below, not a
         # second computation.
+        big5["no_break"] = not series_model["break"].get("is_step", True)
         big5["break_season"] = series_model["break"]["season"]
         big5["break_prob"] = series_model["break"]["prob"]
         big5["delta"] = series_model["break"]["delta"]

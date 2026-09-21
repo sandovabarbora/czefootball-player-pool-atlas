@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609220014">
-  <link rel="stylesheet" href="modern.css?v=202609220014">
+  <link rel="stylesheet" href="style.css?v=202609220036">
+  <link rel="stylesheet" href="modern.css?v=202609220036">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609220014"></script>
-  <script defer src="atlas.js?v=202609220014"></script>
+  <script defer src="charts.js?v=202609220036"></script>
+  <script defer src="atlas.js?v=202609220036"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -32,7 +32,7 @@
   </div>
   <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Contents</button>
   <div class="atlas-switch" aria-label="Atlas">
-    <a href="/">CZE</a> · <a href="/eng/">ENG</a> · <span aria-current="page">GER</span> · <a href="/den/">DEN</a>
+    <a href="/">CZE</a> · <a href="/eng/">ENG</a> · <span aria-current="page">GER</span> · <a href="/den/">DEN</a> · <a href="/esp/">ESP</a>
   </div>
 </nav>
 
@@ -1074,7 +1074,7 @@
   <div class="container">
     <h2 class="slide-q">When did the train leave?</h2>
     
-    <p class="slide-a">German players with ≥ 450 Big-5 minutes: <strong>253</strong> at the 1995/96 peak, 128 at the 2009/10 low, 161 in 2025/26. The break is dated to 2000/01. The rise before it is dated to 2010/11.</p>
+    <p class="slide-a">German players with ≥ 450 Big-5 minutes: <strong>253</strong> at the 1995/96 peak, 128 at the 2009/10 low, 161 in 2025/26. The break is dated to 2000/01.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="big5_series.svg" alt="Line chart: German players with at least 450 minutes in the Big-5 leagues, 1995/96 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Germany, France and Spain.">
@@ -1084,7 +1084,7 @@
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">Break posterior 69 %; a level change of ×0.76 (0.65–0.98). Rise posterior 21 %; ×1.04.</p>
+      <p class="slide-detail">Break posterior 69 %; a level change of ×0.76 (0.65–0.98).</p>
     <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: German players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with the rise and the fall each dated by a change-point model.</p>
     <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the two seasons where that count changed level for good — once up, once down — and stayed there.</p>
     <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1995/96 → 2025/26; peers on the same rule; the names are the most-minutes German players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 1995/96: Eike Immel, Jörg Schmadtke, Jörg Albertz; 1996/97: Bodo Illgner, Andreas Köpke, Oliver Reck; 1997/98: Jens Lehmann, Oliver Kahn, Uwe Kamps. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
@@ -37877,10 +37877,14 @@
     <p>For Germany, the model dates the break to 2000/01 (69 % posterior probability), a ×0.76 (0.65–0.98, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.033.</p>
     
     
-    <p>The rise before it is dated to 2010/11 (21 % posterior), a ×1.04 (0.84–1.22) change in the level. The most probable seasons for each:</p>
     <ul class="break-top">
-      <li>rise: 2010/11: 21 % · 2011/12: 7 % · 2013/14: 6 %</li>
-      <li>fall: 2000/01: 69 % · 2001/02: 6 % · 1999/00: 6 %</li>
+      
+      <li>2000/01: 69 %</li>
+      
+      <li>2001/02: 6 %</li>
+      
+      <li>1999/00: 6 %</li>
+      
     </ul>
     
     <p>The same model, fit separately for the two contrast countries:</p>
@@ -39167,7 +39171,7 @@
     <p class="close-kicker">What this is for</p>
     <p class="close-statement">A federation does not need another opinion about its pool. It needs the same measured questions asked every summer, answered the same way, with the uncertainty on the page — and a name for every player the staff ask about.</p>
     <p class="close-line">This is one country, built from public data in the open. The pipeline takes a nationality code and a peer set; the same code produced the other editions linked below, and the comparison across them. With a federation’s own data — tracking, academy, medical — the tables get deeper and the questions stay the same.</p>
-    <p class="close-links"><a href="#brief">The one-page brief</a> · <a href="#pool">Every player in the pool</a> · <a href="#downloads">Download the tables</a> · <a href="/">The Czechia edition</a> · <a href="/eng/">The England edition</a> · <a href="/den/">The Denmark edition</a> · <a href="atlas/">The player atlas</a> · <a href="/nations/">Nations, side by side</a></p>
+    <p class="close-links"><a href="#brief">The one-page brief</a> · <a href="#pool">Every player in the pool</a> · <a href="#downloads">Download the tables</a> · <a href="/">The Czechia edition</a> · <a href="/eng/">The England edition</a> · <a href="/den/">The Denmark edition</a> · <a href="/esp/">The Spain edition</a> · <a href="atlas/">The player atlas</a> · <a href="/nations/">Nations, side by side</a></p>
   </div>
 </section>
 
@@ -39473,7 +39477,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-22 00:05</p>
+    <p class="rendered-at">Rendered: 2026-09-22 00:36</p>
   </div>
 </footer>
 

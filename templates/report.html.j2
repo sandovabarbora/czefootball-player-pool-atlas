@@ -291,7 +291,7 @@
         </a>
       </li>
       {% endif %}
-      {% if big5 and big5.break_season %}
+      {% if big5 and big5.break_season and not big5.no_break %}
       <li class="quickread-tile">
         <a href="#q7">
           <span class="quickread-figure">{{ big5.break_season }}</span>
@@ -779,7 +779,7 @@
   <div class="container">
     <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
     {% if big5 %}
-    <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_rise', rise_season=big5.rise_season) }}{% endif %}</p>
+    <p class="slide-a">{% if big5.no_break %}{{ t('slide.7.a_nobreak', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta)) }}{% else %}{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_rise', rise_season=big5.rise_season) }}{% endif %}{% endif %}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
@@ -1225,7 +1225,7 @@
       {% if league_strength.home and not league_strength.home_is_reference %}
       <div><dt>{{ t('brief.check.strength') }}</dt><dd>{{ t('brief.check.strength_value', median=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi)) }}</dd></div>
       {% endif %}
-      {% if big5 and big5.break_season %}
+      {% if big5 and big5.break_season and not big5.no_break %}
       <div><dt>{{ t('brief.check.break') }}</dt><dd>{{ t('brief.check.break_value', season=big5.break_season, prob=pctword(big5.break_prob)) }}</dd></div>
       {% endif %}
     </dl>
@@ -1917,7 +1917,7 @@
       <img src="{{ assets }}series_model.svg" alt="{{ t('ch4.series.fig_alt') }}">
       <figcaption>{{ t('ch4.series.caption') }}</figcaption>
     </figure>
-    <p>{{ t('ch4.series.break.p', season=series_model.break.season, prob=pct(series_model.break.prob),
+    <p>{{ t('ch4.series.nobreak.p' if series_model.break.is_step is sameas false else 'ch4.series.break.p', season=series_model.break.season, prob=pct(series_model.break.prob),
              delta=f2(series_model.break.delta), lo=f2(series_model.break.lo), hi=f2(series_model.break.hi),
              sigma=f3(series_model.break.sigma)) }}</p>
     {% if series_model.break.earlier %}

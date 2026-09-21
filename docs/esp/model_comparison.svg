@@ -1,0 +1,2512 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="609.782448pt" height="321.84pt" viewBox="0 0 609.782448 321.84" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-22T00:30:09.014862</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 321.84 
+L 609.782448 321.84 
+L 609.782448 0 
+L 0 0 
+z
+" style="fill: #161616"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 50.43 277.58 
+L 516.934375 277.58 
+L 516.934375 26.2 
+L 50.43 26.2 
+z
+" style="fill: #161616"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 478.05901 248.905789 
+L 478.05901 234.499752 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke: #3a3a36; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 478.05901 248.021147 
+L 478.05901 218.914192 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke: #3a3a36; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 478.05901 239.174722 
+L 478.05901 203.328632 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke: #3a3a36; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_4">
+      <defs>
+       <path id="m1235b413bb" d="M 0 0 
+L 0 3.5 
+" style="stroke: #dcdcd6; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m1235b413bb" x="89.305365" y="277.58" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- 2021/22 -->
+      <g style="fill: #dcdcd6" transform="translate(70.415521 294.58) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d1" d="M 307 0 
+L 307 448 
+Q 531 627 828 844 
+Q 1126 1062 1430 1318 
+Q 1734 1574 1993 1862 
+Q 2253 2150 2413 2470 
+Q 2573 2790 2573 3130 
+Q 2573 3507 2361 3744 
+Q 2150 3981 1741 3981 
+Q 1440 3981 1238 3843 
+Q 1037 3706 937 3466 
+Q 838 3226 832 2918 
+L 301 2957 
+Q 301 3270 397 3548 
+Q 493 3827 678 4041 
+Q 864 4256 1136 4381 
+Q 1408 4506 1760 4506 
+Q 2163 4506 2464 4336 
+Q 2765 4166 2934 3862 
+Q 3104 3558 3104 3149 
+Q 3104 2790 2973 2457 
+Q 2842 2125 2608 1824 
+Q 2374 1523 2073 1254 
+Q 1773 986 1433 749 
+Q 1094 512 742 314 
+L 883 506 
+L 3283 506 
+L 3283 0 
+L 307 0 
+z
+" transform="scale(0.015625)"/>
+        <path id="HankenGrotesk-Regular-1cf" d="M 1805 -51 
+Q 1434 -51 1174 86 
+Q 915 224 748 461 
+Q 582 698 496 995 
+Q 410 1293 374 1616 
+Q 339 1939 339 2246 
+Q 339 2547 371 2867 
+Q 403 3187 489 3481 
+Q 576 3776 739 4009 
+Q 902 4243 1158 4380 
+Q 1414 4518 1786 4518 
+Q 2144 4518 2397 4387 
+Q 2650 4256 2816 4029 
+Q 2982 3802 3075 3510 
+Q 3168 3219 3206 2892 
+Q 3245 2566 3245 2240 
+Q 3245 1907 3206 1580 
+Q 3168 1254 3075 960 
+Q 2982 666 2819 438 
+Q 2656 211 2406 80 
+Q 2157 -51 1805 -51 
+z
+M 1805 474 
+Q 2138 474 2333 704 
+Q 2528 934 2611 1331 
+Q 2694 1728 2694 2221 
+Q 2694 2739 2608 3139 
+Q 2522 3539 2323 3769 
+Q 2125 4000 1786 4000 
+Q 1517 4000 1344 3859 
+Q 1171 3718 1075 3472 
+Q 979 3226 937 2906 
+Q 896 2586 896 2227 
+Q 896 1882 937 1565 
+Q 979 1248 1078 1005 
+Q 1178 762 1354 618 
+Q 1530 474 1805 474 
+z
+" transform="scale(0.015625)"/>
+        <path id="HankenGrotesk-Regular-1d0" d="M 1862 0 
+L 1862 3597 
+L 2029 3315 
+L 698 3315 
+L 698 3750 
+L 1472 3750 
+Q 1664 3750 1763 3833 
+Q 1862 3917 1862 4122 
+L 1862 4461 
+L 2406 4461 
+L 2406 0 
+L 1862 0 
+z
+" transform="scale(0.015625)"/>
+        <path id="HankenGrotesk-Regular-20c" d="M -269 -1350 
+L 2016 4461 
+L 2438 4461 
+L 147 -1350 
+L -269 -1350 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(321.796875 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m1235b413bb" x="186.493776" y="277.58" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- 2022/23 -->
+      <g style="fill: #dcdcd6" transform="translate(167.603932 294.58) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d2" d="M 1760 -51 
+Q 1280 -51 921 125 
+Q 563 301 364 617 
+Q 166 934 166 1357 
+L 704 1389 
+Q 704 966 998 720 
+Q 1293 474 1779 474 
+Q 2099 474 2329 576 
+Q 2560 678 2685 870 
+Q 2810 1062 2810 1318 
+Q 2810 1555 2707 1712 
+Q 2605 1869 2429 1961 
+Q 2253 2054 2016 2092 
+Q 1779 2131 1510 2131 
+L 1510 2560 
+Q 1709 2560 1897 2595 
+Q 2086 2630 2236 2713 
+Q 2387 2797 2473 2937 
+Q 2560 3078 2560 3290 
+Q 2560 3501 2457 3661 
+Q 2355 3821 2176 3907 
+Q 1997 3994 1754 3994 
+Q 1357 3994 1133 3776 
+Q 909 3558 902 3219 
+L 371 3251 
+Q 371 3622 550 3907 
+Q 730 4192 1046 4352 
+Q 1363 4512 1773 4512 
+Q 2163 4512 2460 4361 
+Q 2758 4211 2931 3948 
+Q 3104 3686 3104 3341 
+Q 3104 3149 3046 2998 
+Q 2989 2848 2883 2733 
+Q 2778 2618 2640 2538 
+Q 2502 2458 2349 2406 
+Q 2541 2362 2720 2278 
+Q 2899 2195 3040 2060 
+Q 3181 1926 3264 1740 
+Q 3347 1555 3347 1312 
+Q 3347 909 3145 601 
+Q 2944 294 2589 121 
+Q 2234 -51 1760 -51 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d2" transform="translate(321.796875 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m1235b413bb" x="283.682187" y="277.58" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- 2023/24 -->
+      <g style="fill: #dcdcd6" transform="translate(264.792344 294.58) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d3" d="M 2227 0 
+L 2227 1062 
+L 102 1062 
+L 102 1491 
+L 2272 4461 
+L 2771 4461 
+L 2771 1568 
+L 3488 1568 
+L 3488 1062 
+L 2771 1062 
+L 2771 0 
+L 2227 0 
+z
+M 557 1376 
+L 512 1568 
+L 2227 1568 
+L 2227 3853 
+L 2291 3808 
+L 557 1376 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d2" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d3" transform="translate(321.796875 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m1235b413bb" x="380.870599" y="277.58" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- 2024/25 -->
+      <g style="fill: #dcdcd6" transform="translate(361.980755 294.58) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d4" d="M 1779 -51 
+Q 1389 -51 1059 115 
+Q 730 282 515 576 
+Q 301 870 230 1248 
+L 762 1344 
+Q 806 1101 937 899 
+Q 1069 698 1283 582 
+Q 1498 467 1773 467 
+Q 2093 467 2317 617 
+Q 2541 768 2659 1011 
+Q 2778 1254 2778 1530 
+Q 2778 1798 2666 2019 
+Q 2554 2240 2339 2371 
+Q 2125 2502 1811 2502 
+Q 1530 2502 1299 2374 
+Q 1069 2246 902 2003 
+L 371 2150 
+L 787 4461 
+L 3142 4461 
+L 3142 3955 
+L 986 3955 
+L 1274 4186 
+L 960 2458 
+L 806 2490 
+Q 1056 2784 1334 2899 
+Q 1613 3014 1888 3014 
+Q 2317 3014 2646 2812 
+Q 2976 2611 3161 2272 
+Q 3347 1933 3347 1530 
+Q 3347 1210 3232 925 
+Q 3117 640 2905 419 
+Q 2694 198 2406 73 
+Q 2118 -51 1779 -51 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d3" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d4" transform="translate(321.796875 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m1235b413bb" x="478.05901" y="277.58" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 2025/26 -->
+      <g style="fill: #dcdcd6" transform="translate(459.169167 294.58) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d5" d="M 2310 4461 
+L 1171 2637 
+L 1107 2720 
+Q 1254 2816 1414 2867 
+Q 1574 2918 1734 2918 
+Q 2150 2918 2486 2720 
+Q 2822 2522 3017 2189 
+Q 3213 1856 3213 1446 
+Q 3213 1018 3001 678 
+Q 2790 339 2441 144 
+Q 2093 -51 1664 -51 
+Q 1242 -51 886 144 
+Q 531 339 320 678 
+Q 109 1018 109 1440 
+Q 109 1658 176 1866 
+Q 243 2074 352 2253 
+L 1690 4461 
+L 2310 4461 
+z
+M 1664 2438 
+Q 1395 2438 1168 2310 
+Q 941 2182 803 1958 
+Q 666 1734 666 1446 
+Q 666 1165 800 941 
+Q 934 717 1161 589 
+Q 1389 461 1664 461 
+Q 1939 461 2166 589 
+Q 2394 717 2528 941 
+Q 2662 1165 2662 1453 
+Q 2662 1734 2528 1958 
+Q 2394 2182 2170 2310 
+Q 1946 2438 1664 2438 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1d1"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(112 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d4" transform="translate(168 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-20c" transform="translate(224 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(265.796875 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d5" transform="translate(321.796875 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_6">
+     <!-- Target season (origin) -->
+     <g style="fill: #dcdcd6" transform="translate(236.64625 311.61) scale(0.1 -0.1)">
+      <defs>
+       <path id="HankenGrotesk-Regular-8f" d="M 1594 0 
+L 1594 3955 
+L 96 3955 
+L 96 4461 
+L 3654 4461 
+L 3654 3955 
+L 2163 3955 
+L 2163 0 
+L 1594 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-d8" d="M 2534 0 
+L 2496 634 
+L 2496 1978 
+Q 2496 2342 2294 2540 
+Q 2093 2739 1696 2739 
+Q 1440 2739 1216 2633 
+Q 992 2528 781 2278 
+L 390 2611 
+Q 653 2918 992 3062 
+Q 1331 3206 1734 3206 
+Q 2355 3206 2694 2886 
+Q 3034 2566 3034 1978 
+L 3034 0 
+L 2534 0 
+z
+M 1491 -51 
+Q 1133 -51 867 73 
+Q 602 198 458 422 
+Q 314 646 314 941 
+Q 314 1203 419 1385 
+Q 525 1568 691 1670 
+Q 858 1779 1072 1820 
+Q 1286 1862 1523 1862 
+L 2547 1862 
+L 2547 1453 
+L 1600 1453 
+Q 1459 1453 1305 1427 
+Q 1152 1402 1037 1318 
+Q 954 1254 906 1158 
+Q 858 1062 858 934 
+Q 858 685 1043 537 
+Q 1229 390 1542 390 
+Q 1805 390 2019 512 
+Q 2234 634 2365 848 
+Q 2496 1062 2496 1331 
+L 2720 1101 
+Q 2682 762 2515 499 
+Q 2349 237 2089 93 
+Q 1830 -51 1491 -51 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-15f" d="M 461 0 
+L 461 3155 
+L 1005 3155 
+L 1005 2310 
+L 864 2278 
+Q 909 2560 1078 2768 
+Q 1248 2976 1475 3091 
+Q 1702 3206 1920 3206 
+Q 2067 3206 2201 3174 
+Q 2336 3142 2477 3066 
+L 2208 2579 
+Q 2131 2618 2025 2643 
+Q 1920 2669 1824 2669 
+Q 1670 2669 1520 2611 
+Q 1370 2554 1248 2432 
+Q 1126 2310 1062 2106 
+Q 1037 2016 1021 1872 
+Q 1005 1728 1005 1478 
+L 1005 0 
+L 461 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-111" d="M 1734 -1363 
+Q 1056 -1363 659 -1113 
+Q 262 -864 262 -422 
+Q 262 -390 265 -339 
+Q 269 -288 282 -243 
+L 1069 326 
+L 1254 198 
+L 806 -358 
+Q 800 -384 800 -403 
+Q 800 -422 800 -442 
+Q 800 -698 1069 -822 
+Q 1338 -947 1734 -947 
+Q 2086 -947 2316 -848 
+Q 2547 -749 2547 -525 
+Q 2547 -397 2473 -317 
+Q 2400 -237 2262 -192 
+Q 2125 -147 1939 -115 
+Q 1754 -83 1523 -51 
+Q 1235 -6 963 77 
+Q 691 160 515 320 
+Q 339 480 339 742 
+Q 339 966 496 1152 
+Q 653 1338 909 1459 
+L 1254 1235 
+Q 1037 1184 947 1078 
+Q 858 973 858 826 
+Q 858 704 944 627 
+Q 1030 550 1193 508 
+Q 1357 467 1587 435 
+Q 1894 390 2163 339 
+Q 2432 288 2640 195 
+Q 2848 102 2963 -54 
+Q 3078 -211 3078 -461 
+Q 3078 -896 2720 -1129 
+Q 2362 -1363 1734 -1363 
+z
+M 1658 986 
+Q 1293 986 1011 1126 
+Q 730 1267 573 1516 
+Q 416 1766 416 2086 
+Q 416 2419 579 2672 
+Q 742 2925 1020 3065 
+Q 1299 3206 1638 3206 
+Q 1971 3206 2246 3065 
+Q 2522 2925 2688 2669 
+Q 2854 2413 2854 2067 
+Q 2854 1741 2700 1497 
+Q 2547 1254 2278 1120 
+Q 2010 986 1658 986 
+z
+M 1645 1427 
+Q 1965 1427 2141 1622 
+Q 2317 1818 2317 2099 
+Q 2317 2400 2131 2585 
+Q 1946 2771 1645 2771 
+Q 1338 2771 1146 2582 
+Q 954 2394 954 2106 
+Q 954 1818 1139 1622 
+Q 1325 1427 1645 1427 
+z
+M 2650 2566 
+L 2259 2829 
+L 2925 3379 
+L 3200 3040 
+L 2650 2566 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-fd" d="M 1792 -51 
+Q 1421 -51 1142 73 
+Q 864 198 681 422 
+Q 499 646 406 937 
+Q 314 1229 314 1555 
+Q 314 1882 403 2179 
+Q 493 2477 669 2707 
+Q 845 2938 1113 3072 
+Q 1382 3206 1741 3206 
+Q 2106 3206 2371 3081 
+Q 2637 2957 2806 2739 
+Q 2976 2522 3059 2253 
+Q 3142 1984 3142 1696 
+Q 3142 1670 3139 1577 
+Q 3136 1485 3123 1414 
+L 851 1414 
+Q 870 954 1120 698 
+Q 1370 442 1798 442 
+Q 2074 442 2278 531 
+Q 2483 621 2662 819 
+L 3040 486 
+Q 2867 301 2675 182 
+Q 2483 64 2268 6 
+Q 2054 -51 1792 -51 
+z
+M 2605 1690 
+Q 2618 1741 2621 1792 
+Q 2624 1843 2624 1894 
+Q 2624 2048 2569 2201 
+Q 2515 2355 2409 2480 
+Q 2304 2605 2141 2678 
+Q 1978 2752 1754 2752 
+Q 1478 2752 1280 2624 
+Q 1082 2496 973 2285 
+Q 864 2074 845 1818 
+L 2784 1818 
+L 2605 1690 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-16a" d="M 1510 -51 
+Q 1286 -51 1104 35 
+Q 922 122 819 314 
+Q 717 506 717 806 
+L 717 4000 
+L 1267 4307 
+L 1267 947 
+Q 1267 685 1350 541 
+Q 1434 397 1651 397 
+Q 1715 397 1804 413 
+Q 1894 429 1997 454 
+L 1997 32 
+Q 1875 -13 1750 -32 
+Q 1626 -51 1510 -51 
+z
+M 64 2733 
+L 64 3155 
+L 1997 3155 
+L 1997 2733 
+L 64 2733 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-1f9" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-163" d="M 1504 -51 
+Q 1184 -51 928 45 
+Q 672 141 489 301 
+Q 307 461 198 640 
+L 576 960 
+Q 698 717 938 560 
+Q 1178 403 1510 403 
+Q 1811 403 1990 531 
+Q 2170 659 2170 877 
+Q 2170 1056 2061 1158 
+Q 1952 1261 1773 1325 
+Q 1594 1389 1382 1440 
+Q 1203 1485 1020 1549 
+Q 838 1613 691 1709 
+Q 544 1805 454 1958 
+Q 365 2112 365 2336 
+Q 365 2726 669 2966 
+Q 973 3206 1466 3206 
+Q 1824 3206 2121 3056 
+Q 2419 2906 2586 2605 
+L 2240 2349 
+Q 2112 2573 1904 2672 
+Q 1696 2771 1446 2771 
+Q 1197 2771 1030 2668 
+Q 864 2566 864 2387 
+Q 864 2253 941 2169 
+Q 1018 2086 1168 2028 
+Q 1318 1971 1536 1920 
+Q 1734 1875 1939 1811 
+Q 2144 1747 2317 1644 
+Q 2490 1542 2595 1372 
+Q 2701 1203 2701 934 
+Q 2701 640 2553 416 
+Q 2406 192 2137 70 
+Q 1869 -51 1504 -51 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-141" d="M 1850 -51 
+Q 1408 -51 1059 157 
+Q 710 365 512 736 
+Q 314 1107 314 1581 
+Q 314 2054 509 2422 
+Q 704 2790 1053 2998 
+Q 1402 3206 1850 3206 
+Q 2298 3206 2640 2998 
+Q 2982 2790 3180 2422 
+Q 3379 2054 3379 1581 
+Q 3379 1107 3180 739 
+Q 2982 371 2636 160 
+Q 2291 -51 1850 -51 
+z
+M 1850 429 
+Q 2150 429 2371 573 
+Q 2592 717 2713 976 
+Q 2835 1235 2835 1581 
+Q 2835 1933 2713 2192 
+Q 2592 2451 2371 2592 
+Q 2150 2733 1850 2733 
+Q 1542 2733 1318 2589 
+Q 1094 2445 972 2189 
+Q 851 1933 851 1581 
+Q 851 1235 972 976 
+Q 1094 717 1318 573 
+Q 1542 429 1850 429 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-138" d="M 461 0 
+L 461 3155 
+L 1005 3155 
+L 1005 2483 
+L 877 2438 
+Q 966 2682 1120 2851 
+Q 1274 3021 1491 3113 
+Q 1709 3206 1971 3206 
+Q 2490 3206 2784 2902 
+Q 3078 2598 3078 2003 
+L 3078 0 
+L 2534 0 
+L 2534 1805 
+Q 2534 2285 2358 2512 
+Q 2182 2739 1824 2739 
+Q 1562 2739 1379 2617 
+Q 1197 2496 1101 2237 
+Q 1005 1978 1005 1574 
+L 1005 0 
+L 461 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-221" d="M 915 -1306 
+Q 730 -1043 589 -694 
+Q 448 -346 352 41 
+Q 256 429 208 822 
+Q 160 1216 160 1568 
+Q 160 2093 246 2621 
+Q 333 3149 502 3622 
+Q 672 4096 922 4461 
+L 1414 4461 
+Q 1133 4070 950 3584 
+Q 768 3098 681 2582 
+Q 595 2067 595 1574 
+Q 595 1216 646 825 
+Q 698 435 803 48 
+Q 909 -339 1062 -688 
+Q 1216 -1037 1414 -1306 
+L 915 -1306 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-11b" d="M 454 0 
+L 454 3155 
+L 992 3155 
+L 992 0 
+L 454 0 
+z
+M 404 3725 
+L 404 4461 
+L 1044 4461 
+L 1044 3725 
+L 404 3725 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-222" d="M 506 -1306 
+L 6 -1306 
+Q 211 -1037 361 -688 
+Q 512 -339 617 48 
+Q 723 435 774 825 
+Q 826 1216 826 1574 
+Q 826 2067 739 2582 
+Q 653 3098 470 3584 
+Q 288 4070 6 4461 
+L 499 4461 
+Q 755 4096 921 3622 
+Q 1088 3149 1174 2621 
+Q 1261 2093 1261 1568 
+Q 1261 1216 1213 822 
+Q 1165 429 1069 41 
+Q 973 -346 832 -694 
+Q 691 -1043 506 -1306 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#HankenGrotesk-Regular-8f"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(49.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(103.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-111" transform="translate(141.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(192.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(245.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(280.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(306.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(353.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(407.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(461.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-141" transform="translate(508.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(565.90625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(620.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-221" transform="translate(646.609375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-141" transform="translate(668.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(726.515625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(767.21875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-111" transform="translate(789.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(841.21875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(863.8125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-222" transform="translate(918.515625 0)"/>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_9">
+      <defs>
+       <path id="mf34ff87ded" d="M 0 0 
+L -3.5 0 
+" style="stroke: #dcdcd6; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="272.791136" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- 0.06 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 277.791136) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1ff" d="M 448 0 
+L 448 742 
+L 1088 742 
+L 1088 0 
+L 448 0 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d5" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="243.303054" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <!-- 0.07 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 248.303054) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d6" d="M 666 0 
+L 2842 4147 
+L 2989 3955 
+L 179 3955 
+L 179 4461 
+L 3379 4461 
+L 3379 4045 
+L 1267 0 
+L 666 0 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d6" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="213.814972" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <!-- 0.08 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 218.814972) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d7" d="M 1792 -51 
+Q 1395 -51 1040 99 
+Q 685 250 464 547 
+Q 243 845 243 1286 
+Q 243 1683 444 1984 
+Q 646 2285 1018 2426 
+Q 774 2547 627 2780 
+Q 480 3014 480 3328 
+Q 480 3706 672 3968 
+Q 864 4230 1165 4371 
+Q 1466 4512 1798 4512 
+Q 2157 4512 2454 4365 
+Q 2752 4218 2928 3949 
+Q 3104 3680 3104 3309 
+Q 3104 2995 2960 2771 
+Q 2816 2547 2566 2426 
+Q 2938 2285 3139 1984 
+Q 3341 1683 3341 1286 
+Q 3341 845 3120 547 
+Q 2899 250 2547 99 
+Q 2195 -51 1792 -51 
+z
+M 1792 461 
+Q 2067 461 2294 560 
+Q 2522 659 2659 854 
+Q 2797 1050 2797 1338 
+Q 2797 1606 2669 1801 
+Q 2541 1997 2313 2102 
+Q 2086 2208 1792 2208 
+Q 1498 2208 1270 2102 
+Q 1043 1997 912 1801 
+Q 781 1606 781 1338 
+Q 781 1050 921 854 
+Q 1062 659 1292 560 
+Q 1523 461 1792 461 
+z
+M 1805 2579 
+Q 2138 2579 2352 2771 
+Q 2566 2963 2566 3270 
+Q 2566 3597 2358 3798 
+Q 2150 4000 1798 4000 
+Q 1587 4000 1411 3917 
+Q 1235 3834 1129 3677 
+Q 1024 3520 1024 3296 
+Q 1024 2970 1241 2774 
+Q 1459 2579 1805 2579 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d7" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="184.32689" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <!-- 0.09 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 189.32689) scale(0.1 -0.1)">
+       <defs>
+        <path id="HankenGrotesk-Regular-1d8" d="M 1139 0 
+L 2278 1824 
+L 2342 1741 
+Q 2202 1645 2038 1593 
+Q 1875 1542 1715 1542 
+Q 1299 1542 963 1740 
+Q 627 1939 432 2272 
+Q 237 2605 237 3014 
+Q 237 3443 448 3782 
+Q 659 4122 1011 4317 
+Q 1363 4512 1786 4512 
+Q 2214 4512 2566 4317 
+Q 2918 4122 3129 3786 
+Q 3341 3450 3341 3021 
+Q 3341 2803 3273 2598 
+Q 3206 2394 3098 2208 
+L 1760 0 
+L 1139 0 
+z
+M 1786 2022 
+Q 2061 2022 2285 2150 
+Q 2509 2278 2646 2502 
+Q 2784 2726 2784 3014 
+Q 2784 3302 2649 3523 
+Q 2515 3744 2288 3872 
+Q 2061 4000 1786 4000 
+Q 1510 4000 1283 3872 
+Q 1056 3744 921 3520 
+Q 787 3296 787 3008 
+Q 787 2726 921 2502 
+Q 1056 2278 1283 2150 
+Q 1510 2022 1786 2022 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d8" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_13">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="154.838808" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <!-- 0.10 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 159.838808) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="125.350726" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <!-- 0.11 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 130.350726) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_15">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="95.862645" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <!-- 0.12 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 100.862645) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d1" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="66.374563" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <!-- 0.13 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 71.374563) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d2" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_17">
+      <g>
+       <use xlink:href="#mf34ff87ded" x="50.43" y="36.886481" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <!-- 0.14 -->
+      <g style="fill: #dcdcd6" transform="translate(24.23 41.886481) scale(0.1 -0.1)">
+       <use xlink:href="#HankenGrotesk-Regular-1cf"/>
+       <use xlink:href="#HankenGrotesk-Regular-1ff" transform="translate(56 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d0" transform="translate(80 0)"/>
+       <use xlink:href="#HankenGrotesk-Regular-1d3" transform="translate(136 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_16">
+     <!-- RMSE (npG+A per 90, quality-adjusted) -->
+     <g style="fill: #dcdcd6" transform="translate(17.2 237.950937) rotate(-90) scale(0.1 -0.1)">
+      <defs>
+       <path id="HankenGrotesk-Regular-84" d="M 506 0 
+L 506 4461 
+L 1837 4461 
+Q 2349 4461 2675 4310 
+Q 3002 4160 3162 3878 
+Q 3322 3597 3322 3206 
+Q 3322 2650 3002 2326 
+Q 2682 2003 2074 1946 
+Q 1978 1939 1843 1939 
+Q 1709 1939 1581 1939 
+L 1069 1939 
+L 1069 0 
+L 506 0 
+z
+M 3002 0 
+L 1843 2010 
+L 2419 2080 
+L 3648 0 
+L 3002 0 
+z
+M 1069 2438 
+L 1779 2438 
+Q 2074 2438 2291 2515 
+Q 2509 2592 2633 2758 
+Q 2758 2925 2758 3200 
+Q 2758 3482 2633 3645 
+Q 2509 3808 2288 3881 
+Q 2067 3955 1779 3955 
+L 1069 3955 
+L 1069 2438 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-5d" d="M 506 0 
+L 506 4461 
+L 1338 4461 
+L 2739 934 
+L 2637 934 
+L 4038 4461 
+L 4864 4461 
+L 4864 0 
+L 4301 0 
+L 4301 3808 
+L 4346 3802 
+L 2963 378 
+L 2413 378 
+L 1024 3802 
+L 1069 3808 
+L 1069 0 
+L 506 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-88" d="M 1869 -70 
+Q 1197 -70 768 282 
+Q 339 634 243 1216 
+L 794 1350 
+Q 864 902 1161 668 
+Q 1459 435 1888 435 
+Q 2138 435 2336 531 
+Q 2534 627 2649 803 
+Q 2765 979 2765 1203 
+Q 2765 1440 2637 1593 
+Q 2509 1747 2281 1862 
+Q 2054 1978 1754 2093 
+Q 1382 2234 1104 2400 
+Q 826 2566 672 2800 
+Q 518 3034 518 3373 
+Q 518 3712 684 3974 
+Q 851 4237 1152 4387 
+Q 1453 4538 1850 4538 
+Q 2272 4538 2598 4346 
+Q 2925 4154 3123 3776 
+L 2675 3501 
+Q 2528 3763 2317 3900 
+Q 2106 4038 1830 4038 
+Q 1613 4038 1443 3955 
+Q 1274 3872 1178 3725 
+Q 1082 3578 1082 3386 
+Q 1082 3181 1197 3037 
+Q 1312 2893 1529 2784 
+Q 1747 2675 2054 2560 
+Q 2445 2413 2726 2240 
+Q 3008 2067 3165 1827 
+Q 3322 1587 3322 1235 
+Q 3322 858 3136 563 
+Q 2950 269 2624 99 
+Q 2298 -70 1869 -70 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-26" d="M 506 0 
+L 506 4461 
+L 3443 4461 
+L 3443 3955 
+L 1069 3955 
+L 1069 2528 
+L 3226 2528 
+L 3226 2022 
+L 1069 2022 
+L 1069 506 
+L 3443 506 
+L 3443 0 
+L 506 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-15c" d="M 461 -1306 
+L 461 3155 
+L 998 3155 
+L 998 2214 
+L 826 2336 
+Q 909 2611 1072 2806 
+Q 1235 3002 1472 3104 
+Q 1709 3206 2010 3206 
+Q 2438 3206 2761 2992 
+Q 3085 2778 3264 2410 
+Q 3443 2042 3443 1574 
+Q 3443 1082 3251 714 
+Q 3059 346 2732 147 
+Q 2406 -51 2010 -51 
+Q 1709 -51 1472 57 
+Q 1235 166 1075 358 
+Q 915 550 845 794 
+L 998 941 
+L 998 -1306 
+L 461 -1306 
+z
+M 1920 442 
+Q 2208 442 2429 586 
+Q 2650 730 2774 986 
+Q 2899 1242 2899 1574 
+Q 2899 1907 2774 2163 
+Q 2650 2419 2429 2563 
+Q 2208 2707 1920 2707 
+Q 1632 2707 1414 2563 
+Q 1197 2419 1075 2163 
+Q 954 1907 954 1574 
+Q 954 1242 1075 986 
+Q 1197 730 1414 586 
+Q 1632 442 1920 442 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-3a" d="M 2349 -77 
+Q 1747 -77 1289 211 
+Q 832 499 576 1020 
+Q 320 1542 320 2234 
+Q 320 2925 579 3443 
+Q 838 3962 1302 4250 
+Q 1766 4538 2381 4538 
+Q 3053 4538 3545 4205 
+Q 4038 3872 4256 3283 
+L 3731 3085 
+Q 3565 3520 3219 3760 
+Q 2874 4000 2381 4000 
+Q 1926 4000 1587 3782 
+Q 1248 3565 1065 3171 
+Q 883 2778 883 2234 
+Q 883 1690 1065 1293 
+Q 1248 896 1587 678 
+Q 1926 461 2381 461 
+Q 2611 461 2854 525 
+Q 3098 589 3302 749 
+Q 3507 909 3632 1187 
+Q 3757 1466 3757 1894 
+L 3757 2221 
+L 3885 1837 
+L 2630 1837 
+L 2630 2342 
+L 4256 2342 
+L 4256 0 
+L 3757 0 
+L 3680 870 
+L 3776 800 
+Q 3661 493 3443 301 
+Q 3226 109 2941 16 
+Q 2656 -77 2349 -77 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-253" d="M 1574 58 
+L 1574 1370 
+L 262 1370 
+L 262 1798 
+L 1574 1798 
+L 1574 3110 
+L 2010 3110 
+L 2010 1798 
+L 3322 1798 
+L 3322 1370 
+L 2010 1370 
+L 2010 58 
+L 1574 58 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-1" d="M 109 0 
+L 1811 4461 
+L 2259 4461 
+L 3962 0 
+L 3347 0 
+L 2042 3654 
+L 730 0 
+L 109 0 
+z
+M 1056 1050 
+L 1229 1555 
+L 2842 1555 
+L 3027 1050 
+L 1056 1050 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-200" d="M 154 -986 
+L 749 941 
+L 1350 941 
+L 518 -986 
+L 154 -986 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-15e" d="M 2758 -1306 
+L 2758 941 
+L 2912 794 
+Q 2848 550 2685 358 
+Q 2522 166 2285 57 
+Q 2048 -51 1747 -51 
+Q 1350 -51 1024 147 
+Q 698 346 506 714 
+Q 314 1082 314 1574 
+Q 314 2042 493 2410 
+Q 672 2778 995 2992 
+Q 1318 3206 1747 3206 
+Q 2048 3206 2285 3104 
+Q 2522 3002 2685 2806 
+Q 2848 2611 2931 2336 
+L 2758 2214 
+L 2758 3155 
+L 3296 3155 
+L 3296 -1306 
+L 2758 -1306 
+z
+M 1837 442 
+Q 2125 442 2342 586 
+Q 2560 730 2681 986 
+Q 2803 1242 2803 1574 
+Q 2803 1907 2681 2163 
+Q 2560 2419 2342 2563 
+Q 2125 2707 1837 2707 
+Q 1549 2707 1328 2563 
+Q 1107 2419 982 2163 
+Q 858 1907 858 1574 
+Q 858 1242 982 986 
+Q 1107 730 1328 586 
+Q 1549 442 1837 442 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-16f" d="M 1523 -51 
+Q 1184 -51 934 86 
+Q 685 224 553 493 
+Q 422 762 422 1158 
+L 422 3155 
+L 960 3155 
+L 960 1350 
+Q 960 1037 1040 829 
+Q 1120 621 1280 521 
+Q 1440 422 1677 422 
+Q 1939 422 2121 547 
+Q 2304 672 2400 928 
+Q 2496 1184 2496 1587 
+L 2496 3155 
+L 3034 3155 
+L 3034 0 
+L 2496 0 
+L 2496 672 
+L 2630 672 
+Q 2496 320 2201 134 
+Q 1907 -51 1523 -51 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-131" d="M 1094 -51 
+Q 806 -51 627 128 
+Q 448 307 448 698 
+L 448 4461 
+L 986 4461 
+L 986 800 
+Q 986 614 1062 531 
+Q 1139 448 1267 448 
+Q 1325 448 1395 461 
+Q 1466 474 1542 499 
+L 1542 38 
+Q 1434 -6 1312 -28 
+Q 1190 -51 1094 -51 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-18a" d="M 774 -1299 
+L 1376 154 
+L 147 3155 
+L 742 3155 
+L 1664 698 
+L 2592 3155 
+L 3181 3155 
+L 1363 -1299 
+L 774 -1299 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-21b" d="M 256 1741 
+L 256 2144 
+L 1843 2144 
+L 1843 1741 
+L 256 1741 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-f9" d="M 1747 -51 
+Q 1318 -51 995 163 
+Q 672 378 493 749 
+Q 314 1120 314 1581 
+Q 314 2080 506 2445 
+Q 698 2810 1024 3008 
+Q 1350 3206 1747 3206 
+Q 2048 3206 2285 3088 
+Q 2522 2970 2685 2768 
+Q 2848 2566 2912 2317 
+L 2758 2214 
+L 2758 4461 
+L 3296 4461 
+L 3296 0 
+L 2758 0 
+L 2758 941 
+L 2938 883 
+Q 2854 608 2688 397 
+Q 2522 186 2285 67 
+Q 2048 -51 1747 -51 
+z
+M 1837 448 
+Q 2125 448 2342 592 
+Q 2560 736 2681 992 
+Q 2803 1248 2803 1581 
+Q 2803 1914 2681 2170 
+Q 2560 2426 2342 2570 
+Q 2125 2714 1837 2714 
+Q 1549 2714 1328 2570 
+Q 1107 2426 982 2170 
+Q 858 1914 858 1581 
+Q 858 1248 982 992 
+Q 1107 736 1328 592 
+Q 1549 448 1837 448 
+z
+" transform="scale(0.015625)"/>
+       <path id="HankenGrotesk-Regular-12a" d="M 333 -1357 
+Q 224 -1357 96 -1334 
+Q -32 -1312 -160 -1274 
+L -160 -800 
+Q -58 -832 19 -845 
+Q 96 -858 141 -858 
+Q 294 -858 374 -771 
+Q 454 -685 454 -467 
+L 454 3155 
+L 992 3155 
+L 992 -608 
+Q 992 -998 813 -1177 
+Q 634 -1357 333 -1357 
+z
+M 410 3725 
+L 410 4461 
+L 1050 4461 
+L 1050 3725 
+L 410 3725 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#HankenGrotesk-Regular-84"/>
+      <use xlink:href="#HankenGrotesk-Regular-5d" transform="translate(59.203125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-88" transform="translate(143.109375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-26" transform="translate(199.515625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(258.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-221" transform="translate(284.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-138" transform="translate(306.21875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15c" transform="translate(360.921875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-3a" transform="translate(419.625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-253" transform="translate(492.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1" transform="translate(548.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(612.421875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15c" transform="translate(638.421875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(697.125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15f" transform="translate(751.125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(791.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1d8" transform="translate(817.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1cf" transform="translate(873.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-200" transform="translate(929.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-1f9" transform="translate(953.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-15e" transform="translate(979.828125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16f" transform="translate(1038.53125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(1093.234375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-131" transform="translate(1147.234375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-11b" transform="translate(1173.734375 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(1196.328125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-18a" transform="translate(1230.921875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-21b" transform="translate(1283.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-d8" transform="translate(1315.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f9" transform="translate(1369.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-12a" transform="translate(1428.421875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16f" transform="translate(1451.015625 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-163" transform="translate(1505.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-16a" transform="translate(1552.71875 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-fd" transform="translate(1586.3125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-f9" transform="translate(1640.3125 0)"/>
+      <use xlink:href="#HankenGrotesk-Regular-222" transform="translate(1699.015625 0)"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_18">
+    <path d="M 89.305365 223.251158 
+L 186.493776 219.122827 
+L 283.682187 217.058661 
+L 380.870599 217.648422 
+L 478.05901 248.021147 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke-dasharray: 8.14,3.52; stroke-dashoffset: 0; stroke: #3a3a36; stroke-width: 2.2"/>
+    <defs>
+     <path id="mf4105da883" d="M 0 2 
+C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
+C 1.789267 1.03916 2 0.530406 2 0 
+C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
+C 1.03916 -1.789267 0.530406 -2 0 -2 
+C -0.530406 -2 -1.03916 -1.789267 -1.414214 -1.414214 
+C -1.789267 -1.03916 -2 -0.530406 -2 0 
+C -2 0.530406 -1.789267 1.03916 -1.414214 1.414214 
+C -1.03916 1.789267 -0.530406 2 0 2 
+z
+" style="stroke: #3a3a36"/>
+    </defs>
+    <g clip-path="url(#p4081335e1f)">
+     <use xlink:href="#mf4105da883" x="89.305365" y="223.251158" style="fill: #3a3a36; stroke: #3a3a36"/>
+     <use xlink:href="#mf4105da883" x="186.493776" y="219.122827" style="fill: #3a3a36; stroke: #3a3a36"/>
+     <use xlink:href="#mf4105da883" x="283.682187" y="217.058661" style="fill: #3a3a36; stroke: #3a3a36"/>
+     <use xlink:href="#mf4105da883" x="380.870599" y="217.648422" style="fill: #3a3a36; stroke: #3a3a36"/>
+     <use xlink:href="#mf4105da883" x="478.05901" y="248.021147" style="fill: #3a3a36; stroke: #3a3a36"/>
+    </g>
+   </g>
+   <g id="line2d_19">
+    <path d="M 89.305365 53.694687 
+L 186.493776 68.438728 
+L 283.682187 63.130874 
+L 380.870599 74.926106 
+L 478.05901 125.645607 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke: #8b8b85; stroke-width: 2.2; stroke-linecap: square"/>
+    <defs>
+     <path id="m434d34c933" d="M 0 2 
+C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
+C 1.789267 1.03916 2 0.530406 2 0 
+C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
+C 1.03916 -1.789267 0.530406 -2 0 -2 
+C -0.530406 -2 -1.03916 -1.789267 -1.414214 -1.414214 
+C -1.789267 -1.03916 -2 -0.530406 -2 0 
+C -2 0.530406 -1.789267 1.03916 -1.414214 1.414214 
+C -1.03916 1.789267 -0.530406 2 0 2 
+z
+" style="stroke: #8b8b85"/>
+    </defs>
+    <g clip-path="url(#p4081335e1f)">
+     <use xlink:href="#m434d34c933" x="89.305365" y="53.694687" style="fill: #8b8b85; stroke: #8b8b85"/>
+     <use xlink:href="#m434d34c933" x="186.493776" y="68.438728" style="fill: #8b8b85; stroke: #8b8b85"/>
+     <use xlink:href="#m434d34c933" x="283.682187" y="63.130874" style="fill: #8b8b85; stroke: #8b8b85"/>
+     <use xlink:href="#m434d34c933" x="380.870599" y="74.926106" style="fill: #8b8b85; stroke: #8b8b85"/>
+     <use xlink:href="#m434d34c933" x="478.05901" y="125.645607" style="fill: #8b8b85; stroke: #8b8b85"/>
+    </g>
+   </g>
+   <g id="line2d_20">
+    <path d="M 186.493776 238.879841 
+L 283.682187 225.610205 
+L 380.870599 236.815676 
+L 478.05901 248.905789 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke: #f2f2ee; stroke-width: 2.2; stroke-linecap: square"/>
+    <defs>
+     <path id="m0c5a9c8ce7" d="M 0 2 
+C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
+C 1.789267 1.03916 2 0.530406 2 0 
+C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
+C 1.03916 -1.789267 0.530406 -2 0 -2 
+C -0.530406 -2 -1.03916 -1.789267 -1.414214 -1.414214 
+C -1.789267 -1.03916 -2 -0.530406 -2 0 
+C -2 0.530406 -1.789267 1.03916 -1.414214 1.414214 
+C -1.03916 1.789267 -0.530406 2 0 2 
+z
+" style="stroke: #f2f2ee"/>
+    </defs>
+    <g clip-path="url(#p4081335e1f)">
+     <use xlink:href="#m0c5a9c8ce7" x="186.493776" y="238.879841" style="fill: #f2f2ee; stroke: #f2f2ee"/>
+     <use xlink:href="#m0c5a9c8ce7" x="283.682187" y="225.610205" style="fill: #f2f2ee; stroke: #f2f2ee"/>
+     <use xlink:href="#m0c5a9c8ce7" x="380.870599" y="236.815676" style="fill: #f2f2ee; stroke: #f2f2ee"/>
+     <use xlink:href="#m0c5a9c8ce7" x="478.05901" y="248.905789" style="fill: #f2f2ee; stroke: #f2f2ee"/>
+    </g>
+   </g>
+   <g id="line2d_21">
+    <path d="M 186.493776 236.520795 
+L 283.682187 230.328298 
+L 380.870599 243.892815 
+L 478.05901 250.085312 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke: #d6ff3a; stroke-width: 2.2; stroke-linecap: square"/>
+    <defs>
+     <path id="m8edaf0f3b8" d="M 0 2 
+C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
+C 1.789267 1.03916 2 0.530406 2 0 
+C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
+C 1.03916 -1.789267 0.530406 -2 0 -2 
+C -0.530406 -2 -1.03916 -1.789267 -1.414214 -1.414214 
+C -1.789267 -1.03916 -2 -0.530406 -2 0 
+C -2 0.530406 -1.789267 1.03916 -1.414214 1.414214 
+C -1.03916 1.789267 -0.530406 2 0 2 
+z
+" style="stroke: #d6ff3a"/>
+    </defs>
+    <g clip-path="url(#p4081335e1f)">
+     <use xlink:href="#m8edaf0f3b8" x="186.493776" y="236.520795" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+     <use xlink:href="#m8edaf0f3b8" x="283.682187" y="230.328298" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+     <use xlink:href="#m8edaf0f3b8" x="380.870599" y="243.892815" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+     <use xlink:href="#m8edaf0f3b8" x="478.05901" y="250.085312" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+    </g>
+   </g>
+   <g id="line2d_22">
+    <path d="M 186.493776 215.584257 
+L 283.682187 216.174018 
+L 380.870599 232.982225 
+L 478.05901 239.174722 
+" clip-path="url(#p4081335e1f)" style="fill: none; stroke: #d6ff3a; stroke-width: 2.2; stroke-linecap: square"/>
+    <g clip-path="url(#p4081335e1f)">
+     <use xlink:href="#m8edaf0f3b8" x="186.493776" y="215.584257" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+     <use xlink:href="#m8edaf0f3b8" x="283.682187" y="216.174018" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+     <use xlink:href="#m8edaf0f3b8" x="380.870599" y="232.982225" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+     <use xlink:href="#m8edaf0f3b8" x="478.05901" y="239.174722" style="fill: #d6ff3a; stroke: #d6ff3a"/>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 50.43 277.58 
+L 50.43 26.2 
+" style="fill: none; stroke: #3a3a36; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 50.43 277.58 
+L 516.934375 277.58 
+" style="fill: none; stroke: #3a3a36; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_17">
+    <!-- Gradient boosting -->
+    <g style="fill: #d6ff3a" transform="translate(486.05901 253.570312) scale(0.1 -0.1)">
+     <defs>
+      <path id="HankenGrotesk-SemiBold-3a" d="M 2336 -90 
+Q 1734 -90 1267 198 
+Q 800 486 537 1011 
+Q 275 1536 275 2234 
+Q 275 2931 540 3452 
+Q 806 3974 1280 4262 
+Q 1754 4550 2381 4550 
+Q 3078 4550 3587 4204 
+Q 4096 3859 4320 3245 
+L 3629 2995 
+Q 3475 3398 3155 3622 
+Q 2835 3846 2381 3846 
+Q 1965 3846 1657 3648 
+Q 1350 3450 1180 3091 
+Q 1011 2733 1011 2234 
+Q 1011 1734 1180 1372 
+Q 1350 1011 1657 812 
+Q 1965 614 2381 614 
+Q 2598 614 2822 675 
+Q 3046 736 3238 883 
+Q 3430 1030 3548 1296 
+Q 3667 1562 3667 1965 
+L 3667 2246 
+L 3834 1734 
+L 2560 1734 
+L 2560 2394 
+L 4320 2394 
+L 4320 0 
+L 3667 0 
+L 3565 774 
+L 3693 672 
+Q 3571 416 3369 246 
+Q 3168 77 2902 -6 
+Q 2637 -90 2336 -90 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-15f" d="M 416 0 
+L 416 3155 
+L 1133 3155 
+L 1133 2304 
+L 998 2285 
+Q 1030 2560 1184 2768 
+Q 1338 2976 1558 3094 
+Q 1779 3213 1997 3213 
+Q 2150 3213 2291 3174 
+Q 2432 3136 2586 3046 
+L 2240 2406 
+Q 2170 2451 2058 2480 
+Q 1946 2509 1843 2509 
+Q 1709 2509 1577 2457 
+Q 1446 2406 1344 2300 
+Q 1242 2195 1190 2029 
+Q 1158 1939 1142 1795 
+Q 1126 1651 1126 1395 
+L 1126 0 
+L 416 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-d8" d="M 2451 0 
+L 2400 531 
+L 2400 1990 
+Q 2400 2298 2214 2454 
+Q 2029 2611 1696 2611 
+Q 1440 2611 1193 2512 
+Q 947 2413 742 2208 
+L 346 2675 
+Q 653 2963 998 3088 
+Q 1344 3213 1754 3213 
+Q 2394 3213 2749 2889 
+Q 3104 2566 3104 1990 
+L 3104 0 
+L 2451 0 
+z
+M 1472 -58 
+Q 1120 -58 848 70 
+Q 576 198 425 428 
+Q 275 659 275 966 
+Q 275 1229 387 1421 
+Q 499 1613 678 1722 
+Q 832 1818 1037 1859 
+Q 1242 1901 1466 1901 
+L 2458 1901 
+L 2458 1370 
+L 1568 1370 
+Q 1453 1370 1337 1347 
+Q 1222 1325 1133 1267 
+Q 1069 1216 1027 1139 
+Q 986 1062 986 960 
+Q 986 755 1142 636 
+Q 1299 518 1562 518 
+Q 1792 518 1981 620 
+Q 2170 723 2285 902 
+Q 2400 1082 2400 1306 
+L 2618 954 
+Q 2541 621 2374 393 
+Q 2208 166 1977 54 
+Q 1747 -58 1472 -58 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-f9" d="M 1645 -58 
+Q 1222 -58 912 156 
+Q 602 371 435 742 
+Q 269 1114 269 1581 
+Q 269 2093 451 2457 
+Q 634 2822 947 3017 
+Q 1261 3213 1645 3213 
+Q 1914 3213 2141 3104 
+Q 2368 2995 2525 2787 
+Q 2682 2579 2746 2278 
+L 2579 2272 
+L 2579 4461 
+L 3290 4461 
+L 3290 0 
+L 2579 0 
+L 2579 877 
+L 2771 922 
+Q 2688 576 2518 361 
+Q 2349 147 2125 44 
+Q 1901 -58 1645 -58 
+z
+M 1818 595 
+Q 2067 595 2252 716 
+Q 2438 838 2540 1062 
+Q 2643 1286 2643 1581 
+Q 2643 1875 2540 2096 
+Q 2438 2317 2252 2441 
+Q 2067 2566 1818 2566 
+Q 1568 2566 1379 2444 
+Q 1190 2323 1084 2099 
+Q 979 1875 979 1581 
+Q 979 1286 1084 1062 
+Q 1190 838 1379 716 
+Q 1568 595 1818 595 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-11b" d="M 410 0 
+L 410 3155 
+L 1120 3155 
+L 1120 0 
+L 410 0 
+z
+M 378 3674 
+L 378 4461 
+L 1152 4461 
+L 1152 3674 
+L 378 3674 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-fd" d="M 1798 -58 
+Q 1402 -58 1110 70 
+Q 819 198 633 428 
+Q 448 659 358 950 
+Q 269 1242 269 1555 
+Q 269 1869 355 2166 
+Q 442 2464 621 2701 
+Q 800 2938 1081 3075 
+Q 1363 3213 1747 3213 
+Q 2112 3213 2384 3088 
+Q 2656 2963 2835 2742 
+Q 3014 2522 3100 2240 
+Q 3187 1958 3187 1638 
+Q 3187 1594 3184 1510 
+Q 3181 1427 3168 1344 
+L 979 1344 
+Q 1005 966 1235 768 
+Q 1466 570 1824 570 
+Q 2086 570 2304 653 
+Q 2522 736 2701 915 
+L 3091 442 
+Q 2893 262 2694 153 
+Q 2496 45 2281 -6 
+Q 2067 -58 1798 -58 
+z
+M 2490 1702 
+Q 2502 1754 2505 1805 
+Q 2509 1856 2509 1907 
+Q 2509 2048 2461 2176 
+Q 2413 2304 2317 2403 
+Q 2221 2502 2080 2563 
+Q 1939 2624 1760 2624 
+Q 1510 2624 1340 2515 
+Q 1171 2406 1078 2236 
+Q 986 2067 966 1869 
+L 2720 1869 
+L 2490 1702 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-138" d="M 416 0 
+L 416 3155 
+L 1126 3155 
+L 1126 2458 
+L 998 2426 
+Q 1082 2701 1242 2873 
+Q 1402 3046 1616 3129 
+Q 1830 3213 2067 3213 
+Q 2598 3213 2896 2909 
+Q 3194 2605 3194 2042 
+L 3194 0 
+L 2483 0 
+L 2483 1779 
+Q 2483 2202 2329 2400 
+Q 2176 2598 1856 2598 
+Q 1619 2598 1456 2486 
+Q 1293 2374 1209 2137 
+Q 1126 1901 1126 1536 
+L 1126 0 
+L 416 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-16a" d="M 1562 -58 
+Q 1325 -58 1117 35 
+Q 909 128 787 336 
+Q 666 544 666 883 
+L 666 3923 
+L 1382 4320 
+L 1382 1082 
+Q 1382 813 1462 669 
+Q 1542 525 1754 525 
+Q 1818 525 1904 541 
+Q 1990 557 2086 582 
+L 2086 32 
+Q 1958 -13 1827 -35 
+Q 1696 -58 1562 -58 
+z
+M 64 2605 
+L 64 3155 
+L 2086 3155 
+L 2086 2605 
+L 64 2605 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-1f9" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-f2" d="M 2061 -58 
+Q 1805 -58 1577 44 
+Q 1350 147 1184 361 
+Q 1018 576 934 922 
+L 1120 877 
+L 1120 0 
+L 416 0 
+L 416 4461 
+L 1120 4461 
+L 1120 2272 
+L 960 2272 
+Q 1024 2573 1181 2781 
+Q 1338 2989 1565 3101 
+Q 1792 3213 2061 3213 
+Q 2445 3213 2755 3017 
+Q 3066 2822 3251 2457 
+Q 3437 2093 3437 1581 
+Q 3437 1114 3267 742 
+Q 3098 371 2790 156 
+Q 2483 -58 2061 -58 
+z
+M 1888 595 
+Q 2138 595 2326 716 
+Q 2515 838 2617 1062 
+Q 2720 1286 2720 1581 
+Q 2720 1875 2617 2099 
+Q 2515 2323 2326 2444 
+Q 2138 2566 1888 2566 
+Q 1638 2566 1449 2441 
+Q 1261 2317 1158 2096 
+Q 1056 1875 1056 1581 
+Q 1056 1286 1158 1062 
+Q 1261 838 1449 716 
+Q 1638 595 1888 595 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-141" d="M 1837 -58 
+Q 1389 -58 1030 153 
+Q 672 365 470 736 
+Q 269 1107 269 1581 
+Q 269 2054 470 2425 
+Q 672 2797 1027 3005 
+Q 1382 3213 1837 3213 
+Q 2298 3213 2646 3005 
+Q 2995 2797 3200 2425 
+Q 3405 2054 3405 1581 
+Q 3405 1107 3203 736 
+Q 3002 365 2646 153 
+Q 2291 -58 1837 -58 
+z
+M 1843 570 
+Q 2106 570 2298 691 
+Q 2490 813 2592 1043 
+Q 2694 1274 2694 1581 
+Q 2694 1894 2592 2121 
+Q 2490 2349 2298 2470 
+Q 2106 2592 1843 2592 
+Q 1568 2592 1376 2467 
+Q 1184 2342 1081 2118 
+Q 979 1894 979 1581 
+Q 979 1274 1081 1043 
+Q 1184 813 1376 691 
+Q 1568 570 1843 570 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-163" d="M 1491 -58 
+Q 1152 -58 889 41 
+Q 627 141 448 294 
+Q 269 448 154 602 
+L 640 1024 
+Q 762 826 976 672 
+Q 1190 518 1498 518 
+Q 1754 518 1904 627 
+Q 2054 736 2054 896 
+Q 2054 1037 1958 1117 
+Q 1862 1197 1708 1254 
+Q 1555 1312 1370 1357 
+Q 1190 1402 1004 1469 
+Q 819 1536 662 1638 
+Q 506 1741 410 1901 
+Q 314 2061 314 2298 
+Q 314 2714 634 2963 
+Q 954 3213 1472 3213 
+Q 1843 3213 2150 3065 
+Q 2458 2918 2630 2624 
+L 2189 2285 
+Q 2061 2477 1869 2573 
+Q 1677 2669 1453 2669 
+Q 1248 2669 1110 2585 
+Q 973 2502 973 2368 
+Q 973 2266 1037 2202 
+Q 1101 2138 1235 2086 
+Q 1370 2035 1574 1984 
+Q 1766 1939 1971 1875 
+Q 2176 1811 2352 1705 
+Q 2528 1600 2640 1424 
+Q 2752 1248 2752 973 
+Q 2752 666 2595 432 
+Q 2438 198 2153 70 
+Q 1869 -58 1491 -58 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-111" d="M 1728 -1370 
+Q 1030 -1370 627 -1117 
+Q 224 -864 224 -429 
+Q 224 -390 227 -339 
+Q 230 -288 243 -237 
+L 1101 320 
+L 1293 134 
+L 877 -384 
+Q 870 -403 870 -419 
+Q 870 -435 870 -454 
+Q 870 -653 1110 -758 
+Q 1350 -864 1728 -864 
+Q 2048 -864 2240 -777 
+Q 2432 -691 2432 -518 
+Q 2432 -422 2374 -361 
+Q 2317 -301 2201 -262 
+Q 2086 -224 1916 -195 
+Q 1747 -166 1517 -141 
+Q 1229 -96 950 -13 
+Q 672 70 489 236 
+Q 307 403 307 678 
+Q 307 922 473 1123 
+Q 640 1325 915 1453 
+L 1280 1171 
+Q 1101 1133 1011 1040 
+Q 922 947 922 819 
+Q 922 710 1005 643 
+Q 1088 576 1245 541 
+Q 1402 506 1619 474 
+Q 1946 435 2221 384 
+Q 2496 333 2701 240 
+Q 2906 147 3018 -13 
+Q 3130 -173 3130 -429 
+Q 3130 -883 2762 -1126 
+Q 2394 -1370 1728 -1370 
+z
+M 1658 915 
+Q 1274 915 979 1062 
+Q 685 1210 521 1469 
+Q 358 1728 358 2054 
+Q 358 2406 531 2665 
+Q 704 2925 995 3069 
+Q 1286 3213 1632 3213 
+Q 1978 3213 2266 3069 
+Q 2554 2925 2730 2659 
+Q 2906 2394 2906 2029 
+Q 2906 1696 2749 1443 
+Q 2592 1190 2310 1052 
+Q 2029 915 1658 915 
+z
+M 1645 1485 
+Q 1920 1485 2061 1654 
+Q 2202 1824 2202 2061 
+Q 2202 2317 2048 2473 
+Q 1894 2630 1645 2630 
+Q 1382 2630 1225 2473 
+Q 1069 2317 1069 2067 
+Q 1069 1824 1216 1654 
+Q 1363 1485 1645 1485 
+z
+M 2701 2515 
+L 2182 2848 
+L 2893 3424 
+L 3258 2982 
+L 2701 2515 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#HankenGrotesk-SemiBold-3a"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(73.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(114.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f9" transform="translate(168.71875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(226.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(250.53125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(304.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-16a" transform="translate(360.53125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(396.53125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f2" transform="translate(422.53125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(480.4375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(537.84375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(595.25 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-16a" transform="translate(642.34375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(678.34375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(702.25 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-111" transform="translate(758.15625 0)"/>
+    </g>
+   </g>
+   <g id="text_18">
+    <!-- Hierarchical Bayesian -->
+    <g style="fill: #f2f2ee" transform="translate(486.05901 237.984752) scale(0.1 -0.1)">
+     <defs>
+      <path id="HankenGrotesk-SemiBold-41" d="M 454 0 
+L 454 4461 
+L 1197 4461 
+L 1197 2637 
+L 3206 2637 
+L 3206 4461 
+L 3949 4461 
+L 3949 0 
+L 3206 0 
+L 3206 1952 
+L 1197 1952 
+L 1197 0 
+L 454 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-f3" d="M 1779 -58 
+Q 1408 -58 1123 73 
+Q 838 205 649 438 
+Q 461 672 365 966 
+Q 269 1261 269 1581 
+Q 269 1901 365 2195 
+Q 461 2490 649 2720 
+Q 838 2950 1123 3081 
+Q 1408 3213 1779 3213 
+Q 2246 3213 2595 2989 
+Q 2944 2765 3110 2298 
+L 2483 2054 
+Q 2406 2298 2233 2448 
+Q 2061 2598 1779 2598 
+Q 1498 2598 1322 2451 
+Q 1146 2304 1062 2073 
+Q 979 1843 979 1581 
+Q 979 1318 1062 1084 
+Q 1146 851 1322 707 
+Q 1498 563 1779 563 
+Q 2061 563 2233 710 
+Q 2406 858 2483 1101 
+L 3110 858 
+Q 2944 397 2595 169 
+Q 2246 -58 1779 -58 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-118" d="M 416 0 
+L 416 4461 
+L 1126 4461 
+L 1126 2458 
+L 998 2426 
+Q 1082 2701 1245 2873 
+Q 1408 3046 1619 3129 
+Q 1830 3213 2067 3213 
+Q 2598 3213 2896 2909 
+Q 3194 2605 3194 2042 
+L 3194 0 
+L 2483 0 
+L 2483 1779 
+Q 2483 2202 2329 2400 
+Q 2176 2598 1856 2598 
+Q 1498 2598 1312 2342 
+Q 1126 2086 1126 1536 
+L 1126 0 
+L 416 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-131" d="M 1114 -58 
+Q 806 -58 601 131 
+Q 397 320 397 736 
+L 397 4461 
+L 1107 4461 
+L 1107 877 
+Q 1107 730 1174 662 
+Q 1242 595 1350 595 
+Q 1408 595 1469 608 
+Q 1530 621 1594 640 
+L 1594 38 
+Q 1472 -13 1344 -35 
+Q 1216 -58 1114 -58 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-1b" d="M 454 0 
+L 454 4461 
+L 1978 4461 
+Q 2630 4461 3004 4163 
+Q 3379 3866 3379 3341 
+Q 3379 3021 3244 2781 
+Q 3110 2541 2867 2400 
+Q 3238 2278 3424 1996 
+Q 3610 1715 3610 1293 
+Q 3610 685 3229 342 
+Q 2848 0 2163 0 
+L 454 0 
+z
+M 1197 678 
+L 2106 678 
+Q 2874 678 2874 1325 
+Q 2874 1632 2691 1801 
+Q 2509 1971 2182 1971 
+L 1197 1971 
+L 1197 678 
+z
+M 1197 2637 
+L 2029 2637 
+Q 2310 2637 2476 2793 
+Q 2643 2950 2643 3226 
+Q 2643 3488 2467 3635 
+Q 2291 3782 1978 3782 
+L 1197 3782 
+L 1197 2637 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-18a" d="M 691 -1299 
+L 1318 211 
+L 115 3155 
+L 896 3155 
+L 1696 922 
+L 2509 3155 
+L 3277 3155 
+L 1459 -1299 
+L 691 -1299 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#HankenGrotesk-SemiBold-41"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(68.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(92.703125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(146.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(187.703125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(242.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f3" transform="translate(281.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-118" transform="translate(333.5 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(389.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f3" transform="translate(413.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(465.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-131" transform="translate(519.8125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(547.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1b" transform="translate(573.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(633.90625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-18a" transform="translate(686.90625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(738.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(792.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(839.5 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(863.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(917.8125 0)"/>
+    </g>
+   </g>
+   <g id="text_19">
+    <!-- Persistence -->
+    <g style="fill: #3a3a36" transform="translate(486.05901 222.399192) scale(0.1 -0.1)">
+     <defs>
+      <path id="HankenGrotesk-SemiBold-81" d="M 454 0 
+L 454 4461 
+L 1882 4461 
+Q 2624 4461 3008 4141 
+Q 3392 3821 3392 3181 
+Q 3392 2541 3005 2205 
+Q 2618 1869 1882 1869 
+L 1190 1869 
+L 1190 0 
+L 454 0 
+z
+M 1190 2528 
+L 1805 2528 
+Q 2202 2528 2426 2675 
+Q 2650 2822 2650 3168 
+Q 2650 3507 2435 3654 
+Q 2221 3802 1805 3802 
+L 1190 3802 
+L 1190 2528 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#HankenGrotesk-SemiBold-81"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(53.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(107.203125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(147.703125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(194.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(218.703125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-16a" transform="translate(265.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(300.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(354.890625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f3" transform="translate(410.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(462.890625 0)"/>
+    </g>
+   </g>
+   <g id="text_20">
+    <!-- Small MLP -->
+    <g style="fill: #d6ff3a" transform="translate(486.05901 206.813632) scale(0.1 -0.1)">
+     <defs>
+      <path id="HankenGrotesk-SemiBold-88" d="M 1894 -83 
+Q 1190 -83 745 281 
+Q 301 646 198 1254 
+L 922 1434 
+Q 992 1011 1257 793 
+Q 1523 576 1914 576 
+Q 2131 576 2304 656 
+Q 2477 736 2576 883 
+Q 2675 1030 2675 1216 
+Q 2675 1414 2566 1545 
+Q 2458 1677 2253 1782 
+Q 2048 1888 1754 2003 
+Q 1350 2157 1068 2336 
+Q 787 2515 640 2761 
+Q 493 3008 493 3347 
+Q 493 3699 665 3971 
+Q 838 4243 1152 4396 
+Q 1466 4550 1875 4550 
+Q 2317 4550 2656 4352 
+Q 2995 4154 3200 3750 
+L 2611 3392 
+Q 2477 3635 2285 3766 
+Q 2093 3898 1850 3898 
+Q 1677 3898 1536 3830 
+Q 1395 3763 1315 3641 
+Q 1235 3520 1235 3360 
+Q 1235 3194 1331 3069 
+Q 1427 2944 1628 2841 
+Q 1830 2739 2144 2618 
+Q 2547 2464 2828 2285 
+Q 3110 2106 3260 1859 
+Q 3411 1613 3411 1261 
+Q 3411 870 3219 569 
+Q 3027 269 2684 93 
+Q 2342 -83 1894 -83 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-137" d="M 416 0 
+L 416 3155 
+L 1126 3155 
+L 1126 2336 
+L 973 2246 
+Q 1030 2522 1136 2707 
+Q 1242 2893 1382 3005 
+Q 1523 3117 1686 3165 
+Q 1850 3213 2016 3213 
+Q 2272 3213 2496 3113 
+Q 2720 3014 2877 2793 
+Q 3034 2573 3091 2195 
+L 2675 2080 
+Q 2771 2490 2944 2736 
+Q 3117 2982 3350 3097 
+Q 3584 3213 3859 3213 
+Q 4262 3213 4508 3037 
+Q 4755 2861 4870 2576 
+Q 4986 2291 4986 1965 
+L 4986 0 
+L 4275 0 
+L 4275 1792 
+Q 4275 2054 4214 2233 
+Q 4154 2413 4026 2505 
+Q 3898 2598 3699 2598 
+Q 3488 2598 3347 2492 
+Q 3206 2387 3132 2169 
+Q 3059 1952 3059 1632 
+L 3059 0 
+L 2349 0 
+L 2349 1824 
+Q 2349 2214 2201 2406 
+Q 2054 2598 1786 2598 
+Q 1574 2598 1427 2489 
+Q 1280 2381 1203 2166 
+Q 1126 1952 1126 1632 
+L 1126 0 
+L 416 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-5d" d="M 454 0 
+L 454 4461 
+L 1542 4461 
+L 2790 1126 
+L 2656 1126 
+L 3910 4461 
+L 4992 4461 
+L 4992 0 
+L 4250 0 
+L 4250 3597 
+L 4314 3584 
+L 3085 390 
+L 2362 390 
+L 1126 3584 
+L 1197 3597 
+L 1197 0 
+L 454 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-57" d="M 454 0 
+L 454 4461 
+L 1197 4461 
+L 1197 659 
+L 3123 659 
+L 3123 0 
+L 454 0 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#HankenGrotesk-SemiBold-88"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-137" transform="translate(57.203125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(141 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-131" transform="translate(195.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-131" transform="translate(222.703125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(250 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-5d" transform="translate(276 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-57" transform="translate(361.09375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-81" transform="translate(411.1875 0)"/>
+    </g>
+   </g>
+   <g id="text_21">
+    <!-- Shrinkage to league mean -->
+    <g style="fill: #8b8b85" transform="translate(486.05901 129.130607) scale(0.1 -0.1)">
+     <defs>
+      <path id="HankenGrotesk-SemiBold-12e" d="M 2554 0 
+L 1600 1504 
+L 1062 909 
+L 1062 1811 
+L 2349 3155 
+L 3258 3155 
+L 2118 1978 
+L 3398 0 
+L 2554 0 
+z
+M 416 0 
+L 416 4461 
+L 1126 4461 
+L 1126 0 
+L 416 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-16f" d="M 1510 -58 
+Q 1139 -58 886 89 
+Q 634 237 506 512 
+Q 378 787 378 1178 
+L 378 3155 
+L 1088 3155 
+L 1088 1370 
+Q 1088 1120 1149 937 
+Q 1210 755 1347 659 
+Q 1485 563 1722 563 
+Q 1997 563 2153 707 
+Q 2310 851 2377 1129 
+Q 2445 1408 2445 1798 
+L 2445 3155 
+L 3155 3155 
+L 3155 0 
+L 2445 0 
+L 2445 678 
+L 2566 634 
+Q 2419 275 2140 108 
+Q 1862 -58 1510 -58 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#HankenGrotesk-SemiBold-88"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-118" transform="translate(57.203125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(113.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(155.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(179.015625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-12e" transform="translate(234.921875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(289.421875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-111" transform="translate(343.828125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(394.734375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(448.828125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-16a" transform="translate(474.828125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(509.828125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(567.234375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-131" transform="translate(593.234375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(620.53125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(674.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-111" transform="translate(729.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-16f" transform="translate(781.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(836.9375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(891.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-137" transform="translate(917.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(1000.828125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(1054.921875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(1109.328125 0)"/>
+    </g>
+   </g>
+   <g id="text_22">
+    <!-- Model comparison: RMSE by origin season -->
+    <g style="fill: #dcdcd6" transform="translate(50.43 20.2) scale(0.13 -0.13)">
+     <defs>
+      <path id="HankenGrotesk-SemiBold-15c" d="M 416 -1306 
+L 416 3155 
+L 1120 3155 
+L 1120 2278 
+L 941 2272 
+Q 1024 2618 1187 2822 
+Q 1350 3027 1577 3120 
+Q 1805 3213 2061 3213 
+Q 2483 3213 2790 2998 
+Q 3098 2784 3267 2413 
+Q 3437 2042 3437 1574 
+Q 3437 1069 3251 701 
+Q 3066 333 2755 137 
+Q 2445 -58 2061 -58 
+Q 1792 -58 1565 44 
+Q 1338 147 1181 352 
+Q 1024 557 960 851 
+L 1120 883 
+L 1120 -1306 
+L 416 -1306 
+z
+M 1888 589 
+Q 2138 589 2326 710 
+Q 2515 832 2617 1056 
+Q 2720 1280 2720 1574 
+Q 2720 1869 2617 2093 
+Q 2515 2317 2326 2438 
+Q 2138 2560 1888 2560 
+Q 1638 2560 1449 2438 
+Q 1261 2317 1158 2093 
+Q 1056 1869 1056 1574 
+Q 1056 1280 1158 1059 
+Q 1261 838 1449 713 
+Q 1638 589 1888 589 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-201" d="M 378 2195 
+L 378 3014 
+L 1158 3014 
+L 1158 2195 
+L 378 2195 
+z
+M 378 0 
+L 378 806 
+L 1158 806 
+L 1158 0 
+L 378 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-84" d="M 454 0 
+L 454 4461 
+L 1882 4461 
+Q 2413 4461 2745 4304 
+Q 3078 4147 3235 3859 
+Q 3392 3571 3392 3181 
+Q 3392 2586 3049 2256 
+Q 2707 1926 2074 1875 
+Q 1946 1875 1798 1875 
+Q 1651 1875 1536 1875 
+L 1197 1875 
+L 1197 0 
+L 454 0 
+z
+M 2899 0 
+L 1766 1958 
+L 2528 2048 
+L 3757 0 
+L 2899 0 
+z
+M 1197 2528 
+L 1805 2528 
+Q 2048 2528 2237 2585 
+Q 2426 2643 2538 2784 
+Q 2650 2925 2650 3174 
+Q 2650 3424 2538 3558 
+Q 2426 3693 2234 3747 
+Q 2042 3802 1805 3802 
+L 1197 3802 
+L 1197 2528 
+z
+" transform="scale(0.015625)"/>
+      <path id="HankenGrotesk-SemiBold-26" d="M 454 0 
+L 454 4461 
+L 3418 4461 
+L 3418 3802 
+L 1197 3802 
+L 1197 2618 
+L 3245 2618 
+L 3245 1952 
+L 1197 1952 
+L 1197 659 
+L 3418 659 
+L 3418 0 
+L 454 0 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#HankenGrotesk-SemiBold-5d"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(85.09375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f9" transform="translate(142.5 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(200.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-131" transform="translate(254.5 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(281.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f3" transform="translate(307.796875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(359.890625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-137" transform="translate(417.296875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15c" transform="translate(501.09375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(559 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(613.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(655.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(679.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(726.40625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(783.8125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-201" transform="translate(839.71875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(863.71875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-84" transform="translate(889.71875 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-5d" transform="translate(950.015625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-88" transform="translate(1035.109375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-26" transform="translate(1092.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(1150.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-f2" transform="translate(1176.3125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-18a" transform="translate(1232.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(1285.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(1311.625 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-15f" transform="translate(1369.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(1411.03125 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-111" transform="translate(1434.9375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-11b" transform="translate(1486.9375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(1510.84375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-1f9" transform="translate(1566.75 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(1592.75 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-fd" transform="translate(1639.84375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(1693.9375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-163" transform="translate(1748.34375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-141" transform="translate(1795.4375 0)"/>
+     <use xlink:href="#HankenGrotesk-SemiBold-138" transform="translate(1852.84375 0)"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p4081335e1f">
+   <rect x="50.43" y="26.2" width="466.504375" height="251.38"/>
+  </clipPath>
+ </defs>
+</svg>
