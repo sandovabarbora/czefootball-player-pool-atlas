@@ -1,7 +1,11 @@
 # Czech Football — Player Pool Atlas
 
-Live at **[football.datasimply.eu](https://football.datasimply.eu)** — England edition at
-**[football.datasimply.eu/eng/](https://football.datasimply.eu/eng/)**.
+Live at **[football.datasimply.eu](https://football.datasimply.eu)**. Editions for
+England (`/eng/`), Germany (`/ger/`), Denmark (`/den/`), Norway (`/nor/`) and
+Spain (`/esp/`) run the same pipeline on another nationality code; each has
+its own player atlas (`/<edition>/atlas/`), and
+**[/nations/](https://football.datasimply.eu/nations/)** puts the editions
+side by side.
 
 ## What it is
 
@@ -184,6 +188,40 @@ Up to eighteen showcase cards are picked by six rules (one per position group pe
 full design and its "Deviations from the design" section for where the
 shipped v1 departs from the original plan.
 
+### The player atlas and the nations page
+
+Two pages sit next to the report, built by the same `site/build.sh`:
+
+- **`/atlas/`** (`site/build_atlas.py` + `docs/atlas.app.js`) — every pool
+  player's seasons in the covered leagues from `charts/careers.json`
+  (`src/careers_export.py`: minutes by league rung, non-penalty G+A per 90
+  times the league multiplier, national-team call-ups, the metrics-season
+  profile), searchable, up to three players on one axis, the open players in
+  the URL hash. `src/fetch_history.py` brings the history seasons of the
+  non-headline leagues so careers run the whole span. A second view follows
+  the nation in the Big-5 season by season since 1995/96 (`charts/eras.json`),
+  and a checkbox pulls the past players of that history into the list
+  (`charts/careers_history.json`, loaded on request).
+- **`/nations/`** (`site/build_nations.py` + `docs/nations.app.js`, root site
+  only) — `src/nations_compare.py` reads every edition's outputs into
+  `outputs/nations/nations.json`: the five mechanisms side by side, each
+  edition's gap decomposition against its peers, the cross-country panel,
+  and the long run — every country's Big-5 presence since 1995/96 with the
+  two-step change-point model fitted per country, when each country's
+  players first arrive and how young, and the own-national under-21 share
+  of each Big-5 league's minutes. Two documented reform dates are drawn as
+  cited timing markers; the page says in words what it can and cannot say
+  about causes.
+
+The Big-5 history (`src/fetch_big5_history.py`) starts in 1990/91; the
+series exhibits and models use only the seasons all five leagues are on
+FBref (1995/96 on — Ligue 1 is absent before then), so a "Big-5 count" is
+always five leagues. On that span one change point is misspecified (the
+count rises through the 1990s and falls after the 2000s plateau), so
+`src/series_model.py` fits two ordered steps, marginalised over every
+ordered pair of candidate seasons; the report's "break" is the step that
+lowers the level and the other is written up as the rise.
+
 ## Portability
 
 `data/processed/*.parquet` are flat, one-row-per-entity tables, not nested
@@ -199,8 +237,11 @@ retargeting the pool itself at another federation is a
 adjective/home-league copy, Czech-locale strings for the bilingual render)
 plus running the pipeline with `NATION=<code>` — every eligibility check
 reads the home nation from that config (`src/config.py::nation()`), not a
-literal `"CZE"`. `config/nations/eng.yaml` is the second worked example
-(`NATION=eng`, live at `/eng/`); `tests/test_render.py`'s
+literal `"CZE"`. `config/nations/{eng,ger,den,nor,esp}.yaml` are the other
+worked examples (`make edition NATION=<code>` runs every stage in order and
+builds `docs/<code>/`; never two at once — FBref and Wikimedia Commons
+rate-limit the fetches, and `config/league_quality.yaml` is a versioned
+input the Elo fetcher would otherwise rewrite per run); `tests/test_render.py`'s
 `test_context_matches_golden_fixture_for_cze` pins the Czech render's
 context byte-for-byte against a golden fixture so a nation-config change
 can't silently perturb it. The table schema and every downstream exhibit

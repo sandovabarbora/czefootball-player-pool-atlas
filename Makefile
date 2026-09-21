@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 fetch-history pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers facts
+.PHONY: help install fetch fetch-big5 fetch-history edition nations pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers facts
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -18,13 +18,16 @@ help:
 	@echo "Targets (NATION=<code> selects the home nation, default cze):"
 	@echo "  install          Create .venv, install deps with uv (or pip fallback)"
 	@echo "  fetch            Run the data fetchers (leagues setup, FBref, Elo, squads)"
-	@echo "  fetch-big5       Fetch the 26-season Big-5 player-standard history"
+	@echo "  fetch-big5       Fetch the Big-5 player-standard history (1990/91 on)"
+	@echo "  fetch-history    Fetch the history seasons of the non-headline leagues (player atlas careers)"
+	@echo "  edition          Everything for one nation in order, then the site (NATION=<code>; ~1 h, FBref-paced)"
+	@echo "  nations          Cross-nation export (outputs/nations/nations.json) for the /nations/ page"
 	@echo "  pool             Build the home-nation-eligible player pool"
 	@echo "  photos           Fetch Wikimedia portraits for the pool (needs pool.parquet)"
 	@echo "  features         Build position-specific feature vectors + season trajectories"
 	@echo "  reduce           Run PCA + UMAP + KMeans"
 	@echo "  benchmark        Per-capita benchmark, cohort table and heatmap"
-	@echo "  series           26-season Big-5 series (home nation vs peers) exhibit"
+	@echo "  series           Big-5 series (home nation vs peers) exhibit + the two-break model"
 	@echo "  analogs          Showcase players and historical analogs"
 	@echo "  sensitivity      League-multiplier sensitivity table"
 	@echo "  strength         Hierarchical Bayesian league-strength model from league movers"
@@ -196,6 +199,59 @@ share-tables:
 clean:
 	rm -rf data/processed/$(NATION)/* outputs/$(NATION)/*.html outputs/$(NATION)/*.pdf outputs/$(NATION)/*.svg outputs/$(NATION)/*.png
 	@echo "Cleaned processed/$(NATION) and outputs/$(NATION) (raw/ preserved)"
+
+# One nation, every stage in order (the `all` chain plus the stages it
+# leaves out: history, the export-age and series models, careers), then the
+# site. Two guards a new edition needs: fetch_elo rewrites the shared
+# config/league_quality.yaml, which is a versioned input, so it is restored
+# right after; and squad_lens is part of benchmark, not a separate target.
+# Never run two editions at once -- FBref and Commons rate-limit the fetches.
+edition:
+	@[ -n "$(NATION)" ] || { echo "usage: make edition NATION=<code>"; exit 1; }
+	mkdir -p data/processed/$(NATION)
+	@[ -e data/processed/$(NATION)/big5_history.parquet ] || cp data/processed/cze/big5_history.parquet data/processed/$(NATION)/ 2>/dev/null || true
+	$(ACT) python -m src.leagues_setup
+	$(ACT) python -m src.fetch_fbref
+	$(ACT) python -m src.fetch_history
+	$(ACT) python -m src.fetch_elo
+	git checkout config/league_quality.yaml
+	$(ACT) python -m src.fetch_squads
+	$(ACT) python -m src.fetch_roles
+	$(ACT) python -m src.pool
+	$(ACT) python -m src.fetch_photos
+	$(ACT) python -m src.features
+	$(ACT) python -m src.trajectory
+	$(ACT) python -m src.reduce
+	$(ACT) python -m src.cluster
+	$(ACT) python -m src.international_benchmark
+	$(ACT) python -m src.squad_lens
+	$(ACT) python -m src.big5_series
+	$(ACT) python -m src.historical_analogs
+	$(ACT) python -m src.sensitivity
+	$(ACT) python -m src.league_strength
+	$(ACT) python -m src.model_comparison
+	$(ACT) python -m src.pathways
+	$(ACT) python -m src.fetch_keepers
+	$(ACT) python -m src.goalkeepers
+	$(ACT) python -m src.youth_panel
+	$(ACT) python -m src.gap_decomposition
+	$(ACT) python -m src.export_age_model
+	$(ACT) python -m src.pipeline_facts
+	$(ACT) python -m src.pool_table
+	$(ACT) python -m src.season_changes
+	$(ACT) python -m src.charts_export
+	$(ACT) python -m src.tracking_showcase
+	$(ACT) python -m src.careers_export
+	$(ACT) python -m src.feature_eda
+	$(ACT) python -m src.data_quality
+	$(ACT) python -m src.series_model
+	$(ACT) python -m src.render
+	@if [ "$(NATION)" = "cze" ]; then ./site/build.sh; else ./site/build.sh docs/$(NATION); fi
+
+# the cross-nation export, over every nation with a render in outputs/
+nations:
+	$(ACT) python -m src.nations_compare
+	./site/build.sh
 
 pages: render
 	@if [ "$(NATION)" = "cze" ]; then ./site/build.sh; else ./site/build.sh docs/$(NATION); fi
