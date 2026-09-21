@@ -103,6 +103,7 @@
       <h4 class="cycle-card-name">{{ p.player }}</h4>
       <p class="cycle-card-meta">
         GK &middot; {{ p.team }} ({{ p.league }}){% if p.nt_flag %} &middot; {{ t('ch3.card.nt', nt_years=facts.nt_years) }}{% endif %}
+        &middot; <a href="atlas/#p/{{ p.player_key | urlencode }}">{{ t('pool.career') }}</a>
       </p>
     </header>
 

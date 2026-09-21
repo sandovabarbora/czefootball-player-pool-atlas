@@ -29,6 +29,7 @@ import os
 import re
 import sys
 import unicodedata
+from urllib.parse import quote
 from pathlib import Path
 
 ap = argparse.ArgumentParser()
@@ -72,6 +73,7 @@ S = {
         "analog_fold": "{n} nearest analogs and what followed",
         "loadings": "Loadings table", "scenarios": "Scenario table",
         "full_card": "Full card",
+        "career": "Career →",
         # roster-tile plain-language metric labels (task 12; matches
         # metric.prod / metric.prod.short in src/i18n.py — duplicated here
         # since this script runs standalone, without the report's i18n)
@@ -87,6 +89,7 @@ S = {
         "analog_fold": "{n} nejbližších analogů a jejich pokračování",
         "loadings": "Tabulka loadings", "scenarios": "Tabulka scénářů",
         "full_card": "Celá karta",
+        "career": "Kariéra →",
         "metric_short": "G+A / 90 upr.",
         "metric_long": "góly + asistence na 90 min, upravené o ligu",
         "no_trend": "—",
@@ -338,8 +341,10 @@ def tile_repl(m: re.Match) -> str:
             f'<span class="tile-pos">{d["pos"]}</span>'
             f'</span>'
             f'<span class="tile-numbers">{stat}{traj}</span>'
+            f'<span class="tile-actions">'
             f'<button type="button" class="tile-more" aria-expanded="false">{S["full_card"]}</button>'
-            f'</div>')
+            f'<a class="tile-more tile-career" href="{P}atlas/#p/{quote(d["key"], safe="")}">{S["career"]}</a>'
+            f'</span></div>')
     return open_tag + tile + body
 
 

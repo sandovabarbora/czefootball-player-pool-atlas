@@ -1,4 +1,4 @@
-"""Big-5 player standard tables 2000/01 → metrics season, for the 26-season series (M4).
+"""Big-5 player standard tables 1990/91 → metrics season, for the long series (M4).
 
 Output: data/processed/big5_history.parquet (same columns as fbref_players.parquet).
 Pages are cached by soccerdata under ~/soccerdata/data/FBref; headless; one
@@ -16,7 +16,7 @@ from src.utils import write_parquet
 
 LOG = logging.getLogger(__name__)
 BIG5 = ["ENG-Premier League", "ITA-Serie A", "ESP-La Liga", "GER-Bundesliga", "FRA-Ligue 1"]
-FIRST_SEASON = 2000
+FIRST_SEASON = 1990   # FBref carries minutes and nationality for the five from about here (Serie A/La Liga/Bundesliga 1988, the English top flight under the Premier League page from 1992/93; the two missing English seasons are logged and skipped)
 
 
 def seasons_until(metrics: str) -> list[str]:

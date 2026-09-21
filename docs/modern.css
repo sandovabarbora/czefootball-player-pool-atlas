@@ -683,14 +683,16 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
 .tile-stat-label { font-family: var(--font-sans); font-size: 0.74rem; font-weight: 400; color: var(--ink-soft); text-transform: none; letter-spacing: 0; }
 .tile-traj { font-family: var(--font-sans); font-size: 0.8rem; color: var(--ink-soft); text-transform: none; letter-spacing: 0; }
 .tile-traj-none { color: var(--muted); }
+.tile-actions { grid-column: 2; grid-row: 4; display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.15rem; }
+.tile-career { text-decoration: none; }
 .tile-more {
-  grid-column: 2; grid-row: 4; justify-self: start; margin-top: 0.15rem;
+  justify-self: start; margin-top: 0.15rem;
   border: 1px solid var(--ink); background: none; padding: 0.35rem 0.7rem;
   font-family: var(--font-mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--ink); cursor: pointer; white-space: nowrap;
 }
 .tile-more:hover { background: var(--ink); color: var(--cream-50); }
-.cycle-card.is-open .tile-more { background: var(--ink); color: var(--cream-50); }
+.cycle-card.is-open .tile-more:not(.tile-career) { background: var(--ink); color: var(--cream-50); }
 @media (max-width: 480px) {
   .cycle-tile { grid-template-columns: 44px minmax(0, 1fr); }
   .tile-mug, .tile-mono { width: 44px; height: 44px; }
