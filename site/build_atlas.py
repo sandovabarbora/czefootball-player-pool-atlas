@@ -72,6 +72,22 @@ span = f"{seasons[0][2:4]}/{seasons[0][7:9]}–{seasons[-1][2:4]}/{seasons[-1][7
 metrics = data.get("metrics_season") or seasons[-1]
 metrics_short = f"{metrics[2:4]}/{metrics[7:9]}"
 page_url = SITE + ("" if NATION == "cze" else f"{NATION}/") + "atlas/"
+# the Big-5 history (charts/eras.json, charts/careers_history.json) exists
+# for a nation once src.fetch_big5_history and src.careers_export ran
+eras_path = D / "charts" / "eras.json"
+has_eras = eras_path.exists() and (D / "charts" / "careers_history.json").exists()
+if has_eras:
+    eras = json.loads(eras_path.read_text(encoding="utf-8"))["seasons"]
+    first_era = f"{eras[0]['season'][2:4]}/{eras[0]['season'][7:9]}"
+    n_past = len(json.loads((D / "charts" / "careers_history.json").read_text(encoding="utf-8"))["players"])
+    eras_kicker = f" · the Big-5 since {first_era}"
+    eras_lead = f" A second view follows the nation in the five biggest leagues season by season since {first_era}, and {n_past} past players can be pulled into the list."
+    tabs = ('<div class="ax-tabs" role="tablist" data-ax-tabs>'
+            '<button type="button" role="tab" class="ax-tab" data-ax-view="players" aria-selected="true">Players</button>'
+            f'<button type="button" role="tab" class="ax-tab" data-ax-view="eras" aria-selected="false">The nation in the Big-5, {first_era}–</button></div>')
+    past_control = f'<label class="pool-control ax-check"><input type="checkbox" data-ax-past> include past players ({n_past}, Big-5 since {first_era})</label>'
+else:
+    eras_kicker = eras_lead = tabs = past_control = ""
 
 HTML = f'''<!DOCTYPE html>
 <html lang="en" data-home="{HOME_CODE}">
@@ -100,13 +116,15 @@ HTML = f'''<!DOCTYPE html>
     {atlas_switch}
   </div>
 </nav>
-<main class="ax container" data-atlas-app>
+<main class="ax container" data-atlas-app data-home-name="{ADJ}">
   <header class="ax-head">
-    <p class="ax-kicker">Player atlas · <span data-ax-n>{n}</span> players · <span data-ax-span>{span}</span></p>
+    <p class="ax-kicker">Player atlas · <span data-ax-n>{n}</span> players · <span data-ax-span>{span}</span>{eras_kicker}</p>
     <h1 class="ax-title">Every player in the pool, season by season.</h1>
-    <p class="ax-lead">The <a href="../">report</a> says what the pool does. This is where you check any one player in it: his seasons in the covered leagues — minutes by the rung of the league, goals and assists per 90 adjusted for that league, national-team call-ups — and up to three players on the same axes.</p>
+    <p class="ax-lead">The <a href="../">report</a> says what the pool does. This is where you check any one player in it: his seasons in the covered leagues — minutes by the rung of the league, goals and assists per 90 adjusted for that league, national-team call-ups — and up to three players on the same axes.{eras_lead}</p>
+    {tabs}
   </header>
-  <div class="ax-body">
+  <section class="ax-eras" data-ax-view-eras hidden aria-label="The nation in the Big-5"></section>
+  <div class="ax-body" data-ax-view-players>
     <aside class="ax-side" aria-label="Players">
       <div class="ax-controls">
         <label class="pool-control pool-control-search">Search <input type="search" data-ax-search autocomplete="off" placeholder="name, club or league"></label>
@@ -114,6 +132,7 @@ HTML = f'''<!DOCTYPE html>
         <label class="pool-control">League {metrics_short} <select data-ax-tier><option value="">all</option><option value="domestic">home league</option><option value="stepping_stone">stepping stone</option><option value="top9">top-9 league</option><option value="other">other league</option></select></label>
         <label class="pool-control">Sort by <select data-ax-sort><option value="name">name</option><option value="min">minutes {metrics_short}</option><option value="rank">rank in position group</option><option value="ga">G+A / 90 adj.</option><option value="age">age</option><option value="trend">change in minutes this season</option><option value="climb">rungs climbed since {seasons[0][2:4]}/{seasons[0][7:9]}</option><option value="calls">national-team call-ups</option></select></label>
         <label class="pool-control ax-check"><input type="checkbox" data-ax-nt> national team only</label>
+        {past_control}
       </div>
       <p class="ax-browse-label">or start from a question</p>
       <div class="chart-row ax-browse" data-ax-browse></div>
