@@ -28,13 +28,15 @@
     <a href="/atlas/">CZE</a> · <span aria-current="page">ENG</span>
   </div>
 </nav>
-<main class="ax container" data-atlas-app>
+<main class="ax container" data-atlas-app data-home-name="English">
   <header class="ax-head">
-    <p class="ax-kicker">Player atlas · <span data-ax-n>469</span> players · <span data-ax-span>20/21–26/27</span></p>
+    <p class="ax-kicker">Player atlas · <span data-ax-n>469</span> players · <span data-ax-span>20/21–26/27</span> · the Big-5 since 90/91</p>
     <h1 class="ax-title">Every player in the pool, season by season.</h1>
-    <p class="ax-lead">The <a href="../">report</a> says what the pool does. This is where you check any one player in it: his seasons in the covered leagues — minutes by the rung of the league, goals and assists per 90 adjusted for that league, national-team call-ups — and up to three players on the same axes.</p>
+    <p class="ax-lead">The <a href="../">report</a> says what the pool does. This is where you check any one player in it: his seasons in the covered leagues — minutes by the rung of the league, goals and assists per 90 adjusted for that league, national-team call-ups — and up to three players on the same axes. A second view follows the nation in the five biggest leagues season by season since 90/91, and 954 past players can be pulled into the list.</p>
+    <div class="ax-tabs" role="tablist" data-ax-tabs><button type="button" role="tab" class="ax-tab" data-ax-view="players" aria-selected="true">Players</button><button type="button" role="tab" class="ax-tab" data-ax-view="eras" aria-selected="false">The nation in the Big-5, 90/91–</button></div>
   </header>
-  <div class="ax-body">
+  <section class="ax-eras" data-ax-view-eras hidden aria-label="The nation in the Big-5"></section>
+  <div class="ax-body" data-ax-view-players>
     <aside class="ax-side" aria-label="Players">
       <div class="ax-controls">
         <label class="pool-control pool-control-search">Search <input type="search" data-ax-search autocomplete="off" placeholder="name, club or league"></label>
@@ -42,6 +44,7 @@
         <label class="pool-control">League 25/26 <select data-ax-tier><option value="">all</option><option value="domestic">home league</option><option value="stepping_stone">stepping stone</option><option value="top9">top-9 league</option><option value="other">other league</option></select></label>
         <label class="pool-control">Sort by <select data-ax-sort><option value="name">name</option><option value="min">minutes 25/26</option><option value="rank">rank in position group</option><option value="ga">G+A / 90 adj.</option><option value="age">age</option><option value="trend">change in minutes this season</option><option value="climb">rungs climbed since 20/21</option><option value="calls">national-team call-ups</option></select></label>
         <label class="pool-control ax-check"><input type="checkbox" data-ax-nt> national team only</label>
+        <label class="pool-control ax-check"><input type="checkbox" data-ax-past> include past players (954, Big-5 since 90/91)</label>
       </div>
       <p class="ax-browse-label">or start from a question</p>
       <div class="chart-row ax-browse" data-ax-browse></div>

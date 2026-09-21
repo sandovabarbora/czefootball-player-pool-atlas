@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211723">
-  <link rel="stylesheet" href="modern.css?v=202609211723">
+  <link rel="stylesheet" href="style.css?v=202609212039">
+  <link rel="stylesheet" href="modern.css?v=202609212039">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609211723"></script>
-  <script defer src="atlas.js?v=202609211723"></script>
+  <script defer src="charts.js?v=202609212039"></script>
+  <script defer src="atlas.js?v=202609212039"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -110,7 +110,7 @@
         
         <p class="hero-finding">
           Per head, Czechia ranks 7th of 9 peer countries for players in Europe’s strongest leagues.
-          The reasons below are measured, not guessed: 1.1 regular under-21 starters per club at home against 2.5 in Denmark; a first move abroad at 24; and a layer at the top that stepped down in 2014/15.
+          The reasons below are measured, not guessed: 1.1 regular under-21 starters per club at home against 2.5 in Denmark; and a first move abroad at 24.
         </p>
         <p class="hero-path">Three minutes: this number, the five rungs below it, and the one-page brief. Everything else is the evidence.</p>
         <details class="fold fold-hero"><summary>In context</summary>
@@ -155,7 +155,7 @@
       <li class="quickread-tile">
         <a href="#q7">
           <span class="quickread-figure">2014/15</span>
-          <span class="quickread-line">the season Big-5 presence broke (62 % posterior)</span>
+          <span class="quickread-line">the season Big-5 presence broke (36 % posterior)</span>
         </a>
       </li>
       
@@ -296,7 +296,7 @@
           </div>
         </div>
         
-        <p class="funnel-metric-note">Around the 2014/15 season, the model finds a possible shift in the count of Czech players in Europe's strongest leagues, with 62 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
+        <p class="funnel-metric-note">Around the 2014/15 season, the model finds a possible shift in the count of Czech players in Europe's strongest leagues, with 36 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
         
       </li>
     </ol>
@@ -1068,11 +1068,11 @@
   <div class="container">
     <h2 class="slide-q">When did the train leave?</h2>
     
-    <p class="slide-a">Czech players with ≥ 450 Big-5 minutes: <strong>26</strong> at the 2007/08 peak, 6 at the 2015/16 low, 10 in 2025/26. The break is dated to 2014/15.</p>
+    <p class="slide-a">Czech players with ≥ 450 Big-5 minutes: <strong>26</strong> at the 2007/08 peak, 4 at the 1991/92 low, 10 in 2025/26. The break is dated to 2014/15. The rise before it is dated to 2000/01.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
-        <img src="big5_series.svg" alt="Line chart: Czech players with at least 450 minutes in the Big-5 leagues, 2000/01 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Czechia, Denmark and Croatia.">
-        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 2000/01. Czech players are the acid line; the dashed rule is the season the model dates the break to, with its probability; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
+        <img src="big5_series.svg" alt="Line chart: Czech players with at least 450 minutes in the Big-5 leagues, 1990/91 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Czechia, Denmark and Croatia.">
+        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1990/91. Czech players are the acid line; the dashed rules are the seasons the model dates the rise and the fall to, with their probabilities; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
       </figure>
       
       <aside class="scoreboard" id="prediction-1">
@@ -1085,8 +1085,10 @@
           <div><dt>Outcome</dt><dd>open — resolves after 2027-06-30, when the season’s tables are final</dd></div>
         </dl>
         
+        <p class="scoreboard-drift">The model has been refitted since registration and now says 10 (5–18). The registered numbers above are the ones that will be scored.</p>
         
-        <p class="scoreboard-backtest">The model behind this number, refitted at 15 past origins, missed by 2.80 players on average against 2.73 for “same as last year” — it has not yet beaten the baseline it is scored against.</p>
+        
+        <p class="scoreboard-backtest">The model behind this number, refitted at 15 past origins, missed by 2.53 players on average against 2.73 for “same as last year” — it has not yet beaten the baseline it is scored against.</p>
         
         <p class="scoreboard-why">The numbers are fixed in the repository on the day they were made, with the commit they came from, and are scored by a rule written down before the answer is known. A forecast that can be revised afterwards is not a forecast.</p>
       </aside>
@@ -1094,10 +1096,10 @@
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">Break posterior 62 %; a level change of ×0.57 (0.38–0.86).</p>
-    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Czech players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with one dated change point.</p>
-    <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the season where that count changed level for good and stayed there.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 2000/01 → 2025/26; peers on the same rule; the names are the most-minutes Czech players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. The break date comes from a Bayesian local-level model with one change point (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
+      <p class="slide-detail">Break posterior 36 %; a level change of ×0.73 (0.34–1.61). Rise posterior 28 %; ×1.79.</p>
+    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Czech players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with the rise and the fall each dated by a change-point model.</p>
+    <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the two seasons where that count changed level for good — once up, once down — and stayed there.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1990/91 → 2025/26; peers on the same rule; the names are the most-minutes Czech players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
     </details>
     <p class="slide-so">A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.</p>
     
@@ -15325,7 +15327,7 @@
       <div><dt>How strong is the home league</dt><dd>A season in the home league is worth about 0.67 of a season in the Premier League (0.59–0.75).</dd></div>
       
       
-      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2014/15 season, with 62 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
+      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2014/15 season, with 36 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
       
     </dl>
     <div class="brief-caveats">
@@ -21794,30 +21796,28 @@
 
     
     <h3 id="series-model">Dating the break and one forecast</h3>
-    <p class="plain">This section finds the season when the count of home-nation players in Europe's five biggest leagues stopped growing and settled at a lower level, and puts a probability on that season being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
+    <p class="plain">This section finds the two seasons when the count of home-nation players in Europe's five biggest leagues changed level for good — the rise and the fall — and puts a probability on each being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
     <details class="fold method-body">
       <summary>Full method, figures and diagnostics</summary>
-    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus one step change δ in the level at an unknown break season τ. NUTS only samples continuous parameters, so τ is not sampled directly — every candidate season at least 3 seasons from either end is marginalised out of the model with a single log-sum-exp potential and its own posterior recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, single-break setting. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
+    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus two ordered step changes δ₁, δ₂ in the level at unknown seasons τ₁ < τ₂ — on the series back to 1990/91 one step is misspecified, since the count rises through the 1990s and falls after the 2000s plateau, and a single step lands on whichever change buys more likelihood. NUTS only samples continuous parameters, so the τ pair is not sampled directly — every ordered pair of candidate seasons at least 3 seasons from either end and from each other is marginalised out of the model with a single log-sum-exp potential, and each break's own posterior is recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, two-break setting. The report's "break" is the step that lowers the level; the other is the rise. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
     <figure class="figure-bleed">
       <img src="series_model.svg" alt="Line chart of the Czechia series with the change-point model's fitted level in a pale band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
-      <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rule is the most probable break season with its posterior probability; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
+      <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
     </figure>
-    <p>For Czechia, the model dates the break to 2014/15 (62 % posterior probability), a ×0.57 (0.38–0.86, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.049.</p>
+    <p>For Czechia, the model dates the break to 2014/15 (36 % posterior probability), a ×0.73 (0.34–1.61, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.111.</p>
+    
+    <p>The rise before it is dated to 2000/01 (28 % posterior), a ×1.79 (0.73–2.74) change in the level. The most probable seasons for each:</p>
     <ul class="break-top">
-      
-      <li>2014/15: 62 %</li>
-      
-      <li>2013/14: 8 %</li>
-      
-      <li>2012/13: 8 %</li>
-      
+      <li>rise: 2000/01: 28 % · 1993/94: 15 % · 1998/99: 8 %</li>
+      <li>fall: 2014/15: 36 % · 2000/01: 9 % · 2015/16: 7 %</li>
     </ul>
+    
     <p>The same model, fit separately for the two contrast countries:</p>
     <ul class="contrast-break">
       
-      <li>Denmark: 2021/22 (17 % posterior), ×1.33 (0.71–1.92).</li>
+      <li>Denmark: 2021/22 (19 % posterior), ×1.38 (0.75–2.00). Rise: 1996/97 (16 %), ×1.33.</li>
       
-      <li>Croatia: 2003/04 (21 % posterior), ×0.96 (0.50–1.49).</li>
+      <li>Croatia: 2003/04 (15 % posterior), ×1.00 (0.50–1.55). Rise: 1995/96 (76 %), ×2.16.</li>
       
     </ul>
 
@@ -21832,52 +21832,52 @@
         
         <tr>
           <td>2010/11</td><td>2011/12</td><td class="num">20</td>
-          <td class="num">20 (13–31)</td><td class="num">19</td>
+          <td class="num">19 (10–31)</td><td class="num">19</td>
         </tr>
         
         <tr>
           <td>2011/12</td><td>2012/13</td><td class="num">16</td>
-          <td class="num">21 (12–30)</td><td class="num">20</td>
+          <td class="num">20 (11–32)</td><td class="num">20</td>
         </tr>
         
         <tr>
           <td>2012/13</td><td>2013/14</td><td class="num">19</td>
-          <td class="num">20 (12–29)</td><td class="num">16</td>
+          <td class="num">18 (9–29)</td><td class="num">16</td>
         </tr>
         
         <tr>
           <td>2013/14</td><td>2014/15</td><td class="num">10</td>
-          <td class="num">20 (12–29)</td><td class="num">19</td>
+          <td class="num">18 (10–30)</td><td class="num">19</td>
         </tr>
         
         <tr>
           <td>2014/15</td><td>2015/16</td><td class="num">6</td>
-          <td class="num">17 (9–25)</td><td class="num">10</td>
+          <td class="num">14 (7–25)</td><td class="num">10</td>
         </tr>
         
         <tr>
           <td>2015/16</td><td>2016/17</td><td class="num">11</td>
-          <td class="num">12 (5–20)</td><td class="num">6</td>
+          <td class="num">10 (4–19)</td><td class="num">6</td>
         </tr>
         
         <tr>
           <td>2016/17</td><td>2017/18</td><td class="num">12</td>
-          <td class="num">11 (6–19)</td><td class="num">11</td>
+          <td class="num">11 (5–19)</td><td class="num">11</td>
         </tr>
         
         <tr>
           <td>2017/18</td><td>2018/19</td><td class="num">12</td>
-          <td class="num">12 (5–20)</td><td class="num">12</td>
+          <td class="num">11 (5–20)</td><td class="num">12</td>
         </tr>
         
         <tr>
           <td>2018/19</td><td>2019/20</td><td class="num">15</td>
-          <td class="num">12 (6–20)</td><td class="num">12</td>
+          <td class="num">11 (5–20)</td><td class="num">12</td>
         </tr>
         
         <tr>
           <td>2019/20</td><td>2020/21</td><td class="num">11</td>
-          <td class="num">13 (6–23)</td><td class="num">15</td>
+          <td class="num">13 (6–22)</td><td class="num">15</td>
         </tr>
         
         <tr>
@@ -21887,12 +21887,12 @@
         
         <tr>
           <td>2021/22</td><td>2022/23</td><td class="num">9</td>
-          <td class="num">12 (6–19)</td><td class="num">11</td>
+          <td class="num">11 (5–21)</td><td class="num">11</td>
         </tr>
         
         <tr>
           <td>2022/23</td><td>2023/24</td><td class="num">12</td>
-          <td class="num">11 (5–19)</td><td class="num">9</td>
+          <td class="num">10 (5–18)</td><td class="num">9</td>
         </tr>
         
         <tr>
@@ -21902,12 +21902,12 @@
         
         <tr>
           <td>2024/25</td><td>2025/26</td><td class="num">10</td>
-          <td class="num">12 (6–19)</td><td class="num">12</td>
+          <td class="num">11 (6–19)</td><td class="num">12</td>
         </tr>
         
       </tbody>
     </table>
-    <p>Pooled across 15 origins: MAE 2.80 for the model against 2.73 for the naive baseline, 87 % of the 90 % intervals covered the observed value.</p>
+    <p>Pooled across 15 origins: MAE 2.53 for the model against 2.73 for the naive baseline, 93 % of the 90 % intervals covered the observed value.</p>
 
     <p>The one forecast, for next season (2026/27), from the same change-point-free model fitted on the full series:</p>
     <table class="kv-table series-forecast-table">
@@ -21918,7 +21918,7 @@
       <tbody>
         
         <tr data-highlight="cze">
-          <td>Czechia</td><td>2026/27</td><td class="num">11</td>
+          <td>Czechia</td><td>2026/27</td><td class="num">10</td>
           <td class="num">5–18</td>
         </tr>
         
@@ -21929,14 +21929,14 @@
         
         <tr >
           <td>Croatia</td><td>2026/27</td><td class="num">24</td>
-          <td class="num">14–35</td>
+          <td class="num">13–36</td>
         </tr>
         
       </tbody>
     </table>
     <p class="capita-note">A demonstration of the method on a count of players, not a statement about any player.</p>
 
-    <p>Change-point fit: R-hat ≤ 1.010, minimum bulk ESS 339, 0 divergent transitions across 26 seasons.</p>
+    <p>Change-point fit: R-hat ≤ 1.019, minimum bulk ESS 118, 0 divergent transitions across 36 seasons.</p>
     </details>
     
 
@@ -22914,7 +22914,7 @@
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
       
       
-      <li>The break and forecast (M4): the break dates to 2014/15 (62 % posterior) for Czechia, a ×0.57 level change; the plain local level does not beat the naive baseline on MAE (2.80 vs 2.73) with 87 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
+      <li>The break and forecast (M4): the break dates to 2014/15 (36 % posterior) for Czechia, a ×0.73 level change; the plain local level beats the naive baseline on MAE (2.53 vs 2.73) with 93 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
       
       <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +10.11 per 10 percentage points of U21 share (−1.69–23.26), R² = 0.27; a plain pooled OLS slope agrees in sign at +7.76 (1.12–13.99) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = −0.16.</li>
@@ -22933,8 +22933,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 314 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 314 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 315 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 315 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
@@ -23474,7 +23474,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 17:23</p>
+    <p class="rendered-at">Rendered: 2026-09-21 20:39</p>
   </div>
 </footer>
 

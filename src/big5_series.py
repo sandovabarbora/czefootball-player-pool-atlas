@@ -1,4 +1,4 @@
-"""The 26-season Big-5 series (M4 exhibit only -- the break model comes later).
+"""The Big-5 series (36 seasons, 1990/91 on) (M4 exhibit only -- the break model comes later).
 
 For each peer country and each season 2000-2001 .. metrics, counts distinct
 players (by `player_key`) with `min >= min_minutes` in the Big-5 leagues

@@ -1032,7 +1032,7 @@ def _build_squad_grid(squads: pd.DataFrame, tables: pd.DataFrame, headline: list
 
 
 def _build_big5(big5_series: dict) -> dict:
-    """Slide 7 context: the 26-season Big-5 series (Task 13a) reduced to
+    """Slide 7 context: the Big-5 series (Task 13a; 36 seasons since 1990/91) reduced to
     the peak/low/last Czech counts, season-labelled, plus the golden
     generations as one sourced string per season (season label, colon,
     the season's most-minutes Czech names). `{}` when `big5_series.json`
@@ -1396,11 +1396,26 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
         "sigma": br["sigma"],
         "top": [{"season": season_label(r["season"]), "prob": r["prob"]} for r in br["top"]],
     }
+    # the two-break fit (2026-09-21, 36 seasons) also dates the rise; a
+    # one-break JSON simply has none
+    # only a rise that is one (factor > 1) is written up as the rise; a flat
+    # series (England) has two steps near ×1 and no story to tell there
+    if br.get("rise") and br["rise"]["delta_factor"]["median"] > 1.0:
+        rs = br["rise"]
+        home_break["rise"] = {
+            "season": season_label(rs["top"][0]["season"]), "prob": rs["top"][0]["prob"],
+            "delta": rs["delta_factor"]["median"], "lo": rs["delta_factor"]["lo"], "hi": rs["delta_factor"]["hi"],
+            "top": [{"season": season_label(r["season"]), "prob": r["prob"]} for r in rs["top"]],
+        }
+        home_break["fall_is_a_fall"] = br.get("fall_is_a_fall", True)
     contrast = [
         {
             "code": code, "name": names.get(code, code),
             "season": season_label(c["top"][0]["season"]), "prob": c["top"][0]["prob"],
             "delta": c["delta_factor"]["median"], "lo": c["delta_factor"]["lo"], "hi": c["delta_factor"]["hi"],
+            "rise": ({"season": season_label(c["rise"]["top"][0]["season"]), "prob": c["rise"]["top"][0]["prob"],
+                      "delta": c["rise"]["delta_factor"]["median"]}
+                     if c.get("rise") and c["rise"]["delta_factor"]["median"] > 1.0 else None),
         }
         for code, c in sm.get("contrast", {}).items()
     ]
@@ -2188,6 +2203,10 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         big5["delta"] = series_model["break"]["delta"]
         big5["delta_lo"] = series_model["break"]["lo"]
         big5["delta_hi"] = series_model["break"]["hi"]
+        if series_model["break"].get("rise"):
+            big5["rise_season"] = series_model["break"]["rise"]["season"]
+            big5["rise_prob"] = series_model["break"]["rise"]["prob"]
+            big5["rise_delta"] = series_model["break"]["rise"]["delta"]
     peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
                                        features_all, lq, lg, metrics, names)
 

@@ -120,6 +120,25 @@ def test_break_summary_shape_and_a_downward_step():
     assert summary["sigma"] > 0
 
 
+def test_two_breaks_recover_a_rise_and_a_fall():
+    """The 36-season fit (2026-09-21): a rise at index 10 (5 -> 25) and a
+    fall at index 24 (25 -> 12); the summary's `break` is the fall, `rise`
+    the rise, each within a season of the truth and with the right sign."""
+    from src.series_model import tau_pairs_for
+
+    rng = np.random.default_rng(7)
+    y = rng.poisson(np.r_[np.full(10, 5.0), np.full(14, 25.0), np.full(12, 12.0)]).astype("float64")
+    idata, grid = fit_change_point(y, n_breaks=2, draws=300, tune=300, chains=2, seed=3)
+    assert grid.shape == tau_pairs_for(len(y)).shape and grid.shape[1] == 2
+    seasons = [f"{1990 + i}-{1991 + i}" for i in range(len(y))]
+    summary = break_summary(idata, y, grid, seasons)
+    assert summary["n_breaks"] == 2 and summary["fall_is_a_fall"]
+    assert abs(seasons.index(summary["top"][0]["season"]) - 24) <= 1
+    assert abs(seasons.index(summary["rise"]["top"][0]["season"]) - 10) <= 1
+    assert summary["delta_factor"]["median"] < 1.0 < summary["rise"]["delta_factor"]["median"]
+    assert summary["pair_top"][0]["seasons"] == [summary["rise"]["top"][0]["season"], summary["top"][0]["season"]]
+
+
 # =============================================================================
 # Forecast: interval coverage on a synthetic random walk
 # =============================================================================

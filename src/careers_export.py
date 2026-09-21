@@ -9,11 +9,18 @@ side, so a trend is a comparison rather than a line on its own.
 
 Sources, all already on disk: `fbref_players.parquet` (every fetched
 league-season) unioned with `fbref_history.parquet` (the history years of
-the non-headline leagues, src.fetch_history) for the raw seasons;
+the non-headline leagues, src.fetch_history) and `big5_history.parquet`
+(the five biggest leagues back to 1990/91, src.fetch_big5_history) for the
+raw seasons -- so a pool player's Big-5 seasons before 2020/21 are there too;
 `config.league_quality()` multipliers for the league adjustment, the same
 factors the feature tables use; `nt_flags.parquet` for call-ups;
 `pool_table.json` for the metrics-season profile. A season in a league the
 pipeline does not fetch is simply absent, and the page says so.
+
+Two more files ride along when the Big-5 history exists: `careers_history.json`,
+the same shape for every home-nation player of that history who is not in
+today's pool (Nedvěd is searchable, with his Lazio and Juventus seasons),
+and `eras.json`, the nation in the Big-5 season by season since 1990/91.
 
 Rates here are raw per-90 times the league multiplier, not the shrunk
 rates the report's own metrics use, so a ten-minute cameo shows as the
@@ -34,10 +41,57 @@ from src.utils import normalize_name, read_parquet
 LOG = logging.getLogger(__name__)
 
 
-def seasons_table(players: pd.DataFrame, history: pd.DataFrame | None) -> pd.DataFrame:
-    frames = [players] + ([history] if history is not None and len(history) else [])
+def seasons_table(players: pd.DataFrame, *more: pd.DataFrame | None) -> pd.DataFrame:
+    frames = [players] + [m for m in more if m is not None and len(m)]
     t = pd.concat(frames, ignore_index=True).drop_duplicates(["league", "season", "team", "player_key"])
     return t
+
+
+def past_players(big5: pd.DataFrame, pool: pd.DataFrame, min_minutes: int) -> pd.DataFrame:
+    """Home-nation players of the Big-5 history who are not in today's pool,
+    shaped like pool rows, so `careers` can treat them the same. The floor
+    keeps out the one-appearance names (each would be a panel with one
+    dimmed bar); a player who once had a real season anywhere is kept."""
+    h = big5[(big5.nation == config.HOME) & ~big5.player_key.isin(pool.player_key)]
+    keep = h.groupby("player_key")["min"].max()
+    keep = keep[keep >= min_minutes].index
+    h = h[h.player_key.isin(keep)].sort_values("season")
+    last = h.groupby("player_key").tail(1)
+    return pd.DataFrame({
+        "player_key": last.player_key.values, "fbref_id": None, "player": last.player.values,
+        "born": last.born.values, "pos_group": [str(v).split(",")[0] if isinstance(v, str) and v else None for v in last.pos.values],
+        "club_current": None,
+    })
+
+
+def eras(big5: pd.DataFrame) -> list[dict]:
+    """The home nation in the Big-5, season by season since the history
+    starts: how many, how many minutes, how old, how many debutants and at
+    what age -- and who. A player's debut is his first Big-5 season in the
+    table, so the first season of the history has none by construction."""
+    h = big5[big5.nation == config.HOME].copy()
+    seasons_all = sorted(big5.season.unique())
+    first = h.groupby("player_key")["season"].min()
+    h["debut"] = (h["season"] == h["player_key"].map(first)) & (h["season"] != seasons_all[0])
+    out = []
+    for s in seasons_all:
+        g = h[h.season == s]
+        per = g.groupby("player_key").agg(name=("player", "first"), min=("min", "sum"), age=("age", "first"),
+                                          debut=("debut", "any"), team=("team", "first"), league=("league", "first"),
+                                          gls=("gls", "sum"), ast=("ast", "sum")).sort_values("min", ascending=False)
+        deb = per[per.debut & (per["min"] >= 450)]
+        ages = per["age"].dropna()
+        out.append({
+            "season": s, "n": int(len(per)), "min": int(per["min"].sum()),
+            "age_median": float(ages.median()) if len(ages) else None,
+            "u23_share": round(float((ages <= 22).mean()), 3) if len(ages) else None,
+            "debut_n": int(len(deb)), "debut_age_median": float(deb["age"].median()) if len(deb) else None,
+            "leagues": {k: int(v) for k, v in per.league.value_counts().items()},
+            "players": [{"key": k, "name": r["name"], "team": r["team"], "league": r["league"], "min": int(r["min"]),
+                         "age": None if pd.isna(r["age"]) else int(r["age"]), "debut": bool(r["debut"]), "gls": int(r["gls"]), "ast": int(r["ast"])}
+                        for k, r in per.iterrows()],
+        })
+    return out
 
 
 def _pos_from_rows(rows: pd.DataFrame) -> str | None:
@@ -107,14 +161,29 @@ def main() -> None:
                                   "axes": r.get("profile"), "q": r.get("q"), "min_share": r.get("min_share")}
                 for r in pt["rows"]}
     mult = config.league_quality()["multipliers"]
-    rows = careers(seasons_table(players, history), pool, nt, mult, cfg, config.features()["min_minutes"], profiles)
+    floor = config.features()["min_minutes"]
+    big5_path = p / "big5_history.parquet"
+    big5 = read_parquet(big5_path) if big5_path.exists() else None
+    tables = seasons_table(players, history, big5)
+    rows = careers(tables, pool, nt, mult, cfg, floor, profiles)
     out = config.OUTPUTS_DIR / "charts"
     out.mkdir(parents=True, exist_ok=True)
     payload = {"home": config.HOME, "metrics_season": pt.get("season"), "seasons_covered": sorted(set(players.season) | (set(history.season) if history is not None else set())),
-               "min_minutes": config.features()["min_minutes"], "players": rows}
+               "min_minutes": floor, "players": rows}
     (out / "careers.json").write_text(json.dumps(payload, separators=(",", ":"), ensure_ascii=False))
     LOG.info("careers: %d players, %d seasons covered, history table %s", len(rows), len(payload["seasons_covered"]),
              "present" if history is not None else "absent")
+    if big5 is None:
+        return
+    # the past: every home-nation player of the Big-5 history outside today's
+    # pool (a second file, loaded by the page only when asked for), and the
+    # nation in the Big-5 season by season
+    past = careers(tables, past_players(big5, pool, floor), nt, mult, cfg, floor, {})
+    (out / "careers_history.json").write_text(json.dumps(
+        {"home": config.HOME, "first_season": min(big5.season), "players": past}, separators=(",", ":"), ensure_ascii=False))
+    (out / "eras.json").write_text(json.dumps(
+        {"home": config.HOME, "seasons": eras(big5), "metrics_season": pt.get("season")}, separators=(",", ":"), ensure_ascii=False))
+    LOG.info("history: %d past players, %d seasons of the nation in the Big-5", len(past), big5.season.nunique())
 
 
 if __name__ == "__main__":

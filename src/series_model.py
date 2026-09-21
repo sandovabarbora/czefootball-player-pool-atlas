@@ -1,5 +1,5 @@
 """When did the train leave: a Bayesian change point, a rolling-origin
-backtest and one aggregate forecast on the 26-season Big-5 series (Task 19,
+backtest and one aggregate forecast on the Big-5 series (36 seasons, 1990/91 on) (Task 19,
 spec §2 M4 + §4c).
 
 Question. Slide 7 already shows the series (Task 13a, `src.big5_series`) and
@@ -85,13 +85,21 @@ be identifiable at all."""
 BACKTEST_START = "2010-2011"
 BACKTEST_END = "2024-2025"
 
-# Runtime budget (T = 26, a tiny series): every fit below is 2 chains, short
+# Runtime budget (T = 36, a tiny series): every fit below is 2 chains, short
 # draws/tune -- the backtest alone refits ~15 times, so each fit needs to
 # stay well under a second of sampling for the whole module to land inside
 # the < 5 min target.
 DRAWS = 500
 TUNE = 500
 CHAINS = 2
+
+N_BREAKS = 2
+"""Breaks in the home-nation fit. On the 36-season series (1990/91 on) a
+single step is misspecified: the count rises through the 1990s and falls
+after the 2000s plateau, and one step lands wherever it buys the most
+likelihood, which is the rise. Two ordered steps date both; the report's
+"break" is the one that lowers the level, the other is reported as the
+rise. The backtest and forecast stay on the plain local level either way."""
 
 
 # =============================================================================
@@ -118,6 +126,25 @@ def tau_grid_for(t: int, margin: int = TAU_MARGIN) -> np.ndarray:
     if t < 2 * margin + 1:
         raise ValueError(f"series too short ({t} seasons) for a margin of {margin} on each side")
     return np.arange(margin, t - margin + 1)
+
+
+def tau_pairs_for(t: int, margin: int = TAU_MARGIN) -> np.ndarray:
+    """The support of two ordered breaks `tau1 < tau2`, each at least
+    `margin` seasons from the ends and from each other, as an (n_pairs, 2)
+    array of season indices -- the two-break model's discrete grid, the
+    same way `tau_grid_for` is the one-break model's."""
+    g = tau_grid_for(t, margin)
+    pairs = [(a, b) for a in g for b in g if b - a >= margin]
+    if not pairs:
+        raise ValueError(f"series too short ({t} seasons) for two breaks with a margin of {margin}")
+    return np.array(pairs, dtype=int)
+
+
+def _step_matrix(t: int, tau_grid: np.ndarray) -> np.ndarray:
+    """(T, n_candidates, n_breaks) indicator: season t is at or after the
+    k-th break of candidate c. A 1-D grid is one break per candidate."""
+    grid = tau_grid.reshape(len(tau_grid), -1)  # (n_candidates, n_breaks)
+    return (np.arange(t)[:, None, None] >= grid[None, :, :]).astype("float64")
 
 
 def backtest_origins(seasons: list[str], start: str = BACKTEST_START, end: str = BACKTEST_END) -> list[str]:
@@ -155,7 +182,7 @@ def _mu0_prior(y: np.ndarray) -> float:
 
 
 def fit_change_point(
-    y: np.ndarray, *, tau_grid: np.ndarray | None = None, draws: int = DRAWS, tune: int = TUNE,
+    y: np.ndarray, *, tau_grid: np.ndarray | None = None, n_breaks: int = 1, draws: int = DRAWS, tune: int = TUNE,
     chains: int = CHAINS, target_accept: float = 0.95, seed: int | None = None, progressbar: bool = False,
     cores: int | None = None,
 ) -> tuple[az.InferenceData, np.ndarray]:
@@ -169,8 +196,10 @@ def fit_change_point(
     """
     seed = config.RANDOM_SEED if seed is None else seed
     t = len(y)
-    tau_grid = tau_grid_for(t) if tau_grid is None else tau_grid
-    step = (np.arange(t)[:, None] >= tau_grid[None, :]).astype("float64")  # (T, n_tau)
+    if tau_grid is None:
+        tau_grid = tau_grid_for(t) if n_breaks == 1 else tau_pairs_for(t)
+    step = _step_matrix(t, tau_grid)  # (T, n_candidates, n_breaks)
+    n_breaks = step.shape[2]
     log_prior_tau = -np.log(len(tau_grid))
 
     with pm.Model():
@@ -179,9 +208,11 @@ def fit_change_point(
         z_eps = pm.Normal("z_eps", 0.0, 1.0, shape=t - 1)
         eps = pm.Deterministic("eps", z_eps * sigma)
         mu_base = pm.Deterministic("mu_base", mu0 + pt.concatenate([[0.0], pt.cumsum(eps)]))
-        delta = pm.Normal("delta", 0.0, 1.0)
+        # one step per break; with one break this is the scalar delta of the original model
+        delta = pm.Normal("delta", 0.0, 1.0, shape=n_breaks) if n_breaks > 1 else pm.Normal("delta", 0.0, 1.0)
 
-        mu_tau = mu_base[:, None] + delta * step  # (T, n_tau): the level under each candidate break
+        steps = pt.tensordot(pt.as_tensor(step), delta, axes=[[2], [0]]) if n_breaks > 1 else delta * step[:, :, 0]
+        mu_tau = mu_base[:, None] + steps  # (T, n_candidates): the level under each candidate break
         lam_tau = pm.math.exp(mu_tau)
         logp_tau = pm.logp(pm.Poisson.dist(mu=lam_tau), y[:, None]).sum(axis=0)  # (n_tau,)
         pm.Potential("y_marginal", pm.math.logsumexp(logp_tau + log_prior_tau))
@@ -199,8 +230,9 @@ def tau_log_likelihoods(y: np.ndarray, mu_base: np.ndarray, delta: np.ndarray, t
     recovery test can exercise directly without refitting a model.
     """
     t = mu_base.shape[1]
-    step = (np.arange(t)[:, None] >= tau_grid[None, :]).astype("float64")  # (T, n_tau)
-    mu_tau = mu_base[:, :, None] + delta[:, None, None] * step[None, :, :]  # (draws, T, n_tau)
+    step = _step_matrix(t, tau_grid)  # (T, n_candidates, n_breaks)
+    delta = np.asarray(delta).reshape(mu_base.shape[0], -1)  # (draws, n_breaks)
+    mu_tau = mu_base[:, :, None] + np.einsum("tcb,db->dtc", step, delta)  # (draws, T, n_candidates)
     lam_tau = np.exp(mu_tau)
     logp = y[None, :, None] * np.log(lam_tau) - lam_tau - gammaln(y[None, :, None] + 1.0)
     return logp.sum(axis=1)  # (n_draws, n_tau)
@@ -214,12 +246,30 @@ def tau_posterior(idata: az.InferenceData, y: np.ndarray, tau_grid: np.ndarray) 
     it has been marginalised out of the sampled model (see module
     docstring)."""
     mu_base = idata.posterior["mu_base"].values.reshape(-1, len(y))
-    delta = idata.posterior["delta"].values.reshape(-1)
+    delta = _delta_draws(idata)
     loglik = tau_log_likelihoods(y, mu_base, delta, tau_grid)  # (n_draws, n_tau)
     loglik -= loglik.max(axis=1, keepdims=True)  # softmax stability
     weights = np.exp(loglik)
     weights /= weights.sum(axis=1, keepdims=True)
     return weights.mean(axis=0)  # (n_tau,), sums to 1
+
+
+def _delta_draws(idata: az.InferenceData) -> np.ndarray:
+    """(n_draws,) for the one-break model, (n_draws, n_breaks) for two."""
+    d = idata.posterior["delta"].values
+    return d.reshape(-1) if d.ndim == 2 else d.reshape(-1, d.shape[-1])
+
+
+def marginal_over_breaks(tau_grid: np.ndarray, probs: np.ndarray, t: int) -> list[np.ndarray]:
+    """From the posterior over candidate pairs, the marginal posterior of
+    each break over season indices 0..T-1 (one array per break)."""
+    grid = tau_grid.reshape(len(tau_grid), -1)
+    out = []
+    for k in range(grid.shape[1]):
+        m = np.zeros(t)
+        np.add.at(m, grid[:, k], probs)
+        out.append(m)
+    return out
 
 
 def top_tau(tau_grid: np.ndarray, probs: np.ndarray, seasons: list[str], n: int = 3) -> list[dict[str, Any]]:
@@ -250,13 +300,32 @@ def break_summary(idata: az.InferenceData, y: np.ndarray, tau_grid: np.ndarray, 
     multiplicative factor `exp(delta)` (median, 90% HDI), and the random
     walk's own posterior-median innovation scale `sigma`."""
     probs = tau_posterior(idata, y, tau_grid)
-    delta = idata.posterior["delta"].values.reshape(-1)
-    factor = np.exp(delta)
-    lo, hi = _hdi(factor, 0.9)
+    delta = _delta_draws(idata)
     sigma = idata.posterior["sigma"].values.reshape(-1)
+
+    def factor_of(d: np.ndarray) -> dict[str, float]:
+        f = np.exp(d)
+        lo, hi = _hdi(f, 0.9)
+        return {"median": round(float(np.median(f)), 4), "lo": round(lo, 4), "hi": round(hi, 4)}
+
+    if delta.ndim == 1:
+        return {"top": top_tau(tau_grid, probs, seasons), "delta_factor": factor_of(delta),
+                "sigma": round(float(np.median(sigma)), 4), "n_breaks": 1}
+    # two breaks: the marginal of each over seasons; the report's "break" is
+    # the one that lowers the level (the layer at the top breaking), the
+    # other is reported as the rise. If neither lowers it, the later one
+    # stands in and the JSON says so.
+    marg = marginal_over_breaks(tau_grid, probs, len(y))
+    idx = np.arange(len(y))
+    blocks = [{"top": top_tau(idx, m, seasons), "delta_factor": factor_of(delta[:, k])} for k, m in enumerate(marg)]
+    falls = [k for k, b in enumerate(blocks) if b["delta_factor"]["median"] < 1.0]
+    fall = falls[-1] if falls else 1
+    rise = 1 - fall
+    pair_top = np.argsort(-probs)[:3]
     return {
-        "top": top_tau(tau_grid, probs, seasons),
-        "delta_factor": {"median": round(float(np.median(factor)), 4), "lo": round(lo, 4), "hi": round(hi, 4)},
+        **blocks[fall], "rise": blocks[rise], "n_breaks": 2, "fall_is_a_fall": bool(falls),
+        "pair_top": [{"seasons": [seasons[int(tau_grid[i][0])], seasons[int(tau_grid[i][1])]], "prob": round(float(probs[i]), 4)}
+                     for i in pair_top],
         "sigma": round(float(np.median(sigma)), 4),
     }
 
@@ -451,7 +520,7 @@ def render_figure(
     LOG.info("wrote %s", out_path)
 
 
-def fitted_level(idata: az.InferenceData, tau_grid: np.ndarray, mode_tau: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def fitted_level(idata: az.InferenceData, tau_grid: np.ndarray, mode_tau: int | tuple[int, ...]) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Median + 90% band of the change-point model's fitted level
     `exp(mu_base + delta * 1[t >= mode_tau])`, illustrating the fit at the
     single most probable break season (`mode_tau`, a season index) --
@@ -459,9 +528,10 @@ def fitted_level(idata: az.InferenceData, tau_grid: np.ndarray, mode_tau: int) -
     `break.top`/`delta_factor` carry the full marginal posterior.
     """
     mu_base = idata.posterior["mu_base"].values.reshape(-1, idata.posterior.sizes["mu_base_dim_0"])
-    delta = idata.posterior["delta"].values.reshape(-1)
-    step = (np.arange(mu_base.shape[1]) >= mode_tau).astype("float64")
-    level = np.exp(mu_base + delta[:, None] * step[None, :])
+    delta = _delta_draws(idata).reshape(mu_base.shape[0], -1)  # (draws, n_breaks)
+    taus = np.atleast_1d(np.asarray(mode_tau))
+    step = (np.arange(mu_base.shape[1])[:, None] >= taus[None, :]).astype("float64")  # (T, n_breaks)
+    level = np.exp(mu_base + delta @ step.T)
     return np.median(level, axis=0), np.quantile(level, 0.05, axis=0), np.quantile(level, 0.95, axis=0)
 
 
@@ -483,7 +553,7 @@ def main() -> None:
 
     y_home = extract_series(big5_series, home)
     t0 = time.time()
-    idata_home, tau_grid = fit_change_point(y_home, seed=config.RANDOM_SEED)
+    idata_home, tau_grid = fit_change_point(y_home, n_breaks=N_BREAKS, seed=config.RANDOM_SEED)
     LOG.info("%s change-point fit: %.1f s (%d seasons)", home, time.time() - t0, len(y_home))
     break_result = break_summary(idata_home, y_home, tau_grid, seasons)
     diagnostics = diagnostics_summary(idata_home)
@@ -494,7 +564,7 @@ def main() -> None:
     for code in contrast_codes:
         y_c = extract_series(big5_series, code)
         t0 = time.time()
-        idata_c, tau_grid_c = fit_change_point(y_c, seed=config.RANDOM_SEED)
+        idata_c, tau_grid_c = fit_change_point(y_c, n_breaks=N_BREAKS, seed=config.RANDOM_SEED)
         LOG.info("%s change-point fit: %.1f s", code, time.time() - t0)
         contrast[code] = break_summary(idata_c, y_c, tau_grid_c, seasons)
 
@@ -520,8 +590,9 @@ def main() -> None:
     out_json.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
     LOG.info("wrote %s", out_json)
 
-    mode_tau = seasons.index(break_result["top"][0]["season"])
     tau_probs = tau_posterior(idata_home, y_home, tau_grid)
+    # the fitted level is drawn at the most probable candidate (a pair, for two breaks)
+    mode_tau = tuple(int(v) for v in np.atleast_1d(tau_grid[int(np.argmax(tau_probs))]))
     fitted_med, fitted_lo, fitted_hi = fitted_level(idata_home, tau_grid, mode_tau)
     home_forecast = forecast[home]
     top_break = break_result["top"][0]

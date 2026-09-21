@@ -779,7 +779,7 @@
   <div class="container">
     <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
     {% if big5 %}
-    <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
+    <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_rise', rise_season=big5.rise_season) }}{% endif %}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
@@ -815,7 +815,7 @@
     </div>
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
-      <p class="slide-detail">{{ t('slide.7.a_detail', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
+      <p class="slide-detail">{{ t('slide.7.a_detail', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_detail_rise', rise_prob=pct(big5.rise_prob), rise_delta=f2(big5.rise_delta)) }}{% endif %}</p>
     <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.7.aq', min=feature_defs.min_minutes, history_start=seasons.history_start) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.7.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
@@ -1920,16 +1920,24 @@
     <p>{{ t('ch4.series.break.p', season=series_model.break.season, prob=pct(series_model.break.prob),
              delta=f2(series_model.break.delta), lo=f2(series_model.break.lo), hi=f2(series_model.break.hi),
              sigma=f3(series_model.break.sigma)) }}</p>
+    {% if series_model.break.rise %}
+    <p>{{ t('ch4.series.rise.p', season=series_model.break.rise.season, prob=pct(series_model.break.rise.prob), delta=f2(series_model.break.rise.delta), lo=f2(series_model.break.rise.lo), hi=f2(series_model.break.rise.hi)) }}{% if not series_model.break.fall_is_a_fall %} {{ t('ch4.series.not_a_fall') }}{% endif %}</p>
+    <ul class="break-top">
+      <li>{{ t('ch4.series.rise.label') }}: {% for r in series_model.break.rise.top %}{{ t('ch4.series.break.top_item', season=r.season, prob=pct(r.prob)) }}{% if not loop.last %} · {% endif %}{% endfor %}</li>
+      <li>{{ t('ch4.series.fall.label') }}: {% for r in series_model.break.top %}{{ t('ch4.series.break.top_item', season=r.season, prob=pct(r.prob)) }}{% if not loop.last %} · {% endif %}{% endfor %}</li>
+    </ul>
+    {% else %}
     <ul class="break-top">
       {% for r in series_model.break.top %}
       <li>{{ t('ch4.series.break.top_item', season=r.season, prob=pct(r.prob)) }}</li>
       {% endfor %}
     </ul>
+    {% endif %}
     <p>{{ t('ch4.series.contrast.p') }}</p>
     <ul class="contrast-break">
       {% for c in series_model.contrast %}
       <li>{{ t('ch4.series.contrast.item', name=term(c.name), season=c.season, prob=pct(c.prob),
-                delta=f2(c.delta), lo=f2(c.lo), hi=f2(c.hi)) }}</li>
+                delta=f2(c.delta), lo=f2(c.lo), hi=f2(c.hi)) }}{% if c.rise %}{{ t('ch4.series.contrast.item_rise', season=c.rise.season, prob=pct(c.rise.prob), delta=f2(c.rise.delta)) }}{% endif %}</li>
       {% endfor %}
     </ul>
 

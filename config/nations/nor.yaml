@@ -1,0 +1,44 @@
+# Home-nation configuration for the Norway edition (2026-09-21). The
+# Eliteserien runs April–December, so its FBref season "2025" is mapped to
+# the pipeline's "2025-2026" label by src/leagues_setup.py (the same
+# mapping the Czech run already uses for Norway as a peer league).
+code: NOR
+name: Norway
+adjective: Norwegian
+population_m: 5.55
+fbref_country_page: https://fbref.com/en/country/players/NOR/Norway-Football-Players
+fbref_country_cache: country_nor.html
+wikidata_citizenship: Q20
+domestic_league: NOR-Eliteserien
+home_league: Eliteserien
+leagues_note: " The Norwegian second tier is not fetched, and Sweden's top flight is not in the fetched set, so the nearest neighbour's exhibits are absent rather than thin. The Eliteserien is a calendar-year league; its season labelled 2025/26 here is the 2025 season."
+
+cs:
+  name: Norsko
+  gen: Norska
+  adj_m: norský
+  adj_f: norská
+  adj_n: norské
+  adj_pl: norští
+  players: norští hráči
+  home_league: Eliteserien
+  leagues_note: ""
+
+peers: [DEN, SUI, AUT, CZE, CRO, POL, HUN, SVK]
+cohort_countries: [NOR, DEN, SUI, AUT, CZE, CRO, POL, HUN, SVK]
+cohort_exhibit: [DEN, SUI, AUT, CZE]
+series_contrast: [DEN, CZE]
+compare: [DEN, CZE]
+
+squads:
+  nt_core_event: "2026 FIFA World Cup"
+  events:
+    - {team: A,   event: "2024–25 Nations League",          year: 2025, url: "https://en.wikipedia.org/wiki/Norway_national_football_team", section: "Current squad"}
+    - {team: A,   event: "2026 World Cup qualification",    year: 2025, url: "https://en.wikipedia.org/wiki/Norway_national_football_team", section: "Recent call-ups"}
+    - {team: U21, event: "UEFA European Under-21 Championship 2025", year: 2025, url: "https://en.wikipedia.org/wiki/2025_UEFA_European_Under-21_Championship_squads", section: "Norway"}
+    - {team: A,   event: "2026 FIFA World Cup",              year: 2026, url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads", section: "Norway"}
+  peer_squads:
+    - {country: DEN, section: "Denmark"}
+    - {country: SUI, section: "Switzerland"}
+    - {country: AUT, section: "Austria"}
+    - {country: CZE, section: "Czech Republic"}

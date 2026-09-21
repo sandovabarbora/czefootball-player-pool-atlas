@@ -32,6 +32,7 @@
     top9: { col: C.hot, label: 'top-9 league', short: 'top-9', rank: 3 },
   };
   const POS = { FW: 'forwards', MF: 'midfielders', DF: 'defenders', GK: 'goalkeepers' };
+  const HOME_NAME = root.dataset.homeName || 'Home-nation';
   const MAX_COMPARE = 3;
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const short = (s) => `${s.slice(2, 4)}/${s.slice(7, 9)}`;
@@ -43,7 +44,14 @@
   // ------------------------------------------------------------ state
   let DATA = null, SEASONS = [], METRICS = null, YEAR_END = 2026;
   let open = [];                       // player keys shown in the detail panel
+  let view = 'players';                // or 'eras': the nation in the Big-5 since the history starts
+  let eraSeason = null;                // the season opened in the eras view
+  let HIST = null, ERAS = null;        // charts/careers_history.json, charts/eras.json — loaded when asked for
   const ui = {
+    tabs: root.querySelector('[data-ax-tabs]'),
+    players: root.querySelector('[data-ax-view-players]'),
+    eras: root.querySelector('[data-ax-view-eras]'),
+    past: root.querySelector('[data-ax-past]'),
     q: root.querySelector('[data-ax-search]'),
     pos: root.querySelector('[data-ax-pos]'),
     tier: root.querySelector('[data-ax-tier]'),
@@ -63,11 +71,14 @@
     const latest = p.seasons[p.seasons.length - 1];
     const first = p.seasons[0];
     const prev = p.seasons.length > 1 ? p.seasons[p.seasons.length - 2] : null;
-    // the last complete season decides "now": the current one has only begun
+    // the last complete season decides "now": the current one has only begun;
+    // a past player's "now" is his last season
     const now = metrics || latest;
     p.d = {
       bySeason,
-      age: p.born ? YEAR_END - p.born : null,
+      age: p.born ? (p.past ? null : YEAR_END - p.born) : null,
+      last: latest.season,
+      span: seasonSpan(first.season, latest.season),
       minNow: metrics ? metrics.min : 0,
       tierNow: now.tier,
       clubNow: p.club_now || now.team,
@@ -83,6 +94,9 @@
     return p;
   }
   const bestStint = (s) => s.stints.reduce((a, b) => (b.min > a.min ? b : a));
+  const seasonSpan = (a, b) => { const out = []; for (let y = +a.slice(0, 4); y <= +b.slice(0, 4); y++) out.push(`${y}-${y + 1}`); return out; };
+  // the seasons on a chart's axis: the covered span, stretched back when an open player played before it
+  const axisSeasons = (players) => { const first = players.reduce((m, p) => (p.seasons[0].season < m ? p.seasons[0].season : m), SEASONS[0]); return seasonSpan(first, SEASONS[SEASONS.length - 1]); };
 
   // ------------------------------------------------------------ browse presets: one click, a question answered
   const BROWSE = [
@@ -120,10 +134,11 @@
 
   // ------------------------------------------------------------ the list: one row per player, a sparkline of his seasons
   function spark(p) {
-    const w = 84, h = 22, n = SEASONS.length, bw = Math.max(2, Math.floor((w - (n - 1) * 2) / n));
+    const dom = p.past ? p.d.span : SEASONS;
+    const w = 84, h = 22, n = dom.length, bw = Math.max(1, Math.floor((w - (n - 1) * 2) / n));
     const max = Math.max(p.d.peak, 900);
     let rects = '';
-    SEASONS.forEach((s, i) => {
+    dom.forEach((s, i) => {
       const row = p.d.bySeason.get(s);
       if (!row) return;
       const bh = Math.max(1, Math.round((row.min / max) * h));
@@ -142,9 +157,9 @@
       li.dataset.key = p.key;
       li.innerHTML =
         `<button type="button" class="ax-row-btn" aria-pressed="${open.includes(p.key)}">` +
-        `<span class="ax-row-name">${esc(p.name)}${p.d.calls ? ' <span class="ax-nt" title="national-team call-ups in the covered seasons">NT</span>' : ''}</span>` +
-        `<span class="ax-row-meta">${p.d.age != null ? p.d.age : '—'} · ${p.pos || '—'} · ${esc(p.d.clubNow || '—')}</span>` +
-        `${spark(p)}<span class="ax-row-min"${p.d.bySeason.has(METRICS) ? '' : ` title="no ${short(METRICS)} season in a covered league"`}>${p.d.bySeason.has(METRICS) ? fmtInt(p.d.minNow) : '—'}</span></button>`;
+        `<span class="ax-row-name">${esc(p.name)}${p.d.calls ? ' <span class="ax-nt" title="national-team call-ups in the covered seasons">NT</span>' : ''}${p.past ? ` <span class="ax-nt ax-past" title="not in today's pool: Big-5 seasons ${short(p.seasons[0].season)}–${short(p.d.last)}">${short(p.seasons[0].season)}–${short(p.d.last)}</span>` : ''}</span>` +
+        `<span class="ax-row-meta">${p.past ? `born ${p.born || '—'}` : (p.d.age != null ? p.d.age : '—')} · ${p.pos || '—'} · ${esc(p.d.clubNow || '—')}</span>` +
+        `${spark(p)}<span class="ax-row-min"${p.d.bySeason.has(METRICS) ? '' : ` title="${p.past ? 'minutes of his best Big-5 season' : `no ${short(METRICS)} season in a covered league`}"`}>${p.d.bySeason.has(METRICS) ? fmtInt(p.d.minNow) : (p.past ? fmtInt(p.d.peak) : '—')}</span></button>`;
       frag.appendChild(li);
     }
     ui.list.replaceChildren(frag);
@@ -158,7 +173,8 @@
     if (!open.length) { renderOverview(); return; }
     const players = open.map((k) => byKey.get(k)).filter(Boolean);
     const yMax = Math.max(...players.map((p) => p.d.peak), 1800);
-    for (const p of players) ui.detail.appendChild(panel(p, yMax, players.length > 1));
+    const axis = axisSeasons(players);
+    for (const p of players) ui.detail.appendChild(panel(p, yMax, players.length > 1, axis));
   }
 
   function mug(p) {
@@ -169,7 +185,7 @@
     return `<span class="ax-mug${p.cut ? ' ax-mug-cut' : ''}"><span>${initials}</span><img src="../${esc(src)}" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>`;
   }
 
-  function panel(p, yMax, compact) {
+  function panel(p, yMax, compact, axis) {
     const el = document.createElement('article');
     el.className = 'ax-panel';
     el.dataset.key = p.key;
@@ -181,17 +197,17 @@
     el.innerHTML =
       `<header class="ax-panel-head">${mug(p)}<div class="ax-panel-id">` +
       `<h2 class="ax-panel-name">${esc(p.name)}</h2>` +
-      `<p class="ax-panel-meta">${p.born ? `born ${p.born} · ${p.d.age}` : 'age —'} · ${POS[p.pos] || p.pos || 'position unknown'} · ${esc(p.d.clubNow || '—')}` +
-      ` · <span class="ax-tier" style="--tier:${TIER[p.d.tierNow].col}">${TIER[p.d.tierNow].label}</span></p>` +
-      `<p class="ax-panel-rank">${rankLine}</p>${calls}` +
+      `<p class="ax-panel-meta">${p.born ? `born ${p.born}${p.past ? '' : ` · ${p.d.age}`}` : 'age —'} · ${POS[p.pos] || p.pos || 'position unknown'} · ${esc(p.d.clubNow || '—')}` +
+      (p.past ? ` · last Big-5 season ${short(p.d.last)}` : ` · <span class="ax-tier" style="--tier:${TIER[p.d.tierNow].col}">${TIER[p.d.tierNow].label}</span>`) + `</p>` +
+      `<p class="ax-panel-rank">${p.past ? `not in today's pool — his Big-5 seasons from the history, ${short(p.seasons[0].season)} to ${short(p.d.last)}` : rankLine}</p>${calls}` +
       `<div class="ax-panel-actions">` +
       `<button type="button" class="ax-btn" data-ax-close title="close this player">close</button>` +
-      `<a class="ax-btn" href="../?player=${encodeURIComponent(p.name)}#pool">card in the report</a>` +
+      (p.past ? '' : `<a class="ax-btn" href="../?player=${encodeURIComponent(p.name)}#pool">card in the report</a>`) +
       `</div></div></header>` +
       `<div class="ax-chart" data-ax-chart></div>` +
       `${seasonTable(p)}${profileBars(p)}`;
     el.querySelector('[data-ax-close]').addEventListener('click', () => { open = open.filter((k) => k !== p.key); pushHash(); render(); });
-    if (hasD3) requestAnimationFrame(() => careerChart(el.querySelector('[data-ax-chart]'), p, yMax, compact));
+    if (hasD3) requestAnimationFrame(() => careerChart(el.querySelector('[data-ax-chart]'), p, yMax, compact, axis));
     else empty(el.querySelector('[data-ax-chart]'), 'the chart needs the D3 library, which did not load; the seasons are in the table below');
     return el;
   }
@@ -233,13 +249,14 @@
   }
   const hideTip = () => { tip.hidden = true; };
 
-  function careerChart(box, p, yMax, compact) {
+  function careerChart(box, p, yMax, compact, axis) {
+    const AX = axis || SEASONS;
     box.replaceChildren();
     const w = Math.max(280, box.clientWidth || 600), narrow = w < 520;
     const H = compact ? 260 : 320, M = { t: 36, r: narrow ? 34 : 44, b: 34, l: narrow ? 38 : 48 };
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img')
       .attr('aria-label', `${p.name}: minutes per season by league rung, with goals and assists per 90 league-adjusted`);
-    const x = d3.scaleBand().domain(SEASONS).range([M.l, w - M.r]).paddingInner(0.28).paddingOuter(0.1);
+    const x = d3.scaleBand().domain(AX).range([M.l, w - M.r]).paddingInner(0.28).paddingOuter(0.1);
     const y = d3.scaleLinear().domain([0, yMax]).nice().range([H - M.b, M.t]);
     const gaMax = Math.max(1, d3.max(p.seasons, (s) => d3.max(s.stints, (st) => (s.under_floor ? 0 : st.ga90_adj || 0))) || 0);
     const y2 = d3.scaleLinear().domain([0, gaMax]).nice().range([H - M.b, M.t]);
@@ -249,13 +266,14 @@
     gy.select('.domain').remove(); gy.selectAll('line').attr('stroke', C.rule).attr('stroke-dasharray', '2 3'); mono(gy.selectAll('text'));
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
-    if (x.bandwidth() < 34) gx.selectAll('text').filter((d, i) => i % 2 === 1).remove();   // every other season label when the panel is narrow
+    const every = Math.max(1, Math.ceil(34 / x.step()));   // season labels thin out as the axis stretches
+    if (every > 1) gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
     const g2 = svg.append('g').attr('transform', `translate(${w - M.r},0)`).call(d3.axisRight(y2).ticks(3).tickSize(0).tickFormat(fmt2));
     g2.select('.domain').remove(); mono(g2.selectAll('text')).attr('fill', C.orange);
     mono(svg.append('text').attr('x', M.l).attr('y', 12)).text('MINUTES');
     mono(svg.append('text').attr('x', w - M.r).attr('y', 12).attr('text-anchor', 'end').attr('fill', C.orange)).text('G+A / 90 ADJ.');
     // seasons not covered for this player: a faint mark so the gap is legible
-    svg.append('g').selectAll('rect').data(SEASONS.filter((s) => !p.d.bySeason.has(s))).join('rect')
+    svg.append('g').selectAll('rect').data(AX.filter((s) => !p.d.bySeason.has(s))).join('rect')
       .attr('x', (s) => x(s)).attr('y', H - M.b - 2).attr('width', x.bandwidth()).attr('height', 2).attr('fill', C.rule);
     // bars: one stack per season, a segment per stint (the longest at the bottom)
     const seasons = p.seasons, segs = [];
@@ -279,7 +297,7 @@
       .attr('fill', (d) => (d.s.under_floor ? C.page : C.orange)).attr('stroke', C.orange).attr('stroke-width', 1.4)
       .on('mousemove', (ev, d) => showTip(tipHtml(p, d.s, d.st), ev.clientX, ev.clientY)).on('mouseleave', hideTip);
     // national-team call-ups: acid ticks above the season that ended in that year
-    const calls = p.calls.map((c) => ({ ...c, season: SEASONS.find((s) => +s.slice(5, 9) === c.year) })).filter((c) => c.season);
+    const calls = p.calls.map((c) => ({ ...c, season: AX.find((s) => +s.slice(5, 9) === c.year) })).filter((c) => c.season);
     const byS = d3.group(calls, (c) => c.season);
     svg.append('g').selectAll('g').data([...byS]).join('g').each(function ([s, cs]) {
       const g = d3.select(this), cx = x(s) + x.bandwidth() / 2;
@@ -345,14 +363,35 @@
   }
 
   // ------------------------------------------------------------ routing + wiring
+  const loadJson = (name) => fetch(`../charts/${name}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  // the past players ride in a second file; merged into the list once, on request
+  let histLoading = null;
+  function loadPast() {
+    if (HIST) return Promise.resolve(HIST);
+    if (histLoading) return histLoading;
+    histLoading = loadJson('careers_history').then((h) => {
+      HIST = h && Array.isArray(h.players) ? h : { players: [] };
+      for (const p of HIST.players) { if (byKey.has(p.key)) continue; p.past = true; derive(p); byKey.set(p.key, p); DATA.players.push(p); }
+      if (ui.past) { ui.past.checked = true; ui.past.disabled = false; }
+      return HIST;
+    });
+    return histLoading;
+  }
   function readHash() {
+    const e = location.hash.match(/^#eras(?:\/(\d{4}-\d{4}))?$/);
+    if (e) { view = 'eras'; eraSeason = e[1] || eraSeason; return; }
+    view = 'players';
     const m = location.hash.match(/^#p\/(.+)$/);
-    open = m ? m[1].split(';').map(decodeURIComponent).filter((k) => byKey.has(k)).slice(0, MAX_COMPARE) : [];
+    const keys = m ? m[1].split(';').map(decodeURIComponent) : [];
+    open = keys.filter((k) => byKey.has(k)).slice(0, MAX_COMPARE);
+    // a key not in the pool may be a past player: fetch the history once and look again
+    if (keys.length && open.length < keys.length && !HIST) loadPast().then(() => { open = keys.filter((k) => byKey.has(k)).slice(0, MAX_COMPARE); render(); });
   }
   function pushHash() {
-    const h = open.length ? '#p/' + open.map(encodeURIComponent).join(';') : '#';
+    const h = view === 'eras' ? '#eras' + (eraSeason ? '/' + eraSeason : '') : open.length ? '#p/' + open.map(encodeURIComponent).join(';') : '#';
     if (location.hash !== h) history.replaceState(null, '', h);
   }
+  function setView(v) { view = v; if (v === 'eras' && !ERAS) loadEras().then(render); pushHash(); render(); }
   function toggle(key) {
     if (open.includes(key)) open = open.filter((k) => k !== key);
     else if (open.length < MAX_COMPARE) open = [...open, key];
@@ -360,7 +399,79 @@
     pushHash(); render();
     if (window.innerWidth < 960 && open.length) ui.detail.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
   }
-  function render() { renderList(); renderDetail(); }
+  function render() {
+    if (ui.tabs) ui.tabs.querySelectorAll('[data-ax-view]').forEach((b) => b.setAttribute('aria-selected', b.dataset.axView === view));
+    if (ui.players) ui.players.hidden = view !== 'players';
+    if (ui.eras) ui.eras.hidden = view !== 'eras';
+    if (view === 'eras') { renderEras(); return; }
+    renderList(); renderDetail();
+  }
+
+  // ------------------------------------------------------------ eras: the nation in the Big-5, season by season
+  function loadEras() { return loadJson('eras').then((e) => { ERAS = e && Array.isArray(e.seasons) ? e : { seasons: [] }; return ERAS; }); }
+  function renderEras() {
+    const box = ui.eras; if (!box) return;
+    if (!ERAS) { box.replaceChildren(); empty(box, 'loading the history…'); return; }
+    const S = ERAS.seasons.filter((s) => s.n > 0 || s.season >= ERAS.seasons[0].season);
+    if (!S.length) { box.replaceChildren(); empty(box, 'no Big-5 history for this nation'); return; }
+    if (!eraSeason || !S.some((s) => s.season === eraSeason)) eraSeason = S[S.length - 1].season;
+    const peak = S.reduce((a, b) => (b.n > a.n ? b : a));
+    const low = S.slice().reverse().reduce((a, b) => (b.n < a.n ? b : a));
+    const first = S[0], last = S[S.length - 1];
+    box.innerHTML =
+      `<p class="ax-kicker">the nation in the Big-5 · ${short(first.season)}–${short(last.season)}</p>` +
+      `<h2 class="ax-statement">${esc(HOME_NAME)} players in Europe's five biggest leagues: ${first.n} in ${short(first.season)}, ${peak.n} at the peak in ${short(peak.season)}, ${low.n} at the low in ${short(low.season)}, ${last.n} in ${short(last.season)}. Click a season for who was there.</h2>` +
+      `<div class="ax-chart" data-ax-eras-chart></div>` +
+      `<p class="ax-note">Bars: distinct home-nation players with at least one appearance in the Premier League, Serie A, La Liga, Bundesliga or Ligue 1 that season (FBref season tables; the English top flight from 92/93). Line: their median age. Acid marks: debutants — a first Big-5 season of 450+ minutes — a proxy for when the exports arrive; the first season of the history has none by construction. The pool's own leagues (the home league, its peers) are covered only from ${short(SEASONS[0])}, so this is the top of the ladder over time, not the whole pool.</p>` +
+      `<div class="ax-era" data-ax-era></div>` +
+      `<details class="fold ax-fold"><summary>every season as a table</summary><div class="ax-table-wrap"><table class="ax-table"><thead><tr><th>season</th><th class="num">players</th><th class="num">minutes</th><th class="num">median age</th><th class="num">≤22 share</th><th class="num">debutants</th><th class="num">debut age</th></tr></thead><tbody>` +
+      S.map((s) => `<tr${s.season === eraSeason ? ' class="is-open"' : ''}><td class="mono"><a href="#eras/${s.season}">${short(s.season)}</a></td><td class="num">${s.n}</td><td class="num">${fmtInt(s.min)}</td><td class="num">${s.age_median != null ? s.age_median.toFixed(1) : '—'}</td><td class="num">${s.u23_share != null ? Math.round(s.u23_share * 100) + ' %' : '—'}</td><td class="num">${s.debut_n}</td><td class="num">${s.debut_age_median != null ? s.debut_age_median.toFixed(1) : '—'}</td></tr>`).join('') +
+      `</tbody></table></div></details>`;
+    if (hasD3) requestAnimationFrame(() => erasChart(box.querySelector('[data-ax-eras-chart]'), S));
+    else empty(box.querySelector('[data-ax-eras-chart]'), 'the chart needs the D3 library, which did not load; the seasons are in the table below');
+    renderEra(box.querySelector('[data-ax-era]'), S.find((s) => s.season === eraSeason));
+  }
+  function renderEra(el, s) {
+    if (!el || !s) return;
+    const rows = s.players.map((p) => `<tr><td><a href="#p/${encodeURIComponent(p.key)}">${esc(p.name)}</a>${p.debut ? ' <span class="ax-nt">debut</span>' : ''}</td><td>${esc(p.team)}</td><td class="mono">${esc(p.league.replace(/^[A-Z]{3}-/, ''))}</td><td class="num">${p.age != null ? p.age : '—'}</td><td class="num">${fmtInt(p.min)}</td><td class="num">${p.gls}</td><td class="num">${p.ast}</td></tr>`).join('');
+    el.innerHTML = `<h3 class="ax-era-title">${short(s.season)} · ${s.n} player${s.n === 1 ? '' : 's'} · ${fmtInt(s.min)} minutes${s.age_median != null ? ` · median age ${s.age_median.toFixed(1)}` : ''}${s.debut_n ? ` · ${s.debut_n} debutant${s.debut_n === 1 ? '' : 's'}` : ''}</h3>` +
+      `<div class="ax-table-wrap"><table class="ax-table"><thead><tr><th>player</th><th>club</th><th>league</th><th class="num">age</th><th class="num">min</th><th class="num">G</th><th class="num">A</th></tr></thead><tbody>${rows}</tbody></table></div>` +
+      `<p class="ax-note">A name opens his seasons in the players view; a player outside today's pool is fetched from the history on the way.</p>`;
+  }
+  function erasChart(box, S) {
+    box.replaceChildren();
+    const w = Math.max(320, box.clientWidth || 800), narrow = w < 640, H = 360, M = { t: 30, r: narrow ? 34 : 46, b: 34, l: narrow ? 30 : 40 };
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'home-nation players in the Big-5 per season, with median age');
+    const x = d3.scaleBand().domain(S.map((s) => s.season)).range([M.l, w - M.r]).paddingInner(0.25);
+    const y = d3.scaleLinear().domain([0, d3.max(S, (s) => s.n)]).nice().range([H - M.b, M.t]);
+    const ages = S.filter((s) => s.age_median != null);
+    const y2 = d3.scaleLinear().domain([d3.min(ages, (s) => s.age_median) - 2, d3.max(ages, (s) => s.age_median) + 2]).range([H - M.b, M.t]);
+    const mono = (sel) => sel.attr('font-family', 'JetBrains Mono, monospace').attr('font-size', 10).attr('letter-spacing', '0.08em').attr('fill', C.muted);
+    const gy = svg.append('g').attr('transform', `translate(${M.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(w - M.l - M.r)));
+    gy.select('.domain').remove(); gy.selectAll('line').attr('stroke', C.rule).attr('stroke-dasharray', '2 3'); mono(gy.selectAll('text'));
+    const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
+    gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
+    const every = narrow ? 5 : 3;
+    gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
+    const g2 = svg.append('g').attr('transform', `translate(${w - M.r},0)`).call(d3.axisRight(y2).ticks(4).tickSize(0));
+    g2.select('.domain').remove(); mono(g2.selectAll('text')).attr('fill', C.violet);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text('PLAYERS IN THE BIG-5');
+    mono(svg.append('text').attr('x', w - M.r).attr('y', 12).attr('text-anchor', 'end').attr('fill', C.violet)).text('MEDIAN AGE');
+    svg.append('g').selectAll('rect').data(S).join('rect')
+      .attr('x', (s) => x(s.season)).attr('width', x.bandwidth()).attr('y', (s) => y(s.n)).attr('height', (s) => y(0) - y(s.n))
+      .attr('fill', (s) => (s.season === eraSeason ? C.acid : C.hot)).attr('opacity', (s) => (s.season === eraSeason ? 1 : 0.85))
+      .style('cursor', 'pointer')
+      .on('mousemove', (ev, s) => showTip(`<b>${short(s.season)}</b><span>${s.n} players · ${fmtInt(s.min)} minutes</span><span>median age ${s.age_median != null ? s.age_median.toFixed(1) : '—'} · ${s.debut_n} debutant${s.debut_n === 1 ? '' : 's'}${s.debut_age_median != null ? ` at ${s.debut_age_median.toFixed(1)}` : ''}</span><span class="mono">click for the names</span>`, ev.clientX, ev.clientY))
+      .on('mouseleave', hideTip)
+      .on('click', (ev, s) => { eraSeason = s.season; pushHash(); renderEras(); });
+    svg.append('g').selectAll('rect').data(S.filter((s) => s.debut_n)).join('rect')
+      .attr('x', (s) => x(s.season)).attr('width', x.bandwidth()).attr('y', (s) => y(s.n) - 3 - Math.min(24, s.debut_n * 3)).attr('height', (s) => Math.min(24, s.debut_n * 3)).attr('fill', C.acid).attr('opacity', 0.9).attr('pointer-events', 'none');
+    const line = d3.line().x((s) => x(s.season) + x.bandwidth() / 2).y((s) => y2(s.age_median)).curve(d3.curveMonotoneX);
+    svg.append('path').datum(ages).attr('d', line).attr('fill', 'none').attr('stroke', C.violet).attr('stroke-width', 1.6).attr('pointer-events', 'none');
+    const leg = document.createElement('p'); leg.className = 'ax-legend';
+    leg.innerHTML = `<span><i style="background:${C.hot}"></i>players with a Big-5 appearance</span><span><i style="background:${C.acid}"></i>debutants (450+ min), 3 px each</span><span><i class="ax-legend-line" style="border-color:${C.violet}"></i>median age</span>`;
+    box.appendChild(leg);
+  }
 
   function renderBrowse() {
     ui.browse.replaceChildren(...BROWSE.map((b) => {
@@ -385,9 +496,15 @@
     root.querySelectorAll('[data-ax-n]').forEach((el) => { el.textContent = data.players.length; });
     root.querySelectorAll('[data-ax-span]').forEach((el) => { el.textContent = `${short(SEASONS[0])}–${short(SEASONS[SEASONS.length - 1])}`; });
     readHash();
+    if (view === 'eras') loadEras().then(render);
     renderBrowse();
     render();
     for (const el of [ui.q, ui.pos, ui.tier, ui.sort, ui.nt]) el.addEventListener('input', () => { preset = null; renderBrowse(); renderList(); });
+    if (ui.past) ui.past.addEventListener('change', () => {
+      if (ui.past.checked) { ui.past.disabled = true; loadPast().then(() => { ui.past.disabled = false; renderList(); }); }
+      else { for (const p of DATA.players.filter((q) => q.past)) byKey.delete(p.key); DATA.players = DATA.players.filter((q) => !q.past); HIST = null; histLoading = null; open = open.filter((k) => byKey.has(k)); pushHash(); render(); }
+    });
+    if (ui.tabs) ui.tabs.addEventListener('click', (ev) => { const b = ev.target.closest('[data-ax-view]'); if (b) setView(b.dataset.axView); });
     ui.list.addEventListener('click', (ev) => { const li = ev.target.closest('.ax-row'); if (li) toggle(li.dataset.key); });
     window.addEventListener('hashchange', () => { readHash(); render(); });
     let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(renderDetail, 150); });

@@ -7,7 +7,7 @@
  * the home nation and nothing else, hot white for what is hovered.
  *
  * Charts: atlas (FW/MF/DF, two projections, zoom, hover, pin, cluster
- * isolation, search), big5 (the 26-season series with break and forecast),
+ * isolation, search), big5 (the 36-season series with break and forecast),
  * export-age (curve, band, the home nation's exports as points), changes
  * (a tier-to-tier flow between the two seasons, names on hover).
  *
@@ -224,10 +224,11 @@
         .attr('fill', colour).text((c) => c)
         .transition().duration(dur).attr('y', (c) => y(series(c).at(-1).v) + 3);
       marks.selectAll('*').remove();
-      const br = (data.break || [])[0];
-      if (br && seasons.includes(br.season)) {
-        marks.append('line').attr('x1', x(br.season)).attr('x2', x(br.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', C.acid).attr('stroke-dasharray', '3 3').attr('opacity', 0.7);
-        marks.append('text').attr('class', 'chart-axis-label').attr('x', x(br.season) + 5).attr('y', M.t + 10).attr('fill', C.acid).text(`break · ${Math.round(br.prob * 100)} %`);
+      // the dated breaks: the fall in acid, the rise (two-break fit) in chalk
+      for (const [br, label, col] of [[(data.rise || [])[0], 'rise', C.ink], [(data.break || [])[0], 'break', C.acid]]) {
+        if (!br || !seasons.includes(br.season)) continue;
+        marks.append('line').attr('x1', x(br.season)).attr('x2', x(br.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', col).attr('stroke-dasharray', '3 3').attr('opacity', 0.7);
+        marks.append('text').attr('class', 'chart-axis-label').attr('x', x(br.season) + 5).attr('y', M.t + 10).attr('fill', col).text(`${label} · ${Math.round(br.prob * 100)} %`);
       }
       if (state.metric === 'n') {
         Object.entries(fc).forEach(([c, f]) => {

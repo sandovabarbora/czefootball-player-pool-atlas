@@ -1,0 +1,48 @@
+# Home-nation configuration for the Germany edition (2026-09-21). The
+# Bundesliga is itself a headline league, so the export questions read the
+# England way: the home league is the top of the ladder and "abroad" means
+# the other Big-5 leagues.
+code: GER
+name: Germany
+adjective: German
+population_m: 83.60            # Eurostat 2024-01-01 (countries.yaml)
+fbref_country_page: https://fbref.com/en/country/players/GER/Germany-Football-Players
+fbref_country_cache: country_ger.html
+wikidata_citizenship: Q183
+domestic_league: GER-Bundesliga
+home_league: Bundesliga
+leagues_note: " The German second tier (2. Bundesliga) is fetched as a stepping-stone league, so a home player's first rung below the top flight is visible here, unlike for most home nations."
+
+cs:
+  name: Německo
+  gen: Německa
+  adj_m: německý
+  adj_f: německá
+  adj_n: německé
+  adj_pl: němečtí
+  players: němečtí hráči
+  home_league: Bundesliga
+  leagues_note: ""
+
+peers: [FRA, ESP, ITA, ENG, NED, POR, BEL]
+cohort_countries: [GER, FRA, ESP, ITA, ENG, NED, POR, BEL]
+cohort_exhibit: [FRA, ESP, ITA, ENG]
+series_contrast: [FRA, ESP]
+compare: [FRA, ESP]
+
+squads:
+  nt_core_event: "2026 FIFA World Cup"
+  events:
+    - {team: A,   event: "UEFA Euro 2024",                  year: 2024, url: "https://en.wikipedia.org/wiki/UEFA_Euro_2024_squads", section: "Germany"}
+    - {team: A,   event: "2024–25 Nations League",          year: 2025, url: "https://en.wikipedia.org/wiki/Germany_national_football_team", section: "Current squad"}
+    - {team: A,   event: "2026 World Cup qualification",    year: 2025, url: "https://en.wikipedia.org/wiki/Germany_national_football_team", section: "Recent call-ups"}
+    - {team: U21, event: "UEFA European Under-21 Championship 2025", year: 2025, url: "https://en.wikipedia.org/wiki/2025_UEFA_European_Under-21_Championship_squads", section: "Germany"}
+    - {team: A,   event: "2026 FIFA World Cup",              year: 2026, url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads", section: "Germany"}
+  peer_squads:
+    - {country: FRA, section: "France"}
+    - {country: ESP, section: "Spain"}
+    - {country: ITA, section: "Italy"}
+    - {country: ENG, section: "England"}
+    - {country: NED, section: "Netherlands"}
+    - {country: POR, section: "Portugal"}
+    - {country: BEL, section: "Belgium"}

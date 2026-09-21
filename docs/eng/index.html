@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211723">
-  <link rel="stylesheet" href="modern.css?v=202609211723">
+  <link rel="stylesheet" href="style.css?v=202609212041">
+  <link rel="stylesheet" href="modern.css?v=202609212041">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609211723"></script>
-  <script defer src="atlas.js?v=202609211723"></script>
+  <script defer src="charts.js?v=202609212041"></script>
+  <script defer src="atlas.js?v=202609212041"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -154,8 +154,8 @@
       
       <li class="quickread-tile">
         <a href="#q7">
-          <span class="quickread-figure">2007/08</span>
-          <span class="quickread-line">the season Big-5 presence broke (21 % posterior)</span>
+          <span class="quickread-figure">2022/23</span>
+          <span class="quickread-line">the season Big-5 presence broke (10 % posterior)</span>
         </a>
       </li>
       
@@ -296,7 +296,7 @@
           </div>
         </div>
         
-        <p class="funnel-metric-note">Around the 2007/08 season, the model finds a possible shift in the count of English players in Europe's strongest leagues, with 21 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
+        <p class="funnel-metric-note">Around the 2022/23 season, the model finds a possible shift in the count of English players in Europe's strongest leagues, with 10 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
         
       </li>
     </ol>
@@ -1063,11 +1063,11 @@
   <div class="container">
     <h2 class="slide-q">When did the train leave?</h2>
     
-    <p class="slide-a">English players with ≥ 450 Big-5 minutes: <strong>180</strong> at the 2000/01 peak, 111 at the 2013/14 low, 127 in 2025/26. The break is dated to 2007/08.</p>
+    <p class="slide-a">English players with ≥ 450 Big-5 minutes: <strong>296</strong> at the 1993/94 peak, 1 at the 1991/92 low, 127 in 2025/26. The break is dated to 2022/23.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
-        <img src="big5_series.svg" alt="Line chart: English players with at least 450 minutes in the Big-5 leagues, 2000/01 to 2025/26, against eight peer countries; a lower panel shows per-million rates for England, France and Germany.">
-        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 2000/01. English players are the acid line; the dashed rule is the season the model dates the break to, with its probability; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
+        <img src="big5_series.svg" alt="Line chart: English players with at least 450 minutes in the Big-5 leagues, 1990/91 to 2025/26, against eight peer countries; a lower panel shows per-million rates for England, France and Germany.">
+        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1990/91. English players are the acid line; the dashed rules are the seasons the model dates the rise and the fall to, with their probabilities; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
       </figure>
       
       <aside class="scoreboard" id="prediction-1">
@@ -1080,8 +1080,10 @@
           <div><dt>Outcome</dt><dd>open — resolves after 2027-06-30, when the season’s tables are final</dd></div>
         </dl>
         
+        <p class="scoreboard-drift">The model has been refitted since registration and now says 126 (48–309). The registered numbers above are the ones that will be scored.</p>
         
-        <p class="scoreboard-backtest">The model behind this number, refitted at 15 past origins, missed by 10.53 players on average against 12.07 for “same as last year” — it has not yet beaten the baseline it is scored against.</p>
+        
+        <p class="scoreboard-backtest">The model behind this number, refitted at 15 past origins, missed by 12.60 players on average against 12.07 for “same as last year” — it has not yet beaten the baseline it is scored against.</p>
         
         <p class="scoreboard-why">The numbers are fixed in the repository on the day they were made, with the commit they came from, and are scored by a rule written down before the answer is known. A forecast that can be revised afterwards is not a forecast.</p>
       </aside>
@@ -1089,10 +1091,10 @@
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">Break posterior 21 %; a level change of ×0.92 (0.75–1.13).</p>
-    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: English players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with one dated change point.</p>
-    <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the season where that count changed level for good and stayed there.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 2000/01 → 2025/26; peers on the same rule; the names are the most-minutes English players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2000/01: Wayne Bridge, David James, Gary Rowett; 2001/02: Wayne Bridge, Nigel Martyn, Gareth Southgate; 2006/07: David James, Paul Robinson, Phil Jagielka. The break date comes from a Bayesian local-level model with one change point (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
+      <p class="slide-detail">Break posterior 10 %; a level change of ×0.97 (0.27–1.77).</p>
+    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: English players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with the rise and the fall each dated by a change-point model.</p>
+    <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the two seasons where that count changed level for good — once up, once down — and stayed there.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1990/91 → 2025/26; peers on the same rule; the names are the most-minutes English players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 1993/94: Ian Culverhouse, Mick Stockwell, Clive Wilson; 1992/93: Earl Barrett, Nigel Clough, Nigel Martyn; 1994/95: Gary Pallister, John Lukic, Gareth Southgate. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
     </details>
     <p class="slide-so">A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.</p>
     
@@ -11815,7 +11817,7 @@
     <dl class="brief-checks">
       
       
-      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2007/08 season, with 21 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
+      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2022/23 season, with 10 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
       
     </dl>
     <div class="brief-caveats">
@@ -17599,30 +17601,32 @@
 
     
     <h3 id="series-model">Dating the break and one forecast</h3>
-    <p class="plain">This section finds the season when the count of home-nation players in Europe's five biggest leagues stopped growing and settled at a lower level, and puts a probability on that season being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
+    <p class="plain">This section finds the two seasons when the count of home-nation players in Europe's five biggest leagues changed level for good — the rise and the fall — and puts a probability on each being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
     <details class="fold method-body">
       <summary>Full method, figures and diagnostics</summary>
-    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus one step change δ in the level at an unknown break season τ. NUTS only samples continuous parameters, so τ is not sampled directly — every candidate season at least 3 seasons from either end is marginalised out of the model with a single log-sum-exp potential and its own posterior recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, single-break setting. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
+    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus two ordered step changes δ₁, δ₂ in the level at unknown seasons τ₁ < τ₂ — on the series back to 1990/91 one step is misspecified, since the count rises through the 1990s and falls after the 2000s plateau, and a single step lands on whichever change buys more likelihood. NUTS only samples continuous parameters, so the τ pair is not sampled directly — every ordered pair of candidate seasons at least 3 seasons from either end and from each other is marginalised out of the model with a single log-sum-exp potential, and each break's own posterior is recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, two-break setting. The report's "break" is the step that lowers the level; the other is the rise. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
     <figure class="figure-bleed">
       <img src="series_model.svg" alt="Line chart of the England series with the change-point model's fitted level in a pale band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
-      <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rule is the most probable break season with its posterior probability; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
+      <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
     </figure>
-    <p>For England, the model dates the break to 2007/08 (21 % posterior probability), a ×0.92 (0.75–1.13, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.038.</p>
+    <p>For England, the model dates the break to 2022/23 (10 % posterior probability), a ×0.97 (0.27–1.77, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.547.</p>
+    
     <ul class="break-top">
       
-      <li>2007/08: 21 %</li>
+      <li>2022/23: 10 %</li>
       
-      <li>2012/13: 9 %</li>
+      <li>2018/19: 9 %</li>
       
-      <li>2019/20: 8 %</li>
+      <li>2023/24: 9 %</li>
       
     </ul>
+    
     <p>The same model, fit separately for the two contrast countries:</p>
     <ul class="contrast-break">
       
-      <li>France: 2023/24 (20 % posterior), ×0.92 (0.83–1.05).</li>
+      <li>France: 2023/24 (15 % posterior), ×0.93 (0.83–1.06). Rise: 1995/96 (100 %), ×62.86.</li>
       
-      <li>Germany: 2010/11 (21 % posterior), ×1.04 (0.89–1.18).</li>
+      <li>Germany: 2000/01 (39 % posterior), ×0.87 (0.67–1.18).</li>
       
     </ul>
 
@@ -17637,82 +17641,82 @@
         
         <tr>
           <td>2010/11</td><td>2011/12</td><td class="num">148</td>
-          <td class="num">134 (107–162)</td><td class="num">134</td>
+          <td class="num">130 (41–412)</td><td class="num">134</td>
         </tr>
         
         <tr>
           <td>2011/12</td><td>2012/13</td><td class="num">128</td>
-          <td class="num">142 (115–169)</td><td class="num">148</td>
+          <td class="num">146 (47–431)</td><td class="num">148</td>
         </tr>
         
         <tr>
           <td>2012/13</td><td>2013/14</td><td class="num">111</td>
-          <td class="num">135 (110–163)</td><td class="num">128</td>
+          <td class="num">133 (43–387)</td><td class="num">128</td>
         </tr>
         
         <tr>
           <td>2013/14</td><td>2014/15</td><td class="num">136</td>
-          <td class="num">124 (97–151)</td><td class="num">111</td>
+          <td class="num">108 (35–341)</td><td class="num">111</td>
         </tr>
         
         <tr>
           <td>2014/15</td><td>2015/16</td><td class="num">114</td>
-          <td class="num">130 (104–158)</td><td class="num">136</td>
+          <td class="num">135 (46–390)</td><td class="num">136</td>
         </tr>
         
         <tr>
           <td>2015/16</td><td>2016/17</td><td class="num">114</td>
-          <td class="num">123 (98–148)</td><td class="num">114</td>
+          <td class="num">116 (40–298)</td><td class="num">114</td>
         </tr>
         
         <tr>
           <td>2016/17</td><td>2017/18</td><td class="num">122</td>
-          <td class="num">119 (95–145)</td><td class="num">114</td>
+          <td class="num">117 (41–327)</td><td class="num">114</td>
         </tr>
         
         <tr>
           <td>2017/18</td><td>2018/19</td><td class="num">112</td>
-          <td class="num">120 (98–148)</td><td class="num">122</td>
+          <td class="num">123 (45–327)</td><td class="num">122</td>
         </tr>
         
         <tr>
           <td>2018/19</td><td>2019/20</td><td class="num">133</td>
-          <td class="num">116 (94–145)</td><td class="num">112</td>
+          <td class="num">112 (42–306)</td><td class="num">112</td>
         </tr>
         
         <tr>
           <td>2019/20</td><td>2020/21</td><td class="num">142</td>
-          <td class="num">123 (102–151)</td><td class="num">133</td>
+          <td class="num">132 (44–370)</td><td class="num">133</td>
         </tr>
         
         <tr>
           <td>2020/21</td><td>2021/22</td><td class="num">133</td>
-          <td class="num">131 (109–160)</td><td class="num">142</td>
+          <td class="num">142 (51–360)</td><td class="num">142</td>
         </tr>
         
         <tr>
           <td>2021/22</td><td>2022/23</td><td class="num">134</td>
-          <td class="num">132 (108–159)</td><td class="num">133</td>
+          <td class="num">133 (50–330)</td><td class="num">133</td>
         </tr>
         
         <tr>
           <td>2022/23</td><td>2023/24</td><td class="num">130</td>
-          <td class="num">133 (108–159)</td><td class="num">134</td>
+          <td class="num">132 (54–333)</td><td class="num">134</td>
         </tr>
         
         <tr>
           <td>2023/24</td><td>2024/25</td><td class="num">139</td>
-          <td class="num">131 (108–157)</td><td class="num">130</td>
+          <td class="num">131 (50–342)</td><td class="num">130</td>
         </tr>
         
         <tr>
           <td>2024/25</td><td>2025/26</td><td class="num">127</td>
-          <td class="num">134 (110–161)</td><td class="num">139</td>
+          <td class="num">140 (53–351)</td><td class="num">139</td>
         </tr>
         
       </tbody>
     </table>
-    <p>Pooled across 15 origins: MAE 10.53 for the model against 12.07 for the naive baseline, 100 % of the 90 % intervals covered the observed value.</p>
+    <p>Pooled across 15 origins: MAE 12.60 for the model against 12.07 for the naive baseline, 100 % of the 90 % intervals covered the observed value.</p>
 
     <p>The one forecast, for next season (2026/27), from the same change-point-free model fitted on the full series:</p>
     <table class="kv-table series-forecast-table">
@@ -17723,25 +17727,25 @@
       <tbody>
         
         <tr data-highlight="cze">
-          <td>England</td><td>2026/27</td><td class="num">130</td>
-          <td class="num">107–157</td>
+          <td>England</td><td>2026/27</td><td class="num">126</td>
+          <td class="num">48–309</td>
         </tr>
         
         <tr >
-          <td>France</td><td>2026/27</td><td class="num">213</td>
-          <td class="num">183–244</td>
+          <td>France</td><td>2026/27</td><td class="num">203</td>
+          <td class="num">76–500</td>
         </tr>
         
         <tr >
-          <td>Germany</td><td>2026/27</td><td class="num">163</td>
-          <td class="num">141–186</td>
+          <td>Germany</td><td>2026/27</td><td class="num">165</td>
+          <td class="num">134–197</td>
         </tr>
         
       </tbody>
     </table>
     <p class="capita-note">A demonstration of the method on a count of players, not a statement about any player.</p>
 
-    <p>Change-point fit: R-hat ≤ 1.003, minimum bulk ESS 339, 0 divergent transitions across 26 seasons.</p>
+    <p>Change-point fit: R-hat ≤ 1.012, minimum bulk ESS 108, 0 divergent transitions across 36 seasons.</p>
     </details>
     
 
@@ -18719,7 +18723,7 @@
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
       
       
-      <li>The break and forecast (M4): the break dates to 2007/08 (21 % posterior) for England, a ×0.92 level change; the plain local level beats the naive baseline on MAE (10.53 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
+      <li>The break and forecast (M4): the break dates to 2022/23 (10 % posterior) for England, a ×0.97 level change; the plain local level does not beat the naive baseline on MAE (12.60 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
       
       <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +13.94 per 10 percentage points of U21 share (−4.93–33.09), R² = 0.22; a plain pooled OLS slope agrees in sign at +13.57 (5.36–20.82) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = +1.56.</li>
@@ -18738,8 +18742,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 314 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 314 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 315 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 315 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
@@ -19259,7 +19263,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 17:23</p>
+    <p class="rendered-at">Rendered: 2026-09-21 20:41</p>
   </div>
 </footer>
 
