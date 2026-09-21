@@ -417,7 +417,7 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   border-bottom: 1px solid var(--rule);
 }
 @container (min-width: 640px) {
-  .quickread-grid { grid-template-columns: repeat(4, 1fr); }
+  .quickread-grid { grid-template-columns: repeat(3, 1fr); }
 }
 .quickread-tile { background: var(--page-bg); border: 0; }
 .quickread-tile a {
@@ -2602,12 +2602,15 @@ li strong { font-family: var(--font-display); font-weight: 600; }
     border-bottom: none;
   }
   .toc-sticky li > a:hover { color: var(--oxblood-700); }
+  /* the rail is wayfinding, not content: regular weight, small, muted, so a
+     screen with fourteen entries beside it still reads as one column */
   .toc-sticky > ol > li > a,
   .toc-sticky > ol > li > details.toc-method > summary > a {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.88rem;
-    margin-top: var(--space-2);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-top: 0.1rem;
   }
   .toc-sticky ol ol li > a {
     color: var(--muted);
@@ -2749,7 +2752,7 @@ footer a:hover { border-bottom-color: var(--ink); }
   body > *:not(#quickread):not(#brief) { display: none !important; }
   #quickread, #brief { display: block !important; }
   #quickread { border-top: none; padding-top: 0; }
-  .quickread-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  .quickread-grid { grid-template-columns: repeat(3, 1fr) !important; }
   #brief { background: transparent; border-top: none; padding-top: var(--space-3); }
   .print-link { display: none !important; }
   .brief-table, .brief-caveats, .brief-take-one-thing, .brief-checks, figure {
@@ -2871,3 +2874,11 @@ footer a:hover { border-bottom-color: var(--ink); }
 }
 /* the live sensitivity table is wider than a phone: scroll it, never the page */
 .sensitivity-live-table { display: block; overflow-x: auto; max-width: 100%; }
+
+/* distill: the federation tiles and the one-page brief fold on screen; the
+   brief still prints in full (the print button opens it, and print media
+   forces it open for a reader who prints from the browser menu) */
+.fed-fold > summary, .brief-body > summary { font-family: var(--font-sans); }
+.for-federation h3 { display: none; }
+.brief-table td.num, .brief-table th:not(:first-child) { white-space: nowrap; }
+@media print { .brief-body > summary { display: none; } }

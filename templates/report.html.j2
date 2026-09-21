@@ -208,15 +208,8 @@
 
 <header class="report-header">
   <div class="container">
-    <p class="masthead-kicker">{{ t('mast.kicker') }}</p>
     <h1>{{ t('mast.title') }}</h1>
-    <p class="masthead-subtitle">{{ t('mast.subtitle') }}</p>
-    <dl class="masthead-meta">
-      <div><dt>{{ t('mast.pool') }}</dt> <dd>{{ t('mast.pool_value', n=facts.n_pool) }}</dd></div>
-      <div><dt>{{ t('mast.with_metrics', season=seasons.metrics) }}</dt> <dd><strong>{{ facts.n_with_metrics }}</strong></dd></div>
-      <div><dt>{{ t('mast.nt', nt_years=facts.nt_years) }}</dt> <dd><strong>{{ facts.n_nt_flagged }}</strong></dd></div>
-    </dl>
-    <p class="masthead-facts">{{ t('mast.facts', n_leagues=facts.n_leagues, n_seasons=facts.n_seasons, n_tests=facts.n_tests) }}</p>
+    <p class="masthead-subtitle">{{ t('hero.h2') }}</p>
 
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
@@ -232,14 +225,7 @@
    HERO BAND — drenched navy with the headline number
    ============================================================================= #}
 <section class="hero" id="summary">
-  <aside class="hero-stamp" aria-label="{{ t('hero.stamp.aria') }}">
-    <p class="hero-stamp-line">{{ t('hero.stamp.report') }}</p>
-    <p class="hero-stamp-line"><strong>{{ t('hero.stamp.atlas', season=seasons.current) }}</strong></p>
-    <p class="hero-stamp-line">{{ t('hero.stamp.edition') }}</p>
-  </aside>
   <div class="container">
-    <p class="hero-kicker">{{ t('hero.kicker') }}</p>
-    <h2>{{ t('hero.h2') }}</h2>
     <div class="hero-grid">
       <div class="hero-num">
         <span class="hero-num-figure">{{ '%.2f' | format(hero.per_million) }}<span class="ast" aria-hidden="true">*</span></span>
@@ -274,12 +260,6 @@
 <section class="quickread" id="quickread">
   <div class="container">
     <ul class="quickread-grid">
-      <li class="quickread-tile">
-        <a href="#q1">
-          <span class="quickread-figure">{{ f2(hero.per_million) }}</span>
-          <span class="quickread-line">{{ t('quickread.1', rank=ordinal(hero.rank), n=hero.n_peers) }}</span>
-        </a>
-      </li>
       {% if hero.gap %}
       <li class="quickread-tile">
         <a href="#q2">
@@ -1116,7 +1096,8 @@
    ============================================================================= #}
 <section class="for-federation" id="for-federation">
   <div class="container">
-    <h3>{{ t('fed.h3') }}</h3>
+    <details class="fold fed-fold">
+      <summary>{{ t('fed.h3') }}</summary>
     <ul class="fed-grid">
       <li class="fed-tile"><a href="#q1">
         <span class="fed-tile-title">{{ t('fed.benchmark.title') }}</span>
@@ -1139,6 +1120,7 @@
         <span class="fed-tile-used-by">{{ t('fed.models.used_by') }}</span>
       </a></li>
     </ul>
+    </details>
   </div>
 </section>
 
@@ -1154,9 +1136,11 @@
   <div class="container">
     <div class="brief-head">
       <h2>{{ t('brief.h2') }}</h2>
-      <button type="button" class="print-link" onclick="window.print()">{{ t('brief.print') }}</button>
+      <button type="button" class="print-link" onclick="document.querySelector('.brief-body').open = true; window.print()">{{ t('brief.print') }}</button>
     </div>
     <p class="brief-intro">{{ t('brief.intro') }}</p>
+    <details class="fold brief-body">
+      <summary>{{ t('brief.open') }}</summary>
     <table class="brief-table">
       <thead>
         <tr>
@@ -1206,6 +1190,7 @@
         {% endif %}
       </ul>
     </div>
+    </details>
   </div>
 </section>
 

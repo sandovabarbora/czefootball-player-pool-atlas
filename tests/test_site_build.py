@@ -97,10 +97,10 @@ def test_site_layer_is_applied_to_both_pages(built):
         assert html.count('class="tile-more"') == n_visuals
         assert '<article class="cycle-card"' in html
         assert html.index('class="cycle-tile"') < html.index('class="cycle-card-visual')
-        assert 'class="cast"' in html and 'class="hero-cutout"' in html
-        # cast strip is above the fold: eager, not lazy
-        cast_block = html.split('class="cast"')[1].split("</a>")[0]
-        assert 'loading="eager"' in cast_block and 'loading="lazy"' not in cast_block
+        assert 'class="hero-cutout"' in html
+        # the masthead cast strip went in the distill pass (the faces live on
+        # the cards); the page must not carry it any more
+        assert 'class="cast"' not in html
         assert 'id="player-search"' in html and 'class="player-index-table"' in html
         assert html.count("<details class=\"cluster\">") >= 12
         assert "data-tex=" in html and "katex" in html

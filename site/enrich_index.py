@@ -67,7 +67,7 @@ S = {
         "nav_aria": "Navigation", "brand": f"{ADJ_EN} Football <span>Atlas</span>",
         "nav": [("#summary", "Summary"), ("#pathways", "Pathways"), ("#q9", "Cards"), ("#methodology", "Methodology")],
         "lang_aria": "Language", "contents": "Contents",
-        "cast": "{n} player profiles", "in_context": "In context",
+        "in_context": "In context",
         "analog_fold": "{n} nearest analogs and what followed",
         "loadings": "Loadings table", "scenarios": "Scenario table",
         "full_card": "Full card",
@@ -82,7 +82,7 @@ S = {
         "nav_aria": "Navigace", "brand": f"{ADJ_CS} fotbal <span>Atlas</span>",
         "nav": [("#summary", "Shrnutí"), ("#pathways", "Cesty"), ("#q9", "Karty"), ("#methodology", "Metodologie")],
         "lang_aria": "Jazyk", "contents": "Obsah",
-        "cast": "{n} profilů hráčů", "in_context": "Souvislosti",
+        "in_context": "Souvislosti",
         "analog_fold": "{n} nejbližších analogů a jejich pokračování",
         "loadings": "Tabulka loadings", "scenarios": "Tabulka scénářů",
         "full_card": "Celá karta",
@@ -108,8 +108,6 @@ def photo(key: str) -> dict | None:
 
 IMG_ATTRS = ('loading="lazy" decoding="async" '
              'onerror="this.closest(\'.pchip\')?.classList.add(\'pchip-mono\'); this.remove()"')
-# cast strip portraits sit above the fold (in the masthead), so they load eager
-CAST_IMG_ATTRS = IMG_ATTRS.replace('loading="lazy"', 'loading="eager"')
 
 
 def chip(key: str, name: str, size: str = "") -> str:
@@ -210,16 +208,8 @@ CARDS = [m.groupdict() for m in CARD_RE.finditer(html)]
 if not (12 <= len(CARDS) <= 18):
     fails.append(("cycle cards found", len(CARDS), "12-15"))
 
-# ---------------------------------------------------------------- masthead cast strip
-def cast_item(c: dict) -> str:
-    p = photo(c["key"])
-    if p:
-        return f'<img src="{P}{p["image"]}" alt="{c["name"]}" {CAST_IMG_ATTRS}>'
-    return f'<span class="cast-mono" aria-label="{c["name"]}">{initials(c["name"])}</span>'
-
-cast_html = (f'\n    <a class="cast" href="#cards">\n      <span class="cast-stack">{"".join(cast_item(c) for c in CARDS)}</span>\n'
-             f'      <span class="cast-caption" data-short="{S["cast"].format(n=len(CARDS))}">{S["cast"].format(n=len(CARDS))}</span>\n    </a>\n')
-sub(r'(<dl class="masthead-meta">.*?</dl>\n)', lambda m: m.group(1) + cast_html, 1, re.S)
+# The masthead cast strip (portraits of the card players) went in the distill
+# pass: the faces live on the cards and the masthead is a title and one line.
 
 # ---------------------------------------------------------------- hero: cut-out + sublead fold; drop the in-page TOC list
 _first_photo = next((photo(c["key"]) for c in CARDS if photo(c["key"])), None)

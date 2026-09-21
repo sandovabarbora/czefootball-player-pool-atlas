@@ -76,7 +76,7 @@ strings:
   mast.pool_value: "<strong>{n}</strong> hráčů"
   mast.with_metrics: "S metrikami {season}"
   mast.nt: "Reprezentace {nt_years}"
-  mast.facts: "{n_leagues} lig · {n_seasons} sezón · {n_tests} testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · žádné predikce, žádná nominační doporučení"
+  mast.facts: "{n_leagues} lig · {n_seasons} sezón · {n_tests} testů · každé číslo dopočítané za běhu · rozhodnutí zalogovaná · jedna předpověď na záznam, žádná nominační doporučení"
 
   # ---- hero
   hero.stamp.report: "Report"
@@ -86,18 +86,18 @@ strings:
   hero.kicker: "Zpravodajství o národním hráčském fondu · veřejná data · reprodukovatelné"
   hero.h2: "Jak hluboký je národní hráčský fond — a proč"
   hero.unit: "hráčů v {topn} nejsilnějších ligách Evropy na milion obyvatel, soupisky {season}"
-  hero.lead: "Pohled na profesionální fond jedné země v kvalitě pro federaci: jak si stojí v přepočtu na obyvatele proti peer zemím, kde je děravá jeho vývojová cesta, jak je poskládaná jeho turnajová nominace a jak vypadá sezóna každého hráče proti evropskému korpusu."
+  hero.lead: "Jak si profesionální fond jedné země stojí proti srovnatelným zemím, kde uniká cesta do zahraničí a co z toho má reprezentace — z veřejných dat, každé číslo dopočítané při každém běhu."
   hero.sublead.gap: "Největší kohortová mezera: <strong>{group} {cohort}</strong> — {cze_n} hráčů {cs_gen} v top-{topn} ligách proti peer mediánu {peer}."
   hero.sublead.export: "Nedávný {cs_adj_m} export se poprvé dostal na soupisku top-{topn} ligy v mediánovém věku {cze}; hráč z země {b} v {den}."
   hero.sublead.close: "Postaveno na FBref, Wikipedii a Wikidatech. {cs_Name} je pracovní příklad; pipeline bere kód národnosti a sadu peer zemí. Lidé z fotbalu tato čísla znají hráč po hráči; agregovaná na jednom místě nejsou nikde."
-  hero.footnote: "* {n} hráčů s národností {code} podle FBref a alespoň {min} minutami na soupiskách {season} top-{topn} lig UEFA ÷ {pop} mil. obyvatel (Eurostat 2024); peer země počítány stejně. <a href=\"#methodology\">Metodologie</a>."
+  hero.footnote: "* {n} hráčů {code} s aspoň {min} minutami v top-{topn} ligách UEFA, {season}, na {pop} mil. obyvatel; srovnávané země počítány stejně. <a href=\"#methodology\">Metodologie</a>."
 
   # ---- quickread (Task 25a): minutová verze, čtyři dlaždice mezi hero a slidy
   quickread.1: "na milion obyvatel — {rank} z {n} peer zemí"
   quickread.2: "největší kohortová mezera: {group} {cohort} proti peer mediánu {peer}"
   quickread.3: "z nominace na {event} hraje v top-{topn} ligách (nejlepší peer {best_pct} %)"
   quickread.4: "sezóna, kdy se zlomila přítomnost v Big-5 ({break_prob} posterior)"
-  quickread.note: "Vše níže je důkazem pro tato čtyři čísla, v jedenácti otázkách."
+  quickread.note: "Vše níže je důkazem pro tahle čísla, otázku po otázce."
   quickread.glossary_note: "Pojmy použité na této stránce jsou vysvětlené ve <a href=\"#glossary\">slovníčku pojmů</a>."
 
   # ---- proč vlak odjel (Task 26A): pětistupňový trychtýř hned po minutové verzi,
@@ -369,6 +369,7 @@ strings:
   # ---- jednostránkový brief (Task 26E2): celý argument na jedné obrazovce,
   # před Prozkoumat data, velikostí na jednu stránku A4 (viz @media print)
   brief.h2: "Jednostránkový brief"
+  brief.open: "Zobrazit jednostránkový brief"
   brief.print: "Vytisknout tuto stránku"
   brief.intro: "Celý argument na jedné obrazovce: pět čísel za tím, proč je fond hráčů tenký, jediné spojení, které nese většinu rozdílu, dvě kontroly modelů za těmi čísly a to, co z toho nic neukazuje."
   brief.th.number: "Číslo"

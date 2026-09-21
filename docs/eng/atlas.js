@@ -408,3 +408,9 @@
     apply();
   }
 })();
+
+// the one-page brief folds on screen; a print from the browser menu must
+// still get it in full, so it opens on beforeprint (the button does the same)
+window.addEventListener('beforeprint', function () {
+  document.querySelectorAll('details.brief-body').forEach(function (d) { d.open = true; });
+});

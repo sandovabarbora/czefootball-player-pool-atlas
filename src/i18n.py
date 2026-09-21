@@ -139,7 +139,7 @@ EN: dict[str, str] = {
     "mast.pool_value": "<strong>{n}</strong> players",
     "mast.with_metrics": "With {season} metrics",
     "mast.nt": "NT call-up {nt_years}",
-    "mast.facts": "{n_leagues} leagues · {n_seasons} seasons · {n_tests} tests · every number computed from the run · rulings logged · no predictions, no selection recommendations",
+    "mast.facts": "{n_leagues} leagues · {n_seasons} seasons · {n_tests} tests · every number computed from the run · rulings logged · one forecast on the record, no selection recommendations",
 
     # ---- hero
     "hero.stamp.report": "Report",
@@ -149,11 +149,11 @@ EN: dict[str, str] = {
     "hero.kicker": "National player-pool intelligence · public data · reproducible",
     "hero.h2": "How deep is a national player pool — and why",
     "hero.unit": "players in Europe's {topn} strongest leagues per million inhabitants, {season} rosters",
-    "hero.lead": "A federation-grade view of one country's professional pool: how it compares with peers per head, where the pathway abroad leaks, how the tournament squad is sourced, and each player's season against a European corpus.",
+    "hero.lead": "How one country\u2019s professional pool compares with its peers, where the road abroad leaks, and what the national team gets from it \u2014 from public data, every number recomputed on each run.",
     "hero.sublead.gap": "The largest cohort gap is in <strong>{group} aged {cohort}</strong>: {cze_n} {adj} player{s} in the top-{topn} leagues against a peer median of {peer}.",
     "hero.sublead.export": "A recent {adj} export first reached a top-{topn} roster at a median age of {cze}; one from {b} at {den}.",
     "hero.sublead.close": "Built from FBref, Wikipedia and Wikidata. {nation} is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.",
-    "hero.footnote": "* {n} players with FBref nationality {code} and ≥ {min} minutes on {season} rosters of the UEFA top-{topn} leagues ÷ {pop} M inhabitants (Eurostat 2024); peer countries computed the same way. <a href=\"#methodology\">Methodology</a>.",
+    "hero.footnote": "* {n} {code} players with ≥ {min} minutes in the UEFA top-{topn} leagues, {season}, per {pop} M inhabitants; peers counted the same way. <a href=\"#methodology\">Methodology</a>.",
 
     # ---- quickread (Task 25a): the 60-second opener, four tiles between the
     # hero and the slides — each tile's figure is typed in the template, its
@@ -162,7 +162,7 @@ EN: dict[str, str] = {
     "quickread.2": "largest cohort gap: {group} aged {cohort} vs peer median {peer}",
     "quickread.3": "of the {event} squad in the top-{topn} leagues (peer best {best_pct} %)",
     "quickread.4": "the season Big-5 presence broke ({break_prob} posterior)",
-    "quickread.note": "Everything below is the evidence for those four numbers, in eleven questions.",
+    "quickread.note": "Everything below is the evidence for these numbers, one question at a time.",
     "quickread.glossary_note": "Terms used on this page are explained in the <a href=\"#glossary\">glossary</a>.",
 
     # ---- why the train left (Task 26A): a five-stage funnel right after the
@@ -443,6 +443,7 @@ EN: dict[str, str] = {
     # ---- one-page brief (Task 26E2): the whole argument on one screen,
     # before Explore, sized to print on a single A4 page (see @media print)
     "brief.h2": "One-page brief",
+    "brief.open": "Show the one-page brief",
     "brief.print": "Print this page",
     "brief.intro": "The whole argument on one screen: the five numbers behind why the pool of players runs thin, the single link that carries most of the gap, two checks on the models behind the numbers, and what none of this shows.",
     "brief.th.number": "Number",
