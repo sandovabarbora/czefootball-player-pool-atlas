@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609212041">
-  <link rel="stylesheet" href="modern.css?v=202609212041">
+  <link rel="stylesheet" href="style.css?v=202609212235">
+  <link rel="stylesheet" href="modern.css?v=202609212235">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609212041"></script>
-  <script defer src="atlas.js?v=202609212041"></script>
+  <script defer src="charts.js?v=202609212235"></script>
+  <script defer src="atlas.js?v=202609212235"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -31,7 +31,7 @@
   </div>
   <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Contents</button>
   <div class="atlas-switch" aria-label="Atlas">
-    <a href="/">CZE</a> · <span aria-current="page">ENG</span>
+    <a href="/">CZE</a> · <span aria-current="page">ENG</span> · <a href="/ger/">GER</a>
   </div>
 </nav>
 
@@ -154,8 +154,8 @@
       
       <li class="quickread-tile">
         <a href="#q7">
-          <span class="quickread-figure">2022/23</span>
-          <span class="quickread-line">the season Big-5 presence broke (10 % posterior)</span>
+          <span class="quickread-figure">2021/22</span>
+          <span class="quickread-line">the season Big-5 presence broke (7 % posterior)</span>
         </a>
       </li>
       
@@ -296,7 +296,7 @@
           </div>
         </div>
         
-        <p class="funnel-metric-note">Around the 2022/23 season, the model finds a possible shift in the count of English players in Europe's strongest leagues, with 10 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
+        <p class="funnel-metric-note">Around the 2021/22 season, the model finds a possible shift in the count of English players in Europe's strongest leagues, with 7 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="#q7">Break & forecast</a>.</p>
         
       </li>
     </ol>
@@ -1063,7 +1063,7 @@
   <div class="container">
     <h2 class="slide-q">When did the train leave?</h2>
     
-    <p class="slide-a">English players with ≥ 450 Big-5 minutes: <strong>296</strong> at the 1993/94 peak, 1 at the 1991/92 low, 127 in 2025/26. The break is dated to 2022/23.</p>
+    <p class="slide-a">English players with ≥ 450 Big-5 minutes: <strong>296</strong> at the 1993/94 peak, 1 at the 1991/92 low, 127 in 2025/26. The break is dated to 2021/22.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="big5_series.svg" alt="Line chart: English players with at least 450 minutes in the Big-5 leagues, 1990/91 to 2025/26, against eight peer countries; a lower panel shows per-million rates for England, France and Germany.">
@@ -1091,7 +1091,7 @@
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">Break posterior 10 %; a level change of ×0.97 (0.27–1.77).</p>
+      <p class="slide-detail">Break posterior 7 %; a level change of ×0.97 (0.27–1.77).</p>
     <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: English players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with the rise and the fall each dated by a change-point model.</p>
     <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the two seasons where that count changed level for good — once up, once down — and stayed there.</p>
     <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1990/91 → 2025/26; peers on the same rule; the names are the most-minutes English players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 1993/94: Ian Culverhouse, Mick Stockwell, Clive Wilson; 1992/93: Earl Barrett, Nigel Clough, Nigel Martyn; 1994/95: Gary Pallister, John Lukic, Gareth Southgate. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="#series-model">§ Methodology</a>.</p>
@@ -11817,7 +11817,7 @@
     <dl class="brief-checks">
       
       
-      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2022/23 season, with 10 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
+      <div><dt>When the count of players in the strongest leagues turned</dt><dd>Around the 2021/22 season, with 7 percent probability that the shift is genuine rather than an ordinary season-to-season dip.</dd></div>
       
     </dl>
     <div class="brief-caveats">
@@ -17609,7 +17609,10 @@
       <img src="series_model.svg" alt="Line chart of the England series with the change-point model's fitted level in a pale band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
       <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
     </figure>
-    <p>For England, the model dates the break to 2022/23 (10 % posterior probability), a ×0.97 (0.27–1.77, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.547.</p>
+    <p>For England, the model dates the break to 2021/22 (7 % posterior probability), a ×0.97 (0.27–1.77, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.547.</p>
+    
+    <p>The other step is a fall too, dated to 2005/06 (8 % posterior), a ×0.97 (0.34–1.80) change: the level came down in two moves rather than rising first.</p>
+    
     
     <ul class="break-top">
       
@@ -18723,7 +18726,7 @@
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
       
       
-      <li>The break and forecast (M4): the break dates to 2022/23 (10 % posterior) for England, a ×0.97 level change; the plain local level does not beat the naive baseline on MAE (12.60 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
+      <li>The break and forecast (M4): the break dates to 2021/22 (7 % posterior) for England, a ×0.97 level change; the plain local level does not beat the naive baseline on MAE (12.60 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
       
       <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +13.94 per 10 percentage points of U21 share (−4.93–33.09), R² = 0.22; a plain pooled OLS slope agrees in sign at +13.57 (5.36–20.82) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = +1.56.</li>
@@ -19263,7 +19266,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 20:41</p>
+    <p class="rendered-at">Rendered: 2026-09-21 22:35</p>
   </div>
 </footer>
 

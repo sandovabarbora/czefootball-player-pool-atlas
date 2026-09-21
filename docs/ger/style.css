@@ -1,0 +1,2895 @@
+/* Český hokej · Atlas fondu hráčů
+ * ──────────────────────────────────────────────────────────
+ * Sport-analytics seriózní register, redesigned 2026-05-18.
+ *
+ * Color strategy: Committed. Navy (oklch ~0.32 0.075 250) is load-bearing;
+ * oxblood (oklch ~0.45 0.13 28) is the secondary accent reserved for the CZE
+ * row in benchmarks and the hero rank-pull. Cream remains the page surface.
+ *
+ * Typography: Spectral (display, body where dramatic) + Bricolage Grotesque
+ * (body, UI labels) + JetBrains Mono (tabular cells, code). Reflex defaults
+ * (Georgia, system sans) replaced.
+ *
+ * References that informed this register: Financial Times Visual Storytelling,
+ * OECD Economic Outlook interactives, Reportér.cz long-form layout.
+ */
+
+/* =========================================================================
+   Fonts loaded via <link> in HTML head for parallel network fetch.
+   Static weights chosen for weasyprint PDF stability (no variable axis).
+   ========================================================================= */
+
+/* =========================================================================
+   Tokens
+   ========================================================================= */
+:root {
+  /* Concrete register (2026-09-21), from bsandova.com -- the author's own
+     system: concrete dark ground, chalk text, hairlines, one acid accent,
+     a light serif for what is said and mono capitals for what labels it.
+     Token NAMES are kept from the cream / navy / oxblood original so no
+     selector had to change; they name roles now. cream-* is the ground,
+     oxblood-* the acid accent (the home nation, always), navy-* the cool
+     neutral used for the comparison countries and links. src/figstyle.py
+     carries the same values as hex for the figures. */
+  --navy-900: #111111;   /* hero ground */
+  --navy-800: #161616;
+  --navy-700: #F2F2EE;   /* "hot": peer A, links, the brightest text */
+  --navy-500: #DCDCD6;
+  --navy-300: #7E7E78;
+  --navy-100: #2A2A27;
+
+  /* Ground ramp */
+  --cream-50:  #161616;   /* = figstyle.CREAM */
+  --cream-100: #1F1F1F;   /* = figstyle.CREAM_TINT */
+  --cream-200: #262624;   /* = figstyle.GRID */
+
+  /* Acid (the home nation, always) */
+  --oxblood-700: #D6FF3A;
+  --oxblood-500: #E3FF6B;
+  --oxblood-200: #3F4A12;
+
+  /* Chalk neutrals */
+  --ink:       #DCDCD6;
+  --ink-soft:  #B9B9B3;
+  --muted:     #8B8B85;   /* 5.3:1 on the ground (AA); bsandova.com's #7E7E78 was 4.4 */
+  --rule:      #3A3A36;   /* = figstyle.RULE */
+  --rule-soft: #2C2C29;
+
+  /* Sequencer colours for multi-category marks (tiers, clusters) */
+  --seq-orange: #FF6A3D;
+  --seq-mint:   #7ED9A6;
+  --seq-violet: #B78CFF;
+
+  /* On-hero text variants */
+  --cream-on-navy:       #F2F2EE;
+  --cream-on-navy-soft:  #DCDCD6;
+  --cream-on-navy-muted: #7E7E78;
+  --navy-divider:        #3A3A36;
+
+  /* Semantic */
+  --page-bg: var(--cream-50);
+  --surface: #1F1F1F;
+  --text:    var(--ink);
+  --link:    var(--navy-700);
+  --accent:  var(--navy-700);
+  --accent-2: var(--oxblood-700);
+
+  /* Typography */
+  --font-display: "Spectral", "Source Serif 4", Cambria, Georgia, serif;
+  --font-sans:    "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", "SF Mono", Menlo, Monaco, monospace;
+
+  /* Spacing scale (1.5× modular) */
+  --space-1: 0.35rem;
+  --space-2: 0.6rem;
+  --space-3: 0.9rem;
+  --space-4: 1.4rem;
+  --space-5: 2.1rem;
+  --space-6: 3.2rem;
+  --space-7: 4.8rem;
+  --space-8: 7rem;
+
+  /* Layout */
+  --container:      1080px;
+  --container-wide: 1240px;
+  --measure:        65ch;
+  --measure-wide:   72ch;
+}
+
+/* =========================================================================
+   Reset + base
+   ========================================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-feature-settings: "ss01", "ss02";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 var(--space-3); max-width: var(--measure); }
+
+a {
+  color: var(--link);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklch, var(--link), transparent 65%);
+  transition: border-color 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+a:hover { border-bottom-color: var(--link); }
+
+strong { font-weight: 700; color: var(--ink); }
+
+::selection { background: var(--oxblood-200); color: var(--ink); }
+
+/* =========================================================================
+   Accessibility — skip link + focus
+   ========================================================================= */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--navy-700);
+  color: var(--cream-50);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  border-bottom: none;
+}
+.skip-link:focus { top: 0; }
+
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid var(--oxblood-700);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+h2[id], h3[id] { scroll-margin-top: 2rem; }
+
+/* =========================================================================
+   Container utility (used inside each <section>)
+   ========================================================================= */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 max(1.4rem, 4vw);
+}
+
+/* =========================================================================
+   Masthead — kicker + display title + meta strip
+   ========================================================================= */
+.report-header {
+  padding: var(--space-7) 0 var(--space-3);
+}
+.masthead-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+  margin: 0 0 var(--space-3);
+}
+.masthead-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 2.2rem;
+  height: 1px;
+  background: var(--oxblood-700);
+  vertical-align: middle;
+  margin-right: 0.7rem;
+  transform: translateY(-0.15em);
+}
+.report-header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 6vw, 5.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  max-width: 18ch;
+}
+.report-header h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--navy-700);
+}
+.masthead-subtitle {
+  margin: var(--space-4) 0 var(--space-5);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.4;
+  color: var(--ink-soft);
+  max-width: 42ch;
+}
+.masthead-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+@media (min-width: 720px) {
+  .masthead-meta { grid-template-columns: repeat(3, auto); column-gap: var(--space-5); justify-content: start; }
+}
+.masthead-meta strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-feature-settings: "tnum";
+  color: var(--ink);
+  font-size: 1rem;
+}
+.masthead-facts {
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  max-width: var(--measure-wide);
+}
+
+/* =========================================================================
+   Hero band — drenched navy, oversize numeric anchor
+   ========================================================================= */
+.hero {
+  background: var(--navy-900);
+  color: var(--cream-on-navy);
+  padding: var(--space-7) 0 var(--space-6);
+  margin-top: var(--space-5);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 85% -10%, color-mix(in oklch, var(--oxblood-700), transparent 80%), transparent 55%),
+    radial-gradient(ellipse at 10% 110%, color-mix(in oklch, var(--navy-500), transparent 75%), transparent 60%);
+  pointer-events: none;
+}
+.hero > .container { position: relative; }
+
+.hero-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-on-navy-muted);
+  margin: 0 0 var(--space-5);
+}
+.hero-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 2.2rem;
+  height: 1px;
+  background: var(--oxblood-500);
+  vertical-align: middle;
+  margin-right: 0.7rem;
+  transform: translateY(-0.15em);
+}
+
+.hero h2 {
+  /* DOM-level h2 carries semantic weight, but visually we lean on the kicker
+     and numeric anchor below. Keep h2 minimal. */
+  position: absolute;
+  width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  align-items: end;
+}
+@media (min-width: 820px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: var(--space-7);
+  }
+}
+
+.hero-num-figure {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(5rem, 14vw, 11.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  font-feature-settings: "tnum", "lnum";
+  color: var(--cream-on-navy);
+}
+.hero-num-unit {
+  display: block;
+  margin-top: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: clamp(0.92rem, 1.2vw, 1.05rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--cream-on-navy-soft);
+  max-width: 24ch;
+}
+
+.hero-lead {
+  align-self: end;
+  max-width: 42ch;
+}
+.hero-lead p {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.5;
+  margin: 0 0 var(--space-3);
+  color: var(--cream-on-navy);
+  max-width: none;
+}
+.hero strong { color: var(--cream-on-navy); font-weight: 600; }
+.hero-pull {
+  color: var(--oxblood-500);
+  font-weight: 700;
+  font-style: normal;
+}
+.hero-sublead {
+  font-family: var(--font-sans) !important;
+  font-size: 0.95rem !important;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--cream-on-navy-soft) !important;
+}
+
+/* =========================================================================
+   Hero edition stamp — top-right cover-page marker
+   Intelligence-brief convention: every brief carries its identity stamp
+   (REPORT / Atlas / 2025-26 / edice 01 / MIT) so the document declares
+   itself before its content does.
+   ========================================================================= */
+.hero-stamp {
+  position: absolute;
+  top: var(--space-5);
+  right: max(1.4rem, calc((100vw - var(--container)) / 2 + 1.4rem));
+  z-index: 2;
+  padding: 0.55rem 0.85rem 0.5rem;
+  background: var(--navy-900);
+  border: 1px solid var(--navy-divider);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.55;
+  color: var(--cream-on-navy-muted);
+  letter-spacing: 0.06em;
+  text-align: right;
+  max-width: 15rem;
+}
+.hero-stamp-line { margin: 0; max-width: none; }
+.hero-stamp-line strong {
+  color: var(--cream-on-navy);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 720px) {
+  .hero-stamp {
+    position: static;
+    margin: 0 auto var(--space-4);
+    max-width: max-content;
+    text-align: left;
+  }
+}
+
+/* =========================================================================
+   Quickread — the 60-second opener (Task 25a): four tiles between the hero
+   and the eleven questions, each a big computed figure + one line, linking
+   to the slide that proves it. Replaces the old five-row "argument" list
+   (one number per row, sourced underneath it); the quickread grid keeps
+   that big-figure typography but reads as a scannable 2x2/4-up grid instead
+   of a stacked list, so the page's very first move after the hero is
+   already a different shape.
+   ========================================================================= */
+.quickread { padding: var(--space-5) 0 var(--space-6); border-top: 1px solid var(--rule); }
+.quickread .container { container-type: inline-size; }
+.quickread-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  background: var(--rule);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+@container (min-width: 640px) {
+  .quickread-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.quickread-tile { background: var(--page-bg); border: 0; }
+.quickread-tile a {
+  display: block;
+  height: 100%;
+  padding: var(--space-4) var(--space-3);
+  text-decoration: none;
+  color: inherit;
+}
+.quickread-figure {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.9rem, 1.5rem + 1.6vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--navy-700);
+  font-feature-settings: "tnum", "lnum";
+  margin-bottom: 0.5rem;
+}
+.quickread-tile a:hover .quickread-figure { color: var(--oxblood-700); }
+.quickread-line {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.quickread-note {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: var(--measure-wide);
+}
+/* =========================================================================
+   Why the train left (Task 26A) — a five-stage funnel right after the
+   opener: home nation vs the two compare countries per stage, hairline
+   family like .quickread/.act, mono only for the small country-value
+   labels (numbers), sans for everything a reader has to read as prose.
+   ========================================================================= */
+.why-funnel { padding: var(--space-6) 0 var(--space-6); border-top: 1px solid var(--rule); }
+.why-funnel h2 {
+  font-weight: 300;
+  font-size: clamp(1.7rem, 1.3rem + 1.6vw, 2.4rem);
+  line-height: 1.08;
+  margin: 0 0 var(--space-3);
+  letter-spacing: -0.02em;
+}
+.funnel-lead {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+}
+.why-funnel .figure-bleed { margin-top: 0; margin-bottom: var(--space-4); }
+.funnel-stages { list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+.funnel-stage {
+  /* Task 27D: more vertical rhythm between the ladder's five rungs */
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--rule-soft);
+}
+.funnel-stage:first-child { border-top: none; padding-top: 0; }
+.funnel-stage > a { text-decoration: none; color: inherit; }
+.funnel-stage-line {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 0.5rem;
+}
+.funnel-stage > a:hover .funnel-stage-line { color: var(--oxblood-700); }
+.funnel-metric { margin: 0.35rem 0; }
+.funnel-metric-label {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 0.25rem;
+}
+.funnel-metric-row { display: flex; flex-wrap: wrap; gap: 0.9rem 1.4rem; }
+.funnel-country {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  font-feature-settings: "tnum", "lnum";
+}
+.funnel-country[data-highlight="cze"] { color: var(--oxblood-700); font-weight: 600; }
+.funnel-metric-note {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  margin: 0.35rem 0 0;
+  max-width: var(--measure-wide);
+}
+.funnel-take-one-thing {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--navy-700);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--rule);
+}
+.funnel-caveats { max-width: var(--measure-wide); }
+.funnel-caveats > summary { color: var(--oxblood-700); }
+.funnel-caveats ul { margin: 0 0 0.6rem; padding: 0 0 0 1.1rem; }
+.funnel-caveats li {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 0.4rem;
+}
+.funnel-caveats li:last-child { margin-bottom: 0; }
+
+/* =========================================================================
+   One-page brief (Task 26E2) — the whole argument on one screen, right
+   before Explore. Sized (with @media print, below) to print on a single
+   A4 page together with the quickread opener.
+   ========================================================================= */
+.brief { padding: var(--space-6) 0; border-top: 1px solid var(--rule); background: var(--cream-100); }
+.brief-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+}
+.brief-head h2 {
+  font-weight: 300;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.print-link {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--navy-700);
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+.print-link:hover { border-color: var(--navy-700); color: var(--oxblood-700); }
+.brief-intro {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+}
+.brief-table {
+  width: 100%;
+  max-width: var(--container);
+  border-collapse: collapse;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.brief-table th, .brief-table td {
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+.brief-table td.num, .brief-table th:not(:first-child) {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum", "lnum";
+}
+.brief-table th.cohort-cze, .brief-table td.cohort-cze { color: var(--oxblood-700); font-weight: 600; }
+.brief-take-one-thing {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--navy-700);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-4);
+}
+.brief-checks {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+}
+.brief-checks dt {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 0.15rem;
+}
+.brief-checks dd {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--ink);
+  margin: 0;
+}
+.brief-caveats {
+  padding: var(--space-3) var(--space-4);
+  background: var(--page-bg);
+  border: 1px solid var(--rule);
+}
+.brief-caveats h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+  margin: 0 0 0.6rem;
+}
+.brief-caveats ul { margin: 0; padding: 0 0 0 1.1rem; }
+.brief-caveats li {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0 0 0.35rem;
+}
+.brief-caveats li:last-child { margin-bottom: 0; }
+
+/* =========================================================================
+   Downloads (Task 26E3) — raw links into the committed data snapshot,
+   inside Explore.
+   ========================================================================= */
+.downloads-list { list-style: none; margin: 0; padding: 0; }
+.downloads-list li {
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--rule-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  align-items: baseline;
+}
+.downloads-list li:first-child { border-top: none; }
+.downloads-label {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  flex: 1 1 320px;
+}
+.downloads-links {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+.downloads-links a { color: var(--navy-700); }
+
+/* =========================================================================
+   For a federation — four quiet tiles right after the argument list, same
+   hairline family as .argument (no boxes, no shadows), plus one mono line
+   on what it takes to run the pipeline for another country
+   ========================================================================= */
+/* the tile count depends on the .container's own width (narrowed by the TOC
+   rail past 1280px, to ~700-900px), not the viewport — a viewport-width media
+   query would force 4-up into that narrow column, so this uses a container
+   query scoped to .for-federation's .container instead */
+.for-federation { padding: var(--space-5) 0 var(--space-6); }
+.for-federation .container { container-type: inline-size; }
+.for-federation h3 { margin: 0 0 var(--space-4); }
+/* hairline grid: the 1px gap shows the rule colour between cells, the tiles
+   paint the page background over it — no per-cell border bookkeeping */
+.fed-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  background: var(--rule);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+@container (min-width: 480px) {
+  .fed-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@container (min-width: 1100px) {
+  .fed-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.fed-tile { background: var(--page-bg); border: 0; }
+.fed-tile a {
+  display: block;
+  padding: var(--space-3) 0;
+  text-decoration: none;
+  border-bottom: none;
+  color: inherit;
+}
+@media (min-width: 640px) {
+  .fed-tile a { padding: var(--space-4); }
+}
+.fed-tile-title {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  color: var(--navy-700);
+  margin-bottom: 0.35rem;
+}
+.fed-tile a:hover .fed-tile-title { color: var(--oxblood-700); text-decoration: none; }
+.fed-tile-body {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.fed-tile-used-by {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--ink-faint, var(--ink-soft));
+  margin-top: 0.35rem;
+}
+.fed-note {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: var(--measure-wide);
+}
+
+/* =========================================================================
+   Act markers (Task 25d): three quiet section breaks between the slides —
+   a hairline, a small mono kicker and one sentence, no numbers. The only
+   job here is rhythm: a reader scrolling fast still gets three beats that
+   say "this next stretch is about X" before the slides resume.
+   ========================================================================= */
+.act {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--space-6) clamp(1rem, 3vw, 2rem) var(--space-3);
+  border-top: 1px solid var(--rule);
+}
+.act-kicker {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+}
+.act-line {
+  margin: 0;
+  max-width: var(--measure-wide);
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* =========================================================================
+   Slides — nine question / answer / proof / how-we-know units between the
+   hero and "For a federation" (Task 13b). The question is the memorable
+   element (display serif, largest text on the slide after the hero);
+   the answer is one sentence with the headline number in <strong>; the
+   proof reuses today's exhibit markup unchanged (.capita, tables, tier
+   bars, cards); the how-line is a small mono footnote, same register as
+   .capita-note / .fed-note elsewhere on the page. Hairline + generous
+   space separates slides; on phones everything stacks (no layout rules
+   needed here — the exhibits themselves already collapse to one column).
+   ========================================================================= */
+.slide {
+  padding: var(--space-7) 0;
+  border-top: 1px solid var(--rule);
+}
+.slide:first-of-type {
+  border-top: none;
+  padding-top: var(--space-7);
+}
+.slide-q {
+  font-weight: 300;
+  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+  margin: 0 0 var(--space-4);
+}
+.slide-aq {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--ink-faint, var(--ink-soft));
+  max-width: var(--measure-wide);
+  margin: 0 0 0.5rem;
+}
+/* Task 26C: the "As an analytics question" / "What we did" kickers -- same
+   small-caps mono treatment as .slide-how-label, so the chain (question ->
+   analytics question -> what we did -> answer) reads as one labelled
+   sequence rather than three differently-styled paragraphs. */
+.slide-aq-label, .slide-did-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  color: var(--navy-500);
+  margin-right: 0.6em;
+}
+.slide-did {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: var(--measure-wide);
+  margin: 0 0 var(--space-3);
+}
+/* The answer is the slide. It sits straight under the question, set in the
+   display face at reading-headline size, with its number lifted in oxblood;
+   the analytics question, what we did and the sources fold away below the
+   proof under one "How we know". */
+.slide-a {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--ink);
+  max-width: 34ch;
+  margin: 0 0 var(--space-6);
+}
+.slide-a strong {
+  font-weight: 600;
+  color: var(--oxblood-700);
+  font-feature-settings: "tnum", "lnum";
+}
+.slide-method { max-width: var(--measure-wide); }
+.slide-method > p { margin-top: 0.4rem; }
+.slide-method > p:last-child { margin-bottom: 0.6rem; }
+.slide-proof {
+  margin: 0 0 var(--space-4);
+}
+.slide-proof .figure-bleed,
+.slide-proof .capita,
+.slide-proof table {
+  margin-top: 0;
+}
+.slide-how {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: var(--measure-wide);
+}
+.slide-how-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  color: var(--oxblood-700);
+  margin-right: 0.6em;
+}
+/* Task 25e: one closing line per slide -- sans (not mono, this is prose, not
+   a source note), ink-soft, descriptive only. */
+.slide-so {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0.5rem 0 0;
+  max-width: var(--measure-wide);
+}
+table.peer-compare th:not(:first-child),
+table.peer-compare td:not(:first-child) {
+  text-align: right;
+  font-feature-settings: "tnum", "lnum";
+}
+
+/* =========================================================================
+   Explore the data — folded chapters I-III material, after the slides and
+   "For a federation". Same section rhythm as .methodology; each top-level
+   <details class="fold"> is one of the six blocks from the brief.
+   ========================================================================= */
+.explore { padding: var(--space-7) 0 var(--space-6); }
+.explore h2 {
+  font-weight: 300;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  line-height: 1.05;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  border: none;
+  letter-spacing: -0.025em;
+}
+.explore h2::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: var(--navy-700);
+  margin-bottom: var(--space-3);
+}
+.explore > .container > details.fold {
+  padding: var(--space-2) 0;
+}
+.explore-block {
+  padding-top: var(--space-3);
+}
+.explore-block h3 {
+  margin-top: var(--space-5);
+}
+.explore-block h3:first-child {
+  margin-top: 0;
+}
+/* Task 26D: the plain-language lead before each model section's technical
+   text -- a touch larger and warmer than the body copy around it, so a
+   reader who stops reading after this paragraph still gets the point. */
+p.plain {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  color: var(--ink);
+  max-width: 34em;
+}
+
+/* =========================================================================
+   Chapter divider — page-break before the last major section
+   Task 13b: the nine slides replaced chapters I-III as the main flow (their
+   material lives folded under "Explore the data" now); only chapter IV
+   (Methodology) still gets a numbered divider.
+   ========================================================================= */
+.chapter-divider {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-1);
+  text-align: center;
+  padding: var(--space-8) max(1.4rem, 4vw) var(--space-7);
+  max-width: 56ch;
+  margin: 0 auto;
+}
+.chapter-numeral {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(5rem, 12vw, 9.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--navy-700);
+  font-feature-settings: "lnum";
+  max-width: none;
+}
+.chapter-mark {
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: var(--oxblood-700);
+  margin: 0 auto var(--space-3);
+}
+.chapter-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+  letter-spacing: -0.018em;
+  line-height: 1.15;
+  color: var(--ink);
+  max-width: none;
+}
+.chapter-synopsis {
+  margin: var(--space-3) auto 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+/* =========================================================================
+   Section scaffolding (exec-summary, methodology)
+   ========================================================================= */
+.exec-summary { padding: var(--space-7) 0 var(--space-6); }
+.methodology  { padding: var(--space-7) 0 var(--space-5); }
+
+/* Section immediately after a chapter divider already has the divider's
+   bottom padding as breathing room; collapse its own top padding to
+   avoid stacking double whitespace. */
+.chapter-divider + section { padding-top: var(--space-3); }
+
+/* The chapter divider visually carries the H2 role (large numeral, mark,
+   title, synopsis). Hide the section's own h2 to avoid duplication, but
+   keep it in DOM for TOC anchors and accessible outline. */
+.chapter-divider + section > .container > h2:first-child {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.exec-summary h2,
+.methodology h2 {
+  font-weight: 300;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  line-height: 1.05;
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  border: none;
+  letter-spacing: -0.025em;
+}
+.exec-summary h2::before,
+.methodology h2::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: var(--navy-700);
+  margin-bottom: var(--space-3);
+}
+.methodology h2::before { background: var(--oxblood-700); }
+
+.exec-summary > .container > h2 + h3,
+.methodology > .container > h2 + h3 {
+  margin-top: var(--space-6);
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  letter-spacing: -0.012em;
+  margin: var(--space-6) 0 var(--space-3);
+  line-height: 1.25;
+  max-width: 32ch;
+}
+
+h4 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: var(--space-5) 0 var(--space-3);
+}
+
+/* =========================================================================
+   Framing lead
+   ========================================================================= */
+.framing {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  line-height: 1.5;
+  margin: 0 0 var(--space-6);
+  color: var(--ink-soft);
+  max-width: 52ch;
+}
+
+/* =========================================================================
+   Per-capita: CSS bar chart
+   ========================================================================= */
+.capita {
+  margin: var(--space-4) 0 var(--space-3);
+  border-top: 1px solid var(--rule);
+}
+.capita-row {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr) 5rem;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+@media (max-width: 520px) {
+  .capita-row { grid-template-columns: 6rem minmax(0, 1fr) 3.5rem; gap: var(--space-2); }
+}
+.capita-country {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--ink);
+  letter-spacing: 0.005em;
+}
+.capita-country .capita-code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-right: 0.5rem;
+  letter-spacing: 0.03em;
+}
+.capita-bar {
+  position: relative;
+  height: 0.55rem;
+  background: var(--cream-100);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.capita-bar-fill {
+  position: absolute;
+  inset: 0;
+  width: calc(min(var(--value), var(--max)) / var(--max) * 100%);
+  background: var(--navy-700);
+  transform-origin: left;
+}
+.capita-value {
+  font-family: var(--font-display);
+  font-feature-settings: "tnum", "lnum";
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-align: right;
+  color: var(--ink);
+  line-height: 1;
+}
+.capita-row[data-highlight="cze"] {
+  background: linear-gradient(to right, color-mix(in oklch, var(--oxblood-200), transparent 50%), transparent 70%);
+  margin: 0 -0.6rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+.capita-row[data-highlight="cze"] .capita-country,
+.capita-row[data-highlight="cze"] .capita-value {
+  color: var(--oxblood-700);
+  font-weight: 700;
+}
+.capita-row[data-highlight="cze"] .capita-bar-fill {
+  background: var(--oxblood-700);
+}
+.capita-row[data-highlight="cze"] .capita-code {
+  color: var(--oxblood-700);
+}
+
+.capita-note {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: var(--space-3) 0 var(--space-5);
+  max-width: 56ch;
+}
+.capita-note strong { color: var(--oxblood-700); }
+
+/* =========================================================================
+   Figures
+   ========================================================================= */
+figure { margin: var(--space-5) 0; }
+.figure-bleed {
+  /* Escape container ~8% on each side at wide viewports */
+  margin-left: max(-8vw, calc(-1 * (100vw - var(--container)) / 4));
+  margin-right: max(-8vw, calc(-1 * (100vw - var(--container)) / 4));
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-5);
+}
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--surface);
+}
+/* Task 27D: one consistent frame for every figure -- no border, 24px of
+   breathing room between the image and its one-line caption, the caption
+   in the page's small sans (not the display serif, not inside the image). */
+figcaption {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 24px;
+  max-width: 60ch;
+  /* When inside .figure-bleed, push caption back into the reading column */
+}
+.figure-bleed figcaption {
+  padding-left: max(8vw, calc((100vw - var(--container)) / 4));
+  padding-right: max(8vw, calc((100vw - var(--container)) / 4));
+}
+
+/* =========================================================================
+   Observations — 3-up grid, large numeral prefix
+   ========================================================================= */
+.observations {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin: var(--space-4) 0 var(--space-6);
+  counter-reset: obs;
+}
+@media (min-width: 820px) {
+  .observations { grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+}
+.observation {
+  counter-increment: obs;
+  padding-top: var(--space-3);
+  border-top: 2px solid var(--navy-700);
+}
+.observation:nth-child(2) { border-top-color: var(--oxblood-700); }
+.observation:nth-child(3) { border-top-color: var(--navy-500); }
+.observation::before {
+  content: counter(obs, decimal-leading-zero);
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--ink);
+  font-feature-settings: "tnum", "lnum";
+  margin-bottom: var(--space-2);
+}
+.observation h4 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  text-transform: none;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.observation p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: none;
+}
+
+/* =========================================================================
+   Cluster list — typographic stack
+   ========================================================================= */
+.cluster-list {
+  margin: var(--space-4) 0 var(--space-6);
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.cluster-list dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  color: var(--ink);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+}
+.cluster-list dt:first-child { border-top: 2px solid var(--ink); }
+/* the cluster code (e.g. "C3") is a title tooltip on .cluster-name, not
+   visible text — abbreviations stay out of sight before chapter IV */
+.cluster-meta-inline {
+  display: block;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+}
+.cluster-list dd {
+  margin: var(--space-2) 0 var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: var(--measure);
+}
+.cluster-top {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.cluster-top::before {
+  content: "Top ";
+  font-weight: 600;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+
+/* Tactical read: distinct from descriptive prose. Label-led with a top
+   rule as anchor (no side-stripe — see absolute bans). Serif italic body
+   signals "this is editorial interpretation layered on the measurement".
+   The oxblood label is the semantic anchor, the indent the spatial cue. */
+.cluster-tactical {
+  display: block;
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px dotted var(--rule);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 60ch;
+}
+.cluster-tactical-label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+}
+
+/* =========================================================================
+   Footer role block
+   ========================================================================= */
+.role-block {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-5) 0 var(--space-4);
+  border-top: 2px solid var(--ink);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  max-width: 64ch;
+}
+.role-kicker {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+  max-width: none;
+}
+.role-body {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 56ch;
+}
+.role-author {
+  margin: var(--space-2) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  max-width: none;
+}
+.role-author-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+.role-author-contact {
+  font-family: var(--font-sans);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.role-author-contact a {
+  color: var(--ink-soft);
+  border-bottom-color: var(--rule);
+}
+.role-author-contact a:hover {
+  color: var(--oxblood-700);
+  border-bottom-color: var(--oxblood-700);
+}
+
+/* =========================================================================
+   Tables — generic
+   ========================================================================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum", "lnum";
+  margin: var(--space-3) 0 var(--space-4);
+}
+th, td {
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  vertical-align: baseline;
+}
+th {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: var(--space-2);
+}
+td {
+  font-size: 0.94rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule-soft);
+}
+tbody tr:last-child td { border-bottom-color: var(--rule); }
+table .muted { color: var(--muted); font-size: 0.85rem; }
+
+.kv-table td:first-child {
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+.kv-table td:not(:first-child) {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+/* =========================================================================
+   Squad face grid (Task 25b): slide 6's primary proof — one 56px portrait
+   per home-nation squad player, ring-tinted by league tier, name below.
+   The peer-country tier bars (formerly the primary proof) fold below it
+   under "How the peers are sourced"; site/enrich_index.py swaps each
+   .squad-name span for a photo (or an initials monogram) the same way it
+   already does for .cluster-top / mover-table chips.
+   ========================================================================= */
+.squad-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  margin: var(--space-3) 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.squad-legend li { display: inline-flex; align-items: center; gap: 0.45em; }
+.squad-swatch {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+}
+.squad-swatch-top9 { background: var(--navy-700); }
+.squad-swatch-stepping { background: var(--oxblood-700); }
+.squad-swatch-domestic { background: var(--cream-200); }
+.squad-swatch-other { background: var(--muted); }
+
+.squad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+  gap: var(--space-4) var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+.squad-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+.squad-portrait, .squad-mono {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 50%;
+  border: 3px solid var(--muted);
+  object-fit: cover;
+  object-position: 50% 12%;
+  background: var(--navy-100);
+}
+.squad-mono {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.squad-tile[data-tier="top9"] .squad-portrait, .squad-tile[data-tier="top9"] .squad-mono { border-color: var(--navy-700); }
+.squad-tile[data-tier="stepping_stone"] .squad-portrait, .squad-tile[data-tier="stepping_stone"] .squad-mono { border-color: var(--oxblood-700); }
+.squad-tile[data-tier="domestic"] .squad-portrait, .squad-tile[data-tier="domestic"] .squad-mono { border-color: var(--cream-200); }
+.squad-name {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+/* =========================================================================
+   Exhibit F — squad-by-tier stacked bars (task 9 "de-clutter": replaces the
+   12-column table; the full table moves into a fold below the bars). Now
+   the peer-country context folded under slide 6's face grid (Task 25b).
+   ========================================================================= */
+.tier-bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  margin: var(--space-3) 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.tier-bar-legend li { display: inline-flex; align-items: center; gap: 0.45em; }
+.tier-swatch {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border: 1px solid var(--rule);
+}
+.tier-swatch.tier-top9 { background: var(--navy-700); }
+.tier-swatch.tier-stepping { background: var(--oxblood-700); }
+.tier-swatch.tier-domestic { background: var(--cream-200); }
+.tier-swatch.tier-other { background: var(--muted); }
+
+.tier-bars {
+  margin: 0 0 var(--space-3);
+  border-top: 1px solid var(--rule);
+}
+.tier-bar-row {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.tier-bar-row[data-highlight="cze"] {
+  background: linear-gradient(to right, color-mix(in oklch, var(--oxblood-200), transparent 50%), transparent 70%);
+  margin: 0 -0.6rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+.tier-bar-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0 0 0.35rem;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.tier-bar-head .capita-code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-right: 0.3rem;
+  letter-spacing: 0.03em;
+}
+.tier-bar-row[data-highlight="cze"] .tier-bar-head { color: var(--oxblood-700); font-weight: 700; }
+.tier-bar-row[data-highlight="cze"] .tier-bar-head .capita-code { color: var(--oxblood-700); }
+.tier-bar {
+  display: flex;
+  width: 100%;
+  height: 0.8rem;
+  background: var(--cream-100);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+.tier-seg { display: block; height: 100%; }
+.tier-seg.tier-top9 { background: var(--navy-700); }
+.tier-seg.tier-stepping { background: var(--oxblood-700); }
+.tier-seg.tier-domestic { background: var(--cream-200); }
+.tier-seg.tier-other { background: var(--muted); }
+.tier-seg.tier-unmatched {
+  background-color: var(--cream-50);
+  background-image: repeating-linear-gradient(45deg, var(--rule) 0 3px, transparent 3px 6px);
+}
+.tier-bar-value {
+  margin-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum";
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+.tier-bar-row[data-highlight="cze"] .tier-bar-value { color: var(--oxblood-700); font-weight: 700; }
+
+/* =========================================================================
+   Cohort gap tables (intl benchmark)
+   ========================================================================= */
+.cohort-table {
+  margin: var(--space-3) 0 var(--space-4);
+}
+.cohort-table th:first-child,
+.cohort-table td:first-child {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.cohort-table th:not(:first-child),
+.cohort-table td:not(:first-child) {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.cohort-table th:not(:first-child) {
+  font-family: var(--font-sans);
+}
+.cohort-cze {
+  background: color-mix(in oklch, var(--oxblood-200), transparent 65%);
+  color: var(--oxblood-700) !important;
+  font-weight: 700 !important;
+}
+.cohort-cell-n {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--ink);
+}
+.cohort-cell-median {
+  display: inline-block;
+  margin-left: 0.4rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.cohort-cze .cohort-cell-n { color: var(--oxblood-700); }
+.cohort-cze .cohort-cell-median { color: var(--oxblood-500); }
+
+/* Task 27C: the cohort heatmap moved HTML-native -- a table styled as a
+   tinted grid (row = country, column = cohort, cell background tint from
+   --v ∈ [0,1], set inline per cell). The SVG a few lines below stays for
+   the Explore section's full nine-country version. */
+.cohort-grid { margin: var(--space-3) 0 var(--space-4); }
+.cohort-grid th, .cohort-grid td { text-align: center; padding: 0.45rem 0.6rem; }
+.cohort-grid thead th {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+}
+.cohort-grid thead th:first-child { text-align: left; }
+.cohort-grid tbody th {
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+  white-space: nowrap;
+  padding-right: var(--space-3);
+}
+.cohort-grid-cell {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink);
+  /* background-color set inline per cell (src.render._cohort_tint) -- a
+     plain-sRGB interpolation along the same stops as the SVG heatmap's
+     CMAP_NAVY, computed in Python rather than CSS color-mix() so it can't
+     drift from oklch/oklab hue-rotation between navy and cream. */
+}
+.cohort-grid-empty { color: var(--muted); }
+.cohort-grid tr.cohort-cze .cohort-grid-cell { font-weight: 700; }
+
+/* Slide 2's peer-median column (Task 25c): a pure-CSS bar sparkline behind
+   the number, width proportional to --value/--max (set inline per row) --
+   no new SVG/image asset, so it renders identically in every language pass. */
+.cohortgap-peer {
+  background-image: linear-gradient(to right,
+    color-mix(in oklch, var(--navy-700), transparent 84%) calc(100% * var(--value) / var(--max)),
+    transparent calc(100% * var(--value) / var(--max)));
+  background-repeat: no-repeat;
+}
+
+/* Task 27C: the model-comparison pooled table's RMSE column, same pattern
+   as .cohortgap-peer above -- a CSS bar behind the number, no separate SVG. */
+.compare-rmse-bar {
+  background-image: linear-gradient(to right,
+    color-mix(in oklch, var(--oxblood-700), transparent 84%) calc(100% * var(--value) / var(--max)),
+    transparent calc(100% * var(--value) / var(--max)));
+  background-repeat: no-repeat;
+}
+
+/* =========================================================================
+   Movers tables — trajectory section
+   ========================================================================= */
+.movers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin: var(--space-4) 0 var(--space-6);
+}
+@media (min-width: 760px) {
+  .movers-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+}
+.movers-col h4 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: var(--space-2);
+}
+.movers-table { font-size: 0.9rem; }
+.movers-table th {
+  font-size: 0.66rem;
+  padding-bottom: var(--space-1);
+  border-bottom-color: var(--rule);
+}
+.movers-table td:last-child {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.movers-table .arrow-up::before  { content: "↑"; color: var(--muted); margin-right: 0.35rem; }
+.movers-table .arrow-down::before { content: "↓"; color: var(--muted); margin-right: 0.35rem; }
+
+/* =========================================================================
+   Methodology — formula box, code, loadings, sensitivity
+   ========================================================================= */
+.formula {
+  font-family: var(--font-mono);
+  background: var(--cream-100);
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.92rem;
+  margin: var(--space-4) 0;
+  border-left: 2px solid var(--navy-700);
+  /* NOTE: 2px border-left here is a typographic anchor on a CODE block, not a
+     decorative side-stripe on a card. Code blocks legitimately use a gutter
+     marker; the absolute ban is against thick colored stripes on cards/alerts. */
+  max-width: var(--measure-wide);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--cream-100);
+  padding: 0.1rem 0.4rem;
+  border-radius: 1px;
+  color: var(--ink);
+}
+
+.loadings-table { font-size: 0.88rem; }
+.loadings-table th { font-size: 0.66rem; }
+.loadings-table td:nth-child(n+3) {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-align: right;
+}
+.loadings-table th:nth-child(n+3) { text-align: right; }
+
+.sensitivity-table { font-size: 0.88rem; }
+.sensitivity-table th { font-size: 0.66rem; }
+.sensitivity-table td:nth-child(n+3) {
+  font-family: var(--font-mono);
+  text-align: right;
+  font-weight: 500;
+}
+.sensitivity-table th:nth-child(n+3) { text-align: right; }
+.sensitivity-table td:nth-child(2) { color: var(--ink-soft); font-size: 0.82rem; line-height: 1.4; }
+
+/* =========================================================================
+   Sensitivity slider — in-browser recompute of the table above
+   ========================================================================= */
+.sensitivity-live {
+  background: var(--cream-100);
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-4) 0 var(--space-5);
+  max-width: var(--measure-wide);
+}
+.sensitivity-live-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.sens-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+.sens-slider-league { color: var(--ink-soft); }
+.sens-slider-value {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--oxblood-700);
+  font-weight: 600;
+}
+.sens-range { width: 100%; accent-color: var(--oxblood-700); }
+.sens-reset {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--cream-50);
+  border: 1px solid var(--rule);
+  padding: 0.4em 1em;
+  cursor: pointer;
+  margin-bottom: var(--space-4);
+}
+.sens-reset:hover { border-color: var(--oxblood-700); color: var(--oxblood-700); }
+.sensitivity-live-table { font-size: 0.88rem; margin-top: 0; }
+.sensitivity-live-table th { font-size: 0.66rem; }
+.sensitivity-live-table td:nth-child(n+4),
+.sensitivity-live-table th:nth-child(n+4) {
+  font-family: var(--font-mono);
+  text-align: right;
+  font-weight: 500;
+}
+.sensitivity-live-churn {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin: var(--space-2) 0 var(--space-4);
+}
+.sensitivity-live .slide-how { margin-top: var(--space-2); }
+
+/* =========================================================================
+   Limitations — tinted block, dignified
+   ========================================================================= */
+.limitations {
+  background: var(--cream-100);
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-4) 0 var(--space-5);
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: var(--measure-wide);
+}
+.limitations p { max-width: none; margin: 0 0 var(--space-3); }
+.limitations p:last-child { margin-bottom: 0; }
+.limitations strong {
+  font-weight: 600;
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+/* =========================================================================
+   Related methods — annotated list, three clauses per entry
+   ========================================================================= */
+.related-methods-list, .related-methods-future {
+  max-width: var(--measure-wide);
+  padding-left: 1.2rem;
+}
+.related-methods-list li {
+  margin: 0 0 var(--space-3);
+  line-height: 1.55;
+}
+.related-methods-list li a { color: var(--oxblood-700); }
+
+/* =========================================================================
+   Glossary (Task 26D) — ten terms, one plain sentence each, before References
+   ========================================================================= */
+.glossary-list {
+  max-width: var(--measure-wide);
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.glossary-list > div {
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--rule-soft);
+}
+.glossary-list > div:first-child { border-top: none; padding-top: 0; }
+.glossary-list dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--navy-700);
+  margin: 0 0 0.3rem;
+}
+.glossary-list dd {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+#related-methods-future {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
+  margin: var(--space-5) 0 var(--space-2);
+  color: var(--ink);
+}
+.related-methods-future li { margin: 0 0 var(--space-2); color: var(--ink-soft); }
+
+/* =========================================================================
+   How this was built — inline-SVG build-flow diagram (spec -> plan -> task
+   agent -> task review -> fix rounds -> whole-branch review -> deploy),
+   ledger as a side box. The SVG carries its own <style> (fill/stroke via
+   the page's CSS custom properties); this just sizes and centers it.
+   ========================================================================= */
+.build-diagram {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+  margin: var(--space-4) auto var(--space-3);
+}
+.build-diagram-legend {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0 0 var(--space-4);
+}
+
+/* =========================================================================
+   Generic helpers
+   ========================================================================= */
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+
+.continue {
+  margin: var(--space-6) 0;
+  padding: var(--space-3) 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+  border-top: 1px solid var(--rule);
+  max-width: none;
+}
+
+ul { padding-left: 1.2rem; max-width: var(--measure); }
+li { margin: var(--space-1) 0; }
+li strong { font-family: var(--font-display); font-weight: 600; }
+
+/* =========================================================================
+   AI / multimodal layer (Section A.5)
+   ========================================================================= */
+.ai-layer {
+  padding: var(--space-7) 0 var(--space-6);
+  background:
+    linear-gradient(to bottom,
+      color-mix(in oklch, var(--cream-100), transparent 40%),
+      var(--page-bg) 85%);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.ai-layer h2 {
+  font-weight: 300;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  line-height: 1.05;
+  margin: 0 0 var(--space-2);
+  letter-spacing: -0.025em;
+}
+.ai-layer h2::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: var(--oxblood-700);
+  margin-bottom: var(--space-3);
+}
+
+/* LLM scout briefs: two-column display of full Claude-generated articles.
+   Treated like editorial articles in a journal — display title, structured
+   sections, no decorative chrome. Each brief is real Czech analytical
+   prose, not a UI card. */
+.llm-briefs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  margin: var(--space-5) 0 var(--space-5);
+}
+@media (min-width: 920px) {
+  .llm-briefs { grid-template-columns: 1fr 1fr; gap: var(--space-5) var(--space-7); }
+}
+.llm-brief {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 2px solid var(--ink);
+}
+.llm-brief-head { margin-bottom: var(--space-2); }
+.llm-brief-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  letter-spacing: -0.018em;
+  line-height: 1.1;
+  color: var(--ink);
+  text-transform: none;
+}
+.llm-brief-meta-line {
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  max-width: none;
+}
+.llm-brief-body { font-family: var(--font-sans); }
+.llm-brief-heading {
+  margin: var(--space-4) 0 var(--space-1);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+}
+.llm-brief-heading:first-child { margin-top: var(--space-2); }
+.llm-brief-body p {
+  margin: 0 0 var(--space-3);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 56ch;
+}
+.llm-brief-body p:last-child { margin-bottom: 0; }
+.llm-brief-body strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+.llm-brief-body code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--cream-100);
+  padding: 0.1rem 0.3rem;
+  border-radius: 1px;
+}
+
+/* Reprezentační cyklus dashboard: per-player intelligence one-pagers.
+   Each card synthesises five existing layers into one operational view
+   the analytical team can consume on a single screen. */
+.cycle-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  margin: var(--space-5) 0 var(--space-5);
+}
+@media (min-width: 1100px) {
+  .cycle-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6) var(--space-7); }
+}
+.cycle-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 2px solid var(--ink);
+}
+/* Task 18 (goalkeepers): same box treatment as .cycle-card, under its own
+   selector -- deliberately not .cycle-card itself, see the gk_card_article
+   macro's comment in templates/report.html.j2 for why. */
+.gk-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 2px solid var(--oxblood-700);
+}
+.cycle-card-head { margin-bottom: 0; }
+.cycle-card-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2vw, 1.65rem);
+  letter-spacing: -0.018em;
+  line-height: 1.1;
+  color: var(--ink);
+  text-transform: none;
+}
+.cycle-card-meta {
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  max-width: none;
+}
+
+.cycle-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin: var(--space-1) 0 0;
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.cycle-stats div { margin: 0; }
+.cycle-stats dt {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cycle-stats dd {
+  margin: 0.15rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+  font-feature-settings: "tnum", "lnum";
+  line-height: 1.1;
+}
+
+.cycle-cluster {
+  display: grid;
+  gap: var(--space-1);
+}
+.cycle-cluster-row {
+  display: grid;
+  grid-template-columns: 5.6rem 1fr;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.cycle-cluster-tag {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* the cluster code (e.g. "C3") is a title tooltip on .cycle-cluster-row */
+.cycle-cluster-label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.cycle-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.cycle-section-label {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+  max-width: none;
+}
+
+.cycle-tactical {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: none;
+}
+
+.cycle-traj {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem var(--space-3);
+  align-items: baseline;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  max-width: none;
+}
+.cycle-traj-arrow {
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--oxblood-700);
+}
+.cycle-traj-delta {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--ink);
+}
+.cycle-traj-unit {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.cycle-traj-dir {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cycle-traj-detail {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.cycle-analogs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.4rem;
+  counter-reset: cyclean;
+}
+.cycle-analogs li {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr auto;
+  align-items: baseline;
+  gap: 0.45rem;
+  counter-increment: cyclean;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+}
+.cycle-analogs li::before {
+  content: counter(cyclean);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+.cycle-analog-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+}
+.cycle-analog-country {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  background: var(--cream-100);
+  padding: 0.08rem 0.35rem;
+  color: var(--ink-soft);
+  justify-self: end;
+  margin-left: 0.3rem;
+}
+.cycle-analog-stats {
+  grid-column: 2 / -1;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+.cycle-brief-excerpt {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: none;
+}
+
+/* Historical analogs */
+.analog-block {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+}
+@media (min-width: 880px) {
+  .analog-block { grid-template-columns: 220px 1fr; gap: var(--space-5); }
+}
+.analog-target {
+  font-family: var(--font-sans);
+}
+.analog-label {
+  margin: 0;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+  max-width: none;
+}
+.analog-name {
+  margin: var(--space-1) 0 var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.15;
+  color: var(--ink);
+  max-width: none;
+}
+.analog-stats {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  max-width: none;
+}
+.analog-cohort {
+  margin: var(--space-2) 0 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  text-transform: uppercase;
+  max-width: none;
+}
+.analog-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.analog-row {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.analog-row:last-child { border-bottom: none; }
+.analog-row-head {
+  display: grid;
+  grid-template-columns: 1.5rem auto auto 1fr;
+  align-items: baseline;
+  gap: 0.5rem 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.93rem;
+}
+.analog-rank {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.analog-row-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+}
+.analog-row-country {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  background: var(--cream-100);
+  padding: 0.1rem 0.4rem;
+  color: var(--ink-soft);
+}
+.analog-row-context {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  text-align: right;
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .analog-row-head { grid-template-columns: 1.2rem 1fr; }
+  .analog-row-context { grid-column: 1 / -1; text-align: left; padding-left: 1.8rem; }
+  .analog-row-country { justify-self: end; }
+}
+.analog-row-trajectory {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin-top: var(--space-1);
+  padding-left: 2.3rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+@media (max-width: 600px) {
+  .analog-row-trajectory { padding-left: 1.8rem; }
+}
+.analog-traj-label {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.analog-traj-step {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+.analog-traj-detail { color: var(--muted); font-size: 0.74rem; }
+
+/* Video PoC: real output from YOLOv8 inference on Extraliga broadcast.
+   Same block treatment as .roadmap-mockup but real output, so the
+   visual frame is the actual annotated JPEG + heatmap PNG, not an
+   inline SVG schematic. */
+.video-poc {
+  margin: var(--space-4) 0 var(--space-6);
+  background: var(--cream-100);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border: 1px solid var(--rule);  /* full border, not dashed: this is real */
+}
+.video-poc .roadmap-label {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+}
+.video-poc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+@media (min-width: 720px) {
+  .video-poc-grid { grid-template-columns: 1.78fr 1fr; gap: var(--space-4); }
+}
+.video-poc-frame { margin: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.video-poc-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+.video-poc-figlabel {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  max-width: none;
+}
+.video-poc-timeline {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: var(--space-3) 0;
+  background: var(--cream-50);
+  border: 1px solid var(--rule);
+}
+.video-poc-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) 0;
+  margin: 0 0 var(--space-3);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 720px) {
+  .video-poc-metrics { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1100px) {
+  .video-poc-metrics { grid-template-columns: repeat(6, 1fr); }
+}
+.video-poc-metrics div { margin: 0; }
+.video-poc-metrics dt {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.video-poc-metrics dd {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--ink);
+  font-feature-settings: "tnum", "lnum";
+  line-height: 1.1;
+}
+
+/* Roadmap mockups */
+.roadmap-mockup {
+  margin: var(--space-4) 0 var(--space-6);
+  background: var(--cream-100);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border: 1px dashed var(--rule);
+}
+.roadmap-mockup .roadmap-label {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+}
+.roadmap-rink,
+.roadmap-buzz {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: transparent;
+  margin: 0 auto var(--space-3);
+}
+.roadmap-caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 var(--space-3);
+  text-align: left;
+  max-width: 64ch;
+  padding: 0;
+}
+.roadmap-caption:last-child { margin-bottom: 0; }
+.roadmap-caption strong {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--oxblood-700);
+}
+.roadmap-caption em {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* =========================================================================
+   TOC — sticky desktop, collapsible mobile
+   ========================================================================= */
+.toc-sticky { display: none; }
+@media (min-width: 1280px) {
+  .toc-sticky {
+    display: block;
+    position: fixed;
+    top: 2rem;
+    right: max(1rem, calc((100vw - var(--container)) / 2 - 220px));
+    width: 195px;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding: var(--space-3) var(--space-3);
+    background: var(--cream-100);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    border-radius: 1px;
+    z-index: 50;
+  }
+  .toc-sticky .toc-heading {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--oxblood-700);
+  }
+  .toc-sticky ol { list-style: none; padding: 0; margin: 0; }
+  .toc-sticky ol ol { margin: 0.2rem 0 0.6rem 0.8rem; padding: 0; }
+  .toc-sticky li > a {
+    display: block;
+    padding: 0.12rem 0;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: none;
+  }
+  .toc-sticky li > a:hover { color: var(--oxblood-700); }
+  /* the rail is wayfinding, not content: regular weight, small, muted, so a
+     screen with fourteen entries beside it still reads as one column */
+  .toc-sticky > ol > li > a,
+  .toc-sticky > ol > li > details.toc-method > summary > a {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-top: 0.1rem;
+  }
+  .toc-sticky ol ol li > a {
+    color: var(--muted);
+    font-size: 0.76rem;
+  }
+  /* Method's rail entry (Task 25e): the sub-items list is real navigation,
+     just hidden until the reader opens it -- a details/summary, same rail
+     styling as every other top-level entry, no JS. */
+  .toc-sticky details.toc-method { margin: 0; }
+  .toc-sticky details.toc-method > summary {
+    list-style: none;
+    cursor: pointer;
+    display: block;
+  }
+  .toc-sticky details.toc-method > summary::-webkit-details-marker { display: none; }
+  .toc-sticky details.toc-method > summary > a { display: inline; }
+  /* Toggle button: sits flush in the corner; rotates a single chevron
+     glyph to communicate collapse/expand state without an icon font. */
+  .toc-toggle {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    width: 1.6rem;
+    height: 1.6rem;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    color: var(--muted);
+    transition: color 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+                background 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .toc-toggle:hover { color: var(--oxblood-700); background: var(--cream-200); }
+  .toc-toggle:focus-visible { outline: 2px solid var(--oxblood-700); outline-offset: 2px; }
+  .toc-toggle-glyph {
+    display: block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+    transform: rotate(45deg);  /* points right by default */
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Expanded state: chevron points left (toward content), inviting collapse */
+  .toc-sticky:not([data-collapsed="true"]) .toc-toggle-glyph {
+    transform: rotate(-135deg);
+  }
+
+  /* Collapsed state: shrink the entire TOC to a thin pill showing only
+     the toggle. Animates width so the transition reads as fold-up. */
+  .toc-sticky[data-collapsed="true"] {
+    width: 2.4rem;
+    padding: 0.5rem;
+    overflow: hidden;
+  }
+  .toc-sticky[data-collapsed="true"] .toc-heading,
+  .toc-sticky[data-collapsed="true"] ol {
+    display: none;
+  }
+  .toc-sticky[data-collapsed="true"] .toc-toggle {
+    position: static;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 1279px) {
+  /* Hide toggle when sticky TOC isn't visible (mobile uses <details>) */
+  .toc-toggle { display: none; }
+}
+
+.toc-mobile {
+  margin: var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--cream-100);
+  border-radius: 1px;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+}
+.toc-mobile summary {
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oxblood-700);
+}
+.toc-mobile ol {
+  list-style: none;
+  padding: var(--space-3) 0 0;
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.toc-mobile li { margin: var(--space-1) 0; }
+.toc-mobile a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: none;
+}
+.toc-mobile a:hover { color: var(--oxblood-700); }
+@media (min-width: 1280px) { .toc-mobile { display: none; } }
+
+/* =========================================================================
+   Footer
+   ========================================================================= */
+footer {
+  padding: var(--space-7) 0 var(--space-5);
+  margin-top: var(--space-7);
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+footer p { max-width: none; margin: 0 0 var(--space-2); }
+footer a { color: var(--ink-soft); border-bottom-color: var(--rule); }
+footer a:hover { border-bottom-color: var(--ink); }
+.rendered-at {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+/* =========================================================================
+   Print / PDF (weasyprint)
+   ========================================================================= */
+/* Task 26E2: "Print this page" prints ONLY the 60-second opener
+   (#quickread) plus the one-page brief (#brief) -- together sized to fit
+   a single A4 sheet -- and nothing else on the page. Every other top-level
+   section (nav, header, the funnel, the slides, Explore, Method, footer)
+   is hidden; only #quickread and #brief are forced back to `block`. */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  :root { --page-bg: #fdfdfc; }
+  body { font-size: 10pt; line-height: 1.4; color: #1a1a1a; background: #fdfdfc; }
+  body > *:not(#quickread):not(#brief) { display: none !important; }
+  #quickread, #brief { display: block !important; }
+  #quickread { border-top: none; padding-top: 0; }
+  .quickread-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  #brief { background: transparent; border-top: none; padding-top: var(--space-3); }
+  .print-link { display: none !important; }
+  .brief-table, .brief-caveats, .brief-take-one-thing, .brief-checks, figure {
+    page-break-inside: avoid;
+  }
+  a { color: inherit; text-decoration: none; }
+}
+
+/* ---- #pool (Task 30): every player in the pool, as one row each ------- */
+.pool-fold > summary { font-family: var(--font-sans); font-weight: 600; }
+.pool { margin-top: var(--space-3); }
+.pool-controls {
+  display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; align-items: end;
+  margin: var(--space-3) 0 var(--space-2);
+  font-family: var(--font-sans); font-size: 0.86rem; color: var(--ink-soft);
+}
+.pool-control { display: flex; flex-direction: column; gap: 0.25rem; }
+.pool-control-search { flex: 1 1 16rem; }
+.pool-control input, .pool-control select {
+  font: inherit; font-size: 0.92rem; color: var(--ink);
+  padding: 0.4rem 0.55rem; border: 1px solid var(--rule); border-radius: 4px;
+  background: var(--surface);
+}
+.pool-control input:focus-visible, .pool-control select:focus-visible { outline: 2px solid var(--oxblood-700); outline-offset: 1px; }
+.pool-count { margin-left: auto; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); font-feature-settings: "tnum"; }
+/* one grid for the header and every summary row, so the columns line up
+   without a <table> (a <details> cannot live inside a table row) */
+.pool-head, .pool-summary {
+  display: grid;
+  grid-template-columns: minmax(11rem, 1.6fr) 3rem 3rem minmax(7rem, 1.2fr) 4.5rem 4.5rem;
+  gap: 0 0.8rem; align-items: baseline;
+}
+.pool-head {
+  font-family: var(--font-sans); font-size: 0.72rem; letter-spacing: 0.02em;
+  color: var(--muted); padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--rule);
+}
+.pool-rows { list-style: none; margin: 0; padding: 0; }
+.pool-rows > li { border-bottom: 1px solid var(--rule-soft); }
+.pool-rows > li[hidden] { display: none; }
+.pool-row > summary { padding: 0.42rem 0.5rem; cursor: pointer; list-style: none; }
+.pool-row > summary::-webkit-details-marker { display: none; }
+.pool-row > summary:hover { background: var(--cream-100); }
+.pool-row[open] > summary { background: var(--cream-100); }
+.pool-summary { font-family: var(--font-sans); font-size: 0.92rem; color: var(--ink); }
+.pool-summary .pool-name { font-weight: 500; }
+.pool-summary .pool-age, .pool-summary .pool-min, .pool-summary .pool-rank {
+  font-family: var(--font-mono); font-size: 0.84rem; color: var(--ink-soft); font-feature-settings: "tnum", "lnum";
+  text-align: right;
+}
+.pool-head .pool-age, .pool-head .pool-min, .pool-head .pool-rank { text-align: right; }
+.pool-summary .pool-pos { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.pool-summary .pool-club { color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pool-rank-of { color: var(--muted); }
+.pool-nt {
+  font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--navy-700); border: 1px solid var(--navy-300); border-radius: 3px; padding: 0 0.28rem;
+  vertical-align: 0.1em;
+}
+.pool-moved { color: var(--oxblood-700); font-size: 0.9em; }
+.pool-card {
+  font-family: var(--font-display); font-size: 1rem; line-height: 1.55; color: var(--ink);
+  margin: 0; padding: 0.5rem 0.5rem 0.9rem 0.5rem; max-width: var(--measure-wide);
+}
+.pool-empty { font-family: var(--font-sans); font-size: 0.9rem; color: var(--muted); padding: var(--space-3) 0.5rem; }
+@media (max-width: 640px) {
+  .pool-head { display: none; }
+  .pool-summary { grid-template-columns: 1fr 3rem 4.5rem; grid-template-areas: "name age min" "club club rank"; row-gap: 0.15rem; }
+  .pool-summary .pool-name { grid-area: name; }
+  .pool-summary .pool-age { grid-area: age; }
+  .pool-summary .pool-min { grid-area: min; }
+  .pool-summary .pool-club { grid-area: club; font-size: 0.84rem; }
+  .pool-summary .pool-rank { grid-area: rank; }
+  .pool-summary .pool-pos { display: none; }
+  .pool-count { margin-left: 0; }
+}
+@media print { .pool-fold { display: none; } }
+
+/* ---- slide 10 (Task 31): what changed between the two seasons --------- */
+.changes-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--space-3); margin: var(--space-3) 0 var(--space-2); }
+.changes-tier { border-top: 2px solid var(--rule); padding-top: 0.5rem; }
+.changes-tier-label { font-family: var(--font-sans); font-size: 0.8rem; color: var(--muted); margin: 0 0 0.2rem; }
+.changes-tier-n { font-family: var(--font-mono); font-size: 1.5rem; font-feature-settings: "tnum"; margin: 0; color: var(--ink); }
+.changes-prev { color: var(--muted); }
+.changes-arrow { color: var(--rule); font-size: 1rem; margin: 0 0.15rem; }
+.changes-curr { color: var(--oxblood-700); font-weight: 600; }
+.changes-tier-min { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); margin: 0.15rem 0 0; font-feature-settings: "tnum"; }
+.changes-moves { margin-top: var(--space-3); }
+@media (min-width: 900px) { .changes-moves { grid-template-columns: repeat(4, 1fr); gap: var(--space-4); } }
+.changes-moves h4 { font-family: var(--font-sans); font-size: 0.9rem; margin: 0 0 0.4rem; }
+.changes-count { font-family: var(--font-mono); color: var(--oxblood-700); margin-left: 0.3rem; }
+.changes-list { list-style: none; margin: 0; padding: 0; font-family: var(--font-sans); font-size: 0.86rem; line-height: 1.45; }
+.changes-list li { padding: 0.15rem 0; border-bottom: 1px solid var(--rule-soft); }
+.changes-list .changes-name { color: var(--ink); }
+.changes-list .muted { font-size: 0.78rem; }
+
+/* ---- pre-registered forecast scoreboard (Task 32) --------------------- */
+.scoreboard {
+  margin: var(--space-4) 0 0; padding: var(--space-3) var(--space-4);
+  border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule);
+  background: transparent; max-width: var(--measure-wide); padding-left: 0; padding-right: 0;
+}
+.scoreboard-kicker { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--oxblood-700); margin: 0 0 0.4rem; }
+.scoreboard-claim { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.5; margin: 0 0 0.8rem; color: var(--ink); }
+.scoreboard-claim strong { font-size: 1.4em; color: var(--oxblood-700); }
+.scoreboard-meta { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; margin: 0; font-family: var(--font-sans); font-size: 0.86rem; }
+.scoreboard-meta > div { display: contents; }
+.scoreboard-meta dt { color: var(--muted); }
+.scoreboard-meta dd { margin: 0; color: var(--ink-soft); }
+.scoreboard-meta code { font-size: 0.8em; }
+.scoreboard-drift { font-family: var(--font-sans); font-size: 0.86rem; color: var(--oxblood-700); margin: 0.8rem 0 0; }
+.scoreboard-why { font-family: var(--font-sans); font-size: 0.8rem; color: var(--muted); margin: 0.8rem 0 0; line-height: 1.5; }
+.slide-detail {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: var(--measure-wide);
+  margin: 0.4rem 0 0.6rem;
+}
+/* the live sensitivity table is wider than a phone: scroll it, never the page */
+.sensitivity-live-table { display: block; overflow-x: auto; max-width: 100%; }
+
+/* distill: the federation tiles and the one-page brief fold on screen; the
+   brief still prints in full (the print button opens it, and print media
+   forces it open for a reader who prints from the browser menu) */
+.fed-fold > summary, .brief-body > summary { font-family: var(--font-sans); }
+.for-federation h3 { display: none; }
+.brief-table td.num, .brief-table th:not(:first-child) { white-space: nowrap; }
+@media print { .brief-body > summary { display: none; } }

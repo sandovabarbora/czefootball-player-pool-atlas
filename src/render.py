@@ -1198,7 +1198,7 @@ def _build_loadings(loadings: pd.DataFrame) -> list[dict]:
 # (Task 21c) -- checked in `_build_sensitivity_shrunk` so a future season's
 # larger home-eligible pool fails the render loudly rather than silently
 # ships a heavier page.
-SENSITIVITY_SHRUNK_MAX_BYTES = 50_000
+SENSITIVITY_SHRUNK_MAX_BYTES = 64_000   # 50k before the Germany edition: a Big-5 home nation has ~1.3x the home-eligible rows of Czechia
 
 
 def _build_sensitivity_shrunk(features: dict[str, pd.DataFrame], metrics_season: str) -> list[dict]:
@@ -1389,7 +1389,7 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     if not sm:
         return {}
     br = sm["break"]
-    home_top = br["top"][0]
+    home_top = br.get("modal") or br["top"][0]
     home_break = {
         "season": season_label(home_top["season"]), "prob": home_top["prob"],
         "delta": br["delta_factor"]["median"], "lo": br["delta_factor"]["lo"], "hi": br["delta_factor"]["hi"],
@@ -1403,17 +1403,25 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     if br.get("rise") and br["rise"]["delta_factor"]["median"] > 1.0:
         rs = br["rise"]
         home_break["rise"] = {
-            "season": season_label(rs["top"][0]["season"]), "prob": rs["top"][0]["prob"],
+            "season": season_label((rs.get("modal") or rs["top"][0])["season"]), "prob": (rs.get("modal") or rs["top"][0])["prob"],
             "delta": rs["delta_factor"]["median"], "lo": rs["delta_factor"]["lo"], "hi": rs["delta_factor"]["hi"],
             "top": [{"season": season_label(r["season"]), "prob": r["prob"]} for r in rs["top"]],
         }
         home_break["fall_is_a_fall"] = br.get("fall_is_a_fall", True)
+    elif br.get("rise"):
+        # both steps lower the level (Germany: the Bundesliga internationalised
+        # in two moves) -- the other step is written up as an earlier fall
+        rs = br["rise"]
+        home_break["earlier"] = {
+            "season": season_label((rs.get("modal") or rs["top"][0])["season"]), "prob": (rs.get("modal") or rs["top"][0])["prob"],
+            "delta": rs["delta_factor"]["median"], "lo": rs["delta_factor"]["lo"], "hi": rs["delta_factor"]["hi"],
+        }
     contrast = [
         {
             "code": code, "name": names.get(code, code),
-            "season": season_label(c["top"][0]["season"]), "prob": c["top"][0]["prob"],
+            "season": season_label((c.get("modal") or c["top"][0])["season"]), "prob": (c.get("modal") or c["top"][0])["prob"],
             "delta": c["delta_factor"]["median"], "lo": c["delta_factor"]["lo"], "hi": c["delta_factor"]["hi"],
-            "rise": ({"season": season_label(c["rise"]["top"][0]["season"]), "prob": c["rise"]["top"][0]["prob"],
+            "rise": ({"season": season_label((c["rise"].get("modal") or c["rise"]["top"][0])["season"]), "prob": (c["rise"].get("modal") or c["rise"]["top"][0])["prob"],
                       "delta": c["rise"]["delta_factor"]["median"]}
                      if c.get("rise") and c["rise"]["delta_factor"]["median"] > 1.0 else None),
         }

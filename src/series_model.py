@@ -317,7 +317,13 @@ def break_summary(idata: az.InferenceData, y: np.ndarray, tau_grid: np.ndarray, 
     # stands in and the JSON says so.
     marg = marginal_over_breaks(tau_grid, probs, len(y))
     idx = np.arange(len(y))
-    blocks = [{"top": top_tau(idx, m, seasons), "delta_factor": factor_of(delta[:, k])} for k, m in enumerate(marg)]
+    # each break's own season is read off the most probable *pair*, with
+    # that season's marginal probability -- the two marginals can peak on
+    # the same season (one as tau1, one as tau2), which no single pair can
+    modal_pair = tau_grid[int(np.argmax(probs))]
+    blocks = [{"top": top_tau(idx, m, seasons), "delta_factor": factor_of(delta[:, k]),
+               "modal": {"season": seasons[int(modal_pair[k])], "prob": round(float(m[int(modal_pair[k])]), 4)}}
+              for k, m in enumerate(marg)]
     falls = [k for k, b in enumerate(blocks) if b["delta_factor"]["median"] < 1.0]
     fall = falls[-1] if falls else 1
     rise = 1 - fall

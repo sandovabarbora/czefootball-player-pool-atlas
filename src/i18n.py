@@ -819,6 +819,7 @@ EN: dict[str, str] = {
     "ch4.series.rise.p": "The rise before it is dated to {season} ({prob} posterior), a ×{delta} ({lo}–{hi}) change in the level. The most probable seasons for each:",
     "ch4.series.rise.label": "rise",
     "ch4.series.fall.label": "fall",
+    "ch4.series.earlier.p": "The other step is a fall too, dated to {season} ({prob} posterior), a ×{delta} ({lo}–{hi}) change: the level came down in two moves rather than rising first.",
     "ch4.series.not_a_fall": "Neither step lowers the level for {nation}; the later one is reported as the break.",
     "ch4.series.break.top_item": "{season}: {prob}",
     "ch4.series.contrast.p": "The same model, fit separately for the two contrast countries:",

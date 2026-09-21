@@ -1920,6 +1920,9 @@
     <p>{{ t('ch4.series.break.p', season=series_model.break.season, prob=pct(series_model.break.prob),
              delta=f2(series_model.break.delta), lo=f2(series_model.break.lo), hi=f2(series_model.break.hi),
              sigma=f3(series_model.break.sigma)) }}</p>
+    {% if series_model.break.earlier %}
+    <p>{{ t('ch4.series.earlier.p', season=series_model.break.earlier.season, prob=pct(series_model.break.earlier.prob), delta=f2(series_model.break.earlier.delta), lo=f2(series_model.break.earlier.lo), hi=f2(series_model.break.earlier.hi)) }}</p>
+    {% endif %}
     {% if series_model.break.rise %}
     <p>{{ t('ch4.series.rise.p', season=series_model.break.rise.season, prob=pct(series_model.break.rise.prob), delta=f2(series_model.break.rise.delta), lo=f2(series_model.break.rise.lo), hi=f2(series_model.break.rise.hi)) }}{% if not series_model.break.fall_is_a_fall %} {{ t('ch4.series.not_a_fall') }}{% endif %}</p>
     <ul class="break-top">

@@ -186,7 +186,7 @@ def test_sensitivity_slider_payload_matches_offline_top10_at_defaults(built):
     shrunk = json.loads(m.group(1))
     assert shrunk, "empty sensitivity-slider payload"
     assert {"player_key", "name", "league", "npg_shrunk", "ast_shrunk"} <= set(shrunk[0])
-    assert len(m.group(1).encode("utf-8")) <= 50_000
+    assert len(m.group(1).encode("utf-8")) <= 64_000
 
     multipliers = config.league_quality()["multipliers"]
     metrics_season = config.seasons()["metrics"]

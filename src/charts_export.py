@@ -81,8 +81,9 @@ def big5_payload(big5: dict, series_model: dict, names: dict[str, str]) -> dict:
                       for c, v in big5["countries"].items()},
         "home": config.HOME,
         "contrast": list(config.nation().get("series_contrast", [])),
-        "break": (series_model.get("break") or {}).get("top", [])[:1],
-        "rise": ((series_model.get("break") or {}).get("rise") or {}).get("top", [])[:1],
+        "break": [b for b in [(series_model.get("break") or {}).get("modal")] if b] or (series_model.get("break") or {}).get("top", [])[:1],
+        "rise": [b for b in [((series_model.get("break") or {}).get("rise") or {}).get("modal")] if b
+                 and ((series_model.get("break") or {}).get("rise") or {}).get("delta_factor", {}).get("median", 0) > 1],
         "forecast": series_model.get("forecast", {}),
     }
 
