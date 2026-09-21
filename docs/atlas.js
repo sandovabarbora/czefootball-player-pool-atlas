@@ -361,3 +361,50 @@
   });
   render();
 })();
+
+// ------------------------------------------------------------ #pool (Task 30)
+// Search and filter over the pool rows. The rows are complete HTML without
+// this; the script only hides the ones that do not match, so a reader with
+// scripts off still gets the whole list, just unfiltered.
+(function () {
+  var pool = document.querySelector('[data-pool]');
+  if (!pool) return;
+  var search = pool.querySelector('[data-pool-search]');
+  var selects = pool.querySelectorAll('[data-pool-filter]');
+  var rows = pool.querySelectorAll('.pool-rows > li');
+  var count = pool.querySelector('[data-pool-count]');
+  var empty = pool.querySelector('[data-pool-empty]');
+  var template = count ? count.textContent : '';
+  var fold = pool.closest('details');
+
+  function fold_accents(s) {
+    return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  }
+  function apply() {
+    var q = fold_accents(search.value.trim());
+    var want = {};
+    selects.forEach(function (sel) { want[sel.getAttribute('data-pool-filter')] = sel.value; });
+    var shown = 0;
+    rows.forEach(function (li) {
+      var ok = (!q || li.getAttribute('data-search').indexOf(q) !== -1)
+        && (!want.pos || li.getAttribute('data-pos') === want.pos)
+        && (!want.tier || li.getAttribute('data-tier') === want.tier)
+        && (!want.band || li.getAttribute('data-band') === want.band);
+      li.hidden = !ok;
+      if (ok) shown += 1;
+    });
+    if (count) count.textContent = template.replace(/^\d+/, String(shown));
+    if (empty) empty.hidden = shown !== 0;
+  }
+  search.addEventListener('input', apply);
+  selects.forEach(function (sel) { sel.addEventListener('change', apply); });
+
+  // a #pool?q=name link (or the site search) opens the fold and pre-fills
+  // the box, so a reader can be sent straight to one player
+  var m = /[?&]player=([^&#]+)/.exec(location.search + location.hash);
+  if (m) {
+    if (fold) fold.open = true;
+    search.value = decodeURIComponent(m[1]);
+    apply();
+  }
+})();

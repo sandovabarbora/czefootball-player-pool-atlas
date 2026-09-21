@@ -316,6 +316,30 @@
    is reused from `pathways`, `pipeline_facts` (Task 26B), `peer_compare`,
    `big5` and `gap_decomposition` -- see `src.render._build_why_funnel`.
    ============================================================================= #}
+{#- Task 30: one player's card in plain football language, assembled clause
+   by clause from src.pool_table's row so nothing is written that the row
+   does not carry. Every clause is its own key so the Czech copy can order
+   and inflect it on its own terms. -#}
+{%- macro pool_card(r) -%}
+  {{ t('pool.line.id', age=r.age if r.age is not none else '—', pos=pool_table.labels.pos[r.pos_group], club=r.club, where=(pool_table.labels.tier[r.tier] if r.tier == 'domestic' else (r.league ~ ', ' ~ pool_table.labels.tier[r.tier]) if r.tier else r.league)) }}
+  {%- if r.pos_group == 'GK' %}
+  {{ t('pool.line.gk', min=r.min, ga=f2(r.ga_p90), save=('%.0f' | format(r.save_pct)) if r.save_pct is not none else '—', cs=r.cs) }}
+  {%- else %}
+  {%- if r.starts is not none and r.subs is not none %}
+  {{ t('pool.line.usage_starts', starts=r.starts, subs=r.subs, compl=r.compl if r.compl is not none else 0, mn=(r.mn_per_start | round | int) if r.mn_per_start else '—', share=('%.0f' | format(r.min_share * 100))) }}
+  {%- else %}
+  {{ t('pool.line.usage_min', min=r.min, share=('%.0f' | format(r.min_share * 100))) }}
+  {%- endif %}
+  {{ t('pool.line.prod', npg=f2(r.npg_p90), ast=f2(r.ast_p90), q=f2(r.q), rank=r.rank_q, n=r.n_group, pos_pl=pool_table.labels.pos_pl[r.pos_group]) }}
+  {%- if r.crs_p90 is not none and r.tklw_p90 is not none and r.interceptions_p90 is not none %}
+  {{ t('pool.line.role', crs=('%.1f' | format(r.crs_p90)), tkl=('%.1f' | format(r.tklw_p90)), int=('%.1f' | format(r.interceptions_p90)), fld=('%.1f' | format(r.fld_p90)) if r.fld_p90 is not none else '—') }}
+  {%- endif %}
+  {%- if r.moved %}
+  {{ t('pool.line.moved', stints=r.stints | map(attribute='team') | join(' → ')) }}
+  {%- endif %}
+  {%- endif %}
+{%- endmacro -%}
+
 {%- macro funnel_cell(cell) -%}
   {%- if cell.value is none -%}—
   {%- elif cell.fmt == 'pct1' -%}{{ pct1(cell.value) }}
@@ -920,6 +944,42 @@
       </div>
       {% endif %}
       <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
+      {% if pool_table.rows %}
+      <details class="fold pool-fold" id="pool">
+        <summary>{{ t('pool.summary', n=pool_table.total, season=pool_table.season_label) }}</summary>
+        <div class="pool" data-pool>
+          <p class="capita-note">{{ t('pool.intro', season=pool_table.season_label, fw=pool_table.groups.FW, mf=pool_table.groups.MF, df=pool_table.groups.DF, gk=pool_table.groups.GK) }}</p>
+          <div class="pool-controls">
+            <label class="pool-control pool-control-search">{{ t('pool.search') }} <input type="search" data-pool-search autocomplete="off" placeholder="{{ t('pool.search.placeholder') }}"></label>
+            <label class="pool-control">{{ t('pool.filter.pos') }} <select data-pool-filter="pos"><option value="">{{ t('pool.filter.all') }}</option>{% for g in ['FW', 'MF', 'DF', 'GK'] %}<option value="{{ g }}">{{ pool_table.labels.pos_pl[g] }}</option>{% endfor %}</select></label>
+            <label class="pool-control">{{ t('pool.filter.tier') }} <select data-pool-filter="tier"><option value="">{{ t('pool.filter.all') }}</option>{% for tier in ['domestic', 'stepping_stone', 'top9', 'other'] %}<option value="{{ tier }}">{{ pool_table.labels.tier[tier] }}</option>{% endfor %}</select></label>
+            <label class="pool-control">{{ t('pool.filter.age') }} <select data-pool-filter="band"><option value="">{{ t('pool.filter.all') }}</option>{% for b in pool_table.bands %}<option value="{{ b }}">{{ pool_table.labels.band[b] }}</option>{% endfor %}</select></label>
+            <span class="pool-count" data-pool-count>{{ t('pool.count', shown=pool_table.total, total=pool_table.total) }}</span>
+          </div>
+          <div class="pool-head" aria-hidden="true">
+            <span class="pool-name">{{ t('pool.col.player') }}</span><span class="pool-age">{{ t('pool.col.age') }}</span><span class="pool-pos">{{ t('pool.col.pos') }}</span><span class="pool-club">{{ t('pool.col.club') }}</span><span class="pool-min">{{ t('pool.col.min') }}</span><span class="pool-rank">{{ t('pool.col.rank') }}</span>
+          </div>
+          <ol class="pool-rows">
+            {% for r in pool_table.rows %}
+            <li data-pos="{{ r.pos_group }}" data-tier="{{ r.tier or '' }}" data-band="{{ r.band or '' }}" data-search="{{ r.search }}">
+              <details class="pool-row">
+                <summary class="pool-summary">
+                  <span class="pool-name">{{ r.player }}{% if r.nt_flag %} <span class="pool-nt" title="{{ t('pool.nt_title') }}">NT</span>{% endif %}{% if r.moved %} <span class="pool-moved" title="{{ t('pool.moved_title') }}">⇄</span>{% endif %}</span>
+                  <span class="pool-age">{{ r.age if r.age is not none else '—' }}</span>
+                  <span class="pool-pos">{{ r.pos_group }}</span>
+                  <span class="pool-club">{{ r.club }}</span>
+                  <span class="pool-min">{{ '{:,}'.format(r.min).replace(',', ' ') }}</span>
+                  <span class="pool-rank">{% if r.pos_group != 'GK' %}{{ r.rank_q }}<span class="pool-rank-of">/{{ r.n_group }}</span>{% else %}—{% endif %}</span>
+                </summary>
+                <p class="pool-card">{{ pool_card(r) }}</p>
+              </details>
+            </li>
+            {% endfor %}
+          </ol>
+          <p class="pool-empty" data-pool-empty hidden>{{ t('pool.empty') }}</p>
+        </div>
+      </details>
+      {% endif %}
     </div>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.9.how', season=seasons.metrics) }}</p>
     <p class="slide-so">{{ t('slide.9.so') }}</p>

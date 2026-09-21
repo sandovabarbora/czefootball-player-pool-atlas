@@ -2763,3 +2763,72 @@ footer a:hover { border-bottom-color: var(--ink); }
   }
   a { color: inherit; text-decoration: none; }
 }
+
+/* ---- #pool (Task 30): every player in the pool, as one row each ------- */
+.pool-fold > summary { font-family: var(--font-sans); font-weight: 600; }
+.pool { margin-top: var(--space-3); }
+.pool-controls {
+  display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; align-items: end;
+  margin: var(--space-3) 0 var(--space-2);
+  font-family: var(--font-sans); font-size: 0.86rem; color: var(--ink-soft);
+}
+.pool-control { display: flex; flex-direction: column; gap: 0.25rem; }
+.pool-control-search { flex: 1 1 16rem; }
+.pool-control input, .pool-control select {
+  font: inherit; font-size: 0.92rem; color: var(--ink);
+  padding: 0.4rem 0.55rem; border: 1px solid var(--rule); border-radius: 4px;
+  background: var(--surface);
+}
+.pool-control input:focus-visible, .pool-control select:focus-visible { outline: 2px solid var(--navy-500); outline-offset: 1px; }
+.pool-count { margin-left: auto; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); font-feature-settings: "tnum"; }
+/* one grid for the header and every summary row, so the columns line up
+   without a <table> (a <details> cannot live inside a table row) */
+.pool-head, .pool-summary {
+  display: grid;
+  grid-template-columns: minmax(11rem, 1.6fr) 3rem 3rem minmax(7rem, 1.2fr) 4.5rem 4.5rem;
+  gap: 0 0.8rem; align-items: baseline;
+}
+.pool-head {
+  font-family: var(--font-sans); font-size: 0.72rem; letter-spacing: 0.02em;
+  color: var(--muted); padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--rule);
+}
+.pool-rows { list-style: none; margin: 0; padding: 0; }
+.pool-rows > li { border-bottom: 1px solid var(--rule-soft); }
+.pool-rows > li[hidden] { display: none; }
+.pool-row > summary { padding: 0.42rem 0.5rem; cursor: pointer; list-style: none; }
+.pool-row > summary::-webkit-details-marker { display: none; }
+.pool-row > summary:hover { background: var(--cream-100); }
+.pool-row[open] > summary { background: var(--cream-100); }
+.pool-summary { font-family: var(--font-sans); font-size: 0.92rem; color: var(--ink); }
+.pool-summary .pool-name { font-weight: 500; }
+.pool-summary .pool-age, .pool-summary .pool-min, .pool-summary .pool-rank {
+  font-family: var(--font-mono); font-size: 0.84rem; color: var(--ink-soft); font-feature-settings: "tnum", "lnum";
+  text-align: right;
+}
+.pool-head .pool-age, .pool-head .pool-min, .pool-head .pool-rank { text-align: right; }
+.pool-summary .pool-pos { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.pool-summary .pool-club { color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pool-rank-of { color: var(--muted); }
+.pool-nt {
+  font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--navy-700); border: 1px solid var(--navy-300); border-radius: 3px; padding: 0 0.28rem;
+  vertical-align: 0.1em;
+}
+.pool-moved { color: var(--oxblood-700); font-size: 0.9em; }
+.pool-card {
+  font-family: var(--font-display); font-size: 1rem; line-height: 1.55; color: var(--ink);
+  margin: 0; padding: 0.5rem 0.5rem 0.9rem 0.5rem; max-width: var(--measure-wide);
+}
+.pool-empty { font-family: var(--font-sans); font-size: 0.9rem; color: var(--muted); padding: var(--space-3) 0.5rem; }
+@media (max-width: 640px) {
+  .pool-head { display: none; }
+  .pool-summary { grid-template-columns: 1fr 3rem 4.5rem; grid-template-areas: "name age min" "club club rank"; row-gap: 0.15rem; }
+  .pool-summary .pool-name { grid-area: name; }
+  .pool-summary .pool-age { grid-area: age; }
+  .pool-summary .pool-min { grid-area: min; }
+  .pool-summary .pool-club { grid-area: club; font-size: 0.84rem; }
+  .pool-summary .pool-rank { grid-area: rank; }
+  .pool-summary .pool-pos { display: none; }
+  .pool-count { margin-left: 0; }
+}
+@media print { .pool-fold { display: none; } }

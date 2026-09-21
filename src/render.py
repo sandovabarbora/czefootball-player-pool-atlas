@@ -1643,6 +1643,67 @@ EXPORT_AGE_CHAINS = 4
 EXPORT_AGE_DRAWS = 1000
 
 
+# Age bands the pool table filters on. Chosen to match the cohort exhibit's
+# own bands (`COHORT_ORDER`) so a reader who filters here and reads the
+# cohort table there is looking at the same groups.
+POOL_AGE_BANDS = [("u21", 0, 21), ("22-25", 22, 25), ("26-29", 26, 29), ("30plus", 30, 200)]
+
+
+def _pool_band(age: int | None) -> str | None:
+    for name, lo, hi in POOL_AGE_BANDS:
+        if age is not None and lo <= age <= hi:
+            return name
+    return None
+
+
+def _build_pool_table(pool_table: dict, tr: Translator | None = None) -> dict:
+    """`#pool` (Task 30): every home-eligible player of the metrics season,
+    not the seventeen the showcase rules pick.
+
+    The showcase answers "who stands out"; this answers "is he in there at
+    all", which is the question a reader with a particular player in mind
+    actually has, and the one the cards cannot answer -- a name missing from
+    seventeen cards could mean missing from the pool, missing from the data,
+    or simply not the best of his group, and those are different facts.
+
+    Rows arrive from `src.pool_table` already ranked within their position
+    group; this only adds what the page needs to filter on (an age band, a
+    lowercase search key) and sorts outfielders before goalkeepers, each by
+    minutes, so the fold opens on the players a reader is most likely to be
+    looking for. Formatting stays in the template.
+    """
+    tr = tr or Translator("en")
+    # dynamic keys resolved here, the same way `_build_feature_eda` resolves
+    # its per-candidate keys: the template's own t() calls stay literal so
+    # tests/test_i18n can still see every key it uses
+    labels = {
+        "pos": {g: tr.raw(f"pool.pos.{g}") for g in ("FW", "MF", "DF", "GK")},
+        "pos_pl": {g: tr.raw(f"pool.pos_pl.{g}") for g in ("FW", "MF", "DF", "GK")},
+        "tier": {t: tr(f"pool.tier.{t}") for t in TIER_ORDER},
+        "band": {b[0]: tr.raw(f"pool.band.{b[0]}") for b in POOL_AGE_BANDS},
+    }
+    rows = []
+    for r in pool_table.get("rows", []):
+        rows.append(r | {
+            "band": _pool_band(r.get("age")),
+            # accent-insensitive so "sochurek" finds Sochůrek: the search box
+            # is the whole point of the section and a reader typing without
+            # diacritics is the normal case, not the exception
+            "search": f"{normalize_name(r['player'])} {r.get('club', '')}".lower(),
+        })
+    rows.sort(key=lambda r: (r["pos_group"] == "GK", -r["min"]))
+    season = pool_table.get("season")
+    return {
+        "season": season,
+        "season_label": season_label(season) if season else "",
+        "groups": pool_table.get("groups", {}),
+        "total": len(rows),
+        "rows": rows,
+        "bands": [b[0] for b in POOL_AGE_BANDS],
+        "labels": labels,
+    }
+
+
 def _build_export_age_model(eam: dict) -> dict:
     """Chapter IV `#export-age-model` and slide 4b (Task 23, M1 proper): the
     age-at-export curve. `eam` is `export_age_model.json`'s raw shape (`{}`
@@ -1952,6 +2013,7 @@ def load_data() -> dict[str, Any]:
         "gap_decomposition": _load_json(p / "gap_decomposition.json", {}),
         "export_age_model": _load_json(p / "export_age_model.json", {}),
         "pipeline_facts": _load_json(p / "pipeline_facts.json", {}),
+        "pool_table": _load_json(p / "pool_table.json", {}),
         "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
@@ -2113,6 +2175,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     export_age_model = _build_export_age_model(data["export_age_model"])
     why_funnel = _build_why_funnel(pathways, data["pipeline_facts"], per_capita, peer_compare, big5,
                                    gap_decomposition, names)
+    pool_table = _build_pool_table(data["pool_table"], tr)
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -2173,6 +2236,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "gap_decomposition": gap_decomposition,
         "export_age_model": export_age_model,
         "why_funnel": why_funnel,
+        "pool_table": pool_table,
         "downloads": _build_downloads("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
@@ -2611,6 +2675,14 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         }),
         "gap_decomposition": gap_decomposition_fixture,
         "why_funnel": why_funnel_fixture,
+        "pool_table": _build_pool_table({"season": "2025-2026", "groups": {"FW": 1, "MF": 0, "DF": 0, "GK": 0}, "rows": [{
+            "player_key": "jan novak|2000", "player": "Jan Novák", "pos_group": "FW", "born": 2000, "age": 25,
+            "nt_flag": False, "club": "Sparta Prague", "league": "CZE-First League", "tier": "domestic",
+            "min": 1800, "starts": 20, "subs": 3, "compl": 12, "mn_per_start": 82.0, "min_share": 0.6,
+            "npg_p90": 0.4, "ast_p90": 0.1, "q": 0.17, "moved": False,
+            "stints": [{"league": "CZE-First League", "team": "Sparta Prague", "tier": "domestic", "min": 1800, "starts": 20, "subs": 3}],
+            "crs_p90": 1.2, "interceptions_p90": 0.4, "tklw_p90": 0.6, "fld_p90": 1.1, "fls_p90": 0.9,
+            "rank_q": 1, "n_group": 1}]}),
         "downloads": [
             {"label_key": "downloads.pool", "files": [
                 {"name": "pool.parquet", "url": "https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet"}]},
