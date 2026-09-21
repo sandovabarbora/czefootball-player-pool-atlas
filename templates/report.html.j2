@@ -348,7 +348,7 @@
   <div class="container">
     <h2>{{ t('why_funnel.h2') }}</h2>
     <p class="funnel-lead">{{ t('why_funnel.lead') }}</p>
-    <figure class="figure-bleed">
+    <figure class="figure-bleed" data-chart="funnel">
       <img src="{{ assets }}why_funnel.svg" alt="{{ t('why_funnel.figure.alt', a=pc_a, b=pc_b) }}">
       <figcaption>{{ t('why_funnel.figure.caption') }}</figcaption>
     </figure>
@@ -667,7 +667,7 @@
     <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}
       </p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="fare">
         <img src="{{ assets }}fare_dots.svg" alt="{{ t('slide.5.alt') }}">
         <figcaption>{{ t('slide.5.caption') }}</figcaption>
       </figure>
@@ -819,7 +819,7 @@
     <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', a=pc_a, nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
                             nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="slope">
         <img src="{{ assets }}pathway_slope.svg" alt="{{ t('slide.8.alt', a=pc_a, b=pc_b) }}">
         <figcaption>{{ t('slide.8.caption') }}</figcaption>
       </figure>
@@ -970,7 +970,7 @@
                           c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
                           c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="gap">
         <img src="{{ assets }}gap_decomposition.svg" alt="{{ t('slide.8c.alt') }}">
         <figcaption>{{ t('slide.8c.caption') }}</figcaption>
       </figure>

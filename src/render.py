@@ -41,7 +41,7 @@ from src import config
 from src.feature_eda import RAW_COLUMNS as FEATURE_EDA_RAW_COLUMNS
 from src.features import FEATURES as FEATURE_EDA_FEATURES
 from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, use_style
-from src.i18n import LANGS, Translator, localize_html_numbers
+from src.i18n import EN, LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
 from src.references import harvard_list, in_text, in_text_multi, refs_by_key
@@ -2830,6 +2830,22 @@ def main() -> None:
         pc = numbers_context["peer_compare"]
         render_pathway_slope_figure(pc["rows"][:6], pc["countries"], config.OUTPUTS_DIR / "pathway_slope.svg")
         render_why_funnel_figure(numbers_context["why_funnel"], config.HOME, config.OUTPUTS_DIR / "why_funnel.svg")
+        # the same numbers for the interactive versions (docs/charts.js): the
+        # funnel, the fare dots, the peer-compare slope and the decomposition
+        # are page-level assemblies, so they are dumped from the context that
+        # drew the static figures rather than recomputed in src.charts_export
+        charts_dir = config.OUTPUTS_DIR / "charts"
+        charts_dir.mkdir(parents=True, exist_ok=True)
+        tr_en = Translator("en")
+        slope_rows = [{"key": r["key"], "label": tr_en.raw(r["label_key"]) if r.get("label_key") in EN else r["key"],
+                       "by_country": r["by_country"]} for r in pc["rows"]]
+        (charts_dir / "page.json").write_text(json.dumps({
+            "home": config.HOME,
+            "funnel": numbers_context["why_funnel"],
+            "fare": numbers_context["pathways"]["fare_min"],
+            "slope": {"countries": pc["countries"], "names": pc["names"], "rows": slope_rows},
+            "gap": numbers_context.get("gap_decomposition", {}),
+        }, default=float, ensure_ascii=False))
 
     css_src = config.TEMPLATES_DIR / "style.css"
     if css_src.exists():

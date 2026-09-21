@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211436">
-  <link rel="stylesheet" href="modern.css?v=202609211436">
+  <link rel="stylesheet" href="style.css?v=202609211441">
+  <link rel="stylesheet" href="modern.css?v=202609211441">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609211436"></script>
-  <script defer src="atlas.js?v=202609211436"></script>
+  <script defer src="charts.js?v=202609211441"></script>
+  <script defer src="atlas.js?v=202609211441"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -168,9 +168,9 @@
   <div class="container">
     <h2>Why the train left</h2>
     <p class="funnel-lead">Five numbers, in the order they build on each other, show where the pool of players available to the national team gets thin. Each one is shown for English football and for the two countries used as a comparison throughout this report; each links to the part of the report that shows the full evidence.</p>
-    <figure class="figure-bleed">
+    <figure class="figure-bleed" data-chart="funnel">
       <img src="why_funnel.svg" alt="Five-stage funnel: English football next to France and Spain on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.">
-      <figcaption>How to read it: five rungs, one per stage of the argument, each on its own scale. The filled acid dot is England; the two open dots are the comparison countries. Left is where the pathway is more open on the first four rungs; on the last, more players per million.</figcaption>
+      <figcaption>How to read it: one rung per stage of the argument, each on its own scale, so the dots show the distance between countries, not the size of the number. The filled acid dot is England; the open dots are the two comparison countries. Under each rung is which direction means a more open pathway. Hover a dot for the exact value.</figcaption>
     </figure>
     <ol class="funnel-stages">
       <li class="funnel-stage">
@@ -688,7 +688,7 @@
     <p class="slide-a">English exports keep <strong>33 %</strong> of their club's minutes (7th of 8).
       </p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="fare">
         <img src="fare_dots.svg" alt="Dot plot: each country's median share of club minutes for players abroad, with a thin line spanning the other countries' values; England highlighted.">
         <figcaption>How to read it: one row per country, sorted; the dot is the median share of his club’s minutes that a country’s exported player keeps, the thin line the range across its exports. English exports are the acid row. Further right means exports who play, not sit.</figcaption>
       </figure>
@@ -1095,7 +1095,7 @@
     <h2 class="slide-q">How do France and Spain do it?</h2>
     <p class="slide-a">On the same six numbers France gives U21 players <strong>9 %</strong> of domestic minutes against 3 % and sends 96 % of its squad to the 9 strongest leagues against 96 %.</p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="slope">
         <img src="pathway_slope.svg" alt="Slope chart: France, Spain and England on six pathway metrics, each rescaled 0 (worst of the three) to 1 (best of the three), one line per country.">
         <figcaption>How to read it: six measures, each rescaled so 0 is the worst of the three countries and 1 the best, one line per country. A line that stays high is a pathway that is open at every stage; where the acid line dips is where England loses ground.</figcaption>
       </figure>
@@ -1442,7 +1442,7 @@
     <h2 class="slide-q">What is the gap made of?</h2>
     <p class="slide-a">Of the <strong>2.19</strong> players per million between France and England, U21 minutes go with −3.40, league strength with +9.71, export age with −4.26.</p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="gap">
         <img src="gap_decomposition.svg" alt="One horizontal stacked bar per contrast country: the contribution of U21 minutes, league strength and export age to its per-capita gap with England, plus the residual; whiskers show each channel's bootstrap interval.">
         <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and England. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
       </figure>
@@ -19084,7 +19084,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 14:33</p>
+    <p class="rendered-at">Rendered: 2026-09-21 14:41</p>
   </div>
 </footer>
 

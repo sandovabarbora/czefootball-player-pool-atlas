@@ -24,6 +24,7 @@
     ink: CSS.getPropertyValue('--ink').trim() || '#DCDCD6',
     muted: CSS.getPropertyValue('--muted').trim() || '#7E7E78',
     rule: CSS.getPropertyValue('--rule').trim() || '#3A3A36',
+    page: CSS.getPropertyValue('--page-bg').trim() || '#161616',
     corpus: '#3A3A36',
     orange: '#FF6A3D', mint: '#7ED9A6', violet: '#B78CFF', lilac: '#E3A0FF', aqua: '#7ED9D9', peach: '#FFB07A',
   };
@@ -349,8 +350,133 @@
     box.appendChild(note);
   }
 
+
+  // ------------------------------------------------------------ page-level figures (funnel, fare, slope, gap)
+  let pagePromise = null;
+  const pageData = () => (pagePromise = pagePromise || load('page'));
+
+  async function funnel(fig) {
+    const d = await pageData(); if (!d || !d.funnel) return;
+    const f = d.funnel, countries = f.countries.map((c) => c.code), names = Object.fromEntries(f.countries.map((c) => [c.code, c.name]));
+    const stages = [
+      { label: 'Share of minutes to players aged 21 or under', unit: '%', vals: f.stage1.share_u21.map((c) => (c.value == null ? null : c.value * 100)), more: 'higher = more open' },
+      { label: 'Regular under-21 starters per club', unit: '', vals: f.stage1.regulars.map((r) => r.per_club), more: 'higher = more open' },
+      { label: 'League average age (minutes-weighted)', unit: '', vals: f.stage2.mean_age.map((c) => c.value), more: 'lower = younger league' },
+      { label: 'Age at the first move abroad', unit: '', vals: f.stage3.rows.map((r) => r.age), more: 'lower = earlier' },
+      { label: 'Sideways moves', unit: '%', vals: f.stage4.sideways.map((c) => (c.value == null ? null : c.value * 100)), more: 'lower = more moves upward' },
+      { label: 'Players per million in the top-9 leagues', unit: '', vals: f.stage5.per_million.map((c) => c.value), more: 'higher = thicker layer at the top' },
+    ].filter((st) => st.vals.some((v) => v != null));
+    const box = mount(fig);
+    const rowH = 64, M = { t: 10, r: 24, b: 10, l: 24 }, H = M.t + stages.length * rowH + M.b;
+    const { svg, w } = svgIn(box, H);
+    const colour = (c, i) => (c === d.home ? C.acid : i === 1 ? C.hot : C.muted);
+    stages.forEach((st, si) => {
+      const y = M.t + si * rowH + 40;
+      const vals = st.vals.filter((v) => v != null), lo = d3.min(vals), hi = d3.max(vals), span = (hi - lo) || Math.max(Math.abs(hi), 1) * 0.1;
+      const x = d3.scaleLinear().domain([lo - span * 0.5, hi + span * 0.6]).range([M.l + 300, w - M.r - 40]);
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y - 18).attr('fill', C.ink).text(st.label);
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y + 2).text(st.more);
+      svg.append('line').attr('x1', M.l + 300).attr('x2', w - M.r - 40).attr('y1', y).attr('y2', y).attr('stroke', C.rule);
+      countries.forEach((c, i) => {
+        const v = st.vals[i]; if (v == null) return;
+        const g = svg.append('g').style('cursor', 'default')
+          .on('mousemove', (ev) => showTip(`<b>${esc(names[c])}</b><span>${esc(st.label)}: ${fmt1(v)}${st.unit ? ' ' + st.unit : ''}</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+        g.append('circle').attr('cx', x(v)).attr('cy', y).attr('r', c === d.home ? 7 : 5.5).attr('fill', c === d.home ? C.acid : C.page || '#161616').attr('stroke', colour(c, i)).attr('stroke-width', 1.6);
+        g.append('text').attr('class', 'chart-axis-label').attr('x', x(v)).attr('y', y + (i % 2 ? 22 : -12)).attr('text-anchor', 'middle').attr('fill', colour(c, i)).text(`${c} ${fmt1(v)}${st.unit ? ' ' + st.unit : ''}`);
+      });
+    });
+  }
+
+  async function fare(fig) {
+    const d = await pageData(); if (!d || !d.fare) return;
+    const rows = d.fare.slice().sort((a, b) => b.value - a.value);
+    const box = mount(fig);
+    const rowH = 34, M = { t: 14, r: 60, b: 30, l: 150 }, H = M.t + rows.length * rowH + M.b;
+    const { svg, w } = svgIn(box, H);
+    const x = d3.scaleLinear().domain([0, 1]).range([M.l, w - M.r]);
+    svg.append('g').attr('transform', `translate(0,${H - M.b + 6})`).call(d3.axisBottom(x).ticks(5).tickFormat((v) => Math.round(v * 100) + ' %')).call(axisStyle);
+    rows.forEach((r, i) => {
+      const y = M.t + i * rowH + rowH / 2, home = r.country === d.home;
+      const g = svg.append('g').on('mousemove', (ev) => showTip(`<b>${esc(r.name)}</b><span>median export keeps ${Math.round(r.value * 100)} % of his club’s minutes</span><span>${r.n} exports</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+      g.append('rect').attr('x', M.l - 150).attr('y', y - rowH / 2).attr('width', w).attr('height', rowH).attr('fill', 'transparent');
+      g.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 12).attr('y', y + 4).attr('text-anchor', 'end').attr('fill', home ? C.acid : C.ink).text(`${r.country} ${r.name}`);
+      g.append('line').attr('x1', x(0)).attr('x2', x(1)).attr('y1', y).attr('y2', y).attr('stroke', C.rule);
+      g.append('circle').attr('cx', x(r.value)).attr('cy', y).attr('r', home ? 7 : 5).attr('fill', home ? C.acid : C.hot);
+      g.append('text').attr('class', 'chart-axis-label').attr('x', x(r.value) + 12).attr('y', y + 4).attr('fill', home ? C.acid : C.ink).text(`${Math.round(r.value * 100)} % · n=${r.n}`);
+    });
+  }
+
+  async function slope(fig) {
+    const d = await pageData(); if (!d || !d.slope) return;
+    const s = d.slope, cs = s.countries, rows = s.rows.filter((r) => cs.every((c) => r.by_country[c] && r.by_country[c].value != null)).slice(0, 6);
+    if (!rows.length) return;
+    // normalise each measure so 0 = worst of the three, 1 = best; "sideways" and "export age" are better when lower
+    const lowerBetter = new Set(['sideways', 'export_age']);
+    const norm = rows.map((r) => { const vals = cs.map((c) => r.by_country[c].value); const lo = d3.min(vals), hi = d3.max(vals); return cs.map((c, i) => { const v = vals[i]; let t = hi === lo ? 0.5 : (v - lo) / (hi - lo); if (lowerBetter.has(r.key)) t = 1 - t; return t; }); });
+    const box = mount(fig);
+    const H = 380, M = { t: 40, r: 70, b: 70, l: 70 };
+    const { svg, w } = svgIn(box, H);
+    const x = d3.scalePoint().domain(rows.map((r) => r.key)).range([M.l, w - M.r]);
+    const y = d3.scaleLinear().domain([0, 1]).range([H - M.b, M.t]);
+    rows.forEach((r, i) => {
+      svg.append('line').attr('x1', x(r.key)).attr('x2', x(r.key)).attr('y1', y(0)).attr('y2', y(1)).attr('stroke', C.rule);
+      const t = svg.append('text').attr('class', 'chart-axis-label').attr('x', x(r.key)).attr('y', H - M.b + 18).attr('text-anchor', 'middle').attr('fill', C.ink);
+      const words = r.label.split(' '); const l1 = words.slice(0, Math.ceil(words.length / 2)).join(' '), l2 = words.slice(Math.ceil(words.length / 2)).join(' ');
+      t.append('tspan').attr('x', x(r.key)).text(l1); if (l2) t.append('tspan').attr('x', x(r.key)).attr('dy', 13).text(l2);
+    });
+    svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 8).attr('y', y(1) + 4).attr('text-anchor', 'end').text('best of 3');
+    svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 8).attr('y', y(0) + 4).attr('text-anchor', 'end').text('worst');
+    const colour = (c, i) => (c === d.home ? C.acid : i === 1 ? C.hot : C.muted);
+    cs.forEach((c, ci) => {
+      const pts = rows.map((r, ri) => ({ key: r.key, t: norm[ri][ci], v: r.by_country[c].value, fmt: r.by_country[c].fmt, label: r.label }));
+      svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', colour(c, ci)).attr('stroke-width', c === d.home ? 2.4 : 1.5)
+        .attr('d', d3.line().x((p) => x(p.key)).y((p) => y(p.t)));
+      svg.selectAll(null).data(pts).join('circle').attr('cx', (p) => x(p.key)).attr('cy', (p) => y(p.t)).attr('r', 4.5).attr('fill', colour(c, ci))
+        .on('mousemove', (ev, p) => showTip(`<b>${esc(s.names[c] || c)}</b><span>${esc(p.label)}: ${p.fmt === 'pct' || p.fmt === 'pct1' ? fmt1(p.v * 100) + ' %' : fmt2(p.v)}</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', x(rows.at(-1).key) + 10).attr('y', y(pts.at(-1).t) + 4).attr('fill', colour(c, ci)).text(c);
+    });
+  }
+
+  async function gap(fig) {
+    const d = await pageData(); if (!d || !d.gap || !d.gap.contrasts) return;
+    const CH = { u21_share: ['youth minutes', C.acid], league_strength: ['league strength', C.hot], export_age: ['export age', C.mint] };
+    const box = mount(fig);
+    const contrasts = d.gap.contrasts, rowH = 78, M = { t: 24, r: 40, b: 36, l: 120 }, H = M.t + contrasts.length * rowH + M.b;
+    const { svg, w } = svgIn(box, H);
+    const maxAbs = d3.max(contrasts.flatMap((c) => [Math.abs(c.gap_total), ...c.channels.map((ch) => Math.abs(ch.contribution)), Math.abs(c.residual)])) || 1;
+    const x = d3.scaleLinear().domain([-maxAbs * 0.4, maxAbs * 1.05]).range([M.l, w - M.r]);
+    svg.append('g').attr('transform', `translate(0,${H - M.b + 8})`).call(d3.axisBottom(x).ticks(6)).call(axisStyle);
+    svg.append('text').attr('class', 'chart-axis-label').attr('x', w - M.r).attr('y', H - 4).attr('text-anchor', 'end').text('players per million');
+    contrasts.forEach((c, i) => {
+      const y = M.t + i * rowH;
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 10).attr('y', y + 22).attr('text-anchor', 'end').attr('fill', C.ink).text(`${c.contrast} − ${d.home}`);
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 10).attr('y', y + 36).attr('text-anchor', 'end').text(`gap ${fmt2(c.gap_total)}`);
+      // channels stack from zero; the remainder sits on its own thin bar below,
+      // so a negative remainder never paints back over a channel
+      let cursor = 0;
+      c.channels.forEach((ch) => {
+        const x0 = x(Math.min(cursor, cursor + ch.contribution)), x1 = x(Math.max(cursor, cursor + ch.contribution));
+        svg.append('rect').attr('x', x0).attr('y', y + 6).attr('width', Math.max(0.5, x1 - x0)).attr('height', 22).attr('fill', CH[ch.name][1]).attr('fill-opacity', 0.85)
+          .on('mousemove', (ev) => showTip(`<b>${esc(CH[ch.name][0])}</b><span>${c.contrast} − ${d.home}: ${fmt2(ch.contribution)} players per million (${fmt2(ch.lo)} to ${fmt2(ch.hi)})</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+        if (Math.abs(x1 - x0) > 36) svg.append('text').attr('class', 'chart-axis-label').attr('x', (x0 + x1) / 2).attr('y', y + 21).attr('text-anchor', 'middle').attr('fill', '#161616').text(fmt2(ch.contribution));
+        cursor += ch.contribution;
+      });
+      const rx0 = x(Math.min(0, c.residual)), rx1 = x(Math.max(0, c.residual));
+      svg.append('rect').attr('x', rx0).attr('y', y + 32).attr('width', Math.max(0.5, rx1 - rx0)).attr('height', 8).attr('fill', 'url(#hatch)')
+        .on('mousemove', (ev) => showTip(`<b>not carried by the three channels</b><span>${c.contrast} − ${d.home}: ${fmt2(c.residual)} players per million</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', rx1 + 6).attr('y', y + 40).attr('text-anchor', 'start').text(`${fmt2(c.residual)} not carried`);
+      svg.append('line').attr('x1', x(c.gap_total)).attr('x2', x(c.gap_total)).attr('y1', y + 2).attr('y2', y + 42).attr('stroke', C.ink).attr('stroke-dasharray', '2 2');
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', x(c.gap_total) + 5).attr('y', y + 4).attr('fill', C.ink).text('gap');
+    });
+    const defs = svg.append('defs');
+    const pat = defs.append('pattern').attr('id', 'hatch').attr('width', 6).attr('height', 6).attr('patternUnits', 'userSpaceOnUse').attr('patternTransform', 'rotate(45)');
+    pat.append('rect').attr('width', 6).attr('height', 6).attr('fill', '#1F1F1F'); pat.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 6).attr('stroke', C.muted).attr('stroke-width', 1.5);
+    const legend = document.createElement('div'); legend.className = 'chart-row'; box.insertBefore(legend, box.firstChild);
+    Object.values(CH).forEach(([l, col]) => chip(legend, l, true, () => {}, col)); chip(legend, 'not carried', true, () => {}, C.muted);
+  }
+
   // ------------------------------------------------------------ run
-  const run = { big5, 'export-age': exportAge, changes, tracking };
+  const run = { big5, 'export-age': exportAge, changes, tracking, funnel, fare, slope, gap };
   // atlas tabs (#q9): one figure per position group, buttons switch which is shown
   document.querySelectorAll('.atlas-tabs').forEach((tabs) => {
     const figs = [...tabs.querySelectorAll('figure[data-chart]')];
