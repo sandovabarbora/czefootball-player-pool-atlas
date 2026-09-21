@@ -1,445 +1,453 @@
 {
-  "cards": [
-    {
-      "player_key": "patrik schick|1996",
-      "reason": "highest quality-adjusted npG+A per 90 among FW"
-    },
-    {
-      "player_key": "christophe kabongo|2003",
-      "reason": "youngest national-team call-up among FW"
-    },
-    {
-      "player_key": "pavel sulc|2000",
-      "reason": "most top-9 minutes among 2026 FIFA World Cup squad FW"
-    },
-    {
-      "player_key": "tomas chory|1995",
-      "reason": "most domestic minutes among 2026 FIFA World Cup squad FW"
-    },
-    {
-      "player_key": "lukas masek|2004",
-      "reason": "most domestic-league minutes among under-23 FW without a top-9 season"
-    },
-    {
-      "player_key": "vaclav cerny|1997",
-      "reason": "highest quality-adjusted npG+A per 90 among MF"
-    },
-    {
-      "player_key": "hugo sochurek|2008",
-      "reason": "youngest national-team call-up among MF"
-    },
-    {
-      "player_key": "tomas soucek|1995",
-      "reason": "most top-9 minutes among 2026 FIFA World Cup squad MF"
-    },
-    {
-      "player_key": "vladimir darida|1990",
-      "reason": "most domestic minutes among 2026 FIFA World Cup squad MF"
-    },
-    {
-      "player_key": "roman kvet|1997",
-      "reason": "most top-9 league minutes among MF"
-    },
-    {
-      "player_key": "vojtech stransky|2003",
-      "reason": "most domestic-league minutes among under-23 MF without a top-9 season"
-    },
-    {
-      "player_key": "vladimir coufal|1992",
-      "reason": "highest quality-adjusted npG+A per 90 among DF"
-    },
-    {
-      "player_key": "jan paluska|2005",
-      "reason": "youngest national-team call-up among DF"
-    },
-    {
-      "player_key": "ladislav krejci|1999",
-      "reason": "most top-9 minutes among 2026 FIFA World Cup squad DF"
-    },
-    {
-      "player_key": "tomas holes|1993",
-      "reason": "most domestic minutes among 2026 FIFA World Cup squad DF"
-    },
-    {
-      "player_key": "robin hranac|2000",
-      "reason": "most top-9 league minutes among DF"
-    },
-    {
-      "player_key": "denis halinsky|2003",
-      "reason": "most domestic-league minutes among under-23 DF without a top-9 season"
-    }
-  ],
-  "hero": {
-    "export_cze": {
-      "censored_share": 0.2,
-      "country": "CZE",
-      "median_export_age": 23.0,
-      "median_export_age_recent": 22.0,
-      "n": 15,
-      "n_recent": 7,
-      "name": "Czechia",
-      "origin": {
-        "domestic": 0.714,
-        "not_covered": 0.286,
-        "other_top9": 0.0,
-        "stepping_stone": 0.0
-      }
-    },
-    "export_den": {
-      "censored_share": 0.138,
-      "country": "DEN",
-      "median_export_age": 22.0,
-      "median_export_age_recent": 22.0,
-      "n": 65,
-      "n_recent": 25,
-      "name": "Denmark",
-      "origin": {
-        "domestic": 0.6,
-        "not_covered": 0.4,
-        "other_top9": 0.0,
-        "stepping_stone": 0.0
-      }
-    },
-    "gap": {
-      "cohort": "23-25",
-      "cze_n": 2,
-      "gap": -4.0,
-      "group_title": "Midfielders",
-      "peer_median_n": 6.0,
-      "pos_group": "MF"
-    },
-    "n_peers": 9,
-    "n_players": 26,
-    "per_million": 2.39,
-    "population_m": 10.9,
-    "rank": 7,
-    "top": {
-      "country": "DEN",
-      "n_players": 75,
-      "name": "Denmark",
-      "per_million": 12.58,
-      "population_m": 5.96,
-      "rank": 1
-    }
+ "cards": [
+  {
+   "player_key": "patrik schick|1996",
+   "reason": "highest quality-adjusted npG+A per 90 among FW"
   },
-  "peer_compare": {
-    "countries": [
-      "CZE",
-      "NOR",
-      "DEN"
-    ],
-    "cze_top9": 0.34600000000000003,
-    "cze_u21": 0.064,
-    "names": {
-      "CZE": "Czechia",
-      "DEN": "Denmark",
-      "NOR": "Norway"
-    },
-    "nor_top9": 0.654,
-    "nor_u21": 0.115,
-    "rows": [
-      {
-        "by_country": {
-          "CZE": {
-            "fmt": "f2",
-            "value": 2.39
-          },
-          "DEN": {
-            "fmt": "f2",
-            "value": 12.58
-          },
-          "NOR": {
-            "fmt": "f2",
-            "value": 9.37
-          }
-        },
-        "key": "per_million",
-        "label_key": "peer_compare.per_million"
-      },
-      {
-        "by_country": {
-          "CZE": {
-            "fmt": "pct1",
-            "value": 0.064
-          },
-          "DEN": {
-            "fmt": "pct1",
-            "value": 0.153
-          },
-          "NOR": {
-            "fmt": "pct1",
-            "value": 0.115
-          }
-        },
-        "key": "u21_share",
-        "label_key": "peer_compare.u21_share"
-      },
-      {
-        "by_country": {
-          "CZE": {
-            "fmt": "g",
-            "value": 22.0
-          },
-          "DEN": {
-            "fmt": "g",
-            "value": 22.0
-          },
-          "NOR": {
-            "fmt": "g",
-            "value": 22.0
-          }
-        },
-        "key": "export_age",
-        "label_key": "peer_compare.export_age"
-      },
-      {
-        "by_country": {
-          "CZE": {
-            "fmt": "pct",
-            "value": 0.18518518518518517
-          },
-          "DEN": {
-            "fmt": "pct",
-            "value": 0.09523809523809523
-          },
-          "NOR": {
-            "fmt": "pct",
-            "value": 0.22033898305084745
-          }
-        },
-        "key": "sideways",
-        "label_key": "peer_compare.sideways"
-      },
-      {
-        "by_country": {
-          "CZE": {
-            "fmt": "pct",
-            "value": 0.5
-          },
-          "DEN": {
-            "fmt": "pct",
-            "value": 0.455
-          },
-          "NOR": {
-            "fmt": "pct",
-            "value": 0.374
-          }
-        },
-        "key": "minutes_share",
-        "label_key": "peer_compare.minutes_share"
-      },
-      {
-        "by_country": {
-          "CZE": {
-            "fmt": "pct",
-            "value": 0.34600000000000003
-          },
-          "DEN": {
-            "fmt": "pct",
-            "value": null
-          },
-          "NOR": {
-            "fmt": "pct",
-            "value": 0.654
-          }
-        },
-        "key": "wc_top9",
-        "label_key": "peer_compare.wc_top9"
-      },
-      {
-        "by_country": {
-          "CZE": {
-            "fmt": "int",
-            "value": 10
-          },
-          "DEN": {
-            "fmt": "int",
-            "value": 38
-          },
-          "NOR": {
-            "fmt": "int",
-            "value": 25
-          }
-        },
-        "key": "big5_now",
-        "label_key": "peer_compare.big5_now"
-      }
-    ]
+  {
+   "player_key": "christophe kabongo|2003",
+   "reason": "youngest national-team call-up among FW"
   },
-  "per_capita": [
-    {
-      "country": "DEN",
-      "n_players": 75,
-      "name": "Denmark",
-      "per_million": 12.58,
-      "population_m": 5.96,
-      "rank": 1
-    },
-    {
-      "country": "CRO",
-      "n_players": 47,
-      "name": "Croatia",
-      "per_million": 12.18,
-      "population_m": 3.86,
-      "rank": 2
-    },
-    {
-      "country": "NOR",
-      "n_players": 52,
-      "name": "Norway",
-      "per_million": 9.37,
-      "population_m": 5.55,
-      "rank": 3
-    },
-    {
-      "country": "SUI",
-      "n_players": 54,
-      "name": "Switzerland",
-      "per_million": 6.03,
-      "population_m": 8.96,
-      "rank": 4
-    },
-    {
-      "country": "AUT",
-      "n_players": 44,
-      "name": "Austria",
-      "per_million": 4.8,
-      "population_m": 9.16,
-      "rank": 5
-    },
-    {
-      "country": "SVK",
-      "n_players": 17,
-      "name": "Slovakia",
-      "per_million": 3.14,
-      "population_m": 5.42,
-      "rank": 6
-    },
-    {
-      "country": "CZE",
-      "n_players": 26,
-      "name": "Czechia",
-      "per_million": 2.39,
-      "population_m": 10.9,
-      "rank": 7
-    },
-    {
-      "country": "HUN",
-      "n_players": 15,
-      "name": "Hungary",
-      "per_million": 1.57,
-      "population_m": 9.58,
-      "rank": 8
-    },
-    {
-      "country": "POL",
-      "n_players": 45,
-      "name": "Poland",
-      "per_million": 1.23,
-      "population_m": 36.62,
-      "rank": 9
-    }
+  {
+   "player_key": "pavel sulc|2000",
+   "reason": "most top-9 minutes among 2026 FIFA World Cup squad FW"
+  },
+  {
+   "player_key": "tomas chory|1995",
+   "reason": "most domestic minutes among 2026 FIFA World Cup squad FW"
+  },
+  {
+   "player_key": "lukas masek|2004",
+   "reason": "most domestic-league minutes among under-23 FW without a top-9 season"
+  },
+  {
+   "player_key": "vaclav cerny|1997",
+   "reason": "highest quality-adjusted npG+A per 90 among MF"
+  },
+  {
+   "player_key": "hugo sochurek|2008",
+   "reason": "youngest national-team call-up among MF"
+  },
+  {
+   "player_key": "tomas soucek|1995",
+   "reason": "most top-9 minutes among 2026 FIFA World Cup squad MF"
+  },
+  {
+   "player_key": "vladimir darida|1990",
+   "reason": "most domestic minutes among 2026 FIFA World Cup squad MF"
+  },
+  {
+   "player_key": "roman kvet|1997",
+   "reason": "most top-9 league minutes among MF"
+  },
+  {
+   "player_key": "vojtech stransky|2003",
+   "reason": "most domestic-league minutes among under-23 MF without a top-9 season"
+  },
+  {
+   "player_key": "vladimir coufal|1992",
+   "reason": "highest quality-adjusted npG+A per 90 among DF"
+  },
+  {
+   "player_key": "jan paluska|2005",
+   "reason": "youngest national-team call-up among DF"
+  },
+  {
+   "player_key": "ladislav krejci|1999",
+   "reason": "most top-9 minutes among 2026 FIFA World Cup squad DF"
+  },
+  {
+   "player_key": "tomas holes|1993",
+   "reason": "most domestic minutes among 2026 FIFA World Cup squad DF"
+  },
+  {
+   "player_key": "robin hranac|2000",
+   "reason": "most top-9 league minutes among DF"
+  },
+  {
+   "player_key": "denis halinsky|2003",
+   "reason": "most domestic-league minutes among under-23 DF without a top-9 season"
+  }
+ ],
+ "hero": {
+  "export_cze": {
+   "censored_share": 0.2,
+   "country": "CZE",
+   "median_export_age": 23.0,
+   "median_export_age_recent": 22.0,
+   "n": 15,
+   "n_recent": 7,
+   "name": "Czechia",
+   "origin": {
+    "domestic": 0.714,
+    "not_covered": 0.286,
+    "other_top9": 0.0,
+    "stepping_stone": 0.0
+   }
+  },
+  "export_den": {
+   "censored_share": 0.138,
+   "country": "DEN",
+   "median_export_age": 22.0,
+   "median_export_age_recent": 22.0,
+   "n": 65,
+   "n_recent": 25,
+   "name": "Denmark",
+   "origin": {
+    "domestic": 0.6,
+    "not_covered": 0.4,
+    "other_top9": 0.0,
+    "stepping_stone": 0.0
+   }
+  },
+  "gap": {
+   "cohort": "23-25",
+   "cze_n": 2,
+   "gap": -4.0,
+   "group_title": "Midfielders",
+   "peer_median_n": 6.0,
+   "pos_group": "MF"
+  },
+  "n_peers": 9,
+  "n_players": 26,
+  "per_million": 2.39,
+  "population_m": 10.9,
+  "rank": 7,
+  "second": {
+   "country": "CRO",
+   "n_players": 47,
+   "name": "Croatia",
+   "per_million": 12.18,
+   "population_m": 3.86,
+   "rank": 2
+  },
+  "top": {
+   "country": "DEN",
+   "n_players": 75,
+   "name": "Denmark",
+   "per_million": 12.58,
+   "population_m": 5.96,
+   "rank": 1
+  }
+ },
+ "peer_compare": {
+  "countries": [
+   "CZE",
+   "NOR",
+   "DEN"
   ],
-  "squad_lens_rows": [
-    {
-      "cohorts": {
-        "23-25": 6,
-        "26-29": 10,
-        "30+": 9,
-        "U22": 1
-      },
-      "country": "CZE",
-      "domestic_pct": 65.4,
-      "matched": 26,
-      "median_minutes": 1826.5,
-      "median_multiplier": 0.434,
-      "n": 26,
-      "name": "Czechia",
-      "other_pct": 0.0,
-      "stepping_pct": 0.0,
-      "top9_pct": 34.6,
-      "unmatched": 0,
-      "unmatched_pct": 0.0
+  "cze_top9": 0.34600000000000003,
+  "cze_u21": 0.064,
+  "names": {
+   "CZE": "Czechia",
+   "DEN": "Denmark",
+   "NOR": "Norway"
+  },
+  "nor_top9": 0.654,
+  "nor_u21": 0.115,
+  "rows": [
+   {
+    "by_country": {
+     "CZE": {
+      "fmt": "f2",
+      "value": 2.39
+     },
+     "DEN": {
+      "fmt": "f2",
+      "value": 12.58
+     },
+     "NOR": {
+      "fmt": "f2",
+      "value": 9.37
+     }
     },
-    {
-      "cohorts": {
-        "23-25": 5,
-        "26-29": 10,
-        "30+": 10,
-        "U22": 1
-      },
-      "country": "SUI",
-      "domestic_pct": 7.7,
-      "matched": 26,
-      "median_minutes": 2132.0,
-      "median_multiplier": 0.788,
-      "n": 26,
-      "name": "Switzerland",
-      "other_pct": 0.0,
-      "stepping_pct": 3.8,
-      "top9_pct": 88.5,
-      "unmatched": 0,
-      "unmatched_pct": 0.0
+    "key": "per_million",
+    "label_key": "peer_compare.per_million"
+   },
+   {
+    "by_country": {
+     "CZE": {
+      "fmt": "pct1",
+      "value": 0.064
+     },
+     "DEN": {
+      "fmt": "pct1",
+      "value": 0.153
+     },
+     "NOR": {
+      "fmt": "pct1",
+      "value": 0.115
+     }
     },
-    {
-      "cohorts": {
-        "23-25": 6,
-        "26-29": 11,
-        "30+": 8,
-        "U22": 1
-      },
-      "country": "CRO",
-      "domestic_pct": 7.7,
-      "matched": 23,
-      "median_minutes": 1857.0,
-      "median_multiplier": 0.807,
-      "n": 26,
-      "name": "Croatia",
-      "other_pct": 7.7,
-      "stepping_pct": 0.0,
-      "top9_pct": 73.1,
-      "unmatched": 3,
-      "unmatched_pct": 11.5
+    "key": "u21_share",
+    "label_key": "peer_compare.u21_share"
+   },
+   {
+    "by_country": {
+     "CZE": {
+      "fmt": "g",
+      "value": 22.0
+     },
+     "DEN": {
+      "fmt": "g",
+      "value": 22.0
+     },
+     "NOR": {
+      "fmt": "g",
+      "value": 22.0
+     }
     },
-    {
-      "cohorts": {
-        "23-25": 6,
-        "26-29": 10,
-        "30+": 9,
-        "U22": 1
-      },
-      "country": "AUT",
-      "domestic_pct": 11.5,
-      "matched": 24,
-      "median_minutes": 1711.5,
-      "median_multiplier": 0.788,
-      "n": 26,
-      "name": "Austria",
-      "other_pct": 7.7,
-      "stepping_pct": 3.8,
-      "top9_pct": 69.2,
-      "unmatched": 2,
-      "unmatched_pct": 7.7
+    "key": "export_age",
+    "label_key": "peer_compare.export_age"
+   },
+   {
+    "by_country": {
+     "CZE": {
+      "fmt": "pct",
+      "value": 0.18518518518518517
+     },
+     "DEN": {
+      "fmt": "pct",
+      "value": 0.09523809523809523
+     },
+     "NOR": {
+      "fmt": "pct",
+      "value": 0.22033898305084745
+     }
     },
-    {
-      "cohorts": {
-        "23-25": 6,
-        "26-29": 14,
-        "30+": 4,
-        "U22": 2
-      },
-      "country": "NOR",
-      "domestic_pct": 19.2,
-      "matched": 22,
-      "median_minutes": 2164.5,
-      "median_multiplier": 0.832,
-      "n": 26,
-      "name": "Norway",
-      "other_pct": 0.0,
-      "stepping_pct": 0.0,
-      "top9_pct": 65.4,
-      "unmatched": 4,
-      "unmatched_pct": 15.4
-    }
+    "key": "sideways",
+    "label_key": "peer_compare.sideways"
+   },
+   {
+    "by_country": {
+     "CZE": {
+      "fmt": "pct",
+      "value": 0.5
+     },
+     "DEN": {
+      "fmt": "pct",
+      "value": 0.455
+     },
+     "NOR": {
+      "fmt": "pct",
+      "value": 0.374
+     }
+    },
+    "key": "minutes_share",
+    "label_key": "peer_compare.minutes_share"
+   },
+   {
+    "by_country": {
+     "CZE": {
+      "fmt": "pct",
+      "value": 0.34600000000000003
+     },
+     "DEN": {
+      "fmt": "pct",
+      "value": null
+     },
+     "NOR": {
+      "fmt": "pct",
+      "value": 0.654
+     }
+    },
+    "key": "wc_top9",
+    "label_key": "peer_compare.wc_top9"
+   },
+   {
+    "by_country": {
+     "CZE": {
+      "fmt": "int",
+      "value": 10
+     },
+     "DEN": {
+      "fmt": "int",
+      "value": 38
+     },
+     "NOR": {
+      "fmt": "int",
+      "value": 25
+     }
+    },
+    "key": "big5_now",
+    "label_key": "peer_compare.big5_now"
+   }
   ]
+ },
+ "per_capita": [
+  {
+   "country": "DEN",
+   "n_players": 75,
+   "name": "Denmark",
+   "per_million": 12.58,
+   "population_m": 5.96,
+   "rank": 1
+  },
+  {
+   "country": "CRO",
+   "n_players": 47,
+   "name": "Croatia",
+   "per_million": 12.18,
+   "population_m": 3.86,
+   "rank": 2
+  },
+  {
+   "country": "NOR",
+   "n_players": 52,
+   "name": "Norway",
+   "per_million": 9.37,
+   "population_m": 5.55,
+   "rank": 3
+  },
+  {
+   "country": "SUI",
+   "n_players": 54,
+   "name": "Switzerland",
+   "per_million": 6.03,
+   "population_m": 8.96,
+   "rank": 4
+  },
+  {
+   "country": "AUT",
+   "n_players": 44,
+   "name": "Austria",
+   "per_million": 4.8,
+   "population_m": 9.16,
+   "rank": 5
+  },
+  {
+   "country": "SVK",
+   "n_players": 17,
+   "name": "Slovakia",
+   "per_million": 3.14,
+   "population_m": 5.42,
+   "rank": 6
+  },
+  {
+   "country": "CZE",
+   "n_players": 26,
+   "name": "Czechia",
+   "per_million": 2.39,
+   "population_m": 10.9,
+   "rank": 7
+  },
+  {
+   "country": "HUN",
+   "n_players": 15,
+   "name": "Hungary",
+   "per_million": 1.57,
+   "population_m": 9.58,
+   "rank": 8
+  },
+  {
+   "country": "POL",
+   "n_players": 45,
+   "name": "Poland",
+   "per_million": 1.23,
+   "population_m": 36.62,
+   "rank": 9
+  }
+ ],
+ "squad_lens_rows": [
+  {
+   "cohorts": {
+    "23-25": 6,
+    "26-29": 10,
+    "30+": 9,
+    "U22": 1
+   },
+   "country": "CZE",
+   "domestic_pct": 65.4,
+   "matched": 26,
+   "median_minutes": 1826.5,
+   "median_multiplier": 0.434,
+   "n": 26,
+   "name": "Czechia",
+   "other_pct": 0.0,
+   "stepping_pct": 0.0,
+   "top9_pct": 34.6,
+   "unmatched": 0,
+   "unmatched_pct": 0.0
+  },
+  {
+   "cohorts": {
+    "23-25": 5,
+    "26-29": 10,
+    "30+": 10,
+    "U22": 1
+   },
+   "country": "SUI",
+   "domestic_pct": 7.7,
+   "matched": 26,
+   "median_minutes": 2132.0,
+   "median_multiplier": 0.788,
+   "n": 26,
+   "name": "Switzerland",
+   "other_pct": 0.0,
+   "stepping_pct": 3.8,
+   "top9_pct": 88.5,
+   "unmatched": 0,
+   "unmatched_pct": 0.0
+  },
+  {
+   "cohorts": {
+    "23-25": 6,
+    "26-29": 11,
+    "30+": 8,
+    "U22": 1
+   },
+   "country": "CRO",
+   "domestic_pct": 7.7,
+   "matched": 23,
+   "median_minutes": 1857.0,
+   "median_multiplier": 0.807,
+   "n": 26,
+   "name": "Croatia",
+   "other_pct": 7.7,
+   "stepping_pct": 0.0,
+   "top9_pct": 73.1,
+   "unmatched": 3,
+   "unmatched_pct": 11.5
+  },
+  {
+   "cohorts": {
+    "23-25": 6,
+    "26-29": 10,
+    "30+": 9,
+    "U22": 1
+   },
+   "country": "AUT",
+   "domestic_pct": 11.5,
+   "matched": 24,
+   "median_minutes": 1711.5,
+   "median_multiplier": 0.788,
+   "n": 26,
+   "name": "Austria",
+   "other_pct": 7.7,
+   "stepping_pct": 3.8,
+   "top9_pct": 69.2,
+   "unmatched": 2,
+   "unmatched_pct": 7.7
+  },
+  {
+   "cohorts": {
+    "23-25": 6,
+    "26-29": 14,
+    "30+": 4,
+    "U22": 2
+   },
+   "country": "NOR",
+   "domestic_pct": 19.2,
+   "matched": 22,
+   "median_minutes": 2164.5,
+   "median_multiplier": 0.832,
+   "n": 26,
+   "name": "Norway",
+   "other_pct": 0.0,
+   "stepping_pct": 0.0,
+   "top9_pct": 65.4,
+   "unmatched": 4,
+   "unmatched_pct": 15.4
+  }
+ ]
 }

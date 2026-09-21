@@ -490,7 +490,7 @@
 <section class="slide" id="q1">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.1.q') }}</h2>
-    <p class="slide-a">{{ t('slide.1.a', rank=ordinal(hero.rank), n=hero.n_peers, pm=f2(hero.per_million), top=term(hero.top.name), top_pm=f2(hero.top.per_million)) }}</p>
+    <p class="slide-a">{% if hero.rank == 1 and hero.second %}{{ t('slide.1.a_leader', n=hero.n_peers, pm=f2(hero.per_million), second=term(hero.second.name), second_pm=f2(hero.second.per_million)) }}{% else %}{{ t('slide.1.a', rank=ordinal(hero.rank), n=hero.n_peers, pm=f2(hero.per_million), top=term(hero.top.name), top_pm=f2(hero.top.per_million)) }}{% endif %}</p>
     <div class="slide-proof">
       <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
         {% for r in per_capita %}

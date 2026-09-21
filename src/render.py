@@ -2188,6 +2188,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "per_million": cze["per_million"], "rank": cze["rank"], "n_peers": len(per_capita),
         "n_players": cze["n_players"], "population_m": cze["population_m"],
         "top": per_capita[0],
+        # when the home nation leads, slide 1 names the runner-up instead of itself
+        "second": per_capita[1] if len(per_capita) > 1 else None,
         "gap": gaps[0] if gaps else None,
         "export_cze": pathways["export_cze"], "export_den": pathways["export_den"],
     }

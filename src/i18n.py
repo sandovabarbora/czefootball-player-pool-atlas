@@ -232,6 +232,7 @@ EN: dict[str, str] = {
     "slide.1.q": "Is the {adj} pool thin?",
     "slide.1.aq": "In numbers: distinct players with ≥ {min} minutes on {season} rosters of the {topn} strongest leagues, per million inhabitants, against {n} peers.",
     "slide.1.a": "{nation} ranks <strong>{rank} of {n}</strong> countries at {pm} per million; {top} leads at {top_pm}.",
+    "slide.1.a_leader": "{nation} leads <strong>{n}</strong> countries at {pm} per million; {second} is next at {second_pm}.",
     "slide.1.how": "Distinct players with ≥ {min} minutes on {season} rosters of the {topn} strongest leagues ÷ population (Eurostat 2024); every country counted the same way.",
     "slide.2.q": "Where exactly is it thin?",
     "slide.2.aq": "In numbers: {adj} player count against the peer-country median, by age cohort and position group, ≥ {min} minutes, {season} season.",
