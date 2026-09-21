@@ -133,6 +133,7 @@ changes:
 
 charts:
 	$(ACT) python -m src.charts_export
+	$(ACT) python -m src.tracking_showcase
 
 eda:
 	$(ACT) python -m src.feature_eda

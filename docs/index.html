@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211413">
-  <link rel="stylesheet" href="modern.css?v=202609211413">
+  <link rel="stylesheet" href="style.css?v=202609211420">
+  <link rel="stylesheet" href="modern.css?v=202609211420">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609211413"></script>
-  <script defer src="atlas.js?v=202609211413"></script>
+  <script defer src="charts.js?v=202609211420"></script>
+  <script defer src="atlas.js?v=202609211420"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -72,6 +72,7 @@
           <li><a href="#limitations">Limitations</a></li>
           <li><a href="#validation-robustness">Validation & robustness</a></li>
           <li><a href="#reproducibility">Reproducibility</a></li>
+          <li><a href="#tracking">What tracking data would add</a></li>
           <li><a href="#related-methods">Related methods</a></li>
           <li><a href="#glossary">Glossary</a></li>
           <li><a href="#references">References</a></li>
@@ -22687,8 +22688,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 306 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 306 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 307 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 307 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
@@ -22754,6 +22755,13 @@
         <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">v1 spec</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">v1 ledger</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-14-why-the-train-leaves-design.md">v1.2 spec</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-14-v1-2-progress.md">v1.2 ledger</a>.</p>
       
     </details>
+
+    <h3 id="tracking">What tracking data would add</h3>
+    <p class="plain">Everything above is built from season tables, because that is what exists for every league in the benchmark. The next layer of data — every player’s position ten times a second — exists for none of them publicly. So here is one match of it, from a different league, to show concretely what it answers that a season table cannot: not how many goals a player scored, but how he moves when he does not have the ball.</p>
+    <figure class="figure-bleed" data-chart="tracking">
+      <figcaption>How to read it: the pitch is drawn with both teams attacking left to right; every arrow is one off-ball run, from where it started to where it ended, coloured by the kind of run SkillCorner’s model labelled it. Bright arrows were passed to; thick ones were received. Pick a team, switch run types on and off, hover an arrow for the player and what came of it. Data: (SkillCorner, 2025), one A-League match, MIT licence; none of it enters any number in this report.</figcaption>
+    </figure>
+    <p>For a federation this is the layer that turns “how many minutes” into “what kind of minutes”: whether a young winger’s runs are the runs the first team needs, whether an export’s physical output matches his new league, whether a squad presses as one. The atlas cannot see it and does not pretend to; the pipeline is built so that a tracking feed, when a federation has one, becomes another table beside the season tables rather than a different project.</p>
 
     <h3 id="related-methods">Related methods and what was taken from them</h3>
     <p>The methods below shaped this report's design. Each entry states what the method is, what this report took from it, and what was left out and why.</p>
@@ -22824,6 +22832,8 @@
       <li id="ref-poli_ravenel_besson_2024"><a href="https://football-observatory.com/IMG/sites/mr/mr95/en/">Poli, R., Ravenel, L. and Besson, R. (2024) Origins and destinations of football expatriates (2020-2024). CIES Football Observatory Monthly Report, 95. Available at: https://football-observatory.com/IMG/sites/mr/mr95/en/ (Accessed: 14 September 2026).</a></li>
       
       <li id="ref-rousseeuw_1987"><a href="https://doi.org/10.1016/0377-0427(87)90125-7">Rousseeuw, P.J. (1987) &#39;Silhouettes: a graphical aid to the interpretation and validation of cluster analysis&#39;, Journal of Computational and Applied Mathematics, 20, pp. 53–65.</a></li>
+      
+      <li id="ref-skillcorner_2025"><a href="https://github.com/SkillCorner/opendata">SkillCorner (2025) SkillCorner Open Data: broadcast tracking, dynamic events and phases of play for ten A-League 2024/25 matches. GitHub repository, SkillCorner/opendata. Available at: https://github.com/SkillCorner/opendata (Accessed: 21 September 2026).</a></li>
       
       <li id="ref-vehtari_gelman_gabry_2017"><a href="https://doi.org/10.1007/s11222-016-9696-4">Vehtari, A., Gelman, A. and Gabry, J. (2017) &#39;Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC&#39;, Statistics and Computing, 27(5), pp. 1413–1432.</a></li>
       
@@ -22989,7 +22999,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 14:12</p>
+    <p class="rendered-at">Rendered: 2026-09-21 14:19</p>
   </div>
 </footer>
 

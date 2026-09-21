@@ -112,6 +112,7 @@ EN: dict[str, str] = {
     "toc.validation": "Validation & robustness",
     "toc.reproducibility": "Reproducibility",
     "toc.related_methods": "Related methods",
+    "toc.tracking": "What tracking data would add",
     "toc.glossary": "Glossary",
     "toc.references": "References",
     "toc.how_built": "How this was built",
@@ -128,6 +129,7 @@ EN: dict[str, str] = {
     "toc.short.sensitivity": "Sensitivity",
     "toc.short.limitations": "Limitations",
     "toc.short.related_methods": "Related methods",
+    "toc.short.tracking": "Tracking",
     "toc.short.glossary": "Glossary",
     "toc.short.references": "References",
 
@@ -871,6 +873,10 @@ EN: dict[str, str] = {
     "ch4.validation.m5": "The gap decomposition (M5): ridge fit (α = {alpha}) on n = {n} peer countries; for {contrast}, the residual is {resid} of a {gap} gap — a decomposition of a correlation, not a causal accounting.",
     "ch4.validation.m6": "Age at export (M1 proper): R-hat ≤ {rhat}, {div} divergent transitions across {n} players; β on origin-league strength is {beta}; leaving out {n_excluded} {adj} exports and refitting shifts the 21-vs-24 difference by {shift}.",
 
+    "ch4.tracking.h3": "What tracking data would add",
+    "ch4.tracking.plain": "Everything above is built from season tables, because that is what exists for every league in the benchmark. The next layer of data \u2014 every player\u2019s position ten times a second \u2014 exists for none of them publicly. So here is one match of it, from a different league, to show concretely what it answers that a season table cannot: not how many goals a player scored, but how he moves when he does not have the ball.",
+    "ch4.tracking.caption": "How to read it: the pitch is drawn with both teams attacking left to right; every arrow is one off-ball run, from where it started to where it ended, coloured by the kind of run SkillCorner\u2019s model labelled it. Bright arrows were passed to; thick ones were received. Pick a team, switch run types on and off, hover an arrow for the player and what came of it. Data: {cite}, one A-League match, MIT licence; none of it enters any number in this report.",
+    "ch4.tracking.p": "For a federation this is the layer that turns \u201chow many minutes\u201d into \u201cwhat kind of minutes\u201d: whether a young winger\u2019s runs are the runs the first team needs, whether an export\u2019s physical output matches his new league, whether a squad presses as one. The atlas cannot see it and does not pretend to; the pipeline is built so that a tracking feed, when a federation has one, becomes another table beside the season tables rather than a different project.",
     "ch4.related.h3": "Related methods and what was taken from them",
     "ch4.related.intro": "The methods below shaped this report's design. Each entry states what the method is, what this report took from it, and what was left out and why.",
     "ch4.related.novel": "One pairing here has no single citation behind it: the transfer-graph league-strength model (<a href=\"#league-strength\">§ League strength</a>) and the age-at-export curve (<a href=\"#export-age-model\">§ Age at export</a>) are fit independently and joined only through origin-league strength as a covariate — a within-player league-identification model feeding a spline-in-age production curve is, to the author's knowledge, this report's own combination, not drawn whole from any one method below.",

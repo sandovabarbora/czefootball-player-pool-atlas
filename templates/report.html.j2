@@ -197,6 +197,7 @@
           <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
           <li><a href="#validation-robustness">{{ t('toc.validation') }}</a></li>
           <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
+          <li><a href="#tracking">{{ t('toc.tracking') }}</a></li>
           <li><a href="#related-methods">{{ t('toc.related_methods') }}</a></li>
           <li><a href="#glossary">{{ t('toc.glossary') }}</a></li>
           <li><a href="#references">{{ t('toc.references') }}</a></li>
@@ -215,7 +216,7 @@
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
         <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a>{% if export_age_model.age_curve %} · <a href="#q4b">{{ t('toc.q4b') }}</a>{% endif %} · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#q8c">{{ t('toc.q8c') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %}{% if export_age_model.age_curve %} · <a href="#export-age-model">{{ t('toc.short.export_age') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#related-methods">{{ t('toc.short.related_methods') }}</a> · <a href="#glossary">{{ t('toc.short.glossary') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %}{% if export_age_model.age_curve %} · <a href="#export-age-model">{{ t('toc.short.export_age') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#tracking">{{ t('toc.short.tracking') }}</a> · <a href="#related-methods">{{ t('toc.short.related_methods') }}</a> · <a href="#glossary">{{ t('toc.short.glossary') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -2310,6 +2311,13 @@
         {% for link in how_built_links %}{% if link.spec_url %}<a href="{{ link.spec_url }}">{{ link.edition }} {{ t('ch4.built.spec_word') }}</a>{% endif %}{% if link.spec_url and link.ledger_url %} · {% endif %}{% if link.ledger_url %}<a href="{{ link.ledger_url }}">{{ link.edition }} {{ t('ch4.built.ledger_word') }}</a>{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}.</p>
       {% endif %}
     </details>
+
+    <h3 id="tracking">{{ t('ch4.tracking.h3') }}</h3>
+    <p class="plain">{{ t('ch4.tracking.plain') }}</p>
+    <figure class="figure-bleed" data-chart="tracking">
+      <figcaption>{{ t('ch4.tracking.caption', cite=cite.skillcorner_2025) }}</figcaption>
+    </figure>
+    <p>{{ t('ch4.tracking.p') }}</p>
 
     <h3 id="related-methods">{{ t('ch4.related.h3') }}</h3>
     <p>{{ t('ch4.related.intro') }}</p>

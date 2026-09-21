@@ -299,8 +299,58 @@
     box.appendChild(note);
   }
 
+
+  // ------------------------------------------------------------ tracking showcase (SkillCorner open data)
+  async function tracking(fig) {
+    const data = await load('tracking_runs'); if (!data || !data.runs) return;
+    const box = mount(fig); const ctl = controls(box);
+    const [L, W] = data.match.pitch;
+    const RUN_LABEL = { run_ahead_of_the_ball: 'ahead of the ball', support: 'support', cross_receiver: 'cross receiver', dropping_off: 'dropping off', coming_short: 'coming short', behind: 'in behind', pulling_wide: 'pulling wide', overlap: 'overlap', pulling_half_space: 'pulling half-space', underlap: 'underlap' };
+    const types = Object.keys(data.by_type);
+    const RUN_COLOUR = { behind: C.acid, run_ahead_of_the_ball: C.hot, overlap: C.orange, underlap: C.peach, support: C.mint, cross_receiver: C.aqua, dropping_off: C.violet, coming_short: C.lilac, pulling_wide: C.ink, pulling_half_space: C.muted };
+    const state = { team: data.teams[0], off: new Set(), only: null };
+    const H = 520, M = { t: 16, r: 16, b: 16, l: 16 };
+    const { svg, w } = svgIn(box, H);
+    const sx = d3.scaleLinear().domain([-L / 2, L / 2]).range([M.l, w - M.r]);
+    const sy = d3.scaleLinear().domain([-W / 2, W / 2]).range([H - M.b, M.t]);
+    // the pitch: hairlines, in the register
+    const pitch = svg.append('g').attr('fill', 'none').attr('stroke', C.rule).attr('stroke-width', 1);
+    const rect = (x, y, wid, hei) => pitch.append('rect').attr('x', sx(x)).attr('y', sy(y + hei)).attr('width', sx(x + wid) - sx(x)).attr('height', sy(y) - sy(y + hei));
+    rect(-L / 2, -W / 2, L, W);
+    pitch.append('line').attr('x1', sx(0)).attr('x2', sx(0)).attr('y1', sy(-W / 2)).attr('y2', sy(W / 2));
+    pitch.append('circle').attr('cx', sx(0)).attr('cy', sy(0)).attr('r', sx(9.15) - sx(0));
+    [[-L / 2, 16.5, 40.32], [L / 2 - 16.5, 16.5, 40.32], [-L / 2, 5.5, 18.32], [L / 2 - 5.5, 5.5, 18.32]].forEach(([x, wid, hei]) => rect(x, -hei / 2, wid, hei));
+    svg.append('text').attr('class', 'chart-axis-label').attr('x', w - M.r).attr('y', H - 4).attr('text-anchor', 'end').text('attacking →');
+    const arrows = svg.append('g');
+    svg.append('defs').append('marker').attr('id', 'run-head').attr('viewBox', '0 0 6 6').attr('refX', 5).attr('refY', 3).attr('markerWidth', 5).attr('markerHeight', 5).attr('orient', 'auto')
+      .append('path').attr('d', 'M0,0 L6,3 L0,6 z').attr('fill', 'context-stroke');
+    const visible = (r) => r.team === state.team && !state.off.has(r.sub) && (!state.only || r[state.only]);
+    function draw() {
+      const rs = data.runs.filter(visible);
+      const sel = arrows.selectAll('line').data(rs, (r, i) => `${r.p}|${r.min}|${r.x0}|${r.y0}`);
+      sel.exit().remove();
+      sel.enter().append('line').attr('marker-end', 'url(#run-head)').attr('stroke-linecap', 'round')
+        .on('mousemove', (ev, r) => showTip(`<b>${esc(r.p)} <i class="tag">${esc(r.pos)}</i></b><span>${esc(RUN_LABEL[r.sub] || r.sub)} · minute ${r.min} · ${r.dist ? r.dist.toFixed(0) + ' m' : ''}${r.speed ? ' at ' + r.speed.toFixed(1) + ' km/h' : ''}</span><span>${r.targeted ? 'pass attempted' : 'not targeted'}${r.received ? ' · received' : ''}${r.dangerous ? ' · dangerous' : ''}${r.shot ? ' · led to a shot' : ''}${r.goal ? ' · led to a goal' : ''}</span>`, ev.clientX, ev.clientY))
+        .on('mouseleave', hideTip)
+        .merge(sel)
+        .attr('x1', (r) => sx(r.x0)).attr('y1', (r) => sy(r.y0)).attr('x2', (r) => sx(r.x1)).attr('y2', (r) => sy(r.y1))
+        .attr('stroke', (r) => RUN_COLOUR[r.sub] || C.muted).attr('stroke-width', (r) => (r.received ? 2 : 1.2)).attr('stroke-opacity', (r) => (r.targeted ? 0.95 : 0.45));
+      count.textContent = `${rs.length} of ${data.runs.filter((r) => r.team === state.team).length} runs`;
+    }
+    const row1 = document.createElement('div'); row1.className = 'chart-row'; ctl.appendChild(row1);
+    const teamChips = data.teams.map((t) => chip(row1, t, t === state.team, () => { state.team = t; teamChips.forEach((c, i) => c.setAttribute('aria-pressed', String(data.teams[i] === t))); draw(); }));
+    const onlyChips = [['targeted', 'pass attempted'], ['received', 'received'], ['dangerous', 'dangerous']].map(([k, l]) => chip(row1, l, false, (b) => { state.only = state.only === k ? null : k; onlyChips.forEach((c, i) => c.setAttribute('aria-pressed', String(state.only === ['targeted', 'received', 'dangerous'][i]))); draw(); }));
+    const count = document.createElement('span'); count.className = 'chart-note'; count.style.marginLeft = 'auto'; row1.appendChild(count);
+    const row2 = document.createElement('div'); row2.className = 'chart-row'; ctl.appendChild(row2);
+    types.forEach((t) => chip(row2, `${RUN_LABEL[t] || t} · ${Object.values(data.by_type[t]).reduce((a, b) => a + b, 0)}`, true, (b) => { if (state.off.has(t)) state.off.delete(t); else state.off.add(t); b.setAttribute('aria-pressed', String(!state.off.has(t))); draw(); }, RUN_COLOUR[t]));
+    draw();
+    const note = document.createElement('p'); note.className = 'chart-note';
+    note.textContent = `${data.match.home} ${data.match.score} ${data.match.away} · ${data.match.date} · ${data.match.competition} · ${data.source} · both teams drawn attacking left to right · hover a run`;
+    box.appendChild(note);
+  }
+
   // ------------------------------------------------------------ run
-  const run = { big5, 'export-age': exportAge, changes };
+  const run = { big5, 'export-age': exportAge, changes, tracking };
   // atlas tabs (#q9): one figure per position group, buttons switch which is shown
   document.querySelectorAll('.atlas-tabs').forEach((tabs) => {
     const figs = [...tabs.querySelectorAll('figure[data-chart]')];
