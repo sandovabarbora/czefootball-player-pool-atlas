@@ -63,7 +63,9 @@
     parent.appendChild(b); return b;
   }
   function svgIn(box, h) {
-    const w = 1100;   // logical width; the svg scales to the figure via viewBox
+    // the figure's real width (a hidden atlas tab falls back to its container), so
+    // labels keep their CSS size on a phone instead of scaling down with a fixed viewBox
+    const w = box.clientWidth || (box.parentElement && box.parentElement.parentElement && box.parentElement.parentElement.clientWidth) || 1100;
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${h}`).attr('width', '100%').attr('height', h);
     return { svg, w, h };
   }

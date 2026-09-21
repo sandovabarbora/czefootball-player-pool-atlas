@@ -875,3 +875,21 @@ figure[data-chart="changes"] { margin-bottom: var(--space-4); }
 
 /* captions are prose now ("how to read it"): sans, sentence case, the full column */
 figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size: 0.92rem; letter-spacing: 0; text-transform: none; color: var(--ink-soft); line-height: 1.5; max-width: none; margin-top: 14px; }
+
+/* --- cards: compact tile spacing, and the open card's visual in the register --- */
+.tile-club { flex: 0 1 auto; max-width: 60%; }
+.tile-meta { gap: 0.6rem; }
+.cycle-tile { row-gap: 0.4rem; padding: var(--space-3) var(--space-3) var(--space-3); }
+.tile-more { margin-top: 0.4rem; }
+.tile-name { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; color: var(--hot); }
+.tile-stat-figure { color: var(--hot); font-weight: 400; }
+.cycle-card-visual, .gk-card-visual { height: 150px; background: var(--surface); }
+.cycle-card-visual::before, .gk-card-visual::before { filter: grayscale(1) contrast(1.2) brightness(0.8) blur(7px); opacity: 0.18; mix-blend-mode: luminosity; }
+.cycle-card-visual::after, .gk-card-visual::after { background: linear-gradient(90deg, var(--surface) 0%, transparent 60%); }
+.cycle-card-mug { height: 140px; filter: grayscale(1) contrast(1.2); }
+.cycle-card > :not(.cycle-card-visual):not(.cycle-tile) { margin-left: var(--space-4); margin-right: var(--space-4); }
+.cycle-card h4.cycle-card-name { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; color: var(--hot); margin-top: var(--space-3); }
+.cycle-stats { border: 1px solid var(--rule); }
+.cycle-stats dd { font-family: var(--font-mono); color: var(--hot); }
+.cycle-section-label { color: var(--muted); }
+.tile-club { white-space: normal; overflow: visible; text-overflow: clip; max-width: none; line-height: 1.5; }
