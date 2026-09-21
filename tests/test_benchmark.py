@@ -86,8 +86,9 @@ def test_build_narrative_zero_fills_absent_peers_in_cohort_median():
     # aware: "CZE" under NATION=cze, "ENG" under NATION=eng, ...), so the
     # fixture's "home" row is keyed on it too rather than hardcoded "CZE".
     home = config.HOME
+    peer = "DEN" if home != "DEN" else "NOR"   # the fixture's first peer must not be the home nation (NATION=den runs this too)
     pc = pd.DataFrame({
-        "country": [home, "DEN", "POL"],
+        "country": [home, peer, "POL"],
         "name": ["Home", "Denmark", "Poland"],
         "n_players": [2, 4, 0],
         "population_m": [10.0, 5.0, 36.0],
@@ -95,7 +96,7 @@ def test_build_narrative_zero_fills_absent_peers_in_cohort_median():
         "rank": [2, 1, 3],
     })
     coh = pd.DataFrame({
-        "country": [home, "DEN"],
+        "country": [home, peer],
         "pos_group": ["FW", "FW"],
         "cohort": ["U22", "U22"],
         "n": [2, 4],

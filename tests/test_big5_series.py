@@ -14,7 +14,8 @@ from src.big5_series import build_series, render_series
 # dict's own "cze_peak"/"cze_low" keys are literal in `build_series` itself
 # (not nation-parameterized) and stay that way here.
 HOME = config.HOME
-PEERS = {HOME: {"name": "Home", "population_m": 10.0}, "DEN": {"name": "Denmark", "population_m": 5.0}}
+PEER = "DEN" if HOME != "DEN" else "NOR"   # the fixture's peer must not be the home nation (NATION=den runs this too)
+PEERS = {HOME: {"name": "Home", "population_m": 10.0}, PEER: {"name": "Peer", "population_m": 5.0}}
 
 
 def _hist():
@@ -23,7 +24,7 @@ def _hist():
         for i in range(cz):
             rows.append({"season": season, "nation": HOME, "player_key": f"c{i}", "player": f"Home {i}", "min": 900 + i, "league": "ENG-Premier League"})
         for i in range(dk):
-            rows.append({"season": season, "nation": "DEN", "player_key": f"d{i}", "player": f"Dane {i}", "min": 900, "league": "ENG-Premier League"})
+            rows.append({"season": season, "nation": PEER, "player_key": f"d{i}", "player": f"Dane {i}", "min": 900, "league": "ENG-Premier League"})
         rows.append({"season": season, "nation": HOME, "player_key": "cx", "player": "Sub", "min": 100, "league": "ENG-Premier League"})  # below the floor
     return pd.DataFrame(rows)
 
@@ -31,7 +32,7 @@ def _hist():
 def test_series_counts_players_above_the_floor_and_finds_peak_and_low():
     s = build_series(_hist(), PEERS)
     assert s["seasons"] == ["2000-2001", "2001-2002", "2002-2003"]
-    assert s["countries"][HOME]["n"] == [3, 2, 1] and s["countries"]["DEN"]["n"] == [1, 2, 2]
+    assert s["countries"][HOME]["n"] == [3, 2, 1] and s["countries"][PEER]["n"] == [1, 2, 2]
     assert s["countries"][HOME]["per_million"][0] == 0.3
     assert s["cze_peak"] == {"season": "2000-2001", "n": 3} and s["cze_low"] == {"season": "2002-2003", "n": 1}
     assert s["golden"][0]["season"] == "2000-2001" and s["golden"][0]["players"][0] == "Home 2"

@@ -132,8 +132,17 @@ def _download(url: str, dest) -> None:
     buckets (observed serving 500px for a 480px request), so width is
     re-enforced locally with PIL rather than trusted from the server.
     """
-    r = requests.get(url + f"?width={MAX_WIDTH}", headers=UA, timeout=60)
+    # Commons rate-limits a run of a few hundred downloads (HTTP 429, seen on
+    # the Denmark run 2026-09-21): pace every download and back off on 429
+    # rather than losing the portrait
+    for attempt in range(4):
+        r = requests.get(url + f"?width={MAX_WIDTH}", headers=UA, timeout=60)
+        if r.status_code == 429 and attempt < 3:
+            time.sleep(20 * (attempt + 1))
+            continue
+        break
     r.raise_for_status()
+    time.sleep(1.0)
     img = Image.open(io.BytesIO(r.content)).convert("RGB")
     if img.width > MAX_WIDTH:
         height = round(img.height * MAX_WIDTH / img.width)

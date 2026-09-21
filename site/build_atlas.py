@@ -31,7 +31,7 @@ if nation_yaml.exists():
 else:
     ADJ = "Czech"
 SITE = "https://football.datasimply.eu/"
-ATLAS_ROOTS = {"cze": "/", "eng": "/eng/", "ger": "/ger/", "den": "/den/", "nor": "/nor/"}
+ATLAS_ROOTS = {"cze": "/", "eng": "/eng/", "ger": "/ger/", "den": "/den/", "nor": "/nor/", "esp": "/esp/"}
 # only editions that are actually built are offered in the switch (a nation
 # whose docs/<nation>/index.html does not exist yet would be a dead link)
 _DOCS_ROOT = Path(__file__).resolve().parents[1] / "docs"

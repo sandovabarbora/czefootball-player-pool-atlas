@@ -46,7 +46,8 @@ def main() -> None:
                 LOG.info("%s %s: %d rows", league, season, len(frames[-1]))
             except Exception as exc:   # one league failing must not kill the run
                 LOG.warning("%s %s failed: %s", league, season, exc)
-            write_parquet(pd.concat(frames, ignore_index=True), out_path)   # checkpoint after every page
+            if frames:   # the first page can fail (Norway's 2020: FBref serves a mislabelled page) -- nothing to checkpoint yet
+                write_parquet(pd.concat(frames, ignore_index=True), out_path)   # checkpoint after every page
     LOG.info("history table: %d rows", sum(len(f) for f in frames))
 
 

@@ -1,0 +1,47 @@
+# Home-nation configuration for the Spain edition (2026-09-21): La Liga is a
+# headline league, so, as for England and Germany, the home league is the
+# top of the ladder and "abroad" means the other Big-5 leagues.
+code: ESP
+name: Spain
+adjective: Spanish
+population_m: 48.62            # Eurostat 2024-01-01 (countries.yaml)
+fbref_country_page: https://fbref.com/en/country/players/ESP/Spain-Football-Players
+fbref_country_cache: country_esp.html
+wikidata_citizenship: Q29
+domestic_league: ESP-La Liga
+home_league: La Liga
+leagues_note: " The Spanish second tier (Segunda División) is not fetched; a home player's first rung below the top flight is outside this pipeline's scope."
+
+cs:
+  name: Španělsko
+  gen: Španělska
+  adj_m: španělský
+  adj_f: španělská
+  adj_n: španělské
+  adj_pl: španělští
+  players: španělští hráči
+  home_league: La Liga
+  leagues_note: ""
+
+peers: [FRA, GER, ITA, ENG, NED, POR, BEL]
+cohort_countries: [ESP, FRA, GER, ITA, ENG, NED, POR, BEL]
+cohort_exhibit: [FRA, GER, ITA, ENG]
+series_contrast: [FRA, GER]
+compare: [FRA, POR]
+
+squads:
+  nt_core_event: "2026 FIFA World Cup"
+  events:
+    - {team: A,   event: "UEFA Euro 2024",                  year: 2024, url: "https://en.wikipedia.org/wiki/UEFA_Euro_2024_squads", section: "Spain"}
+    - {team: A,   event: "2024–25 Nations League",          year: 2025, url: "https://en.wikipedia.org/wiki/Spain_national_football_team", section: "Current squad"}
+    - {team: A,   event: "2026 World Cup qualification",    year: 2025, url: "https://en.wikipedia.org/wiki/Spain_national_football_team", section: "Recent call-ups"}
+    - {team: U21, event: "UEFA European Under-21 Championship 2025", year: 2025, url: "https://en.wikipedia.org/wiki/2025_UEFA_European_Under-21_Championship_squads", section: "Spain"}
+    - {team: A,   event: "2026 FIFA World Cup",              year: 2026, url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads", section: "Spain"}
+  peer_squads:
+    - {country: FRA, section: "France"}
+    - {country: GER, section: "Germany"}
+    - {country: ITA, section: "Italy"}
+    - {country: ENG, section: "England"}
+    - {country: NED, section: "Netherlands"}
+    - {country: POR, section: "Portugal"}
+    - {country: BEL, section: "Belgium"}
