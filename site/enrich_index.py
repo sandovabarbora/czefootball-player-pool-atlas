@@ -183,7 +183,11 @@ switch = ""   # English only since 2026-09-21; the Czech edition is retired
 # plain, the other(s) linking to their published root (docs/ for cze, docs/
 # <nation>/ for any other -- see site/build.sh); root-relative so it works
 # from any page depth (index.html or cs/index.html).
-ATLAS_ROOTS = {"cze": "/", "eng": "/eng/"}
+ATLAS_ROOTS = {"cze": "/", "eng": "/eng/", "ger": "/ger/", "den": "/den/", "nor": "/nor/"}
+# only editions that are actually built are offered in the switch (a nation
+# whose docs/<nation>/index.html does not exist yet would be a dead link)
+_DOCS_ROOT = Path(__file__).resolve().parents[1] / "docs"
+ATLAS_ROOTS = {c: r for c, r in ATLAS_ROOTS.items() if c == NATION or (_DOCS_ROOT / r.strip("/") / "index.html").exists()}
 atlas_switch = " · ".join(
     f'<span aria-current="page">{code.upper()}</span>' if code == NATION
     else f'<a href="{root}">{code.upper()}</a>'

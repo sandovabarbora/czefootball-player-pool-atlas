@@ -31,7 +31,11 @@ if nation_yaml.exists():
 else:
     ADJ = "Czech"
 SITE = "https://football.datasimply.eu/"
-ATLAS_ROOTS = {"cze": "/", "eng": "/eng/"}
+ATLAS_ROOTS = {"cze": "/", "eng": "/eng/", "ger": "/ger/", "den": "/den/", "nor": "/nor/"}
+# only editions that are actually built are offered in the switch (a nation
+# whose docs/<nation>/index.html does not exist yet would be a dead link)
+_DOCS_ROOT = Path(__file__).resolve().parents[1] / "docs"
+ATLAS_ROOTS = {c: r for c, r in ATLAS_ROOTS.items() if c == NATION or (_DOCS_ROOT / r.strip("/") / "index.html").exists()}
 
 # ---------------------------------------------------------------- portraits into the careers data
 careers_path = D / "charts" / "careers.json"
