@@ -120,7 +120,7 @@
     }
     box.appendChild(ctrl);
     const rows = D.panel.filter((r) => r[axis] != null && r.y != null);
-    const w = Math.max(320, box.clientWidth || 800), H = 420, M = { t: 30, r: 24, b: 44, l: 48 };
+    const w = Math.max(320, box.clientWidth || 800), narrow = w < 640, H = 420, M = { t: 30, r: 24, b: 44, l: 48 };
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'players per million against the chosen mechanism, one point per country');
     const x = d3.scaleLinear().domain(d3.extent(rows, (r) => r[axis])).nice().range([M.l, w - M.r]);
     const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.y)]).nice().range([H - M.b, M.t]);
@@ -128,8 +128,8 @@
     gy.select('.domain').remove(); gy.selectAll('line').attr('stroke', C.rule).attr('stroke-dasharray', '2 3'); mono(gy.selectAll('text'));
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).ticks(6).tickSize(0).tickFormat(axis === 'x1' ? (v) => `${Math.round(v * 100)} %` : null));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text('PLAYERS IN THE TOP-9 LEAGUES PER MILLION');
-    mono(svg.append('text').attr('x', w - M.r).attr('y', H - 6).attr('text-anchor', 'end')).text(AXES[axis].label);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? 'PER MILLION IN THE TOP-9' : 'PLAYERS IN THE TOP-9 LEAGUES PER MILLION');
+    mono(svg.append('text').attr('x', w - M.r).attr('y', H - 6).attr('text-anchor', 'end')).text(narrow ? AXES[axis].label.split(' (')[0].slice(0, 28) : AXES[axis].label);
     // a plain least-squares line, for reading the direction only
     const n = rows.length, mx = d3.mean(rows, (r) => r[axis]), my = d3.mean(rows, (r) => r.y);
     const b = d3.sum(rows, (r) => (r[axis] - mx) * (r.y - my)) / d3.sum(rows, (r) => (r[axis] - mx) ** 2);
@@ -179,12 +179,12 @@
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
     const every = narrow ? 5 : 3; gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(state.metric === 'pm' ? `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES, PER MILLION` : `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES`);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? (state.metric === 'pm' ? 'BIG-5 PLAYERS PER MILLION' : 'BIG-5 PLAYERS') : state.metric === 'pm' ? `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES, PER MILLION` : `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES`);
     // reform markers: dated, cited, and only that
     for (const r of D.reforms) {
       if (!S.includes(r.season) || !vis.includes(r.country)) continue;
       svg.append('line').attr('x1', x(r.season)).attr('x2', x(r.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', colour(r.country)).attr('stroke-dasharray', '2 4').attr('opacity', 0.7);
-      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(`${r.country} · ${r.label}`);
+      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(narrow ? r.country : `${r.country} · ${r.label}`);
     }
     const line = d3.line().defined((v) => v != null).x((v, i) => x(S[i])).y((v) => y(v)).curve(d3.curveMonotoneX);
     for (const c of vis) {
@@ -205,7 +205,33 @@
     const leg = document.createElement('p'); leg.className = 'ax-legend';
     leg.innerHTML = '<span>◆ a dated break (hover: which, how big, how sure)</span><span>┆ a documented reform, cited below — a marker, not a cause</span>';
     box.appendChild(leg);
+    renderAnalogies();
     renderBreaksTable();
+  }
+  // the analogies, in one sentence each: who else fell after 2000, who stepped up, and whose long run looks most like the home nation's
+  function renderAnalogies() {
+    const box = root.querySelector('[data-nx-analogies]'); if (!box || !D.long_run) return;
+    const L = D.long_run, home = L.countries[HOME];
+    if (!home) { box.replaceChildren(); return; }
+    const bigFive = new Set(['ENG', 'FRA', 'GER', 'ESP', 'ITA']);
+    const small = Object.entries(L.countries).filter(([c, v]) => !bigFive.has(c) && v.breaks);
+    // each country's two steps in time order, each a rise or a fall by its factor
+    const steps = (v) => [v.breaks.fall, v.breaks.other].map((s) => ({ season: s.season, factor: s.factor, kind: s.factor > 1 ? 'rise' : 'fall' })).sort((a, b) => (a.season < b.season ? -1 : 1));
+    const gap = (a, b) => +b.slice(0, 4) - +a.slice(0, 4);
+    const name = (c) => esc(nameOf(c));
+    const fmtStep = (s) => `${short(s.season)} ×${f2(s.factor)}`;
+    const endsInFall = small.filter(([, v]) => steps(v)[1].kind === 'fall');
+    const cameBack = small.filter(([, v]) => { const [a, b] = steps(v); return a.kind === 'fall' && b.kind === 'rise' && b.factor >= 1.2; });
+    const onlyUp = small.filter(([, v]) => steps(v).every((s) => s.kind === 'rise') && steps(v)[1].factor >= 1.2).sort((a, b) => steps(b[1])[1].factor - steps(a[1])[1].factor);
+    const corr = (a, b) => { const ma = d3.mean(a), mb = d3.mean(b); const num = d3.sum(a, (v, i) => (v - ma) * (b[i] - mb)); const den = Math.sqrt(d3.sum(a, (v) => (v - ma) ** 2) * d3.sum(b, (v) => (v - mb) ** 2)); return den ? num / den : 0; };
+    const like = Object.entries(L.countries).filter(([c]) => c !== HOME).map(([c, v]) => [c, corr(home.per_million, v.per_million)]).sort((a, b) => b[1] - a[1]);
+    const parts = [];
+    parts.push(endsInFall.length ? `${endsInFall.map(([c, v]) => `${name(c)} (${fmtStep(steps(v)[1])})`).join(', ')} ${endsInFall.length === 1 ? 'is the one small nation whose later step is a fall' : 'are the small nations whose later step is a fall'}` : 'No small nation\'s later step is a fall');
+    if (cameBack.length) parts.push(`${cameBack.length === 1 ? "One" : cameBack.length === 2 ? "Two" : cameBack.length} that fell and came back: ${cameBack.map(([c, v]) => { const [a, b] = steps(v); return `${name(c)} (${fmtStep(a)} → ${fmtStep(b)}, ${gap(a.season, b.season)} seasons later)`; }).join('; ')}`);
+    if (onlyUp.length) parts.push(`Stepped up without a fall first: ${onlyUp.slice(0, 6).map(([c, v]) => `${name(c)} (${fmtStep(steps(v)[1])})`).join(', ')}`);
+    const nearest = like[0];
+    const shape = nearest && nearest[1] >= 0.5 ? `The long run shaped most like ${name(HOME)}'s is ${name(nearest[0])}'s (r = ${nearest[1].toFixed(2)}).` : `No long run closely resembles ${name(HOME)}'s${nearest ? ` (nearest: ${name(nearest[0])}, r = ${nearest[1].toFixed(2)})` : ''}.`;
+    box.innerHTML = `<p class="nx-lead">${parts.join('. ')}. ${shape}</p>`;
   }
   function renderBreaksTable() {
     const box = root.querySelector('[data-nx-breaks]'); if (!box || !D.long_run) return;
@@ -253,7 +279,7 @@
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
     const every = narrow ? 5 : 3; gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text({ debut_age: 'MEDIAN AGE AT THE FIRST BIG-5 SEASON (≥ 450 MIN), 3-SEASON MEDIAN', u23_share: 'UNDER-23 SHARE OF THE NATION\'S BIG-5 MINUTES', debut_n: 'PLAYERS IN THEIR FIRST BIG-5 SEASON' }[dstate.metric]);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? { debut_age: 'AGE AT THE FIRST BIG-5 SEASON', u23_share: 'UNDER-23 SHARE', debut_n: 'FIRST BIG-5 SEASONS' }[dstate.metric] : { debut_age: 'MEDIAN AGE AT THE FIRST BIG-5 SEASON (≥ 450 MIN), 3-SEASON MEDIAN', u23_share: 'UNDER-23 SHARE OF THE NATION\'S BIG-5 MINUTES', debut_n: 'PLAYERS IN THEIR FIRST BIG-5 SEASON' }[dstate.metric]);
     const line = d3.line().defined((v) => v != null).x((v, i) => x(S[i])).y((v) => y(v)).curve(d3.curveMonotoneX);
     for (const c of vis) {
       const col = colour(c), ys = series(c);
@@ -279,11 +305,11 @@
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
     const every = narrow ? 5 : 3; gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text('OWN-NATIONAL UNDER-21 SHARE OF THE LEAGUE\'S MINUTES');
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? 'OWN U-21 SHARE OF MINUTES' : 'OWN-NATIONAL UNDER-21 SHARE OF THE LEAGUE\'S MINUTES');
     for (const r of D.reforms) {
       if (!S.includes(r.season)) continue;
       svg.append('line').attr('x1', x(r.season)).attr('x2', x(r.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', colour(r.country)).attr('stroke-dasharray', '2 4').attr('opacity', 0.7);
-      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(`${r.country} · ${r.label}`);
+      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(narrow ? r.country : `${r.country} · ${r.label}`);
     }
     const line = d3.line().defined((v) => v != null).x((v, i) => x(S[i])).y((v) => y(v)).curve(d3.curveMonotoneX);
     for (const c of codes) {

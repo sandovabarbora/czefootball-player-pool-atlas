@@ -120,7 +120,7 @@
     }
     box.appendChild(ctrl);
     const rows = D.panel.filter((r) => r[axis] != null && r.y != null);
-    const w = Math.max(320, box.clientWidth || 800), H = 420, M = { t: 30, r: 24, b: 44, l: 48 };
+    const w = Math.max(320, box.clientWidth || 800), narrow = w < 640, H = 420, M = { t: 30, r: 24, b: 44, l: 48 };
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'players per million against the chosen mechanism, one point per country');
     const x = d3.scaleLinear().domain(d3.extent(rows, (r) => r[axis])).nice().range([M.l, w - M.r]);
     const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.y)]).nice().range([H - M.b, M.t]);
@@ -128,8 +128,8 @@
     gy.select('.domain').remove(); gy.selectAll('line').attr('stroke', C.rule).attr('stroke-dasharray', '2 3'); mono(gy.selectAll('text'));
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).ticks(6).tickSize(0).tickFormat(axis === 'x1' ? (v) => `${Math.round(v * 100)} %` : null));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text('PLAYERS IN THE TOP-9 LEAGUES PER MILLION');
-    mono(svg.append('text').attr('x', w - M.r).attr('y', H - 6).attr('text-anchor', 'end')).text(AXES[axis].label);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? 'PER MILLION IN THE TOP-9' : 'PLAYERS IN THE TOP-9 LEAGUES PER MILLION');
+    mono(svg.append('text').attr('x', w - M.r).attr('y', H - 6).attr('text-anchor', 'end')).text(narrow ? AXES[axis].label.split(' (')[0].slice(0, 28) : AXES[axis].label);
     // a plain least-squares line, for reading the direction only
     const n = rows.length, mx = d3.mean(rows, (r) => r[axis]), my = d3.mean(rows, (r) => r.y);
     const b = d3.sum(rows, (r) => (r[axis] - mx) * (r.y - my)) / d3.sum(rows, (r) => (r[axis] - mx) ** 2);
@@ -179,12 +179,12 @@
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
     const every = narrow ? 5 : 3; gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(state.metric === 'pm' ? `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES, PER MILLION` : `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES`);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? (state.metric === 'pm' ? 'BIG-5 PLAYERS PER MILLION' : 'BIG-5 PLAYERS') : state.metric === 'pm' ? `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES, PER MILLION` : `PLAYERS WITH ≥ ${L.min_minutes} BIG-5 MINUTES`);
     // reform markers: dated, cited, and only that
     for (const r of D.reforms) {
       if (!S.includes(r.season) || !vis.includes(r.country)) continue;
       svg.append('line').attr('x1', x(r.season)).attr('x2', x(r.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', colour(r.country)).attr('stroke-dasharray', '2 4').attr('opacity', 0.7);
-      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(`${r.country} · ${r.label}`);
+      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(narrow ? r.country : `${r.country} · ${r.label}`);
     }
     const line = d3.line().defined((v) => v != null).x((v, i) => x(S[i])).y((v) => y(v)).curve(d3.curveMonotoneX);
     for (const c of vis) {
@@ -279,7 +279,7 @@
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
     const every = narrow ? 5 : 3; gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text({ debut_age: 'MEDIAN AGE AT THE FIRST BIG-5 SEASON (≥ 450 MIN), 3-SEASON MEDIAN', u23_share: 'UNDER-23 SHARE OF THE NATION\'S BIG-5 MINUTES', debut_n: 'PLAYERS IN THEIR FIRST BIG-5 SEASON' }[dstate.metric]);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? { debut_age: 'AGE AT THE FIRST BIG-5 SEASON', u23_share: 'UNDER-23 SHARE', debut_n: 'FIRST BIG-5 SEASONS' }[dstate.metric] : { debut_age: 'MEDIAN AGE AT THE FIRST BIG-5 SEASON (≥ 450 MIN), 3-SEASON MEDIAN', u23_share: 'UNDER-23 SHARE OF THE NATION\'S BIG-5 MINUTES', debut_n: 'PLAYERS IN THEIR FIRST BIG-5 SEASON' }[dstate.metric]);
     const line = d3.line().defined((v) => v != null).x((v, i) => x(S[i])).y((v) => y(v)).curve(d3.curveMonotoneX);
     for (const c of vis) {
       const col = colour(c), ys = series(c);
@@ -305,11 +305,11 @@
     const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickFormat(short).tickSize(0));
     gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
     const every = narrow ? 5 : 3; gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
-    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text('OWN-NATIONAL UNDER-21 SHARE OF THE LEAGUE\'S MINUTES');
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text(narrow ? 'OWN U-21 SHARE OF MINUTES' : 'OWN-NATIONAL UNDER-21 SHARE OF THE LEAGUE\'S MINUTES');
     for (const r of D.reforms) {
       if (!S.includes(r.season)) continue;
       svg.append('line').attr('x1', x(r.season)).attr('x2', x(r.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', colour(r.country)).attr('stroke-dasharray', '2 4').attr('opacity', 0.7);
-      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(`${r.country} · ${r.label}`);
+      mono(svg.append('text').attr('x', x(r.season) + 4).attr('y', M.t + 10).attr('fill', colour(r.country))).text(narrow ? r.country : `${r.country} · ${r.label}`);
     }
     const line = d3.line().defined((v) => v != null).x((v, i) => x(S[i])).y((v) => y(v)).curve(d3.curveMonotoneX);
     for (const c of codes) {
