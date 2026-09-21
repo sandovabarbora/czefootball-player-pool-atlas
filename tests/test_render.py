@@ -180,8 +180,10 @@ def test_observations_derive_counts_and_titles_from_context():
 
 def test_nine_slides_each_carry_question_answer_proof_and_how():
     """Task 13b: the page opens with nine <section class="slide"> blocks,
-    each exactly h2.slide-q / p.slide-a / div.slide-proof / p.slide-how, in
-    that order, nothing else."""
+    each h2.slide-q / p.slide-a / div.slide-proof / p.slide-how in that
+    order. Since the distill pass the analytics question, what-we-did and
+    the sources line sit together in a details.slide-method fold after the
+    proof, so the answer is the first thing under the question."""
     ctx = build_context_from_fixtures("en")
     html = _render(ctx)
     for n in range(1, 10):

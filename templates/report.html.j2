@@ -463,8 +463,8 @@
       {% endif %}
     </p>
     {% endif %}
-    <div class="funnel-caveats">
-      <h3>{{ t('why_funnel.caveat.h3') }}</h3>
+    <details class="fold funnel-caveats">
+      <summary>{{ t('why_funnel.caveat.h3') }}</summary>
       <ul>
         <li>{{ t('why_funnel.caveat.1') }}</li>
         <li>{{ t('why_funnel.caveat.2') }}</li>
@@ -476,7 +476,7 @@
              hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }}</li>
         {% endif %}
       </ul>
-    </div>
+    </details>
   </div>
 </section>
 
@@ -493,8 +493,6 @@
 <section class="slide" id="q1">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.1.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.1.aq', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn, n=hero.n_peers) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.1.did') }}</p>
     <p class="slide-a">{{ t('slide.1.a', rank=ordinal(hero.rank), n=hero.n_peers, pm=f2(hero.per_million), top=term(hero.top.name), top_pm=f2(hero.top.per_million)) }}</p>
     <div class="slide-proof">
       <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
@@ -512,7 +510,12 @@
         {% endfor %}
       </div>
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.1.aq', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn, n=hero.n_peers) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.1.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.1.how', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.1.so') }}</p>
   </div>
 </section>
@@ -520,8 +523,6 @@
 <section class="slide" id="q2">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.2.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.2.aq', min=feature_defs.min_minutes, season=seasons.metrics) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.2.did') }}</p>
     {% set gap0 = cohort_gaps[0] %}
     <p class="slide-a">{{ t('slide.2.a', group=term(gap0.group_title), cohort=gap0.cohort, cze=gap0.cze_n, peer=g(gap0.peer_median_n)) }}</p>
     <div class="slide-proof">
@@ -542,7 +543,12 @@
         </tbody>
       </table>
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.2.aq', min=feature_defs.min_minutes, season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.2.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.2.how', min=feature_defs.min_minutes) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.2.so') }}</p>
   </div>
 </section>
@@ -554,9 +560,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.3.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.3.aq', season=seasons.metrics) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.3.did') }}</p>
-    <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}{% if pw.panel_beta is defined %}{{ t('slide.3.panel', n_countries=pw.panel_n_countries, beta=signed2(pw.panel_beta), lo=f2(pw.panel_beta_lo), hi=f2(pw.panel_beta_hi), topn=topn) }}{% endif %}</p>
+    <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}</p>
     <div class="slide-proof">
       {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
       <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
@@ -566,7 +570,7 @@
              style="--value: {{ r.share_u21 if r.share_u21 is not none else 0 }}; --max: {{ youth_max }};">
           <div class="capita-country">
             <span class="capita-code">{{ r.country }}</span>
-            {{ r.league }}
+            {{ term(r.name) }}
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">{% if r.share_u21 is none %}<span class="muted" title="{{ t('ch2.a.nodata') }}">—</span>{% else %}{{ pct1(r.share_u21) }}{% endif %}</div>
@@ -582,7 +586,13 @@
       </details>
       {% endif %}
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+      {% if pw.panel_beta is defined %}<p class="slide-detail">{{ t('slide.3.panel', n_countries=pw.panel_n_countries, beta=signed2(pw.panel_beta), lo=f2(pw.panel_beta_lo), hi=f2(pw.panel_beta_hi), topn=topn) }}</p>{% endif %}
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.3.aq', season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.3.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.3.how', season=seasons.metrics) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.3.so') }}</p>
   </div>
 </section>
@@ -590,8 +600,6 @@
 <section class="slide" id="q4">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.4.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4.aq', season=seasons.metrics, topn=topn) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4.did') }}</p>
     {% if pathways.destinations %}
     {% set dest = pathways.destinations %}
     {% set top9_bucket = (dest.buckets | selectattr('bucket', 'equalto', 'top9') | list | first) %}
@@ -616,7 +624,12 @@
       {% endif %}
     </div>
     {% endif %}
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4.aq', season=seasons.metrics, topn=topn) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4.how', season=seasons.metrics, home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.4.so') }}</p>
   </div>
 </section>
@@ -626,8 +639,6 @@
 <section class="slide" id="q4b">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.4b.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4b.aq', topn=topn, n=eam.n) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4b.did') }}</p>
     <p class="slide-a">{{ t('slide.4b.a', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
                           y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
                           diff=signed(eam.diff_21_24.median), dlo=f3(eam.diff_21_24.lo), dhi=f3(eam.diff_21_24.hi),
@@ -639,7 +650,17 @@
         <figcaption>{{ t('slide.4b.caption') }}</figcaption>
       </figure>
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+      <p class="slide-detail">{{ t('slide.4b.a_detail', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
+                          y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
+                          diff=signed(eam.diff_21_24.median), dlo=f3(eam.diff_21_24.lo), dhi=f3(eam.diff_21_24.hi),
+                          age_home=g(eam.home_median_age),
+                          zero_note=(t('slide.4b.zero_note', n=eam.n) if (eam.diff_21_24.lo <= 0 and eam.diff_21_24.hi >= 0) else '')) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4b.aq', topn=topn, n=eam.n) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4b.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4b.how', n=eam.n, branch=(t('ch4.export.branch.spline') if eam.use_spline else t('ch4.export.branch.quadratic')), cite=cite_multi(['gelman_et_al_2013', 'hoffman_gelman_2014'])) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.4b.so') }}</p>
   </div>
 </section>
@@ -648,10 +669,8 @@
 <section class="slide" id="q5">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.5.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.5.aq', season=seasons.metrics) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.5.did') }}</p>
     <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}
-      {% if league_strength.home and not league_strength.home_is_reference %} {{ t('slide.5.a2', m_l=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi), uefa=f2(league_strength.home.uefa)) }}{% endif %}</p>
+      </p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}fare_dots.svg" alt="{{ t('slide.5.alt') }}">
@@ -676,7 +695,13 @@
         </div>
       </details>
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+      {% if league_strength.home and not league_strength.home_is_reference %}<p class="slide-detail">{{ t('slide.5.a2', m_l=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi), uefa=f2(league_strength.home.uefa)) }}</p>{% endif %}
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.5.aq', season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.5.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how', home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.5.so') }}</p>
   </div>
 </section>
@@ -688,8 +713,6 @@
 <section class="slide" id="q6">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.6.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.6.aq', event=nt_core_event, season=seasons.metrics) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.6.did') }}</p>
     <p class="slide-a">{% if squad_cze_row and squad_best_row %}{{ t('slide.6.a', cze_pct=('%.0f' | format(squad_cze_row.top9_pct)), event=squad_lens.event, topn=topn,
                             best_name=term(squad_best_row.name), best_pct=('%.0f' | format(squad_best_row.top9_pct))) }}{% endif %}</p>
     <div class="slide-proof">
@@ -738,7 +761,12 @@
       </details>
       {% endif %}
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.6.aq', event=nt_core_event, season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.6.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.6.how', season=seasons.metrics) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.6.so') }}</p>
   </div>
 </section>
@@ -746,8 +774,6 @@
 <section class="slide" id="q7">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.7.aq', min=feature_defs.min_minutes, history_start=seasons.history_start) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.7.did') }}</p>
     {% if big5 %}
     <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
     <div class="slide-proof">
@@ -780,7 +806,13 @@
       </aside>
       {% endfor %}
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+      <p class="slide-detail">{{ t('slide.7.a_detail', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.7.aq', min=feature_defs.min_minutes, history_start=seasons.history_start) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.7.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.7.so') }}</p>
     {% endif %}
   </div>
@@ -789,8 +821,6 @@
 <section class="slide" id="q8">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8.q', a=pc_a, b=pc_b) }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8.aq', a=pc_a, b=pc_b, topn=topn) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8.did') }}</p>
     <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', a=pc_a, nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
                             nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
@@ -826,7 +856,12 @@
         </table>
       </details>
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8.aq', a=pc_a, b=pc_b, topn=topn) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8.how') }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.8.so') }}</p>
   </div>
 </section>
@@ -835,8 +870,6 @@
 <section class="slide" id="q8b">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8b.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8b.aq', min=gk.min_minutes, topn=topn) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8b.did') }}</p>
     <p class="slide-a">{{ t('slide.8b.a', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
                           pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
                           gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age),
@@ -914,10 +947,19 @@
       </details>
       {% endif %}
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+      <p class="slide-detail">{{ t('slide.8b.a_detail', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
+                          pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
+                          gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age),
+                          earlier_or_later=(t('slide.8b.earlier') if gk.earlier_or_later == 'earlier' else (t('slide.8b.later') if gk.earlier_or_later == 'later' else t('slide.8b.same_age')))) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8b.aq', min=gk.min_minutes, topn=topn) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8b.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8b.how', min=gk.min_minutes, season=seasons.metrics, phantom=gk.phantom_minutes, topn=topn, history_start=seasons.history_start,
                           censored_pct=('%.0f' | format(gk.export_age.gk_censored_share * 100)),
                           censored_out_pct=('%.0f' | format(gk.export_age.outfield_censored_share * 100)),
                           home_note=(t('slide.8b.home_note', topn=topn) if (domestic_league_code in headline_leagues) else '')) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.8b.so') }}</p>
   </div>
 </section>
@@ -928,8 +970,6 @@
 <section class="slide" id="q8c">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.8c.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8c.aq', n=gap_decomposition.n) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8c.did') }}</p>
     <p class="slide-a">{{ t('slide.8c.a', gap=f2(gdp.gap_total), contrast=term(gdp.name),
                           c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
                           c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
@@ -939,7 +979,15 @@
         <figcaption>{{ t('slide.8c.caption') }}</figcaption>
       </figure>
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+      <p class="slide-detail">{{ t('slide.8c.a_detail', gap=f2(gdp.gap_total), contrast=term(gdp.name),
+                          c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
+                          c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8c.aq', n=gap_decomposition.n) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8c.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.8c.so') }}</p>
   </div>
 </section>
@@ -948,8 +996,6 @@
 <section class="slide" id="q9">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.9.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.9.aq', n=cards | length, season=seasons.metrics) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.9.did') }}</p>
     <p class="slide-a">{{ t('slide.9.a', n=cards | length) }}</p>
     <div class="slide-proof">
       <details class="fold">
@@ -1006,7 +1052,12 @@
       </details>
       {% endif %}
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.9.aq', n=cards | length, season=seasons.metrics) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.9.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.9.how', season=seasons.metrics) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.9.so') }}</p>
   </div>
 </section>
@@ -1028,8 +1079,6 @@
 <section class="slide" id="q10">
   <div class="container">
     <h2 class="slide-q">{{ t('slide.10.q') }}</h2>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.10.aq', previous=season_changes.previous_label, metrics=season_changes.metrics_label, min=season_changes.min_minutes) }}</p>
-    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.10.did') }}</p>
     <p class="slide-a">{{ t('slide.10.a', up=season_changes.moves.up.n, down=season_changes.moves.down.n, ss_prev=season_changes.stepping.players_prev, ss_curr=season_changes.stepping.players_curr, top_prev=season_changes.top9.players_prev, top_curr=season_changes.top9.players_curr) }}</p>
     <div class="slide-proof">
       <div class="changes-tiers">
@@ -1050,7 +1099,12 @@
       </div>
       <p class="capita-note">{{ t('slide.10.left_note') }}</p>
     </div>
+    <details class="fold slide-method">
+      <summary>{{ t('slide.method_summary') }}</summary>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.10.aq', previous=season_changes.previous_label, metrics=season_changes.metrics_label, min=season_changes.min_minutes) }}</p>
+    <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.10.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.10.how', min=season_changes.min_minutes) }}</p>
+    </details>
     <p class="slide-so">{{ t('slide.10.so') }}</p>
   </div>
 </section>
@@ -1686,6 +1740,8 @@
     {% if league_strength.leagues %}
     <h3 id="league-strength">{{ t('ch4.strength.h3') }}</h3>
     <p class="plain">{{ t('ch4.strength.plain') }}</p>
+    <details class="fold method-body">
+      <summary>{{ t('ch4.full_method') }}</summary>
     <p>{{ t('ch4.strength.p1_is_ref') if league_strength.home_is_reference else t('ch4.strength.p1') }}</p>
     <p>{{ t('ch4.strength.design', players=league_strength.fit.players, rows=league_strength.fit.rows,
              cite_bda=cite.gelman_et_al_2013, cite_nuts=cite.hoffman_gelman_2014, cite_pymc=cite.abril_pla_et_al_2023,
@@ -1761,11 +1817,14 @@
     <p>{{ t('ch4.strength.selection') }}</p>
 
     <p>{{ t('ch4.strength.ranking') }}</p>
+    </details>
     {% endif %}
 
     {% if model_comparison.table %}
     <h3 id="model-comparison">{{ t('ch4.compare.h3') }}</h3>
     <p class="plain">{{ t('ch4.compare.plain') }}</p>
+    <details class="fold method-body">
+      <summary>{{ t('ch4.full_method') }}</summary>
     <p>{{ t('ch4.compare.q', min=feature_defs.min_minutes) }}</p>
     <p>{{ t('ch4.compare.design', n_origins=model_comparison.origins | length, cite_ro=cite.hyndman_athanasopoulos_2021,
              chains=model_comparison.bayes_chains, draws=model_comparison.bayes_draws, cite_bayes=cite.gelman_et_al_2013,
@@ -1805,11 +1864,14 @@
     {% if model_comparison.drift %}
     <p>{{ t('ch4.compare.drift', from=model_comparison.drift.from, to=model_comparison.drift.to, value=f3(model_comparison.drift.value)) }}</p>
     {% endif %}
+    </details>
     {% endif %}
 
     {% if series_model.break %}
     <h3 id="series-model">{{ t('ch4.series.h3') }}</h3>
     <p class="plain">{{ t('ch4.series.plain') }}</p>
+    <details class="fold method-body">
+      <summary>{{ t('ch4.full_method') }}</summary>
     <p>{{ t('ch4.series.design', cite_ss=cite.durbin_koopman_2012, margin=series_model.margin, cite_marg=cite.gelman_et_al_2013,
              cite_cp=cite.adams_mackay_2007, cite_ro=cite.hyndman_athanasopoulos_2021,
              n_backtest=series_model.backtest.rows | length) }}</p>
@@ -1872,11 +1934,14 @@
     <p>{{ t('ch4.series.diagnostics', rhat=f3(series_model.diagnostics.max_rhat),
              ess=(series_model.diagnostics.min_ess_bulk | round | int), div=series_model.diagnostics.n_divergences,
              t=(big5.seasons | length)) }}</p>
+    </details>
     {% endif %}
 
     {% if youth_panel.between %}
     <h3 id="youth-panel">{{ t('ch4.panel.h3') }}</h3>
     <p class="plain">{{ t('ch4.panel.plain') }}</p>
+    <details class="fold method-body">
+      <summary>{{ t('ch4.full_method') }}</summary>
     <p>{{ t('ch4.panel.design', n_countries=youth_panel.between.n, seasons=(youth_panel.seasons_used | join(' → ')),
              chains=youth_panel.chains, draws=youth_panel.draws, n_boot=youth_panel.n_boot,
              cite_pymc=cite.abril_pla_et_al_2023, cite_bda=cite.gelman_et_al_2013) }}</p>
@@ -1917,11 +1982,14 @@
         </tbody>
       </table>
     </details>
+    </details>
     {% endif %}
 
     {% if gap_decomposition.contrasts %}
     <h3 id="gap-decomposition">{{ t('ch4.gap.h3') }}</h3>
     <p class="plain">{{ t('ch4.gap.plain') }}</p>
+    <details class="fold method-body">
+      <summary>{{ t('ch4.full_method') }}</summary>
     <p>{{ t('ch4.gap.design', n=gap_decomposition.n, alpha=f2(gap_decomposition.ridge_alpha),
              cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
     <figure class="figure-bleed">
@@ -1956,12 +2024,15 @@
     </table>
     <p>{{ t('ch4.gap.bootstrap', n_boot=gap_decomposition.n_boot) }}</p>
     <p>{{ t('ch4.gap.note', n=gap_decomposition.n, min_gap=g(gap_decomposition.min_gap_for_share)) }}</p>
+    </details>
     {% endif %}
 
     {% if export_age_model.age_curve %}
     {% set eam = export_age_model %}
     <h3 id="export-age-model">{{ t('ch4.export.h3') }}</h3>
     <p class="plain">{{ t('ch4.export.plain') }}</p>
+    <details class="fold method-body">
+      <summary>{{ t('ch4.full_method') }}</summary>
     <p>{{ t('ch4.export.design', n=eam.n, topn=topn, age_min=g(eam.age_range.min), age_max=g(eam.age_range.max),
              branch=(t('ch4.export.branch.spline') if eam.use_spline else t('ch4.export.branch.quadratic')),
              chains=eam.chains, draws=eam.draws, cite_bda=cite.gelman_et_al_2013, cite_nuts=cite.hoffman_gelman_2014) }}</p>
@@ -1999,6 +2070,7 @@
     <p>{{ t('ch4.export.diagnostics', rhat=f3(eam.diagnostics.max_rhat), ess=(eam.diagnostics.min_ess_bulk | round | int),
              div=eam.diagnostics.n_divergences, n=eam.n, runtime=eam.fit.runtime_s) }}</p>
     <p>{{ t('ch4.export.selection') }}</p>
+    </details>
     {% endif %}
 
     <h3 id="shrinkage">{{ t('ch4.shrink.h3') }}</h3>

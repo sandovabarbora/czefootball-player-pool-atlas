@@ -150,7 +150,7 @@ strings:
   # ---- slidy (Task 13b): devět otázek mezi hero a "pro federaci", každý
   # q (h2) / a (jedna věta, hlavní číslo v <strong>) / proof (jeden exhibit,
   # markup v šabloně) / how (mono řádek zdroje, sdílený štítek "Jak to víme")
-  slide.how_label: "Jak to víme"
+  slide.how_label: "Zdroje"
   slide.1.q: "Je {cs_adj_m} fond tenký?"
   slide.1.aq: "V číslech: hráči s alespoň {min} minutami na soupiskách {season} v {topn} nejsilnějších ligách, na milion obyvatel, oproti {n} peer zemím."
   slide.1.a: "{cs_Name} je <strong>{rank} z {n}</strong> zemí s {pm} na milion; {top} vede s {top_pm}."
@@ -161,7 +161,7 @@ strings:
   slide.2.how: "Věk na začátku sezóny; kohorty U22 / 23–25 / 26–29 / 30+; aspoň {min} minut."
   slide.3.q: "Dostávají mladí minuty doma?"
   slide.3.aq: "V číslech: podíl minut domácí ligy odehraných hráči do 21 let na začátku sezóny, {season}, podle nejvyšší soutěže každé země."
-  slide.3.a: "Podíl minut domácí ligy pro hráče do 21 let: {cs_name} <strong>{cze_pct} %</strong>, nejlépe {best_name} {best_pct} % (nejlepší peer)."
+  slide.3.a: "Hráči do 21 let dostávají <strong>{cze_pct} %</strong> minut domácí ligy; {best_name}, nejlepší ze srovnávaných zemí, jim dává {best_pct} %."
   slide.3.how: "Podíl všech ligových minut odehraných hráči do 21 let na začátku sezóny, {season}, podle domácí nejvyšší soutěže."
   slide.3.panel: " Napříč {n_countries} zeměmi (zemní průměry za obě sezóny) odpovídá 10 bodů podílu do 21 let nárůstu {beta} hráčů na milion v top-{topn} ligách ({lo}–{hi})."
   slide.3.panel.summary: "Napříč zeměmi"
@@ -173,7 +173,8 @@ strings:
   slide.4b.q: "Stojí pozdější odchod něco?"
   slide.4b.zero_note: ", interval zahrnuje nulu: při n = {n} žádný zjistitelný rozdíl"
   slide.4b.aq: "V číslech: průměrná ligově upravená produkce (góly + asistence na 90 minut) za první dvě sezóny v top-{topn} jako funkce věku při první z nich, dáno silou výchozí ligy a postem, {n} exportů peer národností."
-  slide.4b.a: "Hráči, kteří se do top-{topn} dostanou v 21 letech, produkují {y21} ({lo}–{hi}) ligově upravených G+A na 90 minut za první dvě sezóny; ti, kdo dorazí ve 24, {y24} ({lo24}–{hi24}) — rozdíl <strong>{diff}</strong> ({dlo}–{dhi}){zero_note}. {cs_Adj_n} exporty odcházejí v mediánovém věku {age_home}."
+  slide.4b.a: "Kdo se do top-{topn} dostane ve 21, produkuje za první dvě sezóny o <strong>{diff}</strong> ligově upravených G+A na 90 minut víc než ten, kdo dorazí ve 24{zero_note}. {cs_Adj_n} exporty odcházejí v mediánovém věku {age_home}."
+  slide.4b.a_detail: "Ve 21: {y21} ({lo}–{hi}); ve 24: {y24} ({lo24}–{hi24}); rozdíl {diff} ({dlo}–{dhi})."
   slide.4b.how: "Věková křivka ({branch}) ligově upravené produkce, dáno silou výchozí ligy (<a href=\"#league-strength\">§ Metodologie</a>), postem a efektem země, {n} exportů peer národností {cite}; lepší hráči obvykle odcházejí dříve, takže křivka mísí selekci s vývojem a tento report je neodděluje."
   slide.4b.alt: "Čárový graf: fitovaná křivka věku exportu s 90% pásem, {cs_adj_n} exporty jako body proti všem ostatním peer exportům a rug (čárky) věku každého exportu podél osy."
   slide.4b.caption: "Srovnání 21 vs 24 vyznačené přímo na křivce."
@@ -193,7 +194,8 @@ strings:
   slide.6.how: "Soupisky z Wikipedie spárované s ligovými řádky sezóny {season}; úroveň = liga řádku s nejvíc minutami."
   slide.7.q: "Kdy vlak odjel?"
   slide.7.aq: "V číslech: {cs_adj_pl} hráči s alespoň {min} minutami v ligách Big-5 každou sezónu od {history_start}, s jedním datovaným zlomem."
-  slide.7.a: "{cs_Adj_pl} hráči s aspoň {min} minutami v ligách Big-5 vyvrcholili na <strong>{peak_n}</strong> v sezóně {peak_season}, klesli na {low_n} v {low_season}, {last_n} v {last_season}; zlom je datován do sezóny {break_season} ({break_prob} posteriorní pravděpodobnost), změna úrovně o ×{delta} ({lo}–{hi})."
+  slide.7.a: "{cs_Adj_pl} hráči s aspoň {min} minutami v Big-5: <strong>{peak_n}</strong> na vrcholu {peak_season}, {low_n} na dně {low_season}, {last_n} v {last_season}. Zlom je datován do sezóny {break_season}."
+  slide.7.a_detail: "Posteriorní pravděpodobnost zlomu {break_prob}; změna úrovně o ×{delta} ({lo}–{hi})."
   slide.7.how: "Sezónní tabulky hráčů Big-5 z FBref {first_season} → {last_season}; peer země podle stejného pravidla; jména jsou {cs_adj_pl} hráči s nejvíc minutami z každé vrcholné sezóny včetně brankářů — sestava přítomnosti, ne žebříček kvality: {golden}. Datum zlomu pochází z bayesovského modelu lokální úrovně s jedním bodem zlomu {cite_cp}; podrobnosti v <a href=\"#series-model\">§ Metodologie</a>."
   slide.7.alt: "Čárový graf: {cs_adj_pl} hráči s aspoň {min} minutami v ligách Big-5, {start} až {end}, proti osmi peer zemím; spodní panel ukazuje hráče na milion obyvatel pro {cs_name}, {a} a {b}."
   slide.7.caption: "{cs_Adj_pl} hráči oxbloodově; peer země šedě, dvě z nich popsané přímo v grafu."
@@ -206,16 +208,18 @@ strings:
   slide.8.table_summary: "Šest čísel, nepřeškálovaných"
   slide.8b.q: "Jdou brankáři jinou cestou?"
   slide.8b.aq: "V číslech: {cs_adj_pl} brankáři s alespoň {min} minutami v top-{topn} ligách, na milion obyvatel, oproti věku exportu hráčů z pole."
-  slide.8b.a: "{n_gk} {cs_adj_pl} brankáři hrají aspoň {min} minut v top-{topn} ligách ({pm} na milion, pořadí <strong>{rank} z {n}</strong>); v nich se poprvé objevili v mediánovém věku {gk_age}, oproti {out_age} u exportů z pole — {earlier_or_later} než exporty z pole."
-  slide.8b.earlier: "dříve"
-  slide.8b.later: "později"
-  slide.8b.same_age: "ve stejném věku"
+  slide.8b.a: "{n_gk} {cs_adj_pl} brankáři hrají aspoň {min} minut v top-{topn} ligách — pořadí <strong>{rank} z {n}</strong> na milion — a dostávají se tam {earlier_or_later}."
+  slide.8b.a_detail: "{pm} na milion; první sezóna v top-{topn} v mediánovém věku {gk_age}, oproti {out_age} u exportů z pole."
+  slide.8b.earlier: "dřív než exporty z pole"
+  slide.8b.later: "později než exporty z pole"
+  slide.8b.same_age: "zhruba ve stejném věku jako exporty z pole"
   slide.8b.alt: "Bodový graf věku při prvním startu v top-9 lize, {cs_adj_pl} brankáři proti exportům z pole, jeden bod na hráče, medián vyznačen."
   slide.8b.how: "Práh {min} minut, soupisky {season}, stejné stahování K = {phantom} jako zbytek reportu; první sezóna ve stažené top-{topn} tabulce; hráči, kteří v ní byli už v {history_start}, jsou cenzurovaní — {censored_pct} % brankářů, {censored_out_pct} % exportů z pole; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení.{home_note}"
   slide.8b.home_note: " Brankáři z ligy {cs_home_league} nemusí kvůli první sezóně v top-{topn} lize nikam přestupovat."
   slide.8c.q: "Z čeho se rozdíl skládá?"
   slide.8c.aq: "V číslech: lineární rozklad rozdílu na milion obyvatel na minuty do 21 let, sílu ligy a věk exportu napříč {n} peer zeměmi."
-  slide.8c.a: "Rozdíl {gap} hráčů na milion, {contrast} vs {cs_name}: s minutami hráčů do 21 let souvisí {c1}, se silou ligy {c2}, s věkem exportu {c3}; {resid} tyto tři kanály nepokrývají."
+  slide.8c.a: "Rozdíl <strong>{gap}</strong> hráčů na milion, {contrast} vs {cs_name}: s minutami hráčů do 21 let souvisí {c1}, se silou ligy {c2}, s věkem exportu {c3}."
+  slide.8c.a_detail: "{resid} tyto tři kanály nepokrývají."
   slide.8c.alt: "Jeden vodorovný skládaný sloupec za každou srovnávanou zemi vs {cs_name}: příspěvek minut hráčů do 21 let, síly ligy a věku exportu k rozdílu v hráčích na obyvatele, plus reziduum; fousy ukazují bootstrapový interval každého kanálu."
   slide.8c.caption: "Hodnoty napsané uvnitř každého segmentu, pokud se vejdou; reziduum šrafované."
   slide.8c.how: "Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca {cite_ob}, fitovaný na {n} peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, {n_boot} převzorkování; rozklad korelace, ne kauzální účetnictví."
@@ -270,6 +274,7 @@ strings:
   # ---- kickery řetězce otázek (Task 26C): po "Jako analytická otázka" nově
   # následuje "Co jsme udělali" -- jedna prostá věta, bez symbolů a zkratek,
   # co by přečetl i trenér, popisující operaci, ne statistiku.
+  slide.method_summary: "Jak to víme"
   slide.aq_label: "Jako analytická otázka"
   slide.did_label: "Co jsme udělali"
   slide.1.did: "Spočítali jsme každého hráče s národností domácí země, který tu sezónu skutečně hrál v jedné z nejsilnějších lig Evropy, a ten počet vydělili počtem obyvatel země."
@@ -825,6 +830,7 @@ strings:
 
   ch4.refs.h3: "Reference"
 
+  ch4.full_method: "Celá metoda, grafy a diagnostika"
   ch4.dq.h3: "Log kvality dat"
   ch4.dq.p: "Každé rozhodnutí při čištění dat, které změnilo nějaký počet, s tím počtem. První blok je přepočítán při každém běhu; druhý je záznam incidentů (data a počty tak, jak byly zaznamenány)."
   ch4.dq.col.check: "Kontrola"

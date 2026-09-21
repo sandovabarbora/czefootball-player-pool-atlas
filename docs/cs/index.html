@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609211057">
-  <link rel="stylesheet" href="../modern.css?v=202609211057">
+  <link rel="stylesheet" href="../style.css?v=202609211132">
+  <link rel="stylesheet" href="../modern.css?v=202609211132">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609211057"></script>
+  <script defer src="../atlas.js?v=202609211132"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -320,8 +320,8 @@
       
     </p>
     
-    <div class="funnel-caveats">
-      <h3>Co tohle neukazuje</h3>
+    <details class="fold funnel-caveats">
+      <summary>Co tohle neukazuje</summary>
       <ul>
         <li>Peníze: transferové částky, mzdy a rozpočty akademií nejsou součástí žádného čísla výše.</li>
         <li>Jak akademie a trenérská práce skutečně fungují den co den — to žádný veřejný datový zdroj použitý zde nevidí.</li>
@@ -331,7 +331,7 @@
         <li>První číslo přesně: FBref u části řádků této ligy neeviduje národnost a podíl „vlastních hráčů“ takové hráče počítá jako cizí, i když jejich minuty zůstávají v součtu. Skutečný podíl proto leží mezi 6,4 % a 7,6 % a tahle chyba hýbe číslem této země a téměř žádné z ostatních (protokol kvality dat).</li>
         
       </ul>
-    </div>
+    </details>
   </div>
 </section>
 
@@ -343,8 +343,6 @@
 <section class="slide" id="q1">
   <div class="container">
     <h2 class="slide-q">Je český fond tenký?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: hráči s alespoň 450 minutami na soupiskách 2025/26 v 9 nejsilnějších ligách, na milion obyvatel, oproti 9 peer zemím.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spočítali jsme každého hráče s národností domácí země, který tu sezónu skutečně hrál v jedné z nejsilnějších lig Evropy, a ten počet vydělili počtem obyvatel země.</p>
     <p class="slide-a">Česko je <strong>7. z 9</strong> zemí s 2,39 na milion; Dánsko vede s 12,58.</p>
     <div class="slide-proof">
       <div class="capita" role="list" aria-label="Hustota hráčů top lig na obyvatele podle země">
@@ -450,7 +448,12 @@
         
       </div>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Odlišní hráči s aspoň 450 minutami na soupiskách 2025/26 v 9 nejsilnějších ligách ÷ populace (Eurostat 2024); každá země počítána stejně.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: hráči s alespoň 450 minutami na soupiskách 2025/26 v 9 nejsilnějších ligách, na milion obyvatel, oproti 9 peer zemím.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spočítali jsme každého hráče s národností domácí země, který tu sezónu skutečně hrál v jedné z nejsilnějších lig Evropy, a ten počet vydělili počtem obyvatel země.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Odlišní hráči s aspoň 450 minutami na soupiskách 2025/26 v 9 nejsilnějších ligách ÷ populace (Eurostat 2024); každá země počítána stejně.</p>
+    </details>
     <p class="slide-so">Federace by sledovala pohyb pořadí na milion obyvatel napříč sezónami, ne číslo jednoho roku.</p>
   </div>
 </section>
@@ -458,8 +461,6 @@
 <section class="slide" id="q2">
   <div class="container">
     <h2 class="slide-q">Kde přesně?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: počet čeští hráčů oproti mediánu peer zemí, podle věkové kohorty a herního postu, alespoň 450 minut, sezóna 2025/26.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Rozdělili jsme hráče do postových skupin a věkových pásem, spočítali, kolik jich domácí země má v každé skupině, a ten počet porovnali se střední hodnotou mezi ostatními zeměmi.</p>
     
     <p class="slide-a">Největší kohortová mezera: <strong>Záložníci 23-25</strong>, 2 hráčů Česka proti peer mediánu 6.</p>
     <div class="slide-proof">
@@ -508,7 +509,12 @@
         </tbody>
       </table>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Věk na začátku sezóny; kohorty U22 / 23–25 / 26–29 / 30+; aspoň 450 minut.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: počet čeští hráčů oproti mediánu peer zemí, podle věkové kohorty a herního postu, alespoň 450 minut, sezóna 2025/26.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Rozdělili jsme hráče do postových skupin a věkových pásem, spočítali, kolik jich domácí země má v každé skupině, a ten počet porovnali se střední hodnotou mezi ostatními zeměmi.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Věk na začátku sezóny; kohorty U22 / 23–25 / 26–29 / 30+; aspoň 450 minut.</p>
+    </details>
     <p class="slide-so">Federace by sledovala, která kohortová mezera se napříč sezónami zužuje nebo rozšiřuje, ne jen dnešní snímek.</p>
   </div>
 </section>
@@ -520,9 +526,7 @@
 <section class="slide" id="q3">
   <div class="container">
     <h2 class="slide-q">Dostávají mladí minuty doma?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: podíl minut domácí ligy odehraných hráči do 21 let na začátku sezóny, 2025/26, podle nejvyšší soutěže každé země.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spočítali jsme každou odehranou minutu v lize a podívali se, kolik jich připadlo hráčům do 21 let.</p>
-    <p class="slide-a">Podíl minut domácí ligy pro hráče do 21 let: Česko <strong>6,4 %</strong>, nejlépe Dánsko 15,3 % (nejlepší peer). Napříč 8 zeměmi (zemní průměry za obě sezóny) odpovídá 10 bodů podílu do 21 let nárůstu +10,11 hráčů na milion v top-9 ligách (−1,69–23,26).</p>
+    <p class="slide-a">Hráči do 21 let dostávají <strong>6,4 %</strong> minut domácí ligy; Dánsko, nejlepší ze srovnávaných zemí, jim dává 15,3 %.</p>
     <div class="slide-proof">
       
       <div class="capita" role="list" aria-label="Podíl minut domácí ligy odehraných vlastními hráči do 21 let">
@@ -532,7 +536,7 @@
              style="--value: 0.153; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">DEN</span>
-            DEN-Superliga
+            Dánsko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">15,3 %</div>
@@ -543,7 +547,7 @@
              style="--value: 0.141; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">HUN</span>
-            HUN-NB I
+            Maďarsko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">14,1 %</div>
@@ -554,7 +558,7 @@
              style="--value: 0.14; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">CRO</span>
-            CRO-HNL
+            Chorvatsko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">14,0 %</div>
@@ -565,7 +569,7 @@
              style="--value: 0.115; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">NOR</span>
-            NOR-Eliteserien
+            Norsko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">11,5 %</div>
@@ -576,7 +580,7 @@
              style="--value: 0.093; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">AUT</span>
-            AUT-Bundesliga
+            Rakousko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">9,3 %</div>
@@ -587,7 +591,7 @@
              style="--value: 0.093; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">POL</span>
-            POL-Ekstraklasa
+            Polsko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">9,3 %</div>
@@ -598,7 +602,7 @@
              style="--value: 0.077; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">SUI</span>
-            SUI-Super League
+            Švýcarsko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">7,7 %</div>
@@ -609,7 +613,7 @@
              style="--value: 0.064; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">CZE</span>
-            CZE-First League
+            Česko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value">6,4 %</div>
@@ -620,7 +624,7 @@
              style="--value: 0; --max: 0.153;">
           <div class="capita-country">
             <span class="capita-code">SVK</span>
-            SVK-Super Liga
+            Slovensko
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
           <div class="capita-value"><span class="muted" title="liga není na FBref">—</span></div>
@@ -636,7 +640,13 @@
       </details>
       
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Podíl všech ligových minut odehraných hráči do 21 let na začátku sezóny, 2025/26, podle domácí nejvyšší soutěže.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+      <p class="slide-detail"> Napříč 8 zeměmi (zemní průměry za obě sezóny) odpovídá 10 bodů podílu do 21 let nárůstu +10,11 hráčů na milion v top-9 ligách (−1,69–23,26).</p>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: podíl minut domácí ligy odehraných hráči do 21 let na začátku sezóny, 2025/26, podle nejvyšší soutěže každé země.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spočítali jsme každou odehranou minutu v lize a podívali se, kolik jich připadlo hráčům do 21 let.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Podíl všech ligových minut odehraných hráči do 21 let na začátku sezóny, 2025/26, podle domácí nejvyšší soutěže.</p>
+    </details>
     <p class="slide-so">Federace by sledovala podíl U21 sezónu po sezóně, ne počet exportů.</p>
   </div>
 </section>
@@ -644,8 +654,6 @@
 <section class="slide" id="q4">
   <div class="container">
     <h2 class="slide-q">Kam čeští hráči odcházejí?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: úroveň cílové ligy u 2025/26 řádku každého hráče způsobilého za Česko, rozdělená na top-9, do strany a jiné přestupy.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Podívali jsme se, kde každý oprávněný hráč tu sezónu skutečně hrál, a zařadili ho podle toho, jak silná je ta liga ve srovnání s hráčovou vlastní domácí ligou.</p>
     
     
     
@@ -677,7 +685,12 @@
       
     </div>
     
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Cílová liga poslední sezóny 2025/26 každého hráče s příslušností Česka; do strany = násobička cíle ≤ násobička české ligy (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: úroveň cílové ligy u 2025/26 řádku každého hráče způsobilého za Česko, rozdělená na top-9, do strany a jiné přestupy.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Podívali jsme se, kde každý oprávněný hráč tu sezónu skutečně hrál, a zařadili ho podle toho, jak silná je ta liga ve srovnání s hráčovou vlastní domácí ligou.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Cílová liga poslední sezóny 2025/26 každého hráče s příslušností Česka; do strany = násobička cíle ≤ násobička české ligy (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
+    </details>
     <p class="slide-so">Federace by sledovala podíl přesunů do strany v čase, ne pouhý počet hráčů v zahraničí.</p>
   </div>
 </section>
@@ -687,16 +700,20 @@
 <section class="slide" id="q4b">
   <div class="container">
     <h2 class="slide-q">Stojí pozdější odchod něco?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: průměrná ligově upravená produkce (góly + asistence na 90 minut) za první dvě sezóny v top-9 jako funkce věku při první z nich, dáno silou výchozí ligy a postem, 115 exportů peer národností.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Podívali jsme se na věk, kdy hráč poprvé přišel do jedné z nejsilnějších lig, a ověřili, jestli hráči, kteří přišli dřív, nakonec produkovali víc, po zohlednění síly ligy, ze které přišli.</p>
-    <p class="slide-a">Hráči, kteří se do top-9 dostanou v 21 letech, produkují 0,14 (0,13–0,16) ligově upravených G+A na 90 minut za první dvě sezóny; ti, kdo dorazí ve 24, 0,14 (0,12–0,16) — rozdíl <strong>+0,001</strong> (−0,011–0,013), interval zahrnuje nulu: při n = 115 žádný zjistitelný rozdíl. České exporty odcházejí v mediánovém věku 23.</p>
+    <p class="slide-a">Kdo se do top-9 dostane ve 21, produkuje za první dvě sezóny o <strong>+0,001</strong> ligově upravených G+A na 90 minut víc než ten, kdo dorazí ve 24, interval zahrnuje nulu: při n = 115 žádný zjistitelný rozdíl. České exporty odcházejí v mediánovém věku 23.</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, české exporty jako body proti všem ostatním peer exportům a rug (čárky) věku každého exportu podél osy.">
         <figcaption>Srovnání 21 vs 24 vyznačené přímo na křivce.</figcaption>
       </figure>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Věková křivka (kvadratická funkce) ligově upravené produkce, dáno silou výchozí ligy (<a href="#league-strength">§ Metodologie</a>), postem a efektem země, 115 exportů peer národností (Gelman et al., 2013; Hoffman and Gelman, 2014); lepší hráči obvykle odcházejí dříve, takže křivka mísí selekci s vývojem a tento report je neodděluje.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+      <p class="slide-detail">Ve 21: 0,14 (0,13–0,16); ve 24: 0,14 (0,12–0,16); rozdíl +0,001 (−0,011–0,013).</p>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: průměrná ligově upravená produkce (góly + asistence na 90 minut) za první dvě sezóny v top-9 jako funkce věku při první z nich, dáno silou výchozí ligy a postem, 115 exportů peer národností.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Podívali jsme se na věk, kdy hráč poprvé přišel do jedné z nejsilnějších lig, a ověřili, jestli hráči, kteří přišli dřív, nakonec produkovali víc, po zohlednění síly ligy, ze které přišli.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Věková křivka (kvadratická funkce) ligově upravené produkce, dáno silou výchozí ligy (<a href="#league-strength">§ Metodologie</a>), postem a efektem země, 115 exportů peer národností (Gelman et al., 2013; Hoffman and Gelman, 2014); lepší hráči obvykle odcházejí dříve, takže křivka mísí selekci s vývojem a tento report je neodděluje.</p>
+    </details>
     <p class="slide-so">Federace by sledovala, jak se křivka věku exportu posouvá mezi kohortami, ne výsledek jednoho hráče.</p>
   </div>
 </section>
@@ -705,10 +722,8 @@
 <section class="slide" id="q5">
   <div class="container">
     <h2 class="slide-q">Jak se jim tam daří?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: mediánový podíl klubových minut sezóny 2025/26 u hráčů v zahraničí, podle země původu.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Zjistili jsme, jaký podíl herního času klubu hráč skutečně dostal a kde ten klub tu sezónu stál ve vlastní ligové tabulce střelců.</p>
     <p class="slide-a">České exporty mají medián <strong>50 %</strong> minut svého klubu (3. z 9).
-       Sezóna Chance Liga se přepočítává na 0,67 sezóny Premier League podle modelu transferového grafu (0,59–0,75), oproti 0,43 podle koeficientu UEFA.</p>
+      </p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="fare_dots.svg" alt="Bodový graf: mediánový podíl minut klubu u hráčů v zahraničí za každou zemi, s tenkou linkou přes hodnoty ostatních zemí; Czechia zvýrazněno.">
@@ -821,7 +836,13 @@
         </div>
       </details>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Mediánový podíl minut klubu u hráčů v zahraničí, podle země původu (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+      <p class="slide-detail">Sezóna Chance Liga se přepočítává na 0,67 sezóny Premier League podle modelu transferového grafu (0,59–0,75), oproti 0,43 podle koeficientu UEFA.</p>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: mediánový podíl klubových minut sezóny 2025/26 u hráčů v zahraničí, podle země původu.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Zjistili jsme, jaký podíl herního času klubu hráč skutečně dostal a kde ten klub tu sezónu stál ve vlastní ligové tabulce střelců.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Mediánový podíl minut klubu u hráčů v zahraničí, podle země původu (<a href="#league-strength">síla ligy: dva odhady, § Metodologie</a>).</p>
+    </details>
     <p class="slide-so">Federace by sledovala, jestli si export udrží podíl minut i po první sezóně, ne jen medián.</p>
   </div>
 </section>
@@ -833,8 +854,6 @@
 <section class="slide" id="q6">
   <div class="container">
     <h2 class="slide-q">Z čeho je postavená nominace na MS?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: ligová úroveň u řádku s nejvíce minutami sezóny 2025/26 každého hráče soupisky 2026 FIFA World Cup, spárováno podle jména a roku narození, po zemích.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spárovali jsme každého jmenovaného hráče nominace s jeho klubovou sezónou a zaznamenali, na jaké úrovni ligy skutečně hrál.</p>
     <p class="slide-a"><strong>35 %</strong> nominace 2026 FIFA World Cup hraje v 9 nejsilnějších ligách; Švýcarsko 88 %.</p>
     <div class="slide-proof">
       
@@ -1042,7 +1061,12 @@
       </details>
       
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Soupisky z Wikipedie spárované s ligovými řádky sezóny 2025/26; úroveň = liga řádku s nejvíc minutami.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: ligová úroveň u řádku s nejvíce minutami sezóny 2025/26 každého hráče soupisky 2026 FIFA World Cup, spárováno podle jména a roku narození, po zemích.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spárovali jsme každého jmenovaného hráče nominace s jeho klubovou sezónou a zaznamenali, na jaké úrovni ligy skutečně hrál.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Soupisky z Wikipedie spárované s ligovými řádky sezóny 2025/26; úroveň = liga řádku s nejvíc minutami.</p>
+    </details>
     <p class="slide-so">Federace by sledovala skladbu úrovní budoucích nominací napříč cykly, ne snímek jednoho turnaje.</p>
   </div>
 </section>
@@ -1050,10 +1074,8 @@
 <section class="slide" id="q7">
   <div class="container">
     <h2 class="slide-q">Kdy vlak odjel?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: čeští hráči s alespoň 450 minutami v ligách Big-5 každou sezónu od 2020/21, s jedním datovaným zlomem.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Sezónu po sezóně jsme spočítali, kolik hráčů domácí země skutečně hrálo v pěti největších ligách Evropy, a hledali sezónu, kdy se ten počet natrvalo změnil na jinou úroveň.</p>
     
-    <p class="slide-a">Čeští hráči s aspoň 450 minutami v ligách Big-5 vyvrcholili na <strong>26</strong> v sezóně 2007/08, klesli na 6 v 2015/16, 10 v 2025/26; zlom je datován do sezóny 2014/15 (62 % posteriorní pravděpodobnost), změna úrovně o ×0,57 (0,38–0,86).</p>
+    <p class="slide-a">Čeští hráči s aspoň 450 minutami v Big-5: <strong>26</strong> na vrcholu 2007/08, 6 na dně 2015/16, 10 v 2025/26. Zlom je datován do sezóny 2014/15.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5">
         <img src="big5_series.svg" alt="Čárový graf: čeští hráči s aspoň 450 minutami v ligách Big-5, 2000/01 až 2025/26, proti osmi peer zemím; spodní panel ukazuje hráče na milion obyvatel pro Česko, Dánsko a Chorvatsko.">
@@ -1074,7 +1096,13 @@
       </aside>
       
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Sezónní tabulky hráčů Big-5 z FBref 2000/01 → 2025/26; peer země podle stejného pravidla; jména jsou čeští hráči s nejvíc minutami z každé vrcholné sezóny včetně brankářů — sestava přítomnosti, ne žebříček kvality: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. Datum zlomu pochází z bayesovského modelu lokální úrovně s jedním bodem zlomu (Adams and MacKay, 2007); podrobnosti v <a href="#series-model">§ Metodologie</a>.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+      <p class="slide-detail">Posteriorní pravděpodobnost zlomu 62 %; změna úrovně o ×0,57 (0,38–0,86).</p>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: čeští hráči s alespoň 450 minutami v ligách Big-5 každou sezónu od 2020/21, s jedním datovaným zlomem.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Sezónu po sezóně jsme spočítali, kolik hráčů domácí země skutečně hrálo v pěti největších ligách Evropy, a hledali sezónu, kdy se ten počet natrvalo změnil na jinou úroveň.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Sezónní tabulky hráčů Big-5 z FBref 2000/01 → 2025/26; peer země podle stejného pravidla; jména jsou čeští hráči s nejvíc minutami z každé vrcholné sezóny včetně brankářů — sestava přítomnosti, ne žebříček kvality: 2007/08: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera; 2002/03: Petr Čech, Jan Koller, David Jarolím; 2005/06: David Rozehnal, Tomáš Ujfaluši, Petr Čech. Datum zlomu pochází z bayesovského modelu lokální úrovně s jedním bodem zlomu (Adams and MacKay, 2007); podrobnosti v <a href="#series-model">§ Metodologie</a>.</p>
+    </details>
     <p class="slide-so">Federace by sledovala, jestli úroveň po zlomu vydrží i další sezónu, a nebrala jeden zlom jako konečný.</p>
     
   </div>
@@ -1083,8 +1111,6 @@
 <section class="slide" id="q8">
   <div class="container">
     <h2 class="slide-q">Jak to dělají Norsko a Dánsko?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: Norsko, Dánsko a Česko na stejných šesti definicích cesty do 9 nejsilnějších lig, stejné sezóny.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Porovnali jsme domácí zemi se dvěma srovnávacími zeměmi na šesti číslech, z nichž každé je definované a měřené úplně stejně pro všechny tři.</p>
     <p class="slide-a">Na stejných šesti číslech dává Norsko hráčům do 21 let <strong>12 %</strong> domácích minut proti 6 % a posílá 65 % nominace do 9 nejsilnějších lig proti 35 %.</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
@@ -1201,7 +1227,12 @@
         </table>
       </details>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Stejné definice, stejné sezóny; srovnání, ne kauzální tvrzení. Každá metrika je pro graf výše přeškálována na 0-1 napříč třemi zeměmi, směr zvolen tak, že 1,0 je vždy otevřenější cesta (více hráčů na milion, více minut do 21 let, dřívější věk exportu, méně přesunů do strany, větší podíl minut v zahraničí, více nominace v top-9 ligách); tabulka níže má syrová čísla.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: Norsko, Dánsko a Česko na stejných šesti definicích cesty do 9 nejsilnějších lig, stejné sezóny.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Porovnali jsme domácí zemi se dvěma srovnávacími zeměmi na šesti číslech, z nichž každé je definované a měřené úplně stejně pro všechny tři.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Stejné definice, stejné sezóny; srovnání, ne kauzální tvrzení. Každá metrika je pro graf výše přeškálována na 0-1 napříč třemi zeměmi, směr zvolen tak, že 1,0 je vždy otevřenější cesta (více hráčů na milion, více minut do 21 let, dřívější věk exportu, méně přesunů do strany, větší podíl minut v zahraničí, více nominace v top-9 ligách); tabulka níže má syrová čísla.</p>
+    </details>
     <p class="slide-so">Federace by sledovala, které z šesti čísel se pohne jako první, ne jen celkový obrázek.</p>
   </div>
 </section>
@@ -1210,9 +1241,7 @@
 <section class="slide" id="q8b">
   <div class="container">
     <h2 class="slide-q">Jdou brankáři jinou cestou?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: čeští brankáři s alespoň 450 minutami v top-9 ligách, na milion obyvatel, oproti věku exportu hráčů z pole.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Brankáře jsme počítali stejným způsobem jako hráče v poli a pak porovnali věk, kdy se každá skupina poprvé dostala do jedné z nejsilnějších lig.</p>
-    <p class="slide-a">4 čeští brankáři hrají aspoň 450 minut v top-9 ligách (0,37 na milion, pořadí <strong>5 z 9</strong>); v nich se poprvé objevili v mediánovém věku 22,5, oproti 23 u exportů z pole — dříve než exporty z pole.</p>
+    <p class="slide-a">4 čeští brankáři hrají aspoň 450 minut v top-9 ligách — pořadí <strong>5 z 9</strong> na milion — a dostávají se tam dřív než exporty z pole.</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="gk_export_age.svg" alt="Bodový graf věku při prvním startu v top-9 lize, čeští brankáři proti exportům z pole, jeden bod na hráče, medián vyznačen.">
@@ -1536,7 +1565,13 @@
       </details>
       
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Práh 450 minut, soupisky 2025/26, stejné stahování K = 900 jako zbytek reportu; první sezóna ve stažené top-9 tabulce; hráči, kteří v ní byli už v 2020/21, jsou cenzurovaní — 0 % brankářů, 21 % exportů z pole; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+      <p class="slide-detail">0,37 na milion; první sezóna v top-9 v mediánovém věku 22,5, oproti 23 u exportů z pole.</p>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: čeští brankáři s alespoň 450 minutami v top-9 ligách, na milion obyvatel, oproti věku exportu hráčů z pole.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Brankáře jsme počítali stejným způsobem jako hráče v poli a pak porovnali věk, kdy se každá skupina poprvé dostala do jedné z nejsilnějších lig.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Práh 450 minut, soupisky 2025/26, stejné stahování K = 900 jako zbytek reportu; první sezóna ve stažené top-9 tabulce; hráči, kteří v ní byli už v 2020/21, jsou cenzurovaní — 0 % brankářů, 21 % exportů z pole; srovnání dvou cest v rámci jednoho národa, ne kauzální tvrzení.</p>
+    </details>
     <p class="slide-so">Federace by sledovala, jestli se cesta brankářů dál odchyluje od věku exportu v poli, ne rozdíl jedné sezóny.</p>
   </div>
 </section>
@@ -1547,16 +1582,20 @@
 <section class="slide" id="q8c">
   <div class="container">
     <h2 class="slide-q">Z čeho se rozdíl skládá?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: lineární rozklad rozdílu na milion obyvatel na minuty do 21 let, sílu ligy a věk exportu napříč 8 peer zeměmi.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Použili jsme hráče, kteří změnili ligu, abychom zjistili, kolik je sezóna v jedné lize hodná v jiné, a pak rozdělili rozdíl mezi zeměmi na části, které souvisí s minutami mladých hráčů, silou ligy a věkem, kdy hráči odcházejí do zahraničí.</p>
-    <p class="slide-a">Rozdíl 6,98 hráčů na milion, Norsko vs Česko: s minutami hráčů do 21 let souvisí +4,22, se silou ligy +5,12, s věkem exportu 0,00; −2,37 tyto tři kanály nepokrývají.</p>
+    <p class="slide-a">Rozdíl <strong>6,98</strong> hráčů na milion, Norsko vs Česko: s minutami hráčů do 21 let souvisí +4,22, se silou ligy +5,12, s věkem exportu 0,00.</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="gap_decomposition.svg" alt="Jeden vodorovný skládaný sloupec za každou srovnávanou zemi vs Česko: příspěvek minut hráčů do 21 let, síly ligy a věku exportu k rozdílu v hráčích na obyvatele, plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
         <figcaption>Hodnoty napsané uvnitř každého segmentu, pokud se vejdou; reziduum šrafované.</figcaption>
       </figure>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca (Oaxaca, 1973; Blinder, 1973), fitovaný na 8 peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, 1000 převzorkování; rozklad korelace, ne kauzální účetnictví.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+      <p class="slide-detail">−2,37 tyto tři kanály nepokrývají.</p>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: lineární rozklad rozdílu na milion obyvatel na minuty do 21 let, sílu ligy a věk exportu napříč 8 peer zeměmi.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Použili jsme hráče, kteří změnili ligu, abychom zjistili, kolik je sezóna v jedné lize hodná v jiné, a pak rozdělili rozdíl mezi zeměmi na části, které souvisí s minutami mladých hráčů, silou ligy a věkem, kdy hráči odcházejí do zahraničí.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Lineární rozklad ridge regresí ve stylu Blinder-Oaxaca (Oaxaca, 1973; Blinder, 1973), fitovaný na 8 peer zemích s daty pro všechny tři kanály; bootstrapové 90% intervaly, 1000 převzorkování; rozklad korelace, ne kauzální účetnictví.</p>
+    </details>
     <p class="slide-so">Federace by sledovala, který kanál svůj příspěvek zvětšuje, ne brala rozklad jako pevný.</p>
   </div>
 </section>
@@ -1565,8 +1604,6 @@
 <section class="slide" id="q9">
   <div class="container">
     <h2 class="slide-q">Kdo to je?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: 17 vybraných karet z fondu sezóny 2025/26 podle šesti výběrových pravidel, jedno na herní post a pravidlo.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spárovali jsme sezónu každého hráče s jeho reprezentačními nominacemi a fotkou a pak podle šesti pravidel vybrali jednoho hráče na postovou skupinu.</p>
     <p class="slide-a"><strong>17 karet</strong> vybraných šesti pravidly.</p>
     <div class="slide-proof">
       <details class="fold">
@@ -6757,7 +6794,12 @@
       </details>
       
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Řádky FBref, Wikipedie a Wikidat sezóny 2025/26 spojené podle jména a ročníku narození; šest výběrových pravidel, v tomto pořadí — viz níže.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: 17 vybraných karet z fondu sezóny 2025/26 podle šesti výběrových pravidel, jedno na herní post a pravidlo.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Spárovali jsme sezónu každého hráče s jeho reprezentačními nominacemi a fotkou a pak podle šesti pravidel vybrali jednoho hráče na postovou skupinu.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Řádky FBref, Wikipedie a Wikidat sezóny 2025/26 spojené podle jména a ročníku narození; šest výběrových pravidel, v tomto pořadí — viz níže.</p>
+    </details>
     <p class="slide-so">Federace by sledovala, jak se výběr karet mění s věkem kohorty, ne jednu kartu.</p>
   </div>
 </section>
@@ -6765,8 +6807,6 @@
 <section class="slide" id="q10">
   <div class="container">
     <h2 class="slide-q">Co se změnilo od minulé sezony?</h2>
-    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: každý hráč způsobilý za Česko s aspoň 450 minutami v sezoně 2024/25 nebo 2025/26, zařazený v každé z nich na příčku ligového žebříku, a posun mezi nimi.</p>
-    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Vzali jsme hlavní ligu každého hráče v minulé a v této sezoně, seřadili ligy do čtyř příček, které report používá všude — domácí liga, jiná pokrytá liga, přestupní liga, top devítka — a spočítali, kdo stoupl, kdo klesl, kdo se objevil a kdo už není v žádné lize, kterou vidíme.</p>
     <p class="slide-a"><strong>6 hráčů stouplo o příčku, 11 kleslo.</strong> V přestupních ligách je z poolu 0 hráčů, loni 4; v top devítce 16, loni 17.</p>
     <div class="slide-proof">
       <div class="changes-tiers">
@@ -6877,7 +6917,12 @@
       </div>
       <p class="capita-note">„Už ne v pokryté lize“ znamená přesně to: konec kariéry, zranění na celou sezonu, nebo liga, kterou tento report nestahuje. Data to od sebe nerozliší a tato stránka nehádá. „Nově v poolu“ podobně mísí debutanty s hráči, kteří se vrátili z lig mimo výběr.</p>
     </div>
-    <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Sezonní tabulky rysů obou sezon; ligou hráče je ta, kde odehrál nejvíc minut; hranice 450 minut za sezonu, aby se v ní počítal; příčky podle kapitoly o cestách.</p>
+    <details class="fold slide-method">
+      <summary>Jak to víme</summary>
+    <p class="slide-aq"><span class="slide-aq-label">Jako analytická otázka</span> V číslech: každý hráč způsobilý za Česko s aspoň 450 minutami v sezoně 2024/25 nebo 2025/26, zařazený v každé z nich na příčku ligového žebříku, a posun mezi nimi.</p>
+    <p class="slide-did"><span class="slide-did-label">Co jsme udělali</span> Vzali jsme hlavní ligu každého hráče v minulé a v této sezoně, seřadili ligy do čtyř příček, které report používá všude — domácí liga, jiná pokrytá liga, přestupní liga, top devítka — a spočítali, kdo stoupl, kdo klesl, kdo se objevil a kdo už není v žádné lize, kterou vidíme.</p>
+    <p class="slide-how"><span class="slide-how-label">Zdroje</span> Sezonní tabulky rysů obou sezon; ligou hráče je ta, kde odehrál nejvíc minut; hranice 450 minut za sezonu, aby se v ní počítal; příčky podle kapitoly o cestách.</p>
+    </details>
     <p class="slide-so">Federace by každé léto sledovala dva pohyblivé sloupce, a počet v přestupních ligách především.</p>
   </div>
 </section>
@@ -13092,6 +13137,8 @@
     
     <h3 id="league-strength">Síla ligy: dva odhady</h3>
     <p class="plain">Sezóna v jedné lize automaticky neznamená totéž co sezóna v jiné: góly a asistence přicházejí v některých soutěžích snáz než v jiných. Tahle sekce spočítá směnný kurz mezi ligami tak, že sleduje stejné hráče před a po změně ligy — podobně jako trenér posuzuje nový přestup podle toho, jak se jeho výkon změní v novém klubu.</p>
+    <details class="fold method-body">
+      <summary>Celá metoda, grafy a diagnostika</summary>
     <p>Kolik je sezóna Czech First League hodná v přepočtu na Premier League? Násobička UEFA výše odpovídá z kontinentálních výsledků zemí; tento model odpovídá na stejnou otázku od hráčů, kteří ligu skutečně změnili.</p>
     <p>Movers — 2125 hráčů pozorovaných aspoň ve dvou ligách napříč 8108 kvalifikujícími hráčskými sezónami — kotví model, protože jen vlastní změna ligy hráče před/po odděluje jeho úroveň od skórovacího prostředí ligy. Hierarchický Poissonův model neproniknutých gólů plus asistencí na 90 minut (Gelman et al., 2013) fituje efekt ligy a efekt hráče společně, vzorkovaný NUTS (Hoffman and Gelman, 2014) v PyMC (Abril-Pla et al., 2023) a diagnostikovaný ArviZ (Kumar et al., 2019). Partial pooling drží efekty lig regularizované, zatímco efekty hráčů nechává blízko nepoolovaným — stejná within-subject logika, jaká stojí za plus-minus a RAPM hodnocením jinde v týmových sportech (Kharrat, McHale and Peña, 2020; Hvattum, 2019).</p>
     <figure class="figure-bleed">
@@ -13289,11 +13336,14 @@
     <p>Co movers neukazují: nejsou náhodný vzorek — hráči obvykle odcházejí nahoru, když jsou dobří, a dolů, když stárnou — takže vnitrohráčský kontrast popisuje rozdíl lig pro typ hráče, který ligu mění, a věkový člen absorbuje jen tu část selekce, která je věk. Interval je nejistota modelu, ne selekce.</p>
 
     <p>Žebříčky reportu drží násobičku UEFA koeficientu po celou dobu; model výše je ukázaný vedle ní jako kontrola vlastního předpokladu té násobičky — že kontinentální výsledky sledují sílu hráčů — ne jako její náhrada.</p>
+    </details>
     
 
     
     <h3 id="model-comparison">Tři modely, jeden úkol, pět sezón</h3>
     <p class="plain">Tady klademe jednoduchou otázku pěti různým metodám: podle čísel hráče v této sezóně, jak dobře každá z nich odhadne jeho čísla v příští sezóně. Každá metoda je testovaná jen na sezónách, které ještě neviděla — podobně jako úsudek skauta se počítá jen za to, co předpoví před začátkem sezóny, ne po jejím konci.</p>
+    <details class="fold method-body">
+      <summary>Celá metoda, grafy a diagnostika</summary>
     <p>Co nám sezóna hráče řekne o té příští, s ohledem na to, kde hraje, kolik mu je a — u exportů — v jakém věku odešel? V modelovém vyjádření: predikovat hráčovu ligou upravenou produkci v příští sezóně (neproniknuté góly plus asistence na 90 minut, upravené o kvalitu) z čísel této sezóny, pro každou hráčskou sezónní dvojici s aspoň 450 minutami v obou sezónách, každou národnost v korpusu.</p>
     <p>Vyhodnoceno rolling-origin křížovou validací (Hyndman and Athanasopoulos, 2021): pro každou z 5 cílových sezón po řadě trénuje každý model jen na dvojicích, jejichž cílová sezóna přišla dřív, a je testován na dvojicích té sezóny — stejná disciplína, jakou používá prognostik, když je budoucnost v době fitu opravdu neznámá, a to, co dělá tabulku níže po sezónách skutečným čtením „výkonu v čase“, ne jedním smíšeným číslem. Dvě základní linie — persistence (příští sezóna = tato sezóna) a shrinkage k ligovému průměru — stojí vedle tří fitovaných modelů se stejnými osmi rysy: hierarchická bayesovská regrese (target ~ Normal(μ, σ), partial pooling na lize a hráči, NUTS, 2 řetězce × 400 vzorků na origin (Gelman et al., 2013)), gradient-boosted regresor a malý vícevrstvý perceptron (scikit-learn (Pedregosa et al., 2011), skryté vrstvy 64/32 — malý MLP, ne embedding model: PyTorch není součástí tohoto pipeline). Trénovací řádky bayesovského modelu jsou subsamplované na nejvýš 2500 na origin, aby se fity pěti origins vešly do rozpočtu běhu; ostatní čtyři modely trénují na plném splitu. Cíl je upravený násobičem ligy, ve které hráč hraje příští sezónu; featury znají jen letošní ligu, takže přestup je změna, kterou žádný z modelů nevidí dopředu — omezení společné všem pěti.</p>
     <figure class="figure-bleed">
@@ -13401,11 +13451,14 @@
     
     <p>Nejvýraznější posun RMSE vítěze mezi sezónami je mezi 2023/24 a 2024/25 (0,005) — přesně ten typ driftu, který tato rolling-origin tabulka má odhalit.</p>
     
+    </details>
     
 
     
     <h3 id="series-model">Datace zlomu a jedna prognóza</h3>
     <p class="plain">Tahle sekce hledá sezónu, kdy se počet hráčů domácí země v pěti největších ligách Evropy přestal zvyšovat a usadil se na nižší úrovni, a dává pravděpodobnost tomu, že je to skutečný bod zlomu, ne jen obyčejný propad. Dělá také jednu prognózu na příští sezónu — jako ukázku metody, ne předpověď o žádném hráči.</p>
+    <details class="fold method-body">
+      <summary>Celá metoda, grafy a diagnostika</summary>
     <p>Řada je modelována jako lokální úroveň ve stavovém prostoru (Durbin and Koopman, 2012): logaritmus sezónního počtu následuje Gaussovu náhodnou procházku (σ ~ HalfNormal(0,2)), plus jeden skokový posun δ v úrovni v neznámé sezóně zlomu τ. NUTS vzorkuje jen spojité parametry, takže τ se nevzorkuje přímo — každá kandidátní sezóna vzdálená alespoň 3 sezón od obou konců je z modelu marginalizována jedním log-sum-exp potenciálem a její posterior se dopočítá až ze spojitých vzorků, standardní postup pro marginalizovaný diskrétní parametr (Gelman et al., 2013); samotná myšlenka bodu zlomu pochází od (Adams and MacKay, 2007), zde použitá na dávkové nastavení s jedním zlomem. Rolling-origin zpětný test (Hyndman and Athanasopoulos, 2021) přeučí stejnou lokální úroveň bez skoku na každém z 15 počátků, předpovídá jednu sezónu dopředu a hodnotí proti naivnímu základu „stejně jako minulou sezónu“ — poctivý pohled prognostika, protože žádný skutečný počátek dopředu neví, na které straně zlomu se nachází. Jedna prognóza níže, ze stejného modelu bez bodu zlomu vyladěného na celé řadě, je demonstrací metody na počtu hráčů, ne výrokem o žádném hráči.</p>
     <figure class="figure-bleed">
       <img src="series_model.svg" alt="Čárový graf řady Česko s vyladěnou úrovní modelu bodu zlomu ve světlém pásu, svislou linkou označující nejpravděpodobnější sezónu zlomu s její posteriorní pravděpodobností a jednosezónní prognóza s 90% intervalem na pravém okraji, za přerušovanou dělicí čárou.">
@@ -13546,11 +13599,14 @@
     <p class="capita-note">Demonstrace metody na počtu hráčů, ne výrok o žádném hráči.</p>
 
     <p>Fit bodu zlomu: R-hat ≤ 1,010, minimální bulk ESS 339, 0 divergentních tranzicí napříč 26 sezónami.</p>
+    </details>
     
 
     
     <h3 id="youth-panel">Mezinárodní panel minut mládeže</h3>
     <p class="plain">Tahle sekce se ptá, jestli vzorec z trychtýře výše — země, které dávají mladým hráčům doma víc minut, mají obvykle hlubší fond v nejsilnějších ligách — platí napříč celou srovnávací sadou zemí, ne jen u dvou ukázaných dřív. Dvě sezóny a hrstka zemí je malý vzorek, takže rozpětí kolem odhadu je široké.</p>
+    <details class="fold method-body">
+      <summary>Celá metoda, grafy a diagnostika</summary>
     <p>Za každou z 8 peer zemí průměr přes 2024/25 → 2025/26 u podílu minut domácí ligy odehraných hráči do 21 let (x) proti průměru přes 2024/25 → 2025/26 u hráčů na milion v top-9 ligách (y) — jeden řádek na zemi. Bayesovská jednoduchá regrese, y ~ Normal(α + β·x, σ), slabě informativní priory (4 řetězce × 1000 vzorků (Abril-Pla et al., 2023)), odpovídá na otázku mezi zeměmi, kterou pokládá slide 3: má země s vyšším průměrným podílem do 21 let v průměru i hlubší fond (Gelman et al., 2013). Srovnáno s prostým poolovaným sklonem metodou nejmenších čtverců na celém dvousezónním panelu (numpy polyfit, bez struktury podle země, 1000 percentilových bootstrapových převzorkování — statsmodels zde není závislostí), který by měl souhlasit ve znaménku. Dvě sezóny na zemi (předchozí a metrická; běžící sezóna je neúplná a je vynechaná); peer země, jejíž nejvyšší soutěž FBref nesleduje, v panelu chybí — proto může být n menší než počet peer zemí.</p>
     <figure class="figure-bleed">
       <img src="youth_panel.svg" alt="Bodový graf panelu s fitovanou přímkou mezi zeměmi a jejím 90% pásem.">
@@ -13635,11 +13691,14 @@
         </tbody>
       </table>
     </details>
+    </details>
     
 
     
     <h3 id="gap-decomposition">Z čeho se rozdíl skládá</h3>
     <p class="plain">Rozdíl mezi domácí zemí a srovnávací zemí, v hráčích na milion, lze rozdělit na části, které souvisí se třemi věcmi, které tento report už měří: kolik hrají mladí hráči doma, jak silná je domácí liga a v jakém věku hráči odcházejí do zahraničí. To neříká, která ze tří rozdíl způsobuje, jen kolik se s každou z nich pohybuje společně — podobně jako si trenér může všimnout, že slabá sezóna souvisí s vlnou zranění, aniž by tvrdil, že zranění jsou jediné vysvětlení.</p>
+    <details class="fold method-body">
+      <summary>Celá metoda, grafy a diagnostika</summary>
     <p>Ridge regrese (α = 1,00, standardizované kanály, převedené zpět do původních jednotek) hráčů na milion v top-9 ligách na třech kanálech — podíl minut do 21 let v domácí lize, síla domácí ligy (<a href="#league-strength">m_L z M2</a> tam, kde je nejvyšší soutěž dané země v souboru fitovaném tímto modelem, jinak násobička podle UEFA koeficientu (v tomto běhu použila každá země odhad z modelu)) a mediánový věk exportu (nedávní hráči, nebo celkový medián pro zemi bez nedávných exportů) — napříč 8 peer zeměmi s daty pro všechny tři kanály, sezóna metriky. Pro jednu srovnávanou zemi najednou rozdělí vlastní predikce fitovaného modelu rozdíl přesně na jeden člen za kanál — lineární forma Blinder-Oaxaca rozkladu mzdového rozdílu (Oaxaca, 1973; Blinder, 1973), zde aplikovaná na počet hráčů na obyvatele. Tři lineární kanály znamenají, že tento rozklad je ekvivalentní Shapleyho hodnotám: Shapleyho hodnota aditivního členu v lineárním modelu se rovná příspěvku jeho vlastního koeficientu, takže permutační mechanismus není implementovaný. Reziduum je vše, co tyto tři kanály nepokrývají.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Vodorovný skládaný sloupec za každou srovnávanou zemi: tři příspěvky kanálů plus reziduum; fousy ukazují bootstrapový interval každého kanálu.">
@@ -13721,12 +13780,15 @@
     </table>
     <p>Bootstrapové 90% intervaly na příspěvku každého kanálu, 1000 převzorkování řádků panelu (model se přeučí na každém převzorkování; vlastní hodnoty domácí a srovnávané země zůstávají fixní); samotné reziduum se nebootstrapuje — je to rozdíl vlastních pozorovaných počtů obou zemí minus fitovaný rozdíl.</p>
     <p>Rozklad korelace, kterou tento panel ukazuje, ne kauzální účetnictví; s n = 8 a třemi vzájemně korelovanými kanály na úrovni státu jsou podíly orientační, ne přesné. Podíl kanálu na rozdílu se zobrazuje jen tehdy, když je samotný rozdíl aspoň 3 hráčů na milion — pod touto hranicí může malý jmenovatel poslat podíl přes 100 % oběma směry; samotný příspěvek v hráčích na milion se uvádí vždy.</p>
+    </details>
     
 
     
     
     <h3 id="export-age-model">Věk exportu</h3>
     <p class="plain">Hráči, kteří odejdou do zahraničí mladší, mívají tam pak vyšší produkci, ale neznamená to nutně, že mladý odchod kariéře pomáhá: kluby jsou taky ochotnější vsadit na hráče, kterého už v mladším věku hodnotí vysoko. Tahle sekce na ten vzorec proloží křivku a snaží se přitom držet sílu hráčovy původní ligy pevnou, ale obě vysvětlení úplně rozlišit nedokáže.</p>
+    <details class="fold method-body">
+      <summary>Celá metoda, grafy a diagnostika</summary>
     <p>Pro každého hráče peer národnosti (včetně domácí země), jehož první sezóna v top-9 lize spadá do staženého okna a není cenzurovaná (stejné pravidlo cenzurování jako u „Kam čeští hráči odcházejí?“, zde znovu použité) — 115 hráčů, věk 17–31 — je věk při té sezóně modelován proti ligově upravené produkci za první jednu nebo dvě sezóny hráče v top-9. f(věk) je přirozený kubický spline s uzly na 19, 21, 23 a 25 (prostá kvadratická funkce pod n = 150; zde byla použita větev kvadratická funkce), spolu se silou výchozí ligy (model transferového grafu, <a href="#league-strength">§ Síla ligy</a>), postem a partial-pooled efektem země (Gelman et al., 2013), vzorkováno NUTS (Hoffman and Gelman, 2014), 4 řetězce × 1000 vzorků; každý sloupec designu i výstup byly před fitováním standardizovány — stejná lekce z panelu minut mládeže o priorech na surové škále u různě škálovaných proměnných.</p>
     <figure class="figure-bleed">
       <img src="export_age_model.svg" alt="Čárový graf: fitovaná křivka věku exportu s 90% pásem, exporty domácí země jako oxblood body proti všem ostatním peer exportům v šedé a rug (čárky) věku každého exportu podél osy.">
@@ -13758,6 +13820,7 @@
     </details>
     <p>R-hat ≤ 1,002, minimální bulk ESS 1190, 0 divergentních tranzicí napříč 115 hráči; fit za 5,5 s.</p>
     <p>Co tento model neodděluje: korpus není náhodný vzorek hráčů, kteří mohli odejít později. Hráči, kteří odcházejí dříve, bývají ti, které týmy považují za připravené nejdříve — selekční efekt, který věková křivka mísí s jakýmkoliv skutečným vývojovým efektem raného odchodu, a tento report se je nesnaží rozlišit.</p>
+    </details>
     
 
     <h3 id="shrinkage">Bayesovský shrinkage</h3>
@@ -14462,7 +14525,7 @@
         <tbody></tbody>
       </table>
       <p class="sensitivity-live-churn"></p>
-      <p class="slide-how"><span class="slide-how-label">Jak to víme</span> Toto je výše uvedená offline tabulka citlivosti (§ Analýza citlivosti) udělaná interaktivní: q = (npG/90_shrunk + A/90_shrunk) × m_liga, přepočítáno na straně prohlížeče ze shrunk rates každého hráče s příslušností Česka v metrikové sezóně, bez volání serveru. Sloupec změny pořadí srovnává pořadí každého řádku při aktuálním nastavení posuvníků s jeho pořadím při výchozích hodnotách z configu.</p>
+      <p class="slide-how"><span class="slide-how-label">Zdroje</span> Toto je výše uvedená offline tabulka citlivosti (§ Analýza citlivosti) udělaná interaktivní: q = (npG/90_shrunk + A/90_shrunk) × m_liga, přepočítáno na straně prohlížeče ze shrunk rates každého hráče s příslušností Česka v metrikové sezóně, bez volání serveru. Sloupec změny pořadí srovnává pořadí každého řádku při aktuálním nastavení posuvníků s jeho pořadím při výchozích hodnotách z configu.</p>
     </div>
 
     
@@ -14834,7 +14897,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-21 10:57</p>
+    <p class="rendered-at">Vykresleno: 2026-09-21 11:31</p>
   </div>
 </footer>
 

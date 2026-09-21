@@ -528,21 +528,9 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   padding: var(--space-3) 0 0;
   border-top: 1px solid var(--rule);
 }
-.funnel-caveats {
-  padding: var(--space-3) var(--space-4);
-  background: var(--cream-100);
-  border: 1px solid var(--rule);
-}
-.funnel-caveats h3 {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--oxblood-700);
-  margin: 0 0 0.6rem;
-}
-.funnel-caveats ul { margin: 0; padding: 0 0 0 1.1rem; }
+.funnel-caveats { max-width: var(--measure-wide); }
+.funnel-caveats > summary { color: var(--oxblood-700); }
+.funnel-caveats ul { margin: 0 0 0.6rem; padding: 0 0 0 1.1rem; }
 .funnel-caveats li {
   font-family: var(--font-sans);
   font-size: 0.88rem;
@@ -808,7 +796,7 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
    needed here — the exhibits themselves already collapse to one column).
    ========================================================================= */
 .slide {
-  padding: var(--space-6) 0;
+  padding: var(--space-7) 0;
   border-top: 1px solid var(--rule);
 }
 .slide:first-of-type {
@@ -821,7 +809,7 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   line-height: 1.12;
   letter-spacing: -0.02em;
   max-width: 22ch;
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-4);
 }
 .slide-aq {
   font-family: var(--font-sans);
@@ -854,21 +842,27 @@ h2[id], h3[id] { scroll-margin-top: 2rem; }
   max-width: var(--measure-wide);
   margin: 0 0 var(--space-3);
 }
+/* The answer is the slide. It sits straight under the question, set in the
+   display face at reading-headline size, with its number lifted in oxblood;
+   the analytics question, what we did and the sources fold away below the
+   proof under one "How we know". */
 .slide-a {
-  font-family: var(--font-sans);
-  font-size: 1.08rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  max-width: var(--measure-wide);
-  /* Task 27D: more room between the answer and its proof below */
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--ink);
+  max-width: 34ch;
   margin: 0 0 var(--space-6);
 }
 .slide-a strong {
-  font-family: var(--font-display);
   font-weight: 600;
-  color: var(--navy-700);
+  color: var(--oxblood-700);
   font-feature-settings: "tnum", "lnum";
 }
+.slide-method { max-width: var(--measure-wide); }
+.slide-method > p { margin-top: 0.4rem; }
+.slide-method > p:last-child { margin-bottom: 0.6rem; }
 .slide-proof {
   margin: 0 0 var(--space-4);
 }
@@ -2854,8 +2848,8 @@ footer a:hover { border-bottom-color: var(--ink); }
 /* ---- pre-registered forecast scoreboard (Task 32) --------------------- */
 .scoreboard {
   margin: var(--space-4) 0 0; padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--rule); border-left: 4px solid var(--oxblood-700);
-  background: var(--surface); max-width: var(--measure-wide);
+  border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule);
+  background: transparent; max-width: var(--measure-wide); padding-left: 0; padding-right: 0;
 }
 .scoreboard-kicker { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--oxblood-700); margin: 0 0 0.4rem; }
 .scoreboard-claim { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.5; margin: 0 0 0.8rem; color: var(--ink); }
@@ -2867,3 +2861,13 @@ footer a:hover { border-bottom-color: var(--ink); }
 .scoreboard-meta code { font-size: 0.8em; }
 .scoreboard-drift { font-family: var(--font-sans); font-size: 0.86rem; color: var(--oxblood-700); margin: 0.8rem 0 0; }
 .scoreboard-why { font-family: var(--font-sans); font-size: 0.8rem; color: var(--muted); margin: 0.8rem 0 0; line-height: 1.5; }
+.slide-detail {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: var(--measure-wide);
+  margin: 0.4rem 0 0.6rem;
+}
+/* the live sensitivity table is wider than a phone: scroll it, never the page */
+.sensitivity-live-table { display: block; overflow-x: auto; max-width: 100%; }

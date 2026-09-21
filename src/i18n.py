@@ -217,7 +217,7 @@ EN: dict[str, str] = {
     # federation", each q (h2) / a (one sentence, headline number in
     # <strong>) / proof (one exhibit, markup in the template) / how (mono
     # sourcing line, shared "How we know" label below)
-    "slide.how_label": "How we know",
+    "slide.how_label": "Sources",
     "slide.1.q": "Is the {adj} pool thin?",
     "slide.1.aq": "In numbers: distinct players with ≥ {min} minutes on {season} rosters of the {topn} strongest leagues, per million inhabitants, against {n} peers.",
     "slide.1.a": "{nation} ranks <strong>{rank} of {n}</strong> countries at {pm} per million; {top} leads at {top_pm}.",
@@ -228,7 +228,7 @@ EN: dict[str, str] = {
     "slide.2.how": "Age at season start; cohorts U22 / 23–25 / 26–29 / 30+; ≥ {min} minutes.",
     "slide.3.q": "Do young players get minutes at home?",
     "slide.3.aq": "In numbers: share of domestic-league minutes played by players aged ≤ 21 at season start, {season}, by country's top flight.",
-    "slide.3.a": "U21 share of domestic-league minutes <strong>{cze_pct} %</strong> vs {best_name} {best_pct} % (best peer).",
+    "slide.3.a": "Under-21s get <strong>{cze_pct} %</strong> of the home league\u2019s minutes. In {best_name}, the best of the peers, {best_pct} %.",
     "slide.3.how": "Share of all league minutes played by players aged ≤ 21 at season start, {season}, per domestic top flight.",
     "slide.3.panel": " Across the {n_countries} countries (country averages over both seasons), 10 points more U21 share go with {beta} more top-{topn} players per million ({lo}–{hi}).",
     "slide.3.panel.summary": "Across countries",
@@ -240,7 +240,8 @@ EN: dict[str, str] = {
     "slide.4b.q": "Does leaving later cost anything?",
     "slide.4b.zero_note": ", an interval that includes zero: no detectable difference at n = {n}",
     "slide.4b.aq": "In numbers: mean league-adjusted goals + assists per 90 over the first two top-{topn} seasons, as a function of age at the first one, given origin-league strength and position, {n} peer-nationality exports.",
-    "slide.4b.a": "Players who arrive in the top-{topn} at 21 produce {y21} ({lo}–{hi}) league-adjusted G+A per 90 over their first two seasons; those arriving at 24, {y24} ({lo24}–{hi24}) — a difference of <strong>{diff}</strong> ({dlo}–{dhi}){zero_note}. {Adj} exports arrive at a median age of {age_home}.",
+    "slide.4b.a": "Arrive in the top-{topn} at 21 and you produce <strong>{diff}</strong> more league-adjusted G+A per 90 over your first two seasons than arriving at 24{zero_note}. {Adj} exports arrive at a median age of {age_home}.",
+    "slide.4b.a_detail": "At 21: {y21} ({lo}–{hi}); at 24: {y24} ({lo24}–{hi24}); the difference {diff} ({dlo}–{dhi}).",
     "slide.4b.how": "Age curve ({branch}) on league-adjusted production, given origin-league strength (<a href=\"#league-strength\">§ Methodology</a>), position and a country effect, {n} peer-nationality exports {cite}; better players tend to leave earlier, so the curve mixes selection with development and this report does not separate them.",
     "slide.4b.alt": "Line chart: the fitted age-at-export curve with its 90 % band, {adj} exports as points against every other peer export, and a rug of every export's age along the axis.",
     "slide.4b.caption": "The 21-vs-24 comparison, marked directly on the curve.",
@@ -260,7 +261,8 @@ EN: dict[str, str] = {
     "slide.6.how": "Wikipedia squad lists matched to {season} league rows; tier = league of the most-minutes row.",
     "slide.7.q": "When did the train leave?",
     "slide.7.aq": "In numbers: {adj} players with ≥ {min} minutes in the Big-5 leagues each season since {history_start}, with one dated change point.",
-    "slide.7.a": "{Adj} players with ≥ {min} minutes in the Big-5 leagues peaked at <strong>{peak_n}</strong> in {peak_season}, fell to {low_n} in {low_season}, {last_n} in {last_season}; the break is dated to {break_season} ({break_prob} posterior), a level change of ×{delta} ({lo}–{hi}).",
+    "slide.7.a": "{Adj} players with ≥ {min} Big-5 minutes: <strong>{peak_n}</strong> at the {peak_season} peak, {low_n} at the {low_season} low, {last_n} in {last_season}. The break is dated to {break_season}.",
+    "slide.7.a_detail": "Break posterior {break_prob}; a level change of ×{delta} ({lo}–{hi}).",
     "slide.7.how": "FBref Big-5 player tables {first_season} → {last_season}; peers on the same rule; the names are the most-minutes {adj} players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: {golden}. The break date comes from a Bayesian local-level model with one change point {cite_cp}; detail in <a href=\"#series-model\">§ Methodology</a>.",
     "slide.7.alt": "Line chart: {adj} players with at least {min} minutes in the Big-5 leagues, {start} to {end}, against eight peer countries; a lower panel shows per-million rates for {nation}, {a} and {b}.",
     "slide.7.caption": "{Adj} in oxblood; peaks, lows and the last season marked directly.",
@@ -273,16 +275,18 @@ EN: dict[str, str] = {
     "slide.8.table_summary": "The six numbers, unscaled",
     "slide.8b.q": "Do goalkeepers follow a different path?",
     "slide.8b.aq": "In numbers: {adj} goalkeepers with ≥ {min} minutes in the top-{topn} leagues, per million inhabitants, against outfield export age.",
-    "slide.8b.a": "{n_gk} {adj} goalkeepers play ≥ {min} minutes in the top-{topn} leagues ({pm} per million, rank <strong>{rank} of {n}</strong>); they first appeared there at a median age of {gk_age}, against {out_age} for outfield exports — {earlier_or_later} than outfield exports.",
-    "slide.8b.earlier": "earlier",
-    "slide.8b.later": "later",
-    "slide.8b.same_age": "at the same age",
+    "slide.8b.a": "{n_gk} {adj} goalkeepers play ≥ {min} minutes in the top-{topn} leagues — rank <strong>{rank} of {n}</strong> per million — and they get there {earlier_or_later}.",
+    "slide.8b.a_detail": "{pm} per million; first top-{topn} season at a median age of {gk_age}, against {out_age} for outfield exports.",
+    "slide.8b.earlier": "earlier than outfield exports",
+    "slide.8b.later": "later than outfield exports",
+    "slide.8b.same_age": "at about the same age as outfield exports",
     "slide.8b.alt": "Strip plot of age at first top-9-league appearance, {adj} goalkeepers against outfield exports, one dot per player, medians marked.",
     "slide.8b.how": "{min}-minute floor, {season} rosters, same K = {phantom} shrinkage as the rest of the report; first season in a fetched top-{topn} table; players already there in {history_start} are censored — {censored_pct} % of the goalkeepers, {censored_out_pct} % of the outfield exports; a comparison of two pathways inside one nation, not a causal claim.{home_note}",
     "slide.8b.home_note": " First top-{topn} season needs no move for a {home_league} keeper.",
     "slide.8c.q": "What is the gap made of?",
     "slide.8c.aq": "In numbers: a linear split of the per-capita gap into U21 minutes, league strength and export age across {n} peer countries.",
-    "slide.8c.a": "Of the {gap} players per million between {contrast} and {nation}, U21 minutes go with {c1}, league strength with {c2}, export age with {c3}; {resid} is not carried by the three channels.",
+    "slide.8c.a": "Of the <strong>{gap}</strong> players per million between {contrast} and {nation}, U21 minutes go with {c1}, league strength with {c2}, export age with {c3}.",
+    "slide.8c.a_detail": "{resid} is not carried by the three channels.",
     "slide.8c.alt": "One horizontal stacked bar per contrast country: the contribution of U21 minutes, league strength and export age to its per-capita gap with {nation}, plus the residual; whiskers show each channel's bootstrap interval.",
     "slide.8c.caption": "Values written inside each segment when they fit; the residual hatched.",
     "slide.8c.how": "Ridge-regression linear split, Blinder-Oaxaca-style {cite_ob}, fit on the {n} peer countries with data on all three channels; bootstrap 90 % intervals, {n_boot} resamples; a decomposition of a correlation, not a causal accounting.",
@@ -343,6 +347,7 @@ EN: dict[str, str] = {
     # new "What we did" sentence -- one plain sentence a coach can read, no
     # symbols, no abbreviations, describing the operation rather than naming
     # the statistics.
+    "slide.method_summary": "How we know",
     "slide.aq_label": "As an analytics question",
     "slide.did_label": "What we did",
     "slide.1.did": "We counted every player with the home nation's nationality who had real playing time in one of Europe's strongest leagues that season, then divided the count by the country's population.",
@@ -902,6 +907,7 @@ EN: dict[str, str] = {
 
     "ch4.refs.h3": "References",
 
+    "ch4.full_method": "Full method, figures and diagnostics",
     "ch4.dq.h3": "Data-quality log",
     "ch4.dq.p": "Every wrangling decision that changed a count, with the count. The first block is recomputed on every run; the second is the incident record (dates and counts as recorded at the time).",
     "ch4.dq.col.check": "Check",
