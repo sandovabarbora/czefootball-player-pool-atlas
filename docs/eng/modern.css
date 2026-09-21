@@ -774,3 +774,56 @@ details.fold { border-top: 1px solid var(--rule-soft); }
 .slide-detail, .slide-aq, .slide-did { font-size: 0.95rem; line-height: 1.55; }
 section.slide { border-top: 0; }
 figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size: 0.82rem; color: var(--muted); letter-spacing: 0; }
+
+/* =========================================================================
+   Modern pass, round 4: width and register.
+   The reading column was ~940px at 1440 because the rail took 250px of the
+   viewport on every screen above 1280. The rail now appears only where
+   there is room beside a full column (>= 1600px); below that the top bar
+   and the mobile contents do the wayfinding. Body text is set larger, on a
+   longer measure, with a slightly heavier question weight.
+   ========================================================================= */
+:root { --container: min(1200px, calc(100vw - 4rem)); --measure: 70ch; --measure-wide: 78ch; }
+html { font-size: 17px; }
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .toc-sticky { display: none !important; }
+  body.toc-open .toc-sticky { display: block !important; }
+  :root { --container: min(1200px, calc(100vw - 4rem)); }
+}
+@media (min-width: 1600px) {
+  :root { --container: min(1200px, calc(100vw - 2 * (200px + 3rem))); }
+}
+.slide-q { font-weight: 500; letter-spacing: -0.025em; max-width: 30ch; font-size: clamp(2rem, 1.4rem + 2.2vw, 3.2rem); }
+.slide-a { max-width: 60ch; font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.8rem); }
+.slide-so, .slide-detail, .slide-aq, .slide-did, .slide-method, .funnel-caveats, .funnel-lead, .scoreboard,
+.pool-card, .capita-note, .explore-block p, .methodology p, .brief-intro { max-width: var(--measure-wide); }
+.slide-so { font-size: 0.95rem; }
+
+/* figures sit on the page: no frame, no padding, no card */
+figure.figure-bleed img { border: 0; background: transparent; padding: 0; }
+.figure-bleed { margin-left: 0; margin-right: 0; }
+.figure-bleed figcaption { padding-left: 0; padding-right: 0; }
+
+/* the three opening numbers: large, on air, a hairline between them only */
+.quickread-grid { gap: 0; background: transparent; border-top: 0; border-bottom: 0; }
+.quickread-tile { border-left: 1px solid var(--rule); background: transparent; }
+.quickread-tile:first-child { border-left: 0; }
+.quickread-tile a { padding: var(--space-2) var(--space-4) var(--space-2) var(--space-4); }
+.quickread-tile:first-child a { padding-left: 0; }
+.quickread-figure { font-weight: 500; font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.6rem); letter-spacing: -0.04em; color: var(--ink); }
+.quickread-line { font-size: 0.95rem; max-width: 24ch; }
+.quickread-note { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-soft); }
+
+/* hero: the number fills its side, the photo its corner */
+.hero-num-figure { font-size: clamp(5.5rem, 11vw, 12rem); font-weight: 500; letter-spacing: -0.06em; }
+.hero-num-unit { font-size: 1.05rem; max-width: 22ch; }
+@media (min-width: 1100px) { .hero-cutout { height: min(78%, 460px); opacity: 0.95; } }
+.hero { padding-top: var(--space-7); padding-bottom: var(--space-7); }
+
+/* pool rows and tables at the larger base size */
+.pool-summary { font-size: 0.95rem; }
+.pool-card { font-size: 1.05rem; }
+/* exhibits sit on the page like the figures do */
+.capita, .cohort-grid-wrap, .tier-bars { border: 0 !important; background: transparent !important; padding-left: 0 !important; padding-right: 0 !important; }
+.slide-method, .funnel-caveats { max-width: none; }
+.slide-method > p, .funnel-caveats li { max-width: var(--measure-wide); }

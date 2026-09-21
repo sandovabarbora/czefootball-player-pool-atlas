@@ -414,3 +414,27 @@
 window.addEventListener('beforeprint', function () {
   document.querySelectorAll('details.brief-body').forEach(function (d) { d.open = true; });
 });
+
+// ------------------------------------------------------------ hero number
+// One orchestrated moment on load: the headline number counts up from zero
+// over ~0.9 s. Off when the reader prefers reduced motion; the markup holds
+// the final value, so nothing depends on the script running.
+(function () {
+  var el = document.querySelector('.hero-num-figure');
+  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ast = el.querySelector('.ast');
+  var text = (ast ? el.firstChild.textContent : el.textContent).trim();
+  var m = /^(\d+)([.,])(\d+)$/.exec(text);
+  if (!m) return;
+  var target = parseFloat(m[1] + '.' + m[3]), decimals = m[3].length, sep = m[2];
+  var node = ast ? el.firstChild : el;
+  var start = null, dur = 900;
+  function step(ts) {
+    if (start === null) start = ts;
+    var p = Math.min(1, (ts - start) / dur), e = 1 - Math.pow(1 - p, 3);
+    node.textContent = (target * e).toFixed(decimals).replace('.', sep);
+    if (p < 1) requestAnimationFrame(step); else node.textContent = text;
+  }
+  node.textContent = (0).toFixed(decimals).replace('.', sep);
+  requestAnimationFrame(step);
+})();
