@@ -109,7 +109,7 @@
    "lo": 0.0267,
    "hi": 0.0764
   },
-  "runtime_s": 18.4
+  "runtime_s": 23.0
  },
  "lono": {
   "n_excluded": 45,
@@ -133,13 +133,13 @@
    "n_divergences": 0,
    "sigma_n_median": 0.2529
   },
-  "runtime_s": 9.5,
+  "runtime_s": 10.9,
   "shift_diff_21_24": 0.0009
  },
  "fit": {
   "n": 691,
-  "runtime_s": 19.9,
-  "runtime_no_strength_s": 18.4,
-  "runtime_lono_s": 9.5
+  "runtime_s": 26.3,
+  "runtime_no_strength_s": 23.0,
+  "runtime_lono_s": 10.9
  }
 }

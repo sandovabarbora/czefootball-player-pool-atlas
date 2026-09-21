@@ -44,9 +44,9 @@
    "model": "bayesian",
    "origin": "2022-2023",
    "n_test": 1879,
-   "rmse": 0.071,
-   "mae": 0.0522,
-   "coverage90": 0.9122
+   "rmse": 0.0715,
+   "mae": 0.0527,
+   "coverage90": 0.9042
   },
   {
    "model": "gbm",
@@ -84,9 +84,9 @@
    "model": "bayesian",
    "origin": "2023-2024",
    "n_test": 1866,
-   "rmse": 0.0759,
+   "rmse": 0.076,
    "mae": 0.0536,
-   "coverage90": 0.9046
+   "coverage90": 0.9041
   },
   {
    "model": "gbm",
@@ -126,7 +126,7 @@
    "n_test": 1896,
    "rmse": 0.0722,
    "mae": 0.0534,
-   "coverage90": 0.914
+   "coverage90": 0.913
   },
   {
    "model": "gbm",
@@ -166,7 +166,7 @@
    "n_test": 3209,
    "rmse": 0.0681,
    "mae": 0.0516,
-   "coverage90": 0.9255
+   "coverage90": 0.9252
   },
   {
    "model": "gbm",
@@ -203,9 +203,9 @@
   {
    "model": "bayesian",
    "n_test": 8850,
-   "rmse": 0.0713,
+   "rmse": 0.0714,
    "mae": 0.0526,
-   "coverage90": 0.9158
+   "coverage90": 0.9137
   },
   {
    "model": "gbm",

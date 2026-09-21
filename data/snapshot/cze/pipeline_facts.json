@@ -138,6 +138,125 @@
    "share_ge30": 0.1587038165588763
   }
  ],
+ "youth_starts": [
+  {
+   "country": "CZE",
+   "league": "CZE-First League",
+   "share_minutes": 0.06354823705898899,
+   "share_minutes_upper": 0.07623141140070117,
+   "players": 53,
+   "clubs": 16,
+   "share_starts": 0.060165289256198344,
+   "regulars": 17,
+   "regulars_per_club": 1.0625,
+   "mn_per_start": 76.0,
+   "league_mn_per_start": 79.0
+  },
+  {
+   "country": "SVK",
+   "league": "SVK-Super Liga",
+   "share_minutes": null,
+   "share_minutes_upper": null,
+   "players": 0,
+   "clubs": 0,
+   "share_starts": null,
+   "regulars": null,
+   "regulars_per_club": null,
+   "mn_per_start": null,
+   "league_mn_per_start": null
+  },
+  {
+   "country": "AUT",
+   "league": "AUT-Bundesliga",
+   "share_minutes": 0.09254789919516677,
+   "share_minutes_upper": 0.09254789919516677,
+   "players": 52,
+   "clubs": 12,
+   "share_starts": 0.08948863636363637,
+   "regulars": 15,
+   "regulars_per_club": 1.25,
+   "mn_per_start": 76.0,
+   "league_mn_per_start": 81.0
+  },
+  {
+   "country": "HUN",
+   "league": "HUN-NB I",
+   "share_minutes": 0.1405188814335979,
+   "share_minutes_upper": 0.1405188814335979,
+   "players": 97,
+   "clubs": 12,
+   "share_starts": 0.13911845730027547,
+   "regulars": 27,
+   "regulars_per_club": 2.25,
+   "mn_per_start": 75.0,
+   "league_mn_per_start": 80.0
+  },
+  {
+   "country": "POL",
+   "league": "POL-Ekstraklasa",
+   "share_minutes": 0.09288656553458287,
+   "share_minutes_upper": 0.09288656553458287,
+   "players": 80,
+   "clubs": 18,
+   "share_starts": 0.09180035650623886,
+   "regulars": 25,
+   "regulars_per_club": 1.3888888888888888,
+   "mn_per_start": 77.0,
+   "league_mn_per_start": 80.0
+  },
+  {
+   "country": "CRO",
+   "league": "CRO-HNL",
+   "share_minutes": 0.139915611814346,
+   "share_minutes_upper": 0.139915611814346,
+   "players": 83,
+   "clubs": 10,
+   "share_starts": 0.1361111111111111,
+   "regulars": 23,
+   "regulars_per_club": 2.3,
+   "mn_per_start": 76.0,
+   "league_mn_per_start": 80.0
+  },
+  {
+   "country": "DEN",
+   "league": "DEN-Superliga",
+   "share_minutes": 0.15287733760620692,
+   "share_minutes_upper": 0.15287733760620692,
+   "players": 88,
+   "clubs": 12,
+   "share_starts": 0.14630681818181818,
+   "regulars": 30,
+   "regulars_per_club": 2.5,
+   "mn_per_start": 77.0,
+   "league_mn_per_start": 79.0
+  },
+  {
+   "country": "SUI",
+   "league": "SUI-Super League",
+   "share_minutes": 0.07690443043886297,
+   "share_minutes_upper": 0.07690443043886297,
+   "players": 75,
+   "clubs": 12,
+   "share_starts": 0.07376395534290271,
+   "regulars": 14,
+   "regulars_per_club": 1.1666666666666667,
+   "mn_per_start": 70.0,
+   "league_mn_per_start": 78.0
+  },
+  {
+   "country": "NOR",
+   "league": "NOR-Eliteserien",
+   "share_minutes": 0.11489109553944031,
+   "share_minutes_upper": 0.11489109553944031,
+   "players": 100,
+   "clubs": 16,
+   "share_starts": 0.1115530303030303,
+   "regulars": 25,
+   "regulars_per_club": 1.5625,
+   "mn_per_start": 75.0,
+   "league_mn_per_start": 80.0
+  }
+ ],
  "first_move_abroad": [
   {
    "country": "CZE",

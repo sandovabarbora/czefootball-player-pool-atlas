@@ -1,0 +1,405 @@
+{
+ "previous": "2024-2025",
+ "metrics": "2025-2026",
+ "min_minutes": 450,
+ "moves": {
+  "up": {
+   "n": 6,
+   "names": [
+    {
+     "player": "Pavel \u0160ulc",
+     "player_key": "pavel sulc|2000",
+     "league_prev": "CZE-First League",
+     "league_curr": "FRA-Ligue 1",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 3023,
+     "min_curr": 1566
+    },
+    {
+     "player": "Martin Vit\u00edk",
+     "player_key": "martin vitik|2003",
+     "league_prev": "CZE-First League",
+     "league_curr": "ITA-Serie A",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2170,
+     "min_curr": 1325
+    },
+    {
+     "player": "Luk\u00e1\u0161 Sad\u00edlek",
+     "player_key": "lukas sadilek|1996",
+     "league_prev": "CZE-First League",
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": "domestic",
+     "tier_curr": "other",
+     "min_prev": 2067,
+     "min_curr": 1077
+    },
+    {
+     "player": "Adam Karabec",
+     "player_key": "adam karabec|2003",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "FRA-Ligue 1",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "top9",
+     "min_prev": 1941,
+     "min_curr": 922
+    },
+    {
+     "player": "Ond\u0159ej Zmrzl\u00fd",
+     "player_key": "ondrej zmrzly|1999",
+     "league_prev": "CZE-First League",
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": "domestic",
+     "tier_curr": "other",
+     "min_prev": 732,
+     "min_curr": 559
+    },
+    {
+     "player": "Matej Sin",
+     "player_key": "matej sin|2004",
+     "league_prev": "CZE-First League",
+     "league_curr": "NED-Eredivisie",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2043,
+     "min_curr": 550
+    }
+   ]
+  },
+  "down": {
+   "n": 11,
+   "names": [
+    {
+     "player": "Roman Macek",
+     "player_key": "roman macek|1997",
+     "league_prev": "SUI-Super League",
+     "league_curr": "CZE-First League",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 716,
+     "min_curr": 2233
+    },
+    {
+     "player": "Michal Sad\u00edlek",
+     "player_key": "michal sadilek|1999",
+     "league_prev": "NED-Eredivisie",
+     "league_curr": "CZE-First League",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 1599,
+     "min_curr": 2049
+    },
+    {
+     "player": "Pavel Kade\u0159\u00e1bek",
+     "player_key": "pavel kaderabek|1992",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "CZE-First League",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 1576,
+     "min_curr": 1362
+    },
+    {
+     "player": "V\u00e1clav Jure\u010dka",
+     "player_key": "vaclav jurecka|1994",
+     "league_prev": "TUR-S\u00fcper Lig",
+     "league_curr": "CZE-First League",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 743,
+     "min_curr": 1274
+    },
+    {
+     "player": "David Jur\u00e1sek",
+     "player_key": "david jurasek|2000",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "CZE-First League",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 619,
+     "min_curr": 1266
+    },
+    {
+     "player": "Ond\u0159ej Karafi\u00e1t",
+     "player_key": "ondrej karafiat|1994",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "CZE-First League",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "domestic",
+     "min_prev": 2121,
+     "min_curr": 1237
+    }
+   ]
+  },
+  "lateral": {
+   "n": 4,
+   "names": [
+    {
+     "player": "Vladim\u00edr Coufal",
+     "player_key": "vladimir coufal|1992",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1067,
+     "min_curr": 3012
+    },
+    {
+     "player": "Ladislav Krej\u010d\u00ed",
+     "player_key": "ladislav krejci|1999",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2440,
+     "min_curr": 2356
+    },
+    {
+     "player": "Tom\u00e1\u0161 \u010cvan\u010dara",
+     "player_key": "tomas cvancara|2000",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "TUR-S\u00fcper Lig",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 831,
+     "min_curr": 525
+    },
+    {
+     "player": "Alex Kr\u00e1l",
+     "player_key": "alex kral|1998",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2714,
+     "min_curr": 459
+    }
+   ]
+  },
+  "stayed": {
+   "n": 128,
+   "names": [
+    {
+     "player": "Patrik Hellebrand",
+     "player_key": "patrik hellebrand|1999",
+     "league_prev": "POL-Ekstraklasa",
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": "other",
+     "tier_curr": "other",
+     "min_prev": 2556,
+     "min_curr": 2859
+    },
+    {
+     "player": "Luk\u00e1\u0161 H\u016flka",
+     "player_key": "lukas hulka|1995",
+     "league_prev": "CZE-First League",
+     "league_curr": "CZE-First League",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2749,
+     "min_curr": 2820
+    },
+    {
+     "player": "Denis Halinsk\u00fd",
+     "player_key": "denis halinsky|2003",
+     "league_prev": "CZE-First League",
+     "league_curr": "CZE-First League",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 1752,
+     "min_curr": 2790
+    },
+    {
+     "player": "Daniel Hor\u00e1k",
+     "player_key": "daniel horak|2000",
+     "league_prev": "CZE-First League",
+     "league_curr": "CZE-First League",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2597,
+     "min_curr": 2766
+    },
+    {
+     "player": "Marcel \u010cerm\u00e1k",
+     "player_key": "marcel cermak|1998",
+     "league_prev": "CZE-First League",
+     "league_curr": "CZE-First League",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2558,
+     "min_curr": 2752
+    },
+    {
+     "player": "Michal Beran",
+     "player_key": "michal beran|2000",
+     "league_prev": "CZE-First League",
+     "league_curr": "CZE-First League",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 3087,
+     "min_curr": 2687
+    }
+   ]
+  },
+  "entered": {
+   "n": 40,
+   "names": [
+    {
+     "player": "Vladim\u00edr Darida",
+     "player_key": "vladimir darida|1990",
+     "league_prev": null,
+     "league_curr": "CZE-First League",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2764
+    },
+    {
+     "player": "Martin Chlumeck\u00fd",
+     "player_key": "martin chlumecky|1997",
+     "league_prev": null,
+     "league_curr": "HUN-NB I",
+     "tier_prev": null,
+     "tier_curr": "other",
+     "min_prev": 0,
+     "min_curr": 2491
+    },
+    {
+     "player": "Franti\u0161ek \u010cech",
+     "player_key": "frantisek cech|1998",
+     "league_prev": null,
+     "league_curr": "CZE-First League",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2321
+    },
+    {
+     "player": "Filip Nov\u00e1k",
+     "player_key": "filip novak|1990",
+     "league_prev": null,
+     "league_curr": "CZE-First League",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2276
+    },
+    {
+     "player": "Robin Hran\u00e1\u010d",
+     "player_key": "robin hranac|2000",
+     "league_prev": null,
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": null,
+     "tier_curr": "top9",
+     "min_prev": 0,
+     "min_curr": 2251
+    },
+    {
+     "player": "Jakub Brabec",
+     "player_key": "jakub brabec|1992",
+     "league_prev": null,
+     "league_curr": "POR-Primeira Liga",
+     "tier_prev": null,
+     "tier_curr": "top9",
+     "min_prev": 0,
+     "min_curr": 2151
+    }
+   ]
+  },
+  "left": {
+   "n": 49,
+   "names": [
+    {
+     "player": "Luk\u00e1\u0161 Kalvach",
+     "player_key": "lukas kalvach|1995",
+     "league_prev": "CZE-First League",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2854,
+     "min_curr": 0
+    },
+    {
+     "player": "Petr Schwarz",
+     "player_key": "petr schwarz|1991",
+     "league_prev": "POL-Ekstraklasa",
+     "league_curr": null,
+     "tier_prev": "other",
+     "tier_curr": null,
+     "min_prev": 2497,
+     "min_curr": 0
+    },
+    {
+     "player": "Marek Such\u00fd",
+     "player_key": "marek suchy|1988",
+     "league_prev": "CZE-First League",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2489,
+     "min_curr": 0
+    },
+    {
+     "player": "Jakub Pokorn\u00fd",
+     "player_key": "jakub pokorny|1996",
+     "league_prev": "CZE-First League",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2394,
+     "min_curr": 0
+    },
+    {
+     "player": "Michal Hub\u00ednek",
+     "player_key": "michal hubinek|1994",
+     "league_prev": "CZE-First League",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2388,
+     "min_curr": 0
+    },
+    {
+     "player": "Jakub Kl\u00edma",
+     "player_key": "jakub klima|1998",
+     "league_prev": "CZE-First League",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2291,
+     "min_curr": 0
+    }
+   ]
+  }
+ },
+ "minutes_by_tier": {
+  "domestic": {
+   "prev": 266223,
+   "curr": 236747,
+   "players_prev": 163,
+   "players_curr": 163
+  },
+  "other": {
+   "prev": 20690,
+   "curr": 14972,
+   "players_prev": 14,
+   "players_curr": 10
+  },
+  "stepping_stone": {
+   "prev": 7553,
+   "curr": 0,
+   "players_prev": 4,
+   "players_curr": 0
+  },
+  "top9": {
+   "prev": 25734,
+   "curr": 26921,
+   "players_prev": 17,
+   "players_curr": 16
+  }
+ },
+ "n_prev": 198,
+ "n_curr": 189
+}
