@@ -215,6 +215,46 @@ def long_run(big5: pd.DataFrame, countries: dict[str, dict], fit_breaks: bool = 
     return {"seasons": seasons, "min_minutes": MIN_MINUTES, "countries": out_countries, "youth": youth}
 
 
+def recent_youth(nations: list[str], countries: dict[str, dict]) -> dict:
+    """Own-national under-21 (and under-23) share of every covered league's
+    minutes for the recent seasons the pipeline fetched in full (2020/21 on
+    for the headline leagues; the history fetch for the rest) -- the
+    within-country change the cross-section cannot see. The domestic table
+    of the first nation found is used together with its history table; the
+    leagues are the same for every nation."""
+    frames = []
+    for n in nations:
+        for name in ("fbref_players.parquet", "fbref_history.parquet"):
+            p = config.ROOT_DIR / "data" / "processed" / n / name
+            if p.exists():
+                frames.append(read_parquet(p))
+        if frames:
+            break
+    if not frames:
+        return {}
+    t = pd.concat(frames, ignore_index=True).drop_duplicates(["league", "season", "team", "player_key"])
+    lg = config.leagues()
+    league_country = {**{k: v["country"] for k, v in lg["custom"].items()}, **{k: v["country"] for k, v in lg.get("peer_domestic", {}).items()},
+                      "ENG-Premier League": "ENG", "ITA-Serie A": "ITA", "ESP-La Liga": "ESP", "GER-Bundesliga": "GER", "FRA-Ligue 1": "FRA"}
+    t = t[t.league.isin(league_country)]
+    t["age_jul1"] = t["season"].str.slice(0, 4).astype(int) - t["born"]
+    metrics = config.seasons()["metrics"]
+    seasons = sorted(s for s in t.season.unique() if s <= metrics)   # complete seasons only
+    out = {}
+    for league, code in league_country.items():
+        if code not in countries:
+            continue
+        L = t[(t.league == league) & t.season.isin(seasons)]
+        if L.empty:
+            continue
+        tot = L.groupby("season")["min"].sum().reindex(seasons)
+        own21 = L[(L.nation == code) & (L.age_jul1 <= U21_AGE)].groupby("season")["min"].sum().reindex(seasons).fillna(0)
+        own23 = L[(L.nation == code) & (L.age_jul1 <= 23)].groupby("season")["min"].sum().reindex(seasons).fillna(0)
+        share = lambda a: [None if pd.isna(x) or not x else round(float(v / x), 4) for v, x in zip(a.to_numpy(), tot.to_numpy())]
+        out[code] = {"league": league, "u21_share": share(own21), "u23_share": share(own23)}
+    return {"seasons": seasons, "leagues": out}
+
+
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     nations = editions()
@@ -227,6 +267,7 @@ def main() -> None:
         "panel": union_panel(nations),
         "countries": {c: {"name": m["name"], "population_m": m["population_m"]} for c, m in countries.items()},
         "long_run": long_run(big5, countries) if big5 is not None else None,
+        "recent": recent_youth(nations, countries),
         "reforms": REFORMS,
         "metrics_season": config.seasons()["metrics"],
     }

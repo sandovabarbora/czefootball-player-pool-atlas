@@ -44,6 +44,7 @@ lr = data.get("long_run") or {}
 S = lr.get("seasons") or []
 span = f"{S[0][2:4]}/{S[0][7:9]}–{S[-1][2:4]}/{S[-1][7:9]}" if S else ""
 n_countries = len(lr.get("countries", {}))
+n_recent = len((data.get("recent") or {}).get("leagues", {}))
 home = "CZE"
 home_ed = next((e for e in eds if e["code"] == home), None)
 home_dec = ""
@@ -110,6 +111,11 @@ HTML = f'''<!DOCTYPE html>
     <details class="fold ax-fold"><summary>how the decomposition works, and what it cannot say</summary>
       <p class="ax-note">Each edition's own decomposition: a ridge regression of players-per-million on youth share, home-league strength and the age of the first move across that edition's eight or nine peers, then a Oaxaca–Blinder-style accounting of the gap to each contrast (<a href="#ref-oaxaca_1973">{in_text(refs["oaxaca_1973"])}</a>; <a href="#ref-blinder_1973">{in_text(refs["blinder_1973"])}</a>). A channel's share is how much of the gap that mechanism accounts for at the fitted coefficients; the channels can sum to more than the gap and the residual takes the rest. It says which measured mechanism carries a gap. It does not say what would happen if the youth share rose — that needs change over time within a country.</p>
     </details>
+    <h3 class="nx-h3">Six seasons at home — the change the cross-section cannot see</h3>
+    <div class="ax-chart" data-nx-recent></div>
+    <p class="ax-note">How to read it: the share of each home league's minutes played by its own under-21s, every complete season the pipeline covers; the chips choose the countries (they also drive the long-run charts below).</p>
+    <div class="ax-chart" data-nx-change></div>
+    <p class="ax-note">How to read it: each country's change in that share against its change in Big-5 presence over the same seasons — the within-country picture, one point per country, {n_recent} countries and six seasons: a direction, not an estimate.</p>
     <h3 class="nx-h3">The cross-section behind it</h3>
     <div class="ax-chart" data-nx-scatter></div>
     <p class="ax-note">How to read it: one point per country ({len(data.get("panel", []))}), last completed season; pick the mechanism on the x-axis. The dashed line is a plain fit for the direction only — the three mechanisms move together, so a stronger league keeps more of its young players and exports them later.</p>
