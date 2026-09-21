@@ -2409,7 +2409,7 @@
         <ul class="small">
           {% for c in photo_credits %}
           <li data-fbref-id="{{ c.fbref_id }}" data-player-key="{{ c.player_key }}">
-            {{ c.name }} — <a href="https://commons.wikimedia.org/wiki/File:{{ c.credit | replace(' ', '_') }}">{{ c.credit }}</a>, {{ c.license }}
+            {{ c.name }} — <a href="{{ c.url }}">{{ c.credit }}</a>, {{ c.license }}
           </li>
           {% endfor %}
         </ul>

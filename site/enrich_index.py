@@ -107,6 +107,13 @@ def photo(key: str) -> dict | None:
     return BY_KEY.get(key)
 
 
+def cutout(p: dict) -> str:
+    """The transparent cut-out of a portrait (site/cutouts.py) when it exists,
+    else the portrait itself."""
+    cut = Path(__file__).resolve().parents[1] / "docs" / p["image"].replace(".jpg", "-cut.png")
+    return p["image"].replace(".jpg", "-cut.png") if cut.exists() else p["image"]
+
+
 IMG_ATTRS = ('loading="lazy" decoding="async" '
              'onerror="this.closest(\'.pchip\')?.classList.add(\'pchip-mono\'); this.remove()"')
 
@@ -225,7 +232,7 @@ def card_repl(m):
     p = photo(d["key"])
     ws1, ws2 = d["ws1"], d["ws2"]
     if p:
-        media = f'{ws2}<img class="cycle-card-mug" src="{P}{p["image"]}" alt="" {IMG_ATTRS}>'
+        media = f'{ws2}<img class="cycle-card-mug" src="{P}{cutout(p)}" alt="" {IMG_ATTRS}>'
         cls = 'cycle-card-visual'
         style = f' style="--hero: url(\'{P}{p["image"]}\')"'
     else:
@@ -266,7 +273,7 @@ def gk_card_repl(m):
     p = photo(d["key"])
     ws1, ws2 = d["ws1"], d["ws2"]
     if p:
-        media = f'{ws2}<img class="cycle-card-mug" src="{P}{p["image"]}" alt="" {IMG_ATTRS}>'
+        media = f'{ws2}<img class="cycle-card-mug" src="{P}{cutout(p)}" alt="" {IMG_ATTRS}>'
         cls = 'gk-card-visual'
         style = f' style="--hero: url(\'{P}{p["image"]}\')"'
     else:

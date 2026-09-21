@@ -1952,7 +1952,8 @@ def _build_player_index(features: dict[str, pd.DataFrame], coords: dict[str, pd.
 def _photo_credits(photos: dict, used_keys: set[str]) -> list[dict]:
     rows = [
         {"fbref_id": fid, "name": v["name"], "player_key": v["player_key"],
-         "image": v["image"], "credit": v["credit"], "license": v["license"]}
+         "image": v["image"], "credit": v["credit"], "license": v["license"],
+         "url": v.get("source_url") or f"https://commons.wikimedia.org/wiki/File:{v['credit'].replace(' ', '_')}"}
         for fid, v in photos.items() if v["player_key"] in used_keys
     ]
     return sorted(rows, key=lambda r: _last_name(r["name"]).lower())

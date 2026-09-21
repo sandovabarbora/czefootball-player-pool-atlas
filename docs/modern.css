@@ -921,3 +921,5 @@ figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size:
 /* chart control folds: the long chip rows sit behind one line */
 details.chart-fold { border-top: 0; margin: 0; }
 details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
+/* cut-outs: the player stands on the panel; the card mug gets a soft base shadow */
+.cycle-card-mug { filter: grayscale(1) contrast(1.2) drop-shadow(0 8px 12px rgba(0,0,0,.55)); object-fit: contain; object-position: 50% 100%; }

@@ -80,3 +80,14 @@ squads:
     - {country: NOR, section: "Norway"}
     - {country: AUT, section: "Austria"}
     - {country: SUI, section: "Switzerland"}
+
+# Official league portraits (src/fetch_photos_league.py): one studio portrait
+# per player on the league's own site, preferred over the Commons ones.
+league_photos:
+  site: https://www.chanceliga.cz
+  clubs: /
+  squad: /klub/{season}/kadr/{club}     # season = end year: 2026 is 2025/26
+  seasons: [2026, 2027]
+  photo: /photo/player/player_{id}.jpg
+  credit: "Chance Liga (LFA), official portrait"
+  license: "league portrait, used with credit; not part of the MIT-licensed repository"
