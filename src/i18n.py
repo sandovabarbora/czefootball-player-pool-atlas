@@ -495,7 +495,7 @@ EN: dict[str, str] = {
     "downloads.sensitivity": "How much the top players change when a league's strength is nudged up or down.",
     "downloads.pipeline_facts": "The three new numbers behind the why-the-train-left funnel: club breadth of youth minutes, the league's own age structure, and the age at a player's first move abroad.",
     "downloads.fbref_roles": "FBref\u2019s playing-time and miscellaneous tables for every fetched league-season: starts, minutes per start, substitute appearances, on-off, crosses, interceptions, tackles won, fouls.",
-    "downloads.fbref_history": "The history seasons of the home, peer and stepping-stone leagues (2020/21 on), the rows behind the player atlas\u2019s careers.",
+    "downloads.fbref_history": "The history seasons of the home, peer and stepping-stone leagues back to the start of the fetched history, the rows behind the player atlas\u2019s careers.",
     "downloads.pool_table": "Every player in the pool as one row \u2014 the table behind the searchable list \u2014 with production, rank in his position group, playing-time split and role counts.",
     "downloads.season_changes": "Where the pool moved between the two seasons: each player\u2019s rung in each, the move between them, and minutes by rung.",
 
