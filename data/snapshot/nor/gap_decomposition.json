@@ -1,0 +1,148 @@
+{
+ "panel": [
+  {
+   "country": "NOR",
+   "y": 9.37,
+   "x1": 0.11489109553944031,
+   "x2": 0.5739,
+   "x3": 22.0,
+   "x2_source": "m_L",
+   "league": "NOR-Eliteserien"
+  },
+  {
+   "country": "DEN",
+   "y": 12.58,
+   "x1": 0.15287733760620692,
+   "x2": 0.6362,
+   "x3": 22.0,
+   "x2_source": "m_L",
+   "league": "DEN-Superliga"
+  },
+  {
+   "country": "SUI",
+   "y": 6.03,
+   "x1": 0.07690443043886297,
+   "x2": 0.596,
+   "x3": 21.0,
+   "x2_source": "m_L",
+   "league": "SUI-Super League"
+  },
+  {
+   "country": "AUT",
+   "y": 4.8,
+   "x1": 0.09254789919516677,
+   "x2": 0.655,
+   "x3": 22.0,
+   "x2_source": "m_L",
+   "league": "AUT-Bundesliga"
+  },
+  {
+   "country": "CZE",
+   "y": 2.39,
+   "x1": 0.06354823705898899,
+   "x2": 0.6643,
+   "x3": 22.0,
+   "x2_source": "m_L",
+   "league": "CZE-First League"
+  },
+  {
+   "country": "CRO",
+   "y": 12.18,
+   "x1": 0.139915611814346,
+   "x2": 0.5988,
+   "x3": 24.5,
+   "x2_source": "m_L",
+   "league": "CRO-HNL"
+  },
+  {
+   "country": "POL",
+   "y": 1.23,
+   "x1": 0.09288656553458287,
+   "x2": 0.6595,
+   "x3": 24.0,
+   "x2_source": "m_L",
+   "league": "POL-Ekstraklasa"
+  },
+  {
+   "country": "HUN",
+   "y": 1.57,
+   "x1": 0.1405188814335979,
+   "x2": 0.7422,
+   "x3": 22.0,
+   "x2_source": "m_L",
+   "league": "HUN-NB I"
+  }
+ ],
+ "coefficients": {
+  "a": 39.087,
+  "b": {
+   "x1": 82.8495,
+   "x2": -56.8261,
+   "x3": -0.2433
+  }
+ },
+ "contrasts": [
+  {
+   "contrast": "DEN",
+   "gap_total": 3.21,
+   "channels": [
+    {
+     "name": "u21_share",
+     "contribution": 3.1471,
+     "share": 0.9804,
+     "lo": 1.236,
+     "hi": 4.4903
+    },
+    {
+     "name": "league_strength",
+     "contribution": -3.5403,
+     "share": -1.1029,
+     "lo": -4.9077,
+     "hi": -1.27
+    },
+    {
+     "name": "export_age",
+     "contribution": -0.0,
+     "share": -0.0,
+     "lo": -0.0,
+     "hi": 0.0
+    }
+   ],
+   "residual": 3.6031,
+   "n": 8
+  },
+  {
+   "contrast": "CZE",
+   "gap_total": -6.98,
+   "channels": [
+    {
+     "name": "u21_share",
+     "contribution": -4.2537,
+     "share": 0.6094,
+     "lo": -5.9409,
+     "hi": -1.431
+    },
+    {
+     "name": "league_strength",
+     "contribution": -5.1371,
+     "share": 0.736,
+     "lo": -7.1631,
+     "hi": -1.8895
+    },
+    {
+     "name": "export_age",
+     "contribution": -0.0,
+     "share": 0.0,
+     "lo": -0.0,
+     "hi": 0.0
+    }
+   ],
+   "residual": 2.4108,
+   "n": 8
+  }
+ ],
+ "n": 8,
+ "home": "NOR",
+ "ridge_alpha": 1.0,
+ "min_gap_for_share": 3.0
+}

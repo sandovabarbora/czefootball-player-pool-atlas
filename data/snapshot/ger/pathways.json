@@ -1,0 +1,697 @@
+{
+ "youth_exposure": [
+  {
+   "league": "GER-Bundesliga",
+   "country": "GER",
+   "minutes_total": 604575.0,
+   "share_u21": 0.06145474093371377,
+   "share_u23": 0.10892445106066245
+  },
+  {
+   "league": "FRA-Ligue 1",
+   "country": "FRA",
+   "minutes_total": 601199.0,
+   "share_u21": 0.0875866393656676,
+   "share_u23": 0.14378433763196546
+  },
+  {
+   "league": "ESP-La Liga",
+   "country": "ESP",
+   "minutes_total": 750234.0,
+   "share_u21": 0.04823695007157767,
+   "share_u23": 0.16932583700552095
+  },
+  {
+   "league": "ITA-Serie A",
+   "country": "ITA",
+   "minutes_total": 750639.0,
+   "share_u21": 0.027056947480746402,
+   "share_u23": 0.07303377522350957
+  },
+  {
+   "league": "ENG-Premier League",
+   "country": "ENG",
+   "minutes_total": 750922.0,
+   "share_u21": 0.03034269870905367,
+   "share_u23": 0.06387347820412773
+  },
+  {
+   "league": "NED-Eredivisie",
+   "country": "NED",
+   "minutes_total": 604502.0,
+   "share_u21": 0.1359201458390543,
+   "share_u23": 0.24239952886839083
+  },
+  {
+   "league": "POR-Primeira Liga",
+   "country": "POR",
+   "minutes_total": 604163.0,
+   "share_u21": 0.0493509201986881,
+   "share_u23": 0.0908943447380922
+  },
+  {
+   "league": "BEL-Pro League",
+   "country": "BEL",
+   "minutes_total": 615724.0,
+   "share_u21": 0.08719003969310925,
+   "share_u23": 0.1638266496027441
+  }
+ ],
+ "export_route": [
+  {
+   "country": "GER",
+   "n": 208,
+   "n_recent": 63,
+   "median_export_age": 22.5,
+   "median_export_age_recent": 22.0,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.5714285714285714,
+    "other_top9": 0.0,
+    "not_covered": 0.42857142857142855
+   },
+   "censored_share": 0.3557692307692308
+  },
+  {
+   "country": "FRA",
+   "n": 313,
+   "n_recent": 107,
+   "median_export_age": 21.0,
+   "median_export_age_recent": 21.0,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.018691588785046728,
+    "other_top9": 0.0,
+    "not_covered": 0.9813084112149533
+   },
+   "censored_share": 0.34185303514376997
+  },
+  {
+   "country": "ESP",
+   "n": 368,
+   "n_recent": 98,
+   "median_export_age": 22.0,
+   "median_export_age_recent": 21.5,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.0,
+    "other_top9": 0.0,
+    "not_covered": 1.0
+   },
+   "censored_share": 0.328804347826087
+  },
+  {
+   "country": "ITA",
+   "n": 144,
+   "n_recent": 36,
+   "median_export_age": 21.0,
+   "median_export_age_recent": 22.0,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.0,
+    "other_top9": 0.0,
+    "not_covered": 1.0
+   },
+   "censored_share": 0.3194444444444444
+  },
+  {
+   "country": "ENG",
+   "n": 154,
+   "n_recent": 29,
+   "median_export_age": 21.0,
+   "median_export_age_recent": 20.0,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.0,
+    "other_top9": 0.0,
+    "not_covered": 1.0
+   },
+   "censored_share": 0.38961038961038963
+  },
+  {
+   "country": "NED",
+   "n": 268,
+   "n_recent": 78,
+   "median_export_age": 20.0,
+   "median_export_age_recent": 20.5,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.02564102564102564,
+    "other_top9": 0.0,
+    "not_covered": 0.9743589743589743
+   },
+   "censored_share": 0.2873134328358209
+  },
+  {
+   "country": "POR",
+   "n": 176,
+   "n_recent": 40,
+   "median_export_age": 20.5,
+   "median_export_age_recent": 20.5,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.05,
+    "other_top9": 0.0,
+    "not_covered": 0.95
+   },
+   "censored_share": 0.36363636363636365
+  },
+  {
+   "country": "BEL",
+   "n": 208,
+   "n_recent": 55,
+   "median_export_age": 20.0,
+   "median_export_age_recent": 20.0,
+   "origin_shares": {
+    "domestic": 0.0,
+    "stepping_stone": 0.0,
+    "other_top9": 0.0,
+    "not_covered": 1.0
+   },
+   "censored_share": 0.3173076923076923
+  }
+ ],
+ "fare": [
+  {
+   "country": "GER",
+   "n": 262,
+   "median_min_share": 0.41948343079922024,
+   "median_club_goals_pct": 0.5,
+   "club_strength_proxy": "goals-scored percentile within league"
+  },
+  {
+   "country": "FRA",
+   "n": 395,
+   "median_min_share": 0.36403508771929827,
+   "median_club_goals_pct": 0.4722222222222222,
+   "club_strength_proxy": "goals-scored percentile within league"
+  },
+  {
+   "country": "ESP",
+   "n": 464,
+   "median_min_share": 0.36524528914879795,
+   "median_club_goals_pct": 0.6,
+   "club_strength_proxy": "goals-scored percentile within league"
+  },
+  {
+   "country": "ITA",
+   "n": 201,
+   "median_min_share": 0.37238095238095237,
+   "median_club_goals_pct": 0.45,
+   "club_strength_proxy": "goals-scored percentile within league"
+  },
+  {
+   "country": "ENG",
+   "n": 208,
+   "median_min_share": 0.32860360360360363,
+   "median_club_goals_pct": 0.5527777777777778,
+   "club_strength_proxy": "goals-scored percentile within league"
+  },
+  {
+   "country": "NED",
+   "n": 372,
+   "median_min_share": 0.35025990903183885,
+   "median_club_goals_pct": 0.475,
+   "club_strength_proxy": "goals-scored percentile within league"
+  },
+  {
+   "country": "POR",
+   "n": 268,
+   "median_min_share": 0.28625965537730247,
+   "median_club_goals_pct": 0.6,
+   "club_strength_proxy": "goals-scored percentile within league"
+  },
+  {
+   "country": "BEL",
+   "n": 253,
+   "median_min_share": 0.35194444444444445,
+   "median_club_goals_pct": 0.59375,
+   "club_strength_proxy": "goals-scored percentile within league"
+  }
+ ],
+ "profile": [
+  {
+   "country": "BEL",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 7,
+   "median_npg_ast_q": 0.016921178708922624
+  },
+  {
+   "country": "BEL",
+   "tier": "other",
+   "pos_group": "FW",
+   "n": 1,
+   "median_npg_ast_q": 0.1275973438799627
+  },
+  {
+   "country": "BEL",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 5,
+   "median_npg_ast_q": 0.08742226955126557
+  },
+  {
+   "country": "BEL",
+   "tier": "stepping_stone",
+   "pos_group": "FW",
+   "n": 1,
+   "median_npg_ast_q": 0.21693574721186354
+  },
+  {
+   "country": "BEL",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 57,
+   "median_npg_ast_q": 0.04122811552033007
+  },
+  {
+   "country": "BEL",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 18,
+   "median_npg_ast_q": 0.23886420106736345
+  },
+  {
+   "country": "BEL",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 82,
+   "median_npg_ast_q": 0.11631875623034404
+  },
+  {
+   "country": "ENG",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 4,
+   "median_npg_ast_q": 0.02490361756176203
+  },
+  {
+   "country": "ENG",
+   "tier": "other",
+   "pos_group": "FW",
+   "n": 5,
+   "median_npg_ast_q": 0.12065856466565347
+  },
+  {
+   "country": "ENG",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 1,
+   "median_npg_ast_q": 0.13284130127647187
+  },
+  {
+   "country": "ENG",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 51,
+   "median_npg_ast_q": 0.07779593000988778
+  },
+  {
+   "country": "ENG",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 19,
+   "median_npg_ast_q": 0.3231098866867792
+  },
+  {
+   "country": "ENG",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 64,
+   "median_npg_ast_q": 0.20866217800095122
+  },
+  {
+   "country": "ESP",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 11,
+   "median_npg_ast_q": 0.04455482561773606
+  },
+  {
+   "country": "ESP",
+   "tier": "other",
+   "pos_group": "FW",
+   "n": 8,
+   "median_npg_ast_q": 0.12969763398636738
+  },
+  {
+   "country": "ESP",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 24,
+   "median_npg_ast_q": 0.09912179990658107
+  },
+  {
+   "country": "ESP",
+   "tier": "stepping_stone",
+   "pos_group": "DF",
+   "n": 1,
+   "median_npg_ast_q": 0.0762482196717853
+  },
+  {
+   "country": "ESP",
+   "tier": "stepping_stone",
+   "pos_group": "MF",
+   "n": 1,
+   "median_npg_ast_q": 0.0920048054342031
+  },
+  {
+   "country": "ESP",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 117,
+   "median_npg_ast_q": 0.05597442431008623
+  },
+  {
+   "country": "ESP",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 38,
+   "median_npg_ast_q": 0.3128811676344266
+  },
+  {
+   "country": "ESP",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 153,
+   "median_npg_ast_q": 0.13939875563296364
+  },
+  {
+   "country": "FRA",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 14,
+   "median_npg_ast_q": 0.017699158482426806
+  },
+  {
+   "country": "FRA",
+   "tier": "other",
+   "pos_group": "FW",
+   "n": 10,
+   "median_npg_ast_q": 0.141221637372138
+  },
+  {
+   "country": "FRA",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 23,
+   "median_npg_ast_q": 0.06489652719735485
+  },
+  {
+   "country": "FRA",
+   "tier": "stepping_stone",
+   "pos_group": "DF",
+   "n": 2,
+   "median_npg_ast_q": 0.0481393671737257
+  },
+  {
+   "country": "FRA",
+   "tier": "stepping_stone",
+   "pos_group": "FW",
+   "n": 3,
+   "median_npg_ast_q": 0.21405402022108394
+  },
+  {
+   "country": "FRA",
+   "tier": "stepping_stone",
+   "pos_group": "MF",
+   "n": 4,
+   "median_npg_ast_q": 0.13203818729703592
+  },
+  {
+   "country": "FRA",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 77,
+   "median_npg_ast_q": 0.042011024502788416
+  },
+  {
+   "country": "FRA",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 39,
+   "median_npg_ast_q": 0.2878955358196751
+  },
+  {
+   "country": "FRA",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 135,
+   "median_npg_ast_q": 0.1398966083316528
+  },
+  {
+   "country": "GER",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 25,
+   "median_npg_ast_q": 0.025972853648301826
+  },
+  {
+   "country": "GER",
+   "tier": "other",
+   "pos_group": "FW",
+   "n": 11,
+   "median_npg_ast_q": 0.1393829137828966
+  },
+  {
+   "country": "GER",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 7,
+   "median_npg_ast_q": 0.06615639311302046
+  },
+  {
+   "country": "GER",
+   "tier": "stepping_stone",
+   "pos_group": "DF",
+   "n": 74,
+   "median_npg_ast_q": 0.03164374581712562
+  },
+  {
+   "country": "GER",
+   "tier": "stepping_stone",
+   "pos_group": "FW",
+   "n": 24,
+   "median_npg_ast_q": 0.21807092117340204
+  },
+  {
+   "country": "GER",
+   "tier": "stepping_stone",
+   "pos_group": "MF",
+   "n": 100,
+   "median_npg_ast_q": 0.08880065798127065
+  },
+  {
+   "country": "GER",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 64,
+   "median_npg_ast_q": 0.06680688775846019
+  },
+  {
+   "country": "GER",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 26,
+   "median_npg_ast_q": 0.36721466679118825
+  },
+  {
+   "country": "GER",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 81,
+   "median_npg_ast_q": 0.18041937565479438
+  },
+  {
+   "country": "ITA",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 2,
+   "median_npg_ast_q": 0.026734767122855996
+  },
+  {
+   "country": "ITA",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 2,
+   "median_npg_ast_q": 0.0408762199129524
+  },
+  {
+   "country": "ITA",
+   "tier": "stepping_stone",
+   "pos_group": "DF",
+   "n": 1,
+   "median_npg_ast_q": 0.021162445020498234
+  },
+  {
+   "country": "ITA",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 47,
+   "median_npg_ast_q": 0.04510923697159931
+  },
+  {
+   "country": "ITA",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 22,
+   "median_npg_ast_q": 0.28003101012033627
+  },
+  {
+   "country": "ITA",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 61,
+   "median_npg_ast_q": 0.14536966200282697
+  },
+  {
+   "country": "NED",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 7,
+   "median_npg_ast_q": 0.02921280485359816
+  },
+  {
+   "country": "NED",
+   "tier": "other",
+   "pos_group": "FW",
+   "n": 4,
+   "median_npg_ast_q": 0.14855938427983428
+  },
+  {
+   "country": "NED",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 5,
+   "median_npg_ast_q": 0.10592895064915389
+  },
+  {
+   "country": "NED",
+   "tier": "stepping_stone",
+   "pos_group": "DF",
+   "n": 1,
+   "median_npg_ast_q": 0.012294202882903274
+  },
+  {
+   "country": "NED",
+   "tier": "stepping_stone",
+   "pos_group": "FW",
+   "n": 1,
+   "median_npg_ast_q": 0.2964702799041034
+  },
+  {
+   "country": "NED",
+   "tier": "stepping_stone",
+   "pos_group": "MF",
+   "n": 2,
+   "median_npg_ast_q": 0.07791052003890198
+  },
+  {
+   "country": "NED",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 96,
+   "median_npg_ast_q": 0.050962927334443416
+  },
+  {
+   "country": "NED",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 36,
+   "median_npg_ast_q": 0.24437185257897603
+  },
+  {
+   "country": "NED",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 105,
+   "median_npg_ast_q": 0.1360942727037437
+  },
+  {
+   "country": "POR",
+   "tier": "other",
+   "pos_group": "DF",
+   "n": 11,
+   "median_npg_ast_q": 0.03719059518119483
+  },
+  {
+   "country": "POR",
+   "tier": "other",
+   "pos_group": "FW",
+   "n": 2,
+   "median_npg_ast_q": 0.193318645852408
+  },
+  {
+   "country": "POR",
+   "tier": "other",
+   "pos_group": "MF",
+   "n": 9,
+   "median_npg_ast_q": 0.08450569107526837
+  },
+  {
+   "country": "POR",
+   "tier": "top9",
+   "pos_group": "DF",
+   "n": 62,
+   "median_npg_ast_q": 0.04487292064517386
+  },
+  {
+   "country": "POR",
+   "tier": "top9",
+   "pos_group": "FW",
+   "n": 16,
+   "median_npg_ast_q": 0.25546891310350583
+  },
+  {
+   "country": "POR",
+   "tier": "top9",
+   "pos_group": "MF",
+   "n": 84,
+   "median_npg_ast_q": 0.146387154715888
+  }
+ ],
+ "destinations": {
+  "n_total": 410,
+  "n_abroad": 288,
+  "buckets": [
+   {
+    "bucket": "other",
+    "n": 42,
+    "share_of_abroad": 0.14583333333333334,
+    "median_multiplier": 0.293
+   },
+   {
+    "bucket": "stepping_stone",
+    "n": 197,
+    "share_of_abroad": 0.6840277777777778,
+    "median_multiplier": 0.473
+   },
+   {
+    "bucket": "top9",
+    "n": 49,
+    "share_of_abroad": 0.1701388888888889,
+    "median_multiplier": 0.63
+   }
+  ],
+  "sideways_share": 0.9236111111111112,
+  "sideways_definition": "destination league multiplier <= the domestic league's multiplier",
+  "examples": {
+   "other": [
+    "Antonios Papadopoulos",
+    "Oliver Steurer",
+    "Jamie Lawrence"
+   ],
+   "stepping_stone": [
+    "Marvin Wanitzek",
+    "Enzo Leopold",
+    "Soufiane El-Faouzi"
+   ],
+   "top9": [
+    "Jeremy Toljan",
+    "Malick Thiaw",
+    "Kevin Schade"
+   ]
+  }
+ }
+}

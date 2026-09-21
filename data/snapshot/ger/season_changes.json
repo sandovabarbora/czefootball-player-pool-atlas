@@ -1,0 +1,405 @@
+{
+ "previous": "2024-2025",
+ "metrics": "2025-2026",
+ "min_minutes": 450,
+ "moves": {
+  "up": {
+   "n": 36,
+   "names": [
+    {
+     "player": "Nicolo Tresoldi",
+     "player_key": "nicolo tresoldi|2004",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "BEL-Pro League",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "top9",
+     "min_prev": 2142,
+     "min_curr": 2488
+    },
+    {
+     "player": "Philipp Hofmann",
+     "player_key": "philipp hofmann|1993",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "domestic",
+     "tier_curr": "stepping_stone",
+     "min_prev": 2277,
+     "min_curr": 2480
+    },
+    {
+     "player": "Philipp Ziereis",
+     "player_key": "philipp ziereis|1993",
+     "league_prev": "AUT-Bundesliga",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "other",
+     "tier_curr": "stepping_stone",
+     "min_prev": 2180,
+     "min_curr": 2469
+    },
+    {
+     "player": "Maximilian Wittek",
+     "player_key": "maximilian wittek|1995",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "domestic",
+     "tier_curr": "stepping_stone",
+     "min_prev": 2706,
+     "min_curr": 2452
+    },
+    {
+     "player": "Florian Wirtz",
+     "player_key": "florian wirtz|2003",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2351,
+     "min_curr": 2378
+    },
+    {
+     "player": "Anton Stach",
+     "player_key": "anton stach|1998",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2585,
+     "min_curr": 2370
+    }
+   ]
+  },
+  "down": {
+   "n": 27,
+   "names": [
+    {
+     "player": "Robin Fellhauer",
+     "player_key": "robin fellhauer|1998",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "domestic",
+     "min_prev": 2077,
+     "min_curr": 2799
+    },
+    {
+     "player": "Tom Gaal",
+     "player_key": "tom gaal|2001",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "SUI-Super League",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "other",
+     "min_prev": 1705,
+     "min_curr": 2652
+    },
+    {
+     "player": "Noah Ganaus",
+     "player_key": "noah ganaus|2001",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "other",
+     "min_prev": 1364,
+     "min_curr": 2589
+    },
+    {
+     "player": "Eric Martel",
+     "player_key": "eric martel|2002",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "domestic",
+     "min_prev": 2740,
+     "min_curr": 2559
+    },
+    {
+     "player": "Yannik Engelhardt",
+     "player_key": "yannik engelhardt|2001",
+     "league_prev": "ITA-Serie A",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 1164,
+     "min_curr": 2487
+    },
+    {
+     "player": "Amara Conde",
+     "player_key": "amara conde|1997",
+     "league_prev": "NED-Eredivisie",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "top9",
+     "tier_curr": "stepping_stone",
+     "min_prev": 734,
+     "min_curr": 2122
+    }
+   ]
+  },
+  "lateral": {
+   "n": 4,
+   "names": [
+    {
+     "player": "Malick Thiaw",
+     "player_key": "malick thiaw|2001",
+     "league_prev": "ITA-Serie A",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1806,
+     "min_curr": 2965
+    },
+    {
+     "player": "Marco Boras",
+     "player_key": "marco boras|2001",
+     "league_prev": "CRO-HNL",
+     "league_curr": "AUT-Bundesliga",
+     "tier_prev": "other",
+     "tier_curr": "other",
+     "min_prev": 977,
+     "min_curr": 2614
+    },
+    {
+     "player": "\u0130lkay G\u00fcndo\u011fan",
+     "player_key": "ilkay gundogan|1990",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "TUR-S\u00fcper Lig",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2223,
+     "min_curr": 1387
+    },
+    {
+     "player": "Niclas F\u00fcllkrug",
+     "player_key": "niclas fullkrug|1993",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ITA-Serie A",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 790,
+     "min_curr": 659
+    }
+   ]
+  },
+  "stayed": {
+   "n": 227,
+   "names": [
+    {
+     "player": "Maximilian Eggestein",
+     "player_key": "maximilian eggestein|1996",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2845,
+     "min_curr": 3060
+    },
+    {
+     "player": "Marvin Wanitzek",
+     "player_key": "marvin wanitzek|1993",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "stepping_stone",
+     "min_prev": 3060,
+     "min_curr": 3060
+    },
+    {
+     "player": "Patrick Mainka",
+     "player_key": "patrick mainka|1994",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 3060,
+     "min_curr": 3060
+    },
+    {
+     "player": "Enzo Leopold",
+     "player_key": "enzo leopold|2000",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "stepping_stone",
+     "min_prev": 2878,
+     "min_curr": 3027
+    },
+    {
+     "player": "Antonios Papadopoulos",
+     "player_key": "antonios papadopoulos|1999",
+     "league_prev": "SUI-Super League",
+     "league_curr": "SUI-Super League",
+     "tier_prev": "other",
+     "tier_curr": "other",
+     "min_prev": 2651,
+     "min_curr": 2943
+    },
+    {
+     "player": "Nicolai Remberg",
+     "player_key": "nicolai remberg|2000",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2417,
+     "min_curr": 2880
+    }
+   ]
+  },
+  "entered": {
+   "n": 114,
+   "names": [
+    {
+     "player": "Jeremy Toljan",
+     "player_key": "jeremy toljan|1994",
+     "league_prev": null,
+     "league_curr": "ESP-La Liga",
+     "tier_prev": null,
+     "tier_curr": "top9",
+     "min_prev": 0,
+     "min_curr": 3164
+    },
+    {
+     "player": "Soufiane El-Faouzi",
+     "player_key": "soufiane el-faouzi|2002",
+     "league_prev": null,
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": null,
+     "tier_curr": "stepping_stone",
+     "min_prev": 0,
+     "min_curr": 3004
+    },
+    {
+     "player": "Oliver Steurer",
+     "player_key": "oliver steurer|1995",
+     "league_prev": null,
+     "league_curr": "AUT-Bundesliga",
+     "tier_prev": null,
+     "tier_curr": "other",
+     "min_prev": 0,
+     "min_curr": 2880
+    },
+    {
+     "player": "Lauren Ulrich",
+     "player_key": "lauren ulrich|2005",
+     "league_prev": null,
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": null,
+     "tier_curr": "stepping_stone",
+     "min_prev": 0,
+     "min_curr": 2671
+    },
+    {
+     "player": "Mika Baur",
+     "player_key": "mika baur|2004",
+     "league_prev": null,
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": null,
+     "tier_curr": "stepping_stone",
+     "min_prev": 0,
+     "min_curr": 2656
+    },
+    {
+     "player": "Gabriel Isik",
+     "player_key": "gabriel isik|1999",
+     "league_prev": null,
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": null,
+     "tier_curr": "other",
+     "min_prev": 0,
+     "min_curr": 2456
+    }
+   ]
+  },
+  "left": {
+   "n": 113,
+   "names": [
+    {
+     "player": "Phil Neumann",
+     "player_key": "phil neumann|1997",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": null,
+     "tier_prev": "stepping_stone",
+     "tier_curr": null,
+     "min_prev": 2955,
+     "min_curr": 0
+    },
+    {
+     "player": "Elias Baum",
+     "player_key": "elias baum|2005",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": null,
+     "tier_prev": "stepping_stone",
+     "tier_curr": null,
+     "min_prev": 2892,
+     "min_curr": 0
+    },
+    {
+     "player": "Julian Weigl",
+     "player_key": "julian weigl|1995",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2881,
+     "min_curr": 0
+    },
+    {
+     "player": "Mitchell Weiser",
+     "player_key": "mitchell weiser|1994",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2868,
+     "min_curr": 0
+    },
+    {
+     "player": "Caspar Jander",
+     "player_key": "caspar jander|2003",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": null,
+     "tier_prev": "stepping_stone",
+     "tier_curr": null,
+     "min_prev": 2781,
+     "min_curr": 0
+    },
+    {
+     "player": "Tim Kleindienst",
+     "player_key": "tim kleindienst|1995",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2737,
+     "min_curr": 0
+    }
+   ]
+  }
+ },
+ "minutes_by_tier": {
+  "domestic": {
+   "prev": 222012,
+   "curr": 195190,
+   "players_prev": 127,
+   "players_curr": 122
+  },
+  "other": {
+   "prev": 54067,
+   "curr": 71383,
+   "players_prev": 32,
+   "players_curr": 42
+  },
+  "stepping_stone": {
+   "prev": 330707,
+   "curr": 307946,
+   "players_prev": 208,
+   "players_curr": 195
+  },
+  "top9": {
+   "prev": 64804,
+   "curr": 80744,
+   "players_prev": 40,
+   "players_curr": 49
+  }
+ },
+ "n_prev": 407,
+ "n_curr": 408
+}

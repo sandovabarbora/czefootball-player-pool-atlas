@@ -1,0 +1,298 @@
+{
+ "breadth": [
+  {
+   "country": "ESP",
+   "league": "ESP-La Liga",
+   "n_clubs": 20,
+   "n_clubs_above": 7,
+   "share_clubs_above": 0.35
+  },
+  {
+   "country": "FRA",
+   "league": "FRA-Ligue 1",
+   "n_clubs": 18,
+   "n_clubs_above": 14,
+   "share_clubs_above": 0.7777777777777778
+  },
+  {
+   "country": "GER",
+   "league": "GER-Bundesliga",
+   "n_clubs": 18,
+   "n_clubs_above": 14,
+   "share_clubs_above": 0.7777777777777778
+  },
+  {
+   "country": "ITA",
+   "league": "ITA-Serie A",
+   "n_clubs": 20,
+   "n_clubs_above": 7,
+   "share_clubs_above": 0.35
+  },
+  {
+   "country": "ENG",
+   "league": "ENG-Premier League",
+   "n_clubs": 20,
+   "n_clubs_above": 10,
+   "share_clubs_above": 0.5
+  },
+  {
+   "country": "NED",
+   "league": "NED-Eredivisie",
+   "n_clubs": 18,
+   "n_clubs_above": 15,
+   "share_clubs_above": 0.8333333333333334
+  },
+  {
+   "country": "POR",
+   "league": "POR-Primeira Liga",
+   "n_clubs": 18,
+   "n_clubs_above": 11,
+   "share_clubs_above": 0.6111111111111112
+  },
+  {
+   "country": "BEL",
+   "league": "BEL-Pro League",
+   "n_clubs": 16,
+   "n_clubs_above": 15,
+   "share_clubs_above": 0.9375
+  }
+ ],
+ "age_structure": [
+  {
+   "country": "ESP",
+   "league": "ESP-La Liga",
+   "minutes_total": 750234.0,
+   "weighted_mean_age": 26.888090819895915,
+   "share_le22": 0.167111861099337,
+   "share_ge30": 0.289091136898621
+  },
+  {
+   "country": "FRA",
+   "league": "FRA-Ligue 1",
+   "minutes_total": 601199.0,
+   "weighted_mean_age": 25.57749098052392,
+   "share_le22": 0.27199479706386737,
+   "share_ge30": 0.20191151349220474
+  },
+  {
+   "country": "GER",
+   "league": "GER-Bundesliga",
+   "minutes_total": 604575.0,
+   "weighted_mean_age": 26.05941032957036,
+   "share_le22": 0.20287309266840342,
+   "share_ge30": 0.20914361328205763
+  },
+  {
+   "country": "ITA",
+   "league": "ITA-Serie A",
+   "minutes_total": 750639.0,
+   "weighted_mean_age": 26.400187596263,
+   "share_le22": 0.1718815569135097,
+   "share_ge30": 0.20875014487656518
+  },
+  {
+   "country": "ENG",
+   "league": "ENG-Premier League",
+   "minutes_total": 750922.0,
+   "weighted_mean_age": 26.06683250723777,
+   "share_le22": 0.15984749414719504,
+   "share_ge30": 0.1670533024734926
+  },
+  {
+   "country": "NED",
+   "league": "NED-Eredivisie",
+   "minutes_total": 604502.0,
+   "weighted_mean_age": 25.04206189947435,
+   "share_le22": 0.34251003305199984,
+   "share_ge30": 0.15687789287711207
+  },
+  {
+   "country": "POR",
+   "league": "POR-Primeira Liga",
+   "minutes_total": 604163.0,
+   "weighted_mean_age": 25.29990962688815,
+   "share_le22": 0.24809033323788449,
+   "share_ge30": 0.1422463805297577
+  },
+  {
+   "country": "BEL",
+   "league": "BEL-Pro League",
+   "minutes_total": 615724.0,
+   "weighted_mean_age": 24.52963827948886,
+   "share_le22": 0.3491889223093464,
+   "share_ge30": 0.12941999987007166
+  }
+ ],
+ "youth_starts": [
+  {
+   "country": "ESP",
+   "league": "ESP-La Liga",
+   "share_minutes": 0.04823695007157767,
+   "share_minutes_upper": 0.04823695007157767,
+   "players": 84,
+   "clubs": 20,
+   "share_starts": 0.04748803827751196,
+   "regulars": 14,
+   "regulars_per_club": 0.7,
+   "regulars_per_club_5": 1.2,
+   "regulars_per_club_15": 0.5,
+   "mn_per_start": 73.0,
+   "league_mn_per_start": 78.0
+  },
+  {
+   "country": "FRA",
+   "league": "FRA-Ligue 1",
+   "share_minutes": 0.0875866393656676,
+   "share_minutes_upper": 0.08832017351991603,
+   "players": 104,
+   "clubs": 18,
+   "share_starts": 0.08420268256333831,
+   "regulars": 23,
+   "regulars_per_club": 1.2777777777777777,
+   "regulars_per_club_5": 1.7222222222222223,
+   "regulars_per_club_15": 0.8888888888888888,
+   "mn_per_start": 71.5,
+   "league_mn_per_start": 80.0
+  },
+  {
+   "country": "GER",
+   "league": "GER-Bundesliga",
+   "share_minutes": 0.06145474093371377,
+   "share_minutes_upper": 0.06145474093371377,
+   "players": 51,
+   "clubs": 18,
+   "share_starts": 0.059714795008912656,
+   "regulars": 19,
+   "regulars_per_club": 1.0555555555555556,
+   "regulars_per_club_5": 1.3333333333333333,
+   "regulars_per_club_15": 0.8333333333333334,
+   "mn_per_start": 77.5,
+   "league_mn_per_start": 80.0
+  },
+  {
+   "country": "ITA",
+   "league": "ITA-Serie A",
+   "share_minutes": 0.027056947480746402,
+   "share_minutes_upper": 0.027056947480746402,
+   "players": 33,
+   "clubs": 20,
+   "share_starts": 0.02404306220095694,
+   "regulars": 8,
+   "regulars_per_club": 0.4,
+   "regulars_per_club_5": 0.65,
+   "regulars_per_club_15": 0.3,
+   "mn_per_start": 81.5,
+   "league_mn_per_start": 78.0
+  },
+  {
+   "country": "ENG",
+   "league": "ENG-Premier League",
+   "share_minutes": 0.03034269870905367,
+   "share_minutes_upper": 0.03034269870905367,
+   "players": 52,
+   "clubs": 20,
+   "share_starts": 0.02894736842105263,
+   "regulars": 10,
+   "regulars_per_club": 0.5,
+   "regulars_per_club_5": 0.8,
+   "regulars_per_club_15": 0.4,
+   "mn_per_start": 71.5,
+   "league_mn_per_start": 82.0
+  },
+  {
+   "country": "NED",
+   "league": "NED-Eredivisie",
+   "share_minutes": 0.1359201458390543,
+   "share_minutes_upper": 0.13850574522499512,
+   "players": 113,
+   "clubs": 18,
+   "share_starts": 0.13339275103980985,
+   "regulars": 34,
+   "regulars_per_club": 1.8888888888888888,
+   "regulars_per_club_5": 2.5555555555555554,
+   "regulars_per_club_15": 1.4444444444444444,
+   "mn_per_start": 79.0,
+   "league_mn_per_start": 80.0
+  },
+  {
+   "country": "POR",
+   "league": "POR-Primeira Liga",
+   "share_minutes": 0.0493509201986881,
+   "share_minutes_upper": 0.0493509201986881,
+   "players": 61,
+   "clubs": 18,
+   "share_starts": 0.04738562091503268,
+   "regulars": 14,
+   "regulars_per_club": 0.7777777777777778,
+   "regulars_per_club_5": 1.0555555555555556,
+   "regulars_per_club_15": 0.3888888888888889,
+   "mn_per_start": 78.0,
+   "league_mn_per_start": 80.0
+  },
+  {
+   "country": "BEL",
+   "league": "BEL-Pro League",
+   "share_minutes": 0.08719003969310925,
+   "share_minutes_upper": 0.08719003969310925,
+   "players": 67,
+   "clubs": 16,
+   "share_starts": 0.08537296037296037,
+   "regulars": 24,
+   "regulars_per_club": 1.5,
+   "regulars_per_club_5": 2.0625,
+   "regulars_per_club_15": 0.9375,
+   "mn_per_start": 80.5,
+   "league_mn_per_start": 80.0
+  }
+ ],
+ "first_move_abroad": [
+  {
+   "country": "ESP",
+   "n": 132,
+   "median_age": 25.0,
+   "censored_share": 0.09090909090909091
+  },
+  {
+   "country": "FRA",
+   "n": 205,
+   "median_age": 23.0,
+   "censored_share": 0.15121951219512195
+  },
+  {
+   "country": "GER",
+   "n": 316,
+   "median_age": 25.0,
+   "censored_share": 0.060126582278481014
+  },
+  {
+   "country": "ITA",
+   "n": 26,
+   "median_age": 22.0,
+   "censored_share": 0.07692307692307693
+  },
+  {
+   "country": "ENG",
+   "n": 49,
+   "median_age": 22.0,
+   "censored_share": 0.08163265306122448
+  },
+  {
+   "country": "NED",
+   "n": 109,
+   "median_age": 24.0,
+   "censored_share": 0.1559633027522936
+  },
+  {
+   "country": "POR",
+   "n": 90,
+   "median_age": 24.0,
+   "censored_share": 0.26666666666666666
+  },
+  {
+   "country": "BEL",
+   "n": 81,
+   "median_age": 22.0,
+   "censored_share": 0.20987654320987653
+  }
+ ]
+}

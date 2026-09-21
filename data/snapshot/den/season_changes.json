@@ -1,0 +1,425 @@
+{
+ "previous": "2024-2025",
+ "metrics": "2025-2026",
+ "min_minutes": 450,
+ "moves": {
+  "up": {
+   "n": 20,
+   "names": [
+    {
+     "player": "Victor Froholdt",
+     "player_key": "victor froholdt|2006",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "POR-Primeira Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2022,
+     "min_curr": 2872
+    },
+    {
+     "player": "Kasper J\u00f8rgensen",
+     "player_key": "kasper jorgensen|1999",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "AUT-Bundesliga",
+     "tier_prev": "domestic",
+     "tier_curr": "other",
+     "min_prev": 2667,
+     "min_curr": 2751
+    },
+    {
+     "player": "Anosike Ementa",
+     "player_key": "anosike ementa|2002",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "BEL-Pro League",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 1110,
+     "min_curr": 2615
+    },
+    {
+     "player": "Lucas Hey",
+     "player_key": "lucas hey|2003",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "BEL-Pro League",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 1438,
+     "min_curr": 2516
+    },
+    {
+     "player": "Mileta Rajovic",
+     "player_key": "mileta rajovic|1999",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": "domestic",
+     "tier_curr": "other",
+     "min_prev": 1221,
+     "min_curr": 2282
+    },
+    {
+     "player": "Isak Jensen",
+     "player_key": "isak jensen|2003",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "NED-Eredivisie",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 1953,
+     "min_curr": 2035
+    }
+   ]
+  },
+  "down": {
+   "n": 9,
+   "names": [
+    {
+     "player": "Lasse Nielsen",
+     "player_key": "lasse nielsen|1988",
+     "league_prev": "TUR-S\u00fcper Lig",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 1753,
+     "min_curr": 2400
+    },
+    {
+     "player": "Svenn Crone",
+     "player_key": "svenn crone|1995",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 1440,
+     "min_curr": 2300
+    },
+    {
+     "player": "Oliver Rose-Villadsen",
+     "player_key": "oliver rose-villadsen|2001",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "domestic",
+     "min_prev": 1625,
+     "min_curr": 1647
+    },
+    {
+     "player": "Andrew Hjulsager",
+     "player_key": "andrew hjulsager|1995",
+     "league_prev": "BEL-Pro League",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 569,
+     "min_curr": 1569
+    },
+    {
+     "player": "Adam S\u00f8rensen",
+     "player_key": "adam sorensen|2000",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 799,
+     "min_curr": 1498
+    },
+    {
+     "player": "Mads Engg\u00e5rd",
+     "player_key": "mads enggard|2004",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 499,
+     "min_curr": 1494
+    }
+   ]
+  },
+  "lateral": {
+   "n": 7,
+   "names": [
+    {
+     "player": "Rasmus H\u00f8jlund",
+     "player_key": "rasmus hojlund|2003",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ITA-Serie A",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2004,
+     "min_curr": 2750
+    },
+    {
+     "player": "Christian Eriksen",
+     "player_key": "christian eriksen|1992",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1061,
+     "min_curr": 2410
+    },
+    {
+     "player": "Patrick Dorgu",
+     "player_key": "patrick dorgu|2004",
+     "league_prev": "ITA-Serie A",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1840,
+     "min_curr": 1449
+    },
+    {
+     "player": "Kasper Dolberg",
+     "player_key": "kasper dolberg|1997",
+     "league_prev": "BEL-Pro League",
+     "league_curr": "NED-Eredivisie",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2347,
+     "min_curr": 1095
+    },
+    {
+     "player": "Conrad Harder",
+     "player_key": "conrad harder|2005",
+     "league_prev": "POR-Primeira Liga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 784,
+     "min_curr": 932
+    },
+    {
+     "player": "Andreas Skovgaard",
+     "player_key": "andreas skovgaard|1997",
+     "league_prev": "POL-Ekstraklasa",
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": "other",
+     "tier_curr": "other",
+     "min_prev": 450,
+     "min_curr": 746
+    }
+   ]
+  },
+  "stayed": {
+   "n": 100,
+   "names": [
+    {
+     "player": "Morten Frendrup",
+     "player_key": "morten frendrup|2001",
+     "league_prev": "ITA-Serie A",
+     "league_curr": "ITA-Serie A",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 3103,
+     "min_curr": 3081
+    },
+    {
+     "player": "Jens Martin Gammelby",
+     "player_key": "jens martin gammelby|1995",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 1042,
+     "min_curr": 2880
+    },
+    {
+     "player": "Joachim Andersen",
+     "player_key": "joachim andersen|1996",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2583,
+     "min_curr": 2875
+    },
+    {
+     "player": "Marcus Mathisen",
+     "player_key": "marcus mathisen|1996",
+     "league_prev": "GER-2. Bundesliga",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "stepping_stone",
+     "tier_curr": "stepping_stone",
+     "min_prev": 2469,
+     "min_curr": 2812
+    },
+    {
+     "player": "Pierre H\u00f8jbjerg",
+     "player_key": "pierre hojbjerg|1995",
+     "league_prev": "FRA-Ligue 1",
+     "league_curr": "FRA-Ligue 1",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2664,
+     "min_curr": 2712
+    },
+    {
+     "player": "Casper H\u00f8jer Nielsen",
+     "player_key": "casper hojer nielsen|1994",
+     "league_prev": "TUR-S\u00fcper Lig",
+     "league_curr": "TUR-S\u00fcper Lig",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2024,
+     "min_curr": 2702
+    }
+   ]
+  },
+  "entered": {
+   "n": 79,
+   "names": [
+    {
+     "player": "Victor Nelsson",
+     "player_key": "victor nelsson|1998",
+     "league_prev": null,
+     "league_curr": "ITA-Serie A",
+     "tier_prev": null,
+     "tier_curr": "top9",
+     "min_prev": 0,
+     "min_curr": 3315
+    },
+    {
+     "player": "Frederik Rieper",
+     "player_key": "frederik rieper|1999",
+     "league_prev": null,
+     "league_curr": "DEN-Superliga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2880
+    },
+    {
+     "player": "Jonathan Asp Jensen",
+     "player_key": "jonathan asp jensen|2006",
+     "league_prev": null,
+     "league_curr": "SUI-Super League",
+     "tier_prev": null,
+     "tier_curr": "other",
+     "min_prev": 0,
+     "min_curr": 2738
+    },
+    {
+     "player": "Jeppe Erenbjerg",
+     "player_key": "jeppe erenbjerg|2000",
+     "league_prev": null,
+     "league_curr": "BEL-Pro League",
+     "tier_prev": null,
+     "tier_curr": "top9",
+     "min_prev": 0,
+     "min_curr": 2676
+    },
+    {
+     "player": "Jakob Jessen",
+     "player_key": "jakob jessen|2004",
+     "league_prev": null,
+     "league_curr": "DEN-Superliga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2507
+    },
+    {
+     "player": "Mike Vesterg\u00e5rd",
+     "player_key": "mike vestergard|1997",
+     "league_prev": null,
+     "league_curr": "DEN-Superliga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2505
+    }
+   ]
+  },
+  "left": {
+   "n": 58,
+   "names": [
+    {
+     "player": "Mathias J\u00f8rgensen",
+     "player_key": "mathias jorgensen|2000",
+     "league_prev": "DEN-Superliga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2880,
+     "min_curr": 0
+    },
+    {
+     "player": "Christian N\u00f8rgaard",
+     "player_key": "christian norgaard|1994",
+     "league_prev": "ENG-Premier League",
+     "league_curr": null,
+     "tier_prev": "top9",
+     "tier_curr": null,
+     "min_prev": 2819,
+     "min_curr": 0
+    },
+    {
+     "player": "Victor Bernth Kristiansen",
+     "player_key": "victor bernth kristiansen|2002",
+     "league_prev": "ENG-Premier League",
+     "league_curr": null,
+     "tier_prev": "top9",
+     "tier_curr": null,
+     "min_prev": 2482,
+     "min_curr": 0
+    },
+    {
+     "player": "Filip J\u00f8rgensen",
+     "player_key": "filip jorgensen|2002",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": null,
+     "tier_prev": "other",
+     "tier_curr": null,
+     "min_prev": 2464,
+     "min_curr": 0
+    },
+    {
+     "player": "Lundrim Hetemi",
+     "player_key": "lundrim hetemi|2000",
+     "league_prev": "DEN-Superliga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2464,
+     "min_curr": 0
+    },
+    {
+     "player": "Lauge Sandgrav",
+     "player_key": "lauge sandgrav|2004",
+     "league_prev": "DEN-Superliga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2203,
+     "min_curr": 0
+    }
+   ]
+  }
+ },
+ "minutes_by_tier": {
+  "domestic": {
+   "prev": 161617,
+   "curr": 176350,
+   "players_prev": 106,
+   "players_curr": 112
+  },
+  "other": {
+   "prev": 46694,
+   "curr": 59145,
+   "players_prev": 33,
+   "players_curr": 40
+  },
+  "stepping_stone": {
+   "prev": 7411,
+   "curr": 9305,
+   "players_prev": 4,
+   "players_curr": 7
+  },
+  "top9": {
+   "prev": 80929,
+   "curr": 98763,
+   "players_prev": 51,
+   "players_curr": 56
+  }
+ },
+ "n_prev": 194,
+ "n_curr": 215
+}

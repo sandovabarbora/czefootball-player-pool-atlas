@@ -1,0 +1,146 @@
+{
+ "event": "2026 FIFA World Cup",
+ "season": "2025-2026",
+ "countries": [
+  {
+   "country": "ESP",
+   "n": 26,
+   "matched": 25,
+   "tiers": {
+    "top9": 25,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 1
+   },
+   "cohorts": {
+    "U22": 3,
+    "23-25": 8,
+    "26-29": 7,
+    "30+": 8
+   },
+   "median_minutes": 2181.0,
+   "median_multiplier": 0.807
+  },
+  {
+   "country": "FRA",
+   "n": 26,
+   "matched": 25,
+   "tiers": {
+    "top9": 25,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 1
+   },
+   "cohorts": {
+    "U22": 3,
+    "23-25": 7,
+    "26-29": 10,
+    "30+": 6
+   },
+   "median_minutes": 2316.0,
+   "median_multiplier": 0.807
+  },
+  {
+   "country": "GER",
+   "n": 26,
+   "matched": 26,
+   "tiers": {
+    "top9": 26,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 0
+   },
+   "cohorts": {
+    "U22": 2,
+    "23-25": 8,
+    "26-29": 4,
+    "30+": 12
+   },
+   "median_minutes": 2208.5,
+   "median_multiplier": 0.788
+  },
+  {
+   "country": "ENG",
+   "n": 26,
+   "matched": 25,
+   "tiers": {
+    "top9": 25,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 1
+   },
+   "cohorts": {
+    "U22": 2,
+    "23-25": 8,
+    "26-29": 9,
+    "30+": 7
+   },
+   "median_minutes": 2199.0,
+   "median_multiplier": 1.0
+  },
+  {
+   "country": "NED",
+   "n": 26,
+   "matched": 25,
+   "tiers": {
+    "top9": 25,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 1
+   },
+   "cohorts": {
+    "U22": 1,
+    "23-25": 7,
+    "26-29": 11,
+    "30+": 7
+   },
+   "median_minutes": 1903.0,
+   "median_multiplier": 1.0
+  },
+  {
+   "country": "POR",
+   "n": 26,
+   "matched": 23,
+   "tiers": {
+    "top9": 23,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 3
+   },
+   "cohorts": {
+    "U22": 1,
+    "23-25": 6,
+    "26-29": 11,
+    "30+": 8
+   },
+   "median_minutes": 2226.0,
+   "median_multiplier": 0.807
+  },
+  {
+   "country": "BEL",
+   "n": 26,
+   "matched": 25,
+   "tiers": {
+    "top9": 25,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 0,
+    "unmatched": 1
+   },
+   "cohorts": {
+    "U22": 4,
+    "23-25": 8,
+    "26-29": 5,
+    "30+": 9
+   },
+   "median_minutes": 2034.0,
+   "median_multiplier": 0.807
+  }
+ ]
+}

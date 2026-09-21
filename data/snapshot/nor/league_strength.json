@@ -1,0 +1,227 @@
+{
+ "leagues": [
+  {
+   "league": "ENG-Premier League",
+   "median": 1.0,
+   "hdi_lo": 1.0,
+   "hdi_hi": 1.0,
+   "n_transitions": 588,
+   "uefa": 1.0
+  },
+  {
+   "league": "ITA-Serie A",
+   "median": 0.9347,
+   "hdi_lo": 0.8914,
+   "hdi_hi": 0.9834,
+   "n_transitions": 569,
+   "uefa": 0.856
+  },
+  {
+   "league": "ESP-La Liga",
+   "median": 0.9075,
+   "hdi_lo": 0.8639,
+   "hdi_hi": 0.9561,
+   "n_transitions": 435,
+   "uefa": 0.807
+  },
+  {
+   "league": "FRA-Ligue 1",
+   "median": 0.8099,
+   "hdi_lo": 0.7716,
+   "hdi_hi": 0.8481,
+   "n_transitions": 672,
+   "uefa": 0.666
+  },
+  {
+   "league": "GER-Bundesliga",
+   "median": 0.7773,
+   "hdi_lo": 0.7393,
+   "hdi_hi": 0.8119,
+   "n_transitions": 588,
+   "uefa": 0.788
+  },
+  {
+   "league": "HUN-NB I",
+   "median": 0.7422,
+   "hdi_lo": 0.6223,
+   "hdi_hi": 0.8644,
+   "n_transitions": 35,
+   "uefa": 0.265
+  },
+  {
+   "league": "POR-Primeira Liga",
+   "median": 0.7212,
+   "hdi_lo": 0.6802,
+   "hdi_hi": 0.7643,
+   "n_transitions": 349,
+   "uefa": 0.63
+  },
+  {
+   "league": "BEL-Pro League",
+   "median": 0.6711,
+   "hdi_lo": 0.6353,
+   "hdi_hi": 0.7097,
+   "n_transitions": 474,
+   "uefa": 0.573
+  },
+  {
+   "league": "CZE-First League",
+   "median": 0.6643,
+   "hdi_lo": 0.5873,
+   "hdi_hi": 0.7509,
+   "n_transitions": 65,
+   "uefa": 0.434
+  },
+  {
+   "league": "TUR-Süper Lig",
+   "median": 0.6605,
+   "hdi_lo": 0.6245,
+   "hdi_hi": 0.6955,
+   "n_transitions": 472,
+   "uefa": 0.484
+  },
+  {
+   "league": "POL-Ekstraklasa",
+   "median": 0.6595,
+   "hdi_lo": 0.5917,
+   "hdi_hi": 0.7207,
+   "n_transitions": 131,
+   "uefa": 0.438
+  },
+  {
+   "league": "AUT-Bundesliga",
+   "median": 0.655,
+   "hdi_lo": 0.5793,
+   "hdi_hi": 0.7299,
+   "n_transitions": 80,
+   "uefa": 0.268
+  },
+  {
+   "league": "DEN-Superliga",
+   "median": 0.6362,
+   "hdi_lo": 0.5752,
+   "hdi_hi": 0.6997,
+   "n_transitions": 117,
+   "uefa": 0.371
+  },
+  {
+   "league": "GER-2. Bundesliga",
+   "median": 0.6,
+   "hdi_lo": 0.5538,
+   "hdi_hi": 0.6424,
+   "n_transitions": 229,
+   "uefa": 0.473
+  },
+  {
+   "league": "CRO-HNL",
+   "median": 0.5988,
+   "hdi_lo": 0.5251,
+   "hdi_hi": 0.6655,
+   "n_transitions": 64,
+   "uefa": 0.249
+  },
+  {
+   "league": "NED-Eredivisie",
+   "median": 0.5971,
+   "hdi_lo": 0.5647,
+   "hdi_hi": 0.6306,
+   "n_transitions": 386,
+   "uefa": 0.51
+  },
+  {
+   "league": "SUI-Super League",
+   "median": 0.596,
+   "hdi_lo": 0.5393,
+   "hdi_hi": 0.6516,
+   "n_transitions": 128,
+   "uefa": 0.293
+  },
+  {
+   "league": "NOR-Eliteserien",
+   "median": 0.5739,
+   "hdi_lo": 0.5074,
+   "hdi_hi": 0.6416,
+   "n_transitions": 64,
+   "uefa": 0.374
+  }
+ ],
+ "diagnostics": {
+  "max_rhat": 1.0071,
+  "min_ess_bulk": 619.1,
+  "min_ess_tail": 1179.1,
+  "n_divergences": 0,
+  "sigma_league_median": 0.1823,
+  "sigma_player_median": 0.5192
+ },
+ "ppc": {
+  "observed": {
+   "zero_share": 0.1544,
+   "mean": 4.445,
+   "p90": 11.0
+  },
+  "replicated": {
+   "zero_share": 0.1387,
+   "mean": 4.4445,
+   "p90": 10.8589
+  }
+ },
+ "oos": {
+  "metrics_season": "2025-2026",
+  "n_candidates": 862,
+  "rows": [
+   {
+    "method": "naive",
+    "log_pred_density": -2.6277,
+    "mae": 0.1368
+   },
+   {
+    "method": "uefa",
+    "log_pred_density": -2.7326,
+    "mae": 0.1509
+   },
+   {
+    "method": "model",
+    "log_pred_density": -2.1768,
+    "mae": 0.1287
+   }
+  ],
+  "refit_runtime_s": 83.7
+ },
+ "spearman": {
+  "rho": 0.7214,
+  "p": 0.000728,
+  "n": 18
+ },
+ "disagreements": [
+  {
+   "league": "HUN-NB I",
+   "model_rank": 6,
+   "uefa_rank": 17,
+   "model_median": 0.7422,
+   "uefa": 0.265,
+   "rank_diff": 11
+  },
+  {
+   "league": "NED-Eredivisie",
+   "model_rank": 16,
+   "uefa_rank": 8,
+   "model_median": 0.5971,
+   "uefa": 0.51,
+   "rank_diff": 8
+  },
+  {
+   "league": "NOR-Eliteserien",
+   "model_rank": 18,
+   "uefa_rank": 13,
+   "model_median": 0.5739,
+   "uefa": 0.374,
+   "rank_diff": 5
+  }
+ ],
+ "fit": {
+  "rows": 8108,
+  "players": 2125,
+  "seasons": 7,
+  "runtime_s": 211.9
+ }
+}

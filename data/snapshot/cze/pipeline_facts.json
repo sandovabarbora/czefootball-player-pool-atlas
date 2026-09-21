@@ -149,6 +149,8 @@
    "share_starts": 0.060165289256198344,
    "regulars": 17,
    "regulars_per_club": 1.0625,
+   "regulars_per_club_5": 1.5,
+   "regulars_per_club_15": 0.5,
    "mn_per_start": 76.0,
    "league_mn_per_start": 79.0
   },
@@ -162,6 +164,8 @@
    "share_starts": null,
    "regulars": null,
    "regulars_per_club": null,
+   "regulars_per_club_5": null,
+   "regulars_per_club_15": null,
    "mn_per_start": null,
    "league_mn_per_start": null
   },
@@ -175,6 +179,8 @@
    "share_starts": 0.08948863636363637,
    "regulars": 15,
    "regulars_per_club": 1.25,
+   "regulars_per_club_5": 2.0,
+   "regulars_per_club_15": 0.9166666666666666,
    "mn_per_start": 76.0,
    "league_mn_per_start": 81.0
   },
@@ -188,6 +194,8 @@
    "share_starts": 0.13911845730027547,
    "regulars": 27,
    "regulars_per_club": 2.25,
+   "regulars_per_club_5": 3.25,
+   "regulars_per_club_15": 1.1666666666666667,
    "mn_per_start": 75.0,
    "league_mn_per_start": 80.0
   },
@@ -201,6 +209,8 @@
    "share_starts": 0.09180035650623886,
    "regulars": 25,
    "regulars_per_club": 1.3888888888888888,
+   "regulars_per_club_5": 1.8333333333333333,
+   "regulars_per_club_15": 1.0555555555555556,
    "mn_per_start": 77.0,
    "league_mn_per_start": 80.0
   },
@@ -214,6 +224,8 @@
    "share_starts": 0.1361111111111111,
    "regulars": 23,
    "regulars_per_club": 2.3,
+   "regulars_per_club_5": 3.6,
+   "regulars_per_club_15": 1.1,
    "mn_per_start": 76.0,
    "league_mn_per_start": 80.0
   },
@@ -227,6 +239,8 @@
    "share_starts": 0.14630681818181818,
    "regulars": 30,
    "regulars_per_club": 2.5,
+   "regulars_per_club_5": 3.1666666666666665,
+   "regulars_per_club_15": 1.5833333333333333,
    "mn_per_start": 77.0,
    "league_mn_per_start": 79.0
   },
@@ -240,6 +254,8 @@
    "share_starts": 0.07376395534290271,
    "regulars": 14,
    "regulars_per_club": 1.1666666666666667,
+   "regulars_per_club_5": 1.9166666666666667,
+   "regulars_per_club_15": 0.75,
    "mn_per_start": 70.0,
    "league_mn_per_start": 78.0
   },
@@ -253,6 +269,8 @@
    "share_starts": 0.1115530303030303,
    "regulars": 25,
    "regulars_per_club": 1.5625,
+   "regulars_per_club_5": 2.4375,
+   "regulars_per_club_15": 0.9375,
    "mn_per_start": 75.0,
    "league_mn_per_start": 80.0
   }

@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609220105">
-  <link rel="stylesheet" href="modern.css?v=202609220105">
+  <link rel="stylesheet" href="style.css?v=202609220114">
+  <link rel="stylesheet" href="modern.css?v=202609220114">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609220105"></script>
-  <script defer src="atlas.js?v=202609220105"></script>
+  <script defer src="charts.js?v=202609220114"></script>
+  <script defer src="atlas.js?v=202609220114"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -24671,6 +24671,87 @@
     </details>
 
     
+    <details class="fold">
+      <summary>Download the tables</summary>
+      <div class="explore-block">
+    <h3 id="downloads">Download the tables</h3>
+    <p>The tables behind this report, exactly as the pipeline produced them, committed to the public repository. An analyst can take these and work from them directly, not only from the pictures above.</p>
+    <ul class="downloads-list">
+      
+      <li>
+        <span class="downloads-label">Every player found in the pool, one row per player, before any season's numbers are attached.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/pool.parquet">pool.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Players per million people, one row per country — the number behind the very first slide.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/per_capita.parquet">per_capita.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The five-number season vector for every covered player, one file per position group (forwards, midfielders, defenders).</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/features_FW.parquet">features_FW.parquet</a> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/features_MF.parquet">features_MF.parquet</a> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/features_DF.parquet">features_DF.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Production by country, position group and age band, the numbers behind the international comparison.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/cohorts.parquet">cohorts.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Youth minutes at home, the age and route of the move abroad, how exports fare, and where they land — every number behind the pathway exhibits, in one file.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/pathways.json">pathways.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Season-by-season counts of home-nation players in Europe's five biggest leagues, back to the start of the fetched history.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/big5_history.parquet">big5_history.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Every season row this pipeline has fetched, for every league and nationality it covers — the raw table everything else in this report is built from.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/fbref_players.parquet">fbref_players.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">How each of the five season numbers contributes to the style and quality maps.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/pca_loadings.parquet">pca_loadings.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">How much the top players change when a league's strength is nudged up or down.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/sensitivity.parquet">sensitivity.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The three new numbers behind the why-the-train-left funnel: club breadth of youth minutes, the league's own age structure, and the age at a player's first move abroad.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/pipeline_facts.json">pipeline_facts.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">FBref’s playing-time and miscellaneous tables for every fetched league-season: starts, minutes per start, substitute appearances, on-off, crosses, interceptions, tackles won, fouls.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/fbref_roles.parquet">fbref_roles.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Every player in the pool as one row — the table behind the searchable list — with production, rank in his position group, playing-time split and role counts.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/pool_table.json">pool_table.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The history seasons of the home, peer and stepping-stone leagues (2020/21 on), the rows behind the player atlas’s careers.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/fbref_history.parquet">fbref_history.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Where the pool moved between the two seasons: each player’s rung in each, the move between them, and minutes by rung.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/season_changes.json">season_changes.json</a></span>
+      </li>
+      
+    </ul>
+      </div>
+    </details>
+    
   </div>
 </section>
 
@@ -26732,7 +26813,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-22 01:05</p>
+    <p class="rendered-at">Rendered: 2026-09-22 01:14</p>
   </div>
 </footer>
 

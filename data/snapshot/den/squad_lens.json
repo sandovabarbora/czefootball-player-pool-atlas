@@ -1,0 +1,86 @@
+{
+ "event": "UEFA Euro 2024",
+ "season": "2025-2026",
+ "countries": [
+  {
+   "country": "DEN",
+   "n": 26,
+   "matched": 20,
+   "tiers": {
+    "top9": 18,
+    "stepping_stone": 0,
+    "domestic": 2,
+    "other": 0,
+    "unmatched": 6
+   },
+   "cohorts": {
+    "U22": 0,
+    "23-25": 2,
+    "26-29": 11,
+    "30+": 13
+   },
+   "median_minutes": 1158.5,
+   "median_multiplier": 0.788
+  },
+  {
+   "country": "SUI",
+   "n": 26,
+   "matched": 24,
+   "tiers": {
+    "top9": 21,
+    "stepping_stone": 0,
+    "domestic": 3,
+    "other": 0,
+    "unmatched": 2
+   },
+   "cohorts": {
+    "U22": 0,
+    "23-25": 3,
+    "26-29": 9,
+    "30+": 14
+   },
+   "median_minutes": 1942.5,
+   "median_multiplier": 0.798
+  },
+  {
+   "country": "AUT",
+   "n": 26,
+   "matched": 24,
+   "tiers": {
+    "top9": 18,
+    "stepping_stone": 0,
+    "domestic": 4,
+    "other": 2,
+    "unmatched": 2
+   },
+   "cohorts": {
+    "U22": 0,
+    "23-25": 7,
+    "26-29": 9,
+    "30+": 10
+   },
+   "median_minutes": 1719.0,
+   "median_multiplier": 0.788
+  },
+  {
+   "country": "CZE",
+   "n": 26,
+   "matched": 22,
+   "tiers": {
+    "top9": 11,
+    "stepping_stone": 0,
+    "domestic": 0,
+    "other": 11,
+    "unmatched": 4
+   },
+   "cohorts": {
+    "U22": 0,
+    "23-25": 6,
+    "26-29": 11,
+    "30+": 9
+   },
+   "median_minutes": 1802.5,
+   "median_multiplier": 0.459
+  }
+ ]
+}

@@ -1,0 +1,987 @@
+{
+ "min_minutes": 450,
+ "phantom_minutes": 900,
+ "per_million": [
+  {
+   "country": "BEL",
+   "name": "Belgium",
+   "n_gk": 21,
+   "population_m": 11.79,
+   "per_million": 1.78,
+   "rank": 1
+  },
+  {
+   "country": "NED",
+   "name": "Netherlands",
+   "n_gk": 25,
+   "population_m": 17.98,
+   "per_million": 1.39,
+   "rank": 2
+  },
+  {
+   "country": "POR",
+   "name": "Portugal",
+   "n_gk": 11,
+   "population_m": 10.64,
+   "per_million": 1.03,
+   "rank": 3
+  },
+  {
+   "country": "ESP",
+   "name": "Spain",
+   "n_gk": 20,
+   "population_m": 48.62,
+   "per_million": 0.41,
+   "rank": 4
+  },
+  {
+   "country": "ITA",
+   "name": "Italy",
+   "n_gk": 17,
+   "population_m": 58.99,
+   "per_million": 0.29,
+   "rank": 5
+  },
+  {
+   "country": "GER",
+   "name": "Germany",
+   "n_gk": 20,
+   "population_m": 83.6,
+   "per_million": 0.24,
+   "rank": 6
+  },
+  {
+   "country": "FRA",
+   "name": "France",
+   "n_gk": 14,
+   "population_m": 68.17,
+   "per_million": 0.21,
+   "rank": 7
+  },
+  {
+   "country": "ENG",
+   "name": "England",
+   "n_gk": 5,
+   "population_m": 57.7,
+   "per_million": 0.09,
+   "rank": 8
+  }
+ ],
+ "home_rank": 6,
+ "n_peers": 8,
+ "export_age": {
+  "gk_n": 20,
+  "gk_median_age": 25.5,
+  "gk_censored": 12,
+  "gk_censored_share": 0.6,
+  "outfield_n": 223,
+  "outfield_median_age": 22.0,
+  "outfield_censored": 90,
+  "outfield_censored_share": 0.404,
+  "current_top9_ages": [
+   {
+    "player_key": "mio backhaus|2004",
+    "player": "Mio Backhaus",
+    "first_age": 19.0,
+    "first_season": "2023-2024",
+    "censored": false
+   },
+   {
+    "player_key": "erdem canpolat|2001",
+    "player": "Erdem Canpolat",
+    "first_age": 19.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "diant ramaj|2001",
+    "player": "Diant Ramaj",
+    "first_age": 20.0,
+    "first_season": "2021-2022",
+    "censored": false
+   },
+   {
+    "player_key": "noah atubolu|2002",
+    "player": "Noah Atubolu",
+    "first_age": 21.0,
+    "first_season": "2023-2024",
+    "censored": false
+   },
+   {
+    "player_key": "finn dahmen|1998",
+    "player": "Finn Dahmen",
+    "first_age": 22.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "jonas urbig|2003",
+    "player": "Jonas Urbig",
+    "first_age": 22.0,
+    "first_season": "2025-2026",
+    "censored": false
+   },
+   {
+    "player_key": "alexander nubel|1996",
+    "player": "Alexander Nübel",
+    "first_age": 24.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "nico mantl|2000",
+    "player": "Nico Mantl",
+    "first_age": 24.0,
+    "first_season": "2024-2025",
+    "censored": false
+   },
+   {
+    "player_key": "michael zetterer|1995",
+    "player": "Michael Zetterer",
+    "first_age": 25.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "timon wellenreuther|1995",
+    "player": "Timon Wellenreuther",
+    "first_age": 25.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "moritz nicolas|1997",
+    "player": "Moritz Nicolas",
+    "first_age": 26.0,
+    "first_season": "2023-2024",
+    "censored": false
+   },
+   {
+    "player_key": "marvin schwabe|1995",
+    "player": "Marvin Schwäbe",
+    "first_age": 26.0,
+    "first_season": "2021-2022",
+    "censored": false
+   },
+   {
+    "player_key": "robin zentner|1994",
+    "player": "Robin Zentner",
+    "first_age": 26.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "bernd leno|1992",
+    "player": "Bernd Leno",
+    "first_age": 28.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "janis blaswich|1991",
+    "player": "Janis Blaswich",
+    "first_age": 29.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "oliver baumann|1990",
+    "player": "Oliver Baumann",
+    "first_age": 30.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "kevin trapp|1990",
+    "player": "Kevin Trapp",
+    "first_age": 30.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "lars unnerstall|1990",
+    "player": "Lars Unnerstall",
+    "first_age": 30.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "daniel batz|1991",
+    "player": "Daniel Batz",
+    "first_age": 32.0,
+    "first_season": "2023-2024",
+    "censored": false
+   },
+   {
+    "player_key": "manuel neuer|1986",
+    "player": "Manuel Neuer",
+    "first_age": 34.0,
+    "first_season": "2020-2021",
+    "censored": true
+   }
+  ]
+ },
+ "club_tier": [
+  {
+   "player": "Bernd Leno",
+   "player_key": "bernd leno|1992",
+   "league": "ENG-Premier League",
+   "team": "Fulham",
+   "min": 3420,
+   "club_goals_pct": 0.25
+  },
+  {
+   "player": "Noah Atubolu",
+   "player_key": "noah atubolu|2002",
+   "league": "GER-Bundesliga",
+   "team": "Freiburg",
+   "min": 3060,
+   "club_goals_pct": 0.61
+  },
+  {
+   "player": "Moritz Nicolas",
+   "player_key": "moritz nicolas|1997",
+   "league": "GER-Bundesliga",
+   "team": "Gladbach",
+   "min": 3060,
+   "club_goals_pct": 0.19
+  },
+  {
+   "player": "Oliver Baumann",
+   "player_key": "oliver baumann|1990",
+   "league": "GER-Bundesliga",
+   "team": "Hoffenheim",
+   "min": 3060,
+   "club_goals_pct": 0.69
+  },
+  {
+   "player": "Marvin Schwäbe",
+   "player_key": "marvin schwabe|1995",
+   "league": "GER-Bundesliga",
+   "team": "Köln",
+   "min": 3060,
+   "club_goals_pct": 0.56
+  },
+  {
+   "player": "Finn Dahmen",
+   "player_key": "finn dahmen|1998",
+   "league": "GER-Bundesliga",
+   "team": "Augsburg",
+   "min": 3060,
+   "club_goals_pct": 0.5
+  },
+  {
+   "player": "Alexander Nübel",
+   "player_key": "alexander nubel|1996",
+   "league": "GER-Bundesliga",
+   "team": "Stuttgart",
+   "min": 3060,
+   "club_goals_pct": 0.94
+  },
+  {
+   "player": "Timon Wellenreuther",
+   "player_key": "timon wellenreuther|1995",
+   "league": "NED-Eredivisie",
+   "team": "Feyenoord",
+   "min": 2970,
+   "club_goals_pct": 0.89
+  },
+  {
+   "player": "Mio Backhaus",
+   "player_key": "mio backhaus|2004",
+   "league": "GER-Bundesliga",
+   "team": "Werder Bremen",
+   "min": 2880,
+   "club_goals_pct": 0.11
+  },
+  {
+   "player": "Diant Ramaj",
+   "player_key": "diant ramaj|2001",
+   "league": "GER-Bundesliga",
+   "team": "Heidenheim",
+   "min": 2790,
+   "club_goals_pct": 0.28
+  },
+  {
+   "player": "Lars Unnerstall",
+   "player_key": "lars unnerstall|1990",
+   "league": "NED-Eredivisie",
+   "team": "Twente",
+   "min": 2790,
+   "club_goals_pct": 0.78
+  },
+  {
+   "player": "Kevin Trapp",
+   "player_key": "kevin trapp|1990",
+   "league": "FRA-Ligue 1",
+   "team": "Paris FC",
+   "min": 1980,
+   "club_goals_pct": 0.47
+  },
+  {
+   "player": "Michael Zetterer",
+   "player_key": "michael zetterer|1995",
+   "league": "GER-Bundesliga",
+   "team": "Frankfurt",
+   "min": 1976,
+   "club_goals_pct": 0.69
+  },
+  {
+   "player": "Daniel Batz",
+   "player_key": "daniel batz|1991",
+   "league": "GER-Bundesliga",
+   "team": "Mainz 05",
+   "min": 1890,
+   "club_goals_pct": 0.39
+  },
+  {
+   "player": "Manuel Neuer",
+   "player_key": "manuel neuer|1986",
+   "league": "GER-Bundesliga",
+   "team": "Bayern Munich",
+   "min": 1859,
+   "club_goals_pct": 1.0
+  },
+  {
+   "player": "Jonas Urbig",
+   "player_key": "jonas urbig|2003",
+   "league": "GER-Bundesliga",
+   "team": "Bayern Munich",
+   "min": 1111,
+   "club_goals_pct": 1.0
+  },
+  {
+   "player": "Janis Blaswich",
+   "player_key": "janis blaswich|1991",
+   "league": "GER-Bundesliga",
+   "team": "Leverkusen",
+   "min": 931,
+   "club_goals_pct": 0.83
+  },
+  {
+   "player": "Robin Zentner",
+   "player_key": "robin zentner|1994",
+   "league": "GER-Bundesliga",
+   "team": "Mainz 05",
+   "min": 876,
+   "club_goals_pct": 0.39
+  },
+  {
+   "player": "Nico Mantl",
+   "player_key": "nico mantl|2000",
+   "league": "POR-Primeira Liga",
+   "team": "Arouca",
+   "min": 720,
+   "club_goals_pct": 0.67
+  },
+  {
+   "player": "Erdem Canpolat",
+   "player_key": "erdem canpolat|2001",
+   "league": "TUR-Süper Lig",
+   "team": "Rizespor",
+   "min": 630,
+   "club_goals_pct": 0.72
+  }
+ ],
+ "club_strength_proxy": "goals-scored percentile within league",
+ "production": {
+  "home": [
+   {
+    "player": "Bernd Leno",
+    "player_key": "bernd leno|1992",
+    "team": "Fulham",
+    "league": "ENG-Premier League",
+    "min": 3420,
+    "ga90": 1.34,
+    "saves90": 2.58,
+    "save_pct_shrunk": 66.0,
+    "cs_share": 0.237,
+    "ga90_q": 1.35
+   },
+   {
+    "player": "Finn Dahmen",
+    "player_key": "finn dahmen|1998",
+    "team": "Augsburg",
+    "league": "GER-Bundesliga",
+    "min": 3060,
+    "ga90": 1.79,
+    "saves90": 3.09,
+    "save_pct_shrunk": 65.0,
+    "cs_share": 0.147,
+    "ga90_q": 2.22
+   },
+   {
+    "player": "Jonas Urbig",
+    "player_key": "jonas urbig|2003",
+    "team": "Bayern Munich",
+    "league": "GER-Bundesliga",
+    "min": 1111,
+    "ga90": 1.22,
+    "saves90": 2.59,
+    "save_pct_shrunk": 65.5,
+    "cs_share": 0.429,
+    "ga90_q": 1.75
+   },
+   {
+    "player": "Manuel Neuer",
+    "player_key": "manuel neuer|1986",
+    "team": "Bayern Munich",
+    "league": "GER-Bundesliga",
+    "min": 1859,
+    "ga90": 0.97,
+    "saves90": 1.5,
+    "save_pct_shrunk": 65.1,
+    "cs_share": 0.318,
+    "ga90_q": 1.48
+   },
+   {
+    "player": "Michael Zetterer",
+    "player_key": "michael zetterer|1995",
+    "team": "Frankfurt",
+    "league": "GER-Bundesliga",
+    "min": 1976,
+    "ga90": 1.5,
+    "saves90": 2.82,
+    "save_pct_shrunk": 65.3,
+    "cs_share": 0.273,
+    "ga90_q": 1.94
+   },
+   {
+    "player": "Noah Atubolu",
+    "player_key": "noah atubolu|2002",
+    "team": "Freiburg",
+    "league": "GER-Bundesliga",
+    "min": 3060,
+    "ga90": 1.68,
+    "saves90": 2.94,
+    "save_pct_shrunk": 65.1,
+    "cs_share": 0.176,
+    "ga90_q": 2.1
+   },
+   {
+    "player": "Moritz Nicolas",
+    "player_key": "moritz nicolas|1997",
+    "team": "Gladbach",
+    "league": "GER-Bundesliga",
+    "min": 3060,
+    "ga90": 1.56,
+    "saves90": 4.0,
+    "save_pct_shrunk": 66.5,
+    "cs_share": 0.382,
+    "ga90_q": 1.99
+   },
+   {
+    "player": "Diant Ramaj",
+    "player_key": "diant ramaj|2001",
+    "team": "Heidenheim",
+    "league": "GER-Bundesliga",
+    "min": 2790,
+    "ga90": 2.16,
+    "saves90": 3.23,
+    "save_pct_shrunk": 64.5,
+    "cs_share": 0.032,
+    "ga90_q": 2.56
+   },
+   {
+    "player": "Oliver Baumann",
+    "player_key": "oliver baumann|1990",
+    "team": "Hoffenheim",
+    "league": "GER-Bundesliga",
+    "min": 3060,
+    "ga90": 1.53,
+    "saves90": 2.88,
+    "save_pct_shrunk": 65.3,
+    "cs_share": 0.206,
+    "ga90_q": 1.96
+   },
+   {
+    "player": "Marvin Schwäbe",
+    "player_key": "marvin schwabe|1995",
+    "team": "Köln",
+    "league": "GER-Bundesliga",
+    "min": 3060,
+    "ga90": 1.85,
+    "saves90": 2.71,
+    "save_pct_shrunk": 64.5,
+    "cs_share": 0.088,
+    "ga90_q": 2.27
+   },
+   {
+    "player": "Janis Blaswich",
+    "player_key": "janis blaswich|1991",
+    "team": "Leverkusen",
+    "league": "GER-Bundesliga",
+    "min": 931,
+    "ga90": 0.87,
+    "saves90": 3.96,
+    "save_pct_shrunk": 66.2,
+    "cs_share": 0.273,
+    "ga90_q": 1.55
+   },
+   {
+    "player": "Daniel Batz",
+    "player_key": "daniel batz|1991",
+    "team": "Mainz 05",
+    "league": "GER-Bundesliga",
+    "min": 1890,
+    "ga90": 1.29,
+    "saves90": 3.33,
+    "save_pct_shrunk": 66.0,
+    "cs_share": 0.19,
+    "ga90_q": 1.75
+   },
+   {
+    "player": "Robin Zentner",
+    "player_key": "robin zentner|1994",
+    "team": "Mainz 05",
+    "league": "GER-Bundesliga",
+    "min": 876,
+    "ga90": 1.44,
+    "saves90": 3.18,
+    "save_pct_shrunk": 65.5,
+    "cs_share": 0.0,
+    "ga90_q": 1.92
+   },
+   {
+    "player": "Alexander Nübel",
+    "player_key": "alexander nubel|1996",
+    "team": "Stuttgart",
+    "league": "GER-Bundesliga",
+    "min": 3060,
+    "ga90": 1.44,
+    "saves90": 3.15,
+    "save_pct_shrunk": 65.8,
+    "cs_share": 0.324,
+    "ga90_q": 1.87
+   },
+   {
+    "player": "Mio Backhaus",
+    "player_key": "mio backhaus|2004",
+    "team": "Werder Bremen",
+    "league": "GER-Bundesliga",
+    "min": 2880,
+    "ga90": 1.75,
+    "saves90": 3.12,
+    "save_pct_shrunk": 65.2,
+    "cs_share": 0.156,
+    "ga90_q": 2.17
+   },
+   {
+    "player": "Kevin Trapp",
+    "player_key": "kevin trapp|1990",
+    "team": "Paris FC",
+    "league": "FRA-Ligue 1",
+    "min": 1980,
+    "ga90": 1.32,
+    "saves90": 2.55,
+    "save_pct_shrunk": 65.4,
+    "cs_share": 0.318,
+    "ga90_q": 2.01
+   },
+   {
+    "player": "Timon Wellenreuther",
+    "player_key": "timon wellenreuther|1995",
+    "team": "Feyenoord",
+    "league": "NED-Eredivisie",
+    "min": 2970,
+    "ga90": 1.33,
+    "saves90": 2.7,
+    "save_pct_shrunk": 67.8,
+    "cs_share": 0.273,
+    "ga90_q": 2.72
+   },
+   {
+    "player": "Lars Unnerstall",
+    "player_key": "lars unnerstall|1990",
+    "team": "Twente",
+    "league": "NED-Eredivisie",
+    "min": 2790,
+    "ga90": 1.13,
+    "saves90": 2.48,
+    "save_pct_shrunk": 67.9,
+    "cs_share": 0.194,
+    "ga90_q": 2.42
+   },
+   {
+    "player": "Nico Mantl",
+    "player_key": "nico mantl|2000",
+    "team": "Arouca",
+    "league": "POR-Primeira Liga",
+    "min": 720,
+    "ga90": 2.25,
+    "saves90": 3.25,
+    "save_pct_shrunk": 66.0,
+    "cs_share": 0.25,
+    "ga90_q": 2.72
+   },
+   {
+    "player": "Erdem Canpolat",
+    "player_key": "erdem canpolat|2001",
+    "team": "Rizespor",
+    "league": "TUR-Süper Lig",
+    "min": 630,
+    "ga90": 1.43,
+    "saves90": 3.14,
+    "save_pct_shrunk": 68.6,
+    "cs_share": 0.286,
+    "ga90_q": 2.86
+   },
+   {
+    "player": "Jonas Thomas Kersken",
+    "player_key": "jonas thomas kersken|2000",
+    "team": "Arminia",
+    "league": "GER-2. Bundesliga",
+    "min": 2949,
+    "ga90": 1.5,
+    "saves90": 2.69,
+    "save_pct_shrunk": 66.9,
+    "cs_share": 0.182,
+    "ga90_q": 3.11
+   },
+   {
+    "player": "Ron-Thorben Hoffmann",
+    "player_key": "ron-thorben hoffmann|1999",
+    "team": "BTSV",
+    "league": "GER-2. Bundesliga",
+    "min": 2880,
+    "ga90": 1.59,
+    "saves90": 2.59,
+    "save_pct_shrunk": 66.6,
+    "cs_share": 0.188,
+    "ga90_q": 3.27
+   },
+   {
+    "player": "Timo Horn",
+    "player_key": "timo horn|1993",
+    "team": "Bochum",
+    "league": "GER-2. Bundesliga",
+    "min": 3060,
+    "ga90": 1.38,
+    "saves90": 3.21,
+    "save_pct_shrunk": 67.7,
+    "cs_share": 0.235,
+    "ga90_q": 2.93
+   },
+   {
+    "player": "Marcel Schuhen",
+    "player_key": "marcel schuhen|1993",
+    "team": "Darmstadt 98",
+    "league": "GER-2. Bundesliga",
+    "min": 3060,
+    "ga90": 1.32,
+    "saves90": 3.5,
+    "save_pct_shrunk": 68.1,
+    "cs_share": 0.294,
+    "ga90_q": 2.83
+   },
+   {
+    "player": "Lennart Grill",
+    "player_key": "lennart grill|1999",
+    "team": "Dresden",
+    "league": "GER-2. Bundesliga",
+    "min": 540,
+    "ga90": 1.67,
+    "saves90": 2.17,
+    "save_pct_shrunk": 67.0,
+    "cs_share": 0.0,
+    "ga90_q": 3.17
+   },
+   {
+    "player": "Tim Schreiber",
+    "player_key": "tim schreiber|2002",
+    "team": "Dresden",
+    "league": "GER-2. Bundesliga",
+    "min": 2430,
+    "ga90": 1.59,
+    "saves90": 2.56,
+    "save_pct_shrunk": 66.7,
+    "cs_share": 0.185,
+    "ga90_q": 3.25
+   },
+   {
+    "player": "Florian Kastenmeier",
+    "player_key": "florian kastenmeier|1997",
+    "team": "Düsseldorf",
+    "league": "GER-2. Bundesliga",
+    "min": 2880,
+    "ga90": 1.62,
+    "saves90": 3.34,
+    "save_pct_shrunk": 67.2,
+    "cs_share": 0.125,
+    "ga90_q": 3.32
+   },
+   {
+    "player": "Silas Prüfrock",
+    "player_key": "silas prufrock|2005",
+    "team": "Greuther Fürth",
+    "league": "GER-2. Bundesliga",
+    "min": 1350,
+    "ga90": 1.2,
+    "saves90": 2.8,
+    "save_pct_shrunk": 67.5,
+    "cs_share": 0.267,
+    "ga90_q": 2.7
+   },
+   {
+    "player": "Timo Schlieck",
+    "player_key": "timo schlieck|2006",
+    "team": "Greuther Fürth",
+    "league": "GER-2. Bundesliga",
+    "min": 810,
+    "ga90": 2.44,
+    "saves90": 2.78,
+    "save_pct_shrunk": 66.6,
+    "cs_share": 0.111,
+    "ga90_q": 4.0
+   },
+   {
+    "player": "Nahuel Noll",
+    "player_key": "nahuel noll|2003",
+    "team": "Hannover 96",
+    "league": "GER-2. Bundesliga",
+    "min": 3060,
+    "ga90": 1.29,
+    "saves90": 2.82,
+    "save_pct_shrunk": 67.4,
+    "cs_share": 0.294,
+    "ga90_q": 2.78
+   },
+   {
+    "player": "Tjark Ernst",
+    "player_key": "tjark ernst|2003",
+    "team": "Hertha BSC",
+    "league": "GER-2. Bundesliga",
+    "min": 2970,
+    "ga90": 1.33,
+    "saves90": 2.97,
+    "save_pct_shrunk": 67.5,
+    "cs_share": 0.333,
+    "ga90_q": 2.85
+   },
+   {
+    "player": "Jonas Krumrey",
+    "player_key": "jonas krumrey|2003",
+    "team": "Holstein Kiel",
+    "league": "GER-2. Bundesliga",
+    "min": 1980,
+    "ga90": 1.41,
+    "saves90": 3.09,
+    "save_pct_shrunk": 67.4,
+    "cs_share": 0.227,
+    "ga90_q": 2.97
+   },
+   {
+    "player": "Timon Weiner",
+    "player_key": "timon weiner|1999",
+    "team": "Holstein Kiel",
+    "league": "GER-2. Bundesliga",
+    "min": 1080,
+    "ga90": 1.42,
+    "saves90": 2.67,
+    "save_pct_shrunk": 67.2,
+    "cs_share": 0.333,
+    "ga90_q": 2.97
+   },
+   {
+    "player": "Julian Krahl",
+    "player_key": "julian krahl|2000",
+    "team": "Kaiserslautern",
+    "league": "GER-2. Bundesliga",
+    "min": 2880,
+    "ga90": 1.38,
+    "saves90": 3.59,
+    "save_pct_shrunk": 68.1,
+    "cs_share": 0.281,
+    "ga90_q": 2.92
+   },
+   {
+    "player": "Dominik Reimann",
+    "player_key": "dominik reimann|1997",
+    "team": "Magdeburg",
+    "league": "GER-2. Bundesliga",
+    "min": 3060,
+    "ga90": 1.71,
+    "saves90": 3.15,
+    "save_pct_shrunk": 66.9,
+    "cs_share": 0.206,
+    "ga90_q": 3.46
+   },
+   {
+    "player": "Jan Reichert",
+    "player_key": "jan reichert|2001",
+    "team": "Nürnberg",
+    "league": "GER-2. Bundesliga",
+    "min": 2970,
+    "ga90": 1.36,
+    "saves90": 3.03,
+    "save_pct_shrunk": 67.5,
+    "cs_share": 0.121,
+    "ga90_q": 2.9
+   },
+   {
+    "player": "Dennis Seimen",
+    "player_key": "dennis seimen|2005",
+    "team": "Paderborn 07",
+    "league": "GER-2. Bundesliga",
+    "min": 3060,
+    "ga90": 1.32,
+    "saves90": 2.94,
+    "save_pct_shrunk": 67.3,
+    "cs_share": 0.265,
+    "ga90_q": 2.83
+   },
+   {
+    "player": "Johannes Schenk",
+    "player_key": "johannes schenk|2003",
+    "team": "Preußen Münster",
+    "league": "GER-2. Bundesliga",
+    "min": 2754,
+    "ga90": 1.83,
+    "saves90": 3.01,
+    "save_pct_shrunk": 66.6,
+    "cs_share": 0.129,
+    "ga90_q": 3.64
+   },
+   {
+    "player": "Loris Karius",
+    "player_key": "loris karius|1993",
+    "team": "Schalke 04",
+    "league": "GER-2. Bundesliga",
+    "min": 2700,
+    "ga90": 0.8,
+    "saves90": 2.0,
+    "save_pct_shrunk": 67.6,
+    "cs_share": 0.433,
+    "ga90_q": 2.01
+   },
+   {
+    "player": "Nico Mantl",
+    "player_key": "nico mantl|2000",
+    "team": "Blau-Weiß Linz",
+    "league": "AUT-Bundesliga",
+    "min": 1350,
+    "ga90": 1.33,
+    "saves90": 1.47,
+    "save_pct_shrunk": 65.5,
+    "cs_share": 0.267,
+    "ga90_q": 4.94
+   },
+   {
+    "player": "Tom Hülsmann",
+    "player_key": "tom hulsmann|2004",
+    "team": "Hartberg",
+    "league": "AUT-Bundesliga",
+    "min": 2683,
+    "ga90": 1.27,
+    "saves90": 2.75,
+    "save_pct_shrunk": 66.3,
+    "cs_share": 0.3,
+    "ga90_q": 4.79
+   }
+  ],
+  "peer_medians": [
+   {
+    "country": "GER",
+    "n": 41,
+    "median_ga90_q": 2.72,
+    "median_saves90": 2.95,
+    "median_save_pct": 66.6,
+    "median_cs_share": 0.237
+   },
+   {
+    "country": "FRA",
+    "n": 14,
+    "median_ga90_q": 2.07,
+    "median_saves90": 2.67,
+    "median_save_pct": 65.8,
+    "median_cs_share": 0.31
+   },
+   {
+    "country": "ESP",
+    "n": 20,
+    "median_ga90_q": 1.79,
+    "median_saves90": 2.97,
+    "median_save_pct": 68.7,
+    "median_cs_share": 0.232
+   },
+   {
+    "country": "ITA",
+    "n": 18,
+    "median_ga90_q": 1.49,
+    "median_saves90": 2.72,
+    "median_save_pct": 68.3,
+    "median_cs_share": 0.322
+   },
+   {
+    "country": "ENG",
+    "n": 5,
+    "median_ga90_q": 1.4,
+    "median_saves90": 2.82,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.259
+   },
+   {
+    "country": "NED",
+    "n": 27,
+    "median_ga90_q": 3.09,
+    "median_saves90": 3.26,
+    "median_save_pct": 67.8,
+    "median_cs_share": 0.2
+   },
+   {
+    "country": "POR",
+    "n": 11,
+    "median_ga90_q": 2.34,
+    "median_saves90": 2.83,
+    "median_save_pct": 66.0,
+    "median_cs_share": 0.194
+   },
+   {
+    "country": "BEL",
+    "n": 21,
+    "median_ga90_q": 2.21,
+    "median_saves90": 3.0,
+    "median_save_pct": 69.1,
+    "median_cs_share": 0.25
+   }
+  ]
+ },
+ "cards": [
+  {
+   "player_key": "bernd leno|1992",
+   "player": "Bernd Leno",
+   "team": "Fulham",
+   "league": "ENG-Premier League",
+   "min": 3420,
+   "reason": "most top-9 minutes among home goalkeepers",
+   "stats": {
+    "ga90": 1.34,
+    "saves90": 2.58,
+    "save_pct": 66.0,
+    "cs_share": 0.237,
+    "ga90_q": 1.35
+   },
+   "club_goals_pct": 0.25,
+   "nt_flag": false,
+   "nt_events": []
+  },
+  {
+   "player_key": "mio backhaus|2004",
+   "player": "Mio Backhaus",
+   "team": "Werder Bremen",
+   "league": "GER-Bundesliga",
+   "min": 2880,
+   "reason": "youngest home goalkeeper with minimum top-9 minutes",
+   "stats": {
+    "ga90": 1.75,
+    "saves90": 3.12,
+    "save_pct": 65.2,
+    "cs_share": 0.156,
+    "ga90_q": 2.17
+   },
+   "club_goals_pct": 0.11,
+   "nt_flag": false,
+   "nt_events": []
+  }
+ ]
+}

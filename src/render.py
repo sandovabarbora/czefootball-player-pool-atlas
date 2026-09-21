@@ -2006,6 +2006,7 @@ DOWNLOAD_GROUPS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("downloads.pipeline_facts", ("pipeline_facts.json",)),
     ("downloads.fbref_roles", ("fbref_roles.parquet",)),
     ("downloads.pool_table", ("pool_table.json",)),
+    ("downloads.fbref_history", ("fbref_history.parquet",)),
     ("downloads.season_changes", ("season_changes.json",)),
 )
 

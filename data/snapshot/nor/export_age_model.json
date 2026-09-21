@@ -1,0 +1,145 @@
+{
+ "n": 115,
+ "age_range": {
+  "min": 17.0,
+  "max": 31.0
+ },
+ "n_seasons_counts": {
+  "1": 71,
+  "2": 44
+ },
+ "origin_source_counts": {
+  "m_L": 115
+ },
+ "use_spline": false,
+ "knots": [
+  19.0,
+  21.0,
+  23.0,
+  25.0
+ ],
+ "age_curve": [
+  {
+   "age": 19,
+   "median": 0.1407,
+   "lo": 0.12,
+   "hi": 0.1616
+  },
+  {
+   "age": 21,
+   "median": 0.1408,
+   "lo": 0.1244,
+   "hi": 0.1556
+  },
+  {
+   "age": 23,
+   "median": 0.1401,
+   "lo": 0.123,
+   "hi": 0.1564
+  },
+  {
+   "age": 25,
+   "median": 0.1389,
+   "lo": 0.1202,
+   "hi": 0.1566
+  },
+  {
+   "age": 27,
+   "median": 0.1369,
+   "lo": 0.1168,
+   "hi": 0.1586
+  }
+ ],
+ "y24": {
+  "age": 24,
+  "median": 0.1395,
+  "lo": 0.1219,
+  "hi": 0.1568
+ },
+ "diff_21_24": {
+  "age_a": 21,
+  "age_b": 24,
+  "median": 0.0013,
+  "lo": -0.01,
+  "hi": 0.0132
+ },
+ "beta": {
+  "median": -0.034,
+  "lo": -0.1138,
+  "hi": 0.0506
+ },
+ "home_nation_effect": {
+  "median": -0.0122,
+  "lo": -0.0382,
+  "hi": 0.0045
+ },
+ "home_median_age": 21.0,
+ "home_code": "NOR",
+ "diagnostics": {
+  "max_rhat": 1.0052,
+  "min_ess_bulk": 977.9,
+  "min_ess_tail": 1282.5,
+  "n_divergences": 0,
+  "sigma_n_median": 0.1348
+ },
+ "ppc": {
+  "observed": {
+   "mean": 0.1405,
+   "sd": 0.1018,
+   "p10": 0.0204,
+   "p90": 0.2742
+  },
+  "replicated": {
+   "mean": 0.1405,
+   "sd": 0.1036,
+   "p10": 0.0108,
+   "p90": 0.2806
+  }
+ },
+ "no_strength": {
+  "diagnostics": {
+   "max_rhat": 1.0044,
+   "min_ess_bulk": 1205.3,
+   "min_ess_tail": 1407.9,
+   "n_divergences": 0,
+   "sigma_n_median": 0.1392
+  },
+  "home_nation_effect": {
+   "median": -0.0127,
+   "lo": -0.0383,
+   "hi": 0.0063
+  },
+  "runtime_s": 4.9
+ },
+ "lono": {
+  "n_excluded": 18,
+  "n": 97,
+  "diff_21_24": {
+   "age_a": 21,
+   "age_b": 24,
+   "median": 0.006,
+   "lo": -0.0078,
+   "hi": 0.0187
+  },
+  "beta": {
+   "median": -0.0653,
+   "lo": -0.1552,
+   "hi": 0.0287
+  },
+  "diagnostics": {
+   "max_rhat": 1.0062,
+   "min_ess_bulk": 273.7,
+   "min_ess_tail": 302.6,
+   "n_divergences": 0,
+   "sigma_n_median": 0.0747
+  },
+  "runtime_s": 3.7,
+  "shift_diff_21_24": 0.0047
+ },
+ "fit": {
+  "n": 115,
+  "runtime_s": 6.9,
+  "runtime_no_strength_s": 4.9,
+  "runtime_lono_s": 3.7
+ }
+}

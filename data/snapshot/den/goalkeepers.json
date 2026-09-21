@@ -1,0 +1,507 @@
+{
+ "min_minutes": 450,
+ "phantom_minutes": 900,
+ "per_million": [
+  {
+   "country": "DEN",
+   "name": "Denmark",
+   "n_gk": 4,
+   "population_m": 5.96,
+   "per_million": 0.67,
+   "rank": 1
+  },
+  {
+   "country": "CRO",
+   "name": "Croatia",
+   "n_gk": 2,
+   "population_m": 3.86,
+   "per_million": 0.52,
+   "rank": 2
+  },
+  {
+   "country": "SUI",
+   "name": "Switzerland",
+   "n_gk": 4,
+   "population_m": 8.96,
+   "per_million": 0.45,
+   "rank": 3
+  },
+  {
+   "country": "SVK",
+   "name": "Slovakia",
+   "n_gk": 2,
+   "population_m": 5.42,
+   "per_million": 0.37,
+   "rank": 4
+  },
+  {
+   "country": "CZE",
+   "name": "Czechia",
+   "n_gk": 4,
+   "population_m": 10.9,
+   "per_million": 0.37,
+   "rank": 5
+  },
+  {
+   "country": "POL",
+   "name": "Poland",
+   "n_gk": 7,
+   "population_m": 36.62,
+   "per_million": 0.19,
+   "rank": 6
+  },
+  {
+   "country": "NOR",
+   "name": "Norway",
+   "n_gk": 1,
+   "population_m": 5.55,
+   "per_million": 0.18,
+   "rank": 7
+  },
+  {
+   "country": "AUT",
+   "name": "Austria",
+   "n_gk": 1,
+   "population_m": 9.16,
+   "per_million": 0.11,
+   "rank": 8
+  },
+  {
+   "country": "HUN",
+   "name": "Hungary",
+   "n_gk": 1,
+   "population_m": 9.58,
+   "per_million": 0.1,
+   "rank": 9
+  }
+ ],
+ "home_rank": 1,
+ "n_peers": 9,
+ "export_age": {
+  "gk_n": 4,
+  "gk_median_age": 24.0,
+  "gk_censored": 1,
+  "gk_censored_share": 0.25,
+  "outfield_n": 68,
+  "outfield_median_age": 22.5,
+  "outfield_censored": 13,
+  "outfield_censored_share": 0.191,
+  "current_top9_ages": [
+   {
+    "player_key": "andreas jungdal|2002",
+    "player": "Andreas Jungdal",
+    "first_age": 22.0,
+    "first_season": "2024-2025",
+    "censored": false
+   },
+   {
+    "player_key": "mads hermansen|2000",
+    "player": "Mads Hermansen",
+    "first_age": 24.0,
+    "first_season": "2024-2025",
+    "censored": false
+   },
+   {
+    "player_key": "jonathan fischer|2001",
+    "player": "Jonathan Fischer",
+    "first_age": 24.0,
+    "first_season": "2025-2026",
+    "censored": false
+   },
+   {
+    "player_key": "frederik ronnow|1992",
+    "player": "Frederik Rønnow",
+    "first_age": 28.0,
+    "first_season": "2020-2021",
+    "censored": true
+   }
+  ]
+ },
+ "club_tier": [
+  {
+   "player": "Andreas Jungdal",
+   "player_key": "andreas jungdal|2002",
+   "league": "BEL-Pro League",
+   "team": "Westerlo",
+   "min": 3600,
+   "club_goals_pct": 0.44
+  },
+  {
+   "player": "Frederik Rønnow",
+   "player_key": "frederik ronnow|1992",
+   "league": "GER-Bundesliga",
+   "team": "Union Berlin",
+   "min": 2640,
+   "club_goals_pct": 0.39
+  },
+  {
+   "player": "Jonathan Fischer",
+   "player_key": "jonathan fischer|2001",
+   "league": "FRA-Ligue 1",
+   "team": "Metz",
+   "min": 2354,
+   "club_goals_pct": 0.25
+  },
+  {
+   "player": "Mads Hermansen",
+   "player_key": "mads hermansen|2000",
+   "league": "ENG-Premier League",
+   "team": "West Ham",
+   "min": 1620,
+   "club_goals_pct": 0.3
+  }
+ ],
+ "club_strength_proxy": "goals-scored percentile within league",
+ "production": {
+  "home": [
+   {
+    "player": "Mads Hermansen",
+    "player_key": "mads hermansen|2000",
+    "team": "West Ham",
+    "league": "ENG-Premier League",
+    "min": 1620,
+    "ga90": 1.56,
+    "saves90": 2.94,
+    "save_pct_shrunk": 65.9,
+    "cs_share": 0.389,
+    "ga90_q": 1.49
+   },
+   {
+    "player": "Frederik Rønnow",
+    "player_key": "frederik ronnow|1992",
+    "team": "Union Berlin",
+    "league": "GER-Bundesliga",
+    "min": 2640,
+    "ga90": 1.84,
+    "saves90": 2.56,
+    "save_pct_shrunk": 64.3,
+    "cs_share": 0.167,
+    "ga90_q": 2.25
+   },
+   {
+    "player": "Jonathan Fischer",
+    "player_key": "jonathan fischer|2001",
+    "team": "Metz",
+    "league": "FRA-Ligue 1",
+    "min": 2354,
+    "ga90": 2.14,
+    "saves90": 3.52,
+    "save_pct_shrunk": 65.0,
+    "cs_share": 0.185,
+    "ga90_q": 2.9
+   },
+   {
+    "player": "Andreas Jungdal",
+    "player_key": "andreas jungdal|2002",
+    "team": "Westerlo",
+    "league": "BEL-Pro League",
+    "min": 3600,
+    "ga90": 1.43,
+    "saves90": 2.77,
+    "save_pct_shrunk": 68.8,
+    "cs_share": 0.35,
+    "ga90_q": 2.5
+   },
+   {
+    "player": "Jesper Hansen",
+    "player_key": "jesper hansen|1985",
+    "team": "AGF",
+    "league": "DEN-Superliga",
+    "min": 2700,
+    "ga90": 0.97,
+    "saves90": 3.03,
+    "save_pct_shrunk": 65.4,
+    "cs_share": 0.3,
+    "ga90_q": 2.91
+   },
+   {
+    "player": "Valdemar Thorsen",
+    "player_key": "valdemar thorsen|2001",
+    "team": "FC Fredericia",
+    "league": "DEN-Superliga",
+    "min": 990,
+    "ga90": 1.73,
+    "saves90": 2.82,
+    "save_pct_shrunk": 63.9,
+    "cs_share": 0.0,
+    "ga90_q": 4.27
+   },
+   {
+    "player": "Jonas Lössl",
+    "player_key": "jonas lossl|1989",
+    "team": "Midtjylland",
+    "league": "DEN-Superliga",
+    "min": 450,
+    "ga90": 1.8,
+    "saves90": 2.0,
+    "save_pct_shrunk": 63.8,
+    "cs_share": 0.2,
+    "ga90_q": 4.17
+   },
+   {
+    "player": "Andreas Hansen",
+    "player_key": "andreas hansen|1995",
+    "team": "Nordsjælland",
+    "league": "DEN-Superliga",
+    "min": 2430,
+    "ga90": 1.22,
+    "saves90": 3.44,
+    "save_pct_shrunk": 65.2,
+    "cs_share": 0.333,
+    "ga90_q": 3.44
+   },
+   {
+    "player": "William Lykke",
+    "player_key": "william lykke|2004",
+    "team": "Nordsjælland",
+    "league": "DEN-Superliga",
+    "min": 450,
+    "ga90": 2.6,
+    "saves90": 1.4,
+    "save_pct_shrunk": 63.4,
+    "cs_share": 0.0,
+    "ga90_q": 4.89
+   },
+   {
+    "player": "Theo Sander",
+    "player_key": "theo sander|2005",
+    "team": "Odense",
+    "league": "DEN-Superliga",
+    "min": 600,
+    "ga90": 2.25,
+    "saves90": 1.65,
+    "save_pct_shrunk": 63.4,
+    "cs_share": 0.0,
+    "ga90_q": 4.73
+   },
+   {
+    "player": "Jannich Storch",
+    "player_key": "jannich storch|1993",
+    "team": "Randers",
+    "league": "DEN-Superliga",
+    "min": 540,
+    "ga90": 1.67,
+    "saves90": 2.33,
+    "save_pct_shrunk": 63.9,
+    "cs_share": 0.333,
+    "ga90_q": 4.08
+   },
+   {
+    "player": "Nicolai Larsen",
+    "player_key": "nicolai larsen|1991",
+    "team": "Silkeborg",
+    "league": "DEN-Superliga",
+    "min": 2788,
+    "ga90": 2.1,
+    "saves90": 4.58,
+    "save_pct_shrunk": 64.9,
+    "cs_share": 0.097,
+    "ga90_q": 5.21
+   },
+   {
+    "player": "Marcus Bundgaard",
+    "player_key": "marcus bundgaard|2001",
+    "team": "SønderjyskE",
+    "league": "DEN-Superliga",
+    "min": 2097,
+    "ga90": 1.33,
+    "saves90": 2.75,
+    "save_pct_shrunk": 64.4,
+    "cs_share": 0.292,
+    "ga90_q": 3.66
+   },
+   {
+    "player": "Nicolai Flø",
+    "player_key": "nicolai flo|1995",
+    "team": "SønderjyskE",
+    "league": "DEN-Superliga",
+    "min": 693,
+    "ga90": 2.08,
+    "saves90": 3.25,
+    "save_pct_shrunk": 63.9,
+    "cs_share": 0.222,
+    "ga90_q": 4.6
+   },
+   {
+    "player": "Lucas Lund Pedersen",
+    "player_key": "lucas lund pedersen|2000",
+    "team": "Viborg",
+    "league": "DEN-Superliga",
+    "min": 2880,
+    "ga90": 1.59,
+    "saves90": 3.03,
+    "save_pct_shrunk": 64.2,
+    "cs_share": 0.281,
+    "ga90_q": 4.19
+   },
+   {
+    "player": "Peter Vindahl Jensen",
+    "player_key": "peter vindahl jensen|1998",
+    "team": "Sparta Prague",
+    "league": "CZE-First League",
+    "min": 1908,
+    "ga90": 1.08,
+    "saves90": 2.03,
+    "save_pct_shrunk": 67.3,
+    "cs_share": 0.364,
+    "ga90_q": 2.59
+   },
+   {
+    "player": "Hans Christian Bernat",
+    "player_key": "hans christian bernat|2000",
+    "team": "Karlsruher",
+    "league": "GER-2. Bundesliga",
+    "min": 2970,
+    "ga90": 1.85,
+    "saves90": 3.76,
+    "save_pct_shrunk": 67.3,
+    "cs_share": 0.152,
+    "ga90_q": 3.69
+   },
+   {
+    "player": "Oliver Christensen",
+    "player_key": "oliver christensen|1999",
+    "team": "Sturm Graz",
+    "league": "AUT-Bundesliga",
+    "min": 1316,
+    "ga90": 1.23,
+    "saves90": 2.67,
+    "save_pct_shrunk": 66.2,
+    "cs_share": 0.333,
+    "ga90_q": 4.72
+   },
+   {
+    "player": "Jonathan Fischer",
+    "player_key": "jonathan fischer|2001",
+    "team": "Fredrikstad",
+    "league": "NOR-Eliteserien",
+    "min": 1530,
+    "ga90": 1.18,
+    "saves90": 3.06,
+    "save_pct_shrunk": 66.7,
+    "cs_share": 0.294,
+    "ga90_q": 3.37
+   },
+   {
+    "player": "Jakob Haugaard",
+    "player_key": "jakob haugaard|1992",
+    "team": "Tromsø",
+    "league": "NOR-Eliteserien",
+    "min": 2700,
+    "ga90": 1.2,
+    "saves90": 2.07,
+    "save_pct_shrunk": 65.9,
+    "cs_share": 0.333,
+    "ga90_q": 3.34
+   },
+   {
+    "player": "Oscar Hedvall",
+    "player_key": "oscar hedvall|1998",
+    "team": "Vålerenga",
+    "league": "NOR-Eliteserien",
+    "min": 1260,
+    "ga90": 1.86,
+    "saves90": 3.57,
+    "save_pct_shrunk": 66.2,
+    "cs_share": 0.214,
+    "ga90_q": 4.46
+   }
+  ],
+  "peer_medians": [
+   {
+    "country": "DEN",
+    "n": 21,
+    "median_ga90_q": 3.69,
+    "median_saves90": 2.9,
+    "median_save_pct": 65.0,
+    "median_cs_share": 0.281
+   },
+   {
+    "country": "NOR",
+    "n": 17,
+    "median_ga90_q": 4.01,
+    "median_saves90": 3.06,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.222
+   },
+   {
+    "country": "SUI",
+    "n": 15,
+    "median_ga90_q": 4.95,
+    "median_saves90": 3.07,
+    "median_save_pct": 65.2,
+    "median_cs_share": 0.211
+   },
+   {
+    "country": "AUT",
+    "n": 16,
+    "median_ga90_q": 4.76,
+    "median_saves90": 2.61,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.273
+   },
+   {
+    "country": "CZE",
+    "n": 22,
+    "median_ga90_q": 2.86,
+    "median_saves90": 2.9,
+    "median_save_pct": 67.5,
+    "median_cs_share": 0.288
+   },
+   {
+    "country": "CRO",
+    "n": 20,
+    "median_ga90_q": 5.19,
+    "median_saves90": 2.92,
+    "median_save_pct": 67.8,
+    "median_cs_share": 0.222
+   },
+   {
+    "country": "POL",
+    "n": 26,
+    "median_ga90_q": 2.74,
+    "median_saves90": 2.77,
+    "median_save_pct": 66.3,
+    "median_cs_share": 0.243
+   },
+   {
+    "country": "HUN",
+    "n": 16,
+    "median_ga90_q": 5.29,
+    "median_saves90": 3.17,
+    "median_save_pct": 69.5,
+    "median_cs_share": 0.243
+   },
+   {
+    "country": "SVK",
+    "n": 9,
+    "median_ga90_q": 2.9,
+    "median_saves90": 3.09,
+    "median_save_pct": 66.8,
+    "median_cs_share": 0.292
+   }
+  ]
+ },
+ "cards": [
+  {
+   "player_key": "andreas jungdal|2002",
+   "player": "Andreas Jungdal",
+   "team": "Westerlo",
+   "league": "BEL-Pro League",
+   "min": 3600,
+   "reason": "most top-9 minutes among home goalkeepers",
+   "stats": {
+    "ga90": 1.43,
+    "saves90": 2.77,
+    "save_pct": 68.8,
+    "cs_share": 0.35,
+    "ga90_q": 2.5
+   },
+   "club_goals_pct": 0.44,
+   "nt_flag": true,
+   "nt_events": [
+    "UEFA European Under-21 Championship 2025"
+   ]
+  }
+ ]
+}

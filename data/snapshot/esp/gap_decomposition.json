@@ -1,0 +1,148 @@
+{
+ "panel": [
+  {
+   "country": "ESP",
+   "y": 9.54,
+   "x1": 0.04823695007157767,
+   "x2": 0.9077,
+   "x3": 21.5,
+   "x2_source": "m_L",
+   "league": "ESP-La Liga"
+  },
+  {
+   "country": "FRA",
+   "y": 5.79,
+   "x1": 0.0875866393656676,
+   "x2": 0.8102,
+   "x3": 21.0,
+   "x2_source": "m_L",
+   "league": "FRA-Ligue 1"
+  },
+  {
+   "country": "GER",
+   "y": 3.13,
+   "x1": 0.06145474093371377,
+   "x2": 0.7773,
+   "x3": 22.0,
+   "x2_source": "m_L",
+   "league": "GER-Bundesliga"
+  },
+  {
+   "country": "ITA",
+   "y": 3.41,
+   "x1": 0.027056947480746402,
+   "x2": 0.9346,
+   "x3": 22.0,
+   "x2_source": "m_L",
+   "league": "ITA-Serie A"
+  },
+  {
+   "country": "ENG",
+   "y": 3.6,
+   "x1": 0.03034269870905367,
+   "x2": 1.0,
+   "x3": 20.0,
+   "x2_source": "m_L",
+   "league": "ENG-Premier League"
+  },
+  {
+   "country": "NED",
+   "y": 20.69,
+   "x1": 0.1359201458390543,
+   "x2": 0.5973,
+   "x3": 20.5,
+   "x2_source": "m_L",
+   "league": "NED-Eredivisie"
+  },
+  {
+   "country": "POR",
+   "y": 25.19,
+   "x1": 0.0493509201986881,
+   "x2": 0.7213,
+   "x3": 20.5,
+   "x2_source": "m_L",
+   "league": "POR-Primeira Liga"
+  },
+  {
+   "country": "BEL",
+   "y": 21.46,
+   "x1": 0.08719003969310925,
+   "x2": 0.671,
+   "x3": 20.0,
+   "x2_source": "m_L",
+   "league": "BEL-Pro League"
+  }
+ ],
+ "coefficients": {
+  "a": 145.7599,
+  "b": {
+   "x1": -59.3384,
+   "x2": -51.1347,
+   "x3": -4.2611
+  }
+ },
+ "contrasts": [
+  {
+   "contrast": "FRA",
+   "gap_total": -3.75,
+   "channels": [
+    {
+     "name": "u21_share",
+     "contribution": -2.3349,
+     "share": 0.6227,
+     "lo": -7.1506,
+     "hi": 3.1902
+    },
+    {
+     "name": "league_strength",
+     "contribution": 4.9856,
+     "share": -1.3295,
+     "lo": 1.0462,
+     "hi": 7.0251
+    },
+    {
+     "name": "export_age",
+     "contribution": 2.1306,
+     "share": -0.5681,
+     "lo": 0.2516,
+     "hi": 4.7967
+    }
+   ],
+   "residual": -8.5312,
+   "n": 8
+  },
+  {
+   "contrast": "POR",
+   "gap_total": 15.65,
+   "channels": [
+    {
+     "name": "u21_share",
+     "contribution": -0.0661,
+     "share": -0.0042,
+     "lo": -0.209,
+     "hi": 0.0866
+    },
+    {
+     "name": "league_strength",
+     "contribution": 9.5315,
+     "share": 0.609,
+     "lo": 1.5279,
+     "hi": 13.4882
+    },
+    {
+     "name": "export_age",
+     "contribution": 4.2611,
+     "share": 0.2723,
+     "lo": 0.4512,
+     "hi": 9.5718
+    }
+   ],
+   "residual": 1.9235,
+   "n": 8
+  }
+ ],
+ "n": 8,
+ "home": "ESP",
+ "ridge_alpha": 1.0,
+ "min_gap_for_share": 3.0
+}

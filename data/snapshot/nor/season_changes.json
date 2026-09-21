@@ -1,0 +1,395 @@
+{
+ "previous": "2024-2025",
+ "metrics": "2025-2026",
+ "min_minutes": 450,
+ "moves": {
+  "up": {
+   "n": 11,
+   "names": [
+    {
+     "player": "Sebastian Sebulonsen",
+     "player_key": "sebastian sebulonsen|2000",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "GER-Bundesliga",
+     "tier_prev": "other",
+     "tier_curr": "top9",
+     "min_prev": 2110,
+     "min_curr": 2498
+    },
+    {
+     "player": "Sondre Liseth",
+     "player_key": "sondre liseth|1997",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": "domestic",
+     "tier_curr": "other",
+     "min_prev": 1389,
+     "min_curr": 2341
+    },
+    {
+     "player": "Jonas Therkelsen",
+     "player_key": "jonas therkelsen|2003",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "GER-2. Bundesliga",
+     "tier_prev": "domestic",
+     "tier_curr": "stepping_stone",
+     "min_prev": 1687,
+     "min_curr": 2177
+    },
+    {
+     "player": "Sondre \u00d8rjas\u00e6ter",
+     "player_key": "sondre orjasaeter|2003",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "NED-Eredivisie",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2428,
+     "min_curr": 2130
+    },
+    {
+     "player": "Jakob Romsaas",
+     "player_key": "jakob romsaas|2004",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "BEL-Pro League",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 1710,
+     "min_curr": 1753
+    },
+    {
+     "player": "Runar Norheim",
+     "player_key": "runar norheim|2005",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "domestic",
+     "tier_curr": "other",
+     "min_prev": 2462,
+     "min_curr": 1409
+    }
+   ]
+  },
+  "down": {
+   "n": 7,
+   "names": [
+    {
+     "player": "Kristoffer Askildsen",
+     "player_key": "kristoffer askildsen|2001",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 543,
+     "min_curr": 1552
+    },
+    {
+     "player": "Magnus Knudsen",
+     "player_key": "magnus knudsen|2001",
+     "league_prev": "GER-Bundesliga",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "top9",
+     "tier_curr": "other",
+     "min_prev": 1850,
+     "min_curr": 1223
+    },
+    {
+     "player": "Ola Solbakken",
+     "player_key": "ola solbakken|1998",
+     "league_prev": "ITA-Serie A",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "top9",
+     "tier_curr": "other",
+     "min_prev": 760,
+     "min_curr": 1162
+    },
+    {
+     "player": "Gustav Wikheim",
+     "player_key": "gustav wikheim|1993",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 457,
+     "min_curr": 990
+    },
+    {
+     "player": "Simen Bolkan Nordli",
+     "player_key": "simen bolkan nordli|1999",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 2415,
+     "min_curr": 860
+    },
+    {
+     "player": "Ivan N\u00e4sberg",
+     "player_key": "ivan nasberg|1996",
+     "league_prev": "DEN-Superliga",
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": "other",
+     "tier_curr": "domestic",
+     "min_prev": 1128,
+     "min_curr": 843
+    }
+   ]
+  },
+  "lateral": {
+   "n": 3,
+   "names": [
+    {
+     "player": "Leo \u00d8stig\u00e5rd",
+     "player_key": "leo ostigard|1999",
+     "league_prev": "FRA-Ligue 1",
+     "league_curr": "ITA-Serie A",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1227,
+     "min_curr": 2622
+    },
+    {
+     "player": "David M\u00f8ller Wolfe",
+     "player_key": "david moller wolfe|2002",
+     "league_prev": "NED-Eredivisie",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2500,
+     "min_curr": 1049
+    },
+    {
+     "player": "Markus Solbakken",
+     "player_key": "markus solbakken|2000",
+     "league_prev": "CZE-First League",
+     "league_curr": "DEN-Superliga",
+     "tier_prev": "other",
+     "tier_curr": "other",
+     "min_prev": 549,
+     "min_curr": 567
+    }
+   ]
+  },
+  "stayed": {
+   "n": 155,
+   "names": [
+    {
+     "player": "Tobias Lauritsen",
+     "player_key": "tobias lauritsen|1997",
+     "league_prev": "NED-Eredivisie",
+     "league_curr": "NED-Eredivisie",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2707,
+     "min_curr": 3039
+    },
+    {
+     "player": "Erling Haaland",
+     "player_key": "erling haaland|2000",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2736,
+     "min_curr": 2953
+    },
+    {
+     "player": "Sander Berge",
+     "player_key": "sander berge|1998",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2224,
+     "min_curr": 2905
+    },
+    {
+     "player": "Oliver Braude",
+     "player_key": "oliver braude|2004",
+     "league_prev": "NED-Eredivisie",
+     "league_curr": "NED-Eredivisie",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 2607,
+     "min_curr": 2815
+    },
+    {
+     "player": "Fredrik Ulvestad",
+     "player_key": "fredrik ulvestad|1992",
+     "league_prev": "POL-Ekstraklasa",
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": "other",
+     "tier_curr": "other",
+     "min_prev": 2525,
+     "min_curr": 2717
+    },
+    {
+     "player": "Ruben Ytterg\u00e5rd Jenssen",
+     "player_key": "ruben yttergard jenssen|1988",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2375,
+     "min_curr": 2700
+    }
+   ]
+  },
+  "entered": {
+   "n": 58,
+   "names": [
+    {
+     "player": "Henrik Falchener",
+     "player_key": "henrik falchener|2003",
+     "league_prev": null,
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2576
+    },
+    {
+     "player": "Eirik Saunes",
+     "player_key": "eirik saunes|1998",
+     "league_prev": null,
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2496
+    },
+    {
+     "player": "Kristian Thorstvedt",
+     "player_key": "kristian thorstvedt|1999",
+     "league_prev": null,
+     "league_curr": "ITA-Serie A",
+     "tier_prev": null,
+     "tier_curr": "top9",
+     "min_prev": 0,
+     "min_curr": 2460
+    },
+    {
+     "player": "Mathias T\u00f8nnessen",
+     "player_key": "mathias tonnessen|2003",
+     "league_prev": null,
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2422
+    },
+    {
+     "player": "Daniel Karlsbakk",
+     "player_key": "daniel karlsbakk|2003",
+     "league_prev": null,
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2347
+    },
+    {
+     "player": "Aaron Olsen",
+     "player_key": "aaron olsen|2001",
+     "league_prev": null,
+     "league_curr": "NOR-Eliteserien",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2283
+    }
+   ]
+  },
+  "left": {
+   "n": 72,
+   "names": [
+    {
+     "player": "Jonas Svensson",
+     "player_key": "jonas svensson|1993",
+     "league_prev": "TUR-S\u00fcper Lig",
+     "league_curr": null,
+     "tier_prev": "top9",
+     "tier_curr": null,
+     "min_prev": 2722,
+     "min_curr": 0
+    },
+    {
+     "player": "Ruben Gabrielsen",
+     "player_key": "ruben gabrielsen|1992",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2602,
+     "min_curr": 0
+    },
+    {
+     "player": "Sondre Lang\u00e5s",
+     "player_key": "sondre langas|2001",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2589,
+     "min_curr": 0
+    },
+    {
+     "player": "Vegard Kongsro",
+     "player_key": "vegard kongsro|1998",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2553,
+     "min_curr": 0
+    },
+    {
+     "player": "Filip J\u00f8rgensen",
+     "player_key": "filip jorgensen|2002",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2464,
+     "min_curr": 0
+    },
+    {
+     "player": "Ruben Kristiansen",
+     "player_key": "ruben kristiansen|1988",
+     "league_prev": "NOR-Eliteserien",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2448,
+     "min_curr": 0
+    }
+   ]
+  }
+ },
+ "minutes_by_tier": {
+  "domestic": {
+   "prev": 293797,
+   "curr": 259396,
+   "players_prev": 193,
+   "players_curr": 176
+  },
+  "other": {
+   "prev": 27585,
+   "curr": 27570,
+   "players_prev": 20,
+   "players_curr": 18
+  },
+  "stepping_stone": {
+   "prev": 1396,
+   "curr": 3738,
+   "players_prev": 1,
+   "players_curr": 2
+  },
+  "top9": {
+   "prev": 60395,
+   "curr": 63393,
+   "players_prev": 34,
+   "players_curr": 38
+  }
+ },
+ "n_prev": 248,
+ "n_curr": 234
+}

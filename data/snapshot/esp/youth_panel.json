@@ -1,0 +1,200 @@
+{
+ "panel": [
+  {
+   "country": "POR",
+   "season": "2024-2025",
+   "x": 0.0616,
+   "y": 27.35
+  },
+  {
+   "country": "BEL",
+   "season": "2024-2025",
+   "x": 0.0782,
+   "y": 22.99
+  },
+  {
+   "country": "NED",
+   "season": "2024-2025",
+   "x": 0.1184,
+   "y": 17.35
+  },
+  {
+   "country": "ESP",
+   "season": "2024-2025",
+   "x": 0.078,
+   "y": 9.38
+  },
+  {
+   "country": "FRA",
+   "season": "2024-2025",
+   "x": 0.0866,
+   "y": 5.35
+  },
+  {
+   "country": "ENG",
+   "season": "2024-2025",
+   "x": 0.0393,
+   "y": 4.0
+  },
+  {
+   "country": "ITA",
+   "season": "2024-2025",
+   "x": 0.0331,
+   "y": 3.58
+  },
+  {
+   "country": "GER",
+   "season": "2024-2025",
+   "x": 0.0473,
+   "y": 3.12
+  },
+  {
+   "country": "POR",
+   "season": "2025-2026",
+   "x": 0.0494,
+   "y": 25.19
+  },
+  {
+   "country": "BEL",
+   "season": "2025-2026",
+   "x": 0.0872,
+   "y": 21.46
+  },
+  {
+   "country": "NED",
+   "season": "2025-2026",
+   "x": 0.1359,
+   "y": 20.69
+  },
+  {
+   "country": "ESP",
+   "season": "2025-2026",
+   "x": 0.0482,
+   "y": 9.54
+  },
+  {
+   "country": "FRA",
+   "season": "2025-2026",
+   "x": 0.0876,
+   "y": 5.79
+  },
+  {
+   "country": "ENG",
+   "season": "2025-2026",
+   "x": 0.0303,
+   "y": 3.6
+  },
+  {
+   "country": "ITA",
+   "season": "2025-2026",
+   "x": 0.0271,
+   "y": 3.41
+  },
+  {
+   "country": "GER",
+   "season": "2025-2026",
+   "x": 0.0615,
+   "y": 3.13
+  }
+ ],
+ "means": [
+  {
+   "country": "BEL",
+   "x": 0.0827,
+   "y": 22.23
+  },
+  {
+   "country": "ENG",
+   "x": 0.0348,
+   "y": 3.8
+  },
+  {
+   "country": "ESP",
+   "x": 0.0631,
+   "y": 9.46
+  },
+  {
+   "country": "FRA",
+   "x": 0.0871,
+   "y": 5.57
+  },
+  {
+   "country": "GER",
+   "x": 0.0544,
+   "y": 3.12
+  },
+  {
+   "country": "ITA",
+   "x": 0.0301,
+   "y": 3.5
+  },
+  {
+   "country": "NED",
+   "x": 0.1272,
+   "y": 19.02
+  },
+  {
+   "country": "POR",
+   "x": 0.0555,
+   "y": 26.27
+  }
+ ],
+ "n": 16,
+ "n_countries": 8,
+ "seasons_used": [
+  "2024/25",
+  "2025/26"
+ ],
+ "between": {
+  "beta_per_10pp": {
+   "median": 13.9419,
+   "lo": -4.9273,
+   "hi": 33.0945
+  },
+  "alpha": 2.4206,
+  "r2": 0.2247,
+  "n": 8,
+  "diagnostics": {
+   "max_rhat": 1.0053,
+   "min_ess_bulk": 2181.8,
+   "min_ess_tail": 2309.8,
+   "n_divergences": 0
+  }
+ },
+ "within": {
+  "beta_per_10pp": {
+   "median": 1.5592,
+   "lo": -1.2892,
+   "hi": 4.3342
+  },
+  "alpha": 9.6246,
+  "r2": 0.9931,
+  "n": 16,
+  "diagnostics": {
+   "max_rhat": 1.0058,
+   "min_ess_bulk": 860.8,
+   "min_ess_tail": 935.2,
+   "n_divergences": 0,
+   "sigma_country_median": 8.2529
+  }
+ },
+ "ols": {
+  "slope_per_10pp": {
+   "point": 13.5732,
+   "lo": 5.3626,
+   "hi": 20.8172
+  },
+  "intercept": 2.5468,
+  "n_boot": 1000
+ },
+ "ols_means": {
+  "slope_per_10pp": {
+   "point": 14.1653,
+   "lo": 1.4567,
+   "hi": 33.6878
+  },
+  "intercept": 2.151,
+  "n_boot": 1000
+ },
+ "home": "ESP"
+}

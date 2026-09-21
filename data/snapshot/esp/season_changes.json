@@ -1,0 +1,405 @@
+{
+ "previous": "2024-2025",
+ "metrics": "2025-2026",
+ "min_minutes": 450,
+ "moves": {
+  "up": {
+   "n": 13,
+   "names": [
+    {
+     "player": "Mart\u00edn Zubimendi",
+     "player_key": "martin zubimendi|1999",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2962,
+     "min_curr": 2992
+    },
+    {
+     "player": "Sergi G\u00f3mez",
+     "player_key": "sergi gomez|1992",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "POR-Primeira Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 664,
+     "min_curr": 2482
+    },
+    {
+     "player": "Yarek Gasiorowski",
+     "player_key": "yarek gasiorowski|2005",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "NED-Eredivisie",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 947,
+     "min_curr": 2145
+    },
+    {
+     "player": "Y\u00e9remy Pino",
+     "player_key": "yeremy pino|2002",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 1934,
+     "min_curr": 2080
+    },
+    {
+     "player": "Jesus Rodr\u00edguez",
+     "player_key": "jesus rodriguez|2005",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ITA-Serie A",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 1111,
+     "min_curr": 1731
+    },
+    {
+     "player": "Luis P\u00e9rez",
+     "player_key": "luis perez|1995",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "TUR-S\u00fcper Lig",
+     "tier_prev": "domestic",
+     "tier_curr": "top9",
+     "min_prev": 2558,
+     "min_curr": 1654
+    }
+   ]
+  },
+  "down": {
+   "n": 7,
+   "names": [
+    {
+     "player": "\u00c1lex Moreno",
+     "player_key": "alex moreno|1993",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 955,
+     "min_curr": 2559
+    },
+    {
+     "player": "\u00c1lvaro Carreras",
+     "player_key": "alvaro carreras|2003",
+     "league_prev": "POR-Primeira Liga",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 2743,
+     "min_curr": 2332
+    },
+    {
+     "player": "Carlos Soler",
+     "player_key": "carlos soler|1997",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 1409,
+     "min_curr": 2317
+    },
+    {
+     "player": "Dean Huijsen",
+     "player_key": "dean huijsen|2005",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 2427,
+     "min_curr": 2034
+    },
+    {
+     "player": "Ricardo Visus",
+     "player_key": "ricardo visus|2001",
+     "league_prev": "NED-Eredivisie",
+     "league_curr": "POL-Ekstraklasa",
+     "tier_prev": "top9",
+     "tier_curr": "other",
+     "min_prev": 1962,
+     "min_curr": 1709
+    },
+    {
+     "player": "Ferran Jutgl\u00e0",
+     "player_key": "ferran jutgla|1999",
+     "league_prev": "BEL-Pro League",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "top9",
+     "tier_curr": "domestic",
+     "min_prev": 1714,
+     "min_curr": 1652
+    }
+   ]
+  },
+  "lateral": {
+   "n": 4,
+   "names": [
+    {
+     "player": "Hugo Bueno",
+     "player_key": "hugo bueno|2002",
+     "league_prev": "NED-Eredivisie",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1197,
+     "min_curr": 2366
+    },
+    {
+     "player": "\u00c1lex Jim\u00e9nez",
+     "player_key": "alex jimenez|2005",
+     "league_prev": "ITA-Serie A",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1266,
+     "min_curr": 2317
+    },
+    {
+     "player": "Marco Asensio",
+     "player_key": "marco asensio|1996",
+     "league_prev": "ENG-Premier League",
+     "league_curr": "TUR-S\u00fcper Lig",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 743,
+     "min_curr": 1871
+    },
+    {
+     "player": "Nicol\u00e1s Gonz\u00e1lez",
+     "player_key": "nicolas gonzalez|2002",
+     "league_prev": "POR-Primeira Liga",
+     "league_curr": "ENG-Premier League",
+     "tier_prev": "top9",
+     "tier_curr": "top9",
+     "min_prev": 1441,
+     "min_curr": 1569
+    }
+   ]
+  },
+  "stayed": {
+   "n": 216,
+   "names": [
+    {
+     "player": "Luis Milla",
+     "player_key": "luis milla|1994",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2875,
+     "min_curr": 3271
+    },
+    {
+     "player": "Carlos Romero",
+     "player_key": "carlos romero|2001",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2554,
+     "min_curr": 3191
+    },
+    {
+     "player": "Iglesias",
+     "player_key": "iglesias|1998",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2888,
+     "min_curr": 3185
+    },
+    {
+     "player": "Antonio Blanco",
+     "player_key": "antonio blanco|2000",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2727,
+     "min_curr": 3110
+    },
+    {
+     "player": "Catena",
+     "player_key": "catena|1994",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 3074,
+     "min_curr": 3071
+    },
+    {
+     "player": "Jon Moncayola",
+     "player_key": "jon moncayola|1998",
+     "league_prev": "ESP-La Liga",
+     "league_curr": "ESP-La Liga",
+     "tier_prev": "domestic",
+     "tier_curr": "domestic",
+     "min_prev": 2099,
+     "min_curr": 3016
+    }
+   ]
+  },
+  "entered": {
+   "n": 112,
+   "names": [
+    {
+     "player": "Aleix Febas",
+     "player_key": "aleix febas|1996",
+     "league_prev": null,
+     "league_curr": "ESP-La Liga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 3160
+    },
+    {
+     "player": "Jonny Castro",
+     "player_key": "jonny castro|1994",
+     "league_prev": null,
+     "league_curr": "ESP-La Liga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2994
+    },
+    {
+     "player": "Germ\u00e1n Valera",
+     "player_key": "german valera|2002",
+     "league_prev": null,
+     "league_curr": "ESP-La Liga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2857
+    },
+    {
+     "player": "Jacobo Ram\u00f3n",
+     "player_key": "jacobo ramon|2005",
+     "league_prev": null,
+     "league_curr": "ITA-Serie A",
+     "tier_prev": null,
+     "tier_curr": "top9",
+     "min_prev": 0,
+     "min_curr": 2742
+    },
+    {
+     "player": "Adri\u00e1n de la Fuente",
+     "player_key": "adrian de la fuente|1999",
+     "league_prev": null,
+     "league_curr": "ESP-La Liga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2711
+    },
+    {
+     "player": "V\u00edctor Mu\u00f1oz",
+     "player_key": "victor munoz|2003",
+     "league_prev": null,
+     "league_curr": "ESP-La Liga",
+     "tier_prev": null,
+     "tier_curr": "domestic",
+     "min_prev": 0,
+     "min_curr": 2656
+    }
+   ]
+  },
+  "left": {
+   "n": 94,
+   "names": [
+    {
+     "player": "Angeli\u00f1o",
+     "player_key": "angelino|1997",
+     "league_prev": "ITA-Serie A",
+     "league_curr": null,
+     "tier_prev": "top9",
+     "tier_curr": null,
+     "min_prev": 3177,
+     "min_curr": 0
+    },
+    {
+     "player": "Sergi",
+     "player_key": "sergi|1992",
+     "league_prev": "ESP-La Liga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2957,
+     "min_curr": 0
+    },
+    {
+     "player": "\u00d3scar Aranda",
+     "player_key": "oscar aranda|2002",
+     "league_prev": "POR-Primeira Liga",
+     "league_curr": null,
+     "tier_prev": "top9",
+     "tier_curr": null,
+     "min_prev": 2599,
+     "min_curr": 0
+    },
+    {
+     "player": "Sergio Akieme",
+     "player_key": "sergio akieme|1997",
+     "league_prev": "FRA-Ligue 1",
+     "league_curr": null,
+     "tier_prev": "top9",
+     "tier_curr": null,
+     "min_prev": 2523,
+     "min_curr": 0
+    },
+    {
+     "player": "I\u00f1igo Mart\u00ednez",
+     "player_key": "inigo martinez|1991",
+     "league_prev": "ESP-La Liga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2490,
+     "min_curr": 0
+    },
+    {
+     "player": "\u00c1lex Su\u00e1rez",
+     "player_key": "alex suarez|1993",
+     "league_prev": "ESP-La Liga",
+     "league_curr": null,
+     "tier_prev": "domestic",
+     "tier_curr": null,
+     "min_prev": 2460,
+     "min_curr": 0
+    }
+   ]
+  }
+ },
+ "minutes_by_tier": {
+  "domestic": {
+   "prev": 387404,
+   "curr": 380845,
+   "players_prev": 233,
+   "players_curr": 227
+  },
+  "other": {
+   "prev": 41640,
+   "curr": 67863,
+   "players_prev": 27,
+   "players_curr": 43
+  },
+  "stepping_stone": {
+   "prev": 3679,
+   "curr": 2732,
+   "players_prev": 2,
+   "players_curr": 2
+  },
+  "top9": {
+   "prev": 113739,
+   "curr": 128412,
+   "players_prev": 72,
+   "players_curr": 80
+  }
+ },
+ "n_prev": 334,
+ "n_curr": 352
+}

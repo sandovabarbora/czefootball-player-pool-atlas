@@ -1,0 +1,414 @@
+{
+ "min_minutes": 450,
+ "phantom_minutes": 900,
+ "per_million": [
+  {
+   "country": "DEN",
+   "name": "Denmark",
+   "n_gk": 4,
+   "population_m": 5.96,
+   "per_million": 0.67,
+   "rank": 1
+  },
+  {
+   "country": "CRO",
+   "name": "Croatia",
+   "n_gk": 2,
+   "population_m": 3.86,
+   "per_million": 0.52,
+   "rank": 2
+  },
+  {
+   "country": "SUI",
+   "name": "Switzerland",
+   "n_gk": 4,
+   "population_m": 8.96,
+   "per_million": 0.45,
+   "rank": 3
+  },
+  {
+   "country": "SVK",
+   "name": "Slovakia",
+   "n_gk": 2,
+   "population_m": 5.42,
+   "per_million": 0.37,
+   "rank": 4
+  },
+  {
+   "country": "CZE",
+   "name": "Czechia",
+   "n_gk": 4,
+   "population_m": 10.9,
+   "per_million": 0.37,
+   "rank": 5
+  },
+  {
+   "country": "POL",
+   "name": "Poland",
+   "n_gk": 7,
+   "population_m": 36.62,
+   "per_million": 0.19,
+   "rank": 6
+  },
+  {
+   "country": "NOR",
+   "name": "Norway",
+   "n_gk": 1,
+   "population_m": 5.55,
+   "per_million": 0.18,
+   "rank": 7
+  },
+  {
+   "country": "AUT",
+   "name": "Austria",
+   "n_gk": 1,
+   "population_m": 9.16,
+   "per_million": 0.11,
+   "rank": 8
+  },
+  {
+   "country": "HUN",
+   "name": "Hungary",
+   "n_gk": 1,
+   "population_m": 9.58,
+   "per_million": 0.1,
+   "rank": 9
+  }
+ ],
+ "home_rank": 7,
+ "n_peers": 9,
+ "export_age": {
+  "gk_n": 1,
+  "gk_median_age": 32.0,
+  "gk_censored": 0,
+  "gk_censored_share": 0.0,
+  "outfield_n": 44,
+  "outfield_median_age": 22.0,
+  "outfield_censored": 13,
+  "outfield_censored_share": 0.295,
+  "current_top9_ages": [
+   {
+    "player_key": "orjan nyland|1990",
+    "player": "Ørjan Nyland",
+    "first_age": 32.0,
+    "first_season": "2022-2023",
+    "censored": false
+   }
+  ]
+ },
+ "club_tier": [
+  {
+   "player": "Ørjan Nyland",
+   "player_key": "orjan nyland|1990",
+   "league": "ESP-La Liga",
+   "team": "Sevilla",
+   "min": 450,
+   "club_goals_pct": 0.45
+  }
+ ],
+ "club_strength_proxy": "goals-scored percentile within league",
+ "production": {
+  "home": [
+   {
+    "player": "Ørjan Nyland",
+    "player_key": "orjan nyland|1990",
+    "team": "Sevilla",
+    "league": "ESP-La Liga",
+    "min": 450,
+    "ga90": 1.6,
+    "saves90": 2.2,
+    "save_pct_shrunk": 68.7,
+    "cs_share": 0.2,
+    "ga90_q": 1.79
+   },
+   {
+    "player": "Mathias Dyngeland",
+    "player_key": "mathias dyngeland|1995",
+    "team": "Brann",
+    "league": "NOR-Eliteserien",
+    "min": 2700,
+    "ga90": 1.53,
+    "saves90": 2.27,
+    "save_pct_shrunk": 65.5,
+    "cs_share": 0.167,
+    "ga90_q": 4.01
+   },
+   {
+    "player": "Martin Børsheim",
+    "player_key": "martin borsheim|2005",
+    "team": "Fredrikstad",
+    "league": "NOR-Eliteserien",
+    "min": 1080,
+    "ga90": 1.25,
+    "saves90": 3.5,
+    "save_pct_shrunk": 66.7,
+    "cs_share": 0.25,
+    "ga90_q": 3.53
+   },
+   {
+    "player": "Amund Wichne",
+    "player_key": "amund wichne|1997",
+    "team": "Haugesund",
+    "league": "NOR-Eliteserien",
+    "min": 1440,
+    "ga90": 2.5,
+    "saves90": 3.94,
+    "save_pct_shrunk": 66.1,
+    "cs_share": 0.125,
+    "ga90_q": 5.56
+   },
+   {
+    "player": "Einar Fauskanger",
+    "player_key": "einar fauskanger|2008",
+    "team": "Haugesund",
+    "league": "NOR-Eliteserien",
+    "min": 990,
+    "ga90": 2.91,
+    "saves90": 3.73,
+    "save_pct_shrunk": 65.5,
+    "cs_share": 0.0,
+    "ga90_q": 5.86
+   },
+   {
+    "player": "Emil Ødegaard",
+    "player_key": "emil odegaard|1999",
+    "team": "KFUM Oslo",
+    "league": "NOR-Eliteserien",
+    "min": 2610,
+    "ga90": 1.28,
+    "saves90": 1.55,
+    "save_pct_shrunk": 65.3,
+    "cs_share": 0.241,
+    "ga90_q": 3.5
+   },
+   {
+    "player": "Adrian Sæther",
+    "player_key": "adrian saether|2001",
+    "team": "Kristiansund",
+    "league": "NOR-Eliteserien",
+    "min": 1956,
+    "ga90": 1.93,
+    "saves90": 3.04,
+    "save_pct_shrunk": 65.7,
+    "cs_share": 0.136,
+    "ga90_q": 4.72
+   },
+   {
+    "player": "Knut-André Skjærstein",
+    "player_key": "knut-andre skjaerstein|1995",
+    "team": "Kristiansund",
+    "league": "NOR-Eliteserien",
+    "min": 540,
+    "ga90": 2.17,
+    "saves90": 3.83,
+    "save_pct_shrunk": 66.1,
+    "cs_share": 0.333,
+    "ga90_q": 4.52
+   },
+   {
+    "player": "Jacob Karlstrom",
+    "player_key": "jacob karlstrom|1997",
+    "team": "Molde",
+    "league": "NOR-Eliteserien",
+    "min": 2520,
+    "ga90": 1.32,
+    "saves90": 2.61,
+    "save_pct_shrunk": 66.4,
+    "cs_share": 0.321,
+    "ga90_q": 3.59
+   },
+   {
+    "player": "Sander Tangvik",
+    "player_key": "sander tangvik|2002",
+    "team": "Rosenborg",
+    "league": "NOR-Eliteserien",
+    "min": 2700,
+    "ga90": 1.4,
+    "saves90": 3.2,
+    "save_pct_shrunk": 66.7,
+    "cs_share": 0.367,
+    "ga90_q": 3.75
+   },
+   {
+    "player": "Per Kristian Bråtveit",
+    "player_key": "per kristian bratveit|1996",
+    "team": "Strømsgodset",
+    "league": "NOR-Eliteserien",
+    "min": 2218,
+    "ga90": 2.15,
+    "saves90": 4.34,
+    "save_pct_shrunk": 66.3,
+    "cs_share": 0.08,
+    "ga90_q": 5.17
+   },
+   {
+    "player": "Arild Østbø",
+    "player_key": "arild ostbo|1991",
+    "team": "Viking",
+    "league": "NOR-Eliteserien",
+    "min": 1032,
+    "ga90": 0.78,
+    "saves90": 3.14,
+    "save_pct_shrunk": 66.9,
+    "cs_share": 0.417,
+    "ga90_q": 2.87
+   },
+   {
+    "player": "Kristoffer Klaesson",
+    "player_key": "kristoffer klaesson|2000",
+    "team": "Viking",
+    "league": "NOR-Eliteserien",
+    "min": 1218,
+    "ga90": 1.33,
+    "saves90": 2.44,
+    "save_pct_shrunk": 66.1,
+    "cs_share": 0.286,
+    "ga90_q": 3.64
+   },
+   {
+    "player": "Thomas Kinn",
+    "player_key": "thomas kinn|1999",
+    "team": "Viking",
+    "league": "NOR-Eliteserien",
+    "min": 450,
+    "ga90": 1.8,
+    "saves90": 1.2,
+    "save_pct_shrunk": 65.8,
+    "cs_share": 0.0,
+    "ga90_q": 4.11
+   },
+   {
+    "player": "Jacob Storevik",
+    "player_key": "jacob storevik|1996",
+    "team": "Vålerenga",
+    "league": "NOR-Eliteserien",
+    "min": 630,
+    "ga90": 1.86,
+    "saves90": 4.0,
+    "save_pct_shrunk": 66.3,
+    "cs_share": 0.286,
+    "ga90_q": 4.25
+   },
+   {
+    "player": "Magnus Sjøeng",
+    "player_key": "magnus sjoeng|2002",
+    "team": "Vålerenga",
+    "league": "NOR-Eliteserien",
+    "min": 810,
+    "ga90": 1.56,
+    "saves90": 1.56,
+    "save_pct_shrunk": 65.7,
+    "cs_share": 0.222,
+    "ga90_q": 3.95
+   },
+   {
+    "player": "Viljar Myhra",
+    "player_key": "viljar myhra|1996",
+    "team": "Odense",
+    "league": "DEN-Superliga",
+    "min": 2008,
+    "ga90": 1.75,
+    "saves90": 2.82,
+    "save_pct_shrunk": 63.8,
+    "cs_share": 0.174,
+    "ga90_q": 4.44
+   }
+  ],
+  "peer_medians": [
+   {
+    "country": "NOR",
+    "n": 17,
+    "median_ga90_q": 4.01,
+    "median_saves90": 3.06,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.222
+   },
+   {
+    "country": "DEN",
+    "n": 21,
+    "median_ga90_q": 3.69,
+    "median_saves90": 2.9,
+    "median_save_pct": 65.0,
+    "median_cs_share": 0.281
+   },
+   {
+    "country": "SUI",
+    "n": 15,
+    "median_ga90_q": 4.95,
+    "median_saves90": 3.07,
+    "median_save_pct": 65.2,
+    "median_cs_share": 0.211
+   },
+   {
+    "country": "AUT",
+    "n": 16,
+    "median_ga90_q": 4.76,
+    "median_saves90": 2.61,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.273
+   },
+   {
+    "country": "CZE",
+    "n": 22,
+    "median_ga90_q": 2.86,
+    "median_saves90": 2.9,
+    "median_save_pct": 67.5,
+    "median_cs_share": 0.288
+   },
+   {
+    "country": "CRO",
+    "n": 20,
+    "median_ga90_q": 5.19,
+    "median_saves90": 2.92,
+    "median_save_pct": 67.8,
+    "median_cs_share": 0.222
+   },
+   {
+    "country": "POL",
+    "n": 26,
+    "median_ga90_q": 2.74,
+    "median_saves90": 2.77,
+    "median_save_pct": 66.3,
+    "median_cs_share": 0.243
+   },
+   {
+    "country": "HUN",
+    "n": 16,
+    "median_ga90_q": 5.29,
+    "median_saves90": 3.17,
+    "median_save_pct": 69.5,
+    "median_cs_share": 0.243
+   },
+   {
+    "country": "SVK",
+    "n": 9,
+    "median_ga90_q": 2.9,
+    "median_saves90": 3.09,
+    "median_save_pct": 66.8,
+    "median_cs_share": 0.292
+   }
+  ]
+ },
+ "cards": [
+  {
+   "player_key": "orjan nyland|1990",
+   "player": "Ørjan Nyland",
+   "team": "Sevilla",
+   "league": "ESP-La Liga",
+   "min": 450,
+   "reason": "most top-9 minutes among home goalkeepers",
+   "stats": {
+    "ga90": 1.6,
+    "saves90": 2.2,
+    "save_pct": 68.7,
+    "cs_share": 0.2,
+    "ga90_q": 1.79
+   },
+   "club_goals_pct": 0.45,
+   "nt_flag": true,
+   "nt_events": [
+    "2026 FIFA World Cup"
+   ]
+  }
+ ]
+}

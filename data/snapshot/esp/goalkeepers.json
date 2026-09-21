@@ -1,0 +1,737 @@
+{
+ "min_minutes": 450,
+ "phantom_minutes": 900,
+ "per_million": [
+  {
+   "country": "BEL",
+   "name": "Belgium",
+   "n_gk": 21,
+   "population_m": 11.79,
+   "per_million": 1.78,
+   "rank": 1
+  },
+  {
+   "country": "NED",
+   "name": "Netherlands",
+   "n_gk": 25,
+   "population_m": 17.98,
+   "per_million": 1.39,
+   "rank": 2
+  },
+  {
+   "country": "POR",
+   "name": "Portugal",
+   "n_gk": 11,
+   "population_m": 10.64,
+   "per_million": 1.03,
+   "rank": 3
+  },
+  {
+   "country": "ESP",
+   "name": "Spain",
+   "n_gk": 20,
+   "population_m": 48.62,
+   "per_million": 0.41,
+   "rank": 4
+  },
+  {
+   "country": "ITA",
+   "name": "Italy",
+   "n_gk": 17,
+   "population_m": 58.99,
+   "per_million": 0.29,
+   "rank": 5
+  },
+  {
+   "country": "GER",
+   "name": "Germany",
+   "n_gk": 20,
+   "population_m": 83.6,
+   "per_million": 0.24,
+   "rank": 6
+  },
+  {
+   "country": "FRA",
+   "name": "France",
+   "n_gk": 14,
+   "population_m": 68.17,
+   "per_million": 0.21,
+   "rank": 7
+  },
+  {
+   "country": "ENG",
+   "name": "England",
+   "n_gk": 5,
+   "population_m": 57.7,
+   "per_million": 0.09,
+   "rank": 8
+  }
+ ],
+ "home_rank": 4,
+ "n_peers": 8,
+ "export_age": {
+  "gk_n": 20,
+  "gk_median_age": 25.0,
+  "gk_censored": 11,
+  "gk_censored_share": 0.55,
+  "outfield_n": 435,
+  "outfield_median_age": 22.0,
+  "outfield_censored": 145,
+  "outfield_censored_share": 0.333,
+  "current_top9_ages": [
+   {
+    "player_key": "joan garcia|2001",
+    "player": "Joan García",
+    "first_age": 20.0,
+    "first_season": "2021-2022",
+    "censored": false
+   },
+   {
+    "player_key": "leo roman|2000",
+    "player": "Leo Román",
+    "first_age": 21.0,
+    "first_season": "2021-2022",
+    "censored": false
+   },
+   {
+    "player_key": "julen agirrezabala|2000",
+    "player": "Julen Agirrezabala",
+    "first_age": 21.0,
+    "first_season": "2021-2022",
+    "censored": false
+   },
+   {
+    "player_key": "josep martinez|1998",
+    "player": "Josep Martinez",
+    "first_age": 22.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "inaki pena|1999",
+    "player": "Iñaki Peña",
+    "first_age": 22.0,
+    "first_season": "2021-2022",
+    "censored": false
+   },
+   {
+    "player_key": "arnau tenas|2001",
+    "player": "Arnau Tenas",
+    "first_age": 22.0,
+    "first_season": "2023-2024",
+    "censored": false
+   },
+   {
+    "player_key": "robert sanchez|1997",
+    "player": "Robert Sánchez",
+    "first_age": 23.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "unai simon|1997",
+    "player": "Unai Simón",
+    "first_age": 23.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "antonio sivera|1996",
+    "player": "Antonio Sivera",
+    "first_age": 24.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "aaron escandell|1995",
+    "player": "Aarón Escandell",
+    "first_age": 25.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "alex remiro|1995",
+    "player": "Álex Remiro",
+    "first_age": 25.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "david raya|1995",
+    "player": "David Raya",
+    "first_age": 26.0,
+    "first_season": "2021-2022",
+    "censored": false
+   },
+   {
+    "player_key": "pau lopez|1994",
+    "player": "Pau López",
+    "first_age": 26.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "alvaro valles|1997",
+    "player": "Álvaro Vallés",
+    "first_age": 26.0,
+    "first_season": "2023-2024",
+    "censored": false
+   },
+   {
+    "player_key": "david soria|1993",
+    "player": "David Soria",
+    "first_age": 27.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "sergio herrera|1993",
+    "player": "Sergio Herrera",
+    "first_age": 27.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "nacho miras|1997",
+    "player": "Nacho Miras",
+    "first_age": 27.0,
+    "first_season": "2024-2025",
+    "censored": false
+   },
+   {
+    "player_key": "david de gea|1990",
+    "player": "David de Gea",
+    "first_age": 30.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "joel robles|1990",
+    "player": "Joel Robles",
+    "first_age": 30.0,
+    "first_season": "2020-2021",
+    "censored": true
+   },
+   {
+    "player_key": "julian cuesta|1991",
+    "player": "Julián Cuesta",
+    "first_age": 34.0,
+    "first_season": "2025-2026",
+    "censored": false
+   }
+  ]
+ },
+ "club_tier": [
+  {
+   "player": "David Soria",
+   "player_key": "david soria|1993",
+   "league": "ESP-La Liga",
+   "team": "Getafe",
+   "min": 3420,
+   "club_goals_pct": 0.1
+  },
+  {
+   "player": "Antonio Sivera",
+   "player_key": "antonio sivera|1996",
+   "league": "ESP-La Liga",
+   "team": "Alavés",
+   "min": 3420,
+   "club_goals_pct": 0.23
+  },
+  {
+   "player": "David Raya",
+   "player_key": "david raya|1995",
+   "league": "ENG-Premier League",
+   "team": "Arsenal",
+   "min": 3330,
+   "club_goals_pct": 0.95
+  },
+  {
+   "player": "David de Gea",
+   "player_key": "david de gea|1990",
+   "league": "ITA-Serie A",
+   "team": "Fiorentina",
+   "min": 3330,
+   "club_goals_pct": 0.38
+  },
+  {
+   "player": "Álex Remiro",
+   "player_key": "alex remiro|1995",
+   "league": "ESP-La Liga",
+   "team": "Real Sociedad",
+   "min": 3330,
+   "club_goals_pct": 0.75
+  },
+  {
+   "player": "Unai Simón",
+   "player_key": "unai simon|1997",
+   "league": "ESP-La Liga",
+   "team": "Athletic Club",
+   "min": 3330,
+   "club_goals_pct": 0.35
+  },
+  {
+   "player": "Sergio Herrera",
+   "player_key": "sergio herrera|1993",
+   "league": "ESP-La Liga",
+   "team": "Osasuna",
+   "min": 3284,
+   "club_goals_pct": 0.35
+  },
+  {
+   "player": "Aarón Escandell",
+   "player_key": "aaron escandell|1995",
+   "league": "ESP-La Liga",
+   "team": "Oviedo",
+   "min": 3240,
+   "club_goals_pct": 0.05
+  },
+  {
+   "player": "Robert Sánchez",
+   "player_key": "robert sanchez|1997",
+   "league": "ENG-Premier League",
+   "team": "Chelsea",
+   "min": 3039,
+   "club_goals_pct": 0.78
+  },
+  {
+   "player": "Leo Román",
+   "player_key": "leo roman|2000",
+   "league": "ESP-La Liga",
+   "team": "Mallorca",
+   "min": 2970,
+   "club_goals_pct": 0.6
+  },
+  {
+   "player": "Nacho Miras",
+   "player_key": "nacho miras|1997",
+   "league": "BEL-Pro League",
+   "team": "Mechelen",
+   "min": 2925,
+   "club_goals_pct": 0.38
+  },
+  {
+   "player": "Joel Robles",
+   "player_key": "joel robles|1990",
+   "league": "POR-Primeira Liga",
+   "team": "Estoril",
+   "min": 2790,
+   "club_goals_pct": 0.78
+  },
+  {
+   "player": "Joan García",
+   "player_key": "joan garcia|2001",
+   "league": "ESP-La Liga",
+   "team": "Barcelona",
+   "min": 2700,
+   "club_goals_pct": 1.0
+  },
+  {
+   "player": "Álvaro Vallés",
+   "player_key": "alvaro valles|1997",
+   "league": "ESP-La Liga",
+   "team": "Real Betis",
+   "min": 2520,
+   "club_goals_pct": 0.82
+  },
+  {
+   "player": "Julián Cuesta",
+   "player_key": "julian cuesta|1991",
+   "league": "TUR-Süper Lig",
+   "team": "Antalyaspor",
+   "min": 1800,
+   "club_goals_pct": 0.31
+  },
+  {
+   "player": "Julen Agirrezabala",
+   "player_key": "julen agirrezabala|2000",
+   "league": "ESP-La Liga",
+   "team": "Valencia",
+   "min": 1620,
+   "club_goals_pct": 0.5
+  },
+  {
+   "player": "Iñaki Peña",
+   "player_key": "inaki pena|1999",
+   "league": "ESP-La Liga",
+   "team": "Elche",
+   "min": 1440,
+   "club_goals_pct": 0.6
+  },
+  {
+   "player": "Arnau Tenas",
+   "player_key": "arnau tenas|2001",
+   "league": "ESP-La Liga",
+   "team": "Villarreal",
+   "min": 900,
+   "club_goals_pct": 0.9
+  },
+  {
+   "player": "Pau López",
+   "player_key": "pau lopez|1994",
+   "league": "ESP-La Liga",
+   "team": "Real Betis",
+   "min": 810,
+   "club_goals_pct": 0.82
+  },
+  {
+   "player": "Josep Martinez",
+   "player_key": "josep martinez|1998",
+   "league": "ITA-Serie A",
+   "team": "Inter",
+   "min": 450,
+   "club_goals_pct": 1.0
+  }
+ ],
+ "club_strength_proxy": "goals-scored percentile within league",
+ "production": {
+  "home": [
+   {
+    "player": "David Raya",
+    "player_key": "david raya|1995",
+    "team": "Arsenal",
+    "league": "ENG-Premier League",
+    "min": 3330,
+    "ga90": 0.7,
+    "saves90": 1.59,
+    "save_pct_shrunk": 66.3,
+    "cs_share": 0.514,
+    "ga90_q": 0.84
+   },
+   {
+    "player": "Robert Sánchez",
+    "player_key": "robert sanchez|1997",
+    "team": "Chelsea",
+    "league": "ENG-Premier League",
+    "min": 3039,
+    "ga90": 1.45,
+    "saves90": 2.87,
+    "save_pct_shrunk": 66.0,
+    "cs_share": 0.257,
+    "ga90_q": 1.43
+   },
+   {
+    "player": "David de Gea",
+    "player_key": "david de gea|1990",
+    "team": "Fiorentina",
+    "league": "ITA-Serie A",
+    "min": 3330,
+    "ga90": 1.32,
+    "saves90": 3.22,
+    "save_pct_shrunk": 68.7,
+    "cs_share": 0.27,
+    "ga90_q": 1.54
+   },
+   {
+    "player": "Josep Martinez",
+    "player_key": "josep martinez|1998",
+    "team": "Inter",
+    "league": "ITA-Serie A",
+    "min": 450,
+    "ga90": 0.8,
+    "saves90": 2.0,
+    "save_pct_shrunk": 68.4,
+    "cs_share": 0.6,
+    "ga90_q": 1.31
+   },
+   {
+    "player": "Antonio Sivera",
+    "player_key": "antonio sivera|1996",
+    "team": "Alavés",
+    "league": "ESP-La Liga",
+    "min": 3420,
+    "ga90": 1.47,
+    "saves90": 2.55,
+    "save_pct_shrunk": 68.1,
+    "cs_share": 0.132,
+    "ga90_q": 1.8
+   },
+   {
+    "player": "Unai Simón",
+    "player_key": "unai simon|1997",
+    "team": "Athletic Club",
+    "league": "ESP-La Liga",
+    "min": 3330,
+    "ga90": 1.46,
+    "saves90": 2.62,
+    "save_pct_shrunk": 68.2,
+    "cs_share": 0.162,
+    "ga90_q": 1.78
+   },
+   {
+    "player": "Joan García",
+    "player_key": "joan garcia|2001",
+    "team": "Barcelona",
+    "league": "ESP-La Liga",
+    "min": 2700,
+    "ga90": 0.7,
+    "saves90": 2.47,
+    "save_pct_shrunk": 69.7,
+    "cs_share": 0.5,
+    "ga90_q": 1.07
+   },
+   {
+    "player": "Iñaki Peña",
+    "player_key": "inaki pena|1999",
+    "team": "Elche",
+    "league": "ESP-La Liga",
+    "min": 1440,
+    "ga90": 1.75,
+    "saves90": 3.44,
+    "save_pct_shrunk": 68.7,
+    "cs_share": 0.25,
+    "ga90_q": 1.98
+   },
+   {
+    "player": "David Soria",
+    "player_key": "david soria|1993",
+    "team": "Getafe",
+    "league": "ESP-La Liga",
+    "min": 3420,
+    "ga90": 1.0,
+    "saves90": 3.03,
+    "save_pct_shrunk": 69.7,
+    "cs_share": 0.316,
+    "ga90_q": 1.33
+   },
+   {
+    "player": "Leo Román",
+    "player_key": "leo roman|2000",
+    "team": "Mallorca",
+    "league": "ESP-La Liga",
+    "min": 2970,
+    "ga90": 1.52,
+    "saves90": 3.0,
+    "save_pct_shrunk": 68.5,
+    "cs_share": 0.121,
+    "ga90_q": 1.83
+   },
+   {
+    "player": "Sergio Herrera",
+    "player_key": "sergio herrera|1993",
+    "team": "Osasuna",
+    "league": "ESP-La Liga",
+    "min": 3284,
+    "ga90": 1.29,
+    "saves90": 3.1,
+    "save_pct_shrunk": 69.2,
+    "cs_share": 0.189,
+    "ga90_q": 1.62
+   },
+   {
+    "player": "Aarón Escandell",
+    "player_key": "aaron escandell|1995",
+    "team": "Oviedo",
+    "league": "ESP-La Liga",
+    "min": 3240,
+    "ga90": 1.56,
+    "saves90": 4.03,
+    "save_pct_shrunk": 69.5,
+    "cs_share": 0.278,
+    "ga90_q": 1.88
+   },
+   {
+    "player": "Pau López",
+    "player_key": "pau lopez|1994",
+    "team": "Real Betis",
+    "league": "ESP-La Liga",
+    "min": 810,
+    "ga90": 1.22,
+    "saves90": 3.22,
+    "save_pct_shrunk": 69.0,
+    "cs_share": 0.222,
+    "ga90_q": 1.61
+   },
+   {
+    "player": "Álvaro Vallés",
+    "player_key": "alvaro valles|1997",
+    "team": "Real Betis",
+    "league": "ESP-La Liga",
+    "min": 2520,
+    "ga90": 1.29,
+    "saves90": 3.11,
+    "save_pct_shrunk": 69.1,
+    "cs_share": 0.286,
+    "ga90_q": 1.62
+   },
+   {
+    "player": "Álex Remiro",
+    "player_key": "alex remiro|1995",
+    "team": "Real Sociedad",
+    "league": "ESP-La Liga",
+    "min": 3330,
+    "ga90": 1.62,
+    "saves90": 2.68,
+    "save_pct_shrunk": 67.9,
+    "cs_share": 0.081,
+    "ga90_q": 1.94
+   },
+   {
+    "player": "Julen Agirrezabala",
+    "player_key": "julen agirrezabala|2000",
+    "team": "Valencia",
+    "league": "ESP-La Liga",
+    "min": 1620,
+    "ga90": 1.67,
+    "saves90": 2.89,
+    "save_pct_shrunk": 68.4,
+    "cs_share": 0.222,
+    "ga90_q": 1.93
+   },
+   {
+    "player": "Arnau Tenas",
+    "player_key": "arnau tenas|2001",
+    "team": "Villarreal",
+    "league": "ESP-La Liga",
+    "min": 900,
+    "ga90": 1.6,
+    "saves90": 3.0,
+    "save_pct_shrunk": 68.7,
+    "cs_share": 0.0,
+    "ga90_q": 1.84
+   },
+   {
+    "player": "Joel Robles",
+    "player_key": "joel robles|1990",
+    "team": "Estoril",
+    "league": "POR-Primeira Liga",
+    "min": 2790,
+    "ga90": 1.74,
+    "saves90": 2.68,
+    "save_pct_shrunk": 65.6,
+    "cs_share": 0.161,
+    "ga90_q": 2.59
+   },
+   {
+    "player": "Nacho Miras",
+    "player_key": "nacho miras|1997",
+    "team": "Mechelen",
+    "league": "BEL-Pro League",
+    "min": 2925,
+    "ga90": 1.51,
+    "saves90": 4.18,
+    "save_pct_shrunk": 69.9,
+    "cs_share": 0.242,
+    "ga90_q": 2.61
+   },
+   {
+    "player": "Julián Cuesta",
+    "player_key": "julian cuesta|1991",
+    "team": "Antalyaspor",
+    "league": "TUR-Süper Lig",
+    "min": 1800,
+    "ga90": 1.7,
+    "saves90": 3.95,
+    "save_pct_shrunk": 68.8,
+    "cs_share": 0.15,
+    "ga90_q": 3.28
+   }
+  ],
+  "peer_medians": [
+   {
+    "country": "ESP",
+    "n": 20,
+    "median_ga90_q": 1.79,
+    "median_saves90": 2.97,
+    "median_save_pct": 68.7,
+    "median_cs_share": 0.232
+   },
+   {
+    "country": "FRA",
+    "n": 14,
+    "median_ga90_q": 2.07,
+    "median_saves90": 2.67,
+    "median_save_pct": 65.8,
+    "median_cs_share": 0.31
+   },
+   {
+    "country": "GER",
+    "n": 41,
+    "median_ga90_q": 2.72,
+    "median_saves90": 2.95,
+    "median_save_pct": 66.6,
+    "median_cs_share": 0.237
+   },
+   {
+    "country": "ITA",
+    "n": 18,
+    "median_ga90_q": 1.49,
+    "median_saves90": 2.72,
+    "median_save_pct": 68.3,
+    "median_cs_share": 0.322
+   },
+   {
+    "country": "ENG",
+    "n": 5,
+    "median_ga90_q": 1.4,
+    "median_saves90": 2.82,
+    "median_save_pct": 66.1,
+    "median_cs_share": 0.259
+   },
+   {
+    "country": "NED",
+    "n": 27,
+    "median_ga90_q": 3.09,
+    "median_saves90": 3.26,
+    "median_save_pct": 67.8,
+    "median_cs_share": 0.2
+   },
+   {
+    "country": "POR",
+    "n": 11,
+    "median_ga90_q": 2.34,
+    "median_saves90": 2.83,
+    "median_save_pct": 66.0,
+    "median_cs_share": 0.194
+   },
+   {
+    "country": "BEL",
+    "n": 21,
+    "median_ga90_q": 2.21,
+    "median_saves90": 3.0,
+    "median_save_pct": 69.1,
+    "median_cs_share": 0.25
+   }
+  ]
+ },
+ "cards": [
+  {
+   "player_key": "david soria|1993",
+   "player": "David Soria",
+   "team": "Getafe",
+   "league": "ESP-La Liga",
+   "min": 3420,
+   "reason": "most top-9 minutes among home goalkeepers",
+   "stats": {
+    "ga90": 1.0,
+    "saves90": 3.03,
+    "save_pct": 69.7,
+    "cs_share": 0.316,
+    "ga90_q": 1.33
+   },
+   "club_goals_pct": 0.1,
+   "nt_flag": false,
+   "nt_events": []
+  },
+  {
+   "player_key": "joan garcia|2001",
+   "player": "Joan García",
+   "team": "Barcelona",
+   "league": "ESP-La Liga",
+   "min": 2700,
+   "reason": "youngest home goalkeeper with minimum top-9 minutes",
+   "stats": {
+    "ga90": 0.7,
+    "saves90": 2.47,
+    "save_pct": 69.7,
+    "cs_share": 0.5,
+    "ga90_q": 1.07
+   },
+   "club_goals_pct": 1.0,
+   "nt_flag": true,
+   "nt_events": [
+    "2026 FIFA World Cup"
+   ]
+  }
+ ]
+}

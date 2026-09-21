@@ -1,0 +1,447 @@
+{
+ "break": {
+  "top": [
+   {
+    "season": "2021-2022",
+    "prob": 0.0707
+   },
+   {
+    "season": "2019-2020",
+    "prob": 0.0631
+   },
+   {
+    "season": "2014-2015",
+    "prob": 0.0625
+   }
+  ],
+  "delta_factor": {
+   "median": 1.0215,
+   "lo": 0.9003,
+   "hi": 1.1238
+  },
+  "modal": {
+   "season": "2001-2002",
+   "prob": 0.025
+  },
+  "rise": {
+   "top": [
+    {
+     "season": "1998-1999",
+     "prob": 0.2259
+    },
+    {
+     "season": "2000-2001",
+     "prob": 0.1157
+    },
+    {
+     "season": "2001-2002",
+     "prob": 0.0833
+    }
+   ],
+   "delta_factor": {
+    "median": 1.004,
+    "lo": 0.8451,
+    "hi": 1.1457
+   },
+   "modal": {
+    "season": "1998-1999",
+    "prob": 0.2259
+   }
+  },
+  "n_breaks": 2,
+  "fall_is_a_fall": false,
+  "pair_top": [
+   {
+    "seasons": [
+     "1998-1999",
+     "2001-2002"
+    ],
+    "prob": 0.025
+   },
+   {
+    "seasons": [
+     "1998-1999",
+     "2004-2005"
+    ],
+    "prob": 0.0138
+   },
+   {
+    "seasons": [
+     "1998-1999",
+     "2014-2015"
+    ],
+    "prob": 0.0118
+   }
+  ],
+  "sigma": 0.0313
+ },
+ "contrast": {
+  "FRA": {
+   "top": [
+    {
+     "season": "2023-2024",
+     "prob": 0.2633
+    },
+    {
+     "season": "2017-2018",
+     "prob": 0.0919
+    },
+    {
+     "season": "2010-2011",
+     "prob": 0.0554
+    }
+   ],
+   "delta_factor": {
+    "median": 0.9308,
+    "lo": 0.82,
+    "hi": 1.0396
+   },
+   "modal": {
+    "season": "2023-2024",
+    "prob": 0.2633
+   },
+   "rise": {
+    "top": [
+     {
+      "season": "1998-1999",
+      "prob": 0.1383
+     },
+     {
+      "season": "1999-2000",
+      "prob": 0.1275
+     },
+     {
+      "season": "2000-2001",
+      "prob": 0.0961
+     }
+    ],
+    "delta_factor": {
+     "median": 0.9334,
+     "lo": 0.8425,
+     "hi": 1.0472
+    },
+    "modal": {
+     "season": "2009-2010",
+     "prob": 0.0692
+    }
+   },
+   "n_breaks": 2,
+   "fall_is_a_fall": true,
+   "pair_top": [
+    {
+     "seasons": [
+      "2009-2010",
+      "2023-2024"
+     ],
+     "prob": 0.0237
+    },
+    {
+     "seasons": [
+      "2010-2011",
+      "2023-2024"
+     ],
+     "prob": 0.0218
+    },
+    {
+     "seasons": [
+      "1999-2000",
+      "2023-2024"
+     ],
+     "prob": 0.02
+    }
+   ],
+   "sigma": 0.0248
+  },
+  "GER": {
+   "top": [
+    {
+     "season": "2000-2001",
+     "prob": 0.689
+    },
+    {
+     "season": "2001-2002",
+     "prob": 0.0622
+    },
+    {
+     "season": "1999-2000",
+     "prob": 0.0569
+    }
+   ],
+   "delta_factor": {
+    "median": 0.7588,
+    "lo": 0.6478,
+    "hi": 0.9819
+   },
+   "modal": {
+    "season": "2000-2001",
+    "prob": 0.689
+   },
+   "rise": {
+    "top": [
+     {
+      "season": "2010-2011",
+      "prob": 0.21
+     },
+     {
+      "season": "2011-2012",
+      "prob": 0.0706
+     },
+     {
+      "season": "2013-2014",
+      "prob": 0.0605
+     }
+    ],
+    "delta_factor": {
+     "median": 1.0363,
+     "lo": 0.836,
+     "hi": 1.2196
+    },
+    "modal": {
+     "season": "2010-2011",
+     "prob": 0.21
+    }
+   },
+   "n_breaks": 2,
+   "fall_is_a_fall": true,
+   "pair_top": [
+    {
+     "seasons": [
+      "2000-2001",
+      "2010-2011"
+     ],
+     "prob": 0.1636
+    },
+    {
+     "seasons": [
+      "2000-2001",
+      "2011-2012"
+     ],
+     "prob": 0.0589
+    },
+    {
+     "seasons": [
+      "2000-2001",
+      "2013-2014"
+     ],
+     "prob": 0.0452
+    }
+   ],
+   "sigma": 0.0332
+  }
+ },
+ "backtest": {
+  "rows": [
+   {
+    "origin": "2010-2011",
+    "next_season": "2011-2012",
+    "actual": 269.0,
+    "median": 263,
+    "lo": 221,
+    "hi": 309,
+    "naive": 261.0,
+    "mae_model": 6.0,
+    "mae_naive": 8.0,
+    "covered": true
+   },
+   {
+    "origin": "2011-2012",
+    "next_season": "2012-2013",
+    "actual": 269.0,
+    "median": 266,
+    "lo": 225,
+    "hi": 312,
+    "naive": 269.0,
+    "mae_model": 3.0,
+    "mae_naive": 0.0,
+    "covered": true
+   },
+   {
+    "origin": "2012-2013",
+    "next_season": "2013-2014",
+    "actual": 273.0,
+    "median": 271,
+    "lo": 225,
+    "hi": 313,
+    "naive": 269.0,
+    "mae_model": 2.0,
+    "mae_naive": 4.0,
+    "covered": true
+   },
+   {
+    "origin": "2013-2014",
+    "next_season": "2014-2015",
+    "actual": 283.0,
+    "median": 269,
+    "lo": 231,
+    "hi": 317,
+    "naive": 273.0,
+    "mae_model": 14.0,
+    "mae_naive": 10.0,
+    "covered": true
+   },
+   {
+    "origin": "2014-2015",
+    "next_season": "2015-2016",
+    "actual": 285.0,
+    "median": 276,
+    "lo": 238,
+    "hi": 326,
+    "naive": 283.0,
+    "mae_model": 9.0,
+    "mae_naive": 2.0,
+    "covered": true
+   },
+   {
+    "origin": "2015-2016",
+    "next_season": "2016-2017",
+    "actual": 280.0,
+    "median": 280,
+    "lo": 243,
+    "hi": 325,
+    "naive": 285.0,
+    "mae_model": 0.0,
+    "mae_naive": 5.0,
+    "covered": true
+   },
+   {
+    "origin": "2016-2017",
+    "next_season": "2017-2018",
+    "actual": 270.0,
+    "median": 279,
+    "lo": 243,
+    "hi": 322,
+    "naive": 280.0,
+    "mae_model": 9.0,
+    "mae_naive": 10.0,
+    "covered": true
+   },
+   {
+    "origin": "2017-2018",
+    "next_season": "2018-2019",
+    "actual": 278.0,
+    "median": 274,
+    "lo": 235,
+    "hi": 315,
+    "naive": 270.0,
+    "mae_model": 4.0,
+    "mae_naive": 8.0,
+    "covered": true
+   },
+   {
+    "origin": "2018-2019",
+    "next_season": "2019-2020",
+    "actual": 289.0,
+    "median": 274,
+    "lo": 236,
+    "hi": 315,
+    "naive": 278.0,
+    "mae_model": 15.0,
+    "mae_naive": 11.0,
+    "covered": true
+   },
+   {
+    "origin": "2019-2020",
+    "next_season": "2020-2021",
+    "actual": 305.0,
+    "median": 282,
+    "lo": 244,
+    "hi": 324,
+    "naive": 289.0,
+    "mae_model": 23.0,
+    "mae_naive": 16.0,
+    "covered": true
+   },
+   {
+    "origin": "2020-2021",
+    "next_season": "2021-2022",
+    "actual": 279.0,
+    "median": 292,
+    "lo": 255,
+    "hi": 337,
+    "naive": 305.0,
+    "mae_model": 13.0,
+    "mae_naive": 26.0,
+    "covered": true
+   },
+   {
+    "origin": "2021-2022",
+    "next_season": "2022-2023",
+    "actual": 271.0,
+    "median": 285,
+    "lo": 246,
+    "hi": 325,
+    "naive": 279.0,
+    "mae_model": 14.0,
+    "mae_naive": 8.0,
+    "covered": true
+   },
+   {
+    "origin": "2022-2023",
+    "next_season": "2023-2024",
+    "actual": 270.0,
+    "median": 280,
+    "lo": 243,
+    "hi": 317,
+    "naive": 271.0,
+    "mae_model": 10.0,
+    "mae_naive": 1.0,
+    "covered": true
+   },
+   {
+    "origin": "2023-2024",
+    "next_season": "2024-2025",
+    "actual": 287.0,
+    "median": 276,
+    "lo": 241,
+    "hi": 314,
+    "naive": 270.0,
+    "mae_model": 11.0,
+    "mae_naive": 17.0,
+    "covered": true
+   },
+   {
+    "origin": "2024-2025",
+    "next_season": "2025-2026",
+    "actual": 284.0,
+    "median": 281,
+    "lo": 246,
+    "hi": 317,
+    "naive": 287.0,
+    "mae_model": 3.0,
+    "mae_naive": 3.0,
+    "covered": true
+   }
+  ],
+  "pooled": {
+   "mae_model": 9.0667,
+   "mae_naive": 8.6,
+   "coverage90": 1.0
+  }
+ },
+ "forecast": {
+  "ESP": {
+   "season": "2026-2027",
+   "median": 281,
+   "lo": 244,
+   "hi": 319
+  },
+  "FRA": {
+   "season": "2026-2027",
+   "median": 210,
+   "lo": 182,
+   "hi": 242
+  },
+  "GER": {
+   "season": "2026-2027",
+   "median": 164,
+   "lo": 136,
+   "hi": 198
+  }
+ },
+ "diagnostics": {
+  "max_rhat": 1.0043,
+  "min_ess_bulk": 291.7,
+  "min_ess_tail": 392.3,
+  "n_divergences": 0
+ }
+}

@@ -1,0 +1,228 @@
+{
+ "metrics_season": "2025-2026",
+ "raw_row": {
+  "league": "NED-Eredivisie",
+  "season": "2025-2026",
+  "team": "Sparta R.",
+  "player": "Tobias Lauritsen",
+  "nation": "NOR",
+  "pos": "FW",
+  "born": 1997,
+  "age": 27,
+  "mp": 34,
+  "min": 3039,
+  "gls": 12,
+  "ast": 5,
+  "pk": 3,
+  "crdy": 4,
+  "crdr": 0
+ },
+ "feature_row": {
+  "player": "Tobias Lauritsen",
+  "pos_group": "FW",
+  "npg_p90": {
+   "raw": 0.2665,
+   "shrunk": 0.2681,
+   "quality": 0.1367,
+   "z": -0.6485
+  },
+  "ast_p90": {
+   "raw": 0.1481,
+   "shrunk": 0.1444,
+   "quality": 0.0736,
+   "z": -0.0923
+  },
+  "min_share": {
+   "raw": 0.9931,
+   "shrunk": 0.9931,
+   "quality": 0.9931,
+   "z": 2.3041
+  },
+  "age": {
+   "raw": 27.0,
+   "shrunk": 27.0,
+   "quality": 27.0,
+   "z": 0.3221
+  },
+  "cards_p90": {
+   "raw": 0.1185,
+   "shrunk": 0.1191,
+   "quality": 0.1191,
+   "z": -0.6029
+  }
+ },
+ "rejected": [
+  {
+   "candidate": "gls_p90",
+   "statistic": "corr_npg",
+   "value": 0.973,
+   "decision": "replaced_npg"
+  },
+  {
+   "candidate": "mp",
+   "statistic": "corr_min",
+   "value": 0.8443,
+   "decision": "replaced_min_share"
+  },
+  {
+   "candidate": "crdr_p90",
+   "statistic": "zero_share",
+   "value": 0.8539,
+   "decision": "folded_cards"
+  },
+  {
+   "candidate": "age",
+   "statistic": "band_spread",
+   "value": 0.0283,
+   "decision": "kept"
+  },
+  {
+   "candidate": "born",
+   "statistic": "missing_share",
+   "value": 0.0028,
+   "decision": "kept_key"
+  }
+ ],
+ "penalty_top": [
+  {
+   "player": "Jan Kalabiška",
+   "league": "CZE-First League",
+   "season": "2025-2026",
+   "share": 1.0
+  },
+  {
+   "player": "Ali Kabacalman",
+   "league": "SUI-Super League",
+   "season": "2025-2026",
+   "share": 1.0
+  },
+  {
+   "player": "Derrick Köhn",
+   "league": "GER-Bundesliga",
+   "season": "2025-2026",
+   "share": 1.0
+  }
+ ],
+ "age_bands": [
+  {
+   "band": "U22",
+   "median": 0.1734,
+   "n": 1155
+  },
+  {
+   "band": "23-25",
+   "median": 0.1751,
+   "n": 2035
+  },
+  {
+   "band": "26-29",
+   "median": 0.1693,
+   "n": 1527
+  },
+  {
+   "band": "30+",
+   "median": 0.1468,
+   "n": 939
+  }
+ ],
+ "missingness": [
+  {
+   "column": "league",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "season",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "team",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "player",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "nation",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "pos",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "born",
+   "missing": 25,
+   "share": 0.0028
+  },
+  {
+   "column": "age",
+   "missing": 25,
+   "share": 0.0028
+  },
+  {
+   "column": "mp",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "min",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "gls",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "ast",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "pk",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "crdy",
+   "missing": 0,
+   "share": 0.0
+  },
+  {
+   "column": "crdr",
+   "missing": 0,
+   "share": 0.0
+  }
+ ],
+ "most_shrunk": {
+  "player": "Andreas Helmersen",
+  "league": "NOR-Eliteserien",
+  "min": 511,
+  "raw": 1.0568,
+  "shrunk": 0.585,
+  "delta": -0.4718
+ },
+ "distributions": {
+  "leagues": [
+   "ITA-Serie A",
+   "ESP-La Liga",
+   "ENG-Premier League",
+   "TUR-Süper Lig",
+   "POR-Primeira Liga",
+   "CZE-First League",
+   "NOR-Eliteserien"
+  ],
+  "log_scaled": [
+   "npg_p90",
+   "ast_p90"
+  ]
+ }
+}

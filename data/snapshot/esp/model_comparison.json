@@ -1,0 +1,263 @@
+{
+ "target": "npg_p90_quality + ast_p90_quality (season t+1)",
+ "origins": [
+  "2021-2022",
+  "2022-2023",
+  "2023-2024",
+  "2024-2025",
+  "2025-2026"
+ ],
+ "rows": [
+  {
+   "model": "persistence",
+   "origin": "2021-2022",
+   "n_test": 1955,
+   "rmse": 0.0768,
+   "mae": 0.0541,
+   "coverage90": null
+  },
+  {
+   "model": "shrinkage_league_mean",
+   "origin": "2021-2022",
+   "n_test": 1955,
+   "rmse": 0.1343,
+   "mae": 0.1045,
+   "coverage90": null
+  },
+  {
+   "model": "persistence",
+   "origin": "2022-2023",
+   "n_test": 1879,
+   "rmse": 0.0782,
+   "mae": 0.0558,
+   "coverage90": null
+  },
+  {
+   "model": "shrinkage_league_mean",
+   "origin": "2022-2023",
+   "n_test": 1879,
+   "rmse": 0.1293,
+   "mae": 0.0996,
+   "coverage90": null
+  },
+  {
+   "model": "bayesian",
+   "origin": "2022-2023",
+   "n_test": 1879,
+   "rmse": 0.0715,
+   "mae": 0.0527,
+   "coverage90": 0.9042
+  },
+  {
+   "model": "gbm",
+   "origin": "2022-2023",
+   "n_test": 1879,
+   "rmse": 0.0723,
+   "mae": 0.0513,
+   "coverage90": null
+  },
+  {
+   "model": "mlp",
+   "origin": "2022-2023",
+   "n_test": 1879,
+   "rmse": 0.0794,
+   "mae": 0.0586,
+   "coverage90": null
+  },
+  {
+   "model": "persistence",
+   "origin": "2023-2024",
+   "n_test": 1866,
+   "rmse": 0.0789,
+   "mae": 0.0564,
+   "coverage90": null
+  },
+  {
+   "model": "shrinkage_league_mean",
+   "origin": "2023-2024",
+   "n_test": 1866,
+   "rmse": 0.1311,
+   "mae": 0.0976,
+   "coverage90": null
+  },
+  {
+   "model": "bayesian",
+   "origin": "2023-2024",
+   "n_test": 1866,
+   "rmse": 0.076,
+   "mae": 0.0536,
+   "coverage90": 0.9041
+  },
+  {
+   "model": "gbm",
+   "origin": "2023-2024",
+   "n_test": 1866,
+   "rmse": 0.0744,
+   "mae": 0.0515,
+   "coverage90": null
+  },
+  {
+   "model": "mlp",
+   "origin": "2023-2024",
+   "n_test": 1866,
+   "rmse": 0.0792,
+   "mae": 0.0571,
+   "coverage90": null
+  },
+  {
+   "model": "persistence",
+   "origin": "2024-2025",
+   "n_test": 1896,
+   "rmse": 0.0787,
+   "mae": 0.0565,
+   "coverage90": null
+  },
+  {
+   "model": "shrinkage_league_mean",
+   "origin": "2024-2025",
+   "n_test": 1896,
+   "rmse": 0.1271,
+   "mae": 0.0977,
+   "coverage90": null
+  },
+  {
+   "model": "bayesian",
+   "origin": "2024-2025",
+   "n_test": 1896,
+   "rmse": 0.0722,
+   "mae": 0.0534,
+   "coverage90": 0.913
+  },
+  {
+   "model": "gbm",
+   "origin": "2024-2025",
+   "n_test": 1896,
+   "rmse": 0.0698,
+   "mae": 0.0505,
+   "coverage90": null
+  },
+  {
+   "model": "mlp",
+   "origin": "2024-2025",
+   "n_test": 1896,
+   "rmse": 0.0735,
+   "mae": 0.0543,
+   "coverage90": null
+  },
+  {
+   "model": "persistence",
+   "origin": "2025-2026",
+   "n_test": 3209,
+   "rmse": 0.0684,
+   "mae": 0.0477,
+   "coverage90": null
+  },
+  {
+   "model": "shrinkage_league_mean",
+   "origin": "2025-2026",
+   "n_test": 3209,
+   "rmse": 0.1099,
+   "mae": 0.0893,
+   "coverage90": null
+  },
+  {
+   "model": "bayesian",
+   "origin": "2025-2026",
+   "n_test": 3209,
+   "rmse": 0.0681,
+   "mae": 0.0516,
+   "coverage90": 0.9252
+  },
+  {
+   "model": "gbm",
+   "origin": "2025-2026",
+   "n_test": 3209,
+   "rmse": 0.0677,
+   "mae": 0.0509,
+   "coverage90": null
+  },
+  {
+   "model": "mlp",
+   "origin": "2025-2026",
+   "n_test": 3209,
+   "rmse": 0.0714,
+   "mae": 0.0541,
+   "coverage90": null
+  }
+ ],
+ "pooled": [
+  {
+   "model": "persistence",
+   "n_test": 8850,
+   "rmse": 0.0751,
+   "mae": 0.0531,
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
+  },
+  {
+   "model": "shrinkage_league_mean",
+   "n_test": 8850,
+   "rmse": 0.1225,
+   "mae": 0.095,
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
+  },
+  {
+   "model": "bayesian",
+   "n_test": 8850,
+   "rmse": 0.0714,
+   "mae": 0.0526,
+   "coverage90": 0.9137,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
+  },
+  {
+   "model": "gbm",
+   "n_test": 8850,
+   "rmse": 0.0706,
+   "mae": 0.051,
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
+  },
+  {
+   "model": "mlp",
+   "n_test": 8850,
+   "rmse": 0.0753,
+   "mae": 0.0557,
+   "coverage90": null,
+   "origins": [
+    "2022-2023",
+    "2023-2024",
+    "2024-2025",
+    "2025-2026"
+   ]
+  }
+ ],
+ "winner_pooled": "gbm",
+ "notes": [
+  "Bayesian model: 2 chains x 400 draws per origin (reduced from a league_strength.py-style 800+ to keep 5 origins' worth of fits under the runtime budget); training rows subsampled to at most 2500 (seeded, config.RANDOM_SEED) when an origin's training set is larger.",
+  "Origin 2021-2022's training set is empty by construction (the corpus's earliest feature season, 2020-2021, makes 2021-2022 the first possible target season) -- only the two baselines are reported for that origin.",
+  "The M2 league-strength multiplier m_L (Task 15, league_strength.json) is used as an extra feature for the Bayesian model only, alongside the config-based league_multiplier already in every model's feature set.",
+  "The MLP does not beat gradient boosting on pooled RMSE (0.0753 vs 0.0706).",
+  "Largest season-to-season RMSE change for the winner (gbm): 0.0046."
+ ]
+}
