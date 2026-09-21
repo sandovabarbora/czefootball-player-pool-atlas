@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609211010">
-  <link rel="stylesheet" href="../modern.css?v=202609211010">
+  <link rel="stylesheet" href="../style.css?v=202609211017">
+  <link rel="stylesheet" href="../modern.css?v=202609211017">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="../atlas.js?v=202609211010"></script>
+  <script defer src="../atlas.js?v=202609211017"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigace">
@@ -221,20 +221,17 @@
           <div class="funnel-metric-row">
             
             
-            <span class="funnel-country" data-highlight="cze"><span class="capita-code">CZE</span> 1,06 na klub (17 hráčů, 16 klubů)</span>
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">CZE</span> 1,06 na klub (17 hráčů)</span>
             
             
-            <span class="funnel-country"><span class="capita-code">NOR</span> 1,56 na klub (25 hráčů, 16 klubů)</span>
+            <span class="funnel-country"><span class="capita-code">NOR</span> 1,56 na klub (25 hráčů)</span>
             
             
-            <span class="funnel-country"><span class="capita-code">DEN</span> 2,50 na klub (30 hráčů, 12 klubů)</span>
+            <span class="funnel-country"><span class="capita-code">DEN</span> 2,50 na klub (30 hráčů)</span>
             
           </div>
         </div>
         <p class="funnel-note">Nejde o to, že by chodili až na závěr: připadlo jim 6,0 % startů ligy proti 6,4 % jejích minut, a když některý z nich nastoupil v základu, byl na hřišti 76 minut proti 79 minutám ligového mediánu. Tyto země se neliší tím, jak s mladými zachází, když je postaví, ale tím, kolik jich vůbec postaví.</p>
-        
-        
-        <p class="funnel-note">Tento podíl je dolní mez. FBref u části řádků této ligy neeviduje národnost a každý podíl „vlastních hráčů“ takové hráče počítá jako cizí, i když jejich minuty zůstávají v součtu; skutečná hodnota tedy leží mezi 6,4 % a 7,6 % — chyba, která hýbe číslem této země a téměř žádné z ostatních (viz protokol kvality dat).</p>
         
       </li>
       <li class="funnel-stage">
@@ -267,14 +264,14 @@
       <li class="funnel-stage">
         <a href="#q4b"><p class="funnel-stage-line">První odchod do zahraniční ligy proto přichází pozdě, když k němu dojde.</p></a>
         <div class="funnel-metric">
-          <p class="funnel-metric-label">Věk při první sezóně se skutečným herním časem v zahraniční lize</p>
+          <p class="funnel-metric-label">Věk při první sezóně se skutečným herním časem v zahraniční lize, počítáno přes hráče, kteří jsou dnes v zahraničí</p>
           <div class="funnel-metric-row">
             
-            <span class="funnel-country" data-highlight="cze"><span class="capita-code">CZE</span> 24 <span class="muted small">32 hráčů aktuálně v zahraničí</span></span>
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">CZE</span> 24 let <span class="muted small">(32 hráčů)</span></span>
             
-            <span class="funnel-country"><span class="capita-code">NOR</span> 22,5 <span class="muted small">60 hráčů aktuálně v zahraničí</span></span>
+            <span class="funnel-country"><span class="capita-code">NOR</span> 22,5 let <span class="muted small">(60 hráčů)</span></span>
             
-            <span class="funnel-country"><span class="capita-code">DEN</span> 23 <span class="muted small">112 hráčů aktuálně v zahraničí</span></span>
+            <span class="funnel-country"><span class="capita-code">DEN</span> 23 let <span class="muted small">(112 hráčů)</span></span>
             
           </div>
         </div>
@@ -329,6 +326,9 @@
         <li>Jak akademie a trenérská práce skutečně fungují den co den — to žádný veřejný datový zdroj použitý zde nevidí.</li>
         <li>Agenty a to, jak se odchod do zahraničí skutečně domlouvá — to se odehrává mimo jakoukoli tabulku, kterou tento pipeline umí číst.</li>
         <li>Směr šipky: nízký podíl herního času mladých hráčů doma může tenkou generaci spoluzpůsobovat, stejně dobře ale může být jejím příznakem — pět čísel výše jsou souvislosti měřené stejným způsobem pro každou zemi.</li>
+        
+        <li>První číslo přesně: FBref u části řádků této ligy neeviduje národnost a podíl „vlastních hráčů“ takové hráče počítá jako cizí, i když jejich minuty zůstávají v součtu. Skutečný podíl proto leží mezi 6,4 % a 7,6 % a tahle chyba hýbe číslem této země a téměř žádné z ostatních (protokol kvality dat).</li>
+        
       </ul>
     </div>
   </div>
@@ -3121,7 +3121,7 @@
       <tbody>
         <tr><td>Podíl ligových minut, které připadly hráčům do 21 let</td><td class="num">6,4 %</td><td class="num">11,5 %</td><td class="num">15,3 %</td></tr>
         <tr><td>Průměrný věk odehrané minuty v lize</td><td class="num">26,0</td><td class="num">25,6</td><td class="num">25,4</td></tr>
-        <tr><td>Věk při první sezóně se skutečným herním časem v zahraniční lize</td><td class="num">24</td><td class="num">22,5</td><td class="num">23</td></tr>
+        <tr><td>Věk při první sezóně se skutečným herním časem v zahraniční lize, počítáno přes hráče, kteří jsou dnes v zahraničí</td><td class="num">24</td><td class="num">22,5</td><td class="num">23</td></tr>
         <tr><td>Podíl odchodů do zahraničí do ligy ne silnější než vlastní</td><td class="num">19 %</td><td class="num">22 %</td><td class="num">10 %</td></tr>
         <tr><td>Hráči v nejsilnějších ligách Evropy na milion obyvatel</td><td class="num">2,39</td><td class="num">9,37</td><td class="num">12,58</td></tr>
       </tbody>
@@ -3150,6 +3150,9 @@
         <li>Jak akademie a trenérská práce skutečně fungují den co den — to žádný veřejný datový zdroj použitý zde nevidí.</li>
         <li>Agenty a to, jak se odchod do zahraničí skutečně domlouvá — to se odehrává mimo jakoukoli tabulku, kterou tento pipeline umí číst.</li>
         <li>Směr šipky: nízký podíl herního času mladých hráčů doma může tenkou generaci spoluzpůsobovat, stejně dobře ale může být jejím příznakem — pět čísel výše jsou souvislosti měřené stejným způsobem pro každou zemi.</li>
+        
+        <li>První číslo přesně: FBref u části řádků této ligy neeviduje národnost a podíl „vlastních hráčů“ takové hráče počítá jako cizí, i když jejich minuty zůstávají v součtu. Skutečný podíl proto leží mezi 6,4 % a 7,6 % a tahle chyba hýbe číslem této země a téměř žádné z ostatních (protokol kvality dat).</li>
+        
       </ul>
     </div>
   </div>
@@ -11007,7 +11010,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Vykresleno: 2026-09-21 10:07</p>
+    <p class="rendered-at">Vykresleno: 2026-09-21 10:17</p>
   </div>
 </footer>
 
