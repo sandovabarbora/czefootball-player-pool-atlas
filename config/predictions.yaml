@@ -30,6 +30,8 @@ predictions:
     resolve_after: 2027-06-30
     outcome: null
     resolved_on: null
+    # declared drift (append-only: a note, never a change to the numbers)
+    drift_note: "2026-09-22: the series was extended back to 1995/96 (31 seasons) and the change-point model given two ordered steps; the change-point-free model behind this forecast now says 10 (5-19) on the longer series. The registered 11 (5-18) stands and is what will be scored."
 
   - id: eng_big5_count_2026_27
     nation: ENG
@@ -48,3 +50,4 @@ predictions:
     resolve_after: 2027-06-30
     outcome: null
     resolved_on: null
+    drift_note: "2026-09-22: the series was extended back to 1995/96 (31 seasons); the model behind this forecast now says 130 (105-159). The registered 130 (107-157) stands and is what will be scored."

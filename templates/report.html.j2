@@ -804,7 +804,7 @@
           </dd></div>
         </dl>
         {% if pr.live and pr.live.moved %}
-        <p class="scoreboard-drift">{{ t('pred.drift', point=pr.live.point, lo=pr.live.lo, hi=pr.live.hi) }}</p>
+        <p class="scoreboard-drift">{{ t('pred.drift', point=pr.live.point, lo=pr.live.lo, hi=pr.live.hi) }}{% if pr.drift_note %} {{ pr.drift_note }}{% endif %}</p>
         {% endif %}
         {% if series_model.backtest and series_model.backtest.pooled %}
         <p class="scoreboard-backtest">{{ t('pred.backtest', mae_model=f2(series_model.backtest.pooled.mae_model), mae_naive=f2(series_model.backtest.pooled.mae_naive), n=series_model.backtest.rows | length) }}</p>

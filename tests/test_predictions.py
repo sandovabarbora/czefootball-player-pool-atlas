@@ -32,7 +32,8 @@ def test_open_entries_match_the_snapshot_model_or_drift_is_declared():
         live = sm["forecast"].get(config.HOME)
         cmp = compare_with_live(e, live)
         assert cmp is not None, "the snapshot model has no forecast for the ledger's target season"
-        assert not cmp["moved"], f"live forecast {cmp} differs from the registered {e['point']} ({e['lo']}-{e['hi']})"
+        assert not cmp["moved"] or e.get("drift_note"), \
+            f"live forecast {cmp} differs from the registered {e['point']} ({e['lo']}-{e['hi']}) and no drift_note declares it"
 
 
 def test_score_applies_the_registered_rule():
