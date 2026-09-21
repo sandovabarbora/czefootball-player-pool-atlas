@@ -100,3 +100,26 @@ def test_keeper_rows_use_pool_eligibility_and_carry_a_tier():
     r = rows[0]
     assert r["pos_group"] == "GK" and r["tier"] == "domestic"
     assert r["ga_p90"] == pytest.approx(24 / 1800 * 90) and r["cs"] == 6
+
+
+def test_profile_percentiles_rank_within_the_position_group():
+    """SkillCorner-style benchmark: each axis is a percentile among every
+    player-season of the position group above the inclusion floor, home or
+    not, so a Czech midfielder is ranked against every midfielder covered."""
+    from src.pool_table import _profile_frame, percentiles
+    base = {"season": "2025-2026", "home_eligible": False, "nt_flag": False,
+            "npg_p90_quality": 0.1, "ast_p90_quality": 0.0, "npg_p90": 0.1, "ast_p90": 0.0}
+    rows = []
+    for i in range(12):   # twelve midfielders, output rising with i; the last one is home-eligible
+        rows.append(base | {"league": "X", "team": f"T{i}", "player": f"P{i}", "player_key": f"p{i}|2000",
+                            "pos_group": "MF", "born": 2000, "age": 25, "min": 900, "min_share": 0.5,
+                            "npg_p90_quality": 0.05 * i, "home_eligible": i == 11})
+    rows.append(base | {"league": "X", "team": "T", "player": "Cameo", "player_key": "cameo|2005", "pos_group": "MF",
+                        "born": 2005, "age": 20, "min": 30, "min_share": 0.02, "npg_p90_quality": 9.0})   # under the floor
+    feats = pd.DataFrame(rows)
+    pcts = percentiles(_profile_frame(feats, None, "2025-2026"))
+    assert pcts[("p11|2000", "MF")]["q"] == 100          # best of the twelve
+    assert pcts[("p0|2000", "MF")]["q"] == 8               # 1/12 -> 8th percentile
+    assert ("cameo|2005", "MF") not in pcts                # 30 minutes do not rank
+    # starts-based axes are absent without the roles table
+    assert "starts_share" not in pcts[("p11|2000", "MF")]

@@ -893,3 +893,16 @@ figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size:
 .cycle-stats dd { font-family: var(--font-mono); color: var(--hot); }
 .cycle-section-label { color: var(--muted); }
 .tile-club { white-space: normal; overflow: visible; text-overflow: clip; max-width: none; line-height: 1.5; }
+
+/* --- percentile profile in the pool card (SkillCorner-style benchmark bars) --- */
+.pool-profile { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.35rem 2rem; padding: 0.6rem 0.5rem 0.2rem; }
+.pool-axis { display: grid; grid-template-columns: 7.5rem 1fr 2.2rem; align-items: center; gap: 0.6rem; }
+.pool-axis-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.pool-axis-bar { display: block; height: 4px; background: var(--rule); position: relative; }
+.pool-axis-fill { display: block; height: 4px; background: var(--acid); }
+.pool-axis-pct { font-family: var(--font-mono); font-size: 11px; color: var(--hot); text-align: right; }
+.pool-profile-note { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0.3rem 0 0; }
+.pool-row[open] > summary { background: transparent; }
+.pool-row[open] > summary * { color: inherit !important; }
+.pool-row[open] > summary .pool-name { color: var(--acid) !important; }
+.pool-row[open] > summary { background: transparent; color: var(--ink); }

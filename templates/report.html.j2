@@ -1033,6 +1033,18 @@
                   <span class="pool-min">{{ '{:,}'.format(r.min).replace(',', ' ') }}</span>
                   <span class="pool-rank">{% if r.pos_group != 'GK' %}{{ r.rank_q }}<span class="pool-rank-of">/{{ r.n_group }}</span>{% else %}—{% endif %}</span>
                 </summary>
+                {% if r.profile and r.profile | selectattr('pct', 'ne', none) | list %}
+                <div class="pool-profile" role="list" aria-label="{{ t('pool.profile.aria') }}">
+                  {% for ax in r.profile if ax.pct is not none %}
+                  <div class="pool-axis" role="listitem" title="{{ ax.what }}">
+                    <span class="pool-axis-label">{{ ax.label }}</span>
+                    <span class="pool-axis-bar"><span class="pool-axis-fill" style="width: {{ ax.pct }}%"></span></span>
+                    <span class="pool-axis-pct">{{ ax.pct }}</span>
+                  </div>
+                  {% endfor %}
+                  <p class="pool-profile-note">{{ t('pool.profile.note', pos_pl=pool_table.labels.pos_pl[r.pos_group], season=pool_table.season_label) }}</p>
+                </div>
+                {% endif %}
                 <p class="pool-card">{{ pool_card(r) }}</p>
               </details>
             </li>

@@ -74,6 +74,69 @@ def _weighted(frame: pd.DataFrame, col: str) -> float | None:
     return float(v)
 
 
+PROFILE = (
+    # (key, label, higher-is-more-of-what)
+    ("min_share", "playing time", "share of his club's minutes"),
+    ("starts_share", "selection", "starts among his appearances"),
+    ("q", "output", "league-adjusted G+A per 90"),
+    ("crs_p90", "crossing", "crosses per 90"),
+    ("def_p90", "defending", "tackles won and interceptions per 90"),
+    ("fld_p90", "drawing fouls", "fouls won per 90"),
+)
+"""The six axes of a player's percentile profile. Each is ranked against every
+player-season of his position group in the metrics season across every
+covered league -- the benchmark SkillCorner-style player pages use, so a
+coach reads 'selection: 82nd percentile of midfielders' rather than '20 starts'."""
+
+
+def _profile_frame(feats: pd.DataFrame, roles: pd.DataFrame | None, season: str) -> pd.DataFrame:
+    """Per player-season row of `season` (all nationalities): the six profile
+    measures, each summed over a player's stints so a mid-season mover is
+    one row -- the same collapsing `build_rows` does for the pool."""
+    f = feats[feats.season == season].copy()
+    if roles is not None and not roles.empty:
+        cols = ["league", "season", "team", "player_key", "starts", "subs", "crs", "interceptions", "tklw", "fld"]
+        have = [c for c in cols if c in roles.columns]
+        f = f.merge(roles[have], on=["league", "season", "team", "player_key"], how="left")
+    for c in ("starts", "subs", "crs", "interceptions", "tklw", "fld"):
+        if c not in f:
+            f[c] = pd.NA
+    f["q"] = f["npg_p90_quality"].fillna(0) + f["ast_p90_quality"].fillna(0)
+    g = f.groupby(["player_key", "pos_group"], sort=False)
+    out = pd.DataFrame({
+        "min": g["min"].sum(),
+        "min_share": g["min_share"].max(),
+        "q": g.apply(lambda d: (d["q"] * d["min"]).sum() / d["min"].sum() if d["min"].sum() else 0.0),
+        "starts": g["starts"].sum(min_count=1), "subs": g["subs"].sum(min_count=1),
+        "crs": g["crs"].sum(min_count=1), "interceptions": g["interceptions"].sum(min_count=1),
+        "tklw": g["tklw"].sum(min_count=1), "fld": g["fld"].sum(min_count=1),
+    }).reset_index()
+    apps = out["starts"] + out["subs"]
+    out["starts_share"] = (out["starts"] / apps).where(apps > 0)
+    for c in ("crs", "fld"):
+        out[f"{c}_p90"] = (out[c] / out["min"] * 90).where(out["min"] > 0)
+    out["def_p90"] = ((out["interceptions"].fillna(0) + out["tklw"].fillna(0)) / out["min"] * 90).where(out["min"] > 0)
+    return out
+
+
+def percentiles(profile: pd.DataFrame, min_minutes: int = 450) -> dict[tuple[str, str], dict[str, int]]:
+    """{(player_key, pos_group): {axis: percentile 0-100}}, each axis ranked
+    within the position group among player-seasons with at least
+    `min_minutes` -- the report's own inclusion floor, so a ten-minute cameo
+    cannot sit at the 99th percentile of crossing."""
+    bench = profile[profile["min"] >= min_minutes]
+    out: dict[tuple[str, str], dict[str, int]] = {}
+    for grp, b in bench.groupby("pos_group"):
+        for key, _, _ in PROFILE:
+            if key not in b or b[key].notna().sum() < 10:
+                continue
+            pct = (b[key].rank(pct=True, method="average") * 100).round()
+            for k, v in zip(b["player_key"], pct, strict=True):
+                if pd.notna(v):
+                    out.setdefault((k, grp), {})[key] = int(v)
+    return out
+
+
 def build_rows(
     feats: pd.DataFrame,
     roles: pd.DataFrame | None,
@@ -103,6 +166,7 @@ def build_rows(
             f[c] = pd.NA
     f["tier"] = f["league"].map(lambda lg: _tier(lg, headline, stepping, domestic))
     f["q"] = f["npg_p90_quality"].fillna(0) + f["ast_p90_quality"].fillna(0)
+    pcts = percentiles(_profile_frame(feats, roles, season))
 
     rows = []
     for (key, group), g in f.groupby(["player_key", "pos_group"], sort=False):
@@ -135,6 +199,10 @@ def build_rows(
             "moved": len(stints) > 1,
             "stints": stints,
             **{f"{c}_p90": v for c, v in role.items()},
+            # the percentile profile: each axis against the whole position
+            # group in the covered leagues this season (see PROFILE)
+            "profile": [{"key": k, "label": lab, "what": what, "pct": pcts.get((key, group), {}).get(k)}
+                        for k, lab, what in PROFILE],
         })
 
     out = pd.DataFrame(rows)
