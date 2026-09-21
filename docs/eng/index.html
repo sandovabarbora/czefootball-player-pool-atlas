@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211052">
-  <link rel="stylesheet" href="modern.css?v=202609211052">
+  <link rel="stylesheet" href="style.css?v=202609211057">
+  <link rel="stylesheet" href="modern.css?v=202609211057">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="cs" href="https://football.datasimply.eu/cs/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609211052"></script>
+  <script defer src="atlas.js?v=202609211057"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -97,7 +97,7 @@
       <span class="cast-stack"><img src="img/players/21a66f6a.jpg" alt="Harry Kane" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/a1d5bd30.jpg" alt="Marcus Rashford" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><span class="cast-mono" aria-label="Nico O&#39;Reilly">NO</span><img src="img/players/aed3a70f.jpg" alt="Ollie Watkins" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/de31038e.jpg" alt="Elliot Anderson" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/d0706b27.jpg" alt="Marc Guéhi" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bc7dc64d.jpg" alt="Bukayo Saka" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/2e5915f1.jpg" alt="Morgan Rogers" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/0313a347.jpg" alt="Ezri Konsa" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/bf34eebd.jpg" alt="Noni Madueke" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/f58515f5.jpg" alt="Archie Gray" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/59e6e5bf.jpg" alt="Dominic Calvert-Lewin" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/4e015693.jpg" alt="James Garner" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"><img src="img/players/15ea812b.jpg" alt="James Tarkowski" loading="eager" decoding="async" onerror="this.closest('.pchip')?.classList.add('pchip-mono'); this.remove()"></span>
       <span class="cast-caption" data-short="14 player profiles">14 player profiles</span>
     </a>
-    <p class="masthead-facts">19 leagues · 7 seasons · 303 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
+    <p class="masthead-facts">19 leagues · 7 seasons · 307 tests · every number computed from the run · rulings logged · no predictions, no selection recommendations</p>
   </div>
 </header>
 
@@ -10755,6 +10755,21 @@
         <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/eng/pipeline_facts.json">pipeline_facts.json</a></span>
       </li>
       
+      <li>
+        <span class="downloads-label">FBref’s playing-time and miscellaneous tables for every fetched league-season: starts, minutes per start, substitute appearances, on-off, crosses, interceptions, tackles won, fouls.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/eng/fbref_roles.parquet">fbref_roles.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Every player in the pool as one row — the table behind the searchable list — with production, rank in his position group, playing-time split and role counts.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/eng/pool_table.json">pool_table.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Where the pool moved between the two seasons: each player’s rung in each, the move between them, and minutes by rung.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/eng/season_changes.json">season_changes.json</a></span>
+      </li>
+      
     </ul>
       </div>
     </details>
@@ -12422,8 +12437,8 @@
 
     <h3 id="how-built">How this was built</h3>
     <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 303 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 303 tests.</p>
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 307 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 307 tests.</p>
       <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
         <title id="build-diagram-title">Build-flow diagram</title>
         <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
@@ -12924,7 +12939,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 10:52</p>
+    <p class="rendered-at">Rendered: 2026-09-21 10:57</p>
   </div>
 </footer>
 

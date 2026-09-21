@@ -1969,6 +1969,9 @@ DOWNLOAD_GROUPS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("downloads.pca_loadings", ("pca_loadings.parquet",)),
     ("downloads.sensitivity", ("sensitivity.parquet",)),
     ("downloads.pipeline_facts", ("pipeline_facts.json",)),
+    ("downloads.fbref_roles", ("fbref_roles.parquet",)),
+    ("downloads.pool_table", ("pool_table.json",)),
+    ("downloads.season_changes", ("season_changes.json",)),
 )
 
 
