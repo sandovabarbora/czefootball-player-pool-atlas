@@ -86,6 +86,7 @@ squads:
 league_photos:
   site: https://www.chanceliga.cz
   clubs: /
+  table: /tabulka/{season}/aktualni?id_stage=1   # that season's standings: relegated clubs' squad pages stay up
   squad: /klub/{season}/kadr/{club}     # season = end year: 2026 is 2025/26
   seasons: [2026, 2027]
   photo: /photo/player/player_{id}.jpg

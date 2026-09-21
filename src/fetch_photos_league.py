@@ -14,6 +14,7 @@ not carry (exports) keep whatever portrait they had.
 Configured per nation in config/nations/<nation>.yaml::league_photos:
     site:  https://www.chanceliga.cz
     clubs: /                      (page listing /klub/<id>-<slug> links)
+    table: /tabulka/{season}/aktualni?id_stage=1   (that season's clubs, relegated ones included)
     squad: /klub/{season}/kadr/{club}   (season = end year, e.g. 2026 for 2025/26)
     photo: /photo/player/player_{id}.jpg
 A nation without the block is skipped.
@@ -76,11 +77,29 @@ def main() -> None:
         return
     site, seasons = cfg["site"], cfg.get("seasons", [])
     pool = read_parquet(config.PROCESSED_DIR / "pool.parquet")
-    clubs = parse_clubs(http_get(site + cfg["clubs"], headers=UA).text)
-    LOG.info("%d clubs", len(clubs))
     rows: dict[int, dict] = {}
     for season in seasons:
-        for club in clubs:
+        # the front page lists this season's clubs only; a season's standings
+        # page (config `table`) also carries the ones relegated since, whose
+        # squad pages stay up -- the metrics season's exports would otherwise
+        # be the players most often missing
+        clubs = set(parse_clubs(http_get(site + cfg["clubs"], headers=UA).text))
+        if cfg.get("table"):
+            try:
+                clubs |= set(parse_clubs(http_get(site + cfg["table"].format(season=season), headers=UA).text))
+            except Exception as exc:
+                LOG.warning("standings %s: %s", season, exc)
+        # one entry per club id: the standings page links a short slug
+        # (/klub/10-dukla), the front page the full one; the squad page
+        # renders fully only under the full slug, so keep the longest
+        by_id: dict[str, str] = {}
+        for c in clubs:
+            cid = c.split("-", 1)[0]
+            if len(c) > len(by_id.get(cid, "")):
+                by_id[cid] = c
+        clubs = set(by_id.values())
+        LOG.info("season %s: %d clubs", season, len(clubs))
+        for club in sorted(clubs):
             url = site + cfg["squad"].format(season=season, club=club)
             try:
                 for r in parse_squad(http_get(url, headers=UA).text):
