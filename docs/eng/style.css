@@ -51,7 +51,7 @@
   /* Chalk neutrals */
   --ink:       #DCDCD6;
   --ink-soft:  #B9B9B3;
-  --muted:     #7E7E78;
+  --muted:     #8B8B85;   /* 5.3:1 on the ground (AA); bsandova.com's #7E7E78 was 4.4 */
   --rule:      #3A3A36;   /* = figstyle.RULE */
   --rule-soft: #2C2C29;
 
@@ -2787,7 +2787,7 @@ footer a:hover { border-bottom-color: var(--ink); }
   padding: 0.4rem 0.55rem; border: 1px solid var(--rule); border-radius: 4px;
   background: var(--surface);
 }
-.pool-control input:focus-visible, .pool-control select:focus-visible { outline: 2px solid var(--navy-500); outline-offset: 1px; }
+.pool-control input:focus-visible, .pool-control select:focus-visible { outline: 2px solid var(--oxblood-700); outline-offset: 1px; }
 .pool-count { margin-left: auto; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); font-feature-settings: "tnum"; }
 /* one grid for the header and every summary row, so the columns line up
    without a <table> (a <details> cannot live inside a table row) */

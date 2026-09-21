@@ -8,7 +8,7 @@
 (() => {
   const script = document.currentScript;
   const metaUrl = script.src.replace(/atlas\.js(\?.*)?$/, 'atlas_meta.json');
-  const cs = document.documentElement.lang === 'cs';
+  const cs = false;   // the Czech edition was retired (2026-09-21); strings below are English only
   const T = cs ? {
     ringOnly: 'Jen reprezentace', reset: 'Reset', players: 'hráčů', hint: 'Najeď na bod → souřadnice v mapě · klik na jméno → karta hráče',
     median: 'medián npG+A/90', nodata: 'bez dat', ring: 'Reprezentace 2024–26', open: 'Otevřít kartu', cluster: 'cluster', all: 'vše',
@@ -304,7 +304,7 @@
 (() => {
   const panel = document.querySelector('.sensitivity-live');
   if (!panel) return;
-  const cs = document.documentElement.lang === 'cs';
+  const cs = false;   // the Czech edition was retired (2026-09-21); strings below are English only
   const T = cs ? {
     churn: (n) => `${n} ${n === 1 ? 'hráč opustil' : 'hráčů opustilo'} základní top-10 (ze ${baseline10.length}).`,
   } : {

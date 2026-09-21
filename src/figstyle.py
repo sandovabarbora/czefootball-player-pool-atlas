@@ -41,9 +41,9 @@ NAVY         = "#F2F2EE"   # --navy-700  -- PEER_A, the first comparison country
 NAVY_DEEP    = "#D6FF3A"   # the bright end of the sequential ramp (acid)
 OXBLOOD      = "#D6FF3A"   # --oxblood-700 -- HOME, the home nation, always (acid)
 OXBLOOD_TINT = "#3F4A12"   # a dark wash of acid -- level bands, not lines
-SLATE        = "#7E7E78"   # PEER_B, the second comparison country
+SLATE        = "#8B8B85"   # PEER_B, the second comparison country
 INK          = "#DCDCD6"   # --ink -- text, ticks, axis labels (chalk)
-MUTED        = "#7E7E78"   # secondary series, muted labels
+MUTED        = "#8B8B85"   # secondary series, muted labels (AA on the ground)
 CORPUS       = "#3A3A36"   # background corpus / "everyone else"
 RULE         = "#3A3A36"   # --rule -- spines, hairlines, dividers
 GRID         = "#262624"   # the y-grid only
@@ -83,7 +83,7 @@ CMAP_NAVY = LinearSegmentedColormap.from_list(
 # constants above contains none of these keys and passes through unchanged.
 LEGACY_TO_THEME: dict[str, str] = {
     "#1f3a5f": NAVY, "#162a44": NAVY_DEEP, "#9c3a2a": OXBLOOD, "#f1ddd7": OXBLOOD_TINT,
-    "#5b7290": SLATE, "#2a261f": INK, "#8a857b": MUTED, "#d4cfc3": CORPUS,
+    "#5b7290": SLATE, "#2a261f": INK, "#8a857b": MUTED, "#7e7e78": MUTED, "#d4cfc3": CORPUS,
     "#c8c2b7": RULE, "#ece6d8": GRID, "#fdfbf6": CREAM, "#efe9dc": CREAM_TINT,
     "#000000": INK,
     # the cluster palette of the atlases (src/render.py), in sequencer colours

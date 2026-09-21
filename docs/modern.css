@@ -332,7 +332,7 @@ figcaption { font-family: var(--font-mono); font-style: normal; font-size: 0.72r
 .atlas-name { cursor: default; }
 .atlas-name-card { cursor: pointer; }
 .atlas-name-card:hover path, .atlas-name-card:focus-visible path { fill: var(--oxblood-700); }
-.atlas-name:focus-visible { outline: none; }
+.atlas-name:focus-visible { outline: 2px solid var(--acid); outline-offset: 2px; }
 .atlas-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin: 0 0 0.6rem; }
 .atlas-chip {
   display: inline-flex; align-items: center; gap: 0.4rem;
@@ -915,3 +915,9 @@ figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size:
 .slide-caveat { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-soft); border-left: 0; margin: -0.6rem 0 var(--space-4); max-width: none; }
 .funnel-note-small { font-size: 10px; color: var(--muted); }
 .scoreboard-backtest { font-family: var(--font-sans); font-size: 0.9rem; color: var(--ink-soft); margin: 0.8rem 0 0; }
+
+/* charts: an honest empty / failed state instead of blank space */
+.chart-empty { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: var(--space-3) 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+/* chart control folds: the long chip rows sit behind one line */
+details.chart-fold { border-top: 0; margin: 0; }
+details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }

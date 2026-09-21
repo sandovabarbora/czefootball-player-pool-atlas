@@ -30,6 +30,7 @@
   };
   const CLUSTER_COLOURS = [C.ink, C.orange, C.violet, C.mint, C.lilac, C.aqua, C.peach, C.hot];
   const TIER_LABEL = { domestic: 'home league', other: 'other league', stepping_stone: 'stepping stone', top9: 'top-9 league', entered: 'new to the pool', left: 'no longer covered' };
+  const TIER_SHORT = { domestic: 'home', other: 'other', stepping_stone: 'stepping', top9: 'top-9', entered: 'new', left: 'gone' };
   const fmt1 = d3.format('.1f'), fmt2 = d3.format('.2f'), fmtInt = d3.format(',d');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // data strings come from FBref/Wikipedia tables; escape them before they go into tooltip markup
@@ -55,6 +56,22 @@
     return box;
   }
   function controls(box) { const c = document.createElement('div'); c.className = 'chart-controls'; box.appendChild(c); return c; }
+  // an honest state when the data is missing or empty: the static figure stays
+  // if we have not mounted yet; otherwise a one-line note replaces blank space
+  function empty(fig, box, what) {
+    const note = document.createElement('p'); note.className = 'chart-empty';
+    note.textContent = what || 'no data for this figure';
+    (box || fig).appendChild(note);
+  }
+  // a long row of chips folds behind one line so a figure opens with the
+  // chart, not with a wall of choices; the summary names what is selected
+  function foldRow(parent, summaryText) {
+    const d = document.createElement('details'); d.className = 'fold chart-fold';
+    const sm = document.createElement('summary'); sm.textContent = summaryText; d.appendChild(sm);
+    const row = document.createElement('div'); row.className = 'chart-row'; d.appendChild(row);
+    parent.appendChild(d);
+    return { row, summary: sm };
+  }
   function chip(parent, label, on, cb, colour) {
     const b = document.createElement('button'); b.type = 'button'; b.className = 'chart-chip';
     b.setAttribute('aria-pressed', String(on));
@@ -80,7 +97,7 @@
   async function atlas(fig) {
     const group = fig.dataset.chart.split('-')[1];
     const [data, clusters] = await Promise.all([load(`atlas_${group}`), load('clusters')]);
-    if (!data) return;
+    if (!data || !Array.isArray(data.points) || !data.points.length) { if (data) empty(fig, null, 'no player-seasons in this atlas'); return; }
     const labels = (clusters && clusters[group]) || { style: {}, quality: {} };
     const box = mount(fig);
     const ctl = controls(box);
@@ -173,7 +190,7 @@
 
   // ------------------------------------------------------------ big5 series
   async function big5(fig) {
-    const data = await load('big5'); if (!data) return;
+    const data = await load('big5'); if (!data || !data.seasons || !data.seasons.length || !data.countries) { if (data) empty(fig, null); return; }
     const box = mount(fig); const ctl = controls(box);
     const seasons = data.seasons, codes = Object.keys(data.countries);
     const contrast = data.contrast || [];
@@ -232,13 +249,14 @@
     }).on('mouseleave', () => { hideTip(); hover.style('display', 'none'); });
     const row = document.createElement('div'); row.className = 'chart-row'; ctl.appendChild(row);
     const mchips = [['n', 'Players'], ['per_million', 'Per million']].map(([m, l]) => chip(row, l, m === state.metric, () => { state.metric = m; mchips.forEach((c, i) => c.setAttribute('aria-pressed', String(['n', 'per_million'][i] === m))); draw(); }));
-    const crow = document.createElement('div'); crow.className = 'chart-row'; ctl.appendChild(crow);
-    codes.forEach((c) => chip(crow, `${c} ${data.countries[c].name}`, state.on.has(c), (b) => { if (state.on.has(c)) state.on.delete(c); else state.on.add(c); b.setAttribute('aria-pressed', String(state.on.has(c))); draw(); }, colour(c)));
+    const shown = () => `countries shown: ${codes.filter((c) => state.on.has(c)).join(', ')} · change`;
+    const { row: crow, summary: csum } = foldRow(ctl, shown());
+    codes.forEach((c) => chip(crow, `${c} ${data.countries[c].name}`, state.on.has(c), (b) => { if (state.on.has(c)) state.on.delete(c); else state.on.add(c); b.setAttribute('aria-pressed', String(state.on.has(c))); csum.textContent = shown(); draw(); }, colour(c)));
   }
 
   // ------------------------------------------------------------ export age
   async function exportAge(fig) {
-    const data = await load('export_age'); if (!data || !data.curve.length) return;
+    const data = await load('export_age'); if (!data || !Array.isArray(data.curve) || !data.curve.length) { if (data) empty(fig, null); return; }
     const box = mount(fig);
     const H = 400, M = { t: 24, r: 24, b: 40, l: 48 };
     const { svg, w } = svgIn(box, H);
@@ -266,10 +284,11 @@
 
   // ------------------------------------------------------------ changes (sankey)
   async function changes(fig) {
-    const data = await load('changes'); if (!data || !data.flows || typeof d3.sankey !== 'function') return;
+    const data = await load('changes'); if (!data || !Array.isArray(data.flows) || !data.flows.length || typeof d3.sankey !== 'function') { if (data && data.flows && !data.flows.length) empty(fig, null, 'no movements between the two seasons'); return; }
     const box = mount(fig);
-    const H = 440, M = { t: 10, r: 210, b: 22, l: 210 };
-    const { svg, w } = svgIn(box, H);
+    const { svg, w } = svgIn(box, 440);
+    const narrow = w < 700;
+    const H = 440, M = { t: 10, r: narrow ? 100 : 210, b: 22, l: narrow ? 100 : 210 };
     const order = ['top9', 'stepping_stone', 'other', 'domestic', 'entered'];
     const orderR = ['top9', 'stepping_stone', 'other', 'domestic', 'left'];
     const nodes = [...order.map((t) => ({ id: 'p:' + t, tier: t, side: 0 })), ...orderR.map((t) => ({ id: 'c:' + t, tier: t, side: 1 }))];
@@ -292,7 +311,7 @@
     svg.append('g').selectAll('text').data(graph.nodes).join('text')
       .attr('class', 'chart-axis-label').attr('x', (d) => (d.side ? d.x1 + 8 : d.x0 - 8)).attr('y', (d) => (d.y0 + d.y1) / 2 + 4)
       .attr('text-anchor', (d) => (d.side ? 'start' : 'end')).attr('fill', C.ink)
-      .text((d) => `${TIER_LABEL[d.tier]} · ${d.value}`);
+      .text((d) => (narrow ? `${TIER_SHORT[d.tier]} · ${d.value}` : `${TIER_LABEL[d.tier]} · ${d.value}`));
     svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', H - 2).attr('text-anchor', 'end').text(data.previous.replace('-', '/'));
     svg.append('text').attr('class', 'chart-axis-label').attr('x', w - M.r).attr('y', H - 2).text(data.metrics.replace('-', '/'));
     const note = document.createElement('p'); note.className = 'chart-note';
@@ -303,7 +322,7 @@
 
   // ------------------------------------------------------------ tracking showcase (SkillCorner open data)
   async function tracking(fig) {
-    const data = await load('tracking_runs'); if (!data || !data.runs) return;
+    const data = await load('tracking_runs'); if (!data || !Array.isArray(data.runs) || !data.runs.length) { if (data) empty(fig, null); return; }
     const box = mount(fig); const ctl = controls(box);
     const [L, W] = data.match.pitch;
     const RUN_LABEL = { run_ahead_of_the_ball: 'ahead of the ball', support: 'support', cross_receiver: 'cross receiver', dropping_off: 'dropping off', coming_short: 'coming short', behind: 'in behind', pulling_wide: 'pulling wide', overlap: 'overlap', pulling_half_space: 'pulling half-space', underlap: 'underlap' };
@@ -342,7 +361,7 @@
     const teamChips = data.teams.map((t) => chip(row1, t, t === state.team, () => { state.team = t; teamChips.forEach((c, i) => c.setAttribute('aria-pressed', String(data.teams[i] === t))); draw(); }));
     const onlyChips = [['targeted', 'pass attempted'], ['received', 'received'], ['dangerous', 'dangerous']].map(([k, l]) => chip(row1, l, false, (b) => { state.only = state.only === k ? null : k; onlyChips.forEach((c, i) => c.setAttribute('aria-pressed', String(state.only === ['targeted', 'received', 'dangerous'][i]))); draw(); }));
     const count = document.createElement('span'); count.className = 'chart-note'; count.style.marginLeft = 'auto'; row1.appendChild(count);
-    const row2 = document.createElement('div'); row2.className = 'chart-row'; ctl.appendChild(row2);
+    const { row: row2 } = foldRow(ctl, `run types: all ${types.length} shown · change`);
     types.forEach((t) => chip(row2, `${RUN_LABEL[t] || t} · ${Object.values(data.by_type[t]).reduce((a, b) => a + b, 0)}`, true, (b) => { if (state.off.has(t)) state.off.delete(t); else state.off.add(t); b.setAttribute('aria-pressed', String(!state.off.has(t))); draw(); }, RUN_COLOUR[t]));
     draw();
     const note = document.createElement('p'); note.className = 'chart-note';
@@ -359,24 +378,26 @@
     const d = await pageData(); if (!d || !d.funnel) return;
     const f = d.funnel, countries = f.countries.map((c) => c.code), names = Object.fromEntries(f.countries.map((c) => [c.code, c.name]));
     const stages = [
-      { label: 'Share of minutes to players aged 21 or under', unit: '%', vals: f.stage1.share_u21.map((c) => (c.value == null ? null : c.value * 100)), more: 'higher = more open' },
-      { label: 'Regular under-21 starters per club', unit: '', vals: f.stage1.regulars.map((r) => r.per_club), more: 'higher = more open' },
-      { label: 'League average age (minutes-weighted)', unit: '', vals: f.stage2.mean_age.map((c) => c.value), more: 'lower = younger league' },
+      { label: 'Share of minutes to players aged 21 or under', short: 'U21 share of minutes', unit: '%', vals: f.stage1.share_u21.map((c) => (c.value == null ? null : c.value * 100)), more: 'higher = more open' },
+      { label: 'Regular under-21 starters per club', short: 'U21 regular starters per club', unit: '', vals: f.stage1.regulars.map((r) => r.per_club), more: 'higher = more open' },
+      { label: 'League average age (minutes-weighted)', short: 'League average age', unit: '', vals: f.stage2.mean_age.map((c) => c.value), more: 'lower = younger league' },
       { label: 'Age at the first move abroad', unit: '', vals: f.stage3.rows.map((r) => r.age), more: 'lower = earlier' },
       { label: 'Sideways moves', unit: '%', vals: f.stage4.sideways.map((c) => (c.value == null ? null : c.value * 100)), more: 'lower = more moves upward' },
-      { label: 'Players per million in the top-9 leagues', unit: '', vals: f.stage5.per_million.map((c) => c.value), more: 'higher = thicker layer at the top' },
+      { label: 'Players per million in the top-9 leagues', short: 'Top-9 players per million', unit: '', vals: f.stage5.per_million.map((c) => c.value), more: 'higher = thicker layer at the top' },
     ].filter((st) => st.vals.some((v) => v != null));
     const box = mount(fig);
-    const rowH = 64, M = { t: 10, r: 24, b: 10, l: 24 }, H = M.t + stages.length * rowH + M.b;
+    const probe = svgIn(box, 10); const w0 = probe.w; probe.svg.remove();
+    const narrow = w0 < 700, labelW = narrow ? 0 : 300, rowH = narrow ? 92 : 64;
+    const M = { t: 10, r: 24, b: 10, l: 24 }, H = M.t + stages.length * rowH + M.b;
     const { svg, w } = svgIn(box, H);
     const colour = (c, i) => (c === d.home ? C.acid : i === 1 ? C.hot : C.muted);
     stages.forEach((st, si) => {
-      const y = M.t + si * rowH + 40;
+      const y = M.t + si * rowH + (narrow ? 62 : 40);
       const vals = st.vals.filter((v) => v != null), lo = d3.min(vals), hi = d3.max(vals), span = (hi - lo) || Math.max(Math.abs(hi), 1) * 0.1;
-      const x = d3.scaleLinear().domain([lo - span * 0.5, hi + span * 0.6]).range([M.l + 300, w - M.r - 40]);
-      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y - 18).attr('fill', C.ink).text(st.label);
-      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y + 2).text(st.more);
-      svg.append('line').attr('x1', M.l + 300).attr('x2', w - M.r - 40).attr('y1', y).attr('y2', y).attr('stroke', C.rule);
+      const x = d3.scaleLinear().domain([lo - span * 0.5, hi + span * 0.6]).range([M.l + labelW + (narrow ? 30 : 0), w - M.r - 40]);
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y - (narrow ? 40 : 18)).attr('fill', C.ink).text(narrow ? (st.short || st.label) : st.label);
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y - (narrow ? 26 : -2)).text(st.more);
+      svg.append('line').attr('x1', M.l + labelW + (narrow ? 30 : 0)).attr('x2', w - M.r - 40).attr('y1', y).attr('y2', y).attr('stroke', C.rule);
       countries.forEach((c, i) => {
         const v = st.vals[i]; if (v == null) return;
         const g = svg.append('g').style('cursor', 'default')
@@ -477,6 +498,14 @@
 
   // ------------------------------------------------------------ run
   const run = { big5, 'export-age': exportAge, changes, tracking, funnel, fare, slope, gap };
+  const started = new WeakSet();
+  function start(fig) {
+    if (started.has(fig)) return; started.add(fig);
+    fig.removeAttribute('data-atlas');   // the older svg-overlay hover must not also run here
+    const kind = fig.dataset.chart;
+    const fn = kind.startsWith('atlas-') ? atlas : run[kind];
+    if (fn) fn(fig).catch((e) => { console.warn('chart failed', kind, e); empty(fig, fig.querySelector('.chart'), 'this figure could not be drawn — the static version is in the print view'); });
+  }
   // atlas tabs (#q9): one figure per position group, buttons switch which is shown
   document.querySelectorAll('.atlas-tabs').forEach((tabs) => {
     const figs = [...tabs.querySelectorAll('figure[data-chart]')];
@@ -486,14 +515,12 @@
       const b = chip(bar, f.dataset.tab || f.dataset.chart.split('-')[1], i === 0, () => {
         figs.forEach((g, j) => { g.hidden = j !== i; });
         bar.querySelectorAll('.chart-chip').forEach((c, j) => c.setAttribute('aria-pressed', String(j === i)));
+        start(f);
       });
       f.hidden = i !== 0;
+      if (i === 0) start(f);
     });
   });
-  document.querySelectorAll('figure[data-chart]').forEach((fig) => {
-    fig.removeAttribute('data-atlas');   // the older svg-overlay hover must not also run here
-    const kind = fig.dataset.chart;
-    const fn = kind.startsWith('atlas-') ? atlas : run[kind];
-    if (fn) fn(fig).catch((e) => console.warn('chart failed', kind, e));
-  });
+  // hidden atlas tabs wait for their first click (each is 200-580 KB of JSON)
+  document.querySelectorAll('figure[data-chart]').forEach((fig) => { if (!fig.hidden && !fig.closest('.atlas-tabs')) start(fig); });
 })();
