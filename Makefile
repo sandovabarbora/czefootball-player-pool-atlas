@@ -131,6 +131,9 @@ pool-table:
 changes:
 	$(ACT) python -m src.season_changes
 
+charts:
+	$(ACT) python -m src.charts_export
+
 eda:
 	$(ACT) python -m src.feature_eda
 
@@ -140,7 +143,7 @@ data-quality:
 render: data-quality
 	$(ACT) python -m src.render
 
-all: fetch roles pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers panel gap facts pool-table changes eda data-quality render
+all: fetch roles pool photos features reduce benchmark series analogs sensitivity strength compare pathways keepers goalkeepers panel gap facts pool-table changes charts eda data-quality render
 
 test:
 	$(ACT) pytest

@@ -8,13 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211344">
-  <link rel="stylesheet" href="modern.css?v=202609211344">
+  <link rel="stylesheet" href="style.css?v=202609211359">
+  <link rel="stylesheet" href="modern.css?v=202609211359">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
-  <script defer src="atlas.js?v=202609211344"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+  <script defer src="charts.js?v=202609211359"></script>
+  <script defer src="atlas.js?v=202609211359"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -155,7 +158,7 @@
     <p class="funnel-lead">Five numbers, in the order they build on each other, show where the pool of players available to the national team gets thin. Each one is shown for English football and for the two countries used as a comparison throughout this report; each links to the part of the report that shows the full evidence.</p>
     <figure class="figure-bleed">
       <img src="why_funnel.svg" alt="Five-stage funnel: English football next to France and Spain on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.">
-      <figcaption>Each rung is one stage on its own scale: the filled dot is England, the open dots the two comparison countries, each with its value.</figcaption>
+      <figcaption>How to read it: five rungs, one per stage of the argument, each on its own scale. The filled acid dot is England; the two open dots are the comparison countries. Left is where the pathway is more open on the first four rungs; on the last, more players per million.</figcaption>
     </figure>
     <ol class="funnel-stages">
       <li class="funnel-stage">
@@ -650,9 +653,9 @@
     
     <p class="slide-a">Arrive in the top-9 at 21 and you produce <strong>+0.017</strong> more league-adjusted G+A per 90 over your first two seasons than arriving at 24. English exports arrive at a median age of 21.</p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="export-age">
         <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, English exports as points against every other peer export, and a rug of every export's age along the axis.">
-        <figcaption>The 21-vs-24 comparison, marked directly on the curve.</figcaption>
+        <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Acid dots are English exports — hover for the name.</figcaption>
       </figure>
     </div>
     <details class="fold slide-method">
@@ -675,7 +678,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="fare_dots.svg" alt="Dot plot: each country's median share of club minutes for players abroad, with a thin line spanning the other countries' values; England highlighted.">
-        <figcaption>English in oxblood; each row's value written at its dot.</figcaption>
+        <figcaption>How to read it: one row per country, sorted; the dot is the median share of his club’s minutes that a country’s exported player keeps, the thin line the range across its exports. English exports are the acid row. Further right means exports who play, not sit.</figcaption>
       </figure>
       
       <details class="fold">
@@ -1044,9 +1047,9 @@
     
     <p class="slide-a">English players with ≥ 450 Big-5 minutes: <strong>180</strong> at the 2000/01 peak, 111 at the 2013/14 low, 127 in 2025/26. The break is dated to 2007/08.</p>
     <div class="slide-proof">
-      <figure class="figure-bleed" data-atlas="big5">
+      <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="big5_series.svg" alt="Line chart: English players with at least 450 minutes in the Big-5 leagues, 2000/01 to 2025/26, against eight peer countries; a lower panel shows per-million rates for England, France and Germany.">
-        <figcaption>English in oxblood; peaks, lows and the last season marked directly.</figcaption>
+        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 2000/01. English players are the acid line; the dashed rule is the season the model dates the break to, with its probability; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
       </figure>
       
       <aside class="scoreboard" id="prediction-1">
@@ -1082,7 +1085,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="pathway_slope.svg" alt="Slope chart: France, Spain and England on six pathway metrics, each rescaled 0 (worst of the three) to 1 (best of the three), one line per country.">
-        <figcaption>Country codes labelled at both ends of each line; no legend.</figcaption>
+        <figcaption>How to read it: six measures, each rescaled so 0 is the worst of the three countries and 1 the best, one line per country. A line that stays high is a pathway that is open at every stage; where the acid line dips is where England loses ground.</figcaption>
       </figure>
       <details class="fold">
         <summary>The six numbers, unscaled</summary>
@@ -1212,6 +1215,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="gk_export_age.svg" alt="Strip plot of age at first top-9-league appearance, English goalkeepers against outfield exports, one dot per player, medians marked.">
+        <figcaption>How to read it: one dot per player at the age of his first season in a top-9 league; goalkeepers in the upper strip, outfield exports in the lower, medians marked. Further left is an earlier first appearance.</figcaption>
       </figure>
       <details class="fold">
         <summary>Club tier: English top-9 goalkeepers, 2025/26</summary>
@@ -1428,7 +1432,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="gap_decomposition.svg" alt="One horizontal stacked bar per contrast country: the contribution of U21 minutes, league strength and export age to its per-capita gap with England, plus the residual; whiskers show each channel's bootstrap interval.">
-        <figcaption>Values written inside each segment when they fit; the residual hatched.</figcaption>
+        <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and England. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
       </figure>
     </div>
     <details class="fold slide-method">
@@ -2735,6 +2739,25 @@
       </div>
       
       <p class="capita-note">* Each card renders the existing dataset; no computation beyond the join. Age on the name line is the 2026/27 season-start age (start year − birth year); the club is from the 2026/27 tables, or — labelled "latest known" — from FBref's country page where the player has no 2026/27 row. Age on the analog line follows the analog finder's convention (season start year + 1 − birth year).</p>
+      <div class="atlas-tabs" id="atlas">
+        <p class="cycle-row-kicker">The atlas: every player-season of 2025/26, one dot each</p>
+        
+        <figure class="figure-bleed" data-chart="atlas-FW" data-tab="Forwards">
+          <img src="atlas_FW.svg" alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 24 English-eligible players by cluster; oxblood rings mark the 5 with a national-team call-up 2024–26.">
+          <figcaption>How to read it: every dot is the 2025/26 season of one of the forwards in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are English-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
+        </figure>
+        
+        <figure class="figure-bleed" data-chart="atlas-MF" data-tab="Midfielders">
+          <img src="atlas_MF.svg" alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 65 English-eligible players by cluster; oxblood rings mark the 20 with a national-team call-up 2024–26.">
+          <figcaption>How to read it: every dot is the 2025/26 season of one of the midfielders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are English-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
+        </figure>
+        
+        <figure class="figure-bleed" data-chart="atlas-DF" data-tab="Defenders">
+          <img src="atlas_DF.svg" alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 55 English-eligible players by cluster; oxblood rings mark the 17 with a national-team call-up 2024–26.">
+          <figcaption>How to read it: every dot is the 2025/26 season of one of the defenders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are English-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
+        </figure>
+        
+      </div>
       
       <details class="fold pool-fold" id="pool">
         <summary>Every player in the 2025/26 pool — all 154, searchable</summary>
@@ -5375,6 +5398,9 @@
     <h2 class="slide-q">What changed since last season?</h2>
     <p class="slide-a"><strong>5 climbed a rung, 3 came down.</strong> The stepping-stone leagues hold 0 of the pool, from 4; the top nine hold 38, from 37.</p>
     <div class="slide-proof">
+      <figure class="figure-bleed" data-chart="changes">
+        <figcaption>How to read it: the left column is last season’s rung for every player in the pool, the right column this season’s; each ribbon is the players who went from one to the other, its width their number. Acid ribbons climb, orange come down, mint are new to the pool, grey are no longer in a covered league. Hover a ribbon for the names.</figcaption>
+      </figure>
       <div class="changes-tiers">
         
         <div class="changes-tier">
@@ -11344,7 +11370,7 @@
     <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus one step change δ in the level at an unknown break season τ. NUTS only samples continuous parameters, so τ is not sampled directly — every candidate season at least 3 seasons from either end is marginalised out of the model with a single log-sum-exp potential and its own posterior recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, single-break setting. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
     <figure class="figure-bleed">
       <img src="series_model.svg" alt="Line chart of the England series with the change-point model's fitted level in a pale band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
-      <figcaption>The break season and its posterior probability, marked on the curve.</figcaption>
+      <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rule is the most probable break season with its posterior probability; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
     </figure>
     <p>For England, the model dates the break to 2007/08 (21 % posterior probability), a ×0.92 (0.75–1.13, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.038.</p>
     <ul class="break-top">
@@ -11584,7 +11610,7 @@
     <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier (every country in this run used the model estimate)) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
     <figure class="figure-bleed">
       <img src="gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
-      <figcaption>Values written inside each segment when they fit; the residual hatched.</figcaption>
+      <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and England. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr>
@@ -11674,7 +11700,7 @@
     <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do English players go when they leave?", reused here) — 691 players, ages 16–36 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the natural cubic spline branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
     <figure class="figure-bleed">
       <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as oxblood points against every other peer export in grey, and a rug of every export's age along the axis.">
-      <figcaption>The 21-vs-24 comparison, marked directly on the curve.</figcaption>
+      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Acid dots are English exports — hover for the name.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr><th>Age</th><th>Expected G+A/90 (median)</th><th>90 % HDI</th></tr></thead>
@@ -12979,7 +13005,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 13:44</p>
+    <p class="rendered-at">Rendered: 2026-09-21 13:59</p>
   </div>
 </footer>
 

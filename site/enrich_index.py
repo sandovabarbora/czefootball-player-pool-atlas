@@ -140,6 +140,9 @@ sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
     f'  <link rel="alternate" hreflang="x-default" href="{SITE}">\n'
     '  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">\n'
     '  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>\n'
+    '  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>\n'
+    '  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>\n'
+    f'  <script defer src="{P}charts.js"></script>\n'
     f'  <script defer src="{P}atlas.js"></script>',
     1)
 
@@ -492,7 +495,7 @@ sub(r'</body>', lambda m: JS, 1)
 
 # ---------------------------------------------------------------- cache-busting stamp on our own assets
 _v = _dt.datetime.now().strftime("%Y%m%d%H%M")
-for _a in ("style.css", "modern.css", "atlas.js"):
+for _a in ("style.css", "modern.css", "atlas.js", "charts.js"):
     html = html.replace(f'"{P}{_a}"', f'"{P}{_a}?v={_v}"')
 
 SRC.write_text(html, encoding="utf-8")

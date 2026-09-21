@@ -626,7 +626,7 @@
                           age_home=g(eam.home_median_age),
                           zero_note=(t('slide.4b.zero_note', n=eam.n) if (eam.diff_21_24.lo <= 0 and eam.diff_21_24.hi >= 0) else '')) }}</p>
     <div class="slide-proof">
-      <figure class="figure-bleed">
+      <figure class="figure-bleed" data-chart="export-age">
         <img src="{{ assets }}export_age_model.svg" alt="{{ t('slide.4b.alt') }}">
         <figcaption>{{ t('slide.4b.caption') }}</figcaption>
       </figure>
@@ -758,9 +758,9 @@
     {% if big5 %}
     <p class="slide-a">{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</p>
     <div class="slide-proof">
-      <figure class="figure-bleed" data-atlas="big5">
+      <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
-        <figcaption>{{ t('slide.7.caption') }}</figcaption>
+        <figcaption>{{ t('slide.7.caption', first_season=big5.first_season) }}</figcaption>
       </figure>
       {% for pr in predictions %}
       <aside class="scoreboard" id="prediction-{{ loop.index }}">
@@ -858,6 +858,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="{{ assets }}gk_export_age.svg" alt="{{ t('slide.8b.alt') }}">
+        <figcaption>{{ t('slide.8b.caption') }}</figcaption>
       </figure>
       <details class="fold">
         <summary>{{ t('gk.tier.summary', season=seasons.metrics) }}</summary>
@@ -996,6 +997,15 @@
       </div>
       {% endif %}
       <p class="capita-note">{{ t('ch3.cards.note', current=seasons.current, latest=t('ch3.card.latest_known')) }}</p>
+      <div class="atlas-tabs" id="atlas">
+        <p class="cycle-row-kicker">{{ t('atlas.kicker', season=seasons.metrics) }}</p>
+        {% for grp in groups %}
+        <figure class="figure-bleed" data-chart="atlas-{{ grp }}" data-tab="{{ gt[grp] }}">
+          <img src="{{ assets }}atlas_{{ grp }}.svg" alt="{{ t('ch1.atlas.alt', group=gt[grp] | lower, season=seasons.metrics, corpus=atlas_notes[grp].n_corpus, czech=atlas_notes[grp].n_czech, nt=atlas_notes[grp].n_nt, nt_years=facts.nt_years) }}">
+          <figcaption>{{ t('atlas.read', group=gt[grp] | lower, season=seasons.metrics) }}</figcaption>
+        </figure>
+        {% endfor %}
+      </div>
       {% if pool_table.rows %}
       <details class="fold pool-fold" id="pool">
         <summary>{{ t('pool.summary', n=pool_table.total, season=pool_table.season_label) }}</summary>
@@ -1062,6 +1072,9 @@
     <h2 class="slide-q">{{ t('slide.10.q') }}</h2>
     <p class="slide-a">{{ t('slide.10.a', up=season_changes.moves.up.n, down=season_changes.moves.down.n, ss_prev=season_changes.stepping.players_prev, ss_curr=season_changes.stepping.players_curr, top_prev=season_changes.top9.players_prev, top_curr=season_changes.top9.players_curr) }}</p>
     <div class="slide-proof">
+      <figure class="figure-bleed" data-chart="changes">
+        <figcaption>{{ t('slide.10.sankey_caption') }}</figcaption>
+      </figure>
       <div class="changes-tiers">
         {% for tr_ in season_changes.tiers %}
         <div class="changes-tier">

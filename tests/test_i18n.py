@@ -32,7 +32,9 @@ def test_cs_yaml_placeholders_agree_where_a_czech_string_exists():
 
 
 def test_check_complete_fails_loudly():
-    cs = load_cs()
+    # a synthetic complete dictionary: the real cs.yaml is dormant and need
+    # not be complete any more, but the checker itself must still bite
+    cs = {"strings": dict(EN), "terms": {t: t for t in TERMS_EN}}
     missing = {"strings": {k: v for k, v in cs["strings"].items() if k != "hero.h2"}, "terms": cs["terms"]}
     with pytest.raises(KeyError, match="hero.h2"):
         check_complete(missing)

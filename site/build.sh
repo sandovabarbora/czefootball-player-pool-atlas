@@ -42,7 +42,7 @@ for f in index.html atlas_FW.svg atlas_MF.svg atlas_DF.svg intl_cohort_heatmap.s
 done
 
 if [ "$D" != "$ROOT/docs" ]; then
-  for a in modern.css atlas.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
+  for a in modern.css atlas.js charts.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
   [ -d "$ROOT/docs/img" ] && [ ! -e "$D/img" ] && cp -R "$ROOT/docs/img" "$D/img"
 fi
 cp "$O/index.html" "$D/index.html"
@@ -52,6 +52,8 @@ cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap
    "$O/gap_decomposition.svg" "$O/export_age_model.svg" "$O/fare_dots.svg" "$O/pathway_slope.svg" \
    "$O/why_funnel.svg" "$O/style.css" "$D/"
 
+# interactive-chart data (src.charts_export), if it was written for this run
+if [ -d "$O/charts" ]; then mkdir -p "$D/charts" && cp "$O/charts/"*.json "$D/charts/"; fi
 ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
 ${=PY} "$S/atlas_meta.py" "$D" >/dev/null
 ${=PY} "$S/svg_theme.py" "$D" >/dev/null   # legacy-palette figures into the theme (idempotent)
