@@ -1704,6 +1704,28 @@ def _build_pool_table(pool_table: dict, tr: Translator | None = None) -> dict:
     }
 
 
+def _build_season_changes(sc: dict) -> dict:
+    """Slide 10 (Task 31): where the pool moved between the previous season
+    and the metrics one, from `src.season_changes`. Adds nothing but the
+    shapes the template wants: the tier ladder in display order with both
+    seasons' player counts, and the up/down lists side by side. Empty when
+    the JSON is missing, and the slide is then skipped."""
+    if not sc:
+        return {}
+    tiers = [{"tier": t, "label": TIER_LABELS[t], **sc["minutes_by_tier"][t]} for t in TIER_ORDER]
+    moves = sc["moves"]
+    return {
+        "previous": sc["previous"], "metrics": sc["metrics"], "min_minutes": sc["min_minutes"],
+        "previous_label": season_label(sc["previous"]), "metrics_label": season_label(sc["metrics"]),
+        "n_prev": sc["n_prev"], "n_curr": sc["n_curr"],
+        "tiers": tiers,
+        "moves": moves,
+        "net_tier": moves["up"]["n"] - moves["down"]["n"],
+        "stepping": sc["minutes_by_tier"]["stepping_stone"],
+        "top9": sc["minutes_by_tier"]["top9"],
+    }
+
+
 def _build_export_age_model(eam: dict) -> dict:
     """Chapter IV `#export-age-model` and slide 4b (Task 23, M1 proper): the
     age-at-export curve. `eam` is `export_age_model.json`'s raw shape (`{}`
@@ -2014,6 +2036,7 @@ def load_data() -> dict[str, Any]:
         "export_age_model": _load_json(p / "export_age_model.json", {}),
         "pipeline_facts": _load_json(p / "pipeline_facts.json", {}),
         "pool_table": _load_json(p / "pool_table.json", {}),
+        "season_changes": _load_json(p / "season_changes.json", {}),
         "feature_eda": _load_json(p / "feature_eda.json", {}),
         "photos": _load_json(SITE_PLAYERS, {}),
         "cluster_labels": config.cluster_labels(),
@@ -2176,6 +2199,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     why_funnel = _build_why_funnel(pathways, data["pipeline_facts"], per_capita, peer_compare, big5,
                                    gap_decomposition, names)
     pool_table = _build_pool_table(data["pool_table"], tr)
+    season_changes = _build_season_changes(data["season_changes"])
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -2237,6 +2261,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "export_age_model": export_age_model,
         "why_funnel": why_funnel,
         "pool_table": pool_table,
+        "season_changes": season_changes,
         "downloads": _build_downloads("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
         "references": harvard_list(),
@@ -2683,6 +2708,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             "stints": [{"league": "CZE-First League", "team": "Sparta Prague", "tier": "domestic", "min": 1800, "starts": 20, "subs": 3}],
             "crs_p90": 1.2, "interceptions_p90": 0.4, "tklw_p90": 0.6, "fld_p90": 1.1, "fls_p90": 0.9,
             "rank_q": 1, "n_group": 1}]}),
+        "season_changes": {},
         "downloads": [
             {"label_key": "downloads.pool", "files": [
                 {"name": "pool.parquet", "url": "https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet"}]},
