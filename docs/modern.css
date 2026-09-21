@@ -923,3 +923,18 @@ details.chart-fold { border-top: 0; margin: 0; }
 details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 /* cut-outs: the player stands on the panel; the card mug gets a soft base shadow */
 .cycle-card-mug { filter: grayscale(1) contrast(1.2) drop-shadow(0 8px 12px rgba(0,0,0,.55)); object-fit: contain; object-position: 50% 100%; }
+
+/* --- close: the last beat mirrors the hero --- */
+.close { border-top: 1px solid var(--rule); padding: var(--space-7) 0; }
+.close-kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--acid); margin: 0 0 var(--space-3); }
+.close-statement { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem); line-height: 1.15; letter-spacing: -0.025em; color: var(--hot); max-width: 30em; margin: 0 0 var(--space-4); }
+.close-line { font-family: var(--font-sans); font-size: 1.05rem; color: var(--ink-soft); max-width: 60em; margin: 0 0 var(--space-4); }
+.close-links { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
+.close-links a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.close-links a:hover { color: var(--acid); border-color: var(--acid); }
+/* tiles: the explaining line in sentence-case sans, not tracked capitals */
+.quickread-line { font-family: var(--font-sans); font-size: 0.95rem; letter-spacing: 0; text-transform: none; color: var(--ink-soft); max-width: 24ch; line-height: 1.4; }
+/* pool: the deep link */
+.pool-link { margin: -0.4rem 0 0.8rem 0.5rem; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+.pool-link a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.pool-link a:hover { color: var(--acid); border-color: var(--acid); }

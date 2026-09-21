@@ -436,6 +436,7 @@ EN: dict[str, str] = {
     "pool.band.30plus": "30 and over",
     "pool.profile.aria": "Percentile profile against his position group",
     "pool.profile.note": "Percentiles among all {pos_pl} with at least 450 minutes in the covered leagues, {season} \u2014 100 is the top.",
+    "pool.link": "Link to this player",
     "pool.line.id": "{age}, {pos}, {club} ({where}).",
     "pool.line.usage_starts": "Started {starts} games and came on {subs} times, finishing {compl} of the starts; {mn} minutes in a typical start and {share} % of his club\u2019s available minutes.",
     "pool.line.usage_min": "{min} minutes, {share} % of his club\u2019s available minutes.",
@@ -930,6 +931,14 @@ EN: dict[str, str] = {
     "glossary.changepoint.term": "Change point",
     "glossary.changepoint.def": "The point in a series of seasons where the level genuinely shifts to a new one and stays there, rather than just one unusually high or low season on its own; this report finds one for the count of home-nation players in Europe's biggest leagues.",
 
+    "close.kicker": "What this is for",
+    "close.statement": "A federation does not need another opinion about its pool. It needs the same measured questions asked every summer, answered the same way, with the uncertainty on the page \u2014 and a name for every player the staff ask about.",
+    "close.line": "This is one country, built from public data in the open. The pipeline takes a nationality code and a peer set; the same code produced the other edition linked below. With a federation\u2019s own data \u2014 tracking, academy, medical \u2014 the tables get deeper and the questions stay the same.",
+    "close.link.brief": "The one-page brief",
+    "close.link.pool": "Every player in the pool",
+    "close.link.data": "Download the tables",
+    "close.link.eng": "The England edition",
+    "close.link.cze": "The Czech edition",
     "ch4.refs.h3": "References",
 
     "ch4.full_method": "Full method, figures and diagnostics",

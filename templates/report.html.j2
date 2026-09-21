@@ -1071,6 +1071,7 @@
                 </div>
                 {% endif %}
                 <p class="pool-card">{{ pool_card(r) }}</p>
+                <p class="pool-link"><a href="?player={{ r.player | urlencode }}#pool">{{ t('pool.link') }}</a></p>
               </details>
             </li>
             {% endfor %}
@@ -2386,6 +2387,19 @@
       <li id="ref-{{ r.key }}">{% if r.href %}<a href="{{ r.href }}">{{ r.citation }}</a>{% else %}{{ r.citation }}{% endif %}</li>
       {% endfor %}
     </ul>
+  </div>
+</section>
+
+{# =============================================================================
+   CLOSE — the last thing a reader sees before the footer mirrors the hero:
+   what this is for, and what it would be for the reader's own federation.
+   ============================================================================= #}
+<section class="close" id="close">
+  <div class="container">
+    <p class="close-kicker">{{ t('close.kicker') }}</p>
+    <p class="close-statement">{{ t('close.statement', pm=f2(hero.per_million), rank=ordinal(hero.rank), n=hero.n_peers) }}</p>
+    <p class="close-line">{{ t('close.line') }}</p>
+    <p class="close-links"><a href="#brief">{{ t('close.link.brief') }}</a> · <a href="#pool">{{ t('close.link.pool') }}</a> · <a href="#downloads">{{ t('close.link.data') }}</a>{% if home_code == 'CZE' %} · <a href="/eng/">{{ t('close.link.eng') }}</a>{% else %} · <a href="/">{{ t('close.link.cze') }}</a>{% endif %}</p>
   </div>
 </section>
 
