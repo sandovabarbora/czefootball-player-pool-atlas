@@ -233,10 +233,23 @@
         <span class="hero-num-unit">{{ t('hero.unit', topn=topn, season=seasons.metrics) }}</span>
       </div>
       <div class="hero-lead">
-        <p>
-          {{ t('hero.lead') }}
+        {# the finding, computed: rank, the headcount of young starters at home
+           against the best comparison country, the age of the first move, and
+           the break -- the last clause only where the model is at least evens #}
+        {% set reg = why_funnel.stage1.regulars %}
+        {% set best = (reg[1:] | selectattr('per_club', 'ne', none) | sort(attribute='per_club', reverse=true) | first) if reg | length > 1 else none %}
+        {% set move = why_funnel.stage3.rows[0] if why_funnel.stage3.rows else none %}
+        {% set clauses = [] %}
+        {% if reg and reg[0].per_club is not none and best %}{% set _ = clauses.append(t('hero.finding.youth', per_club='%.1f' | format(reg[0].per_club), best_per_club='%.1f' | format(best.per_club), best=term(why_funnel.countries | selectattr('code', 'equalto', best.code) | map(attribute='name') | first))) %}{% endif %}
+        {% if move and move.age is not none %}{% set _ = clauses.append(t('hero.finding.move', age=g(move.age))) %}{% endif %}
+        {% if big5 and big5.break_season and big5.break_prob >= 0.5 %}{% set _ = clauses.append(t('hero.finding.break', season=big5.break_season)) %}{% endif %}
+        <p class="hero-finding">
+          {{ t('hero.finding', rank=ordinal(hero.rank), n=hero.n_peers) }}
+          {% if clauses %}{{ t('hero.finding.lead') }} {% for c in clauses %}{% if not loop.first %}{% if loop.last %}; and {% else %}; {% endif %}{% endif %}{{ c }}{% endfor %}.{% endif %}
         </p>
+        <p class="hero-path">{{ t('hero.path') }}</p>
         <p class="hero-sublead">
+          {{ t('hero.lead') }}
           {% if hero.gap %}{{ t('hero.sublead.gap', group=gt[hero.gap.pos_group] | lower, cohort=hero.gap.cohort, cze_n=hero.gap.cze_n,
                                 s=('' if hero.gap.cze_n == 1 or lang != 'en' else 's'), topn=topn, peer=g(hero.gap.peer_median_n)) }}{% endif %}
           {% if hero.export_cze and hero.export_den %}{{ t('hero.sublead.export', topn=topn, cze=g(hero.export_cze.median_export_age_recent), den=g(hero.export_den.median_export_age_recent), b=pc_b) }}{% endif %}

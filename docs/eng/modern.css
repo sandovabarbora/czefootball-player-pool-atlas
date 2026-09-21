@@ -906,3 +906,9 @@ figcaption, .figure-bleed figcaption { font-family: var(--font-sans); font-size:
 .pool-row[open] > summary * { color: inherit !important; }
 .pool-row[open] > summary .pool-name { color: var(--acid) !important; }
 .pool-row[open] > summary { background: transparent; color: var(--ink); }
+.hero-finding { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.35rem, 1.1rem + 1vw, 1.8rem); line-height: 1.25; letter-spacing: -0.015em; color: var(--hot); margin: 0 0 var(--space-3); }
+.hero-path { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--acid); line-height: 1.8; margin: 0 0 var(--space-3); }
+.hero-sublead { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-soft); }
+.hero-lead p.hero-path { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--acid); line-height: 1.8; }
+.hero-lead p.hero-sublead { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-soft); line-height: 1.5; }
+.hero-lead p.hero-finding { font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.7rem); }

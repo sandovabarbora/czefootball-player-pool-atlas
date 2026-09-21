@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609211420">
-  <link rel="stylesheet" href="modern.css?v=202609211420">
+  <link rel="stylesheet" href="style.css?v=202609211436">
+  <link rel="stylesheet" href="modern.css?v=202609211436">
   <link rel="alternate" hreflang="en" href="https://football.datasimply.eu/">
   <link rel="alternate" hreflang="x-default" href="https://football.datasimply.eu/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609211420"></script>
-  <script defer src="atlas.js?v=202609211420"></script>
+  <script defer src="charts.js?v=202609211436"></script>
+  <script defer src="atlas.js?v=202609211436"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -99,11 +99,22 @@
         <span class="hero-num-unit">players in Europe's 9 strongest leagues per million inhabitants, 2025/26 rosters</span>
       </div>
       <div class="hero-lead">
-        <p>
-          How one country’s professional pool compares with its peers, where the road abroad leaks, and what the national team gets from it — from public data, every number recomputed on each run.
+        
+        
+        
+        
+        
+        
+        
+        
+        <p class="hero-finding">
+          Per head, England ranks 6th of 8 peer countries for players in Europe’s strongest leagues.
+          The reasons below are measured, not guessed: 0.5 regular under-21 starters per club at home against 1.3 in France; and a first move abroad at 22.
         </p>
+        <p class="hero-path">Three minutes: this number, the five rungs below it, and the one-page brief. Everything else is the evidence.</p>
         <details class="fold fold-hero"><summary>In context</summary>
         <p class="hero-sublead">
+          How one country’s professional pool compares with its peers, where the road abroad leaks, and what the national team gets from it — from public data, every number recomputed on each run.
           The largest cohort gap is in <strong>midfielders aged 30+</strong>: 9 English players in the top-9 leagues against a peer median of 23.
           A recent English export first reached a top-9 roster at a median age of 20; one from Spain at 21.5.
           Built from FBref, Wikipedia and Wikidata. England is the worked example; the pipeline takes a nationality code and a peer set. Football people recognise these numbers player by player; there is no place where they are aggregated.
@@ -2744,17 +2755,17 @@
         <p class="cycle-row-kicker">The atlas: every player-season of 2025/26, one dot each</p>
         
         <figure class="figure-bleed" data-chart="atlas-FW" data-tab="Forwards">
-          <img src="atlas_FW.svg" alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 24 English-eligible players by cluster; oxblood rings mark the 5 with a national-team call-up 2024–26.">
+          <img src="atlas_FW.svg" alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 24 English-eligible players by cluster; bright rings mark the 5 with a national-team call-up 2024–26.">
           <figcaption>How to read it: every dot is the 2025/26 season of one of the forwards in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are English-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
         </figure>
         
         <figure class="figure-bleed" data-chart="atlas-MF" data-tab="Midfielders">
-          <img src="atlas_MF.svg" alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 65 English-eligible players by cluster; oxblood rings mark the 20 with a national-team call-up 2024–26.">
+          <img src="atlas_MF.svg" alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 65 English-eligible players by cluster; bright rings mark the 20 with a national-team call-up 2024–26.">
           <figcaption>How to read it: every dot is the 2025/26 season of one of the midfielders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are English-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
         </figure>
         
         <figure class="figure-bleed" data-chart="atlas-DF" data-tab="Defenders">
-          <img src="atlas_DF.svg" alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 55 English-eligible players by cluster; oxblood rings mark the 17 with a national-team call-up 2024–26.">
+          <img src="atlas_DF.svg" alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 55 English-eligible players by cluster; bright rings mark the 17 with a national-team call-up 2024–26.">
           <figcaption>How to read it: every dot is the 2025/26 season of one of the defenders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are English-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
         </figure>
         
@@ -12189,22 +12200,22 @@
     
     <figure class="figure-bleed" data-atlas="fw" data-cluster-names='{"quality": {"C0": "High-assist forwards in top-five leagues", "C1": "High-minutes starting forwards", "C2": "Older forwards with moderate playing time", "C3": "Young low-minute forwards", "C4": "High-volume scorers in top-five leagues", "C5": "High-card-rate forwards"}, "style": {"C0": "High-assist forwards", "C1": "Duel-heavy rotation forwards", "C2": "High-minutes starting forwards", "C3": "Older forwards with moderate playing time", "C4": "Young low-minute forwards", "C5": "Primary scorers"}}'>
       <img src="atlas_FW.svg"
-           alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 24 English-eligible players by cluster; oxblood rings mark the 5 with a national-team call-up 2024–26.">
-      <figcaption>Atlas of forwards 2025/26 in both projections: 24 English-eligible players in colour against a corpus of 924. Oxblood rings mark the national-team pool (call-up 2024–26, 5 players).</figcaption>
+           alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 24 English-eligible players by cluster; bright rings mark the 5 with a national-team call-up 2024–26.">
+      <figcaption>Atlas of forwards 2025/26 in both projections: 24 English-eligible players in colour against a corpus of 924. Bright rings mark the national-team pool (call-up 2024–26, 5 players).</figcaption>
     </figure>
     
     
     <figure class="figure-bleed" data-atlas="mf" data-cluster-names='{"quality": {"C0": "Young low-minute midfielders", "C1": "Older rotation midfielders", "C2": "Productive midfielders in top-five leagues", "C3": "Everyday starting midfielders, low scoring output"}, "style": {"C0": "High-card-rate midfielders", "C1": "Older rotation midfielders", "C2": "Young low-minute midfielders", "C3": "Everyday starting midfielders, low scoring output", "C4": "High-scoring attacking midfielders", "C5": "High-minutes creative midfielders"}}'>
       <img src="atlas_MF.svg"
-           alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 65 English-eligible players by cluster; oxblood rings mark the 20 with a national-team call-up 2024–26.">
-      <figcaption>Atlas of midfielders 2025/26 in both projections: 65 English-eligible players in colour against a corpus of 2648. Oxblood rings mark the national-team pool (call-up 2024–26, 20 players).</figcaption>
+           alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 65 English-eligible players by cluster; bright rings mark the 20 with a national-team call-up 2024–26.">
+      <figcaption>Atlas of midfielders 2025/26 in both projections: 65 English-eligible players in colour against a corpus of 2648. Bright rings mark the national-team pool (call-up 2024–26, 20 players).</figcaption>
     </figure>
     
     
     <figure class="figure-bleed" data-atlas="df" data-cluster-names='{"quality": {"C0": "Goal-scoring defenders in top-five leagues", "C1": "High-card-rate defenders", "C2": "High-assist defenders in top-five leagues", "C3": "Older defenders", "C4": "Young low-minute defenders", "C5": "Everyday starting defenders"}, "style": {"C0": "Everyday starting defenders", "C1": "High-card-rate defenders", "C2": "Young low-minute defenders", "C3": "Goal-scoring defenders", "C4": "Older defenders", "C5": "High-assist defenders with high playing time"}}'>
       <img src="atlas_DF.svg"
-           alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 55 English-eligible players by cluster; oxblood rings mark the 17 with a national-team call-up 2024–26.">
-      <figcaption>Atlas of defenders 2025/26 in both projections: 55 English-eligible players in colour against a corpus of 1947. Oxblood rings mark the national-team pool (call-up 2024–26, 17 players).</figcaption>
+           alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 55 English-eligible players by cluster; bright rings mark the 17 with a national-team call-up 2024–26.">
+      <figcaption>Atlas of defenders 2025/26 in both projections: 55 English-eligible players in colour against a corpus of 1947. Bright rings mark the national-team pool (call-up 2024–26, 17 players).</figcaption>
     </figure>
     
     
@@ -17758,7 +17769,7 @@
       <summary>Full method, figures and diagnostics</summary>
     <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do English players go when they leave?", reused here) — 691 players, ages 16–36 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the natural cubic spline branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
     <figure class="figure-bleed">
-      <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as oxblood points against every other peer export in grey, and a rug of every export's age along the axis.">
+      <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as acid points against every other peer export in grey, and a rug of every export's age along the axis.">
       <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Acid dots are English exports — hover for the name.</figcaption>
     </figure>
     <table class="kv-table">
@@ -19073,7 +19084,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-21 14:20</p>
+    <p class="rendered-at">Rendered: 2026-09-21 14:33</p>
   </div>
 </footer>
 
