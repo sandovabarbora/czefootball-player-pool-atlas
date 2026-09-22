@@ -210,7 +210,7 @@ sub(r'<body>\n', '<body id="top">\n' + TOPBAR, 1)
 EDITION_NAMES = {"cze": "Czechia", "eng": "England", "ger": "Germany", "den": "Denmark", "nor": "Norway", "esp": "Spain"}
 _others = " · ".join(f'<a href="{root}">The {EDITION_NAMES.get(code, code.upper())} edition</a>'
                      for code, root in ATLAS_ROOTS.items() if code != NATION)
-_more = f' · <a href="{P}atlas/">The player atlas</a>' + (' · <a href="/nations/">Nations, side by side</a>'
+_more = f' · <a href="{P}atlas/">The player atlas</a>' + (' · <a href="/nations/#take">Six nations: what to take from it</a>'
         if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists() else "")
 sub(r' · <a href="/(?:eng/)?">The (?:England|Czech) edition</a></p>', f' · {_others}{_more}</p>' if _others else f'{_more}</p>', 1)
 

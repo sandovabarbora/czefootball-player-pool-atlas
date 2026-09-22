@@ -45,6 +45,81 @@
   const colour = (code) => { if (code === HOME) return C.acid; if (!colourOf.has(code)) colourOf.set(code, PALETTE[colourOf.size % PALETTE.length]); return colourOf.get(code); };
   const nameOf = (code) => (D.countries[code] || {}).name || code;
 
+  // ------------------------------------------------------------ 0 · what to take from it — the conclusions, written from the data
+  function renderTakeaways() {
+    const box = root.querySelector('[data-nx-takeaways]'); if (!box || !hasD3) return;
+    const L = D.long_run, R = D.recent, homeEd = D.editions.find((e) => e.code === HOME);
+    const name = (c) => esc(nameOf(c));
+    const items = [];
+    // 1 · the long run: who fell and did not come back
+    if (L && L.countries[HOME] && L.countries[HOME].breaks) {
+      const bigFive = new Set(['ENG', 'FRA', 'GER', 'ESP', 'ITA']);
+      const steps = (v) => [v.breaks.fall, v.breaks.other].map((s) => ({ season: s.season, factor: s.factor, kind: s.factor > 1 ? 'rise' : 'fall' })).sort((a, b) => (a.season < b.season ? -1 : 1));
+      const small = Object.entries(L.countries).filter(([c, v]) => !bigFive.has(c) && v.breaks);
+      const h = L.countries[HOME], hs = steps(h), n = h.n;
+      const peak = Math.max(...n), peakS = L.seasons[n.indexOf(peak)];
+      const endsInFall = small.filter(([, v]) => steps(v)[1].kind === 'fall').map(([c]) => c);
+      const cameBack = small.filter(([, v]) => { const [a, b] = steps(v); return a.kind === 'fall' && b.kind === 'rise' && b.factor >= 1.2; });
+      if (hs[1].kind === 'fall') {
+        const others = endsInFall.filter((c) => c !== HOME);
+        items.push({
+          head: `${name(HOME)} is ${others.length ? 'one of ' + (others.length + 1) + ' small nations' : 'the one small nation'} whose Big-5 presence fell and has not come back.`,
+          body: `It rose in ${short(hs[0].season)} (×${f2(hs[0].factor)}) and fell in ${short(hs[1].season)} (×${f2(hs[1].factor)}); ${n[n.length - 1]} players with 450+ Big-5 minutes now against ${peak} at the ${short(peakS)} peak. ${cameBack.length ? `${cameBack.map(([c, v]) => { const [a, b] = steps(v); return `${name(c)} fell too (${short(a.season)}) and came back ${+b.season.slice(0, 4) - +a.season.slice(0, 4)} seasons later`; }).join('; ')}. ` : ''}Every other small peer's later step is a rise.`,
+        });
+      } else {
+        items.push({ head: `${name(HOME)}'s Big-5 presence: ${hs.map((s) => `${s.kind} in ${short(s.season)} (×${f2(s.factor)})`).join(', then ')}.`,
+          body: `${n[n.length - 1]} players with 450+ Big-5 minutes now, ${peak} at the ${short(peakS)} peak.` });
+      }
+    }
+    // 2 · the decomposition: one problem or two
+    if (homeEd && homeEd.decomposition.contrasts.length) {
+      const cs = homeEd.decomposition.contrasts.map((c) => ({ c, top: c.channels.slice().sort((a, b) => b.contribution - a.contribution)[0] }));
+      const tops = [...new Set(cs.map((x) => x.top.name))];
+      const behind = cs.filter((x) => x.c.gap_total > 0);
+      if (behind.length) {
+        const clause = behind.map((x) => `against ${name(x.c.contrast)} ${CHANNEL[x.top.name]} carries ${x.top.share != null ? pct(x.top.share) : 'most'} of a ${x.c.gap_total.toFixed(1)}-per-million gap`).join('; ');
+        items.push({
+          head: tops.length > 1 ? `Two problems at once, not one: which mechanism carries the gap depends on the peer.` : `One mechanism carries the gap to every peer: ${CHANNEL[tops[0]]}.`,
+          body: `${clause.charAt(0).toUpperCase() + clause.slice(1)}. ${tops.length > 1 ? 'They add up rather than compete: a league that gives its young few minutes and is weak besides loses on both counts.' : ''}`,
+        });
+      }
+    }
+    // 3 · the trend: six seasons at home, and what moved with it
+    if (R && R.leagues[HOME] && L) {
+      const S = R.seasons, v = R.leagues[HOME].u21_share, a = v.find((x) => x != null), b = v.slice().reverse().find((x) => x != null);
+      const i0 = L.seasons.indexOf(S[0]), i1 = L.seasons.indexOf(S[S.length - 1]);
+      const pmChange = (c) => (L.countries[c] && i0 >= 0 && i1 >= 0 ? L.countries[c].per_million[i1] - L.countries[c].per_million[i0] : null);
+      const peers = (homeEd ? homeEd.decomposition.contrasts.map((c) => c.contrast) : []).filter((c) => R.leagues[c]);
+      const peerText = peers.map((c) => { const pv = R.leagues[c].u21_share, pa = pv.find((x) => x != null), pb = pv.slice().reverse().find((x) => x != null); const d = pmChange(c); return `${name(c)} ${pct(pa, 0)} → ${pct(pb, 0)}${d != null ? ` and ${d >= 0 ? '+' : ''}${f1(d)} per million in the Big-5` : ''}`; }).join('; ');
+      const dHome = pmChange(HOME);
+      if (a != null && b != null) items.push({
+        head: `The trend runs ${b < a ? 'the wrong' : 'the right'} way: ${name(HOME)}'s own under-21s went from ${pct(a, 0)} to ${pct(b, 0)} of home-league minutes in ${S.length} seasons.`,
+        body: `Over the same seasons ${peerText}${dHome != null ? `; ${name(HOME)} ${dHome === 0 ? 'no change' : (dHome > 0 ? '+' : '') + f1(dHome)} per million` : ''}. Across the ${Object.keys(R.leagues).length} covered leagues the change in youth minutes and the change in Big-5 presence lean the same way — a weak signal with the right sign, not a law.`,
+      });
+    }
+    // 4 · the causal reading, on the one documented case the data can follow
+    if (L && L.youth && D.reforms.length) {
+      const cases = D.reforms.map((r) => {
+        const Y = L.youth[r.country]; if (!Y) return null;
+        const i = L.seasons.indexOf(r.season); if (i < 0) return null;
+        const before = Y.own_u21_share[Math.max(0, i - 1)], after = Y.own_u21_share.slice(i, i + 12).filter((x) => x != null);
+        const peakAfter = after.length ? Math.max(...after) : null, peakIdx = peakAfter != null ? Y.own_u21_share.indexOf(peakAfter, i) : -1;
+        const now = Y.own_u21_share.slice().reverse().find((x) => x != null);
+        return { r, before, peakAfter, now, peakSeason: peakIdx >= 0 ? L.seasons[peakIdx] : null, rose: peakAfter != null && before != null && peakAfter >= before * 1.5, held: now != null && before != null && now >= before * 1.5 };
+      }).filter(Boolean);
+      const worked = cases.filter((c) => c.rose), flat = cases.filter((c) => !c.rose);
+      const text = [
+        ...worked.map((c) => `${name(c.r.country)} after its ${c.r.label} (${short(c.r.season)}): its own under-21s' share of ${esc(L.youth[c.r.country].league.replace(/^[A-Z]{3}-/, ''))} minutes went from ${pct(c.before, 0)} to ${pct(c.peakAfter, 0)} by ${short(c.peakSeason)}${c.held ? ` and is ${pct(c.now, 0)} now — the turn held` : ` but is ${pct(c.now, 0)} now — the turn did not hold`}`),
+        ...flat.map((c) => `${name(c.r.country)} after its ${c.r.label} (${short(c.r.season)}): no such turn (${pct(c.before, 0)} before, ${pct(c.peakAfter, 0)} at best after)`),
+      ].join('. ');
+      items.push({
+        head: `Can a reform cause it? The data can follow ${cases.length === 1 ? 'one documented case' : cases.length + ' documented cases'}, and only as a sequence.`,
+        body: `${text}. A sequence in one country against none in another is the strongest thing this data can say; it is not a counterfactual. Read as a heuristic: minutes for the young at home are the lever a federation holds, the effect is counted in seasons, and a weaker league yields less from it.`,
+      });
+    }
+    box.innerHTML = items.map((it, i) => `<div class="nx-take"><p class="nx-take-n">${i + 1}</p><div><p class="nx-take-head">${it.head}</p><p class="nx-take-body">${it.body}</p></div></div>`).join('');
+  }
+
   // ------------------------------------------------------------ A · side by side
   function renderTable() {
     const box = root.querySelector('[data-nx-table]'); if (!box) return;
@@ -397,7 +472,7 @@
     if (!data || !data.editions) { root.querySelectorAll('[data-nx-table],[data-nx-decomp]').forEach((b) => empty(b, 'the comparison data did not load')); return; }
     D = data;
     for (const e of D.editions) colour(e.code);
-    renderTable(); renderDecomp(); renderScatter(); renderRecent(); renderLongRun(); renderDebut(); renderYouth();
+    renderTakeaways(); renderTable(); renderDecomp(); renderScatter(); renderRecent(); renderLongRun(); renderDebut(); renderYouth();
     let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { renderScatter(); renderRecent(); renderLongRun(); renderDebut(); renderYouth(); }, 150); });
   }).catch((e) => { console.warn('nations failed', e); root.querySelectorAll('[data-nx-table]').forEach((b) => empty(b, 'the comparison data did not load')); });
 })();
