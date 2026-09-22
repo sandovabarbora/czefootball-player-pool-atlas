@@ -110,6 +110,15 @@ def edition_summary(nation: str) -> dict | None:
                           "channels": [{"name": ch["name"], "contribution": ch["contribution"], "share": ch["share"]} for ch in c["channels"]]})
     brk = (sm or {}).get("break") or {}
     series = (b5 or {}).get("countries", {}).get(code, {})
+    # where the covered era's exports left from (charts/generations.json, src.careers_export)
+    gen_path = config.ROOT_DIR / "outputs" / nation / "charts" / "generations.json"
+    origins = None
+    if gen_path.exists():
+        o = json.loads(gen_path.read_text(encoding="utf-8")).get("origins") or {}
+        if o.get("n"):
+            top2 = sum(c["n"] for c in o["clubs"][:2])
+            origins = {"n": o["n"], "n_clubs": len(o["clubs"]), "top2_share": round(top2 / o["n"], 3), "top2": [c["club"] for c in o["clubs"][:2]],
+                       "from": o.get("from"), "to": o.get("to")}
     return {
         "nation": nation, "code": code, "name": cfg["name"], "adjective": cfg["adjective"],
         "population_m": cfg["population_m"], "home_league": cfg["home_league"], "domestic_league": cfg["domestic_league"],
@@ -132,6 +141,7 @@ def edition_summary(nation: str) -> dict | None:
                            "factor": brk["rise"]["delta_factor"]["median"]}
                           if brk.get("rise") and brk["rise"]["delta_factor"]["median"] > 1 else None)},
         "decomposition": {"contrasts": contrasts, "coefficients": (gap or {}).get("coefficients"), "n": (gap or {}).get("n")},
+        "origins": origins,
         # the youth-share link measured two ways (src.youth_panel): across
         # countries, and within countries season to season -- the second is
         # the one that would speak to change, and is the honest zero so far
@@ -421,6 +431,17 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
             is_weak = r_n[0] > (r_n[1] + 1) // 2
             (weak if is_weak else fine).append(f"how many leave at all: {h['first_move_n']} first moves in the covered seasons ({name(r_n[2][0])} {r_n[2][1]})")
             if is_weak: labels.append("how many leave at all")
+        # the breadth of the ladder: how many clubs the exports leave from (only editions whose home league is not itself top-9)
+        og = ed.get("origins")
+        if og and og["n"] >= 10:
+            others = [(e["code"], e["origins"]) for e in editions if e.get("origins") and e["origins"]["n"] >= 10 and e["code"] != home]
+            wide = sorted(others, key=lambda kv: kv[1]["top2_share"])[:1]
+            line = (f"how many clubs the exports leave from: {_pct(og['top2_share'])} of the {og['n']} players who went from the home league to a top-9 league since {_short(og['from'])} "
+                    f"left from {' or '.join(og['top2'])}" + (f" ({name(wide[0][0])}: {_pct(wide[0][1]['top2_share'])} from its top two, {wide[0][1]['n']} exports in all)" if wide else ""))
+            if og["top2_share"] >= 0.45:
+                weak.append(line); labels.append("the breadth of the ladder")
+            else:
+                fine.append(line)
         if weak:
             body = f"Out of line: {'; '.join(weak)}." + (f"\n\nNot the problem: {'; '.join(fine)}." if fine else "") + "\n\n"
             # what the peers show is reachable, on the mechanisms where the home nation trails
