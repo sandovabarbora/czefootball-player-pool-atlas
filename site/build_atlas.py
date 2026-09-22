@@ -30,7 +30,7 @@ if nation_yaml.exists():
     ADJ = yaml.safe_load(nation_yaml.read_text(encoding="utf-8"))["adjective"]
 else:
     ADJ = "Czech"
-SITE = "https://football.datasimply.eu/"
+SITE = "https://football.bsandova.com/"
 ATLAS_ROOTS = {"cze": "/", "eng": "/eng/", "ger": "/ger/", "den": "/den/", "nor": "/nor/", "esp": "/esp/"}
 # only editions that are actually built are offered in the switch (a nation
 # whose docs/<nation>/index.html does not exist yet would be a dead link)

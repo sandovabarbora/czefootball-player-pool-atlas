@@ -48,7 +48,7 @@ _PLAYERS_PATH = Path(__file__).with_name(f"players.{NATION}.json")
 # missing from PLAYERS, so an empty dict here just means every player does.
 PLAYERS = json.load(open(_PLAYERS_PATH, encoding="utf-8")) if _PLAYERS_PATH.exists() else {}
 BY_KEY = {v["player_key"]: dict(v, fbref_id=k) for k, v in PLAYERS.items()}
-SITE = "https://football.datasimply.eu/"
+SITE = "https://football.bsandova.com/"
 # Home-nation words the site layer needs outside the report's own i18n
 # (this script runs standalone -- see the module docstring). Reads
 # config/nations/<NATION>.yaml directly rather than importing src.config so

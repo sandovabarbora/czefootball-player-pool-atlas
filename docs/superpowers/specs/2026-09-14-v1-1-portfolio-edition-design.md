@@ -136,4 +136,4 @@ the site is redeployed after each so the portfolio link is never broken.
   both languages; five card rules; GK table and cards; Bayesian chapter with
   convergence diagnostics and the validation exhibit; 25-year series exhibit;
   sensitivity slider; tests green; snapshot updated; README updated;
-  `football.datasimply.eu` serves it over HTTPS.
+  `football.bsandova.com` serves it over HTTPS.

@@ -28,7 +28,7 @@ from src.utils import cached_text, normalize_name, write_parquet
 
 LOG = logging.getLogger(__name__)
 
-USER_AGENT = "czefootball-player-pool-atlas/1.0 (barbora@datasimply.eu)"
+USER_AGENT = "czefootball-player-pool-atlas/1.0 (hello@bsandova.com)"
 DOB_RE = re.compile(r"\(\d{4}-\d{2}-\d{2}\)|\d{1,2} \w+ (?:19|20)\d{2}")
 YEAR_RE = re.compile(r"(19|20)\d{2}")
 

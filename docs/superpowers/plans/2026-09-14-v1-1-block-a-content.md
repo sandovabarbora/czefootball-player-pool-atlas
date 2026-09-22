@@ -491,7 +491,7 @@ def test_how_built_section_counts_tests_and_rulings():
 ### Task 8 (controller): site build, snapshot, deploy
 
 - [ ] `make pages`; check `docs/index.html` and `docs/cs/index.html` (findings block, exhibit F, 15 cards, data-quality log, how-built); phone width sanity via the existing site test.
-- [ ] `make snapshot`; commit snapshot; final whole-branch review (opus) + one fix wave; merge `v1.1` → `main` (ff), push; verify `https://football.datasimply.eu`.
+- [ ] `make snapshot`; commit snapshot; final whole-branch review (opus) + one fix wave; merge `v1.1` → `main` (ff), push; verify `https://football.bsandova.com`.
 
 ## Self-review
 

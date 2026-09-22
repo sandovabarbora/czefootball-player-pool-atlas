@@ -1,10 +1,10 @@
 # Czech Football — Player Pool Atlas
 
-Live at **[football.datasimply.eu](https://football.datasimply.eu)**. Editions for
+Live at **[football.bsandova.com](https://football.bsandova.com)**. Editions for
 England (`/eng/`), Germany (`/ger/`), Denmark (`/den/`), Norway (`/nor/`) and
 Spain (`/esp/`) run the same pipeline on another nationality code; each has
 its own player atlas (`/<edition>/atlas/`), and
-**[/nations/](https://football.datasimply.eu/nations/)** puts the editions
+**[/nations/](https://football.bsandova.com/nations/)** puts the editions
 side by side.
 
 ## What it is
@@ -259,5 +259,5 @@ each under its own CC licence — see the credit list in the page footer
 
 ## Contact
 
-Barbora Šandová · barbora@datasimply.eu ·
+Barbora Šandová · hello@bsandova.com ·
 [linkedin.com/in/sandovabarbora](https://linkedin.com/in/sandovabarbora)
