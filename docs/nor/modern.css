@@ -1092,3 +1092,5 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .nx-refs li { margin-bottom: 0.4rem; }
 .nx-page .ax-chart .chart-controls, .nx-page .ax-chart > .chart-row { margin: 0 0 var(--space-2); }
 @media (max-width: 640px) { .nx-bar { grid-template-columns: 1fr; gap: 0.2rem; } .nx-bar-val { text-align: left; } }
+/* a reference's archive URL must wrap on a phone, not widen the page */
+.references-list, .references-list li, .references-list a { overflow-wrap: anywhere; }

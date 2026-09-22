@@ -214,6 +214,21 @@ _more = f' · <a href="{P}atlas/">The player atlas</a>' + (' · <a href="/nation
         if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists() else "")
 sub(r' · <a href="/(?:eng/)?">The (?:England|Czech) edition</a></p>', f' · {_others}{_more}</p>' if _others else f'{_more}</p>', 1)
 
+# ---------------------------------------------------------------- the pool rows ride in a sidecar
+# The 440-odd pool rows (each with its profile and card) are half the page
+# and sit in a closed fold most readers never open: the rows go to
+# pool_rows.html next to the page and docs/atlas.js fetches them when the
+# fold opens (or a ?player= link asks for one). The report's own render in
+# outputs/ keeps the full list; a reader without scripts gets a link to it.
+_pool_m = re.search(r'<ol class="pool-rows">\n(.*?)\n          </ol>', html, re.S)
+if _pool_m:
+    (SRC.parent / "pool_rows.html").write_text(_pool_m.group(1) + "\n", encoding="utf-8")
+    sub(r'<ol class="pool-rows">\n.*?\n          </ol>',
+        lambda m: f'<ol class="pool-rows" data-pool-src="{P}pool_rows.html"></ol>\n          <noscript><p class="pool-empty"><a href="{P}pool_rows.html">The full list, as a plain page</a></p></noscript>',
+        1, flags=re.S)
+else:
+    fails.append(("pool rows", 0, 1))
+
 # ---------------------------------------------------------------- what to take from it: the conclusions, first
 # Written from the data by src.nations_compare for this home nation; placed
 # between the hero and the quick read, so the page opens on the answer.

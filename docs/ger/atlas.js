@@ -371,11 +371,25 @@
   if (!pool) return;
   var search = pool.querySelector('[data-pool-search]');
   var selects = pool.querySelectorAll('[data-pool-filter]');
+  var list = pool.querySelector('.pool-rows');
   var rows = pool.querySelectorAll('.pool-rows > li');
   var count = pool.querySelector('[data-pool-count]');
   var empty = pool.querySelector('[data-pool-empty]');
   var template = count ? count.textContent : '';
   var fold = pool.closest('details');
+  // the rows live in a sidecar (site/enrich_index.py) and arrive when the fold opens
+  var src = list && list.getAttribute('data-pool-src'), loading = null;
+  function ensureRows(then) {
+    if (!src || rows.length) { then(); return; }
+    if (!loading) {
+      loading = fetch(src).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
+        list.innerHTML = t; rows = pool.querySelectorAll('.pool-rows > li');
+        if (!rows.length && empty) { empty.hidden = false; empty.textContent = 'the list did not load'; }
+      }).catch(function () { if (empty) { empty.hidden = false; empty.textContent = 'the list did not load'; } });
+    }
+    loading.then(then);
+  }
+  if (src && fold) fold.addEventListener('toggle', function () { if (fold.open) ensureRows(apply); });
 
   function fold_accents(s) {
     return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -396,8 +410,8 @@
     if (count) count.textContent = template.replace(/^\d+/, String(shown));
     if (empty) empty.hidden = shown !== 0;
   }
-  search.addEventListener('input', apply);
-  selects.forEach(function (sel) { sel.addEventListener('change', apply); });
+  search.addEventListener('input', function () { ensureRows(apply); });
+  selects.forEach(function (sel) { sel.addEventListener('change', function () { ensureRows(apply); }); });
 
   // a #pool?q=name link (or the site search) opens the fold and pre-fills
   // the box, so a reader can be sent straight to one player
@@ -405,7 +419,7 @@
   if (m) {
     if (fold) fold.open = true;
     search.value = decodeURIComponent(m[1]);
-    apply();
+    ensureRows(apply);
   }
 })();
 
