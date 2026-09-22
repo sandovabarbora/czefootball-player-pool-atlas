@@ -938,7 +938,7 @@ strings:
   lim.scope.title: "Žádné tržní hodnoty, žádný skauting"
   lim.scope.body: "Přestupové částky, tržní hodnoty, video a skautské zprávy jsou mimo zde použité veřejné zdroje. Mapa popisuje statistické otisky a počty; nominační a rozvojová rozhodnutí vyžadují vlastní data a expertizu svazu, které tato metoda nemá."
   lim.tracking.title: "Žádná eventová ani trackingová data"
-  lim.tracking.body: "Každá featura tady je sezónní agregát z bezplatných tabulek FBref. Trackingová práce autorky žije jinde: <a href=\"https://github.com/sandovabarbora/tactical-cz\">tactical-cz</a> (sledování hráčů z broadcast videa pro český fotbal) a hokejový video PoC odkazovaný z <a href=\"https://hockey.datasimply.eu\">hockey.datasimply.eu</a>. Nové sloupce přibývají ve <code>src/features.py::per90</code> a v seznamu featur <code>config/feature_definitions.yaml</code>."
+  lim.tracking.body: "Každá featura tady je sezónní agregát z bezplatných tabulek FBref. Trackingová práce autorky žije jinde: <a href=\"https://github.com/sandovabarbora/tactical-cz\">tactical-cz</a> (sledování hráčů z broadcast videa pro český fotbal) a hokejový video PoC odkazovaný z <a href=\"https://hockey.bsandova.com\">hockey.bsandova.com</a>. Nové sloupce přibývají ve <code>src/features.py::per90</code> a v seznamu featur <code>config/feature_definitions.yaml</code>."
 
   # ---- generated: sensitivity descriptions
   sens.baseline: "současné násobičky z config/league_quality.yaml"

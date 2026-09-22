@@ -26,7 +26,7 @@ from src.utils import cached_text
 
 LOG = logging.getLogger(__name__)
 
-USER_AGENT = "czefootball-player-pool-atlas/1.0 (barbora@datasimply.eu)"
+USER_AGENT = "czefootball-player-pool-atlas/1.0 (hello@bsandova.com)"
 UEFA_COEFFICIENT_URL = "https://en.wikipedia.org/wiki/UEFA_coefficient"
 
 # Association name, as it appears on the Wikipedia table before any trailing

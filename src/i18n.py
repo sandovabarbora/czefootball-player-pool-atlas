@@ -1062,7 +1062,7 @@ EN: dict[str, str] = {
     "lim.scope.title": "No market values, no scouting",
     "lim.scope.body": "Transfer fees, market values, video and scouting reports are outside the public sources used here. The map describes statistical footprints and counts; selection and development decisions require the federation's own data and expertise, which this method does not have.",
     "lim.tracking.title": "No event or tracking data",
-    "lim.tracking.body": "Every feature here is a season aggregate from free FBref tables. The author's tracking work lives elsewhere: <a href=\"https://github.com/sandovabarbora/tactical-cz\">tactical-cz</a> (broadcast-video player tracking for Czech football) and the hockey video PoC linked from <a href=\"https://hockey.datasimply.eu\">hockey.datasimply.eu</a>. New columns enter in <code>src/features.py::per90</code> and the feature list in <code>config/feature_definitions.yaml</code>.",
+    "lim.tracking.body": "Every feature here is a season aggregate from free FBref tables. The author's tracking work lives elsewhere: <a href=\"https://github.com/sandovabarbora/tactical-cz\">tactical-cz</a> (broadcast-video player tracking for Czech football) and the hockey video PoC linked from <a href=\"https://hockey.bsandova.com\">hockey.bsandova.com</a>. New columns enter in <code>src/features.py::per90</code> and the feature list in <code>config/feature_definitions.yaml</code>.",
 
     # ---- generated: sensitivity descriptions
     "sens.baseline": "current multipliers from config/league_quality.yaml",
