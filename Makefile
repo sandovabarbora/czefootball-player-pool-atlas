@@ -23,7 +23,7 @@ help:
 	@echo "  edition          Everything for one nation in order, then the site (NATION=<code>; ~1 h, FBref-paced)"
 	@echo "  nations          Cross-nation export (outputs/nations/nations.json) for the /nations/ page"
 	@echo "  pool             Build the home-nation-eligible player pool"
-	@echo "  photos           Fetch Wikimedia portraits for the pool (needs pool.parquet)"
+	@echo "  photos           Portraits for the pool: Commons, then the official league sources (Chance Liga, Premier League, Bundesliga, LaLiga, Ligue 1)"
 	@echo "  features         Build position-specific feature vectors + season trajectories"
 	@echo "  reduce           Run PCA + UMAP + KMeans"
 	@echo "  benchmark        Per-capita benchmark, cohort table and heatmap"
@@ -76,6 +76,11 @@ pool:
 
 photos:
 	$(ACT) python -m src.fetch_photos
+	$(ACT) python -m src.fetch_photos_league
+	$(ACT) python -m src.fetch_photos_pl
+	$(ACT) python -m src.fetch_photos_bl
+	$(ACT) python -m src.fetch_photos_laliga
+	$(ACT) python -m src.fetch_photos_l1
 
 features:
 	$(ACT) python -m src.features
@@ -219,6 +224,11 @@ edition:
 	$(ACT) python -m src.fetch_roles
 	$(ACT) python -m src.pool
 	$(ACT) python -m src.fetch_photos
+	$(ACT) python -m src.fetch_photos_league
+	$(ACT) python -m src.fetch_photos_pl
+	$(ACT) python -m src.fetch_photos_bl
+	$(ACT) python -m src.fetch_photos_laliga
+	$(ACT) python -m src.fetch_photos_l1
 	$(ACT) python -m src.features
 	$(ACT) python -m src.trajectory
 	$(ACT) python -m src.reduce
