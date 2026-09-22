@@ -88,7 +88,8 @@ if has_eras:
     eras_lead = f" A second view follows the nation in the five biggest leagues season by season since {first_era}, and {n_past} past players can be pulled into the list."
     tabs = ('<div class="ax-tabs" role="tablist" data-ax-tabs>'
             '<button type="button" role="tab" class="ax-tab" data-ax-view="players" aria-selected="true">Players</button>'
-            f'<button type="button" role="tab" class="ax-tab" data-ax-view="eras" aria-selected="false">The nation in the Big-5, {first_era}–</button></div>')
+            f'<button type="button" role="tab" class="ax-tab" data-ax-view="eras" aria-selected="false">The nation in the Big-5, {first_era}–</button>'
+            '<button type="button" role="tab" class="ax-tab" data-ax-view="gen" aria-selected="false">Generations</button></div>')
     past_control = f'<label class="pool-control ax-check"><input type="checkbox" data-ax-past> include past players ({n_past}, Big-5 since {first_era})</label>'
 else:
     eras_kicker = eras_lead = tabs = past_control = ""
@@ -129,6 +130,7 @@ HTML = f'''<!DOCTYPE html>
     {tabs}
   </header>
   <section class="ax-eras" data-ax-view-eras hidden aria-label="The nation in the Big-5"></section>
+  <section class="ax-eras" data-ax-view-gen hidden aria-label="Generations"></section>
   <div class="ax-body" data-ax-view-players>
     <aside class="ax-side" aria-label="Players">
       <div class="ax-controls">

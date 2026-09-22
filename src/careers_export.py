@@ -148,6 +148,53 @@ def careers(tables: pd.DataFrame, pool: pd.DataFrame, nt: pd.DataFrame, mult: di
     return out
 
 
+def generations(big5: pd.DataFrame, tables: pd.DataFrame, cfg: dict, min_minutes: int, metrics: str) -> dict:
+    """The home nation by birth year: how many of each cohort ever had a
+    Big-5 season of `min_minutes`, at what age the first came, and who --
+    the generation behind the peak and the gap behind it, in one table.
+    The Big-5 history starts in the mid-1990s, so cohorts born before about
+    1972 are cut off on the left (a player born in 1965 who left the Big-5
+    before 1995 is not seen); the youngest cohorts are still arriving.
+    And where the covered era's exports come from: the last home-league
+    club before a player's first headline-league season."""
+    h = big5[big5.nation == config.HOME]
+    per = h.groupby(["player_key", "season"], as_index=False)["min"].sum()
+    per = per[per["min"] >= min_minutes]
+    born = h.groupby("player_key")["born"].first()
+    name = h.groupby("player_key")["player"].first()
+    minutes = h.groupby("player_key")["min"].sum()
+    first = per.groupby("player_key")["season"].min()
+    year_end = int(metrics[:4]) + 1
+    rows = []
+    if len(first):
+        df = pd.DataFrame({"born": born.reindex(first.index), "first": first, "min": minutes.reindex(first.index), "name": name.reindex(first.index)}).dropna(subset=["born"])
+        df["born"] = df["born"].astype(int)
+        df["age"] = df["first"].str.slice(0, 4).astype(int) - df["born"]
+        y0 = max(int(df.born.min()), int(big5.season.min()[:4]) - 24)
+        for y in range(y0, year_end - 17):
+            g = df[df.born == y].sort_values("min", ascending=False)
+            rows.append({"born": y, "n": int(len(g)), "first_age": None if g.empty else float(g["age"].median()),
+                         "names": [{"key": k, "name": r["name"], "min": int(r["min"]), "first": r["first"], "age": int(r["age"])} for k, r in g.head(6).iterrows()],
+                         "left_censored": y < int(big5.season.min()[:4]) - 20, "right_censored": y > year_end - 24})
+    # where the covered era's exports come from
+    headline, domestic = set(cfg["headline"]), config.DOMESTIC_LEAGUE
+    t = tables[tables.player_key.isin(set(tables[tables.league == domestic].player_key))]
+    first_head = t[t.league.isin(headline)].groupby("player_key")["season"].min()
+    origins = []
+    for key, s in first_head.items():
+        home_before = t[(t.player_key == key) & (t.league == domestic) & (t.season < s)]
+        if home_before.empty:
+            continue
+        last = home_before.sort_values(["season", "min"]).iloc[-1]
+        origins.append({"key": key, "name": last["player"], "club": last["team"], "season": s, "born": None if pd.isna(last["born"]) else int(last["born"])})
+    by_club = {}
+    for o in origins:
+        by_club.setdefault(o["club"], []).append(o)
+    clubs = sorted(({"club": c, "n": len(v), "players": sorted(v, key=lambda o: o["season"])} for c, v in by_club.items()), key=lambda x: -x["n"])
+    return {"home": config.HOME, "min_minutes": min_minutes, "history_from": big5.season.min(), "cohorts": rows,
+            "origins": {"from": tables.season.min(), "to": metrics, "clubs": clubs, "n": len(origins)}}
+
+
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     p, cfg = config.PROCESSED_DIR, config.leagues()
@@ -182,6 +229,8 @@ def main() -> None:
     past = careers(tables, past_players(big5, pool, floor), nt, mult, cfg, floor, {})
     (out / "careers_history.json").write_text(json.dumps(
         {"home": config.HOME, "first_season": min(big5.season), "players": past}, separators=(",", ":"), ensure_ascii=False))
+    (out / "generations.json").write_text(json.dumps(
+        generations(big5, seasons_table(players, history), cfg, floor, pt.get("season") or max(players.season)), separators=(",", ":"), ensure_ascii=False))
     (out / "eras.json").write_text(json.dumps(
         {"home": config.HOME, "seasons": eras(big5), "metrics_season": pt.get("season")}, separators=(",", ":"), ensure_ascii=False))
     LOG.info("history: %d past players, %d seasons of the nation in the Big-5", len(past), big5.season.nunique())

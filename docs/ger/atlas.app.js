@@ -46,11 +46,12 @@
   let open = [];                       // player keys shown in the detail panel
   let view = 'players';                // or 'eras': the nation in the Big-5 since the history starts
   let eraSeason = null;                // the season opened in the eras view
-  let HIST = null, ERAS = null;        // charts/careers_history.json, charts/eras.json — loaded when asked for
+  let HIST = null, ERAS = null, GEN = null;   // charts/careers_history.json, eras.json, generations.json — loaded when asked for
   const ui = {
     tabs: root.querySelector('[data-ax-tabs]'),
     players: root.querySelector('[data-ax-view-players]'),
     eras: root.querySelector('[data-ax-view-eras]'),
+    gen: root.querySelector('[data-ax-view-gen]'),
     past: root.querySelector('[data-ax-past]'),
     q: root.querySelector('[data-ax-search]'),
     pos: root.querySelector('[data-ax-pos]'),
@@ -362,6 +363,82 @@
     box.appendChild(leg);
   }
 
+  // ------------------------------------------------------------ generations: the nation by birth year, and where the exports come from
+  function loadGen() { return loadJson('generations').then((g) => { GEN = g && Array.isArray(g.cohorts) ? g : { cohorts: [], origins: { clubs: [] } }; return GEN; }); }
+  function renderGen() {
+    const box = ui.gen; if (!box) return;
+    if (!GEN) { box.replaceChildren(); empty(box, 'loading the generations…'); return; }
+    const C_ = GEN.cohorts.filter((c) => !c.left_censored);
+    if (!C_.length) { box.replaceChildren(); empty(box, 'no Big-5 history for this nation'); return; }
+    // the strongest run of five birth years and the weakest since, for the statement
+    const win = (arr, i) => arr.slice(i, i + 5).reduce((a, c) => a + c.n, 0);
+    const settled = C_.filter((c) => !c.right_censored);
+    let best = 0; for (let i = 0; i + 5 <= settled.length; i++) if (win(settled, i) > win(settled, best)) best = i;
+    let worst = best; for (let i = best; i + 5 <= settled.length; i++) if (win(settled, i) < win(settled, worst)) worst = i;
+    const b0 = settled[best], b4 = settled[best + 4], w0 = settled[worst], w4 = settled[worst + 4];
+    const O = GEN.origins || { clubs: [] }, top = O.clubs.slice(0, 2), topN = top.reduce((a, c) => a + c.n, 0);
+    box.innerHTML =
+      `<p class="ax-kicker">generations · born ${C_[0].born}–${C_[C_.length - 1].born}</p>` +
+      `<h2 class="ax-statement">${esc(HOME_NAME)} players who reached a ${fmtInt(GEN.min_minutes)}-minute Big-5 season, by year of birth: ${win(settled, best)} from the ${b0.born}–${b4.born} cohorts, ${win(settled, worst)} from ${w0.born}–${w4.born}.</h2>` +
+      `<div class="ax-chart" data-ax-gen-chart></div>` +
+      `<p class="ax-note">How to read it: one bar per birth year, its height the players of that cohort who ever had a Big-5 season of ${fmtInt(GEN.min_minutes)}+ minutes (hover for the names); the line is the cohort's median age at that first season. Dimmed bars on the right are cohorts still arriving; the history starts in ${short(GEN.history_from)}, so cohorts born before ${C_[0].born} are not shown.</p>` +
+      `<div class="ax-era" data-ax-gen-list></div>` +
+      (O.clubs.length ? `<h3 class="ax-era-title">Where the exports come from, ${short(O.from)}–${short(O.to)}</h3>` +
+        `<p class="ax-statement" style="font-size:1.2rem">${O.n} players went from the home league to a top-9 league in the covered seasons; ${topN} of them (${Math.round((100 * topN) / O.n)} %) left from ${top.map((c) => esc(c.club)).join(' or ')}.</p>` +
+        `<div class="ax-chart" data-ax-gen-origins></div>` +
+        `<p class="ax-note">How to read it: the last home-league club before a player's first season in a top-9 league (the nine strongest, incl. the Dutch, Portuguese, Belgian and Turkish top flights), for every pool player whose first such season fell in the covered seasons. A ladder with two rungs at the top is a narrow ladder.</p>` : '');
+    if (hasD3) requestAnimationFrame(() => { genChart(box.querySelector('[data-ax-gen-chart]'), C_); originsChart(box.querySelector('[data-ax-gen-origins]'), O); });
+  }
+  function genChart(box, C_) {
+    if (!box) return; box.replaceChildren();
+    const w = Math.max(320, box.clientWidth || 800), narrow = w < 640, H = 340, M = { t: 30, r: narrow ? 34 : 46, b: 34, l: 40 };
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'players reaching a Big-5 season by year of birth');
+    const x = d3.scaleBand().domain(C_.map((c) => String(c.born))).range([M.l, w - M.r]).paddingInner(0.25);
+    const y = d3.scaleLinear().domain([0, d3.max(C_, (c) => c.n) || 1]).nice().range([H - M.b, M.t]);
+    const ages = C_.filter((c) => c.first_age != null);
+    const y2 = d3.scaleLinear().domain([d3.min(ages, (c) => c.first_age) - 1, d3.max(ages, (c) => c.first_age) + 1]).range([H - M.b, M.t]);
+    const mono = (sel) => sel.attr('font-family', 'JetBrains Mono, monospace').attr('font-size', 10).attr('letter-spacing', '0.08em').attr('fill', C.muted);
+    const gy = svg.append('g').attr('transform', `translate(${M.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(w - M.l - M.r)));
+    gy.select('.domain').remove(); gy.selectAll('line').attr('stroke', C.rule).attr('stroke-dasharray', '2 3'); mono(gy.selectAll('text'));
+    const gx = svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).tickSize(0));
+    gx.select('.domain').attr('stroke', C.rule); mono(gx.selectAll('text')).attr('dy', '1.4em');
+    const every = Math.max(1, Math.ceil(34 / x.step())); if (every > 1) gx.selectAll('text').filter((d, i) => i % every !== 0).remove();
+    const g2 = svg.append('g').attr('transform', `translate(${w - M.r},0)`).call(d3.axisRight(y2).ticks(4).tickSize(0));
+    g2.select('.domain').remove(); mono(g2.selectAll('text')).attr('fill', C.violet);
+    mono(svg.append('text').attr('x', M.l).attr('y', 12)).text('PLAYERS WITH A BIG-5 SEASON');
+    mono(svg.append('text').attr('x', w - M.r).attr('y', 12).attr('text-anchor', 'end').attr('fill', C.violet)).text('MEDIAN AGE AT THE FIRST');
+    svg.append('g').selectAll('rect').data(C_).join('rect')
+      .attr('x', (c) => x(String(c.born))).attr('width', x.bandwidth()).attr('y', (c) => y(c.n)).attr('height', (c) => y(0) - y(c.n))
+      .attr('fill', C.hot).attr('opacity', (c) => (c.right_censored ? 0.35 : 0.9)).style('cursor', 'pointer')
+      .on('mousemove', (ev, c) => showTip(`<b>born ${c.born} · ${c.n} player${c.n === 1 ? '' : 's'}</b><span>${c.names.map((n) => `${esc(n.name)} (${short(n.first)}, at ${n.age})`).join('<br>')}${c.n > c.names.length ? '<br>…' : ''}</span>${c.right_censored ? '<span class="mono">still arriving</span>' : ''}`, ev.clientX, ev.clientY))
+      .on('mouseleave', hideTip).on('click', (ev, c) => renderGenList(c));
+    const line = d3.line().x((c) => x(String(c.born)) + x.bandwidth() / 2).y((c) => y2(c.first_age)).curve(d3.curveMonotoneX);
+    svg.append('path').datum(ages.filter((c) => !c.right_censored)).attr('d', line).attr('fill', 'none').attr('stroke', C.violet).attr('stroke-width', 1.5).attr('pointer-events', 'none');
+    const leg = document.createElement('p'); leg.className = 'ax-legend';
+    leg.innerHTML = `<span><i style="background:${C.hot}"></i>players of the cohort with a Big-5 season</span><span><i style="background:${C.hot};opacity:.35"></i>cohort still arriving</span><span><i class="ax-legend-line" style="border-color:${C.violet}"></i>median age at the first</span>`;
+    box.appendChild(leg);
+  }
+  function renderGenList(c) {
+    const el = ui.gen.querySelector('[data-ax-gen-list]'); if (!el) return;
+    el.innerHTML = `<h3 class="ax-era-title">born ${c.born} · ${c.n} player${c.n === 1 ? '' : 's'} with a Big-5 season</h3>` +
+      `<div class="ax-table-wrap"><table class="ax-table"><thead><tr><th>player</th><th class="num">first Big-5 season</th><th class="num">age</th><th class="num">Big-5 minutes</th></tr></thead><tbody>` +
+      c.names.map((n) => `<tr><td><a href="#p/${encodeURIComponent(n.key)}">${esc(n.name)}</a></td><td class="num mono">${short(n.first)}</td><td class="num">${n.age}</td><td class="num">${fmtInt(n.min)}</td></tr>`).join('') +
+      `</tbody></table></div>`;
+  }
+  function originsChart(box, O) {
+    if (!box || !O.clubs.length) return; box.replaceChildren();
+    const rows = O.clubs.slice(0, 14);
+    const w = Math.max(320, box.clientWidth || 800), rowH = 26, M = { t: 8, r: 40, b: 8, l: Math.min(200, w * 0.35) }, H = M.t + M.b + rows.length * rowH;
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'exports by club of origin');
+    const x = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.n)]).range([M.l, w - M.r]);
+    const mono = (sel) => sel.attr('font-family', 'JetBrains Mono, monospace').attr('font-size', 10).attr('letter-spacing', '0.08em').attr('fill', C.muted);
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r, i) => `translate(0,${M.t + i * rowH})`);
+    g.append('rect').attr('x', M.l).attr('y', 6).attr('width', (r) => x(r.n) - M.l).attr('height', rowH - 12).attr('fill', (r, i) => (i < 2 ? C.acid : C.hot)).attr('opacity', (r, i) => (i < 2 ? 0.95 : 0.7))
+      .on('mousemove', (ev, r) => showTip(`<b>${esc(r.club)} · ${r.n}</b><span>${r.players.map((p) => `${esc(p.name)} (${short(p.season)})`).join('<br>')}</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+    mono(g.append('text').attr('x', M.l - 8).attr('y', rowH / 2 + 4).attr('text-anchor', 'end').attr('fill', C.ink)).text((r) => r.club);
+    mono(g.append('text').attr('x', (r) => x(r.n) + 6).attr('y', rowH / 2 + 4).attr('fill', C.hot)).text((r) => r.n);
+  }
+
   // ------------------------------------------------------------ routing + wiring
   const loadJson = (name) => fetch(`../charts/${name}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   // the past players ride in a second file; merged into the list once, on request
@@ -380,6 +457,7 @@
   function readHash() {
     const e = location.hash.match(/^#eras(?:\/(\d{4}-\d{4}))?$/);
     if (e) { view = 'eras'; eraSeason = e[1] || eraSeason; return; }
+    if (/^#generations$/.test(location.hash)) { view = 'gen'; return; }
     view = 'players';
     const m = location.hash.match(/^#p\/(.+)$/);
     const keys = m ? m[1].split(';').map(decodeURIComponent) : [];
@@ -388,10 +466,10 @@
     if (keys.length && open.length < keys.length && !HIST) loadPast().then(() => { open = keys.filter((k) => byKey.has(k)).slice(0, MAX_COMPARE); render(); });
   }
   function pushHash() {
-    const h = view === 'eras' ? '#eras' + (eraSeason ? '/' + eraSeason : '') : open.length ? '#p/' + open.map(encodeURIComponent).join(';') : '#';
+    const h = view === 'eras' ? '#eras' + (eraSeason ? '/' + eraSeason : '') : view === 'gen' ? '#generations' : open.length ? '#p/' + open.map(encodeURIComponent).join(';') : '#';
     if (location.hash !== h) history.replaceState(null, '', h);
   }
-  function setView(v) { view = v; if (v === 'eras' && !ERAS) loadEras().then(render); pushHash(); render(); }
+  function setView(v) { view = v; if (v === 'eras' && !ERAS) loadEras().then(render); if (v === 'gen' && !GEN) loadGen().then(render); pushHash(); render(); }
   function toggle(key) {
     if (open.includes(key)) open = open.filter((k) => k !== key);
     else if (open.length < MAX_COMPARE) open = [...open, key];
@@ -403,7 +481,9 @@
     if (ui.tabs) ui.tabs.querySelectorAll('[data-ax-view]').forEach((b) => b.setAttribute('aria-selected', b.dataset.axView === view));
     if (ui.players) ui.players.hidden = view !== 'players';
     if (ui.eras) ui.eras.hidden = view !== 'eras';
+    if (ui.gen) ui.gen.hidden = view !== 'gen';
     if (view === 'eras') { renderEras(); return; }
+    if (view === 'gen') { renderGen(); return; }
     renderList(); renderDetail();
   }
 
@@ -498,6 +578,7 @@
     root.querySelectorAll('[data-ax-span]').forEach((el) => { el.textContent = `${short(SEASONS[0])}–${short(SEASONS[SEASONS.length - 1])}`; });
     readHash();
     if (view === 'eras') loadEras().then(render);
+    if (view === 'gen') loadGen().then(render);
     renderBrowse();
     render();
     for (const el of [ui.q, ui.pos, ui.tier, ui.sort, ui.nt]) el.addEventListener('input', () => { preset = null; renderBrowse(); renderList(); });

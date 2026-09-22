@@ -233,11 +233,13 @@ if _items:
 NATIONS_LINKS = {
     "q3": ("How the youth share compares across the editions, and what it weighs →", "/nations/#why"),
     "q7": ("The same series for 17 countries since 1995/96, with two dated steps each →", "/nations/#long-run"),
+    "q7b": ("The nation by year of birth — who reached the Big-5, and where the exports come from →", f"{P}atlas/#generations"),
     "q8c": ("The decomposition for every edition, side by side →", "/nations/#why"),
 }
 if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists():
     for sid, (label, href) in NATIONS_LINKS.items():
-        sub(rf'(<section class="slide" id="{sid}".*?<p class="slide-so">.*?</p>)',
+        sid = sid.rstrip("b")   # a second link on the same slide lands after the first
+        sub(rf'(<section class="slide" id="{sid}".*?<p class="slide-so">.*?</p>(?:\n    <p class="pool-link nations-link">.*?</p>)*)',
             rf'\1\n    <p class="pool-link nations-link"><a href="{href}">{label}</a></p>', 1, flags=re.S)
 
 # the home nation for docs/charts.js (tooltips label home-nation players with it)
