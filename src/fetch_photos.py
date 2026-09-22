@@ -28,7 +28,7 @@ from src import config
 from src.utils import cached_text, normalize_name, read_parquet
 
 LOG = logging.getLogger(__name__)
-UA = {"User-Agent": "czefootball-player-pool-atlas/1.0 (barbora@datasimply.eu)"}
+UA = {"User-Agent": "czefootball-player-pool-atlas/1.0 (hello@bsandova.com)"}
 IMG_DIR = config.ROOT_DIR / "docs" / "img" / "players"
 WIKIDATA_CACHE_DIR = config.RAW_DIR / "wikidata" / config.NATION
 LICENSE_NOTE = "Wikimedia Commons — see file page for the licence"
