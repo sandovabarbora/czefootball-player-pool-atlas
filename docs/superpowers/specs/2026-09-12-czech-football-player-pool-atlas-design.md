@@ -57,7 +57,7 @@ mono footnote that backs it.
     split by tier (domestic / stepping-stone / top-9).
   Each exhibit is descriptive; the copy names the gap ("Czech U21 minutes
   share is X vs Y in Denmark"), never the remedy.
-- **Site.** `football.datasimply.eu`, English default, Czech under `/cs/`,
+- **Site.** `football.bsandova.com`, English default, Czech under `/cs/`,
   built with the `site/` toolchain and `modern.css` / `atlas.js` inherited
   from the hockey repo.
 
@@ -202,7 +202,7 @@ a separate `make smoke`.
   typed; the hero footnote cites the computation.
 - Limitations section lists: leagues without metrics, free-tier feature set,
   NT flag source, photo coverage, and the season split.
-- `football.datasimply.eu` serves HTTPS with the EN/CS switch.
+- `football.bsandova.com` serves HTTPS with the EN/CS switch.
 
 ## 11. Deviations from the design (as implemented, v1)
 

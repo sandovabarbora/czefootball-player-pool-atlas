@@ -66,7 +66,7 @@ HTML = f'''<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nations — Czech Football Atlas</title>
   <meta name="description" content="{len(eds)} national player pools measured the same way — youth minutes, export age, league strength, the national-team squad — with each nation's gap decomposed against its peers and every country's Big-5 presence since {S[0][:4] if S else '1995'}.">
-  <link rel="canonical" href="https://football.datasimply.eu/nations/">
+  <link rel="canonical" href="https://football.bsandova.com/nations/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">

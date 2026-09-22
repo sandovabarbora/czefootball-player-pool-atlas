@@ -5,7 +5,7 @@
 **Goal:** Turn the hockey atlas fork into a football report: Czech professional
 pool vs nine peer countries, PCA atlases per position group, national-team
 flags, photo cards, historical analogs — published bilingual at
-`football.datasimply.eu`.
+`football.bsandova.com`.
 
 **Architecture:** Same pipeline as hockey (`fetch → pool → features → reduce →
 cluster → trajectory → benchmark → analogs → render`), each stage a module
@@ -159,7 +159,7 @@ git rm -q src/fetch_nhl.py src/fetch_moneypuck.py src/fetch_liiga.py src/fetch_s
 git rm -rq docs/briefs docs/cards docs/cs notebooks data/seed
 git rm -q docs/video_poc_* docs/report.pdf docs/*.svg docs/index.html docs/atlas_meta.json site/source/index.cs.html site/players.json
 git mv src/features_forwards.py src/features.py
-echo "football.datasimply.eu" > docs/CNAME
+echo "football.bsandova.com" > docs/CNAME
 ```
 
 - [ ] **Step 2: Write the configs**
@@ -1968,10 +1968,10 @@ git commit -m "Site build for the football atlas (EN default, CS), data snapshot
 ```bash
 gh repo create sandovabarbora/czefootball-player-pool-atlas --public --source=. --remote=origin --push
 gh api -X POST repos/sandovabarbora/czefootball-player-pool-atlas/pages -f 'source[branch]=main' -f 'source[path]=/docs'
-gh api -X PUT repos/sandovabarbora/czefootball-player-pool-atlas/pages -f cname=football.datasimply.eu
+gh api -X PUT repos/sandovabarbora/czefootball-player-pool-atlas/pages -f cname=football.bsandova.com
 ```
 Then Bára adds the Wedos DNS record `football CNAME sandovabarbora.github.io.`;
-once `dig +short football.datasimply.eu` resolves, `gh api -X PUT .../pages -F https_enforced=true`
+once `dig +short football.bsandova.com` resolves, `gh api -X PUT .../pages -F https_enforced=true`
 after the certificate state is `approved`.
 
 ---
@@ -2003,7 +2003,7 @@ git push
 - [ ] **Step 3: Write the decision to `~/Documents/memory/decisions.md`**
 
 Headline number, peer ranking, pool size, photo coverage, anything that broke
-in FBref access, and the football.datasimply.eu DNS status.
+in FBref access, and the football.bsandova.com DNS status.
 
 ---
 
