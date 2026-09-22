@@ -93,6 +93,17 @@ def edition_summary(nation: str) -> dict | None:
     sq = next((r for r in (lens or {}).get("countries", []) if r["country"] == code), {})
     sq_top9 = (sq.get("tiers", {}).get("top9", 0) / sq["matched"]) if sq.get("matched") else None
     peers_pc = pc.sort_values("rank")[["country", "per_million", "rank"]].to_dict("records")
+    mult = config.league_quality()["multipliers"]
+    mech = {}
+    for r in peers_pc:
+        c = r["country"]
+        y = next((x for x in paths.get("youth_exposure", []) if x["country"] == c), {})
+        st = next((x for x in facts.get("youth_starts", []) if x["country"] == c), {})
+        f = next((x for x in facts.get("first_move_abroad", []) if x["country"] == c), {})
+        fa = next((x for x in paths.get("fare", []) if x["country"] == c), {})
+        mech[c] = {"per_million": r["per_million"], "share_u21": y.get("share_u21"), "regulars_per_club": st.get("regulars_per_club"),
+                   "first_move_age": f.get("median_age"), "first_move_n": f.get("n"), "fare_min_share": fa.get("median_min_share"),
+                   "multiplier": mult.get(y.get("league") or st.get("league") or "")}
     contrasts = []
     for c in (gap or {}).get("contrasts", []):
         contrasts.append({"contrast": c["contrast"], "gap_total": c["gap_total"], "residual": c.get("residual"),
@@ -104,6 +115,7 @@ def edition_summary(nation: str) -> dict | None:
         "population_m": cfg["population_m"], "home_league": cfg["home_league"], "domestic_league": cfg["domestic_league"],
         "per_million": home_pc.get("per_million"), "rank": int(home_pc["rank"]) if home_pc else None, "n_peers": int(len(pc)),
         "peers": peers_pc,
+        "mechanisms": mech,
         "youth": {"share_minutes_u21": ye.get("share_u21"), "share_starts_u21": ys.get("share_starts"),
                   "regulars_per_club": ys.get("regulars_per_club"), "share_le22": age.get("share_le22"),
                   "weighted_mean_age": age.get("weighted_mean_age")},
@@ -181,8 +193,10 @@ def long_run(big5: pd.DataFrame, countries: dict[str, dict], fit_breaks: bool = 
         bc = b[b.nation == code]
         tot = bc.groupby("season")["min"].sum().reindex(seasons)
         u23 = bc[bc.age_jul1 <= 23].groupby("season")["min"].sum().reindex(seasons).fillna(0)
+        ages_s = ages[(ages.nation == code) & (ages["min"] >= MIN_MINUTES)].groupby("season")["age"].median().reindex(seasons)
         entry = {"name": meta["name"], "population_m": meta["population_m"], "n": [int(v) for v in y],
                  "per_million": [round(float(v) / meta["population_m"], 2) for v in y],
+                 "age_median": [None if pd.isna(v) else round(float(v), 1) for v in ages_s.to_numpy()],
                  "debut_n": [int(v) for v in deb_n.to_numpy()],
                  "debut_age": [None if pd.isna(v) else round(float(v), 1) for v in deb_age.to_numpy()],
                  "u23_share": [None if pd.isna(t) or not t else round(float(u / t), 3) for u, t in zip(u23.to_numpy(), tot.to_numpy())]}
@@ -257,6 +271,205 @@ def recent_youth(nations: list[str], countries: dict[str, dict]) -> dict:
     return {"seasons": seasons, "leagues": out}
 
 
+# ---------------------------------------------------------------- the conclusions, written from the numbers
+CHANNEL = {"u21_share": "youth minutes at home", "league_strength": "home-league strength", "export_age": "the age of the first move"}
+BIG_FIVE = {"ENG", "FRA", "GER", "ESP", "ITA"}
+
+
+def _short(season: str) -> str:
+    return f"{season[2:4]}/{season[7:9]}"
+
+
+def _pct(v, d=0) -> str:
+    return "—" if v is None else f"{v * 100:.{d}f} %"
+
+
+def _steps(v: dict) -> list[dict]:
+    b = v["breaks"]
+    out = [{"season": s["season"], "factor": s["factor"], "kind": "rise" if s["factor"] > 1 else "fall"} for s in (b["fall"], b["other"])]
+    return sorted(out, key=lambda s: s["season"])
+
+
+def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict | None, reforms: list[dict], names: dict[str, str]) -> list[dict]:
+    """Four statements for one home nation, each written from the numbers
+    it rests on (the page says so), in the order a reader needs them: the
+    long run, the decomposition, the recent trend, the causal reading."""
+    name = lambda c: names.get(c, c)   # noqa: E731
+    ed = next((e for e in editions if e["code"] == home), None)
+    items: list[dict] = []
+    # 1 · the long run
+    if long and home in long["countries"] and long["countries"][home].get("breaks"):
+        L = long
+        small = [(c, v) for c, v in L["countries"].items() if c not in BIG_FIVE and v.get("breaks")]
+        h = L["countries"][home]
+        hs, n = _steps(h), h["n"]
+        peak = max(n)
+        peak_s = L["seasons"][n.index(peak)]
+        ends_in_fall = [c for c, v in small if _steps(v)[1]["kind"] == "fall"]
+        came_back = [(c, _steps(v)) for c, v in small if _steps(v)[0]["kind"] == "fall" and _steps(v)[1]["kind"] == "rise" and _steps(v)[1]["factor"] >= 1.2]
+        if home in BIG_FIVE:
+            items.append({
+                "head": f"{name(home)}'s Big-5 count is mostly its own league: {n[-1]} players with 450+ Big-5 minutes now, {peak} at the {_short(peak_s)} peak.",
+                "body": "The steps the model dates — " + ", then ".join(f"{s['kind']} in {_short(s['season'])} (×{s['factor']:.2f})" for s in hs) +
+                        " — say how international the home league became, not how many of its players play abroad; the mechanisms below are the sharper read.",
+            })
+        elif hs[1]["kind"] == "fall":
+            others = [c for c in ends_in_fall if c != home]
+            who = f"one of {len(others) + 1} small nations" if others else "the one small nation"
+            back = "; ".join(f"{name(c)} fell too ({_short(st[0]['season'])}) and came back {int(st[1]['season'][:4]) - int(st[0]['season'][:4])} seasons later" for c, st in came_back)
+            # the generation behind the peak and the fall: who was there, how old, whether anyone followed
+            i_fall = L["seasons"].index(hs[1]["season"])
+            age_fall, deb_fall = h.get("age_median", [None] * len(n))[i_fall], h["debut_n"][i_fall]
+            i_peak = L["seasons"].index(peak_s)
+            age_peak = h.get("age_median", [None] * len(n))[i_peak]
+            gen = ""
+            if age_fall is not None and age_peak is not None:
+                gen = (f" At the {_short(peak_s)} peak the nation's Big-5 players had a median age of {age_peak:.0f}; in the {_short(hs[1]['season'])} fall season it was {age_fall:.0f} and "
+                       f"{'no debutant arrived' if deb_fall == 0 else str(deb_fall) + ' debutant' + ('s' if deb_fall != 1 else '') + ' arrived'} — a generation retired and what followed was thinner.")
+            items.append({
+                "head": f"{name(home)} is {who} whose Big-5 presence fell and has not come back.",
+                "body": f"It rose in {_short(hs[0]['season'])} (×{hs[0]['factor']:.2f}) and fell in {_short(hs[1]['season'])} (×{hs[1]['factor']:.2f}); "
+                        f"{n[-1]} players with 450+ Big-5 minutes now against {peak} at the {_short(peak_s)} peak.{gen}\n\n{back + '. ' if back else ''}"
+                        "Every other small peer's later step is a rise.",
+            })
+        else:
+            items.append({
+                "head": f"{name(home)}'s Big-5 presence: " + ", then ".join(f"{s['kind']} in {_short(s['season'])} (×{s['factor']:.2f})" for s in hs) + ".",
+                "body": f"{n[-1]} players with 450+ Big-5 minutes now, {peak} at the {_short(peak_s)} peak. "
+                        + (f"{len(ends_in_fall)} small peer{'s' if len(ends_in_fall) != 1 else ''} ({', '.join(name(c) for c in ends_in_fall)}) ended in a fall." if ends_in_fall else "No small peer's later step is a fall."),
+            })
+    # 2 · the decomposition
+    if ed and ed["decomposition"]["contrasts"]:
+        cs = [(c, max(c["channels"], key=lambda ch: ch["contribution"])) for c in ed["decomposition"]["contrasts"]]
+        behind = [(c, top) for c, top in cs if c["gap_total"] > 0]
+        ahead = [(c, top) for c, top in cs if c["gap_total"] <= 0]
+        tops = list(dict.fromkeys(top["name"] for c, top in behind))
+        if behind:
+            clause = "; ".join(f"against {name(c['contrast'])} {CHANNEL[top['name']]} carries {_pct(top['share']) if top['share'] is not None else 'most'} of a {c['gap_total']:.1f}-per-million gap" for c, top in behind)
+            items.append({
+                "head": "Two problems at once, not one: which mechanism carries the gap depends on the peer." if len(tops) > 1
+                        else f"One mechanism carries the gap to every peer it trails: {CHANNEL[tops[0]]}.",
+                "body": clause[0].upper() + clause[1:] + ". " + ("They add up rather than compete: a league that gives its young few minutes and is weak besides loses on both counts." if len(tops) > 1 else ""),
+            })
+        elif ahead:
+            clause = "; ".join(f"ahead of {name(c['contrast'])} by {abs(c['gap_total']):.1f} per million, {CHANNEL[top['name']]} carrying {_pct(top['share']) if top['share'] is not None else 'most'} of it" for c, top in ahead)
+            items.append({"head": f"{name(home)} is ahead of the peers it is measured against, and the same mechanisms say why.",
+                          "body": clause[0].upper() + clause[1:] + "."})
+    # 3 · the recent trend
+    if recent and home in recent.get("leagues", {}) and long:
+        S = recent["seasons"]
+        v = recent["leagues"][home]["u21_share"]
+        a = next((x for x in v if x is not None), None)
+        b = next((x for x in reversed(v) if x is not None), None)
+        i0, i1 = (long["seasons"].index(S[0]) if S[0] in long["seasons"] else -1), (long["seasons"].index(S[-1]) if S[-1] in long["seasons"] else -1)
+
+        def pm_change(c):
+            cc = long["countries"].get(c)
+            return None if not cc or i0 < 0 or i1 < 0 else cc["per_million"][i1] - cc["per_million"][i0]
+
+        peers = [c["contrast"] for c in (ed["decomposition"]["contrasts"] if ed else []) if c["contrast"] in recent["leagues"]]
+        peer_text = "; ".join(
+            f"{name(c)} {_pct(next(x for x in recent['leagues'][c]['u21_share'] if x is not None))} → {_pct(next(x for x in reversed(recent['leagues'][c]['u21_share']) if x is not None))}"
+            + (f" and {pm_change(c):+.1f} per million in the Big-5" if pm_change(c) is not None else "") for c in peers)
+        d_home = pm_change(home)
+        if a is not None and b is not None:
+            flat = abs(b - a) < 0.015   # a point and a half is a wobble, not a trend
+            head = (f"No trend at home: {name(home)}'s own under-21s held at {_pct(b)} of home-league minutes across {len(S)} seasons." if flat else
+                    f"The trend runs {'the wrong' if b < a else 'the right'} way: {name(home)}'s own under-21s went from {_pct(a)} to {_pct(b)} of home-league minutes in {len(S)} seasons.")
+            items.append({
+                "head": head,
+                "body": (f"Over the same seasons {peer_text}" if peer_text else "Over the same seasons") + (f"; {name(home)} {d_home:+.1f} per million" if d_home is not None else "")
+                        + f". Across the {len(recent['leagues'])} covered leagues the change in youth minutes and the change in Big-5 presence lean the same way — a weak signal with the right sign, not a law.",
+            })
+    # 5 · where the nation is out of line with its peers, and what the peers show is reachable
+    if ed and ed.get("mechanisms") and home in ed["mechanisms"]:
+        M = ed["mechanisms"]
+        peers = [c for c in M if c != home]
+        # rank the home nation on each mechanism (1 = best); "better" is more youth, earlier move, stronger league, more exports
+        def rank(key, higher_is_better=True):
+            vals = [(c, M[c][key]) for c in M if M[c].get(key) is not None]
+            if not vals or M[home].get(key) is None:
+                return None
+            ordered = sorted(vals, key=lambda kv: (-kv[1] if higher_is_better else kv[1]))
+            return [c for c, _ in ordered].index(home) + 1, len(ordered), ordered[0]
+        r_u21 = rank("share_u21"); r_reg = rank("regulars_per_club"); r_age = rank("first_move_age", False)
+        r_mult = rank("multiplier"); r_fare = rank("fare_min_share"); r_n = rank("first_move_n")
+        h = M[home]
+        weak, fine, labels = [], [], []
+        best = lambda r: f" ({name(r[2][0])} {r[2][1]:.0f})" if r[2][0] != home else ""   # noqa: E731
+        if r_u21 and r_reg:
+            is_weak = r_u21[0] > (r_u21[1] + 1) // 2
+            (weak if is_weak else fine).append(
+                f"minutes for its own under-21s at home: {_pct(h['share_u21'], 1)} of league minutes and {h['regulars_per_club']:.1f} regular under-21 starters per club, "
+                f"{'last' if r_u21[0] == r_u21[1] else str(r_u21[0]) + ' of ' + str(r_u21[1])} among the peers "
+                f"({name(r_u21[2][0])} {_pct(r_u21[2][1], 1)}; {name(r_reg[2][0])} {r_reg[2][1]:.1f} starters per club)")
+            if is_weak: labels.append("the first rung — minutes for its own under-21s")
+        if r_age:
+            is_weak = r_age[0] > (r_age[1] + 1) // 2
+            (weak if is_weak else fine).append(
+                f"the first move abroad at a median {h['first_move_age']:.0f}{best(r_age)}; the exporters move at 22–23")
+            if is_weak: labels.append("the timing of the first move")
+        if r_mult:
+            (fine if r_mult[0] <= (r_mult[1] + 1) // 2 else weak).append(
+                f"the home league itself: multiplier ×{h['multiplier']:.2f}, {r_mult[0]} of {r_mult[1]} among the peers")
+        if r_fare:
+            is_weak = r_fare[0] > (r_fare[1] + 1) // 2
+            (weak if is_weak else fine).append(
+                f"how its exports fare: a median {_pct(h['fare_min_share'])} of their club's minutes, {r_fare[0]} of {r_fare[1]}")
+            if is_weak: labels.append("how its exports fare once abroad")
+        if r_n:
+            is_weak = r_n[0] > (r_n[1] + 1) // 2
+            (weak if is_weak else fine).append(f"how many leave at all: {h['first_move_n']} first moves in the covered seasons ({name(r_n[2][0])} {r_n[2][1]})")
+            if is_weak: labels.append("how many leave at all")
+        if weak:
+            body = f"Out of line: {'; '.join(weak)}." + (f"\n\nNot the problem: {'; '.join(fine)}." if fine else "") + "\n\n"
+            # what the peers show is reachable, on the mechanisms where the home nation trails
+            targets = []
+            if r_reg and r_reg[0] > (r_reg[1] + 1) // 2:
+                top3 = sorted(((c, M[c]["regulars_per_club"]) for c in peers if M[c].get("regulars_per_club")), key=lambda kv: -kv[1])[:3]
+                targets.append(f"two regular under-21 starters per club (from {h['regulars_per_club']:.1f}) — {', '.join(f'{name(c)} {v:.1f}' for c, v in top3)} already do")
+            if r_age and r_age[0] > (r_age[1] + 1) // 2:
+                targets.append(f"the first move at 22–23, not {h['first_move_age']:.0f} — the route the peers that grew use")
+            if r_n and r_n[0] > (r_n[1] + 1) // 2 and r_fare and r_fare[0] <= (r_fare[1] + 1) // 2:
+                targets.append("more of them, not better ones: the exports that do go hold their place")
+            watch = "The four numbers to watch every summer: under-21 share, regular under-21 starters per club, age of the first move, first Big-5 seasons."
+            reach = ("What the peers show is reachable: " + "; ".join(targets) + ".\n\n") if targets else ""
+            items.append({
+                "head": f"Where the mistake shows: {name(home)} is out of line on {' and '.join(labels[:2])}.",
+                "body": body + reach + watch + " None of this is a proven cause; it is where the nation is out of line with the peers that grew, on the mechanisms the gap decomposition weighs most.",
+            })
+
+    # 4 · the causal reading
+    if long and long.get("youth") and reforms:
+        cases = []
+        for r in reforms:
+            Y = long["youth"].get(r["country"])
+            if not Y or r["season"] not in long["seasons"]:
+                continue
+            i = long["seasons"].index(r["season"])
+            before = Y["own_u21_share"][max(0, i - 1)]
+            after = [x for x in Y["own_u21_share"][i:i + 12] if x is not None]
+            peak_after = max(after) if after else None
+            peak_season = long["seasons"][Y["own_u21_share"].index(peak_after, i)] if peak_after is not None else None
+            now = next((x for x in reversed(Y["own_u21_share"]) if x is not None), None)
+            rose = peak_after is not None and before is not None and peak_after >= before * 1.5
+            held = now is not None and before is not None and now >= before * 1.5
+            cases.append((r, Y, before, peak_after, peak_season, now, rose, held))
+        if cases:
+            text = ". ".join(
+                (f"{name(r['country'])} after its {r['label']} ({_short(r['season'])}): its own under-21s' share of {Y['league'].split('-', 1)[1]} minutes went from {_pct(before)} to {_pct(peak_after)} by {_short(peak_season)}"
+                 + (f" and is {_pct(now)} now — the turn held" if held else f" but is {_pct(now)} now — the turn did not hold"))
+                if rose else
+                f"{name(r['country'])} after its {r['label']} ({_short(r['season'])}): no such turn ({_pct(before)} before, {_pct(peak_after)} at best after)"
+                for r, Y, before, peak_after, peak_season, now, rose, held in cases)
+            items.append({
+                "head": f"Can a reform cause it? The data can follow {'one documented case' if len(cases) == 1 else str(len(cases)) + ' documented cases'}, and only as a sequence.",
+                "body": text + ". A sequence in one country against none in another is the strongest thing this data can say; it is not a counterfactual. "
+                        "Read as a heuristic: minutes for the young at home are the lever a federation holds, the effect is counted in seasons, and a weaker league yields less from it.",
+            })
+    return items
+
+
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     nations = editions()
@@ -273,6 +486,8 @@ def main() -> None:
         "reforms": REFORMS,
         "metrics_season": config.seasons()["metrics"],
     }
+    names = {c: m["name"] for c, m in countries.items()}
+    payload["takeaways"] = {e["code"]: takeaways(e["code"], eds, payload["long_run"], payload["recent"], REFORMS, names) for e in eds}
     out = config.ROOT_DIR / "outputs" / "nations"
     out.mkdir(parents=True, exist_ok=True)
     (out / "nations.json").write_text(json.dumps(payload, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")

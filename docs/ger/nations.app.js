@@ -47,7 +47,7 @@
 
   // ------------------------------------------------------------ 0 · what to take from it — the conclusions, written from the data
   function renderTakeaways() {
-    const box = root.querySelector('[data-nx-takeaways]'); if (!box || !hasD3) return;
+    const box = root.querySelector('[data-nx-takeaways]'); if (!box || !hasD3 || box.children.length) return;   // the build writes them; this is the fallback
     const L = D.long_run, R = D.recent, homeEd = D.editions.find((e) => e.code === HOME);
     const name = (c) => esc(nameOf(c));
     const items = [];

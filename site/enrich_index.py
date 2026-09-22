@@ -214,6 +214,18 @@ _more = f' · <a href="{P}atlas/">The player atlas</a>' + (' · <a href="/nation
         if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists() else "")
 sub(r' · <a href="/(?:eng/)?">The (?:England|Czech) edition</a></p>', f' · {_others}{_more}</p>' if _others else f'{_more}</p>', 1)
 
+# ---------------------------------------------------------------- what to take from it: the conclusions, first
+# Written from the data by src.nations_compare for this home nation; placed
+# between the hero and the quick read, so the page opens on the answer.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import takeaways as _take  # noqa: E402
+_items = _take.load(HOME_CODE)
+if _items:
+    TAKE = ('<section class="take" id="take">\n  <div class="container">\n    <p class="close-kicker">What to take from it</p>\n'
+            + _take.render(_items)
+            + f'\n    <p class="close-line take-line">Each statement is written from the numbers on this page and on <a href="/nations/#take">the six-nation comparison</a>; the evidence follows, one question at a time.</p>\n  </div>\n</section>\n\n')
+    sub(r'(<section class="quickread" id="quickread">)', lambda m: TAKE + m.group(1), 1)
+
 # ---------------------------------------------------------------- cross-links to the nations page (root site only)
 # The comparison across editions lives at /nations/; the three slides whose
 # question it extends (youth minutes, the long run, what the gap is made of)

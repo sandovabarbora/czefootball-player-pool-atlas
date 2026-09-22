@@ -1075,11 +1075,15 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .nx-bar-fill.is-neg { background: var(--orange, #FF6A3D); }
 .nx-bar-val { font-family: var(--font-mono); font-size: 11px; color: var(--ink); text-align: right; white-space: nowrap; }
 .nx-within { margin-top: var(--space-4); max-width: 60ch; }
+.take { border-top: 1px solid var(--hot); padding: var(--space-5) 0 var(--space-4); }
+.take .close-kicker { margin-bottom: var(--space-3); }
+.take-line { margin-top: var(--space-3); }
 .nx-take { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: var(--space-2); padding: var(--space-3) 0; border-top: 1px solid var(--rule); }
 .nx-take:first-child { border-top: 0; padding-top: 0; }
 .nx-take-n { font-family: var(--font-display); font-weight: 300; font-size: 1.6rem; color: var(--acid); margin: 0; line-height: 1; font-variation-settings: "opsz" 144; }
 .nx-take-head { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.25rem, 1rem + 0.9vw, 1.7rem); line-height: 1.25; letter-spacing: -0.015em; color: var(--hot); margin: 0 0 0.5rem; max-width: 40ch; }
-.nx-take-body { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.55; color: var(--ink); margin: 0; max-width: 72ch; }
+.nx-take-body { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.55; color: var(--ink); margin: 0 0 0.6rem; max-width: 72ch; }
+.nx-take-body:last-child { margin-bottom: 0; }
 .nx-within strong { font-weight: 400; color: var(--hot); border-bottom: 2px solid var(--acid); }
 .nx-limits { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); }
 .nx-limits li { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.55; color: var(--ink); border-top: 1px solid var(--rule); padding-top: var(--space-2); }

@@ -17,6 +17,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.references import format_harvard, in_text, load_refs, refs_by_key  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import takeaways as _take  # noqa: E402
 
 
 def esc_html(t: str) -> str:
@@ -96,7 +98,7 @@ HTML = f'''<!DOCTYPE html>
 
   <section class="nx-section nx-takeaways" id="take">
     <p class="ax-kicker">What to take from it</p>
-    <div data-nx-takeaways></div>
+    <div data-nx-takeaways>{_take.render((data.get("takeaways") or {}).get(home, []))}</div>
     <p class="ax-note">Each statement is written from the numbers below at build time, so it moves when they do; the evidence and its limits follow in order.</p>
   </section>
 
