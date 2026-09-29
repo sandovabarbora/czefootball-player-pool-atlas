@@ -97,7 +97,9 @@ def test_site_layer_is_applied_to_both_pages(built):
         assert html.count('class="tile-more"') == n_visuals
         assert '<article class="cycle-card"' in html
         assert html.index('class="cycle-tile"') < html.index('class="cycle-card-visual')
-        assert 'class="hero-cutout"' in html
+        # the hero is the stadium photograph with its credit line; no player cut-out
+        assert f'class="hero-photo" src="{prefix}img/atlas.jpg"' in html and 'class="hero-cutout"' not in html
+        assert 'class="hero-credit"' in html and 'CC BY-SA 4.0, colour held' in html
         # the masthead cast strip went in the distill pass (the faces live on
         # the cards); the page must not carry it any more
         assert 'class="cast"' not in html

@@ -21,6 +21,11 @@ def test_recolour_maps_every_legacy_colour_and_is_idempotent():
     assert "#fdfbf6" not in out and "#9c3a2a" not in out.lower()
     again, m = recolour(out)
     assert m == 0 and again == out
+    # figures drawn under the dark concrete register (2026-09-21) come out on white paper
+    dark = '<rect style="fill: #161616"/><path style="stroke: #D6FF3A"/><text fill="#DCDCD6">x</text>'
+    out, n = recolour(dark)
+    assert n == 3
+    assert CREAM in out and OXBLOOD in out and INK in out
 
 
 def test_theme_colours_are_not_themselves_legacy_keys():

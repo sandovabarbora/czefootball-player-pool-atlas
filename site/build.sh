@@ -44,10 +44,10 @@ done
 
 if [ "$D" != "$ROOT/docs" ]; then
   for a in modern.css atlas.js charts.js atlas.app.js nations.app.js .nojekyll; do [ -e "$ROOT/docs/$a" ] && cp "$ROOT/docs/$a" "$D/"; done   # CNAME belongs to the root only
-  # images live once in docs/img; another site dir gets the grain and, below,
-  # only the portraits its pages reference (not the whole folder)
+  # images live once in docs/img; another site dir gets the hero photograph
+  # and, below, only the portraits its pages reference (not the whole folder)
   mkdir -p "$D/img/players"
-  [ -e "$ROOT/docs/img/grain.png" ] && cp -n "$ROOT/docs/img/grain.png" "$D/img/" 2>/dev/null || true
+  for a in atlas.jpg atlas-1200.jpg; do [ -e "$ROOT/docs/img/$a" ] && cp "$ROOT/docs/img/$a" "$D/img/"; done
 fi
 cp "$O/index.html" "$D/index.html"
 cp "$O/atlas_FW.svg" "$O/atlas_MF.svg" "$O/atlas_DF.svg" "$O/intl_cohort_heatmap.svg" "$O/big5_series.svg" \

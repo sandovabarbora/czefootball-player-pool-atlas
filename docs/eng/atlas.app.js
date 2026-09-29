@@ -16,17 +16,17 @@
   if (!root) return;
   const CSS = getComputedStyle(document.documentElement);
   const C = {
-    acid: CSS.getPropertyValue('--acid').trim() || '#D6FF3A',
-    hot: CSS.getPropertyValue('--hot').trim() || '#F2F2EE',
-    ink: CSS.getPropertyValue('--ink').trim() || '#DCDCD6',
-    muted: CSS.getPropertyValue('--muted').trim() || '#8B8B85',
-    rule: CSS.getPropertyValue('--rule').trim() || '#3A3A36',
-    page: CSS.getPropertyValue('--page-bg').trim() || '#161616',
-    orange: '#FF6A3D', mint: '#7ED9A6', violet: '#B78CFF',
+    acid: CSS.getPropertyValue('--acid').trim() || '#2f7a36',
+    hot: CSS.getPropertyValue('--hot').trim() || '#111111',
+    ink: CSS.getPropertyValue('--ink').trim() || '#111111',
+    muted: CSS.getPropertyValue('--muted').trim() || '#666666',
+    rule: CSS.getPropertyValue('--rule').trim() || '#d9d9d5',
+    page: CSS.getPropertyValue('--page-bg').trim() || '#ffffff',
+    orange: '#c8531f', mint: '#2a8c8c', violet: '#6b4bb8',   // darkened for white paper (src/figstyle.py SEQ_*)
   };
-  // the rung of the league, brighter the higher — the home league is the base
+  // the rung of the league, darker the higher — the home league is the pale base
   const TIER = {
-    domestic: { col: '#6E6E68', label: 'home league', short: 'home', rank: 0 },
+    domestic: { col: '#b5b5b0', label: 'home league', short: 'home', rank: 0 },
     other: { col: C.mint, label: 'other league', short: 'other', rank: 1 },
     stepping_stone: { col: C.violet, label: 'stepping stone', short: 'stepping', rank: 2 },
     top9: { col: C.hot, label: 'top-9 league', short: 'top-9', rank: 3 },

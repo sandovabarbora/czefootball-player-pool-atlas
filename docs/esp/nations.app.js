@@ -13,14 +13,15 @@
   if (!root) return;
   const CSS = getComputedStyle(document.documentElement);
   const C = {
-    acid: CSS.getPropertyValue('--acid').trim() || '#D6FF3A', hot: CSS.getPropertyValue('--hot').trim() || '#F2F2EE',
-    ink: CSS.getPropertyValue('--ink').trim() || '#DCDCD6', muted: CSS.getPropertyValue('--muted').trim() || '#8B8B85',
-    rule: CSS.getPropertyValue('--rule').trim() || '#3A3A36', page: CSS.getPropertyValue('--page-bg').trim() || '#161616',
-    orange: '#FF6A3D', mint: '#7ED9A6', violet: '#B78CFF', lilac: '#E3A0FF', aqua: '#7ED9D9', peach: '#FFB07A',
+    acid: CSS.getPropertyValue('--acid').trim() || '#2f7a36', hot: CSS.getPropertyValue('--hot').trim() || '#111111',
+    ink: CSS.getPropertyValue('--ink').trim() || '#111111', muted: CSS.getPropertyValue('--muted').trim() || '#666666',
+    rule: CSS.getPropertyValue('--rule').trim() || '#d9d9d5', page: CSS.getPropertyValue('--page-bg').trim() || '#ffffff',
+    orange: '#c8531f', mint: '#2a8c8c', violet: '#6b4bb8', lilac: '#a0479a', aqua: '#3a6ea8', peach: '#b8742f',   // darkened for white paper
   };
   const HOME = document.documentElement.dataset.home || 'CZE';
-  // sixteen distinct hues for up to seventeen countries besides the home nation (acid)
-  const PALETTE = [C.hot, C.orange, C.mint, C.violet, C.lilac, C.aqua, C.peach, '#9AA0FF', '#FFD166', '#8ED081', '#FF8FA3', '#5FB3FF', '#C8B27A', '#7A9E7E', '#E0E0A0', '#B0B0B0'];
+  // sixteen distinct hues for up to seventeen countries besides the home nation (the held green);
+  // dark enough for white paper, and none of them green
+  const PALETTE = [C.hot, C.orange, C.mint, C.violet, C.lilac, C.aqua, C.peach, '#5a5fc0', '#a8860b', '#7a5a3a', '#c0395a', '#1f78b4', '#8c7a3e', '#5f6f7f', '#9a9a3a', '#8a8a8a'];
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const short = (s) => `${s.slice(2, 4)}/${s.slice(7, 9)}`;
   const pct = (v, d = 0) => (v == null ? '—' : `${(v * 100).toFixed(d)} %`);

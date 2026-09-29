@@ -5,8 +5,8 @@ whose modules refit a model in `main()` (league strength, model comparison,
 series model, youth panel, gap decomposition, export-age model) are not
 redrawn for a purely visual change -- a refit would move their numbers and,
 for the series model, the forecast the prediction ledger has on record. So
-the build maps the cream-paper palette they were drawn with to the theme
-here, colour for colour, from `figstyle.LEGACY_TO_THEME`. A figure already
+the build maps the palette they were drawn with (cream paper, then the
+dark concrete register) to the theme here, colour for colour, from `figstyle.LEGACY_TO_THEME`. A figure already
 drawn in the theme contains none of the legacy hexes and passes through
 unchanged, which makes this idempotent and safe to run on every build.
 
