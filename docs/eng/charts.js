@@ -107,12 +107,12 @@
     const ctl = controls(box);
     const state = { proj: 'style', homeOnly: false, ntOnly: false, off: new Set(), pinned: null, query: '' };
     const pts = data.points;
-    const H = 560, M = { t: 18, r: 18, b: 34, l: 40 };
+    const H = 560, M = { t: 18, r: 18, b: 48, l: 40 };   // the axis title sits under the tick labels, not on them
     const { svg, w } = svgIn(box, H);
     const g = svg.append('g');
     const x = d3.scaleLinear().range([M.l, w - M.r]), y = d3.scaleLinear().range([H - M.b, M.t]);
     const ax = svg.append('g').attr('transform', `translate(0,${H - M.b})`), ay = svg.append('g').attr('transform', `translate(${M.l},0)`);
-    const xLab = svg.append('text').attr('x', w - M.r).attr('y', H - 8).attr('text-anchor', 'end').attr('class', 'chart-axis-label');
+    const xLab = svg.append('text').attr('x', w - M.r).attr('y', H - 6).attr('text-anchor', 'end').attr('class', 'chart-axis-label');
     const yLab = svg.append('text').attr('x', M.l + 4).attr('y', M.t + 4).attr('class', 'chart-axis-label');
     const clusterIds = (proj) => [...new Set(pts.map((p) => (proj === 'style' ? p.c : p.cq)))].sort();
     const colourOf = {};
@@ -224,15 +224,18 @@
         .attr('fill', 'none').attr('stroke', colour).attr('stroke-width', (c) => (c === data.home ? 2.4 : 1.4))
         .transition().duration(dur).attr('d', (c) => line(series(c)));
       labels.selectAll('text').data(sorted, (c) => c).join('text')
-        .attr('class', 'chart-axis-label').attr('x', x(seasons[seasons.length - 1]) + 6)
+        .attr('class', 'chart-axis-label').attr('x', x('+1') + 8)   // right of the forecast marks, which sit one step after the last season
         .attr('fill', colour).text((c) => c)
         .transition().duration(dur).attr('y', (c) => y(series(c).at(-1).v) + 3);
       marks.selectAll('*').remove();
       // the dated breaks: the fall in acid, the rise (two-break fit) in chalk
+      let markRow = 0, lastMark = null;   // two break labels close together: the second one drops a line
       for (const [br, label, col] of [[(data.rise || [])[0], 'rise', C.ink], [(data.break || [])[0], 'break', C.orange]]) {
         if (!br || !seasons.includes(br.season)) continue;
+        if (lastMark != null && Math.abs(x(br.season) - lastMark) < 110) markRow += 1;
+        lastMark = x(br.season);
         marks.append('line').attr('x1', x(br.season)).attr('x2', x(br.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', col).attr('stroke-dasharray', '3 3').attr('opacity', 0.7);
-        marks.append('text').attr('class', 'chart-axis-label').attr('x', x(br.season) + 5).attr('y', M.t + 10).attr('fill', col).text(`${label} · ${Math.round(br.prob * 100)} %`);
+        marks.append('text').attr('class', 'chart-axis-label').attr('x', x(br.season) + 5).attr('y', M.t + 10 + markRow * 14).attr('fill', col).text(`${label} · ${Math.round(br.prob * 100)} %`);
       }
       if (state.metric === 'n') {
         Object.entries(fc).forEach(([c, f]) => {
@@ -271,7 +274,9 @@
     svg.append('g').attr('transform', `translate(0,${H - M.b})`).call(d3.axisBottom(x).ticks(8).tickFormat(d3.format('d'))).call(axisStyle);
     svg.append('g').attr('transform', `translate(${M.l},0)`).call(d3.axisLeft(y).ticks(5)).call(axisStyle);
     svg.append('text').attr('class', 'chart-axis-label').attr('x', w - M.r).attr('y', H - 8).attr('text-anchor', 'end').text('age at first top-9 season');
-    svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l + 4).attr('y', M.t - 8).text('G+A per 90, league-adjusted, first two seasons');
+    const yTitle = svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l + 4).attr('y', M.t - 8).text('G+A per 90, league-adjusted, first two seasons');
+    const yLen = yTitle.node().getComputedTextLength ? yTitle.node().getComputedTextLength() : 0;
+    if (yLen && M.l + 4 + yLen > w) yTitle.attr('x', 0);   // a phone: start the title at the left edge so it is not cut
     svg.append('path').datum(data.curve).attr('fill', C.acid).attr('fill-opacity', 0.12)
       .attr('d', d3.area().x((d) => x(d.age)).y0((d) => y(d.lo)).y1((d) => y(d.hi)).curve(d3.curveMonotoneX));
     svg.append('path').datum(data.curve).attr('fill', 'none').attr('stroke', C.hot).attr('stroke-width', 1.8)
@@ -293,7 +298,7 @@
     const box = mount(fig);
     const { svg, w } = svgIn(box, 440);
     const narrow = w < 700;
-    const H = 440, M = { t: 10, r: narrow ? 100 : 210, b: 22, l: narrow ? 100 : 210 };
+    const H = 440, M = { t: 10, r: narrow ? 118 : 210, b: 22, l: narrow ? 118 : 210 };   // a phone: room for "stepping · 208" beside a node
     const order = ['top9', 'stepping_stone', 'other', 'domestic', 'entered'];
     const orderR = ['top9', 'stepping_stone', 'other', 'domestic', 'left'];
     const nodes = [...order.map((t) => ({ id: 'p:' + t, tier: t, side: 0 })), ...orderR.map((t) => ({ id: 'c:' + t, tier: t, side: 1 }))];
@@ -403,12 +408,18 @@
       svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y - (narrow ? 40 : 18)).attr('fill', C.ink).text(narrow ? (st.short || st.label) : st.label);
       svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', y - (narrow ? 26 : -2)).text(st.more);
       svg.append('line').attr('x1', M.l + labelW + (narrow ? 30 : 0)).attr('x2', w - M.r - 40).attr('y1', y).attr('y2', y).attr('stroke', C.rule);
-      countries.forEach((c, i) => {
+      const taken = [];   // label boxes already placed on this row: a label that would sit on one moves to the next free line
+      countries.map((c, i) => i).sort((a, b) => (st.vals[a] ?? 0) - (st.vals[b] ?? 0)).forEach((i) => {
+        const c = countries[i];
         const v = st.vals[i]; if (v == null) return;
         const g = svg.append('g').style('cursor', 'default')
           .on('mousemove', (ev) => showTip(`<b>${esc(names[c])}</b><span>${esc(st.label)}: ${fmt1(v)}${st.unit ? ' ' + st.unit : ''}</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
         g.append('circle').attr('cx', x(v)).attr('cy', y).attr('r', c === d.home ? 7 : 5.5).attr('fill', c === d.home ? C.acid : C.page || '#ffffff').attr('stroke', colour(c, i)).attr('stroke-width', 1.6);
-        g.append('text').attr('class', 'chart-axis-label').attr('x', x(v)).attr('y', y + (i % 2 ? 22 : -12)).attr('text-anchor', 'middle').attr('fill', colour(c, i)).text(`${c} ${fmt1(v)}${st.unit ? ' ' + st.unit : ''}`);
+        const lab = g.append('text').attr('class', 'chart-axis-label').attr('x', x(v)).attr('text-anchor', 'middle').attr('fill', colour(c, i)).text(`${c} ${fmt1(v)}${st.unit ? ' ' + st.unit : ''}`);
+        const half = (lab.node().getComputedTextLength ? lab.node().getComputedTextLength() : 60) / 2 + 4;
+        const slots = i % 2 ? [22, -12, 34] : [-12, 22, 34];
+        const dy = slots.find((o) => !taken.some((t) => t.dy === o && Math.abs(t.x - x(v)) < t.half + half)) ?? slots[0];
+        taken.push({ x: x(v), half, dy }); lab.attr('y', y + dy);
       });
     });
   }
@@ -442,7 +453,7 @@
     const box = mount(fig);
     // a phone: the six measure labels stand upright under their axes instead of colliding side by side
     const narrow = (box.clientWidth || 800) < 600;
-    const H = narrow ? 520 : 380, M = narrow ? { t: 40, r: 44, b: 220, l: 50 } : { t: 40, r: 70, b: 70, l: 70 };
+    const H = narrow ? 520 : 380, M = narrow ? { t: 40, r: 44, b: 220, l: 50 } : { t: 40, r: 70, b: 70, l: 86 };
     const { svg, w } = svgIn(box, H);
     const x = d3.scalePoint().domain(rows.map((r) => r.key)).range([M.l, w - M.r]);
     const y = d3.scaleLinear().domain([0, 1]).range([H - M.b, M.t]);
@@ -475,10 +486,12 @@
     const d = await pageData(); if (!d || !d.gap || !d.gap.contrasts) return;
     const CH = { u21_share: ['youth minutes', C.violet], league_strength: ['league strength', C.hot], export_age: ['export age', C.mint] };   // channels, not nations: no held green
     const box = mount(fig);
-    const contrasts = d.gap.contrasts, rowH = 78, M = { t: 24, r: 40, b: 36, l: 120 }, H = M.t + contrasts.length * rowH + M.b;
+    const contrasts = d.gap.contrasts, rowH = 78, M = { t: 24, r: 40, b: 50, l: 120 }, H = M.t + contrasts.length * rowH + M.b;
     const { svg, w } = svgIn(box, H);
     const maxAbs = d3.max(contrasts.flatMap((c) => [Math.abs(c.gap_total), ...c.channels.map((ch) => Math.abs(ch.contribution)), Math.abs(c.residual)])) || 1;
-    const x = d3.scaleLinear().domain([-maxAbs * 0.4, maxAbs * 1.05]).range([M.l, w - M.r]);
+    const ends = contrasts.flatMap((c) => { let cur = 0; const e = [0, c.gap_total, c.residual]; for (const ch of c.channels) { cur += ch.contribution; e.push(cur); } return e; });
+    const lo = Math.min(-maxAbs * 0.4, d3.min(ends) - maxAbs * 0.05), hi = Math.max(maxAbs * 1.05, d3.max(ends) + maxAbs * 0.05);
+    const x = d3.scaleLinear().domain([lo, hi]).range([M.l, w - M.r]);   // every bar, remainder and gap line inside the plot
     svg.append('g').attr('transform', `translate(0,${H - M.b + 8})`).call(d3.axisBottom(x).ticks(6)).call(axisStyle);
     svg.append('text').attr('class', 'chart-axis-label').attr('x', w - M.r).attr('y', H - 4).attr('text-anchor', 'end').text('players per million');
     contrasts.forEach((c, i) => {
@@ -497,13 +510,21 @@
         cursor += ch.contribution;
       });
       // values go on top of every segment, so an overlapping negative segment never hides one
-      labels.forEach(([lx, t]) => svg.append('text').attr('class', 'chart-axis-label').attr('x', lx).attr('y', y + 21).attr('text-anchor', 'middle').style('fill', '#ffffff').style('pointer-events', 'none').text(t));
+      // a segment that runs back over another would put two values on top of each other: the later one goes above the bar
+      const placed = [];
+      labels.forEach(([lx, t]) => {
+        const clash = placed.some((p) => Math.abs(p - lx) < 44); if (!clash) placed.push(lx);
+        svg.append('text').attr('class', 'chart-axis-label').attr('x', lx).attr('y', clash ? y + 2 : y + 21).attr('text-anchor', 'middle').style('fill', clash ? C.ink : '#ffffff').style('pointer-events', 'none').text(t);
+      });
       const rx0 = x(Math.min(0, c.residual)), rx1 = x(Math.max(0, c.residual));
       svg.append('rect').attr('x', rx0).attr('y', y + 32).attr('width', Math.max(0.5, rx1 - rx0)).attr('height', 8).attr('fill', 'url(#hatch)')
         .on('mousemove', (ev) => showTip(`<b>not carried by the three channels</b><span>${c.contrast} − ${d.home}: ${fmt2(c.residual)} players per million</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
-      svg.append('text').attr('class', 'chart-axis-label').attr('x', rx1 + 6).attr('y', y + 40).attr('text-anchor', 'start').text(`${fmt2(c.residual)} not carried`);
+      const rl = svg.append('text').attr('class', 'chart-axis-label').attr('x', rx1 + 6).attr('y', y + 40).attr('text-anchor', 'start').text(`${fmt2(c.residual)} not carried`);
+      const rlw = rl.node().getComputedTextLength ? rl.node().getComputedTextLength() : 0;
+      if (rlw && rx1 + 6 + rlw > w) rl.attr('x', w - 2).attr('y', y + 64).attr('text-anchor', 'end');   // no room right of the bar: under it, flush right
       svg.append('line').attr('x1', x(c.gap_total)).attr('x2', x(c.gap_total)).attr('y1', y + 2).attr('y2', y + 42).attr('stroke', C.ink).attr('stroke-dasharray', '2 2');
-      svg.append('text').attr('class', 'chart-axis-label').attr('x', x(c.gap_total) + 5).attr('y', y + 4).attr('fill', C.ink).text('gap');
+      const gapUp = labels.length === placed.length;   // a value was lifted above the bar: the tag goes under it
+      svg.append('text').attr('class', 'chart-axis-label').attr('x', x(c.gap_total) + 5).attr('y', gapUp ? y + 4 : y + 52).attr('fill', C.ink).text('gap');
     });
     const defs = svg.append('defs');
     const pat = defs.append('pattern').attr('id', 'hatch').attr('width', 6).attr('height', 6).attr('patternUnits', 'userSpaceOnUse').attr('patternTransform', 'rotate(45)');
