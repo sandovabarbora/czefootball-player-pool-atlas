@@ -390,7 +390,10 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
             parts.append(f"against {name(c['contrast'])} (a gap of {_f2(c['gap_total'])} per million) youth minutes go with {_signed(ch['u21_share']['contribution'])} "
                          f"(90 % bootstrap interval {_signed(ch['u21_share']['lo'])} to {_signed(ch['u21_share']['hi'])}), league strength with "
                          f"{_signed(ch['league_strength']['contribution'])} ({_signed(ch['league_strength']['lo'])} to {_signed(ch['league_strength']['hi'])}) "
-                         f"and export age with {_signed(ch['export_age']['contribution'])}, residual {_signed(c['residual'])}")
+                         f"and export age with {_signed(ch['export_age']['contribution'])}"
+                         + (f" ({_signed(ch['export_age']['lo'])} to {_signed(ch['export_age']['hi'])})"
+                            if ch['export_age'].get('lo') is not None and ch['export_age']['lo'] != ch['export_age']['hi'] else "")
+                         + f", residual {_signed(c['residual'])}")
         body = ("In a ridge fit over " + str(n_c) + " countries, " + "; ".join(parts) + ".")
         b2 = ((dec.get("coefficients") or {}).get("b") or {}).get("x2")
         if b2 is not None and dec.get("home_x2") is not None:
@@ -436,7 +439,7 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
                 if c in peers or w[-1] - w[-2] <= -0.02:
                     others.append(f"{name(c)} {w[-2] * 100:.1f} → {w[-1] * 100:.1f} %")
             if others:
-                body += (f" The last step, {season_slash(S[-2])} to {season_slash(S[-1])}, for the comparison countries and for other leagues whose share also fell "
+                body += (f" The last step, {season_slash(S[-2])} to {season_slash(S[-1])}, for the comparison countries and for other leagues whose share fell "
                          f"by 2 points or more: " + "; ".join(others) + ".")
             items.append({"head": f"{name(home)}’s own under-21 nationals’ share of home-league minutes over {len(S)} seasons: a trend of "
                                   f"{_signed(tr['slope'] * 100)} pp a season (90 % CI {_signed(tr['lo'] * 100)} to {_signed(tr['hi'] * 100)}).",

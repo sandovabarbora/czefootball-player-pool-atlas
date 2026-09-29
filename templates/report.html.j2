@@ -1019,10 +1019,10 @@
     <h2 class="slide-q">{{ t('slide.8c.q', a=term(gdp.name), b=term(gd2.name)) }}</h2>
     <p class="slide-a">{{ t('slide.8c.a', gap=f2(gdp.gap_total), contrast=term(gdp.name),
                           c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
-                          c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual),
+                          c3=signed2(gdp.channels[2].contribution) ~ ((' (' ~ signed2(gdp.channels[2].lo) ~ ' to ' ~ signed2(gdp.channels[2].hi) ~ ')') if gdp.channels[2].lo is not none and gdp.channels[2].lo != gdp.channels[2].hi else ''), resid=signed2(gdp.residual),
                           c1lo=signed2(gdp.channels[0].lo), c1hi=signed2(gdp.channels[0].hi), c2lo=signed2(gdp.channels[1].lo), c2hi=signed2(gdp.channels[1].hi),
                           gap2=f2(gd2.gap_total), contrast2=term(gd2.name),
-                          d1=signed2(gd2.channels[0].contribution), d2=signed2(gd2.channels[1].contribution), d3=signed2(gd2.channels[2].contribution),
+                          d1=signed2(gd2.channels[0].contribution), d2=signed2(gd2.channels[1].contribution), d3=signed2(gd2.channels[2].contribution) ~ ((' (' ~ signed2(gd2.channels[2].lo) ~ ' to ' ~ signed2(gd2.channels[2].hi) ~ ')') if gd2.channels[2].lo is not none and gd2.channels[2].lo != gd2.channels[2].hi else ''),
                           d1lo=signed2(gd2.channels[0].lo), d1hi=signed2(gd2.channels[0].hi), d2lo=signed2(gd2.channels[1].lo), d2hi=signed2(gd2.channels[1].hi)) }}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="gap">
