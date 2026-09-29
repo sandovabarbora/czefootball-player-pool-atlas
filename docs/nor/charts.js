@@ -31,6 +31,9 @@
   };
   const CLUSTER_COLOURS = [C.ink, C.orange, C.violet, C.mint, C.lilac, C.aqua, C.peach, C.grey];
   const TIER_LABEL = { domestic: 'home league', other: 'other league', stepping_stone: 'stepping stone', top9: 'top-9 league', entered: 'new to the pool', left: 'no longer covered' };
+  // the rung palette shared with the player atlas (atlas.app.js TIER): the held colour for a top-9 league,
+  // ink for a stepping stone, grey for another covered league, the pale base for the home league
+  const RUNG = { top9: C.acid, stepping_stone: '#111111', other: '#8a8a8a', domestic: '#c9c9c4' };
   const TIER_SHORT = { domestic: 'home', other: 'other', stepping_stone: 'stepping', top9: 'top-9', entered: 'new', left: 'gone' };
   const fmt1 = d3.format('.1f'), fmt2 = d3.format('.2f'), fmtInt = d3.format(',d');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -309,7 +312,7 @@
       }).on('mouseleave', function (ev, l) { d3.select(this).attr('stroke-opacity', kind(l) === 'same' ? 0.35 : 0.6); hideTip(); });
     svg.append('g').selectAll('rect').data(graph.nodes).join('rect')
       .attr('x', (d) => d.x0).attr('y', (d) => d.y0).attr('height', (d) => Math.max(1, d.y1 - d.y0)).attr('width', (d) => d.x1 - d.x0)
-      .attr('fill', (d) => (d.tier === 'entered' ? C.mint : d.tier === 'left' ? C.muted : C.hot));
+      .attr('fill', (d) => (d.tier === 'entered' ? C.mint : d.tier === 'left' ? C.muted : RUNG[d.tier] || C.hot));
     svg.append('g').selectAll('text').data(graph.nodes).join('text')
       .attr('class', 'chart-axis-label').attr('x', (d) => (d.side ? d.x1 + 8 : d.x0 - 8)).attr('y', (d) => (d.y0 + d.y1) / 2 + 4)
       .attr('text-anchor', (d) => (d.side ? 'start' : 'end')).attr('fill', C.ink)
@@ -437,17 +440,25 @@
     const lowerBetter = new Set(['sideways', 'export_age']);
     const norm = rows.map((r) => { const vals = cs.map((c) => r.by_country[c].value); const lo = d3.min(vals), hi = d3.max(vals); return cs.map((c, i) => { const v = vals[i]; let t = hi === lo ? 0.5 : (v - lo) / (hi - lo); if (lowerBetter.has(r.key)) t = 1 - t; return t; }); });
     const box = mount(fig);
-    const H = 380, M = { t: 40, r: 70, b: 70, l: 70 };
+    // a phone: the six measure labels stand upright under their axes instead of colliding side by side
+    const narrow = (box.clientWidth || 800) < 600;
+    const H = narrow ? 520 : 380, M = narrow ? { t: 40, r: 44, b: 220, l: 50 } : { t: 40, r: 70, b: 70, l: 70 };
     const { svg, w } = svgIn(box, H);
     const x = d3.scalePoint().domain(rows.map((r) => r.key)).range([M.l, w - M.r]);
     const y = d3.scaleLinear().domain([0, 1]).range([H - M.b, M.t]);
     rows.forEach((r, i) => {
       svg.append('line').attr('x1', x(r.key)).attr('x2', x(r.key)).attr('y1', y(0)).attr('y2', y(1)).attr('stroke', C.rule);
+      if (narrow) {
+        svg.append('text').attr('class', 'chart-axis-label').attr('text-anchor', 'end').attr('fill', C.ink)
+          .attr('transform', `translate(${x(r.key) + 4},${H - M.b + 12}) rotate(-90)`).text(r.label);
+        return;
+      }
       const t = svg.append('text').attr('class', 'chart-axis-label').attr('x', x(r.key)).attr('y', H - M.b + 18).attr('text-anchor', 'middle').attr('fill', C.ink);
       const words = r.label.split(' '); const l1 = words.slice(0, Math.ceil(words.length / 2)).join(' '), l2 = words.slice(Math.ceil(words.length / 2)).join(' ');
       t.append('tspan').attr('x', x(r.key)).text(l1); if (l2) t.append('tspan').attr('x', x(r.key)).attr('dy', 13).text(l2);
     });
-    svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 8).attr('y', y(1) + 4).attr('text-anchor', 'end').text('best of 3');
+    if (narrow) svg.append('text').attr('class', 'chart-axis-label').attr('x', 0).attr('y', y(1) - 14).text('best of 3');
+    else svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 8).attr('y', y(1) + 4).attr('text-anchor', 'end').text('best of 3');
     svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l - 8).attr('y', y(0) + 4).attr('text-anchor', 'end').text('worst');
     const colour = (c, i) => (c === d.home ? C.acid : i === 1 ? C.hot : C.muted);
     cs.forEach((c, ci) => {
