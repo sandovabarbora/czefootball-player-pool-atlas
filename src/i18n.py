@@ -351,7 +351,7 @@ EN: dict[str, str] = {
     "autumn.coach.h3": "A new head coach",
     "autumn.coach": "{previous} left the post of head coach by mutual agreement on {left}.{n_left} {new} was appointed head coach on {appointed}, on a {years}-year contract,{n_appointed} and presented publicly on {presented}.{n_presented}",
     "autumn.retire.h3": "Three retirements from the national team",
-    "autumn.retire.lede": "Each of the three announced his own retirement from international football before {new} named his first squad; none of them was left out by a selection decision.{notes}",
+    "autumn.retire.lede": "Each of the three announced his own retirement from international football before {new} was appointed; none of them was left out by a selection decision.{notes}",
     "autumn.card.announced": "Announced {date}",
     "autumn.card.minutes": "{min} minutes in {season}",
     "autumn.card.squad_yes": "In the {event} squad",
