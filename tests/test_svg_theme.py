@@ -26,6 +26,11 @@ def test_recolour_maps_every_legacy_colour_and_is_idempotent():
     out, n = recolour(dark)
     assert n == 3
     assert CREAM in out and OXBLOOD in out and INK in out
+    # per-figure overrides: acid that marks no nation leaves the held green, idempotently
+    fixed, k = svg_theme.override("league_strength.svg", out)
+    assert k == 1 and OXBLOOD not in fixed
+    assert svg_theme.override("league_strength.svg", fixed) == (fixed, 0)
+    assert svg_theme.override("fare_dots.svg", out) == (out, 0)
 
 
 def test_theme_colours_are_not_themselves_legacy_keys():
