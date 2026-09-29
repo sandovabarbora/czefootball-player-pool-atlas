@@ -3,7 +3,10 @@
 #   docs/index.html        English (outputs/<NATION>/index.html)
 #   docs/*.svg, style.css  copied from outputs/<NATION>/
 #   docs/atlas_meta.json   interaction metadata for atlas.js (atlas_meta.py)
-#   docs/atlas/index.html  the player atlas (build_atlas.py + atlas.app.js)
+#   docs/players/index.html the player atlas (build_atlas.py + atlas.app.js)
+#   docs/q/<slug>/, this-autumn/, methodology/  the report split into a short
+#                          front page and one page per question (split_pages.py,
+#                          last; docs/atlas/ becomes a redirect to players/)
 # enrich_index.py applies the site layer (top bar, photos, folds, search) to
 # each page; every script asserts its match counts and fails loudly when the
 # render changed under it.
@@ -61,17 +64,20 @@ if [ -d "$O/charts" ]; then mkdir -p "$D/charts" && cp "$O/charts/"*.json "$D/ch
 ${=PY} "$S/enrich_index.py" "$D/index.html" --lang en
 ${=PY} "$S/atlas_meta.py" "$D" >/dev/null
 ${=PY} "$S/svg_theme.py" "$D" >/dev/null   # legacy-palette figures into the theme (idempotent)
-# the player atlas (docs/atlas/): needs charts/careers.json (src.careers_export)
+# the player atlas (docs/players/): needs charts/careers.json (src.careers_export)
 if [ -f "$D/charts/careers.json" ]; then ${=PY} "$S/build_atlas.py" "$D"; else echo "no charts/careers.json -- \`uv run python -m src.careers_export\` for the player atlas" >&2; fi
+# the cross-nation page lives in the root site only (it compares editions);
+# needs outputs/nations/nations.json (src.nations_compare)
+if [ "$NATION" = "cze" ] && [ -f "$ROOT/outputs/nations/nations.json" ]; then ${=PY} "$S/build_nations.py" "$D"; fi
+# the one long page -> a short front page, one page per question, this
+# autumn, methodology; the same top bar on players/ and nations/
+${=PY} "$S/split_pages.py" "$D"
 # portraits and cut-outs (src.fetch_photos*, site/cutouts.py) are made once
 # into docs/img/players/; another site dir gets only the ones its pages
 # reference, not the whole folder
 if [ "$D" != "$ROOT/docs" ]; then
-  for f in $(grep -oh 'img/players/[A-Za-z0-9_-]*\.\(jpg\|png\)' "$D/index.html" "$D/charts/careers.json" 2>/dev/null | sort -u); do
+  for f in $(grep -oh 'img/players/[A-Za-z0-9_-]*\.\(jpg\|png\)' $(find "$D" -name index.html -not -path "*/cs/*") "$D/charts/careers.json" 2>/dev/null | sort -u); do
     [ -e "$D/$f" ] || { [ -e "$ROOT/docs/$f" ] && cp "$ROOT/docs/$f" "$D/$f"; }
   done
 fi
-# the cross-nation page lives in the root site only (it compares editions);
-# needs outputs/nations/nations.json (src.nations_compare)
-if [ "$NATION" = "cze" ] && [ -f "$ROOT/outputs/nations/nations.json" ]; then ${=PY} "$S/build_nations.py" "$D"; fi
 echo "built $D/index.html (en, NATION=$NATION), atlas_meta.json"

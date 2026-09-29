@@ -1,4 +1,6 @@
-"""The player atlas page: <site>/atlas/index.html + the careers data it reads.
+"""The player atlas page: <site>/players/index.html + the careers data it reads.
+(site/split_pages.py then gives it the site's top bar and turns <site>/atlas/
+into a redirect to it.)
 
 Standalone like enrich_index.py (no src.* imports; NATION from the env,
 config/nations/<NATION>.yaml read directly) so `site/build.sh` can run it
@@ -65,10 +67,10 @@ for p in data["players"]:
 careers_path.write_text(json.dumps(data, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
 
 # ---------------------------------------------------------------- the page
-NAV = [("../#summary", "Summary"), ("../#pathways", "Pathways"), ("../#q9", "Cards"), ("../#methodology", "Methodology")]
+NAV = [("../", "Summary"), ("../methodology/", "Methodology")]
 links = "\n".join(f'    <a href="{href}">{label}</a>' for href, label in NAV)
 atlas_switch = " · ".join(
-    f'<span aria-current="page">{code.upper()}</span>' if code == NATION else f'<a href="{root}atlas/">{code.upper()}</a>'
+    f'<span aria-current="page">{code.upper()}</span>' if code == NATION else f'<a href="{root}players/">{code.upper()}</a>'
     for code, root in ATLAS_ROOTS.items()
 )
 n = len(data["players"])
@@ -76,7 +78,7 @@ seasons = data["seasons_covered"]
 span = f"{seasons[0][2:4]}/{seasons[0][7:9]}–{seasons[-1][2:4]}/{seasons[-1][7:9]}"
 metrics = data.get("metrics_season") or seasons[-1]
 metrics_short = f"{metrics[2:4]}/{metrics[7:9]}"
-page_url = SITE + ("" if NATION == "cze" else f"{NATION}/") + "atlas/"
+page_url = SITE + ("" if NATION == "cze" else f"{NATION}/") + "players/"
 # the Big-5 history (charts/eras.json, charts/careers_history.json) exists
 # for a nation once src.fetch_big5_history and src.careers_export ran
 eras_path = D / "charts" / "eras.json"
@@ -159,13 +161,13 @@ HTML = f'''<!DOCTYPE html>
     <p class="ax-more-row"><button type="button" class="ax-btn ax-more" data-ax-more hidden>show 50 more</button></p>
   </div>
   <footer class="ax-foot">
-    <p>Season lines are FBref standard tables for the leagues the pipeline covers (nine headline leagues, the home league, its peers and the stepping-stone leagues), {span}; a season elsewhere is absent, not zero. G+A / 90 adj. is non-penalty goals plus assists per 90 minutes, times the league multiplier from the report's <a href="../#league-strength">league-strength model</a>; it is the raw rate, not the shrunk one the report ranks on. National-team call-ups come from the squad lists the report uses. Portraits: Chance Liga official portraits, Wikimedia Commons where none exists — credits on the <a href="../#photo-credits">report page</a>.</p>
+    <p>Season lines are FBref standard tables for the leagues the pipeline covers (nine headline leagues, the home league, its peers and the stepping-stone leagues), {span}; a season elsewhere is absent, not zero. G+A / 90 adj. is non-penalty goals plus assists per 90 minutes, times the league multiplier from the report's <a href="../methodology/#league-strength">league-strength model</a>; it is the raw rate, not the shrunk one the report ranks on. National-team call-ups come from the squad lists the report uses. Portraits: Chance Liga official portraits, Wikimedia Commons where none exists — credits on the <a href="../#photo-credits">report page</a>.</p>
   </footer>
 </main>
 </body>
 </html>
 '''
-out = D / "atlas" / "index.html"
+out = D / "players" / "index.html"
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(HTML, encoding="utf-8")
 print(f"built {out} ({n} players, {n_photo} with a portrait, seasons {span})")

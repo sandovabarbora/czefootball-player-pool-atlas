@@ -16,6 +16,8 @@
  */
 (function () {
   if (typeof d3 === 'undefined') return;
+  // charts/ sits next to this script, whichever page (and depth) loads it
+  const BASE = ((document.currentScript && document.currentScript.src) || '').replace(/charts\.js(\?.*)?$/, '');
   const HOME_CODE = document.documentElement.dataset.home || 'CZE';
   const CSS = getComputedStyle(document.documentElement);
   const C = {
@@ -91,7 +93,7 @@
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${h}`).attr('width', '100%').attr('height', h);
     return { svg, w, h };
   }
-  const load = (name) => fetch(`charts/${name}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const load = (name) => fetch(`${BASE}charts/${name}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   const axisStyle = (g) => {
     g.selectAll('path, line').attr('stroke', C.rule);
     g.selectAll('text').attr('fill', C.muted).attr('font-family', 'JetBrains Mono, monospace').attr('font-size', 10).attr('letter-spacing', '0.08em');

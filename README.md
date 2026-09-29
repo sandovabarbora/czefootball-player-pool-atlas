@@ -3,7 +3,7 @@
 Live at **[football.bsandova.com](https://football.bsandova.com)**. Editions for
 England (`/eng/`), Germany (`/ger/`), Denmark (`/den/`), Norway (`/nor/`) and
 Spain (`/esp/`) run the same pipeline on another nationality code; each has
-its own player atlas (`/<edition>/atlas/`), and
+its own player atlas (`/<edition>/players/`), and
 **[/nations/](https://football.bsandova.com/nations/)** puts the editions
 side by side.
 
@@ -190,11 +190,23 @@ Up to eighteen showcase cards are picked by six rules (one per position group pe
 full design and its "Deviations from the design" section for where the
 shipped v1 departs from the original plan.
 
-### The player atlas and the nations page
+### The pages of the site
+
+The report is split into short pages by the last step of `site/build.sh`
+(`site/split_pages.py`), the same way for every edition: the front page `/`
+(masthead, the headline number, the dated "This autumn" teaser, the findings
+each linked to its evidence, the one-page brief), one page per question at
+`/q/<slug>/` (the slide, the "Explore the data" evidence that belongs to it,
+previous/next), `/this-autumn/`, `/methodology/` (chapter IV and the
+downloads) and `/players/`. Nothing is rewritten in the split: blocks are
+moved as rendered, and only links and navigation labels are added
+(`scripts/verify_split_text.py <old dir> <new dir>` checks the visible text).
+Old one-page anchors (`/#q1`, `/#methodology`, ...) are forwarded by a small
+script on the front page, and `/atlas/` redirects to `/players/`.
 
 Two pages sit next to the report, built by the same `site/build.sh`:
 
-- **`/atlas/`** (`site/build_atlas.py` + `docs/atlas.app.js`) — every pool
+- **`/players/`** (`site/build_atlas.py` + `docs/atlas.app.js`) — every pool
   player's seasons in the covered leagues from `charts/careers.json`
   (`src/careers_export.py`: minutes by league rung, non-penalty G+A per 90
   times the league multiplier, national-team call-ups, the metrics-season
