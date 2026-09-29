@@ -1204,3 +1204,27 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .squad-tile[data-tier="stepping_stone"] .squad-portrait, .squad-tile[data-tier="stepping_stone"] .squad-mono { border-color: var(--rung-stepping); }
 .squad-tile[data-tier="other"] .squad-portrait, .squad-tile[data-tier="other"] .squad-mono { border-color: var(--rung-other); }
 .squad-tile[data-tier="domestic"] .squad-portrait, .squad-tile[data-tier="domestic"] .squad-mono { border-color: var(--rung-home); }
+
+/* ---- "This autumn" (#autumn): dated news beside the snapshot ---- */
+.autumn-asof { font-family: var(--font-mono); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0.25rem 0 1.25rem; }
+.autumn-body { max-width: 72ch; }
+.autumn-body h3 { font-size: 1.125rem; margin: 1.75rem 0 0.5rem; }
+.autumn-body sup.fn { font-size: 0.7em; line-height: 0; margin-left: 0.1em; }
+.autumn-body sup.fn a { text-decoration: none; }
+.autumn-players { list-style: none; padding: 0; margin: 1rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 0.75rem; }
+.autumn-player { border: 1px solid var(--rule); border-top: 4px solid var(--rung-none); padding: 0.85rem 1rem; }
+.autumn-player[data-tier="top9"] { border-top-color: var(--rung-top9); }
+.autumn-player[data-tier="stepping_stone"] { border-top-color: var(--rung-stepping); }
+.autumn-player[data-tier="domestic"] { border-top-color: var(--rung-home); }
+.autumn-player[data-tier="other"] { border-top-color: var(--rung-other); }
+.autumn-player p { margin: 0.2rem 0; }
+.autumn-name { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+.autumn-date, .autumn-squad { font-size: 0.875rem; }
+.autumn-rung { display: flex; align-items: center; gap: 0.45em; flex-wrap: wrap; }
+.autumn-min { font-variant-numeric: tabular-nums; }
+.autumn-quote { font-size: 0.875rem; font-style: italic; }
+.autumn-sources-h { font-size: 0.9375rem !important; }
+.autumn-sources { font-size: 0.8125rem; padding-left: 1.4em; overflow-wrap: anywhere; }
+.autumn-sources li { margin: 0.3rem 0; }
+.autumn-sources li:target { background: color-mix(in srgb, var(--rung-top9) 14%, transparent); }
+.autumn-club { font-size: 0.875rem; }

@@ -187,6 +187,14 @@ def build_process() -> dict[str, Any]:
     return load_yaml("build_process.yaml")
 
 
+def news() -> dict[str, Any] | None:
+    """Return the home nation's dated news (`config/news/<NATION>.yaml`) for
+    the report's "This autumn" section, or None when the nation has none --
+    the section is then left out of that edition."""
+    path = CONFIG_DIR / "news" / f"{NATION}.yaml"
+    return load_yaml(f"news/{NATION}.yaml") if path.exists() else None
+
+
 HOME: str = nation()["code"]
 
 
