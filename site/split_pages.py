@@ -316,6 +316,8 @@ def rewrite(fragment: str, rel: str, here: str, where: dict[str, str]) -> str:
     def fix_url(u: str) -> str:
         if not u or re.match(r"^(?:[a-z]+:|/|#|\?|data:)", u):
             return u
+        if u == "./":   # the edition's front page
+            return rel or u
         if u == "atlas/" or u.startswith("atlas/"):
             u = "players/" + u[len("atlas/"):]
         return rel + u
@@ -351,7 +353,8 @@ def pager(i: int, rel: str) -> str:
     next_q = questions[i + 1] if i + 1 < len(questions) else None
     parts = []
     parts.append(f'<a class="qpager-prev" href="{rel}q/{prev_q["slug"]}/"><span class="qpager-dir">← Previous</span> {_html.escape(prev_q["title"])}</a>' if prev_q else '<span class="qpager-prev"></span>')
-    parts.append(f'<a class="qpager-home" href="{rel}">Back to the summary</a>')
+    home = rel or "./"
+    parts.append(f'<a class="qpager-home" href="{home}">Back to the summary</a>')
     parts.append(f'<a class="qpager-next" href="{rel}q/{next_q["slug"]}/"><span class="qpager-dir">Next →</span> {_html.escape(next_q["title"])}</a>' if next_q else '<span class="qpager-next"></span>')
     return '<nav class="qpager container" aria-label="Questions">\n  ' + "\n  ".join(parts) + "\n</nav>"
 
@@ -360,19 +363,19 @@ def pager(i: int, rel: str) -> str:
 for i, q in enumerate(questions):
     path = f'q/{q["slug"]}/'
     frag = []
-    frag.append(f'<div class="qpage-head container"><p class="qpage-crumb"><a href="../../">Summary</a> · Question {i + 1} of {len(questions)}</p></div>')
+    frag.append(f'<div class="qpage-head container"><p class="qpage-crumb"><a href="./">Summary</a> · Question {i + 1} of {len(questions)}</p></div>')
     if q["sid"] in acts:
         frag.append(acts[q["sid"]])
     frag.append(src(blocks[q["sid"]]))
     if q["folds"]:
         folds = "\n".join(re.sub(r'^(\s*)<details class="fold">', r'\1<details class="fold" open>', FOLDS[f], count=1) for f in q["folds"])
         frag.append(f'<section class="explore qpage-evidence">\n  <div class="container">\n    {EXPLORE_H2 or ""}\n    {folds}\n  </div>\n</section>')
-    frag.append(pager(i, "../../"))
+    frag.append(pager(i, ""))  # rewrite() adds the page depth
     PAGES[path] = frag
 
 # this autumn
 if HAS_AUTUMN:
-    PAGES["this-autumn/"] = ['<div class="qpage-head container"><p class="qpage-crumb"><a href="../">Summary</a></p></div>', src(blocks["autumn"])]
+    PAGES["this-autumn/"] = ['<div class="qpage-head container"><p class="qpage-crumb"><a href="./">Summary</a></p></div>', src(blocks["autumn"])]
 
 # methodology
 meth = []
