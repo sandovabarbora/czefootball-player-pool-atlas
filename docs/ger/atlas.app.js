@@ -366,21 +366,22 @@
   let overviewSig = '';
   function renderOverview() {
     const el = ui.overview; if (!el) return;
-    const sig = `${DATA.players.length}|${el.clientWidth}`;
+    const pool = DATA.players.filter((p) => !p.past);   // today's pool only, whether or not past players are listed
+    const sig = `${pool.length}|${el.clientWidth}`;
     if (sig === overviewSig) return;
     overviewSig = sig;
-    const nTop = DATA.players.filter((p) => p.d.tierNow === 'top9').length;
+    const nTop = pool.filter((p) => p.d.tierNow === 'top9').length;
     el.innerHTML = `<p class="ax-kicker">the pool, season by season</p>` +
       `<h2 class="ax-statement">Pick a player on the left, or start from the whole pool: where its minutes were played, ${short(SEASONS[0])} to ${short(SEASONS[SEASONS.length - 1])}.</h2>` +
       `<div class="ax-chart" data-ax-overview></div>` +
-      `<p class="ax-note">Minutes of the ${DATA.players.length} pool players who appear in the covered leagues, stacked by the rung of the league. ${nTop} of them play in a top-9 league now. Hover a band for the season's numbers; the current season has only begun.</p>`;
-    if (hasD3) requestAnimationFrame(() => overviewChart(el.querySelector('[data-ax-overview]')));
+      `<p class="ax-note">Minutes of the ${pool.length} pool players who appear in the covered leagues, stacked by the rung of the league. ${nTop} of them play in a top-9 league now. Hover a band for the season's numbers; the current season has only begun.</p>`;
+    if (hasD3) requestAnimationFrame(() => overviewChart(el.querySelector('[data-ax-overview]'), pool));
   }
-  function overviewChart(box) {
+  function overviewChart(box, pool) {
     const keys = ['domestic', 'other', 'stepping_stone', 'top9'];
     const rows = SEASONS.map((s) => {
       const r = { season: s, domestic: 0, other: 0, stepping_stone: 0, top9: 0, n: 0 };
-      for (const p of DATA.players) { const row = p.d.bySeason.get(s); if (!row) continue; r.n += 1; for (const st of row.stints) r[st.tier] += st.min; }
+      for (const p of pool) { const row = p.d.bySeason.get(s); if (!row) continue; r.n += 1; for (const st of row.stints) r[st.tier] += st.min; }
       return r;
     });
     const w = Math.max(320, box.clientWidth || 700), H = 340, M = { t: 26, r: 16, b: 34, l: 56 };

@@ -1015,6 +1015,7 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .ax-controls .pool-control { flex: 0 1 11rem; min-width: 8.5rem; }
 .ax-controls .pool-control-search { flex: 1 1 16rem; }
 .ax-controls .pool-control input, .ax-controls .pool-control select { width: 100%; box-sizing: border-box; }
+.ax-controls .pool-control input[type=search], .ax-controls .pool-control select { height: 2.25rem; line-height: normal; }
 .ax-checks { display: flex; flex-direction: column; gap: 0.1rem; flex: 1 1 14rem; padding-bottom: 0.2rem; }
 .ax-check { flex-direction: row; align-items: center; gap: 0.5rem; min-width: 0; }
 .ax-controls .ax-check { flex: 0 0 auto; min-width: 0; }
