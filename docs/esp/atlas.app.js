@@ -16,17 +16,17 @@
   if (!root) return;
   const CSS = getComputedStyle(document.documentElement);
   const C = {
-    acid: CSS.getPropertyValue('--acid').trim() || '#D6FF3A',
-    hot: CSS.getPropertyValue('--hot').trim() || '#F2F2EE',
-    ink: CSS.getPropertyValue('--ink').trim() || '#DCDCD6',
-    muted: CSS.getPropertyValue('--muted').trim() || '#8B8B85',
-    rule: CSS.getPropertyValue('--rule').trim() || '#3A3A36',
-    page: CSS.getPropertyValue('--page-bg').trim() || '#161616',
-    orange: '#FF6A3D', mint: '#7ED9A6', violet: '#B78CFF',
+    acid: CSS.getPropertyValue('--acid').trim() || '#2f7a36',
+    hot: CSS.getPropertyValue('--hot').trim() || '#111111',
+    ink: CSS.getPropertyValue('--ink').trim() || '#111111',
+    muted: CSS.getPropertyValue('--muted').trim() || '#666666',
+    rule: CSS.getPropertyValue('--rule').trim() || '#d9d9d5',
+    page: CSS.getPropertyValue('--page-bg').trim() || '#ffffff',
+    orange: '#c8531f', mint: '#2a8c8c', violet: '#6b4bb8',   // darkened for white paper (src/figstyle.py SEQ_*)
   };
-  // the rung of the league, brighter the higher — the home league is the base
+  // the rung of the league, darker the higher — the home league is the pale base
   const TIER = {
-    domestic: { col: '#6E6E68', label: 'home league', short: 'home', rank: 0 },
+    domestic: { col: '#b5b5b0', label: 'home league', short: 'home', rank: 0 },
     other: { col: C.mint, label: 'other league', short: 'other', rank: 1 },
     stepping_stone: { col: C.violet, label: 'stepping stone', short: 'stepping', rank: 2 },
     top9: { col: C.hot, label: 'top-9 league', short: 'top-9', rank: 3 },
@@ -502,7 +502,7 @@
       `<p class="ax-kicker">the nation in the Big-5 · ${short(first.season)}–${short(last.season)}</p>` +
       `<h2 class="ax-statement">${esc(HOME_NAME)} players in Europe's five biggest leagues: ${first.n} in ${short(first.season)}, ${peak.n} at the peak in ${short(peak.season)}, ${low.n} at the low in ${short(low.season)}, ${last.n} in ${short(last.season)}. Click a season for who was there.</h2>` +
       `<div class="ax-chart" data-ax-eras-chart></div>` +
-      `<p class="ax-note">How to read it: bars are home-nation players with a Big-5 appearance that season, the line their median age, the acid marks debutants (a first Big-5 season of 450+ minutes). Dimmed bars: fewer than five leagues covered.</p>` +
+      `<p class="ax-note">How to read it: bars are home-nation players with a Big-5 appearance that season, the line their median age, the green marks debutants (a first Big-5 season of 450+ minutes). Dimmed bars: fewer than five leagues covered.</p>` +
       `<details class="fold ax-fold"><summary>how we know</summary><p class="ax-note">FBref season tables for the Premier League, Serie A, La Liga, Bundesliga and Ligue 1 (the English top flight from 92/93, Ligue 1 from 95/96). A debutant is a proxy for when the exports arrive; the first season of the history has none by construction. The pool's own leagues are covered only from ${short(SEASONS[0])}, so this is the top of the ladder over time, not the whole pool.</p></details>` +
       `<div class="ax-era" data-ax-era></div>` +
       `<details class="fold ax-fold"><summary>every season as a table</summary><div class="ax-table-wrap"><table class="ax-table"><thead><tr><th>season</th><th class="num">players</th><th class="num">minutes</th><th class="num">median age</th><th class="num">≤22 share</th><th class="num">debutants</th><th class="num">debut age</th></tr></thead><tbody>` +

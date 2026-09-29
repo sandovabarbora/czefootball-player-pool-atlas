@@ -32,29 +32,33 @@ LOG = logging.getLogger(__name__)
 # Palette
 # =============================================================================
 
-# Concrete register (2026-09-21), from bsandova.com: concrete dark ground,
-# chalk text, hairlines, one acid accent for the home nation. The names
-# NAVY / OXBLOOD / CREAM are kept from the cream-paper original so every
-# figure module still reads; they name roles now, and the page's CSS tokens
-# (templates/style.css) carry the same values.
-NAVY         = "#F2F2EE"   # --navy-700  -- PEER_A, the first comparison country ("hot")
-NAVY_DEEP    = "#D6FF3A"   # the bright end of the sequential ramp (acid)
-OXBLOOD      = "#D6FF3A"   # --oxblood-700 -- HOME, the home nation, always (acid)
-OXBLOOD_TINT = "#3F4A12"   # a dark wash of acid -- level bands, not lines
-SLATE        = "#8B8B85"   # PEER_B, the second comparison country
-INK          = "#DCDCD6"   # --ink -- text, ticks, axis labels (chalk)
-MUTED        = "#8B8B85"   # secondary series, muted labels (AA on the ground)
-CORPUS       = "#3A3A36"   # background corpus / "everyone else"
-RULE         = "#3A3A36"   # --rule -- spines, hairlines, dividers
-GRID         = "#262624"   # the y-grid only
-CREAM        = "#161616"   # --cream-50 -- figure/axes background (the page ground)
-CREAM_TINT   = "#1F1F1F"   # --cream-100
+# A24 register (2026-09-29), from bsandova.com: white paper, ink text and
+# ticks, light hairlines, and one colour held from the hero photograph (the
+# pitch green) for the home nation. The names NAVY / OXBLOOD / CREAM are kept
+# from the cream-paper original so every figure module still reads; they
+# name roles now, and the page's CSS tokens (templates/style.css) carry the
+# same values.
+NAVY         = "#111111"   # --navy-700  -- PEER_A, the first comparison country (ink)
+NAVY_DEEP    = "#111111"   # the dark end of the sequential ramp (ink)
+OXBLOOD      = "#2f7a36"   # --oxblood-700 -- HOME, the home nation, always (the held green)
+OXBLOOD_TINT = "#dcebdd"   # a pale wash of the held green -- level bands, not lines
+SLATE        = "#8a8a8a"   # PEER_B, the second comparison country
+INK          = "#111111"   # --ink -- text, ticks, axis labels
+MUTED        = "#8a8a8a"   # secondary series, muted labels
+CORPUS       = "#d9d9d5"   # background corpus / "everyone else"
+RULE         = "#d9d9d5"   # --rule -- spines, hairlines, dividers
+GRID         = "#ececea"   # the y-grid only
+CREAM        = "#ffffff"   # --cream-50 -- figure/axes background (the paper)
+CREAM_TINT   = "#f6f6f4"   # --cream-100
 
-# Sequencer colours (the author's site) for marks that need more than two
-# categories -- tiers, clusters -- never for the home-vs-peer contrast.
-SEQ_ORANGE = "#FF6A3D"
-SEQ_MINT   = "#7ED9A6"
-SEQ_VIOLET = "#B78CFF"
+# Categorical colours for marks that need more than two categories -- tiers,
+# clusters -- never for the home-vs-peer contrast; darkened for white paper.
+SEQ_ORANGE = "#c8531f"
+SEQ_MINT   = "#2a8c8c"     # a teal: a green would read as the home nation
+SEQ_VIOLET = "#6b4bb8"
+SEQ_LILAC  = "#a0479a"
+SEQ_BLUE   = "#3a6ea8"
+SEQ_OCHRE  = "#b8742f"
 
 # Named per the brief's own convention (`HOME`/`PEER_A`/`PEER_B`), aliasing
 # the hex constants above so a figure can say `figstyle.HOME` and mean it.
@@ -62,36 +66,54 @@ HOME = OXBLOOD
 PEER_A = NAVY
 PEER_B = SLATE
 
-# Sequential ramp ground -> acid, for heatmaps ("more production/count =
-# more visual weight"; on a dark ground weight is light, not dark).
+# Sequential ramp paper -> ink, for heatmaps ("more production/count = more
+# visual weight"; on paper weight is dark). Neutral, so the held green stays
+# the home nation's alone.
 CMAP_NAVY = LinearSegmentedColormap.from_list(
-    "ground_to_acid",
+    "paper_to_ink",
     [
         (0.00, CREAM_TINT),
-        (0.30, "#3A3A36"),
-        (0.55, "#6B7A2E"),
-        (0.80, "#A7CC32"),
+        (0.30, "#d9d9d5"),
+        (0.55, "#9a9a96"),
+        (0.80, "#4a4a48"),
         (1.00, NAVY_DEEP),
     ],
     N=256,
 )
 
-# The cream-paper palette every figure was drawn with before this theme,
-# mapped to its replacement. `site/svg_theme.py` applies this to the SVGs
-# at build time, so a figure whose model was not refitted (and therefore
-# was not redrawn) still ships in the theme; a figure drawn with the
-# constants above contains none of these keys and passes through unchanged.
+# Every palette a figure was drawn with before this theme, mapped to its
+# replacement. `site/svg_theme.py` applies this to the SVGs at build time, so
+# a figure whose model was not refitted (and therefore was not redrawn) still
+# ships in the theme; a figure drawn with the constants above contains none
+# of these keys and passes through unchanged. No value here is also a key,
+# so the mapping is idempotent.
 LEGACY_TO_THEME: dict[str, str] = {
+    # the cream-paper original (to 2026-09-21)
     "#1f3a5f": NAVY, "#162a44": NAVY_DEEP, "#9c3a2a": OXBLOOD, "#f1ddd7": OXBLOOD_TINT,
     "#5b7290": SLATE, "#2a261f": INK, "#8a857b": MUTED, "#7e7e78": MUTED, "#d4cfc3": CORPUS,
     "#c8c2b7": RULE, "#ece6d8": GRID, "#fdfbf6": CREAM, "#efe9dc": CREAM_TINT,
     "#000000": INK,
-    # the cluster palette of the atlases (src/render.py), in sequencer colours
-    "#7e8eaa": "#DCDCD6", "#b08968": SEQ_ORANGE, "#7a5c63": SEQ_VIOLET, "#5e7e64": SEQ_MINT,
-    "#7e6678": "#E3A0FF", "#3d6b6e": "#7ED9D9", "#806b53": "#FFB07A",
-    # the cream-to-navy heatmap ramp stops
-    "#c4c3bc": "#3A3A36",
+    # its cluster palette of the atlases (src/render.py)
+    "#7e8eaa": "#444444", "#b08968": SEQ_ORANGE, "#7a5c63": SEQ_VIOLET, "#5e7e64": SEQ_MINT,
+    "#7e6678": SEQ_LILAC, "#3d6b6e": SEQ_BLUE, "#806b53": SEQ_OCHRE,
+    # its cream-to-navy heatmap ramp stop
+    "#c4c3bc": "#d9d9d5",
+    # the concrete register (2026-09-21 to 2026-09-29): dark ground, chalk,
+    # acid for the home nation
+    "#f2f2ee": NAVY,          # "hot", peer A
+    "#d6ff3a": OXBLOOD,       # acid, the home nation
+    "#3f4a12": OXBLOOD_TINT,
+    "#dcdcd6": INK,           # chalk text and ticks; also its NAVY_SOFT cluster
+    "#8b8b85": MUTED,         # peer B and muted labels
+    "#3a3a36": RULE,          # rules and the corpus
+    "#262624": GRID,
+    "#161616": CREAM,         # the ground
+    "#1f1f1f": CREAM_TINT,
+    "#ff6a3d": SEQ_ORANGE, "#7ed9a6": SEQ_MINT, "#b78cff": SEQ_VIOLET,
+    "#e3a0ff": SEQ_LILAC, "#7ed9d9": SEQ_BLUE, "#ffb07a": SEQ_OCHRE,
+    "#6b7a2e": "#9a9a96", "#a7cc32": "#4a4a48",   # its ground-to-acid ramp stops
 }
+assert not set(LEGACY_TO_THEME.values()) & set(LEGACY_TO_THEME), "a theme colour is also a legacy key"
 
 # =============================================================================
 # Fonts

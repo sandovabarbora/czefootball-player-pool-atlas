@@ -1,12 +1,12 @@
 """Site layer over one rendered page (English or the home nation's language —
 `--lang` picks the strings; only the home nation `cze` has a `cs` page):
 
-- head: Space Grotesk + Fraunces + JetBrains Mono, modern.css, hreflang alternates,
+- head: Inter Tight + JetBrains Mono, modern.css, hreflang alternates,
   KaTeX, atlas.js (cache-busted with ?v=)
 - top bar with brand, section links and the Contents button
 - masthead cast strip (the card players' portraits)
-- hero: posterised cut-out of the first card player with a portrait; the
-  sublead folds under the tiles
+- hero: the stadium photograph (black and white, the pitch green held) with
+  its credit line; the sublead folds under the tiles
 - player cards: visual header (portrait or monogram, position glyph, club tag)
 - avatar chips in cluster top lists and movers tables; analog target portraits
 - folds: limitations, analog lists, card analog sections, appendix tables
@@ -143,7 +143,7 @@ def sub(pat, repl, want, flags=0):
 
 # ---------------------------------------------------------------- head
 sub(r'<link href="https://fonts\.googleapis\.com/css2\?family=Spectral[^"]*" rel="stylesheet">',
-    '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">',
+    '<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">',
     1)
 sub(rf'<link rel="stylesheet" href="{re.escape(P)}style\.css">',
     f'<link rel="stylesheet" href="{P}style.css">\n  <link rel="stylesheet" href="{P}modern.css">\n'
@@ -275,11 +275,22 @@ if not (12 <= len(CARDS) <= 18):
 # The masthead cast strip (portraits of the card players) went in the distill
 # pass: the faces live on the cards and the masthead is a title and one line.
 
-# ---------------------------------------------------------------- hero: cut-out + sublead fold; drop the in-page TOC list
-_first_photo = next((photo(c["key"]) for c in CARDS if photo(c["key"])), None)
-if _first_photo:
-    sub(r'<section class="hero" id="summary">',
-        f'<section class="hero" id="summary">\n  <img class="hero-cutout" src="{P}{_first_photo["image"]}" alt="" aria-hidden="true" decoding="async" onerror="this.remove()">', 1)
+# ---------------------------------------------------------------- hero: the photograph + sublead fold; drop the in-page TOC list
+# The hero is a film, as on bsandova.com: one black-and-white photograph with
+# the pitch green held (the colour that marks the home nation everywhere
+# else), the number and the finding over it. The image lives once in
+# docs/img/ (site/build.sh copies it into an edition's dir); the credit line
+# is the one the article on bsandova.com carries for the same photograph.
+HERO_ALT = ("A floodlit football stadium at night seen from above, in black and white "
+            "with only the green of the pitch kept")
+HERO_CREDIT = ('Photo: <a href="https://commons.wikimedia.org/wiki/File:The_Peninsula_Stadium_at_night_-_Salford_City_-_Aug_24.jpg">'
+               'Emessem T</a> · CC BY-SA 4.0, colour held')
+sub(r'<section class="hero" id="summary">',
+    f'<section class="hero" id="summary">\n  <img class="hero-photo" src="{P}img/atlas.jpg" '
+    f'srcset="{P}img/atlas-1200.jpg 1200w, {P}img/atlas.jpg 1920w" sizes="100vw" '
+    f'alt="{HERO_ALT}" decoding="async" fetchpriority="high">', 1)
+sub(r'(<p class="hero-footnote">.*?</p>\n  </div>\n)(</section>)',
+    lambda m: m.group(1) + f'  <p class="hero-credit">{HERO_CREDIT}</p>\n' + m.group(2), 1, re.S)
 sub(r'<p class="hero-sublead">(.*?)</p>',
     lambda m: f'<details class="fold fold-hero"><summary>{S["in_context"]}</summary>\n        <p class="hero-sublead">{m.group(1)}</p>\n        </details>',
     1, re.S)

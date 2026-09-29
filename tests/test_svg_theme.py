@@ -21,6 +21,16 @@ def test_recolour_maps_every_legacy_colour_and_is_idempotent():
     assert "#fdfbf6" not in out and "#9c3a2a" not in out.lower()
     again, m = recolour(out)
     assert m == 0 and again == out
+    # figures drawn under the dark concrete register (2026-09-21) come out on white paper
+    dark = '<rect style="fill: #161616"/><path style="stroke: #D6FF3A"/><text fill="#DCDCD6">x</text>'
+    out, n = recolour(dark)
+    assert n == 3
+    assert CREAM in out and OXBLOOD in out and INK in out
+    # per-figure overrides: acid that marks no nation leaves the held green, idempotently
+    fixed, k = svg_theme.override("league_strength.svg", out)
+    assert k == 1 and OXBLOOD not in fixed
+    assert svg_theme.override("league_strength.svg", fixed) == (fixed, 0)
+    assert svg_theme.override("fare_dots.svg", out) == (out, 0)
 
 
 def test_theme_colours_are_not_themselves_legacy_keys():

@@ -171,8 +171,10 @@ section against the page rather than assuming it can't drift:
 (`outputs/<nation>/index.html`): copies it plus the SVG figures and
 stylesheet into `docs/` (or `docs/<nation>/`), then `site/enrich_index.py`
 applies the site layer (top bar, photos, folds, search) and
-`site/svg_theme.py` brings any figure drawn under the earlier cream-paper
-palette into the current theme. The site publishes English only; the Czech
+`site/svg_theme.py` brings any figure drawn under an earlier palette (the
+cream paper, then the dark concrete register) into the current theme: white
+paper, ink, and the pitch green held from the hero photograph for the home
+nation. The site publishes English only; the Czech
 strings in `config/i18n/cs.yaml` are dormant (a missing Czech entry falls
 back to English) since 2026-09-21.
 

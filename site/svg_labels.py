@@ -129,10 +129,10 @@ CS_GEN = config.nation().get("cs", {}).get("gen", "Česka")
 CAPTION_EN = re.compile(
     rf"PCA of the five-feature vector \(npG/90, A/90, minutes share, age, cards/90\), (?P<season>\S+)\. "
     rf"Grey: the whole corpus \(n = (?P<corpus>\d+)\); coloured: {re.escape(ADJ_EN)}-eligible players by cluster \(n = (?P<czech>\d+)\)\. "
-    rf"Oxblood rings: national-team call-up (?P<nt>[\d–-]+)\.")
+    rf"Green rings: national-team call-up (?P<nt>[\d–-]+)\.")
 CAPTION_CS = ("PCA pětiprvkového vektoru (npG/90, A/90, podíl minut, věk, karty/90), {season}. "
               "Šedě: celý korpus (n = {corpus}); barevně: hráči s příslušností " + CS_GEN + " podle clusteru (n = {czech}). "
-              "Oxbloodové kroužky: reprezentační nominace {nt}.")
+              "Zelené kroužky: reprezentační nominace {nt}.")
 # the big5_series title (Task 27B2: no season span in the title any more --
 # the axis already carries it) is matched by pattern so ADJ_EN/ADJ_CS_PL stay dynamic
 BIG5_TITLE_EN = re.compile(rf"{re.escape(ADJ_EN)} players in the Big-5 leagues")

@@ -19,16 +19,17 @@
   const HOME_CODE = document.documentElement.dataset.home || 'CZE';
   const CSS = getComputedStyle(document.documentElement);
   const C = {
-    acid: CSS.getPropertyValue('--acid').trim() || '#D6FF3A',
-    hot: CSS.getPropertyValue('--hot').trim() || '#F2F2EE',
-    ink: CSS.getPropertyValue('--ink').trim() || '#DCDCD6',
-    muted: CSS.getPropertyValue('--muted').trim() || '#7E7E78',
-    rule: CSS.getPropertyValue('--rule').trim() || '#3A3A36',
-    page: CSS.getPropertyValue('--page-bg').trim() || '#161616',
-    corpus: '#3A3A36',
-    orange: '#FF6A3D', mint: '#7ED9A6', violet: '#B78CFF', lilac: '#E3A0FF', aqua: '#7ED9D9', peach: '#FFB07A',
+    acid: CSS.getPropertyValue('--acid').trim() || '#2f7a36',
+    hot: CSS.getPropertyValue('--hot').trim() || '#111111',
+    ink: CSS.getPropertyValue('--ink').trim() || '#111111',
+    muted: CSS.getPropertyValue('--muted').trim() || '#666666',
+    rule: CSS.getPropertyValue('--rule').trim() || '#d9d9d5',
+    page: CSS.getPropertyValue('--page-bg').trim() || '#ffffff',
+    corpus: '#d9d9d5', grey: '#8a8a8a',
+    // categorical colours, darkened for white paper (src/figstyle.py SEQ_*); mint is a teal so no green but the home nation's
+    orange: '#c8531f', mint: '#2a8c8c', violet: '#6b4bb8', lilac: '#a0479a', aqua: '#3a6ea8', peach: '#b8742f',
   };
-  const CLUSTER_COLOURS = [C.ink, C.orange, C.violet, C.mint, C.lilac, C.aqua, C.peach, C.hot];
+  const CLUSTER_COLOURS = [C.ink, C.orange, C.violet, C.mint, C.lilac, C.aqua, C.peach, C.grey];
   const TIER_LABEL = { domestic: 'home league', other: 'other league', stepping_stone: 'stepping stone', top9: 'top-9 league', entered: 'new to the pool', left: 'no longer covered' };
   const TIER_SHORT = { domestic: 'home', other: 'other', stepping_stone: 'stepping', top9: 'top-9', entered: 'new', left: 'gone' };
   const fmt1 = d3.format('.1f'), fmt2 = d3.format('.2f'), fmtInt = d3.format(',d');
@@ -225,7 +226,7 @@
         .transition().duration(dur).attr('y', (c) => y(series(c).at(-1).v) + 3);
       marks.selectAll('*').remove();
       // the dated breaks: the fall in acid, the rise (two-break fit) in chalk
-      for (const [br, label, col] of [[(data.rise || [])[0], 'rise', C.ink], [(data.break || [])[0], 'break', C.acid]]) {
+      for (const [br, label, col] of [[(data.rise || [])[0], 'rise', C.ink], [(data.break || [])[0], 'break', C.orange]]) {
         if (!br || !seasons.includes(br.season)) continue;
         marks.append('line').attr('x1', x(br.season)).attr('x2', x(br.season)).attr('y1', M.t).attr('y2', H - M.b).attr('stroke', col).attr('stroke-dasharray', '3 3').attr('opacity', 0.7);
         marks.append('text').attr('class', 'chart-axis-label').attr('x', x(br.season) + 5).attr('y', M.t + 10).attr('fill', col).text(`${label} · ${Math.round(br.prob * 100)} %`);
@@ -279,7 +280,7 @@
       .on('mouseleave', hideTip);
     if (!reduced) dots.attr('r', 0).transition().delay((d, i) => i * 12).duration(300).attr('r', 4.5);
     const note = document.createElement('p'); note.className = 'chart-note';
-    note.textContent = `curve and 90 % band from the model (n = ${data.n}); acid dots are ${HOME_CODE} exports at their first top-9 season — hover for the name`;
+    note.textContent = `curve and 90 % band from the model (n = ${data.n}); green dots are ${HOME_CODE} exports at their first top-9 season — hover for the name`;
     box.appendChild(note);
   }
 
@@ -316,7 +317,7 @@
     svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', H - 2).attr('text-anchor', 'end').text(data.previous.replace('-', '/'));
     svg.append('text').attr('class', 'chart-axis-label').attr('x', w - M.r).attr('y', H - 2).text(data.metrics.replace('-', '/'));
     const note = document.createElement('p'); note.className = 'chart-note';
-    note.textContent = 'each ribbon is a group of players moving between rungs — acid up, orange down, mint new to the pool, grey no longer in a covered league · hover a ribbon for the names';
+    note.textContent = 'each ribbon is a group of players moving between rungs — green up, orange down, teal new to the pool, grey no longer in a covered league · hover a ribbon for the names';
     box.appendChild(note);
   }
 
@@ -403,7 +404,7 @@
         const v = st.vals[i]; if (v == null) return;
         const g = svg.append('g').style('cursor', 'default')
           .on('mousemove', (ev) => showTip(`<b>${esc(names[c])}</b><span>${esc(st.label)}: ${fmt1(v)}${st.unit ? ' ' + st.unit : ''}</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
-        g.append('circle').attr('cx', x(v)).attr('cy', y).attr('r', c === d.home ? 7 : 5.5).attr('fill', c === d.home ? C.acid : C.page || '#161616').attr('stroke', colour(c, i)).attr('stroke-width', 1.6);
+        g.append('circle').attr('cx', x(v)).attr('cy', y).attr('r', c === d.home ? 7 : 5.5).attr('fill', c === d.home ? C.acid : C.page || '#ffffff').attr('stroke', colour(c, i)).attr('stroke-width', 1.6);
         g.append('text').attr('class', 'chart-axis-label').attr('x', x(v)).attr('y', y + (i % 2 ? 22 : -12)).attr('text-anchor', 'middle').attr('fill', colour(c, i)).text(`${c} ${fmt1(v)}${st.unit ? ' ' + st.unit : ''}`);
       });
     });
@@ -461,7 +462,7 @@
 
   async function gap(fig) {
     const d = await pageData(); if (!d || !d.gap || !d.gap.contrasts) return;
-    const CH = { u21_share: ['youth minutes', C.acid], league_strength: ['league strength', C.hot], export_age: ['export age', C.mint] };
+    const CH = { u21_share: ['youth minutes', C.violet], league_strength: ['league strength', C.hot], export_age: ['export age', C.mint] };   // channels, not nations: no held green
     const box = mount(fig);
     const contrasts = d.gap.contrasts, rowH = 78, M = { t: 24, r: 40, b: 36, l: 120 }, H = M.t + contrasts.length * rowH + M.b;
     const { svg, w } = svgIn(box, H);
@@ -476,13 +477,16 @@
       // channels stack from zero; the remainder sits on its own thin bar below,
       // so a negative remainder never paints back over a channel
       let cursor = 0;
+      const labels = [];
       c.channels.forEach((ch) => {
         const x0 = x(Math.min(cursor, cursor + ch.contribution)), x1 = x(Math.max(cursor, cursor + ch.contribution));
         svg.append('rect').attr('x', x0).attr('y', y + 6).attr('width', Math.max(0.5, x1 - x0)).attr('height', 22).attr('fill', CH[ch.name][1]).attr('fill-opacity', 0.85)
           .on('mousemove', (ev) => showTip(`<b>${esc(CH[ch.name][0])}</b><span>${c.contrast} − ${d.home}: ${fmt2(ch.contribution)} players per million (${fmt2(ch.lo)} to ${fmt2(ch.hi)})</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
-        if (Math.abs(x1 - x0) > 36) svg.append('text').attr('class', 'chart-axis-label').attr('x', (x0 + x1) / 2).attr('y', y + 21).attr('text-anchor', 'middle').attr('fill', '#161616').text(fmt2(ch.contribution));
+        if (Math.abs(x1 - x0) > 36) labels.push([(x0 + x1) / 2, fmt2(ch.contribution)]);
         cursor += ch.contribution;
       });
+      // values go on top of every segment, so an overlapping negative segment never hides one
+      labels.forEach(([lx, t]) => svg.append('text').attr('class', 'chart-axis-label').attr('x', lx).attr('y', y + 21).attr('text-anchor', 'middle').style('fill', '#ffffff').style('pointer-events', 'none').text(t));
       const rx0 = x(Math.min(0, c.residual)), rx1 = x(Math.max(0, c.residual));
       svg.append('rect').attr('x', rx0).attr('y', y + 32).attr('width', Math.max(0.5, rx1 - rx0)).attr('height', 8).attr('fill', 'url(#hatch)')
         .on('mousemove', (ev) => showTip(`<b>not carried by the three channels</b><span>${c.contrast} − ${d.home}: ${fmt2(c.residual)} players per million</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
@@ -492,7 +496,7 @@
     });
     const defs = svg.append('defs');
     const pat = defs.append('pattern').attr('id', 'hatch').attr('width', 6).attr('height', 6).attr('patternUnits', 'userSpaceOnUse').attr('patternTransform', 'rotate(45)');
-    pat.append('rect').attr('width', 6).attr('height', 6).attr('fill', '#1F1F1F'); pat.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 6).attr('stroke', C.muted).attr('stroke-width', 1.5);
+    pat.append('rect').attr('width', 6).attr('height', 6).attr('fill', '#f6f6f4'); pat.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 6).attr('stroke', C.muted).attr('stroke-width', 1.5);
     const legend = document.createElement('div'); legend.className = 'chart-row'; box.insertBefore(legend, box.firstChild);
     Object.values(CH).forEach(([l, col]) => chip(legend, l, true, () => {}, col)); chip(legend, 'not carried', true, () => {}, C.muted);
   }

@@ -40,7 +40,9 @@ from markupsafe import Markup
 from src import config
 from src.feature_eda import RAW_COLUMNS as FEATURE_EDA_RAW_COLUMNS
 from src.features import FEATURES as FEATURE_EDA_FEATURES
-from src.figstyle import CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, use_style
+from src.figstyle import (
+    CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, SEQ_BLUE, SEQ_LILAC, SEQ_MINT, SEQ_OCHRE, SEQ_ORANGE, SEQ_VIOLET, use_style,
+)
 from src.i18n import EN, LANGS, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
@@ -125,19 +127,20 @@ SITE_PLAYERS = config.ROOT_DIR / "site" / f"players.{config.NATION}.json"
 # Palette now lives in src.figstyle (Task 27A, the single source of figure
 # style) -- imported above instead of redefined here. NAVY_SOFT is a local
 # mid-tone (not part of the shared palette) kept only for the cluster ramp.
-NAVY_SOFT = "#DCDCD6"
+NAVY_SOFT = "#8a8a8a"
 
-# Curated cluster palette: navy variants + warm earth tones. OXBLOOD is
-# reserved for NT rings and the CZE row highlight.
+# Curated cluster palette: ink, grey, then the categorical colours darkened
+# for white paper (src.figstyle). OXBLOOD, the held green, is reserved for
+# NT rings and the home-nation row highlight.
 CLUSTER_PALETTE = [
     NAVY,
     NAVY_SOFT,
-    "#FF6A3D",  # orange (sequencer)
-    "#B78CFF",  # violet
-    "#7ED9A6",  # mint
-    "#E3A0FF",  # lilac
-    "#7ED9D9",  # aqua
-    "#FFB07A",  # peach
+    SEQ_ORANGE,
+    SEQ_VIOLET,
+    SEQ_MINT,    # teal
+    SEQ_LILAC,
+    SEQ_BLUE,
+    SEQ_OCHRE,
 ]
 
 use_style()
@@ -455,7 +458,7 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
         0.02, -0.025,
         f"PCA of the five-feature vector (npG/90, A/90, minutes share, age, cards/90), "
         f"{season_label(season)}. Grey: the whole corpus (n = {len(cur)}); coloured: "
-        f"{adj}-eligible players by cluster (n = {len(cz)}). Oxblood rings: national-team "
+        f"{adj}-eligible players by cluster (n = {len(cz)}). Green rings: national-team "
         f"call-up {config.nt_years()}.",
         ha="left", fontsize=9.5, color=MUTED, fontfamily="sans-serif",
     )
@@ -510,12 +513,12 @@ def _cohort_vmax(cohorts: dict[str, list[dict]]) -> float:
     return max(values) if values else 1.0
 
 
-# Same cream -> navy stops as src.figstyle.CMAP_NAVY, interpolated in plain
+# Same paper -> ink stops as src.figstyle.CMAP_NAVY, interpolated in plain
 # sRGB (not oklch/oklab -- color-mix() between hues this far apart rotates
 # through green in both spaces in the browsers tested) so the HTML cohort
 # grid's cell tint (Task 27C) matches the SVG heatmap's ramp exactly.
 _TINT_STOPS: tuple[tuple[float, str], ...] = (
-    (0.00, "#1F1F1F"), (0.30, "#3A3A36"), (0.55, "#6B7A2E"), (0.80, "#A7CC32"), (1.00, "#D6FF3A"),
+    (0.00, "#f6f6f4"), (0.30, "#d9d9d5"), (0.55, "#9a9a96"), (0.80, "#4a4a48"), (1.00, "#111111"),
 )
 
 
@@ -536,12 +539,11 @@ def _cohort_tint(value: float | None, vmax: float) -> str | None:
 
 
 def _cohort_text(value: float | None, vmax: float) -> str:
-    """Cream text on the darkest cells, ink everywhere else -- same 55%
+    """Paper text on the darkest cells, ink everywhere else -- same 55%
     threshold `international_benchmark.render_cohort_heatmap` uses."""
-    # the ramp is light at the top now: ink on the brightest cells, chalk elsewhere
     if value is not None and vmax and value > 0.55 * vmax:
-        return "#161616"
-    return "#DCDCD6"
+        return "#ffffff"
+    return "#111111"
 
 
 def _cohort_gaps(coh: pd.DataFrame, peers: list[str]) -> list[dict]:

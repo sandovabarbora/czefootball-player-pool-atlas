@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-09-22T13:35:00.207928</dc:date>
+    <dc:date>2026-09-29T13:14:52.876365</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -26,7 +26,7 @@ L 710.784 465.1095
 L 710.784 0 
 L 0 0 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
@@ -35,18 +35,18 @@ L 703.584 75.14
 L 703.584 28.7 
 L 7.2 28.7 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
    </g>
    <g id="line2d_1">
     <path d="M 7.2 51.92 
 L 703.584 51.92 
-" clip-path="url(#pae5b2508e8)" style="fill: none; stroke: #3a3a36; stroke-linecap: square"/>
+" clip-path="url(#p2052181ad4)" style="fill: none; stroke: #d9d9d5; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_1"/>
    <g id="matplotlib.axis_2"/>
    <g id="PathCollection_1">
     <defs>
-     <path id="m53f11290df" d="M 0 6.123724 
+     <path id="mc20676bb46" d="M 0 6.123724 
 C 1.624031 6.123724 3.181764 5.47849 4.330127 4.330127 
 C 5.47849 3.181764 6.123724 1.624031 6.123724 0 
 C 6.123724 -1.624031 5.47849 -3.181764 4.330127 -4.330127 
@@ -56,15 +56,15 @@ C -5.47849 -3.181764 -6.123724 -1.624031 -6.123724 0
 C -6.123724 1.624031 -5.47849 3.181764 -4.330127 4.330127 
 C -3.181764 5.47849 -1.624031 6.123724 0 6.123724 
 z
-" style="stroke: #d6ff3a; stroke-width: 1.8"/>
+" style="stroke: #2f7a36; stroke-width: 1.8"/>
     </defs>
-    <g clip-path="url(#pae5b2508e8)">
-     <use xlink:href="#m53f11290df" x="160.06478" y="51.92" style="fill: #d6ff3a; stroke: #d6ff3a; stroke-width: 1.8"/>
+    <g clip-path="url(#p2052181ad4)">
+     <use xlink:href="#mc20676bb46" x="160.06478" y="51.92" style="fill: #2f7a36; stroke: #2f7a36; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_1">
     <!-- ESP 4.8 % -->
-    <g style="fill: #d6ff3a" transform="translate(137.362632 37.92) scale(0.105 -0.105)">
+    <g style="fill: #2f7a36" transform="translate(137.362632 37.92) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-SemiBold-26" d="M 454 0 
 L 454 4461 
@@ -293,7 +293,7 @@ z
    </g>
    <g id="PathCollection_2">
     <defs>
-     <path id="m58b1607277" d="M 0 5.244044 
+     <path id="me26200aacf" d="M 0 5.244044 
 C 1.390737 5.244044 2.7247 4.691499 3.708099 3.708099 
 C 4.691499 2.7247 5.244044 1.390737 5.244044 0 
 C 5.244044 -1.390737 4.691499 -2.7247 3.708099 -3.708099 
@@ -303,15 +303,15 @@ C -4.691499 -2.7247 -5.244044 -1.390737 -5.244044 0
 C -5.244044 1.390737 -4.691499 2.7247 -3.708099 3.708099 
 C -2.7247 4.691499 -1.390737 5.244044 0 5.244044 
 z
-" style="stroke: #f2f2ee; stroke-width: 1.8"/>
+" style="stroke: #111111; stroke-width: 1.8"/>
     </defs>
-    <g clip-path="url(#pae5b2508e8)">
-     <use xlink:href="#m58b1607277" x="499.764293" y="51.92" style="fill: #161616; stroke: #f2f2ee; stroke-width: 1.8"/>
+    <g clip-path="url(#p2052181ad4)">
+     <use xlink:href="#me26200aacf" x="499.764293" y="51.92" style="fill: #ffffff; stroke: #111111; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_2">
     <!-- FRA 8.8 % -->
-    <g style="fill: #f2f2ee" transform="translate(476.464957 73.92) scale(0.105 -0.105)">
+    <g style="fill: #111111" transform="translate(476.464957 73.92) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-Medium-39" d="M 480 0 
 L 480 4461 
@@ -507,7 +507,7 @@ z
    </g>
    <g id="PathCollection_3">
     <defs>
-     <path id="m47a0abf94f" d="M 0 5.244044 
+     <path id="m9f6a37b4c9" d="M 0 5.244044 
 C 1.390737 5.244044 2.7247 4.691499 3.708099 3.708099 
 C 4.691499 2.7247 5.244044 1.390737 5.244044 0 
 C 5.244044 -1.390737 4.691499 -2.7247 3.708099 -3.708099 
@@ -517,15 +517,15 @@ C -4.691499 -2.7247 -5.244044 -1.390737 -5.244044 0
 C -5.244044 1.390737 -4.691499 2.7247 -3.708099 3.708099 
 C -2.7247 4.691499 -1.390737 5.244044 0 5.244044 
 z
-" style="stroke: #8b8b85; stroke-width: 1.8"/>
+" style="stroke: #8a8a8a; stroke-width: 1.8"/>
     </defs>
-    <g clip-path="url(#pae5b2508e8)">
-     <use xlink:href="#m47a0abf94f" x="168.557268" y="51.92" style="fill: #161616; stroke: #8b8b85; stroke-width: 1.8"/>
+    <g clip-path="url(#p2052181ad4)">
+     <use xlink:href="#m9f6a37b4c9" x="168.557268" y="51.92" style="fill: #ffffff; stroke: #8a8a8a; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_3">
     <!-- POR 4.9 % -->
-    <g style="fill: #8b8b85" transform="translate(144.769846 37.92) scale(0.105 -0.105)">
+    <g style="fill: #8a8a8a" transform="translate(144.769846 37.92) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-Medium-81" d="M 480 0 
 L 480 4461 
@@ -646,7 +646,7 @@ z
    </g>
    <g id="text_4">
     <!-- Share of minutes to young players -->
-    <g style="fill: #dcdcd6" transform="translate(7.2 18.7) scale(0.115 -0.115)">
+    <g style="fill: #111111" transform="translate(7.2 18.7) scale(0.115 -0.115)">
      <defs>
       <path id="HankenGrotesk-SemiBold-118" d="M 416 0 
 L 416 4461 
@@ -1154,23 +1154,23 @@ L 703.584 170.342
 L 703.584 123.902 
 L 7.2 123.902 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
    </g>
    <g id="line2d_2">
     <path d="M 7.2 147.122 
 L 703.584 147.122 
-" clip-path="url(#p38d9ed6d8c)" style="fill: none; stroke: #3a3a36; stroke-linecap: square"/>
+" clip-path="url(#p0849df95f9)" style="fill: none; stroke: #d9d9d5; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_3"/>
    <g id="matplotlib.axis_4"/>
    <g id="PathCollection_4">
-    <g clip-path="url(#p38d9ed6d8c)">
-     <use xlink:href="#m53f11290df" x="499.764293" y="147.122" style="fill: #d6ff3a; stroke: #d6ff3a; stroke-width: 1.8"/>
+    <g clip-path="url(#p0849df95f9)">
+     <use xlink:href="#mc20676bb46" x="499.764293" y="147.122" style="fill: #2f7a36; stroke: #2f7a36; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_5">
     <!-- ESP 26.9 -->
-    <g style="fill: #d6ff3a" transform="translate(479.367222 133.122) scale(0.105 -0.105)">
+    <g style="fill: #2f7a36" transform="translate(479.367222 133.122) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1d1" d="M 275 0 
 L 275 550 
@@ -1283,13 +1283,13 @@ z
     </g>
    </g>
    <g id="PathCollection_5">
-    <g clip-path="url(#p38d9ed6d8c)">
-     <use xlink:href="#m58b1607277" x="219.437257" y="147.122" style="fill: #161616; stroke: #f2f2ee; stroke-width: 1.8"/>
+    <g clip-path="url(#p0849df95f9)">
+     <use xlink:href="#me26200aacf" x="219.437257" y="147.122" style="fill: #ffffff; stroke: #111111; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_6">
     <!-- FRA 25.6 -->
-    <g style="fill: #f2f2ee" transform="translate(198.463507 169.122) scale(0.105 -0.105)">
+    <g style="fill: #111111" transform="translate(198.463507 169.122) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-Medium-1d1" d="M 294 0 
 L 294 499 
@@ -1403,13 +1403,13 @@ z
     </g>
    </g>
    <g id="PathCollection_6">
-    <g clip-path="url(#p38d9ed6d8c)">
-     <use xlink:href="#m47a0abf94f" x="160.06478" y="147.122" style="fill: #161616; stroke: #8b8b85; stroke-width: 1.8"/>
+    <g clip-path="url(#p0849df95f9)">
+     <use xlink:href="#m9f6a37b4c9" x="160.06478" y="147.122" style="fill: #ffffff; stroke: #8a8a8a; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_7">
     <!-- POR 25.3 -->
-    <g style="fill: #8b8b85" transform="translate(138.602945 133.122) scale(0.105 -0.105)">
+    <g style="fill: #8a8a8a" transform="translate(138.602945 133.122) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-Medium-1d2" d="M 1760 -51 
 Q 1274 -51 909 125 
@@ -1468,7 +1468,7 @@ z
    </g>
    <g id="text_8">
     <!-- League average age -->
-    <g style="fill: #dcdcd6" transform="translate(7.2 113.902) scale(0.115 -0.115)">
+    <g style="fill: #111111" transform="translate(7.2 113.902) scale(0.115 -0.115)">
      <defs>
       <path id="HankenGrotesk-SemiBold-57" d="M 454 0 
 L 454 4461 
@@ -1518,23 +1518,23 @@ L 703.584 265.544
 L 703.584 219.104 
 L 7.2 219.104 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
    </g>
    <g id="line2d_3">
     <path d="M 7.2 242.324 
 L 703.584 242.324 
-" clip-path="url(#p9b12c53543)" style="fill: none; stroke: #3a3a36; stroke-linecap: square"/>
+" clip-path="url(#p94c8ec9bd9)" style="fill: none; stroke: #d9d9d5; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_5"/>
    <g id="matplotlib.axis_6"/>
    <g id="PathCollection_7">
-    <g clip-path="url(#p9b12c53543)">
-     <use xlink:href="#m53f11290df" x="499.764293" y="242.324" style="fill: #d6ff3a; stroke: #d6ff3a; stroke-width: 1.8"/>
+    <g clip-path="url(#p94c8ec9bd9)">
+     <use xlink:href="#mc20676bb46" x="499.764293" y="242.324" style="fill: #2f7a36; stroke: #2f7a36; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_9">
     <!-- ESP 25.0 -->
-    <g style="fill: #d6ff3a" transform="translate(479.367222 228.324) scale(0.105 -0.105)">
+    <g style="fill: #2f7a36" transform="translate(479.367222 228.324) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1d4" d="M 1773 -58 
 Q 1363 -58 1020 118 
@@ -1622,13 +1622,13 @@ z
     </g>
    </g>
    <g id="PathCollection_8">
-    <g clip-path="url(#p9b12c53543)">
-     <use xlink:href="#m58b1607277" x="160.06478" y="242.324" style="fill: #161616; stroke: #f2f2ee; stroke-width: 1.8"/>
+    <g clip-path="url(#p94c8ec9bd9)">
+     <use xlink:href="#me26200aacf" x="160.06478" y="242.324" style="fill: #ffffff; stroke: #111111; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_10">
     <!-- FRA 23.0 -->
-    <g style="fill: #f2f2ee" transform="translate(139.09103 264.324) scale(0.105 -0.105)">
+    <g style="fill: #111111" transform="translate(139.09103 264.324) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-Medium-1cf" d="M 1805 -51 
 Q 1414 -51 1148 89 
@@ -1681,13 +1681,13 @@ z
     </g>
    </g>
    <g id="PathCollection_9">
-    <g clip-path="url(#p9b12c53543)">
-     <use xlink:href="#m47a0abf94f" x="329.914537" y="242.324" style="fill: #161616; stroke: #8b8b85; stroke-width: 1.8"/>
+    <g clip-path="url(#p94c8ec9bd9)">
+     <use xlink:href="#m9f6a37b4c9" x="329.914537" y="242.324" style="fill: #ffffff; stroke: #8a8a8a; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_11">
     <!-- POR 24.0 -->
-    <g style="fill: #8b8b85" transform="translate(308.452701 228.324) scale(0.105 -0.105)">
+    <g style="fill: #8a8a8a" transform="translate(308.452701 228.324) scale(0.105 -0.105)">
      <use xlink:href="#HankenGrotesk-Medium-81"/>
      <use xlink:href="#HankenGrotesk-Medium-66" transform="translate(55.703125 0)"/>
      <use xlink:href="#HankenGrotesk-Medium-84" transform="translate(130.5 0)"/>
@@ -1700,7 +1700,7 @@ z
    </g>
    <g id="text_12">
     <!-- Age at first move abroad -->
-    <g style="fill: #dcdcd6" transform="translate(7.2 209.104) scale(0.115 -0.115)">
+    <g style="fill: #111111" transform="translate(7.2 209.104) scale(0.115 -0.115)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1" d="M 70 0 
 L 1837 4461 
@@ -1854,23 +1854,23 @@ L 703.584 360.746
 L 703.584 314.306 
 L 7.2 314.306 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
    </g>
    <g id="line2d_4">
     <path d="M 7.2 337.526 
 L 703.584 337.526 
-" clip-path="url(#pff16fbb31b)" style="fill: none; stroke: #3a3a36; stroke-linecap: square"/>
+" clip-path="url(#pafa70bbce2)" style="fill: none; stroke: #d9d9d5; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_7"/>
    <g id="matplotlib.axis_8"/>
    <g id="PathCollection_10">
-    <g clip-path="url(#pff16fbb31b)">
-     <use xlink:href="#m53f11290df" x="305.650286" y="337.526" style="fill: #d6ff3a; stroke: #d6ff3a; stroke-width: 1.8"/>
+    <g clip-path="url(#pafa70bbce2)">
+     <use xlink:href="#mc20676bb46" x="305.650286" y="337.526" style="fill: #2f7a36; stroke: #2f7a36; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_13">
     <!-- ESP 73.8 % -->
-    <g style="fill: #d6ff3a" transform="translate(280.008137 323.526) scale(0.105 -0.105)">
+    <g style="fill: #2f7a36" transform="translate(280.008137 323.526) scale(0.105 -0.105)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1d6" d="M 589 0 
 L 2688 4070 
@@ -1942,7 +1942,7 @@ z
    </g>
    <g id="text_14">
     <!-- Sideways moves -->
-    <g style="fill: #dcdcd6" transform="translate(7.2 304.306) scale(0.115 -0.115)">
+    <g style="fill: #111111" transform="translate(7.2 304.306) scale(0.115 -0.115)">
      <defs>
       <path id="HankenGrotesk-SemiBold-184" d="M 1101 0 
 L 141 3155 
@@ -1985,23 +1985,23 @@ L 703.584 455.948
 L 703.584 409.508 
 L 7.2 409.508 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
    </g>
    <g id="line2d_5">
     <path d="M 7.2 432.728 
 L 703.584 432.728 
-" clip-path="url(#pa14c0c44ca)" style="fill: none; stroke: #3a3a36; stroke-linecap: square"/>
+" clip-path="url(#p85ed0f7846)" style="fill: none; stroke: #d9d9d5; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_9"/>
    <g id="matplotlib.axis_10"/>
    <g id="PathCollection_11">
-    <g clip-path="url(#pa14c0c44ca)">
-     <use xlink:href="#m53f11290df" x="225.728346" y="432.728" style="fill: #d6ff3a; stroke: #d6ff3a; stroke-width: 1.8"/>
+    <g clip-path="url(#p85ed0f7846)">
+     <use xlink:href="#mc20676bb46" x="225.728346" y="432.728" style="fill: #2f7a36; stroke: #2f7a36; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_15">
     <!-- ESP 9.5 -->
-    <g style="fill: #d6ff3a" transform="translate(208.271276 418.728) scale(0.105 -0.105)">
+    <g style="fill: #2f7a36" transform="translate(208.271276 418.728) scale(0.105 -0.105)">
      <use xlink:href="#HankenGrotesk-SemiBold-26"/>
      <use xlink:href="#HankenGrotesk-SemiBold-88" transform="translate(57.40625 0)"/>
      <use xlink:href="#HankenGrotesk-SemiBold-81" transform="translate(114.609375 0)"/>
@@ -2012,13 +2012,13 @@ L 703.584 432.728
     </g>
    </g>
    <g id="PathCollection_12">
-    <g clip-path="url(#pa14c0c44ca)">
-     <use xlink:href="#m58b1607277" x="160.06478" y="432.728" style="fill: #161616; stroke: #f2f2ee; stroke-width: 1.8"/>
+    <g clip-path="url(#p85ed0f7846)">
+     <use xlink:href="#me26200aacf" x="160.06478" y="432.728" style="fill: #ffffff; stroke: #111111; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_16">
     <!-- FRA 5.8 -->
-    <g style="fill: #f2f2ee" transform="translate(142.03103 454.728) scale(0.105 -0.105)">
+    <g style="fill: #111111" transform="translate(142.03103 454.728) scale(0.105 -0.105)">
      <use xlink:href="#HankenGrotesk-Medium-39"/>
      <use xlink:href="#HankenGrotesk-Medium-84" transform="translate(56.296875 0)"/>
      <use xlink:href="#HankenGrotesk-Medium-1" transform="translate(116.59375 0)"/>
@@ -2029,13 +2029,13 @@ L 703.584 432.728
     </g>
    </g>
    <g id="PathCollection_13">
-    <g clip-path="url(#pa14c0c44ca)">
-     <use xlink:href="#m47a0abf94f" x="499.764293" y="432.728" style="fill: #161616; stroke: #8b8b85; stroke-width: 1.8"/>
+    <g clip-path="url(#p85ed0f7846)">
+     <use xlink:href="#m9f6a37b4c9" x="499.764293" y="432.728" style="fill: #ffffff; stroke: #8a8a8a; stroke-width: 1.8"/>
     </g>
    </g>
    <g id="text_17">
     <!-- POR 25.2 -->
-    <g style="fill: #8b8b85" transform="translate(478.302457 418.728) scale(0.105 -0.105)">
+    <g style="fill: #8a8a8a" transform="translate(478.302457 418.728) scale(0.105 -0.105)">
      <use xlink:href="#HankenGrotesk-Medium-81"/>
      <use xlink:href="#HankenGrotesk-Medium-66" transform="translate(55.703125 0)"/>
      <use xlink:href="#HankenGrotesk-Medium-84" transform="translate(130.5 0)"/>
@@ -2048,7 +2048,7 @@ L 703.584 432.728
    </g>
    <g id="text_18">
     <!-- Players per million -->
-    <g style="fill: #dcdcd6" transform="translate(7.2 399.508) scale(0.115 -0.115)">
+    <g style="fill: #111111" transform="translate(7.2 399.508) scale(0.115 -0.115)">
      <use xlink:href="#HankenGrotesk-SemiBold-81"/>
      <use xlink:href="#HankenGrotesk-SemiBold-131" transform="translate(55.90625 0)"/>
      <use xlink:href="#HankenGrotesk-SemiBold-d8" transform="translate(83.203125 0)"/>
@@ -2073,19 +2073,19 @@ L 703.584 432.728
   </g>
  </g>
  <defs>
-  <clipPath id="pae5b2508e8">
+  <clipPath id="p2052181ad4">
    <rect x="7.2" y="28.7" width="696.384" height="46.44"/>
   </clipPath>
-  <clipPath id="p38d9ed6d8c">
+  <clipPath id="p0849df95f9">
    <rect x="7.2" y="123.902" width="696.384" height="46.44"/>
   </clipPath>
-  <clipPath id="p9b12c53543">
+  <clipPath id="p94c8ec9bd9">
    <rect x="7.2" y="219.104" width="696.384" height="46.44"/>
   </clipPath>
-  <clipPath id="pff16fbb31b">
+  <clipPath id="pafa70bbce2">
    <rect x="7.2" y="314.306" width="696.384" height="46.44"/>
   </clipPath>
-  <clipPath id="pa14c0c44ca">
+  <clipPath id="p85ed0f7846">
    <rect x="7.2" y="409.508" width="696.384" height="46.44"/>
   </clipPath>
  </defs>

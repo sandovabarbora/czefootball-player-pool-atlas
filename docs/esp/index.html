@@ -7,17 +7,17 @@
   <meta name="description" content="Structural benchmark of the Spanish professional football player pool against 7 peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609221335">
-  <link rel="stylesheet" href="modern.css?v=202609221335">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=202609291314">
+  <link rel="stylesheet" href="modern.css?v=202609291314">
   <link rel="alternate" hreflang="en" href="https://football.bsandova.com/">
   <link rel="alternate" hreflang="x-default" href="https://football.bsandova.com/">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609221335"></script>
-  <script defer src="atlas.js?v=202609221335"></script>
+  <script defer src="charts.js?v=202609291314"></script>
+  <script defer src="atlas.js?v=202609291314"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -93,7 +93,7 @@
 
 
 <section class="hero" id="summary">
-  <img class="hero-cutout" src="img/players/9e1035f8-league.png" alt="" aria-hidden="true" decoding="async" onerror="this.remove()">
+  <img class="hero-photo" src="img/atlas.jpg" srcset="img/atlas-1200.jpg 1200w, img/atlas.jpg 1920w" sizes="100vw" alt="A floodlit football stadium at night seen from above, in black and white with only the green of the pitch kept" decoding="async" fetchpriority="high">
   <div class="container">
     <div class="hero-grid">
       <div class="hero-num">
@@ -126,6 +126,7 @@
     </div>
     <p class="hero-footnote">* 464 ESP players with ≥ 450 minutes in the UEFA top-9 leagues, 2025/26, per 48.6 M inhabitants; peers counted the same way. <a href="#methodology">Methodology</a>.</p>
   </div>
+  <p class="hero-credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:The_Peninsula_Stadium_at_night_-_Salford_City_-_Aug_24.jpg">Emessem T</a> · CC BY-SA 4.0, colour held</p>
 </section>
 
 
@@ -173,7 +174,7 @@
     <p class="funnel-lead">Five numbers, in the order they build on each other, show where the pool of players available to the national team gets thin. Each one is shown for Spanish football and for the two countries used as a comparison throughout this report; each links to the part of the report that shows the full evidence.</p>
     <figure class="figure-bleed" data-chart="funnel">
       <img src="why_funnel.svg" alt="Five-stage funnel: Spanish football next to France and Portugal on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.">
-      <figcaption>How to read it: one rung per stage of the argument, each on its own scale, so the dots show the distance between countries, not the size of the number. The filled acid dot is Spain; the open dots are the two comparison countries. Under each rung is which direction means a more open pathway. Hover a dot for the exact value.</figcaption>
+      <figcaption>How to read it: one rung per stage of the argument, each on its own scale, so the dots show the distance between countries, not the size of the number. The filled green dot is Spain; the open dots are the two comparison countries. Under each rung is which direction means a more open pathway. Hover a dot for the exact value.</figcaption>
     </figure>
     <ol class="funnel-stages">
       <li class="funnel-stage">
@@ -681,7 +682,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="export-age">
         <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, Spanish exports as points against every other peer export, and a rug of every export's age along the axis.">
-        <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Acid dots are Spanish exports — hover for the name.</figcaption>
+        <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Green dots are Spanish exports — hover for the name.</figcaption>
       </figure>
     </div>
     <details class="fold slide-method">
@@ -704,7 +705,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="fare">
         <img src="fare_dots.svg" alt="Dot plot: each country's median share of club minutes for players abroad, with a thin line spanning the other countries' values; Spain highlighted.">
-        <figcaption>How to read it: one row per country, sorted; the dot is the median share of his club’s minutes that a country’s exported player keeps, the thin line the range across its exports. Spanish exports are the acid row. Further right means exports who play, not sit.</figcaption>
+        <figcaption>How to read it: one row per country, sorted; the dot is the median share of his club’s minutes that a country’s exported player keeps, the thin line the range across its exports. Spanish exports are the green row. Further right means exports who play, not sit.</figcaption>
       </figure>
       
       <details class="fold">
@@ -1075,7 +1076,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="big5_series.svg" alt="Line chart: Spanish players with at least 450 minutes in the Big-5 leagues, 1995/96 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Spain, France and Germany.">
-        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1995/96. Spanish players are the acid line; the dashed rules are the seasons the model dates the rise and the fall to, with their probabilities; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
+        <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1995/96. Spanish players are the green line; the dashed rules are the seasons the model dates the rise and the fall to, with their probabilities; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
       </figure>
       
     </div>
@@ -1100,7 +1101,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="slope">
         <img src="pathway_slope.svg" alt="Slope chart: France, Portugal and Spain on six pathway metrics, each rescaled 0 (worst of the three) to 1 (best of the three), one line per country.">
-        <figcaption>How to read it: six measures, each rescaled so 0 is the worst of the three countries and 1 the best, one line per country. A line that stays high is a pathway that is open at every stage; where the acid line dips is where Spain loses ground.</figcaption>
+        <figcaption>How to read it: six measures, each rescaled so 0 is the worst of the three countries and 1 the best, one line per country. A line that stays high is a pathway that is open at every stage; where the green line dips is where Spain loses ground.</figcaption>
       </figure>
       <details class="fold">
         <summary>The six numbers, unscaled</summary>
@@ -2959,18 +2960,18 @@
         <p class="cycle-row-kicker">The atlas: every player-season of 2025/26, one dot each</p>
         
         <figure class="figure-bleed" data-chart="atlas-FW" data-tab="Forwards">
-          <img src="atlas_FW.svg" alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 46 Spanish-eligible players by cluster; bright rings mark the 6 with a national-team call-up 2024–26.">
-          <figcaption>How to read it: every dot is the 2025/26 season of one of the forwards in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are Spanish-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
+          <img src="atlas_FW.svg" alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 46 Spanish-eligible players by cluster; green rings mark the 6 with a national-team call-up 2024–26.">
+          <figcaption>How to read it: every dot is the 2025/26 season of one of the forwards in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; green dots are Spanish-eligible players, a black ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
         </figure>
         
         <figure class="figure-bleed" data-chart="atlas-MF" data-tab="Midfielders">
-          <img src="atlas_MF.svg" alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 178 Spanish-eligible players by cluster; bright rings mark the 24 with a national-team call-up 2024–26.">
-          <figcaption>How to read it: every dot is the 2025/26 season of one of the midfielders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are Spanish-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
+          <img src="atlas_MF.svg" alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 178 Spanish-eligible players by cluster; green rings mark the 24 with a national-team call-up 2024–26.">
+          <figcaption>How to read it: every dot is the 2025/26 season of one of the midfielders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; green dots are Spanish-eligible players, a black ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
         </figure>
         
         <figure class="figure-bleed" data-chart="atlas-DF" data-tab="Defenders">
-          <img src="atlas_DF.svg" alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 129 Spanish-eligible players by cluster; bright rings mark the 14 with a national-team call-up 2024–26.">
-          <figcaption>How to read it: every dot is the 2025/26 season of one of the defenders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; acid dots are Spanish-eligible players, a white ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
+          <img src="atlas_DF.svg" alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 129 Spanish-eligible players by cluster; green rings mark the 14 with a national-team call-up 2024–26.">
+          <figcaption>How to read it: every dot is the 2025/26 season of one of the defenders in the leagues this report covers. The two axes are the first two principal components of his five per-90 numbers (goals, assists, minutes share, age, cards) — dots that sit close together had similar seasons. The style projection uses the raw numbers, the quality projection the league-adjusted ones, so switching shows who moves when the strength of his league is counted. Colours are the clusters named below; green dots are Spanish-eligible players, a black ring marks a national-team call-up. Hover a dot for the player, click to pin, scroll to zoom, type a name to find him.</figcaption>
         </figure>
         
       </div>
@@ -3012,7 +3013,7 @@
     <p class="slide-a"><strong>13 climbed a rung, 7 came down.</strong> The stepping-stone leagues hold 2 of the pool, from 2; the top nine hold 80, from 72.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="changes">
-        <figcaption>How to read it: the left column is last season’s rung for every player in the pool, the right column this season’s; each ribbon is the players who went from one to the other, its width their number. Acid ribbons climb, orange come down, mint are new to the pool, grey are no longer in a covered league. Hover a ribbon for the names.</figcaption>
+        <figcaption>How to read it: the left column is last season’s rung for every player in the pool, the right column this season’s; each ribbon is the players who went from one to the other, its width their number. Green ribbons climb, orange come down, teal are new to the pool, grey are no longer in a covered league. Hover a ribbon for the names.</figcaption>
       </figure>
       <div class="changes-tiers">
         
@@ -3243,25 +3244,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #829930; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #7b7b78; color: #ffffff;"
                 title="U22: n=6, 0.31">6</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #73852f; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #8f8f8c; color: #ffffff;"
                 title="23-25: n=10, 0.28">10</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #8ca730; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #6e6e6b; color: #ffffff;"
                 title="26-29: n=12, 0.33">12</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #9bbc31; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #5a5a58; color: #ffffff;"
                 title="30+: n=10, 0.36">10</td>
             
           
@@ -3272,25 +3273,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #6e7e2e; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #969692; color: #ffffff;"
                 title="U22: n=10, 0.27">10</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #73852f; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #8f8f8c; color: #ffffff;"
                 title="23-25: n=9, 0.28">9</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #8ca730; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #6e6e6b; color: #ffffff;"
                 title="26-29: n=15, 0.33">15</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #6e7e2e; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #969692; color: #ffffff;"
                 title="30+: n=6, 0.27">6</td>
             
           
@@ -3301,25 +3302,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #a5c932; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #4d4d4b; color: #ffffff;"
                 title="U22: n=5, 0.38">5</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #91ae31; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #676765; color: #ffffff;"
                 title="23-25: n=5, 0.34">5</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #9bbc31; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #5a5a58; color: #ffffff;"
                 title="26-29: n=8, 0.36">8</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #afd433; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #40403f; color: #ffffff;"
                 title="30+: n=8, 0.40">8</td>
             
           
@@ -3330,25 +3331,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #6e7e2e; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #969692; color: #ffffff;"
                 title="U22: n=3, 0.27">3</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #73852f; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #8f8f8c; color: #ffffff;"
                 title="23-25: n=7, 0.28">7</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #829930; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #7b7b78; color: #ffffff;"
                 title="26-29: n=8, 0.31">8</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #73852f; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #8f8f8c; color: #ffffff;"
                 title="30+: n=4, 0.28">4</td>
             
           
@@ -3359,25 +3360,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #555d32; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #b6b6b2; color: #111111;"
                 title="U22: n=2, 0.21">2</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #829930; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #7b7b78; color: #ffffff;"
                 title="23-25: n=4, 0.31">4</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #91ae31; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #676765; color: #ffffff;"
                 title="26-29: n=6, 0.34">6</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #d6ff3a; color: #161616;"
+            <td class="cohort-grid-cell" style="background-color: #111111; color: #ffffff;"
                 title="30+: n=7, 0.48">7</td>
             
           
@@ -3401,25 +3402,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #454834; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #cbcbc7; color: #111111;"
                 title="U22: n=17, 0.17">17</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #3c3d36; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #d6d6d2; color: #111111;"
                 title="23-25: n=55, 0.15">55</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #373734; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #dcdcd8; color: #111111;"
                 title="26-29: n=44, 0.13">44</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #3c3d36; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #d6d6d2; color: #111111;"
                 title="30+: n=39, 0.15">39</td>
             
           
@@ -3430,25 +3431,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #393935; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #dadad6; color: #111111;"
                 title="U22: n=27, 0.14">27</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #373734; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #dcdcd8; color: #111111;"
                 title="23-25: n=48, 0.13">48</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #343431; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #e0e0dc; color: #111111;"
                 title="26-29: n=35, 0.11">35</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #3c3d36; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #d6d6d2; color: #111111;"
                 title="30+: n=27, 0.15">27</td>
             
           
@@ -3459,25 +3460,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #555d32; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #b6b6b2; color: #111111;"
                 title="U22: n=15, 0.21">15</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #4d5333; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #c1c1bd; color: #111111;"
                 title="23-25: n=24, 0.19">24</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #393935; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #dadad6; color: #111111;"
                 title="26-29: n=19, 0.14">19</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #4d5333; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #c1c1bd; color: #111111;"
                 title="30+: n=26, 0.19">26</td>
             
           
@@ -3488,25 +3489,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #373734; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #dcdcd8; color: #111111;"
                 title="U22: n=8, 0.13">8</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #373734; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #dcdcd8; color: #111111;"
                 title="23-25: n=18, 0.13">18</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #414335; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #d1d1cd; color: #111111;"
                 title="26-29: n=22, 0.16">22</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #494d34; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #c6c6c2; color: #111111;"
                 title="30+: n=16, 0.18">16</td>
             
           
@@ -3517,25 +3518,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #555d32; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #b6b6b2; color: #111111;"
                 title="U22: n=15, 0.21">15</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #515832; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #bcbcb8; color: #111111;"
                 title="23-25: n=17, 0.20">17</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #616d30; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #a7a7a3; color: #111111;"
                 title="26-29: n=25, 0.24">25</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #515832; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #bcbcb8; color: #111111;"
                 title="30+: n=9, 0.20">9</td>
             
           
@@ -3559,25 +3560,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #262625; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
                 title="U22: n=17, 0.04">17</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #282827; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #ecece9; color: #111111;"
                 title="23-25: n=29, 0.05">29</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #2c2c2a; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #e8e8e5; color: #111111;"
                 title="26-29: n=34, 0.07">34</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #2a2a29; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eaeae7; color: #111111;"
                 title="30+: n=38, 0.06">38</td>
             
           
@@ -3588,25 +3589,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #232322; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #f2f2f0; color: #111111;"
                 title="U22: n=15, 0.02">15</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #262625; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
                 title="23-25: n=23, 0.04">23</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #262625; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
                 title="26-29: n=25, 0.04">25</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #282827; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #ecece9; color: #111111;"
                 title="30+: n=15, 0.05">15</td>
             
           
@@ -3617,25 +3618,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #30302d; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #e4e4e1; color: #111111;"
                 title="U22: n=9, 0.09">9</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #262625; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
                 title="23-25: n=6, 0.04">6</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #282827; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #ecece9; color: #111111;"
                 title="26-29: n=22, 0.05">22</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #2e2e2c; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #e6e6e3; color: #111111;"
                 title="30+: n=27, 0.08">27</td>
             
           
@@ -3646,25 +3647,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #262625; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
                 title="U22: n=7, 0.04">7</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #2a2a29; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eaeae7; color: #111111;"
                 title="23-25: n=12, 0.06">12</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #262625; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
                 title="26-29: n=14, 0.04">14</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #262625; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
                 title="30+: n=15, 0.04">15</td>
             
           
@@ -3675,25 +3676,25 @@
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #2e2e2c; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #e6e6e3; color: #111111;"
                 title="U22: n=6, 0.08">6</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #30302d; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #e4e4e1; color: #111111;"
                 title="23-25: n=11, 0.09">11</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #30302d; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #e4e4e1; color: #111111;"
                 title="26-29: n=20, 0.09">20</td>
             
           
             
             
-            <td class="cohort-grid-cell" style="background-color: #2a2a29; color: #DCDCD6;"
+            <td class="cohort-grid-cell" style="background-color: #eaeae7; color: #111111;"
                 title="30+: n=15, 0.06">15</td>
             
           
@@ -3749,22 +3750,22 @@
     
     <figure class="figure-bleed" data-atlas="fw" data-cluster-names='{"quality": {"C0": "High-assist forwards in top-five leagues", "C1": "High-minutes starting forwards", "C2": "Older forwards with moderate playing time", "C3": "Young low-minute forwards", "C4": "High-volume scorers in top-five leagues", "C5": "High-card-rate forwards"}, "style": {"C0": "High-assist forwards", "C1": "Duel-heavy rotation forwards", "C2": "High-minutes starting forwards", "C3": "Older forwards with moderate playing time", "C4": "Young low-minute forwards", "C5": "Primary scorers"}}'>
       <img src="atlas_FW.svg"
-           alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 46 Spanish-eligible players by cluster; bright rings mark the 6 with a national-team call-up 2024–26.">
-      <figcaption>Atlas of forwards 2025/26 in both projections: 46 Spanish-eligible players in colour against a corpus of 924. Bright rings mark the national-team pool (call-up 2024–26, 6 players).</figcaption>
+           alt="Two-panel atlas of forwards 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 924 players; coloured points are the 46 Spanish-eligible players by cluster; green rings mark the 6 with a national-team call-up 2024–26.">
+      <figcaption>Atlas of forwards 2025/26 in both projections: 46 Spanish-eligible players in colour against a corpus of 924. Green rings mark the national-team pool (call-up 2024–26, 6 players).</figcaption>
     </figure>
     
     
     <figure class="figure-bleed" data-atlas="mf" data-cluster-names='{"quality": {"C0": "Young low-minute midfielders", "C1": "Older rotation midfielders", "C2": "Productive midfielders in top-five leagues", "C3": "Everyday starting midfielders, low scoring output"}, "style": {"C0": "High-card-rate midfielders", "C1": "Older rotation midfielders", "C2": "Young low-minute midfielders", "C3": "Everyday starting midfielders, low scoring output", "C4": "High-scoring attacking midfielders", "C5": "High-minutes creative midfielders"}}'>
       <img src="atlas_MF.svg"
-           alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 178 Spanish-eligible players by cluster; bright rings mark the 24 with a national-team call-up 2024–26.">
-      <figcaption>Atlas of midfielders 2025/26 in both projections: 178 Spanish-eligible players in colour against a corpus of 2648. Bright rings mark the national-team pool (call-up 2024–26, 24 players).</figcaption>
+           alt="Two-panel atlas of midfielders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 2648 players; coloured points are the 178 Spanish-eligible players by cluster; green rings mark the 24 with a national-team call-up 2024–26.">
+      <figcaption>Atlas of midfielders 2025/26 in both projections: 178 Spanish-eligible players in colour against a corpus of 2648. Green rings mark the national-team pool (call-up 2024–26, 24 players).</figcaption>
     </figure>
     
     
     <figure class="figure-bleed" data-atlas="df" data-cluster-names='{"quality": {"C0": "Goal-scoring defenders in top-five leagues", "C1": "High-card-rate defenders", "C2": "High-assist defenders in top-five leagues", "C3": "Older defenders", "C4": "Young low-minute defenders", "C5": "Everyday starting defenders"}, "style": {"C0": "Everyday starting defenders", "C1": "High-card-rate defenders", "C2": "Young low-minute defenders", "C3": "Goal-scoring defenders", "C4": "Older defenders", "C5": "High-assist defenders with high playing time"}}'>
       <img src="atlas_DF.svg"
-           alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 129 Spanish-eligible players by cluster; bright rings mark the 14 with a national-team call-up 2024–26.">
-      <figcaption>Atlas of defenders 2025/26 in both projections: 129 Spanish-eligible players in colour against a corpus of 1947. Bright rings mark the national-team pool (call-up 2024–26, 14 players).</figcaption>
+           alt="Two-panel atlas of defenders 2025/26 in PCA projection. Left panel: style map without league multipliers; right panel: quality-adjusted map. Grey points are the whole corpus of 1947 players; coloured points are the 129 Spanish-eligible players by cluster; green rings mark the 14 with a national-team call-up 2024–26.">
+      <figcaption>Atlas of defenders 2025/26 in both projections: 129 Spanish-eligible players in colour against a corpus of 1947. Green rings mark the national-team pool (call-up 2024–26, 14 players).</figcaption>
     </figure>
     
     
@@ -11525,8 +11526,8 @@
       <summary>Full method, figures and diagnostics</summary>
     <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus two ordered step changes δ₁, δ₂ in the level at unknown seasons τ₁ < τ₂ — on the series back to 1990/91 one step is misspecified, since the count rises through the 1990s and falls after the 2000s plateau, and a single step lands on whichever change buys more likelihood. NUTS only samples continuous parameters, so the τ pair is not sampled directly — every ordered pair of candidate seasons at least 3 seasons from either end and from each other is marginalised out of the model with a single log-sum-exp potential, and each break's own posterior is recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, two-break setting. The report's "break" is the step that lowers the level; the other is the rise. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
     <figure class="figure-bleed">
-      <img src="series_model.svg" alt="Line chart of the Spain series with the change-point model's fitted level in a pale band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
-      <figcaption>How to read it: the acid line is the observed count, the pale band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
+      <img src="series_model.svg" alt="Line chart of the Spain series with the change-point model's fitted level in a pale green band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
+      <figcaption>How to read it: the black dots are the observed count, the pale green band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
     </figure>
     <p>For Spain, the model finds no step change worth dating: the best candidate is 2001/02 at 2 % posterior with a ×1.02 (0.90–1.12) change in the level; the random walk's own innovation scale is σ = 0.031.</p>
     
@@ -11858,8 +11859,8 @@
       <summary>Full method, figures and diagnostics</summary>
     <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do Spanish players go when they leave?", reused here) — 691 players, ages 16–36 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the natural cubic spline branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
     <figure class="figure-bleed">
-      <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as acid points against every other peer export in grey, and a rug of every export's age along the axis.">
-      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Acid dots are Spanish exports — hover for the name.</figcaption>
+      <img src="export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as green points against every other peer export in grey, and a rug of every export's age along the axis.">
+      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Green dots are Spanish exports — hover for the name.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr><th>Age</th><th>Expected G+A/90 (median)</th><th>90 % HDI</th></tr></thead>
@@ -13171,7 +13172,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-22 13:34</p>
+    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
   </div>
 </footer>
 

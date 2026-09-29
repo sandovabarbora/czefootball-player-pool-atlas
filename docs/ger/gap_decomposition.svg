@@ -26,7 +26,7 @@ L 672.415687 276.3
 L 672.415687 0 
 L 0 0 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
@@ -35,17 +35,17 @@ L 665.215688 232.04
 L 665.215688 54.2 
 L 32.479688 54.2 
 z
-" style="fill: #161616"/>
+" style="fill: #ffffff"/>
    </g>
    <g id="line2d_1">
     <path d="M 389.541269 232.04 
 L 389.541269 54.2 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #3a3a36; stroke-linecap: square"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #d9d9d5; stroke-linecap: square"/>
    </g>
    <g id="line2d_2">
     <path d="M 389.541269 232.04 
 L 389.541269 54.2 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #3a3a36; stroke-linecap: square"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #d9d9d5; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -53,15 +53,15 @@ L 389.541269 54.2
       <defs>
        <path id="mc9f4e609a6" d="M 0 0 
 L 0 3.5 
-" style="stroke: #dcdcd6; stroke-width: 0.8"/>
+" style="stroke: #111111; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#mc9f4e609a6" x="83.315467" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="83.315467" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
       <!-- −8 -->
-      <g style="fill: #dcdcd6" transform="translate(77.715467 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(77.715467 249.04) scale(0.1 -0.1)">
        <defs>
         <path id="HankenGrotesk-Regular-254" d="M 582 1370 
 L 582 1798 
@@ -127,12 +127,12 @@ z
     <g id="xtick_2">
      <g id="line2d_4">
       <g>
-       <use xlink:href="#mc9f4e609a6" x="159.871918" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="159.871918" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
       <!-- −6 -->
-      <g style="fill: #dcdcd6" transform="translate(154.271918 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(154.271918 249.04) scale(0.1 -0.1)">
        <defs>
         <path id="HankenGrotesk-Regular-1d5" d="M 2310 4461 
 L 1171 2637 
@@ -177,12 +177,12 @@ z
     <g id="xtick_3">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#mc9f4e609a6" x="236.428368" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="236.428368" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
       <!-- −4 -->
-      <g style="fill: #dcdcd6" transform="translate(230.828368 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(230.828368 249.04) scale(0.1 -0.1)">
        <defs>
         <path id="HankenGrotesk-Regular-1d3" d="M 2227 0 
 L 2227 1062 
@@ -214,12 +214,12 @@ z
     <g id="xtick_4">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#mc9f4e609a6" x="312.984818" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="312.984818" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
       <!-- −2 -->
-      <g style="fill: #dcdcd6" transform="translate(307.384818 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(307.384818 249.04) scale(0.1 -0.1)">
        <defs>
         <path id="HankenGrotesk-Regular-1d1" d="M 307 0 
 L 307 448 
@@ -261,12 +261,12 @@ z
     <g id="xtick_5">
      <g id="line2d_7">
       <g>
-       <use xlink:href="#mc9f4e609a6" x="389.541269" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="389.541269" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
       <!-- 0 -->
-      <g style="fill: #dcdcd6" transform="translate(386.741269 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(386.741269 249.04) scale(0.1 -0.1)">
        <defs>
         <path id="HankenGrotesk-Regular-1cf" d="M 1805 -51 
 Q 1434 -51 1174 86 
@@ -315,12 +315,12 @@ z
     <g id="xtick_6">
      <g id="line2d_8">
       <g>
-       <use xlink:href="#mc9f4e609a6" x="466.097719" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="466.097719" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
       <!-- 2 -->
-      <g style="fill: #dcdcd6" transform="translate(463.297719 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(463.297719 249.04) scale(0.1 -0.1)">
        <use xlink:href="#HankenGrotesk-Regular-1d1"/>
       </g>
      </g>
@@ -328,12 +328,12 @@ z
     <g id="xtick_7">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#mc9f4e609a6" x="542.654169" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="542.654169" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
       <!-- 4 -->
-      <g style="fill: #dcdcd6" transform="translate(539.854169 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(539.854169 249.04) scale(0.1 -0.1)">
        <use xlink:href="#HankenGrotesk-Regular-1d3"/>
       </g>
      </g>
@@ -341,19 +341,19 @@ z
     <g id="xtick_8">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#mc9f4e609a6" x="619.21062" y="232.04" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#mc9f4e609a6" x="619.21062" y="232.04" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_8">
       <!-- 6 -->
-      <g style="fill: #dcdcd6" transform="translate(616.41062 249.04) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(616.41062 249.04) scale(0.1 -0.1)">
        <use xlink:href="#HankenGrotesk-Regular-1d5"/>
       </g>
      </g>
     </g>
     <g id="text_9">
      <!-- Contribution to the gap (top-9 players per million) -->
-     <g style="fill: #dcdcd6" transform="translate(238.737531 266.07) scale(0.1 -0.1)">
+     <g style="fill: #111111" transform="translate(238.737531 266.07) scale(0.1 -0.1)">
       <defs>
        <path id="HankenGrotesk-Regular-1c" d="M 2381 -77 
 Q 1766 -77 1302 211 
@@ -995,15 +995,15 @@ z
       <defs>
        <path id="m72bad55ed6" d="M 0 0 
 L -3.5 0 
-" style="stroke: #dcdcd6; stroke-width: 0.8"/>
+" style="stroke: #111111; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m72bad55ed6" x="32.479688" y="196.301818" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#m72bad55ed6" x="32.479688" y="196.301818" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_10">
       <!-- ESP -->
-      <g style="fill: #dcdcd6" transform="translate(8.428125 201.301818) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(8.428125 201.301818) scale(0.1 -0.1)">
        <defs>
         <path id="HankenGrotesk-SemiBold-26" d="M 454 0 
 L 454 4461 
@@ -1088,12 +1088,12 @@ z
     <g id="ytick_2">
      <g id="line2d_12">
       <g>
-       <use xlink:href="#m72bad55ed6" x="32.479688" y="89.938182" style="fill: #dcdcd6; stroke: #dcdcd6; stroke-width: 0.8"/>
+       <use xlink:href="#m72bad55ed6" x="32.479688" y="89.938182" style="fill: #111111; stroke: #111111; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
       <!-- FRA -->
-      <g style="fill: #dcdcd6" transform="translate(7.2 94.938182) scale(0.1 -0.1)">
+      <g style="fill: #111111" transform="translate(7.2 94.938182) scale(0.1 -0.1)">
        <defs>
         <path id="HankenGrotesk-SemiBold-39" d="M 454 0 
 L 454 4461 
@@ -1170,7 +1170,7 @@ L 330.187053 117.592727
 L 330.187053 62.283636 
 L 389.541269 62.283636 
 z
-" clip-path="url(#p97a768037b)" style="fill: #f2f2ee; stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: #6b4bb8; stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 330.187053 117.592727 
@@ -1178,7 +1178,7 @@ L 265.791595 117.592727
 L 265.791595 62.283636 
 L 330.187053 62.283636 
 z
-" clip-path="url(#p97a768037b)" style="fill: #8b8b85; stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: #8a8a8a; stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 265.791595 117.592727 
@@ -1186,7 +1186,7 @@ L 428.89894 117.592727
 L 428.89894 62.283636 
 L 265.791595 62.283636 
 z
-" clip-path="url(#p97a768037b)" style="fill: #d6ff3a; stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: #2a8c8c; stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 428.89894 117.592727 
@@ -1194,7 +1194,7 @@ L 491.365175 117.592727
 L 491.365175 62.283636 
 L 428.89894 62.283636 
 z
-" clip-path="url(#p97a768037b)" style="fill: url(#h4d4dd34a3e); stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: url(#h4d4dd34a3e); stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 389.541269 223.956364 
@@ -1202,7 +1202,7 @@ L 419.562881 223.956364
 L 419.562881 168.647273 
 L 389.541269 168.647273 
 z
-" clip-path="url(#p97a768037b)" style="fill: #f2f2ee; stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: #6b4bb8; stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 419.562881 223.956364 
@@ -1210,7 +1210,7 @@ L 164.323675 223.956364
 L 164.323675 168.647273 
 L 419.562881 168.647273 
 z
-" clip-path="url(#p97a768037b)" style="fill: #8b8b85; stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: #8a8a8a; stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 164.323675 223.956364 
@@ -1218,7 +1218,7 @@ L 245.879262 223.956364
 L 245.879262 168.647273 
 L 164.323675 168.647273 
 z
-" clip-path="url(#p97a768037b)" style="fill: #d6ff3a; stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: #2a8c8c; stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
     <path d="M 245.879262 223.956364 
@@ -1226,41 +1226,41 @@ L 634.904692 223.956364
 L 634.904692 168.647273 
 L 245.879262 168.647273 
 z
-" clip-path="url(#p97a768037b)" style="fill: url(#h4d4dd34a3e); stroke: #161616; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p97a768037b)" style="fill: url(#h4d4dd34a3e); stroke: #ffffff; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
     <path d="M 32.479688 232.04 
 L 32.479688 54.2 
-" style="fill: none; stroke: #3a3a36; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #d9d9d5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_12">
     <path d="M 32.479688 232.04 
 L 665.215688 232.04 
-" style="fill: none; stroke: #3a3a36; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #d9d9d5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_13">
     <path d="M 207.880468 89.938182 
 L 468.176227 89.938182 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #dcdcd6; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #111111; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="line2d_14">
     <path d="M 239.180572 89.938182 
 L 316.376269 89.938182 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #dcdcd6; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #111111; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="line2d_15">
     <path d="M 274.442473 89.938182 
 L 636.45496 89.938182 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #dcdcd6; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #111111; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="patch_13">
     <path d="M 359.864161 78.942779 
 Q 359.864161 82.439242 359.864161 85.935705 
-" style="fill: none; stroke: #3a3a36; stroke-linecap: round"/>
+" style="fill: none; stroke: #d9d9d5; stroke-linecap: round"/>
    </g>
    <g id="text_12">
     <!-- -1.6 -->
-    <g style="fill: #dcdcd6" transform="translate(351.850762 74.059682) scale(0.095 -0.095)">
+    <g style="fill: #111111" transform="translate(351.850762 74.059682) scale(0.095 -0.095)">
      <defs>
       <path id="HankenGrotesk-SemiBold-21b" d="M 256 1645 
 L 256 2170 
@@ -1334,11 +1334,11 @@ z
    <g id="patch_14">
     <path d="M 297.989324 104.938162 
 Q 297.989324 99.439512 297.989324 93.940862 
-" style="fill: none; stroke: #3a3a36; stroke-linecap: round"/>
+" style="fill: none; stroke: #d9d9d5; stroke-linecap: round"/>
    </g>
    <g id="text_13">
     <!-- -1.7 -->
-    <g style="fill: #dcdcd6" transform="translate(289.975925 116.438182) scale(0.095 -0.095)">
+    <g style="fill: #111111" transform="translate(289.975925 116.438182) scale(0.095 -0.095)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1d6" d="M 589 0 
 L 2688 4070 
@@ -1361,11 +1361,11 @@ z
    <g id="patch_15">
     <path d="M 460.132058 67.941156 
 Q 460.132058 76.94055 460.132058 85.939943 
-" style="fill: none; stroke: #3a3a36; stroke-linecap: round"/>
+" style="fill: none; stroke: #d9d9d5; stroke-linecap: round"/>
    </g>
    <g id="text_14">
     <!-- +1.6 -->
-    <g style="fill: #dcdcd6" transform="translate(451.012058 63.059682) scale(0.095 -0.095)">
+    <g style="fill: #111111" transform="translate(451.012058 63.059682) scale(0.095 -0.095)">
      <defs>
       <path id="HankenGrotesk-SemiBold-253" d="M 1510 32 
 L 1510 1306 
@@ -1392,26 +1392,26 @@ z
    <g id="line2d_16">
     <path d="M 350.639108 196.301818 
 L 483.793743 196.301818 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #dcdcd6; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #111111; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="line2d_17">
     <path d="M 61.240415 196.301818 
 L 383.370819 196.301818 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #dcdcd6; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #111111; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="line2d_18">
     <path d="M 177.181331 196.301818 
 L 348.154852 196.301818 
-" clip-path="url(#p97a768037b)" style="fill: none; stroke: #dcdcd6; stroke-width: 1.5; stroke-linecap: round"/>
+" clip-path="url(#p97a768037b)" style="fill: none; stroke: #111111; stroke-width: 1.5; stroke-linecap: round"/>
    </g>
    <g id="patch_16">
     <path d="M 404.552075 185.306415 
 Q 404.552075 188.802878 404.552075 192.299341 
-" style="fill: none; stroke: #3a3a36; stroke-linecap: round"/>
+" style="fill: none; stroke: #d9d9d5; stroke-linecap: round"/>
    </g>
    <g id="text_15">
     <!-- +0.8 -->
-    <g style="fill: #dcdcd6" transform="translate(395.432075 180.423318) scale(0.095 -0.095)">
+    <g style="fill: #111111" transform="translate(395.432075 180.423318) scale(0.095 -0.095)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1cf" d="M 1798 -58 
 Q 1395 -58 1123 86 
@@ -1510,11 +1510,11 @@ z
    <g id="patch_17">
     <path d="M 205.101468 211.301798 
 Q 205.101468 205.803148 205.101468 200.304498 
-" style="fill: none; stroke: #3a3a36; stroke-linecap: round"/>
+" style="fill: none; stroke: #d9d9d5; stroke-linecap: round"/>
    </g>
    <g id="text_16">
     <!-- +2.1 -->
-    <g style="fill: #dcdcd6" transform="translate(195.981468 222.801818) scale(0.095 -0.095)">
+    <g style="fill: #111111" transform="translate(195.981468 222.801818) scale(0.095 -0.095)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1d1" d="M 275 0 
 L 275 550 
@@ -1556,7 +1556,7 @@ z
    </g>
    <g id="text_17">
     <!-- What the gap is made of -->
-    <g style="fill: #dcdcd6" transform="translate(32.479688 20.2) scale(0.13 -0.13)">
+    <g style="fill: #111111" transform="translate(32.479688 20.2) scale(0.13 -0.13)">
      <defs>
       <path id="HankenGrotesk-SemiBold-a9" d="M 1434 0 
 L 109 4461 
@@ -2009,7 +2009,7 @@ z
    </g>
    <g id="text_18">
     <!-- +4.3 -->
-    <g style="fill: #161616" transform="translate(338.705267 93.074682) scale(0.09 -0.09)">
+    <g style="fill: #ffffff" transform="translate(338.705267 93.074682) scale(0.09 -0.09)">
      <defs>
       <path id="HankenGrotesk-SemiBold-1d3" d="M 2093 0 
 L 2093 1056 
@@ -2085,7 +2085,7 @@ z
    </g>
    <g id="text_19">
     <!-- -6.7 -->
-    <g style="fill: #161616" transform="translate(284.351637 199.438318) scale(0.09 -0.09)">
+    <g style="fill: #ffffff" transform="translate(284.351637 199.438318) scale(0.09 -0.09)">
      <use xlink:href="#HankenGrotesk-SemiBold-21b"/>
      <use xlink:href="#HankenGrotesk-SemiBold-1d5" transform="translate(32.703125 0)"/>
      <use xlink:href="#HankenGrotesk-SemiBold-1ff" transform="translate(88.703125 0)"/>
@@ -2094,7 +2094,7 @@ z
    </g>
    <g id="text_20">
     <!-- +10.2 -->
-    <g style="fill: #161616" transform="translate(429.231977 199.438318) scale(0.09 -0.09)">
+    <g style="fill: #ffffff" transform="translate(429.231977 199.438318) scale(0.09 -0.09)">
      <use xlink:href="#HankenGrotesk-SemiBold-253"/>
      <use xlink:href="#HankenGrotesk-SemiBold-1d0" transform="translate(56 0)"/>
      <use xlink:href="#HankenGrotesk-SemiBold-1cf" transform="translate(112 0)"/>
@@ -2109,11 +2109,11 @@ L 176.527375 51.8592
 L 176.527375 44.8592 
 L 156.527375 44.8592 
 z
-" style="fill: #f2f2ee; stroke: #f2f2ee; stroke-linejoin: miter"/>
+" style="fill: #6b4bb8; stroke: #6b4bb8; stroke-linejoin: miter"/>
     </g>
     <g id="text_21">
      <!-- U21 minutes -->
-     <g style="fill: #dcdcd6" transform="translate(184.527375 51.8592) scale(0.1 -0.1)">
+     <g style="fill: #111111" transform="translate(184.527375 51.8592) scale(0.1 -0.1)">
       <defs>
        <path id="HankenGrotesk-Regular-94" d="M 2093 -77 
 Q 1299 -77 880 352 
@@ -2168,11 +2168,11 @@ L 279.825813 51.8592
 L 279.825813 44.8592 
 L 259.825813 44.8592 
 z
-" style="fill: #8b8b85; stroke: #8b8b85; stroke-linejoin: miter"/>
+" style="fill: #8a8a8a; stroke: #8a8a8a; stroke-linejoin: miter"/>
     </g>
     <g id="text_22">
      <!-- League strength -->
-     <g style="fill: #dcdcd6" transform="translate(287.825813 51.8592) scale(0.1 -0.1)">
+     <g style="fill: #111111" transform="translate(287.825813 51.8592) scale(0.1 -0.1)">
       <defs>
        <path id="HankenGrotesk-Regular-57" d="M 506 0 
 L 506 4461 
@@ -2207,11 +2207,11 @@ L 398.977375 51.8592
 L 398.977375 44.8592 
 L 378.977375 44.8592 
 z
-" style="fill: #d6ff3a; stroke: #d6ff3a; stroke-linejoin: miter"/>
+" style="fill: #2a8c8c; stroke: #2a8c8c; stroke-linejoin: miter"/>
     </g>
     <g id="text_23">
      <!-- Export age -->
-     <g style="fill: #dcdcd6" transform="translate(406.977375 51.8592) scale(0.1 -0.1)">
+     <g style="fill: #111111" transform="translate(406.977375 51.8592) scale(0.1 -0.1)">
       <defs>
        <path id="HankenGrotesk-Regular-26" d="M 506 0 
 L 506 4461 
@@ -2262,11 +2262,11 @@ L 495.647688 51.8592
 L 495.647688 44.8592 
 L 475.647688 44.8592 
 z
-" style="fill: url(#h4d4dd34a3e); stroke: #161616; stroke-linejoin: miter"/>
+" style="fill: url(#h4d4dd34a3e); stroke: #ffffff; stroke-linejoin: miter"/>
     </g>
     <g id="text_24">
      <!-- Residual -->
-     <g style="fill: #dcdcd6" transform="translate(503.647688 51.8592) scale(0.1 -0.1)">
+     <g style="fill: #111111" transform="translate(503.647688 51.8592) scale(0.1 -0.1)">
       <defs>
        <path id="HankenGrotesk-Regular-84" d="M 506 0 
 L 506 4461 
@@ -2357,7 +2357,7 @@ z
  </defs>
  <defs>
   <pattern id="h4d4dd34a3e" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
-   <rect x="0" y="0" width="73" height="73" fill="#8b8b85"/>
+   <rect x="0" y="0" width="73" height="73" fill="#8a8a8a"/>
    <path d="M -36 36 
 L 36 -36 
 M -33 39 
@@ -2408,7 +2408,7 @@ M 33 105
 L 105 33 
 M 36 108 
 L 108 36 
-" style="fill: #161616; stroke: #161616; stroke-width: 1.0; stroke-linecap: butt; stroke-linejoin: miter"/>
+" style="fill: #ffffff; stroke: #ffffff; stroke-width: 1.0; stroke-linecap: butt; stroke-linejoin: miter"/>
   </pattern>
  </defs>
 </svg>
