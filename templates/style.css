@@ -2848,7 +2848,7 @@ footer a:hover { border-bottom-color: var(--ink); }
 .changes-tier-label { font-family: var(--font-sans); font-size: 0.8rem; color: var(--muted); margin: 0 0 0.2rem; }
 .changes-tier-n { font-family: var(--font-mono); font-size: 1.5rem; font-feature-settings: "tnum"; margin: 0; color: var(--ink); }
 .changes-prev { color: var(--muted); }
-.changes-arrow { color: var(--rule); font-size: 1rem; margin: 0 0.15rem; }
+.changes-arrow { color: var(--muted); font-size: 1rem; margin: 0 0.15rem; }
 .changes-curr { color: var(--ink); font-weight: 600; }
 .changes-tier-min { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); margin: 0.15rem 0 0; font-feature-settings: "tnum"; }
 .changes-moves { margin-top: var(--space-3); }
