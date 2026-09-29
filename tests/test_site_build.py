@@ -116,7 +116,7 @@ def test_player_atlas_page_is_built_with_portraits(site_dir):
     careers data it reads decorated with each player's portrait."""
     out, _ = site_dir
     page = (out / "atlas" / "index.html").read_text(encoding="utf-8")
-    assert "data-atlas-app" in page and 'src="../atlas.app.js"' in page and '<nav class="topbar"' in page
+    assert "data-atlas-app" in page and 'src="../atlas.app.js?v=' in page and '<nav class="topbar"' in page
     assert (out / "atlas.app.js").exists()
     data = json.loads((out / "charts" / "careers.json").read_text(encoding="utf-8"))
     assert data["players"] and data["seasons_covered"] and data["metrics_season"] in data["seasons_covered"]
