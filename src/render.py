@@ -1763,6 +1763,75 @@ def _build_season_changes(sc: dict) -> dict:
     }
 
 
+def _long_date(d: dt.date | None) -> str | None:
+    """date(2026, 9, 14) -> '14 September 2026'."""
+    return f"{d.day} {d:%B} {d.year}" if d else None
+
+
+def _build_this_autumn(news: dict | None, pool_table: dict, squad_players: list[dict]) -> dict:
+    """"This autumn" (#autumn): dated news from `config/news/<NATION>.yaml`
+    beside the atlas's own numbers, which stay those of the snapshot.
+
+    The news gives only dated facts and their sources; every number the
+    section shows comes from here: each retired player's metrics-season row
+    in `pool_table` (matched by `normalize_name`; a name with no row is
+    listed in `unmatched`, several rows keep the one with most minutes) and
+    whether his pool key is in the `nt_core_event` squad grid
+    (`squad_players`, slide 6; None when that grid is empty). Footnotes are
+    numbered in order of first citation: coach, the retirements line, then
+    each player.
+    Empty dict when the nation has no news file, and the section is skipped.
+    """
+    if not news:
+        return {}
+    by_key = {s["key"]: s for s in news["sources"]}
+    order: list[str] = []
+
+    def cite(keys: list[str]) -> list[int]:
+        for k in keys:
+            if k not in by_key:
+                raise KeyError(f"news source {k!r} is cited but not listed")
+            if k not in order:
+                order.append(k)
+        return sorted(order.index(k) + 1 for k in keys)
+
+    c = news["coach"]
+    coach = {
+        "new": c["new"], "previous": c["previous"], "contract_years": number_word(c["contract_years"]),
+        "appointed": _long_date(c["appointed"]), "presented": _long_date(c["presented"]),
+        "previous_left": _long_date(c["previous_left"]),
+        "notes_left": cite(c["sources_left"]), "notes_appointed": cite(c["sources_appointed"]),
+        "notes_presented": cite(c["sources_presented"]),
+    }
+    notes_retirements = cite(news.get("retirements_sources", []))
+    rows = pool_table.get("rows", [])
+    squad_keys = {p["player_key"] for p in squad_players} if squad_players else None
+    retirements, unmatched = [], []
+    for r in news["retirements"]:
+        cand = [p for p in rows if normalize_name(p["player"]) == normalize_name(r["name"])]
+        best = max(cand, key=lambda p: p["min"]) if cand else None
+        if best is None:
+            unmatched.append(r["name"])
+        retirements.append({
+            "name": r["name"], "announced": _long_date(r["announced"]) if r.get("announced") else r["announced_text"],
+            "quote": r.get("quote"), "quote_en": r.get("quote_en"), "notes": cite(r["sources"]),
+            "pool": None if best is None else {
+                "player_key": best["player_key"], "club": best.get("club"), "league": best.get("league"),
+                "tier": best["tier"], "min": int(best["min"]),
+            },
+            "in_squad": None if best is None or squad_keys is None else best["player_key"] in squad_keys,
+        })
+    sources = [{"n": i + 1, **by_key[k], "date": _long_date(by_key[k].get("date")),
+                "accessed": _long_date(by_key[k]["accessed"])} for i, k in enumerate(order)]
+    season = pool_table.get("season")
+    return {
+        "data_as_of": _long_date(news["data_as_of"]), "news_as_of": _long_date(news["news_as_of"]),
+        "season_label": season_label(season) if season else "",
+        "coach": coach, "notes_retirements": notes_retirements,
+        "retirements": retirements, "unmatched": unmatched, "sources": sources,
+    }
+
+
 def _build_export_age_model(eam: dict) -> dict:
     """Chapter IV `#export-age-model` and slide 4b (Task 23, M1 proper): the
     age-at-export curve. `eam` is `export_age_model.json`'s raw shape (`{}`
@@ -2250,6 +2319,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                                    gap_decomposition, names)
     pool_table = _build_pool_table(data["pool_table"], tr)
     season_changes = _build_season_changes(data["season_changes"])
+    this_autumn = _build_this_autumn(config.news(), data["pool_table"], (squad_lens or {}).get("players", []))
     # the pre-registered forecast beside the live one (src.predictions): the
     # ledger is what the page quotes, the live model only says whether it moved
     live_forecast = (data["series_model"].get("forecast") or {}).get(config.HOME)
@@ -2316,6 +2386,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "why_funnel": why_funnel,
         "pool_table": pool_table,
         "season_changes": season_changes,
+        "this_autumn": this_autumn,
         "predictions": predictions,
         "downloads": _build_downloads("https://github.com/sandovabarbora/czefootball-player-pool-atlas"),
         "feature_eda": _build_feature_eda(data["feature_eda"], tr),
@@ -2764,6 +2835,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
             "crs_p90": 1.2, "interceptions_p90": 0.4, "tklw_p90": 0.6, "fld_p90": 1.1, "fls_p90": 0.9,
             "rank_q": 1, "n_group": 1}]}),
         "season_changes": {},
+        "this_autumn": {},
         "predictions": [],
         "downloads": [
             {"label_key": "downloads.pool", "files": [

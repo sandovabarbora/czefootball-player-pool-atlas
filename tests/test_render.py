@@ -474,3 +474,37 @@ def test_repo_urls_point_at_the_real_owner():
     root = Path(__file__).resolve().parents[1]
     for rel in ("src/render.py", "README.md"):
         assert "barborasandova/" not in (root / rel).read_text(encoding="utf-8"), rel
+
+
+def test_this_autumn_numbers_come_from_the_pool_and_notes_follow_first_citation():
+    import datetime as dt
+
+    from src.render import _build_this_autumn
+
+    d = dt.date
+    news = {
+        "data_as_of": d(2026, 9, 14), "news_as_of": d(2026, 9, 29),
+        "sources": [{"key": k, "publisher": k.upper(), "date": None, "url": f"https://x/{k}",
+                     "accessed": d(2026, 9, 29)} for k in ("a", "b", "c")],
+        "coach": {"new": "New", "previous": "Old", "contract_years": 2, "appointed": d(2026, 7, 31),
+                  "presented": d(2026, 8, 6), "previous_left": d(2026, 6, 29),
+                  "sources_left": ["b"], "sources_appointed": ["a"], "sources_presented": ["a"]},
+        "retirements_sources": ["c"],
+        "retirements": [{"name": "Tomáš Holeš", "announced": d(2026, 6, 26), "sources": ["c", "b"]},
+                        {"name": "Nobody Here", "announced": d(2026, 7, 1), "sources": ["c"]}],
+    }
+    pool = {"season": "2025-2026", "rows": [
+        {"player": "Tomas Holes", "player_key": "tomas holes|1993", "club": "Slavia", "league": "CZE",
+         "tier": "domestic", "min": 2003},
+    ]}
+    out = _build_this_autumn(news, pool, [{"player_key": "tomas holes|1993"}])
+    assert out["data_as_of"] == "14 September 2026" and out["season_label"] == "2025/26"
+    assert out["coach"]["contract_years"] == "two"
+    assert [s["key"] for s in out["sources"]] == ["b", "a", "c"]
+    assert out["coach"]["notes_left"] == [1] and out["notes_retirements"] == [3]
+    holes, nobody = out["retirements"]
+    assert holes["notes"] == [1, 3]
+    assert holes["pool"]["min"] == 2003 and holes["pool"]["tier"] == "domestic" and holes["in_squad"] is True
+    assert nobody["pool"] is None and nobody["in_squad"] is None
+    assert out["unmatched"] == ["Nobody Here"]
+    assert _build_this_autumn(None, pool, []) == {}

@@ -372,7 +372,7 @@
     overviewSig = sig;
     const nTop = pool.filter((p) => p.d.tierNow === 'top9').length;
     el.innerHTML = `<p class="ax-kicker">the pool, season by season</p>` +
-      `<h2 class="ax-statement">Pick a player on the left, or start from the whole pool: where its minutes were played, ${short(SEASONS[0])} to ${short(SEASONS[SEASONS.length - 1])}.</h2>` +
+      `<h2 class="ax-statement">Pick a player in the list below, or start from the whole pool: where its minutes were played, ${short(SEASONS[0])} to ${short(SEASONS[SEASONS.length - 1])}.</h2>` +
       `<div class="ax-chart" data-ax-overview></div>` +
       `<p class="ax-note">Minutes of the ${pool.length} pool players who appear in the covered leagues, stacked by the rung of the league. ${nTop} of them play in a top-9 league now. Hover a band for the season's numbers; the current season has only begun.</p>`;
     if (hasD3) requestAnimationFrame(() => overviewChart(el.querySelector('[data-ax-overview]'), pool));

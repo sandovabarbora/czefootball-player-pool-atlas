@@ -1,0 +1,77 @@
+# "This autumn" (report section #autumn): dated news beside the atlas's
+# frozen data. The atlas data is NOT refreshed for it -- every number the
+# section shows is computed from the snapshot (pool_table.json, squad_lens),
+# and only the dated facts below come from outside.
+#
+# Only facts graded "confirmed by an official source" or "confirmed by
+# reputable media only" in the news review of 29 September 2026 are here;
+# ungraded or "not confirmed" items are left out, among them the September
+# 2026 squad list itself (read only from Wikipedia's transcription of the
+# FAČR nomination), so no squad composition is drawn from it. A source is
+# cited only if it was read; `date` is its publication date where the review
+# recorded one, null otherwise (rendered "n.d.").
+#
+# Wording rules: a retirement is the player's own announcement, not a
+# selection decision; no evaluation of the coach's choices.
+#
+# A nation without a file here gets no section (src.render._build_this_autumn).
+
+data_as_of: 2026-09-14
+news_as_of: 2026-09-29
+
+sources:
+  - key: seznam_koubek
+    publisher: Seznam Zprávy
+    date: null
+    url: "https://www.seznamzpravy.cz/clanek/sport-fotbal-velky-zvrat-fotbaliste-jsou-bez-trenera-koubek-konci-309636"
+    accessed: 2026-09-29
+  - key: wiki_denia
+    publisher: Wikipedia, “Santi Denia”
+    date: null
+    url: "https://en.wikipedia.org/wiki/Santi_Denia"
+    accessed: 2026-09-29
+  - key: rpi_denia
+    publisher: Radio Prague International
+    date: 2026-08-06
+    url: "https://espanol.radio.cz/santi-denia-es-presentado-en-sociedad-nos-encanta-la-posesion-nos-encanta-el-8894069"
+    accessed: 2026-09-29
+  - key: livesport_schick
+    publisher: Livesport.cz
+    date: null
+    url: "https://www.livesport.cz/zpravy/fotbal-mistrovstvi-sveta-schick-se-louci-s-narodnim-tymem-cesky-fotbal-ma-podle-nej-na-vic-spousta-veci-nefunguje/GWYA312l/"
+    accessed: 2026-09-29
+  - key: isport_cerny
+    publisher: iSport.cz / ČTK
+    date: 2026-07-10
+    url: "https://isport.blesk.cz/clanek/fotbal-reprezentace/477554/dalsi-konec-v-reprezentaci-cerny-28-to-oznamil-v-turecku-tezke-a-bolestive-rozhodnuti.html"
+    accessed: 2026-09-29
+
+coach:
+  new: Santi Denia
+  appointed: 2026-07-31
+  contract_years: 2
+  presented: 2026-08-06
+  previous: Miroslav Koubek
+  previous_left: 2026-06-29
+  sources_left: [seznam_koubek]
+  sources_appointed: [wiki_denia]
+  sources_presented: [rpi_denia]
+
+# Announced retirements from the national team, in date order. `quote` is at
+# most one short phrase, verbatim from the cited source, with its English
+# gloss; left out when the source only paraphrases the player.
+# `retirements_sources` back the section's own line that all three retired
+# before the first squad under the new coach.
+retirements_sources: [isport_cerny]
+retirements:
+  - name: Patrik Schick
+    announced: 2026-06-25
+    sources: [livesport_schick, isport_cerny]
+  - name: Tomáš Holeš
+    announced_text: after the World Cup
+    sources: [isport_cerny]
+  - name: Václav Černý
+    announced: 2026-07-10
+    quote: "těžké a bolestivé rozhodnutí"
+    quote_en: a difficult and painful decision
+    sources: [isport_cerny]
