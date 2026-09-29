@@ -37,7 +37,11 @@ peer_domestic:       # tier-1 leagues of the peer countries (exhibit A, route or
   DEN-Superliga:      {comp_id: 50, slug: Danish-Superliga,   country: DEN, tier: 1}
   SUI-Super League:   {comp_id: 57, slug: Swiss-Super-League, country: SUI, tier: 1}
   NOR-Eliteserien:    {comp_id: 28, slug: Eliteserien,        country: NOR, tier: 1}
-stepping_stone: [NED-Eredivisie, BEL-Pro League, POR-Primeira Liga, TUR-Süper Lig, GER-2. Bundesliga]
+# Stepping-stone leagues: covered leagues below the top nine that are no
+# peer's home league. Disjoint from `headline` (29 September 2026): NED, POR,
+# BEL and TUR are top-9 leagues and are counted only as top-9; every tier
+# rule already checked `headline` first, so no count changed.
+stepping_stone: [GER-2. Bundesliga]
 # comp_ids above are best knowledge; Task 2's live smoke verifies each one against
 # the page title FBref returns and corrects the yaml before fetching.
 # Any further league is added to `custom` when pool discovery (Task 3) finds

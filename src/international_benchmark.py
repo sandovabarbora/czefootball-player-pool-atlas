@@ -23,6 +23,7 @@ Inputs:
 
 Outputs:
     data/processed/per_capita.parquet
+    data/processed/per_capita_floors.json  (the same count at 1, 450 and 900 minutes)
     data/processed/cohorts.parquet
     outputs/intl_cohort_heatmap.svg
     outputs/benchmark_narrative.md
@@ -33,6 +34,7 @@ recommendation.
 
 from __future__ import annotations
 
+import json
 import logging
 from pathlib import Path
 
@@ -104,6 +106,35 @@ def per_capita(
         .reset_index(drop=True)
     )
     out["rank"] = range(1, len(out) + 1)
+    return out
+
+
+PER_CAPITA_FLOORS = (1, 450, 900)
+"""Minute floors for the per-capita sensitivity: any appearance (the headline
+count), the report's own inclusion floor (five full matches) and ten full
+matches."""
+
+
+def per_capita_floors(
+    tables: pd.DataFrame, peers: dict, headline_leagues: list[str], season: str,
+    floors: tuple[int, ...] = PER_CAPITA_FLOORS,
+) -> dict:
+    """The per-capita count again with a minimum of season minutes in the
+    headline leagues (summed over a player's headline-league rows), one entry
+    per floor: every country's count, rate and rank, ranked as `per_capita`
+    ranks. The headline count (`per_capita`) applies no floor, so floor 1 --
+    at least one minute -- reproduces it."""
+    sub = tables[(tables.season == season) & tables.league.isin(headline_leagues) & tables.nation.isin(peers)]
+    tot = sub.groupby(["nation", "player_key"])["min"].sum().reset_index()
+    out = {"season": season, "floors": []}
+    for fl in floors:
+        n = tot[tot["min"] >= fl].groupby("nation")["player_key"].nunique()
+        rows = [{"country": c, "n_players": int(n.get(c, 0)), "population_m": m["population_m"],
+                 "per_million": round(int(n.get(c, 0)) / m["population_m"], 2)} for c, m in peers.items()]
+        rows.sort(key=lambda r: (-r["per_million"], r["population_m"]))
+        for i, r in enumerate(rows):
+            r["rank"] = i + 1
+        out["floors"].append({"min_minutes": int(fl), "rows": rows})
     return out
 
 
@@ -319,6 +350,8 @@ def main() -> None:
     tables = read_parquet(config.PROCESSED_DIR / "fbref_players.parquet")
     pc = per_capita(tables, peers, config.HEADLINE_LEAGUES, config.seasons()["metrics"])
     write_parquet(pc, config.PROCESSED_DIR / "per_capita.parquet")
+    floors = per_capita_floors(tables, peers, config.HEADLINE_LEAGUES, config.seasons()["metrics"])
+    (config.PROCESSED_DIR / "per_capita_floors.json").write_text(json.dumps(floors, ensure_ascii=False, indent=1), encoding="utf-8")
 
     feats = {g: read_parquet(config.PROCESSED_DIR / f"features_{g}.parquet") for g in config.features()["groups"]}
     coh = cohort_table(feats, peers)

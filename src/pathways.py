@@ -85,10 +85,13 @@ from __future__ import annotations
 import json
 import logging
 
+import numpy as np
 import pandas as pd
 
 from src import config
 from src.utils import read_parquet
+
+FARE_N_BOOT = 2000   # resamples for the bootstrap interval on each country's median minutes share
 
 LOG = logging.getLogger(__name__)
 
@@ -338,6 +341,15 @@ def fare(tables: pd.DataFrame, headline: list[str], peers: list[str], season: st
         median_min_share=("min_share", "median"),
         median_club_goals_pct=("club_goals_pct", "median"),
     )
+    # a percentile-bootstrap interval on each country's median minutes share
+    # (players resampled with replacement, seeded), so the ranking of the
+    # medians can be read against their uncertainty
+    rng = np.random.default_rng(config.RANDOM_SEED)
+    boot: dict[str, tuple[float, float]] = {}
+    for country, g in t.dropna(subset=["min_share"]).groupby("nation"):
+        v = g["min_share"].to_numpy()
+        meds = np.median(rng.choice(v, size=(FARE_N_BOOT, len(v)), replace=True), axis=1)
+        boot[country] = (float(np.quantile(meds, 0.05)), float(np.quantile(meds, 0.95)))
     rows = []
     for country in peers:
         if country in by_country.index:
@@ -346,6 +358,8 @@ def fare(tables: pd.DataFrame, headline: list[str], peers: list[str], season: st
                 "country": country,
                 "n": int(r["n"]),
                 "median_min_share": float(r["median_min_share"]),
+                "min_share_lo": boot.get(country, (None, None))[0],
+                "min_share_hi": boot.get(country, (None, None))[1],
                 "median_club_goals_pct": float(r["median_club_goals_pct"]),
                 "club_strength_proxy": CLUB_STRENGTH_PROXY,
             })
@@ -526,10 +540,15 @@ def _summarize_destinations(rows: list[dict], domestic_multiplier: float | None)
         and domestic_multiplier is not None
         and r["multiplier"] <= domestic_multiplier
     ]
+    sideways_leagues: dict[str, int] = {}
+    for r in sideways:
+        sideways_leagues[r["league"]] = sideways_leagues.get(r["league"], 0) + 1
     return {
         "n_total": n_total,
         "n_abroad": n_abroad,
         "buckets": buckets,
+        "sideways_n": len(sideways),
+        "sideways_leagues": dict(sorted(sideways_leagues.items(), key=lambda kv: (-kv[1], kv[0]))),
         "sideways_share": len(sideways) / n_abroad if n_abroad else 0.0,
         "sideways_definition": SIDEWAYS_DEFINITION,
         "examples": examples,
