@@ -498,6 +498,7 @@ p.clamp.clamp-open { display: block; -webkit-line-clamp: unset; }
   .hero-cutout { display: none; }
   .hero-stamp { display: none; }
   .capita-value { white-space: nowrap; }  /* "13,2 %" must not wrap in the exhibit rows */
+  .capita-value .muted { white-space: normal; }  /* "not on FBref" may wrap: it overflowed a 390 px screen */
   .capita-country { min-width: 0; overflow-wrap: anywhere; }  /* raw league keys shrink instead of pushing the value */
   .cast { width: 100%; flex-wrap: wrap; }
   .cast-stack > :nth-child(n+7) { display: none; }  /* twelve portraits do not fit a phone row */

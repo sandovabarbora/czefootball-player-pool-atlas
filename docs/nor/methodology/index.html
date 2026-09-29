@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609292251">
-  <link rel="stylesheet" href="../modern.css?v=202609292251">
+  <link rel="stylesheet" href="../style.css?v=202609292329">
+  <link rel="stylesheet" href="../modern.css?v=202609292329">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../charts.js?v=202609292251"></script>
-  <script defer src="../atlas.js?v=202609292251"></script>
+  <script defer src="../charts.js?v=202609292329"></script>
+  <script defer src="../atlas.js?v=202609292329"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -100,7 +100,7 @@
     <h2 id="methodology">Methodology, data and limitations</h2>
 
     <h3 id="data-sources">Data sources</h3>
-    <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit c28dc59 · code: <code>src/, config/</code> · status: exploratory, not pre-registered · <a href="#limitations">all limitations</a></p>
+    <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit 7cbfe45 · code: <code>src/, config/</code> · status: exploratory, not pre-registered · <a href="#limitations">all limitations</a></p>
     <ul>
       <li><strong>FBref</strong> (Sports Reference), read with <code>soccerdata</code> 1.9.1: player season tables (standard, playing time) for the 9 headline leagues, the Eliteserien, the peer domestic leagues and the German second tier; the country page "Players from Norway" for pool discovery; the nationality column for peer counts. Season tables fetched 14 September 2026; the Big-5 history back to 1995/96 is in the snapshot committed 22 September 2026 (Sports Reference, 2026; Robberechts, 2026)</li>
       <li><strong>Wikipedia</strong>: national-team squad tables (2026 FIFA World Cup), accessed 14 September 2026; text under CC BY-SA 4.0 (Wikipedia contributors, 2026)</li>
@@ -109,7 +109,7 @@
       <li><strong>Eurostat</strong>: population on 1 January 2024, table demo_pjan, accessed 14 September 2026; reuse under the European Commission’s reuse policy with attribution (Eurostat, 2024)</li>
     </ul>
     <h3 id="data-availability">Data availability</h3>
-    <p>The processed tables behind every page are committed in the public repository under <code>data/snapshot/nor/</code> (snapshot commit c28dc59) and listed with their SHA-256 prefixes under <a href="#downloads">Download the tables</a>. Raw FBref pages are not redistributed; FBref’s own terms of use apply to its data. Squad lists from Wikipedia are CC BY-SA 4.0 and are credited as such; Wikidata is CC0; Eurostat data are reused with attribution; the UEFA coefficients are public rankings quoted with their source. League or club headshots are not used: a portrait appears only where a Wikimedia Commons file exists, credited in the footer with a link to its file page. The atlas’s own text, figures and data are CC BY 4.0 and its code MIT.</p>
+    <p>The processed tables behind every page are committed in the public repository under <code>data/snapshot/nor/</code> (snapshot commit 7cbfe45) and listed with their SHA-256 prefixes under <a href="#downloads">Download the tables</a>. Raw FBref pages are not redistributed; FBref’s own terms of use apply to its data. Squad lists from Wikipedia are CC BY-SA 4.0 and are credited as such; Wikidata is CC0; Eurostat data are reused with attribution; the UEFA coefficients are public rankings quoted with their source. League or club headshots are not used: a portrait appears only where a Wikimedia Commons file exists, credited in the footer with a link to its file page. The atlas’s own text, figures and data are CC BY 4.0 and its code MIT.</p>
 
     
     <h3 id="features-from-raw">From raw tables to a feature vector</h3>
@@ -873,7 +873,7 @@
     <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier (every country in this run used the model estimate)) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
     <figure class="figure-bleed">
       <img src="../gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
-      <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and Norway. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
+      <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and Norway. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment is negative where the fitted term for that channel predicts fewer players per million for the comparison country than for Norway.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr>
@@ -963,7 +963,7 @@
     <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do Norwegian players go when they leave?", reused here) — 115 players, ages 17–31 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the quadratic branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
     <figure class="figure-bleed">
       <img src="../export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as green points against every other peer export in grey, and a rug of every export's age along the axis.">
-      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Green dots are Norwegian exports — hover for the name.</figcaption>
+      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means no measurable difference in output by arrival age. Green dots are Norwegian exports — hover for the name.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr><th>Age</th><th>Expected G+A/90 (median)</th><th>90 % HDI</th></tr></thead>
@@ -1706,7 +1706,7 @@
       <p>Every wrangling decision that changed a count, with the count. The first block is recomputed on every run; the second is the incident record (dates and counts as recorded at the time).</p>
       <table class="dq-table"><thead><tr><th>Check</th><th>Count</th><th>What it counts</th></tr></thead>
       <tbody><tr><td>Women&#39;s entries filtered</td><td class="num">0 entries</td><td>FBref country-page entries dropped for a surname ending in -ová (see Limitations).</td></tr><tr><td>Namesakes in the pool</td><td class="num">6 players</td><td>Active pool players sharing a normalised name (e.g. father and son), disambiguated by club.</td></tr><tr><td>Pool players without season tables</td><td class="num">686 players</td><td>Norwegian professionals on FBref&#39;s country page who play in a league without season tables and carry no metrics.</td></tr><tr><td>Split-season rows collapsed</td><td class="num">441 rows</td><td>Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).</td></tr><tr><td>Unmatched call-up names</td><td class="num">62 names</td><td>National-team squad-table names that match no Norwegian-eligible row in the feature tables.</td></tr><tr><td>Missing birth years</td><td class="num">0 rows</td><td>Season-table rows of nation NOR with no birth year, which cannot form a player_key.</td></tr><tr><td>Unjoined goalkeeper rows</td><td class="num">12 rows</td><td>Keeper-page rows with no matching GK row in the season tables on (league, season, team, player_key); dropped from every goalkeeper exhibit.</td></tr><tr><td>Eliteserien rows without a nationality</td><td class="num">6 rows</td><td>Season-table rows in the Eliteserien where FBref records no nationality — the highest rate of any league in this pipeline. Every “own nationals” share reads that column as its numerator while the denominator keeps the league’s full minutes, so those shares are floors, not point estimates.</td></tr></tbody></table>
-      <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li><li><span class="mono">2026-09-14</span> The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); caught in review. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model&#39;s margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported.</li></ul>
+      <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li><li><span class="mono">2026-09-14</span> The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); found before publication. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model&#39;s margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported.</li></ul>
     </details>
     
 
@@ -1779,8 +1779,10 @@
       
     </ul>
 
+    
+    <span id="how-built"></span><span id="tracking"></span>
     <h3 id="reproducibility">Reproducibility</h3>
-    <p>The pipeline is public: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, code under the MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render &amp;&amp; make pages</code> rebuilds this edition from the committed data snapshot (commit c28dc59; FBref tables fetched 14 September 2026); <code>NATION=eng make pages</code> builds another edition, <code>make nations</code> the cross-edition comparison and <code>make test</code> runs the automated checks; <code>make all</code> refetches everything and reruns the whole pipeline. Seed 42 for every stochastic step: KMeans, every PyMC fit (random_seed), the bootstrap on the minutes share and the gap decomposition’s bootstrap (42 plus the contrast’s index). Fetchers cache raw pages; the render step never touches the network. Each question page names the module that computes its data in its metadata line.</p>
+    <p>The pipeline is public: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, code under the MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> rebuilds this edition from the committed data snapshot (commit 7cbfe45; FBref tables fetched 14 September 2026); <code>make figures</code> refits the models with their seeds (about 15 minutes an edition), which reproduces the model outputs in the snapshot, and redraws the figures. The findings on the front page come from the cross-edition file: run <code>make restore-snapshot &amp;&amp; make figures</code> for every edition (<code>NATION=den</code>, <code>eng</code>, <code>esp</code>, <code>ger</code>, <code>nor</code> and the default), then <code>make nations</code>, then <code>make pages</code> for each edition. <code>make test</code> runs the automated checks; <code>make all</code> refetches everything and reruns the whole pipeline. Seed 42 for every stochastic step: KMeans, every PyMC fit (random_seed), the bootstrap on the minutes share and the gap decomposition’s bootstrap (42 plus the contrast’s index). Fetchers cache raw pages; the render step never touches the network. Each question page names the module that computes its data in its metadata line.</p>
     <p>The processed tables also load into BigQuery unchanged: <code><a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/tree/main/infra/bigquery">infra/bigquery/</a></code> has generated schemas, a <code>bq load</code> script and a key/unit contract for the model-output JSONs the tables don't cover. Run <code>infra/bigquery/load.sh -n &lt;dataset&gt; &lt;nation&gt;</code> to see the load commands without running them.</p>
 
     <h3 id="checks">Internal automated checks</h3>
@@ -1908,7 +1910,7 @@
       
       <li>
         <span class="downloads-label">Players per million people, one row per country, the numbers behind the per-head page, and the same count at floors of 1, 450 and 900 minutes.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/per_capita.parquet">per_capita.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">f05218670ef0fc0e</code></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/per_capita.parquet">per_capita.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">f05218670ef0fc0e</code> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/per_capita_floors.json">per_capita_floors.json</a> <code class="small" title="SHA-256, first 16 hex digits">6fa16c76c5d60d28</code></span>
       </li>
       
       <li>
@@ -1923,7 +1925,7 @@
       
       <li>
         <span class="downloads-label">Youth minutes at home, the age and route of the move abroad, how exports fare, and where they land — every number behind the pathway exhibits, in one file.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/pathways.json">pathways.json</a> <code class="small" title="SHA-256, first 16 hex digits">d33c96342741fb96</code></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/nor/pathways.json">pathways.json</a> <code class="small" title="SHA-256, first 16 hex digits">f5dedddc33575316</code></span>
       </li>
       
       <li>
@@ -2164,7 +2166,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 22:49</p>
+    <p class="rendered-at">Rendered: 2026-09-29 23:29</p>
   </div>
 </footer>
 

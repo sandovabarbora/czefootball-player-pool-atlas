@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css?v=202609292251">
-  <link rel="stylesheet" href="../../modern.css?v=202609292251">
+  <link rel="stylesheet" href="../../style.css?v=202609292329">
+  <link rel="stylesheet" href="../../modern.css?v=202609292329">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../../charts.js?v=202609292251"></script>
-  <script defer src="../../atlas.js?v=202609292251"></script>
+  <script defer src="../../charts.js?v=202609292329"></script>
+  <script defer src="../../atlas.js?v=202609292329"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -67,7 +67,7 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="gap">
         <img src="../../gap_decomposition.svg" alt="One horizontal stacked bar per contrast country: the contribution of U21 minutes, league strength and export age to its per-capita gap with Norway, plus the residual; whiskers show each channel's bootstrap interval.">
-        <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and Norway. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
+        <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and Norway. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment is negative where the fitted term for that channel predicts fewer players per million for the comparison country than for Norway.</figcaption>
       </figure>
       
       <p class="slide-detail">In this 8-country fit the league-strength coefficient is negative (−56.83 per unit of the league multiplier m_L): a weaker home league goes with more players per million in the top-ranked leagues, so a contrast country whose league is weaker than Norway’s (m_L 0.574) gets a positive league-strength contribution.</p>
@@ -77,7 +77,7 @@
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">+3.60 is not carried by the three channels.</p>
+      <p class="slide-detail">Of the 3.21 per million between Denmark and Norway, a residual of +3.60 is not carried by the three channels.</p>
     <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: a linear split of the per-capita gap into U21 minutes, league strength and export age across 8 peer countries.</p>
     <p class="slide-did"><span class="slide-did-label">What we did</span> We used the players who changed leagues to work out what a season in one league is worth in another, then split the gap between countries into the parts that line up with young players' minutes, league strength and the age players move abroad.</p>
     <p class="slide-how"><span class="slide-how-label">Sources</span> Ridge-regression linear split (α = 1.00, standardised channels), Blinder-Oaxaca-style (Oaxaca, 1973; Blinder, 1973), fit on the 8 peer countries with data on all three channels; 90 % bootstrap intervals, 1000 resamples, seed 42 plus the contrast’s index; with 8 countries and three correlated channels the split is indicative; a decomposition of a correlation, not a causal accounting.</p>
@@ -87,7 +87,7 @@
       <p class="slide-means">The decomposition says how the gap lines up with three measured channels across 8 countries, with the contributions and intervals above. With 8 countries, three correlated channels and a ridge penalty, the split is indicative: it describes an association and gives no estimate of what would change if one channel changed.</p>
       <h3 class="slide-close-h">What this does not show</h3>
       <p class="slide-notshow">Channels the model does not include (coaching, money, scouting), countries outside the 8, and a causal share of the gap for any channel.</p>
-      <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit c28dc59 · code: <code>src/gap_decomposition.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
+      <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit 7cbfe45 · code: <code>src/gap_decomposition.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
     <p class="pool-link nations-link"><a href="/nations/#why">The decomposition for every edition, side by side →</a></p>
     </div>
   </div>
@@ -286,7 +286,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 22:49</p>
+    <p class="rendered-at">Rendered: 2026-09-29 23:29</p>
   </div>
 </footer>
 
