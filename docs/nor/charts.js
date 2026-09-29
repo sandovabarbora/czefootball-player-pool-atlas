@@ -280,7 +280,7 @@
       .on('mouseleave', hideTip);
     if (!reduced) dots.attr('r', 0).transition().delay((d, i) => i * 12).duration(300).attr('r', 4.5);
     const note = document.createElement('p'); note.className = 'chart-note';
-    note.textContent = `curve and 90 % band from the model (n = ${data.n}); acid dots are ${HOME_CODE} exports at their first top-9 season — hover for the name`;
+    note.textContent = `curve and 90 % band from the model (n = ${data.n}); green dots are ${HOME_CODE} exports at their first top-9 season — hover for the name`;
     box.appendChild(note);
   }
 
@@ -317,7 +317,7 @@
     svg.append('text').attr('class', 'chart-axis-label').attr('x', M.l).attr('y', H - 2).attr('text-anchor', 'end').text(data.previous.replace('-', '/'));
     svg.append('text').attr('class', 'chart-axis-label').attr('x', w - M.r).attr('y', H - 2).text(data.metrics.replace('-', '/'));
     const note = document.createElement('p'); note.className = 'chart-note';
-    note.textContent = 'each ribbon is a group of players moving between rungs — acid up, orange down, mint new to the pool, grey no longer in a covered league · hover a ribbon for the names';
+    note.textContent = 'each ribbon is a group of players moving between rungs — green up, orange down, teal new to the pool, grey no longer in a covered league · hover a ribbon for the names';
     box.appendChild(note);
   }
 

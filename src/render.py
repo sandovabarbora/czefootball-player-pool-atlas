@@ -458,7 +458,7 @@ def _render_atlas(coords: pd.DataFrame, features: pd.DataFrame, group: str,
         0.02, -0.025,
         f"PCA of the five-feature vector (npG/90, A/90, minutes share, age, cards/90), "
         f"{season_label(season)}. Grey: the whole corpus (n = {len(cur)}); coloured: "
-        f"{adj}-eligible players by cluster (n = {len(cz)}). Oxblood rings: national-team "
+        f"{adj}-eligible players by cluster (n = {len(cz)}). Green rings: national-team "
         f"call-up {config.nt_years()}.",
         ha="left", fontsize=9.5, color=MUTED, fontfamily="sans-serif",
     )
