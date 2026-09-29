@@ -1813,7 +1813,7 @@ def _build_this_autumn(news: dict | None, pool_table: dict, squad_players: list[
         if best is None:
             unmatched.append(r["name"])
         retirements.append({
-            "name": r["name"], "announced": _long_date(r["announced"]),
+            "name": r["name"], "announced": _long_date(r["announced"]) if r.get("announced") else r["announced_text"],
             "quote": r.get("quote"), "quote_en": r.get("quote_en"), "notes": cite(r["sources"]),
             "pool": None if best is None else {
                 "player_key": best["player_key"], "club": best.get("club"), "league": best.get("league"),
