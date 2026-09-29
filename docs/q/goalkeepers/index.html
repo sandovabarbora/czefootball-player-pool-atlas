@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" data-home="CZE">
+<head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="https://football.bsandova.com/q/goalkeepers/">
+  <meta name="atlas-split" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Do goalkeepers follow a different path? · Czech football · Player pool atlas</title>
+  <meta name="description" content="4 Czech goalkeepers play ≥ 450 minutes in the top-9 leagues — rank 5 of 9 per million — and they get there earlier than outfield exports.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css?v=202609291755">
+  <link rel="stylesheet" href="../../modern.css?v=202609291755">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+  <script defer src="../../charts.js?v=202609291755"></script>
+  <script defer src="../../atlas.js?v=202609291755"></script>
+</head>
+<body id="top">
+<nav class="topbar" aria-label="Navigation">
+  <a class="topbar-brand" href="../../">Czech Football <span>Atlas</span></a>
+  <button type="button" class="menu-btn" aria-controls="site-menu" aria-expanded="false">Menu</button>
+  <div class="topbar-links" id="site-menu">
+    <a href="../../">Summary</a>
+    <details class="topbar-q" data-current>
+      <summary>Questions</summary>
+      <ol class="topbar-q-list">
+        <li><a href="../../q/why/">Why the train left</a></li>
+        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
+        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/youth/">Youth minutes at home</a></li>
+        <li><a href="../../q/abroad/">Where they go</a></li>
+        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
+        <li><a href="../../q/fare/">How they fare</a></li>
+        <li><a href="../../q/national-team/">National-team squad</a></li>
+        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/peers/">Norway and Denmark</a></li>
+        <li><a href="../../q/goalkeepers/" aria-current="page">Goalkeepers</a></li>
+        <li><a href="../../q/gap/">What the gap is made of</a></li>
+        <li><a href="../../q/cards/">Who the players are</a></li>
+        <li><a href="../../q/changes/">What changed in a year</a></li>
+      </ol>
+    </details>
+    <a href="../../this-autumn/">This autumn</a>
+    <a href="../../methodology/">Methodology</a>
+    <a href="../../players/">Players</a>
+    <a href="/nations/">Nations</a>
+    <p class="menu-switch" aria-label="Atlas"><span aria-current="page">CZE</span> · <a href="/eng/q/goalkeepers/">ENG</a> · <a href="/ger/q/goalkeepers/">GER</a> · <a href="/den/q/goalkeepers/">DEN</a> · <a href="/nor/q/goalkeepers/">NOR</a> · <a href="/esp/q/goalkeepers/">ESP</a></p>
+  </div>
+  <div class="atlas-switch" aria-label="Atlas">
+    <span aria-current="page">CZE</span> · <a href="/eng/q/goalkeepers/">ENG</a> · <a href="/ger/q/goalkeepers/">GER</a> · <a href="/den/q/goalkeepers/">DEN</a> · <a href="/nor/q/goalkeepers/">NOR</a> · <a href="/esp/q/goalkeepers/">ESP</a>
+  </div>
+</nav>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main" class="page page-q">
+<div class="qpage-head container"><p class="qpage-crumb"><a href="../../../../">Summary</a> · Question 11 of 14</p></div>
+
+<section class="slide" id="q8b">
+  <div class="container">
+    <h2 class="slide-q">Do goalkeepers follow a different path?</h2>
+    <p class="slide-a">4 Czech goalkeepers play ≥ 450 minutes in the top-9 leagues — rank <strong>5 of 9</strong> per million — and they get there earlier than outfield exports.</p>
+    <div class="slide-proof">
+      <figure class="figure-bleed">
+        <img src="../../gk_export_age.svg" alt="Strip plot of age at first top-9-league appearance, Czech goalkeepers against outfield exports, one dot per player, medians marked.">
+        <figcaption>How to read it: one dot per player at the age of his first season in a top-9 league; goalkeepers in the upper strip, outfield exports in the lower, medians marked. Further left is an earlier first appearance.</figcaption>
+      </figure>
+      <details class="fold">
+        <summary>Club tier: Czech top-9 goalkeepers, 2025/26</summary>
+        <table class="kv-table">
+          <thead>
+            <tr>
+              <th>Player</th><th>Club</th>
+              <th>League</th><th>Minutes</th>
+              <th>Club goals percentile</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Lukáš Horníček</td><td>Braga</td><td>POR-Primeira Liga</td><td>2959</td>
+              <td>83 %</td>
+            </tr>
+            
+            <tr>
+              <td>Matej Kovar</td><td>PSV</td><td>NED-Eredivisie</td><td>2790</td>
+              <td>100 %</td>
+            </tr>
+            
+            <tr>
+              <td>Vitezslav Jaros</td><td>Ajax</td><td>NED-Eredivisie</td><td>1710</td>
+              <td>83 %</td>
+            </tr>
+            
+            <tr>
+              <td>Antonín Kinský</td><td>Tottenham</td><td>ENG-Premier League</td><td>630</td>
+              <td>42 %</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </details>
+      
+      <details class="fold">
+        <summary>Goalkeeper production: Czech keepers, 2025/26</summary>
+        <table class="kv-table">
+          <thead>
+            <tr>
+              <th>Player</th><th>Club</th>
+              <th>League</th><th>Minutes</th>
+              <th>GA/90</th><th>Saves/90</th>
+              <th>Save %</th><th>Clean-sheet share</th>
+              <th>GA/90, quality-adj.</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Antonín Kinský</td><td>Tottenham</td><td>ENG-Premier League</td><td>630</td>
+              <td>1.00</td><td>1.43</td>
+              <td>65.9 %</td><td>29 %</td>
+              <td>1.21</td>
+            </tr>
+            
+            <tr>
+              <td>Vitezslav Jaros</td><td>Ajax</td><td>NED-Eredivisie</td><td>1710</td>
+              <td>1.21</td><td>3.26</td>
+              <td>68.3 %</td><td>26 %</td>
+              <td>2.62</td>
+            </tr>
+            
+            <tr>
+              <td>Matej Kovar</td><td>PSV</td><td>NED-Eredivisie</td><td>2790</td>
+              <td>1.32</td><td>2.74</td>
+              <td>67.8 %</td><td>23 %</td>
+              <td>2.71</td>
+            </tr>
+            
+            <tr>
+              <td>Lukáš Horníček</td><td>Braga</td><td>POR-Primeira Liga</td><td>2959</td>
+              <td>1.00</td><td>2.19</td>
+              <td>66.6 %</td><td>36 %</td>
+              <td>1.70</td>
+            </tr>
+            
+            <tr>
+              <td>Martin Jedlička</td><td>Baník Ostrava</td><td>CZE-First League</td><td>1440</td>
+              <td>1.50</td><td>3.12</td>
+              <td>67.5 %</td><td>31 %</td>
+              <td>3.19</td>
+            </tr>
+            
+            <tr>
+              <td>Michal Reichl</td><td>Bohemians 1905</td><td>CZE-First League</td><td>1990</td>
+              <td>1.40</td><td>2.89</td>
+              <td>67.5 %</td><td>22 %</td>
+              <td>3.09</td>
+            </tr>
+            
+            <tr>
+              <td>Hugo Jan Bačkovský</td><td>Dukla Prague</td><td>CZE-First League</td><td>1260</td>
+              <td>1.29</td><td>3.36</td>
+              <td>67.8 %</td><td>21 %</td>
+              <td>2.88</td>
+            </tr>
+            
+            <tr>
+              <td>Stanislav Dostál</td><td>Fastav Zlín</td><td>CZE-First League</td><td>2700</td>
+              <td>1.47</td><td>3.03</td>
+              <td>67.4 %</td><td>30 %</td>
+              <td>3.23</td>
+            </tr>
+            
+            <tr>
+              <td>Jan Hanuš</td><td>Jablonec</td><td>CZE-First League</td><td>2326</td>
+              <td>1.20</td><td>2.24</td>
+              <td>67.2 %</td><td>42 %</td>
+              <td>2.77</td>
+            </tr>
+            
+            <tr>
+              <td>Aleš Mandous</td><td>Mladá Boleslav</td><td>CZE-First League</td><td>720</td>
+              <td>3.12</td><td>2.75</td>
+              <td>66.4 %</td><td>0 %</td>
+              <td>4.74</td>
+            </tr>
+            
+            <tr>
+              <td>Jiří Floder</td><td>Mladá Boleslav</td><td>CZE-First League</td><td>2250</td>
+              <td>1.20</td><td>2.92</td>
+              <td>67.8 %</td><td>36 %</td>
+              <td>2.77</td>
+            </tr>
+            
+            <tr>
+              <td>Aleš Mandous</td><td>Pardubice</td><td>CZE-First League</td><td>480</td>
+              <td>1.50</td><td>2.81</td>
+              <td>67.4 %</td><td>0 %</td>
+              <td>3.01</td>
+            </tr>
+            
+            <tr>
+              <td>Jan Koutny</td><td>Sigma Olomouc</td><td>CZE-First League</td><td>2766</td>
+              <td>1.20</td><td>2.77</td>
+              <td>67.7 %</td><td>29 %</td>
+              <td>2.77</td>
+            </tr>
+            
+            <tr>
+              <td>Jakub Markovič</td><td>Slavia Prague</td><td>CZE-First League</td><td>1317</td>
+              <td>0.55</td><td>1.71</td>
+              <td>67.8 %</td><td>53 %</td>
+              <td>1.87</td>
+            </tr>
+            
+            <tr>
+              <td>Jindřich Staněk</td><td>Slavia Prague</td><td>CZE-First League</td><td>1710</td>
+              <td>1.05</td><td>2.11</td>
+              <td>67.4 %</td><td>32 %</td>
+              <td>2.55</td>
+            </tr>
+            
+            <tr>
+              <td>Tomáš Koubek</td><td>Slovan Liberec</td><td>CZE-First League</td><td>2970</td>
+              <td>1.09</td><td>2.73</td>
+              <td>67.9 %</td><td>33 %</td>
+              <td>2.57</td>
+            </tr>
+            
+            <tr>
+              <td>Jiří Borek</td><td>Slovácko</td><td>CZE-First League</td><td>540</td>
+              <td>1.67</td><td>3.33</td>
+              <td>67.4 %</td><td>33 %</td>
+              <td>3.17</td>
+            </tr>
+            
+            <tr>
+              <td>Milan Heča</td><td>Slovácko</td><td>CZE-First League</td><td>2250</td>
+              <td>1.40</td><td>3.04</td>
+              <td>67.6 %</td><td>24 %</td>
+              <td>3.10</td>
+            </tr>
+            
+            <tr>
+              <td>Matouš Trmal</td><td>Teplice</td><td>CZE-First League</td><td>3060</td>
+              <td>1.24</td><td>2.94</td>
+              <td>67.9 %</td><td>32 %</td>
+              <td>2.83</td>
+            </tr>
+            
+            <tr>
+              <td>Martin Jedlička</td><td>Viktoria Plzeň</td><td>CZE-First League</td><td>1274</td>
+              <td>1.41</td><td>2.90</td>
+              <td>67.5 %</td><td>27 %</td>
+              <td>3.06</td>
+            </tr>
+            
+            <tr>
+              <td>Viktor Baier</td><td>Blau-Weiß Linz</td><td>AUT-Bundesliga</td><td>1530</td>
+              <td>1.71</td><td>3.06</td>
+              <td>65.9 %</td><td>18 %</td>
+              <td>5.82</td>
+            </tr>
+            
+            <tr>
+              <td>Adam Stejskal</td><td>WSG Tirol</td><td>AUT-Bundesliga</td><td>2790</td>
+              <td>1.65</td><td>2.13</td>
+              <td>65.0 %</td><td>23 %</td>
+              <td>5.84</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <p class="capita-note">Peer median quality-adjusted GA/90:
+          <span class="capita-code">CZE</span> 2.86 · <span class="capita-code">SVK</span> 2.90 · <span class="capita-code">AUT</span> 4.76 · <span class="capita-code">HUN</span> 5.29 · <span class="capita-code">POL</span> 2.74 · <span class="capita-code">CRO</span> 5.19 · <span class="capita-code">DEN</span> 3.69 · <span class="capita-code">SUI</span> 4.95 · <span class="capita-code">NOR</span> 4.01
+        </p>
+      </details>
+      
+      
+      <details class="fold">
+        <summary>Goalkeepers per million, by country</summary>
+        <div class="capita" role="list" aria-label="Top-9-league goalkeepers per million inhabitants by country">
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.67; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">DEN</span>
+              Denmark
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.67</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.52; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">CRO</span>
+              Croatia
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.52</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.45; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">SUI</span>
+              Switzerland
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.45</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.37; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">SVK</span>
+              Slovakia
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.37</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               data-highlight="cze"
+               style="--value: 0.37; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">CZE</span>
+              Czechia
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.37</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.19; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">POL</span>
+              Poland
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.19</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.18; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">NOR</span>
+              Norway
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.18</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.11; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">AUT</span>
+              Austria
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.11</div>
+          </div>
+          
+          <div class="capita-row" role="listitem"
+               
+               style="--value: 0.1; --max: 0.67;">
+            <div class="capita-country">
+              <span class="capita-code">HUN</span>
+              Hungary
+            </div>
+            <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+            <div class="capita-value">0.10</div>
+          </div>
+          
+        </div>
+      </details>
+      
+    </div>
+    <details class="fold slide-method">
+      <summary>How we know</summary>
+      <p class="slide-detail">0.37 per million; first top-9 season at a median age of 22.5, against 23 for outfield exports.</p>
+    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Czech goalkeepers with ≥ 450 minutes in the top-9 leagues, per million inhabitants, against outfield export age.</p>
+    <p class="slide-did"><span class="slide-did-label">What we did</span> We counted goalkeepers the same way we counted outfield players, then compared the age each group first reached one of the strongest leagues.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> 450-minute floor, 2025/26 rosters, same K = 900 shrinkage as the rest of the report; first season in a fetched top-9 table; players already there in 2020/21 are censored — 0 % of the goalkeepers, 21 % of the outfield exports; a comparison of two pathways inside one nation, not a causal claim.</p>
+    </details>
+    <p class="slide-so">A federation tracking this would watch whether the goalkeeper pathway keeps diverging from outfield export age, not one season's gap.</p>
+  </div>
+</section>
+
+<nav class="qpager container" aria-label="Questions">
+  <a class="qpager-prev" href="../../../../q/peers/"><span class="qpager-dir">← Previous</span> How do Norway and Denmark do it?</a>
+  <a class="qpager-home" href="../../../../">Back to the summary</a>
+  <a class="qpager-next" href="../../../../q/gap/"><span class="qpager-dir">Next →</span> What is the gap made of?</a>
+</nav>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="role-block">
+      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
+      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-author">
+        <span class="role-author-name">Barbora Šandová</span>
+        <span class="role-author-contact">
+          <a href="mailto:hello@bsandova.com">hello@bsandova.com</a>
+          &middot;
+          <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>
+        </span>
+      </p>
+    </div>
+    <div class="photo-credits" id="photo-credits">
+      <details class="fold">
+        <summary>Photo credits (90 portraits, Wikimedia Commons)</summary>
+        <ul class="small">
+          
+          <li data-fbref-id="cd682b6b" data-player-key="lukas ambros|2004">
+            Lukáš Ambros — <a href="https://commons.wikimedia.org/wiki/File:Ambros_2026.jpg">Ambros 2026.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="2b3efa4a" data-player-key="jan boril|1991">
+            Jan Bořil — <a href="https://www.chanceliga.cz/hrac/1988">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="341e14aa" data-player-key="jakub brabec|1992">
+            Jakub Brabec — <a href="https://commons.wikimedia.org/wiki/File:Jakub_Brabec,_Czech_Rp.-Montenegro_EURO_2020_QR_10-06-2019.jpg">Jakub Brabec, Czech Rp.-Montenegro EURO 2020 QR 10-06-2019.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e43aa80b" data-player-key="david buchta|1999">
+            David Buchta — <a href="https://www.chanceliga.cz/hrac/3745">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="54b2f056" data-player-key="martin cedidla|2001">
+            Martin Cedidla — <a href="https://www.chanceliga.cz/hrac/3697">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="ded82b9a" data-player-key="stepan chaloupek|2003">
+            Štěpán Chaloupek — <a href="https://www.chanceliga.cz/hrac/4189">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="254b831b" data-player-key="matej chalus|1998">
+            Matěj Chaluš — <a href="https://www.chanceliga.cz/hrac/3249">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="3028e991" data-player-key="martin chlumecky|1997">
+            Martin Chlumecký — <a href="https://commons.wikimedia.org/wiki/File:Martin_Chlumecký_2025.jpg">Martin_Chlumecký_2025.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="163bbd4a" data-player-key="tomas chory|1995">
+            Tomáš Chorý — <a href="https://www.chanceliga.cz/hrac/2977">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="fad3e13e" data-player-key="jan chramosta|1990">
+            Jan Chramosta — <a href="https://www.chanceliga.cz/hrac/1904">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="fdf3cb77" data-player-key="vladimir coufal|1992">
+            Vladimír Coufal — <a href="https://www.bundesliga.com/en/player/vladimir-coufal">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="57735db1" data-player-key="vlastimil danicek|1991">
+            Vlastimil Daníček — <a href="https://www.chanceliga.cz/hrac/2130">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6b07e743" data-player-key="krystof danek|2003">
+            Kryštof Daněk — <a href="https://commons.wikimedia.org/wiki/File:Kryštof_Daněk.jpg">Kryštof Daněk.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3eb0f2df" data-player-key="vladimir darida|1990">
+            Vladimír Darida — <a href="https://www.chanceliga.cz/hrac/2029">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="9213f119" data-player-key="jiri fleisman|1984">
+            Jiří Fleišman — <a href="https://www.chanceliga.cz/hrac/2050">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8a2270e8" data-player-key="simon gabriel|2001">
+            Šimon Gabriel — <a href="https://www.chanceliga.cz/hrac/3875">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="08c995bd" data-player-key="matej hadas|2003">
+            Matěj Hadaš — <a href="https://www.chanceliga.cz/hrac/4116">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="32821d05" data-player-key="denis halinsky|2003">
+            Denis Halinský — <a href="https://www.chanceliga.cz/hrac/4296">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8454388c" data-player-key="milan havel|1994">
+            Milan Havel — <a href="https://www.chanceliga.cz/hrac/2793">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e03c2d97" data-player-key="tomas holes|1993">
+            Tomáš Holeš — <a href="https://www.chanceliga.cz/hrac/2205">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="67c69e4c" data-player-key="daniel horak|2000">
+            Daniel Horák — <a href="https://www.chanceliga.cz/hrac/3922">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="95d5aea2" data-player-key="robin hranac|2000">
+            Robin Hranáč — <a href="https://www.bundesliga.com/en/player/robin-hranac">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c034085a" data-player-key="eric hunal|2005">
+            Eric Hunál — <a href="https://www.chanceliga.cz/hrac/4863">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="08299b06" data-player-key="lukas hulka|1995">
+            Lukáš Hůlka — <a href="https://www.chanceliga.cz/hrac/2681">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="67768dda" data-player-key="marek icha|2002">
+            Marek Icha — <a href="https://www.chanceliga.cz/hrac/4199">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="be837003" data-player-key="vaclav jurecka|1994">
+            Václav Jurečka — <a href="https://www.chanceliga.cz/hrac/3634">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="aa1f9f05" data-player-key="pavel juroska|2001">
+            Pavel Juroska — <a href="https://www.chanceliga.cz/hrac/4224">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="7678f6c0" data-player-key="christophe kabongo|2003">
+            Christophe Kabongo — <a href="https://www.chanceliga.cz/hrac/4692">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="67dd5e20" data-player-key="michal kohut|2000">
+            Michal Kohút — <a href="https://www.chanceliga.cz/hrac/3659">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c4e324c1" data-player-key="jakub kolar|2000">
+            Jakub Kolar — <a href="https://www.chanceliga.cz/hrac/3822">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="916fe1bb" data-player-key="josef kolarik|2007">
+            Josef Kolářík — <a href="https://www.chanceliga.cz/hrac/4944">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="fbeb4504" data-player-key="mikulas konecny|2006">
+            Mikuláš Konečný — <a href="https://www.chanceliga.cz/hrac/4397">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c9c1058d" data-player-key="matyas kozak|2001">
+            Matyas Kozak — <a href="https://www.chanceliga.cz/hrac/3934">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8fcbca33" data-player-key="daniel kozma|1995">
+            Daniel Kozma — <a href="https://www.chanceliga.cz/hrac/3708">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="5b5c2228" data-player-key="ladislav krejci|1999">
+            Ladislav Krejčí — <a href="https://commons.wikimedia.org/wiki/File:Ladislav_Krejčí_01112025_(3).jpg">Ladislav Krejčí 01112025 (3).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="43cd8b69" data-player-key="michael krmencik|1993">
+            Michael Krmenčík — <a href="https://www.chanceliga.cz/hrac/2116">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4bce9c16" data-player-key="jan kuchta|1997">
+            Jan Kuchta — <a href="https://www.chanceliga.cz/hrac/3246">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c02311e7" data-player-key="vasil kusej|2000">
+            Vasil Kušej — <a href="https://www.chanceliga.cz/hrac/4366">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="69b2bb80" data-player-key="roman kvet|1997">
+            Roman Květ — <a href="https://www.chanceliga.cz/hrac/3396">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="5a51caa1" data-player-key="jakub kristan|2002">
+            Jakub Křišťan — <a href="https://www.chanceliga.cz/hrac/4279">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="2914fac4" data-player-key="tomas ladra|1997">
+            Tomáš Ladra — <a href="https://www.chanceliga.cz/hrac/3502">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="b450673f" data-player-key="daniel langhamer|2003">
+            Daniel Langhamer — <a href="https://www.chanceliga.cz/hrac/4063">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8e371868" data-player-key="david lischka|1997">
+            David Lischka — <a href="https://www.chanceliga.cz/hrac/3293">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8dcbb3fb" data-player-key="daniel marecek|1998">
+            Daniel Mareček — <a href="https://www.chanceliga.cz/hrac/3888">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4adc7b42" data-player-key="lukas masopust|1993">
+            Lukáš Masopust — <a href="https://www.chanceliga.cz/hrac/2266">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="781cff03" data-player-key="jan matousek|1998">
+            Jan Matoušek — <a href="https://www.chanceliga.cz/hrac/3463">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="048481fb" data-player-key="lukas masek|2004">
+            Lukáš Mašek — <a href="https://www.chanceliga.cz/hrac/4039">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="b1566bbe" data-player-key="ondrej mihalik|1997">
+            Ondřej Mihálik — <a href="https://www.chanceliga.cz/hrac/3082">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="fc8bbea7" data-player-key="matej mikulenka|2004">
+            Matěj Mikulenka — <a href="https://www.chanceliga.cz/hrac/4590">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e0f613ad" data-player-key="filip novak|1990">
+            Filip Novák — <a href="https://www.chanceliga.cz/hrac/1909">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="9c87af24" data-player-key="jan paluska|2005">
+            Jan Paluska — <a href="https://www.chanceliga.cz/hrac/4468">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="bb833a0a" data-player-key="vojtech patrak|2000">
+            Vojtech Patrak — <a href="https://www.chanceliga.cz/hrac/3921">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="cffc27c7" data-player-key="tomas petrasek|1992">
+            Tomáš Petrášek — <a href="https://www.chanceliga.cz/hrac/4735">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="b5b2e1ba" data-player-key="vaclav pilar|1988">
+            Václav Pilař — <a href="https://www.chanceliga.cz/hrac/2039">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d21e3b0c" data-player-key="karel pojezny|2001">
+            Karel Pojezný — <a href="https://www.chanceliga.cz/hrac/4203">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d1bf91e0" data-player-key="matej polidar|1999">
+            Matěj Polidar — <a href="https://www.chanceliga.cz/hrac/3700">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="5ef85695" data-player-key="tomas poznar|1988">
+            Tomáš Poznar — <a href="https://www.chanceliga.cz/hrac/3207">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="39731086" data-player-key="filip prebsl|2003">
+            Filip Prebsl — <a href="https://www.chanceliga.cz/hrac/4233">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8f21b7bd" data-player-key="lukas provod|1996">
+            Lukáš Provod — <a href="https://www.chanceliga.cz/hrac/3786">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="2c320058" data-player-key="matej pulkrab|1997">
+            Matěj Pulkrab — <a href="https://www.chanceliga.cz/hrac/3278">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f9078d19" data-player-key="david puskac|1993">
+            David Puškáč — <a href="https://www.chanceliga.cz/hrac/3636">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="3170788d" data-player-key="matej rynes|2001">
+            Matěj Ryneš — <a href="https://www.chanceliga.cz/hrac/4079">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="fa18b6cc" data-player-key="lukas sadilek|1996">
+            Lukáš Sadílek — <a href="https://commons.wikimedia.org/wiki/File:Lukáš_Sadílek,_Karviná-Slovácko_02-09-2018.jpg">Lukáš Sadílek, Karviná-Slovácko 02-09-2018.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="5d4f7d61" data-player-key="patrik schick|1996">
+            Patrik Schick — <a href="https://www.bundesliga.com/en/player/patrik-schick">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="fde5fc24" data-player-key="vaclav sejk|2002">
+            Václav Sejk — <a href="https://www.chanceliga.cz/hrac/4217">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="79678afd" data-player-key="adam sevinsky|2004">
+            Adam Sevinsky — <a href="https://www.chanceliga.cz/hrac/4595">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="060e8217" data-player-key="vojtech smrz|1997">
+            Vojtěch Smrž — <a href="https://www.chanceliga.cz/hrac/3401">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c75bba87" data-player-key="hugo sochurek|2008">
+            Hugo Sochůrek — <a href="https://www.chanceliga.cz/hrac/5064">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="765b7bfc" data-player-key="alexandr sojka|2003">
+            Alexandr Sojka — <a href="https://www.chanceliga.cz/hrac/4647">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6613c819" data-player-key="tomas soucek|1995">
+            Tomáš Souček — <a href="https://www.premierleague.com/players/25183/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="2942aabf" data-player-key="karel spacil|2003">
+            Karel Spáčil — <a href="https://www.chanceliga.cz/hrac/4585">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="79bb9bfb" data-player-key="vojtech stransky|2003">
+            Vojtech Stransky — <a href="https://www.chanceliga.cz/hrac/3896">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f301f363" data-player-key="michal travnik|1994">
+            Michal Trávník — <a href="https://www.chanceliga.cz/hrac/2223">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="7d86c007" data-player-key="daniel vasulin|1998">
+            Daniel Vašulín — <a href="https://www.chanceliga.cz/hrac/4131">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="bd948e76" data-player-key="dalibor vecerka|2003">
+            Dalibor Večerka — <a href="https://www.chanceliga.cz/hrac/3999">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d5aac0e9" data-player-key="denis visinsky|2003">
+            Denis Višinský — <a href="https://www.chanceliga.cz/hrac/4091">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="aed44b64" data-player-key="adam vlkanova|1994">
+            Adam Vlkanova — <a href="https://www.chanceliga.cz/hrac/3144">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="eb326dcd" data-player-key="matyas vojta|2004">
+            Matyas Vojta — <a href="https://www.chanceliga.cz/hrac/4367">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="374c0932" data-player-key="patrik vydra|2003">
+            Patrik Vydra — <a href="https://www.chanceliga.cz/hrac/4255">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="bc647827" data-player-key="jaroslav zeleny|1992">
+            Jaroslav Zelený — <a href="https://www.chanceliga.cz/hrac/2090">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6b43494c" data-player-key="tomas zlatohlavek|2000">
+            Tomás Zlatohlávek — <a href="https://www.chanceliga.cz/hrac/3596">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f2adef96" data-player-key="filip zorvan|1996">
+            Filip Zorvan — <a href="https://www.chanceliga.cz/hrac/3045">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="01e0589c" data-player-key="marcel cermak|1998">
+            Marcel Čermák — <a href="https://www.chanceliga.cz/hrac/4358">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="bb1cf301" data-player-key="vaclav cerny|1997">
+            Václav Černý — <a href="https://commons.wikimedia.org/wiki/File:Vaclav_Cerny_2014.png">Vaclav Cerny 2014.png</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="bb4a41bc" data-player-key="lukas cerv|2001">
+            Lukáš Červ — <a href="https://www.chanceliga.cz/hrac/3873">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="53ee75b8" data-player-key="filip cihak|1999">
+            Filip Čihák — <a href="https://www.chanceliga.cz/hrac/3574">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="298c8aa1" data-player-key="tomas cvancara|2000">
+            Tomáš Čvančara — <a href="https://www.chanceliga.cz/hrac/3592">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4f482363" data-player-key="michal sevcik|2002">
+            Michal Ševčík — <a href="https://www.chanceliga.cz/hrac/3943">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e9b893af" data-player-key="pavel sulc|2000">
+            Pavel Šulc — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="47ef9781" data-player-key="jachym sip|2003">
+            Jáchym Šíp — <a href="https://www.chanceliga.cz/hrac/3887">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+        </ul>
+      </details>
+    </div>
+    <p class="rendered-at">Rendered: 2026-09-29 17:55</p>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const toc = document.getElementById('toc');
+    if (!toc) return;
+    const btn = toc.querySelector('.toc-toggle');
+    if (!btn) return;
+    const KEY = 'atlas-toc-collapsed';
+    const apply = (collapsed) => {
+      toc.dataset.collapsed = collapsed ? 'true' : 'false';
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      btn.setAttribute('aria-label', collapsed ? btn.dataset.labelShow : btn.dataset.labelHide);
+    };
+    try {
+      apply(localStorage.getItem(KEY) === 'true');
+    } catch (e) {
+      apply(false);
+    }
+    btn.addEventListener('click', () => {
+      const next = toc.dataset.collapsed !== 'true';
+      apply(next);
+      try { localStorage.setItem(KEY, next ? 'true' : 'false'); } catch (e) {}
+    });
+  })();
+</script>
+
+<script>
+  window.renderTex = () => {
+    document.querySelectorAll('[data-tex]').forEach(el => {
+      try { katex.render(el.dataset.tex, el, { displayMode: true, throwOnError: false }); el.classList.add('formula-tex'); } catch (e) {}
+    });
+  };
+  if (window.katex) window.renderTex();
+  (() => {
+    // contents panel on narrow screens
+    const btn = document.querySelector('.toc-btn'), toc = document.getElementById('toc');
+    if (btn && toc) {
+      const set = (open) => { document.body.classList.toggle('toc-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('toc-open')));
+      toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM);
+    // chapter ledes (p.framing.lede) always clamp to two lines regardless of
+    // length, so every chapter opens with a fast-scan preview
+    const cs = document.documentElement.lang === 'cs';
+    const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
+    const clampCandidates = [
+      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote):not(.slide-a):not(.slide-how), .container > .muted.small'),
+      ...document.querySelectorAll('.container > p.framing.lede'),
+    ];
+    clampCandidates.forEach((p) => {
+      const lede = p.classList.contains('lede');
+      const narrow = matchMedia('(max-width: 719px)').matches;
+      if (!lede && p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      p.classList.add('clamp');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => { const open = p.classList.toggle('clamp-open'); b.textContent = open ? L[1] : L[0]; b.setAttribute('aria-expanded', String(open)); });
+      p.after(b);
+    });
+    // player index: filter rows by name (no library)
+    const q = document.getElementById('player-search');
+    const table = document.querySelector('.player-index-table');
+    if (q && table) {
+      const rows = [...table.querySelectorAll('tbody tr[data-name]')];
+      const count = document.querySelector('.player-index-count');
+      const fold = table.closest('details');
+      const ascii = (s) => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      q.addEventListener('input', () => {
+        const needle = ascii(q.value.trim());
+        let shown = 0;
+        rows.forEach((r) => { const hit = !needle || r.dataset.name.includes(needle); r.hidden = !hit; if (hit) shown++; });
+        if (count) count.textContent = shown;
+        if (fold && needle) fold.open = true;
+      });
+    }
+  })();
+  (() => {
+    document.querySelectorAll('.capita').forEach((capita) => {
+      if (!('IntersectionObserver' in window)) return;
+      capita.dataset.animate = '';
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) { capita.dataset.animate = 'in'; io.disconnect(); }
+      }, { threshold: 0.3 });
+      io.observe(capita);
+    });
+    const links = [...document.querySelectorAll('.toc-sticky a[href^="#"]')];
+    const targets = links.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+    if (targets.length) {
+      const byId = new Map(links.map(a => [a.hash.slice(1), a]));
+      let current = null, ticking = false;
+      const update = () => {
+        ticking = false;
+        const line = 96;
+        let best = null;
+        for (const t of targets) { if (t.getBoundingClientRect().top <= line) best = t; else break; }
+        const id = best ? best.id : null;
+        if (id === current) return;
+        current = id;
+        links.forEach(a => a.removeAttribute('aria-current'));
+        if (id) byId.get(id)?.setAttribute('aria-current', 'true');
+      };
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
+    }
+  })();
+</script>
+
+<script>
+  (() => {
+    // phone: the menu button opens the links as a panel; desktop: the
+    // Questions list closes on a click elsewhere or on Escape
+    const btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu');
+    if (btn && menu) {
+      const set = (open) => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('menu-open')));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    const q = document.querySelector('.topbar-q');
+    if (q) {
+      if (matchMedia('(max-width: 719px)').matches) q.open = true;
+      document.addEventListener('click', (e) => { if (!matchMedia('(max-width: 719px)').matches && !q.contains(e.target)) q.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') q.open = false; });
+    }
+  })();
+</script>
+</body>
+</html>

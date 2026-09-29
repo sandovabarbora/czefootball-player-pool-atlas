@@ -245,7 +245,7 @@
       `<p class="ax-panel-rank">${p.past ? `not in today's pool — his Big-5 seasons from the history, ${short(p.seasons[0].season)} to ${short(p.d.last)}` : rankLine}</p>${calls}` +
       `<div class="ax-panel-actions">` +
       `<button type="button" class="ax-btn" data-ax-close title="close this player">close</button>` +
-      (p.past ? '' : `<a class="ax-btn" href="../?player=${encodeURIComponent(p.name)}#pool">card in the report</a>`) +
+      (p.past ? '' : `<a class="ax-btn" href="../q/cards/?player=${encodeURIComponent(p.name)}#pool">card in the report</a>`) +
       `</div></div></header>` +
       `<div class="ax-chart" data-ax-chart></div>` +
       `<div class="ax-panel-folds">${seasonTable(p)}${profileBars(p)}</div>`;

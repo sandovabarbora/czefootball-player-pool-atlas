@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en" data-home="NOR">
+<head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="https://football.bsandova.com/nor/q/cohorts/">
+  <meta name="atlas-split" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Where exactly is it thin? · Norwegian football · Player pool atlas</title>
+  <meta name="description" content="The largest cohort gap: Defenders aged 23-25, 1 Norwegian players vs a peer median of 2.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css?v=202609291536">
+  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+  <script defer src="../../charts.js?v=202609291536"></script>
+  <script defer src="../../atlas.js?v=202609291536"></script>
+</head>
+<body id="top">
+<nav class="topbar" aria-label="Navigation">
+  <a class="topbar-brand" href="../../">Norwegian Football <span>Atlas</span></a>
+  <button type="button" class="menu-btn" aria-controls="site-menu" aria-expanded="false">Menu</button>
+  <div class="topbar-links" id="site-menu">
+    <a href="../../">Summary</a>
+    <details class="topbar-q" data-current>
+      <summary>Questions</summary>
+      <ol class="topbar-q-list">
+        <li><a href="../../q/why/">Why the train left</a></li>
+        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
+        <li><a href="../../q/cohorts/" aria-current="page">Where is it thin?</a></li>
+        <li><a href="../../q/youth/">Youth minutes at home</a></li>
+        <li><a href="../../q/abroad/">Where they go</a></li>
+        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
+        <li><a href="../../q/fare/">How they fare</a></li>
+        <li><a href="../../q/national-team/">National-team squad</a></li>
+        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/peers/">Denmark and Czechia</a></li>
+        <li><a href="../../q/goalkeepers/">Goalkeepers</a></li>
+        <li><a href="../../q/gap/">What the gap is made of</a></li>
+        <li><a href="../../q/cards/">Who the players are</a></li>
+        <li><a href="../../q/changes/">What changed in a year</a></li>
+      </ol>
+    </details>
+    <a href="../../methodology/">Methodology</a>
+    <a href="../../players/">Players</a>
+    <a href="/nations/">Nations</a>
+    <p class="menu-switch" aria-label="Atlas"><a href="/q/cohorts/">CZE</a> · <a href="/eng/q/cohorts/">ENG</a> · <a href="/ger/q/cohorts/">GER</a> · <a href="/den/q/cohorts/">DEN</a> · <span aria-current="page">NOR</span> · <a href="/esp/q/cohorts/">ESP</a></p>
+  </div>
+  <div class="atlas-switch" aria-label="Atlas">
+    <a href="/q/cohorts/">CZE</a> · <a href="/eng/q/cohorts/">ENG</a> · <a href="/ger/q/cohorts/">GER</a> · <a href="/den/q/cohorts/">DEN</a> · <span aria-current="page">NOR</span> · <a href="/esp/q/cohorts/">ESP</a>
+  </div>
+</nav>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main" class="page page-q">
+<div class="qpage-head container"><p class="qpage-crumb"><a href="../../../../">Summary</a> · Question 3 of 14</p></div>
+
+<section class="slide" id="q2">
+  <div class="container">
+    <h2 class="slide-q">Where exactly is it thin?</h2>
+    
+    <p class="slide-a">The largest cohort gap: <strong>Defenders aged 23-25</strong>, 1 Norwegian players vs a peer median of 2.</p>
+    <div class="slide-proof">
+      
+      <table class="kv-table cohort-gap-table">
+        <thead>
+          <tr><th>Group</th><th>Cohort</th><th>NOR</th><th>Peer median</th></tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>Defenders</td>
+            <td>23-25</td>
+            <td class="cohort-cze">1</td>
+            <td class="cohortgap-peer" style="--value: 2.0; --max: 2.0;">2</td>
+          </tr>
+          
+          <tr>
+            <td>Defenders</td>
+            <td>30+</td>
+            <td class="cohort-cze">2</td>
+            <td class="cohortgap-peer" style="--value: 2.0; --max: 2.0;">2</td>
+          </tr>
+          
+          <tr>
+            <td>Forwards</td>
+            <td>23-25</td>
+            <td class="cohort-cze">1</td>
+            <td class="cohortgap-peer" style="--value: 1.0; --max: 2.0;">1</td>
+          </tr>
+          
+          <tr>
+            <td>Forwards</td>
+            <td>30+</td>
+            <td class="cohort-cze">1</td>
+            <td class="cohortgap-peer" style="--value: 0.5; --max: 2.0;">0.5</td>
+          </tr>
+          
+          <tr>
+            <td>Midfielders</td>
+            <td>U22</td>
+            <td class="cohort-cze">2</td>
+            <td class="cohortgap-peer" style="--value: 1.5; --max: 2.0;">1.5</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    <details class="fold slide-method">
+      <summary>How we know</summary>
+    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Norwegian player count against the peer-country median, by age cohort and position group, ≥ 450 minutes, 2025/26 season.</p>
+    <p class="slide-did"><span class="slide-did-label">What we did</span> We split players into position groups and age bands, counted how many the home nation had in each one, and compared that count with the middle value among the other countries.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> Age at season start; cohorts U22 / 23–25 / 26–29 / 30+; ≥ 450 minutes.</p>
+    </details>
+    <p class="slide-so">A federation tracking this would watch which cohort's gap narrows or widens season to season, not just today's snapshot.</p>
+  </div>
+</section>
+
+<section class="explore qpage-evidence">
+  <div class="container">
+    <h2>Explore the data</h2>
+    <details class="fold" open>
+      <summary>Benchmark vs peer countries</summary>
+      <div class="explore-block">
+    <h3 id="benchmark">Structural benchmark vs peer countries</h3>
+    <p>Football intuition recognises the Norwegian pool player by player. <strong>Its structural position among the peer countries needs an aggregation nobody holds in one place.</strong> Three numbers below that are usually not collected together.</p>
+
+    
+    <h4>Cohort gaps — forwards</h4>
+    <table class="cohort-grid">
+      <thead>
+        <tr>
+          <th scope="col">Cohort</th>
+          <th scope="col">U22</th><th scope="col">23-25</th><th scope="col">26-29</th><th scope="col">30+</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="cohort-cze">
+          <th scope="row">Norway</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #80807d; color: #ffffff;"
+                title="U22: n=1, 0.29">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #959591; color: #ffffff;"
+                title="23-25: n=1, 0.26">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #8e8e8a; color: #ffffff;"
+                title="26-29: n=4, 0.27">4</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #1d1d1d; color: #ffffff;"
+                title="30+: n=1, 0.44">1</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Denmark</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #2a2a29; color: #ffffff;"
+                title="U22: n=1, 0.42">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #797976; color: #ffffff;"
+                title="23-25: n=7, 0.30">7</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #959591; color: #ffffff;"
+                title="26-29: n=2, 0.26">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Switzerland</th>
+          
+            
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #9c9c98; color: #111111;"
+                title="23-25: n=1, 0.25">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #575754; color: #ffffff;"
+                title="26-29: n=3, 0.35">3</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Austria</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #c2c2be; color: #111111;"
+                title="U22: n=1, 0.18">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #b2b2ae; color: #111111;"
+                title="23-25: n=2, 0.21">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #111111; color: #ffffff;"
+                title="30+: n=1, 0.46">1</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Czechia</th>
+          
+            
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #8e8e8a; color: #ffffff;"
+                title="23-25: n=1, 0.27">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #6b6b69; color: #ffffff;"
+                title="26-29: n=2, 0.32">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #646462; color: #ffffff;"
+                title="30+: n=2, 0.33">2</td>
+            
+          
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    <h4>Cohort gaps — midfielders</h4>
+    <table class="cohort-grid">
+      <thead>
+        <tr>
+          <th scope="col">Cohort</th>
+          <th scope="col">U22</th><th scope="col">23-25</th><th scope="col">26-29</th><th scope="col">30+</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="cohort-cze">
+          <th scope="row">Norway</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #bdbdb9; color: #111111;"
+                title="U22: n=2, 0.19">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #dbdbd7; color: #111111;"
+                title="23-25: n=9, 0.13">9</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #dbdbd7; color: #111111;"
+                title="26-29: n=11, 0.13">11</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #d8d8d4; color: #111111;"
+                title="30+: n=4, 0.14">4</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Denmark</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #c2c2be; color: #111111;"
+                title="U22: n=6, 0.18">6</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ddddd9; color: #111111;"
+                title="23-25: n=6, 0.12">6</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #b7b7b3; color: #111111;"
+                title="26-29: n=13, 0.20">13</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #bdbdb9; color: #111111;"
+                title="30+: n=6, 0.19">6</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Switzerland</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #a1a19d; color: #111111;"
+                title="U22: n=4, 0.24">4</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ddddd9; color: #111111;"
+                title="23-25: n=6, 0.12">6</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #d8d8d4; color: #111111;"
+                title="26-29: n=10, 0.14">10</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #d8d8d4; color: #111111;"
+                title="30+: n=3, 0.14">3</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Austria</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ddddd9; color: #111111;"
+                title="U22: n=2, 0.12">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #d2d2ce; color: #111111;"
+                title="23-25: n=6, 0.15">6</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #c2c2be; color: #111111;"
+                title="26-29: n=4, 0.18">4</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #dbdbd7; color: #111111;"
+                title="30+: n=7, 0.13">7</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Czechia</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #d2d2ce; color: #111111;"
+                title="U22: n=1, 0.15">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #e5e5e2; color: #111111;"
+                title="23-25: n=2, 0.08">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ddddd9; color: #111111;"
+                title="26-29: n=3, 0.12">3</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #b2b2ae; color: #111111;"
+                title="30+: n=1, 0.21">1</td>
+            
+          
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    <h4>Cohort gaps — defenders</h4>
+    <table class="cohort-grid">
+      <thead>
+        <tr>
+          <th scope="col">Cohort</th>
+          <th scope="col">U22</th><th scope="col">23-25</th><th scope="col">26-29</th><th scope="col">30+</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="cohort-cze">
+          <th scope="row">Norway</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #e9e9e7; color: #111111;"
+                title="U22: n=3, 0.06">3</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #e7e7e4; color: #111111;"
+                title="23-25: n=1, 0.07">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ebebe9; color: #111111;"
+                title="26-29: n=5, 0.05">5</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #dfdfdb; color: #111111;"
+                title="30+: n=2, 0.11">2</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Denmark</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #f4f4f2; color: #111111;"
+                title="U22: n=2, 0.01">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ebebe9; color: #111111;"
+                title="23-25: n=5, 0.05">5</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
+                title="26-29: n=7, 0.04">7</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #f0f0ed; color: #111111;"
+                title="30+: n=2, 0.03">2</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Switzerland</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ebebe9; color: #111111;"
+                title="U22: n=2, 0.05">2</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #f0f0ed; color: #111111;"
+                title="23-25: n=5, 0.03">5</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
+                title="26-29: n=4, 0.04">4</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #ebebe9; color: #111111;"
+                title="30+: n=6, 0.05">6</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Austria</th>
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #e7e7e4; color: #111111;"
+                title="U22: n=1, 0.07">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
+                title="23-25: n=3, 0.04">3</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #f0f0ed; color: #111111;"
+                title="26-29: n=5, 0.03">5</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #e9e9e7; color: #111111;"
+                title="30+: n=1, 0.06">1</td>
+            
+          
+        </tr>
+        
+        <tr>
+          <th scope="row">Czechia</th>
+          
+            
+            
+            <td class="cohort-grid-cell cohort-grid-empty"><span class="muted" title="no player">—</span></td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #f4f4f2; color: #111111;"
+                title="23-25: n=1, 0.01">1</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #eeeeeb; color: #111111;"
+                title="26-29: n=3, 0.04">3</td>
+            
+          
+            
+            
+            <td class="cohort-grid-cell" style="background-color: #f0f0ed; color: #111111;"
+                title="30+: n=3, 0.03">3</td>
+            
+          
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+    <p class="capita-note">
+      * Count and median npG+A per 90 of players with the country's nationality in a top-9 league, 2025/26, at least 450 minutes; cohort by age at the season's calendar turn (start year + 1 − birth year). 5 of the 9 countries are shown; the heatmap above carries all of them. Largest Norwegian shortfalls against the peer median count: defenders 23-25 (1 vs 2), defenders 30+ (2 vs 2), forwards 23-25 (1 vs 1).
+    </p>
+
+    <p class="plain">The full picture, all nine peer countries at once, as a heatmap:</p>
+    <figure class="figure-bleed" data-atlas="heatmap" title="Each cell: player count and the median value; rows ordered by per-capita rank, Norway highlighted.">
+      <img src="../../intl_cohort_heatmap.svg"
+           alt="Heatmap of the international cohort benchmark: 9 countries by position group and age cohort, 2025/26 season; the Norwegian row is outlined.">
+      <figcaption>Median non-penalty goals + assists per 90 by country, position group and age cohort, 2025/26; the outlined row is Norway.</figcaption>
+    </figure>
+
+    <h3 id="observations">Observations</h3>
+    <details class="fold">
+      <summary>Per capita: rank 3 of 9 · The largest cohort gap: defenders 23-25 · Trajectories 2024/25 → 2025/26: mostly stable</summary>
+      <div class="observations">
+        
+        <div class="observation">
+          <h4>Per capita: rank 3 of 9</h4>
+          <p>52 Norwegian players on 2025/26 rosters of the nine strongest leagues give 9.37 per million inhabitants, rank 3 of 9. Denmark leads with 12.58, 1.3 times the Norwegian density; Croatia sits one place above with 12.18 from 47 players and a population 1.4 times smaller. Below Norway: Switzerland, Austria, Slovakia, Czechia, Hungary, Poland.</p>
+        </div>
+        
+        <div class="observation">
+          <h4>The largest cohort gap: defenders 23-25</h4>
+          <p>Counting 2025/26 top-9 players by position group and age cohort and comparing the Norwegian count with the median of the other eight peers, the three largest shortfalls are defenders 23-25 — 1 Norwegian against a peer median of 2; defenders 30+ — 2 Norwegian against a peer median of 2; forwards 23-25 — 1 Norwegian against a peer median of 1. The cohort tables above show the medians behind the counts.</p>
+        </div>
+        
+        <div class="observation">
+          <h4>Trajectories 2024/25 → 2025/26: mostly stable</h4>
+          <p>101 Norwegian-eligible players had at least 900 minutes in both 2024/25 and 2025/26: forwards 19 (7 up, 8 stable, 4 down); midfielders 42 (8 up, 30 stable, 4 down); defenders 40 (6 up, 31 stable, 3 down). A move counts as up or down when league-adjusted goals + assists per 90 changed by more than 0.05; 69 of 101 stayed within that band. These are season-over-season deltas, not projections.</p>
+        </div>
+        
+      </div>
+    </details>
+      </div>
+    </details>
+  </div>
+</section>
+
+<nav class="qpager container" aria-label="Questions">
+  <a class="qpager-prev" href="../../../../q/per-head/"><span class="qpager-dir">← Previous</span> Is the Norwegian pool thin?</a>
+  <a class="qpager-home" href="../../../../">Back to the summary</a>
+  <a class="qpager-next" href="../../../../q/youth/"><span class="qpager-dir">Next →</span> Do young players get minutes at home?</a>
+</nav>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="role-block">
+      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
+      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-author">
+        <span class="role-author-name">Barbora Šandová</span>
+        <span class="role-author-contact">
+          <a href="mailto:hello@bsandova.com">hello@bsandova.com</a>
+          &middot;
+          <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>
+        </span>
+      </p>
+    </div>
+    <div class="photo-credits" id="photo-credits">
+      <details class="fold">
+        <summary>Photo credits (49 portraits, Wikimedia Commons)</summary>
+        <ul class="small">
+          
+          <li data-fbref-id="a8c0acb7" data-player-key="kristoffer ajer|1998">
+            Kristoffer Ajer — <a href="https://www.premierleague.com/players/20113/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="45bdedc8" data-player-key="kristian arnstad|2003">
+            Kristian Arnstad — <a href="https://commons.wikimedia.org/wiki/File:Kristian_Arnstad_-_RSCA_(2021)_(cropped).jpg">Kristian Arnstad - RSCA (2021) (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="fbde2933" data-player-key="edvin austbo|2005">
+            Edvin Austbø — <a href="https://commons.wikimedia.org/wiki/File:Edvin_Austbø_17_Viking_FK_UECL_20250813_(4).jpg">Edvin Austbø 17 Viking FK UECL 20250813 (4).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e4114f5d" data-player-key="patrick berg|1997">
+            Patrick Berg — <a href="https://commons.wikimedia.org/wiki/File:Patrick_Berg_France_v_Norway_26_June_26-018.jpg">Patrick Berg France v Norway 26 June 26-018.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="d0b6129f" data-player-key="sander berge|1998">
+            Sander Berge — <a href="https://www.premierleague.com/players/21614/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="3724baa1" data-player-key="fredrik andre bjorkan|1998">
+            Fredrik André Bjørkan — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_André_Bjørkan_Morocco_v_Norway_7_June_2026-40_(cropped).jpg">Fredrik André Bjørkan Morocco v Norway 7 June 2026-40 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b5d543e4" data-player-key="marius broholm|2004">
+            Marius Broholm — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6e17d441" data-player-key="jesper daland|2000">
+            Jesper Daland — <a href="https://commons.wikimedia.org/wiki/File:JesperDalandjunui2024.jpg">JesperDalandjunui2024.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b54b05e2" data-player-key="oliver edvardsen|1999">
+            Oliver Edvardsen — <a href="https://commons.wikimedia.org/wiki/File:Go_Ahead_Eagles_-_FC_Volendam_-_52915162430_(Oliver_Valaker_Edvardsen).jpg">Go Ahead Eagles - FC Volendam - 52915162430 (Oliver Valaker Edvardsen).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="9a12e666" data-player-key="daniel eid|1998">
+            Daniel Eid — <a href="https://commons.wikimedia.org/wiki/File:Sogndal-Jerv-021021-9.jpg">Sogndal-Jerv-021021-9.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3a770838" data-player-key="magnus wolff eikrem|1990">
+            Magnus Wolff Eikrem — <a href="https://commons.wikimedia.org/wiki/File:Magnus_Wolff_Eikrem_(Molde_FK)_-_Norway_national_under-21_football_team_(01).jpg">Magnus Wolff Eikrem (Molde FK) - Norway national under-21 football team (01).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="68dc0dac" data-player-key="mohamed elyounoussi|1994">
+            Mohamed Elyounoussi — <a href="https://commons.wikimedia.org/wiki/File:CSKA_Moscow_v_Basel_(3).jpg">CSKA Moscow v Basel (3).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4353dd07" data-player-key="kristian eriksen|1995">
+            Kristian Eriksen — <a href="https://commons.wikimedia.org/wiki/File:Kristian_Eriksen_Ham-Kam_2015.jpg">Kristian Eriksen Ham-Kam 2015.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="d019d5db" data-player-key="hakon evjen|2000">
+            Håkon Evjen — <a href="https://commons.wikimedia.org/wiki/File:Håkon_Evjen_2023.jpg">Håkon Evjen 2023.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="57fe6b9b" data-player-key="henrik falchener|2003">
+            Henrik Falchener — <a href="https://commons.wikimedia.org/wiki/File:Henrik_Falchener_France_v_Norway_26_June_26-019.jpg">Henrik Falchener France v Norway 26 June 26-019.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b686f4c0" data-player-key="fredrik gulbrandsen|1992">
+            Fredrik Gulbrandsen — <a href="https://commons.wikimedia.org/wiki/File:FC_Admira_Wacker_Mödling_vs._FC_Red_Bull_Salzburg_2018-04-15_(064).jpg">FC Admira Wacker Mödling vs. FC Red Bull Salzburg 2018-04-15 (064).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="1f44ac21" data-player-key="erling haaland|2000">
+            Erling Haaland — <a href="https://www.premierleague.com/players/65970/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="12c35abe" data-player-key="jens petter hauge|1999">
+            Jens Petter Hauge — <a href="https://commons.wikimedia.org/wiki/File:Jens_Petter_Hauge_France_v_Norway_26_June_26-016.jpg">Jens Petter Hauge France v Norway 26 June 26-016.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="da9f4fa3" data-player-key="herman haugen|2000">
+            Herman Haugen — <a href="https://commons.wikimedia.org/wiki/File:Herman_Haugen_2_Viking_FK_UECL_20250813_(1).jpg">Herman Haugen 2 Viking FK UECL 20250813 (1).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="70d2c6e7" data-player-key="aune heggebo|2001">
+            Aune Heggebø — <a href="https://commons.wikimedia.org/wiki/File:Krystian_Bielik_and_Aune_Heggebø_04102025_(1).jpg">Krystian Bielik and Aune Heggebø 04102025 (1).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="61b77d0a" data-player-key="noah holm|2001">
+            Noah Holm — <a href="https://commons.wikimedia.org/wiki/File:Noah_Holm.jpg">Noah Holm.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="62e0b5c2" data-player-key="ruben yttergard jenssen|1988">
+            Ruben Yttergård Jenssen — <a href="https://commons.wikimedia.org/wiki/File:Ruben_Yttergård_Jenssen_-_2009-09-27_at_20-07-30.jpg">Ruben Yttergård Jenssen - 2009-09-27 at 20-07-30.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="5186dfbf" data-player-key="joshua kitolano|2001">
+            Joshua Kitolano — <a href="https://commons.wikimedia.org/wiki/File:GAE_-_Sparta_Rotterdam_-_53278200750_(cropped).jpg">GAE - Sparta Rotterdam - 53278200750 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3a4c9e5c" data-player-key="fredrik pallesen knudsen|1996">
+            Fredrik Pallesen Knudsen — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_Pallesen_Knudsen_2026.jpg">Fredrik Pallesen Knudsen 2026.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="aaf0e970" data-player-key="axel kryger|1997">
+            Axel Kryger — <a href="https://commons.wikimedia.org/wiki/File:Axel_Kryger_-_Bryne_-_Haugesund_-_2025-04-21.jpg">Axel Kryger - Bryne - Haugesund - 2025-04-21.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="f553b2b3" data-player-key="jorgen strand larsen|2000">
+            Jørgen Strand Larsen — <a href="https://www.premierleague.com/players/35670/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d266f8c9" data-player-key="tobias lauritsen|1997">
+            Tobias Lauritsen — <a href="https://commons.wikimedia.org/wiki/File:GAE_-_Sparta_Rotterdam_-_53276846272_(cropped).jpg">GAE - Sparta Rotterdam - 53276846272 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="773e16b9" data-player-key="sivert mannsverk|2002">
+            Sivert Mannsverk — <a href="https://commons.wikimedia.org/wiki/File:Sivert_Heggheim_Mannsverk_05042025_(3).jpg">Sivert_Heggheim_Mannsverk_05042025_(3).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="a091311f" data-player-key="eman markovic|1999">
+            Eman Marković — <a href="https://commons.wikimedia.org/wiki/File:IFK_Göteborg_-_Malmö_FF_34.jpg">IFK Göteborg - Malmö FF 34.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4e32cf6d" data-player-key="ulrik mathisen|1999">
+            Ulrik Mathisen — <a href="https://commons.wikimedia.org/wiki/File:Ulrik_Mathisen.jpg">Ulrik Mathisen.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="70c52749" data-player-key="birger meling|1994">
+            Birger Meling — <a href="https://commons.wikimedia.org/wiki/File:Raków-Kopenhaga-_1_(Birger_Meling).jpg">Raków-Kopenhaga- 1 (Birger Meling).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4ab12002" data-player-key="antonio nusa|2005">
+            Antonio Nusa — <a href="https://www.bundesliga.com/en/player/antonio-nusa">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c70b221c" data-player-key="birk risa|1998">
+            Birk Risa — <a href="https://commons.wikimedia.org/wiki/File:Birk_Risa_NYCvATL-06.12.25-006_(cropped).jpg">Birk Risa NYCvATL-06.12.25-006 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="df3f0efa" data-player-key="martin ove roseth|1998">
+            Martin Ove Roseth — <a href="https://commons.wikimedia.org/wiki/File:Martin_Ove_Roseth_4_Viking_FK_UECL_20250813_(2).jpg">Martin Ove Roseth 4 Viking FK UECL 20250813 (2).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="009a4f60" data-player-key="julian ryerson|1997">
+            Julian Ryerson — <a href="https://www.bundesliga.com/en/player/julian-ryerson">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f6af14b0" data-player-key="ulrik saltnes|1992">
+            Ulrik Saltnes — <a href="https://commons.wikimedia.org/wiki/File:Saltnes.jpg">Saltnes.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="505b4e06" data-player-key="sverre sandal|2003">
+            Sverre Sandal — <a href="https://commons.wikimedia.org/wiki/File:Sverre_Sandal_18072026_(5).jpg">Sverre Sandal 18072026 (5).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="a427724f" data-player-key="andreas schjelderup|2004">
+            Andreas Schjelderup — <a href="https://commons.wikimedia.org/wiki/File:Andreas_Schjelderup_France_v_Norway_26_June_26-111.jpg">Andreas Schjelderup France v Norway 26 June 26-111.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="ce22ca27" data-player-key="fredrik sjolstad|1994">
+            Fredrik Sjølstad — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_Sjølstad_Ham-Kam_2015.jpg">Fredrik Sjølstad Ham-Kam 2015.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="78f13530" data-player-key="ola solbakken|1998">
+            Ola Solbakken — <a href="https://commons.wikimedia.org/wiki/File:Ola_Solbakken.jpg">Ola Solbakken.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e1453b38" data-player-key="joachim soltvedt|1995">
+            Joachim Soltvedt — <a href="https://commons.wikimedia.org/wiki/File:Joachim_Soltvedt_-_SK_Brann_-_53881393939_(cropped).jpg">Joachim Soltvedt - SK Brann - 53881393939 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e92cd3f7" data-player-key="alexander sorloth|1995">
+            Alexander Sørloth — <a href="https://www.laliga.com/en-GB/player/alexander-sorloth">LaLiga, official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d1b49282" data-player-key="morten thorsby|1996">
+            Morten Thorsby — <a href="https://commons.wikimedia.org/wiki/File:Morten_Thorsby_France_v_Norway_26_June_26-027.jpg">Morten Thorsby France v Norway 26 June 26-027.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="8f160d73" data-player-key="fredrik ulvestad|1992">
+            Fredrik Ulvestad — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_Ulvestad_(Djurgården,_2020,_cropped).jpg">Fredrik Ulvestad (Djurgården, 2020, cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="482e9289" data-player-key="gustav valsvik|1993">
+            Gustav Valsvik — <a href="https://commons.wikimedia.org/wiki/File:GustavValsvik_(cropped).jpg">GustavValsvik (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="aa982b0f" data-player-key="hugo vetlesen|2000">
+            Hugo Vetlesen — <a href="https://commons.wikimedia.org/wiki/File:FC_Salzburg_gegen_Club_Brügge_(2025-08-06_Championsleague_Qualifikation_Dritte_Runde)_69_(Hugo_Vetlesen).jpg">FC Salzburg gegen Club Brügge (2025-08-06 Championsleague Qualifikation Dritte Runde) 69 (Hugo Vetlesen).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="063ae595" data-player-key="gustav wikheim|1993">
+            Gustav Wikheim — <a href="https://commons.wikimedia.org/wiki/File:Gustav_Wikheim_(Djurgården_vs_Halmstad,_30_September_2023).jpg">Gustav Wikheim (Djurgården vs Halmstad, 30 September 2023).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="9ffe5479" data-player-key="sondre orjasaeter|2003">
+            Sondre Ørjasæter — <a href="https://commons.wikimedia.org/wiki/File:Sondre_Ørjasæter_2026.jpg">Sondre_Ørjasæter_2026.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b35a7399" data-player-key="leo ostigard|1999">
+            Leo Østigård — <a href="https://commons.wikimedia.org/wiki/File:Leo_Ostigard_Morocco_v_Norway_7_June_2026-42.jpg">Leo Ostigard Morocco v Norway 7 June 2026-42.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+        </ul>
+      </details>
+    </div>
+    <p class="rendered-at">Rendered: 2026-09-29 13:15</p>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const toc = document.getElementById('toc');
+    if (!toc) return;
+    const btn = toc.querySelector('.toc-toggle');
+    if (!btn) return;
+    const KEY = 'atlas-toc-collapsed';
+    const apply = (collapsed) => {
+      toc.dataset.collapsed = collapsed ? 'true' : 'false';
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      btn.setAttribute('aria-label', collapsed ? btn.dataset.labelShow : btn.dataset.labelHide);
+    };
+    try {
+      apply(localStorage.getItem(KEY) === 'true');
+    } catch (e) {
+      apply(false);
+    }
+    btn.addEventListener('click', () => {
+      const next = toc.dataset.collapsed !== 'true';
+      apply(next);
+      try { localStorage.setItem(KEY, next ? 'true' : 'false'); } catch (e) {}
+    });
+  })();
+</script>
+
+<script>
+  window.renderTex = () => {
+    document.querySelectorAll('[data-tex]').forEach(el => {
+      try { katex.render(el.dataset.tex, el, { displayMode: true, throwOnError: false }); el.classList.add('formula-tex'); } catch (e) {}
+    });
+  };
+  if (window.katex) window.renderTex();
+  (() => {
+    // contents panel on narrow screens
+    const btn = document.querySelector('.toc-btn'), toc = document.getElementById('toc');
+    if (btn && toc) {
+      const set = (open) => { document.body.classList.toggle('toc-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('toc-open')));
+      toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM);
+    // chapter ledes (p.framing.lede) always clamp to two lines regardless of
+    // length, so every chapter opens with a fast-scan preview
+    const cs = document.documentElement.lang === 'cs';
+    const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
+    const clampCandidates = [
+      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote):not(.slide-a):not(.slide-how), .container > .muted.small'),
+      ...document.querySelectorAll('.container > p.framing.lede'),
+    ];
+    clampCandidates.forEach((p) => {
+      const lede = p.classList.contains('lede');
+      const narrow = matchMedia('(max-width: 719px)').matches;
+      if (!lede && p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      p.classList.add('clamp');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => { const open = p.classList.toggle('clamp-open'); b.textContent = open ? L[1] : L[0]; b.setAttribute('aria-expanded', String(open)); });
+      p.after(b);
+    });
+    // player index: filter rows by name (no library)
+    const q = document.getElementById('player-search');
+    const table = document.querySelector('.player-index-table');
+    if (q && table) {
+      const rows = [...table.querySelectorAll('tbody tr[data-name]')];
+      const count = document.querySelector('.player-index-count');
+      const fold = table.closest('details');
+      const ascii = (s) => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      q.addEventListener('input', () => {
+        const needle = ascii(q.value.trim());
+        let shown = 0;
+        rows.forEach((r) => { const hit = !needle || r.dataset.name.includes(needle); r.hidden = !hit; if (hit) shown++; });
+        if (count) count.textContent = shown;
+        if (fold && needle) fold.open = true;
+      });
+    }
+  })();
+  (() => {
+    document.querySelectorAll('.capita').forEach((capita) => {
+      if (!('IntersectionObserver' in window)) return;
+      capita.dataset.animate = '';
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) { capita.dataset.animate = 'in'; io.disconnect(); }
+      }, { threshold: 0.3 });
+      io.observe(capita);
+    });
+    const links = [...document.querySelectorAll('.toc-sticky a[href^="#"]')];
+    const targets = links.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+    if (targets.length) {
+      const byId = new Map(links.map(a => [a.hash.slice(1), a]));
+      let current = null, ticking = false;
+      const update = () => {
+        ticking = false;
+        const line = 96;
+        let best = null;
+        for (const t of targets) { if (t.getBoundingClientRect().top <= line) best = t; else break; }
+        const id = best ? best.id : null;
+        if (id === current) return;
+        current = id;
+        links.forEach(a => a.removeAttribute('aria-current'));
+        if (id) byId.get(id)?.setAttribute('aria-current', 'true');
+      };
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
+    }
+  })();
+</script>
+
+<script>
+  (() => {
+    // phone: the menu button opens the links as a panel; desktop: the
+    // Questions list closes on a click elsewhere or on Escape
+    const btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu');
+    if (btn && menu) {
+      const set = (open) => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('menu-open')));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    const q = document.querySelector('.topbar-q');
+    if (q) {
+      if (matchMedia('(max-width: 719px)').matches) q.open = true;
+      document.addEventListener('click', (e) => { if (!matchMedia('(max-width: 719px)').matches && !q.contains(e.target)) q.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') q.open = false; });
+    }
+  })();
+</script>
+</body>
+</html>
