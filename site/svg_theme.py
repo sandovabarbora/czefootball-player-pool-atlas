@@ -10,7 +10,7 @@ dark concrete register) to the theme here, colour for colour, from `figstyle.LEG
 drawn in the theme contains none of the legacy hexes and passes through
 unchanged, which makes this idempotent and safe to run on every build.
 
-usage: site/svg_theme.py DOCS_DIR      (recolours DOCS_DIR/*.svg and DOCS_DIR/cs/*.svg)
+usage: site/svg_theme.py DOCS_DIR      (recolours DOCS_DIR/*.svg; DOCS_DIR/cs/ is never written)
 """
 
 from __future__ import annotations
@@ -76,12 +76,13 @@ def override(name: str, svg: str) -> tuple[str, int]:
 
 
 def main(docs: Path) -> None:
-    files = sorted(docs.glob("*.svg")) + sorted((docs / "cs").glob("*.svg"))
+    # the cs/ draft is left alone: no build step writes there
+    files = sorted(docs.glob("*.svg"))
     total = 0
     for f in files:
         text = f.read_text(encoding="utf-8")
         out, n = recolour(text)
-        out, k = override(f.name, out) if f.parent == docs else (out, 0)   # never the cs/ draft
+        out, k = override(f.name, out)
         n += k
         if n:
             f.write_text(out, encoding="utf-8")

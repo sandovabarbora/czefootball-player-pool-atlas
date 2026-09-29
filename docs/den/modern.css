@@ -722,6 +722,16 @@ body { background: var(--page-bg); color: var(--ink); -webkit-font-smoothing: an
   body.toc-open .toc-sticky { display: block !important; }
 }
 @media (min-width: 1600px) { :root { --container: min(1200px, calc(100vw - 2 * (200px + 3rem))); } }
+/* a phone: a 16px gutter, not a 4rem one on top of the padding */
+@media (max-width: 719px) {
+  :root { --container: 100%; }
+  .container { padding-left: 16px; padding-right: 16px; }
+  /* a wide table scrolls inside its own box instead of running off the page */
+  table:not(.ax-grid) { display: block; max-width: 100%; overflow-x: auto; }
+  .katex-display { overflow-x: auto; overflow-y: hidden; }
+  /* a long URL (photo credits, references) breaks instead of widening the page */
+  p, li, dd, figcaption { overflow-wrap: break-word; }
+}
 
 /* --- type: one grotesk, solid ink; mono labels --- */
 h1, h2, h3, .slide-q, .quickread-figure, .hero-num-figure, .changes-tier-n, .scoreboard-claim, .funnel-take-one-thing, .pool-card {
@@ -984,54 +994,79 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 
 /* =========================================================================
    Player atlas (docs/atlas/, atlas.app.js) — the same register, one more
-   surface: a list to find in, a pane to read in, rows that invert on hover.
+   surface: the pool chart, then a list to find in; a player opens under his row.
    ========================================================================= */
 .ax-page .topbar-links a[aria-current="page"] { color: var(--hot); }
 .ax { padding-top: calc(var(--topbar-h) + var(--space-4)); padding-bottom: var(--space-5); }
 .ax-head { border-bottom: 1px solid var(--ink); padding-bottom: var(--space-4); margin-bottom: var(--space-4); }
-.ax-kicker, .ax-browse-label, .ax-count, .ax-calls-label, .ax-panel-meta, .ax-panel-rank, .ax-legend, .ax-note, .ax-foot p, .ax-row-meta, .ax-row-min, .ax-table th, .ax-table .mono, .ax-check {
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 1.8;
-}
 .ax-title { font-family: var(--font-display); font-weight: 500; font-size: clamp(2.4rem, 1.6rem + 3vw, 4.4rem); letter-spacing: -0.045em; line-height: 1; margin: var(--space-2) 0 var(--space-3); color: var(--ink); max-width: 22ch; }
 .ax-lead { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; line-height: 1.35; letter-spacing: -0.015em; max-width: 62ch; margin: 0; color: var(--ink); }
 .ax-lead a { color: var(--ink); border-bottom: 1px solid var(--ink); text-decoration: none; }
-.ax-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); align-items: start; }
-@media (min-width: 960px) {
-  .ax-body { grid-template-columns: 380px minmax(0, 1fr); gap: var(--space-5); }
-  .ax-side { position: sticky; top: calc(var(--topbar-h) + 1rem); max-height: calc(100vh - var(--topbar-h) - 2rem); display: flex; flex-direction: column; }
-  .ax-list { overflow-y: auto; min-height: 0; flex: 1 1 auto; scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+/* one column, full width: the pool chart, a row of controls, the rung legend,
+   then the list as a table; a player opens in a row under his own */
+.ax-body { display: block; }
+.ax-body[hidden], .ax-eras[hidden] { display: none; }
+.ax-kicker, .ax-browse-label, .ax-count, .ax-calls-label, .ax-panel-meta, .ax-panel-rank, .ax-legend, .ax-note, .ax-foot p, .ax-grid th, .ax-c-age, .ax-c-pos, .ax-c-club, .ax-c-min, .ax-table th, .ax-table .mono, .ax-check {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 1.8;
 }
-.ax-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; margin-bottom: var(--space-3); }
-.ax-controls .pool-control-search { grid-column: 1 / -1; }
+.ax-overview { padding-top: var(--space-2); margin-bottom: var(--space-4); }
+.ax-overview .ax-statement { max-width: 52ch; }
+.ax-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.6rem 1rem; padding-top: var(--space-2); }
+.ax-controls .pool-control { flex: 0 1 11rem; min-width: 8.5rem; }
+.ax-controls .pool-control-search { flex: 1 1 16rem; }
 .ax-controls .pool-control input, .ax-controls .pool-control select { width: 100%; box-sizing: border-box; }
-.ax-check { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 0.5rem; }
+.ax-controls .pool-control input[type=search], .ax-controls .pool-control select { height: 2.25rem; line-height: normal; }
+.ax-checks { display: flex; flex-direction: column; gap: 0.1rem; flex: 1 1 14rem; padding-bottom: 0.2rem; }
+.ax-check { flex-direction: row; align-items: center; gap: 0.5rem; min-width: 0; }
+.ax-controls .ax-check { flex: 0 0 auto; min-width: 0; }
 .ax-controls .ax-check input { accent-color: var(--ink); width: auto; flex: 0 0 auto; margin: 0; }
-.ax-browse-label { margin: 0 0 0.3rem; }
-.ax-browse { margin-bottom: var(--space-3); }
-.ax-count { margin: 0; padding: 0.4rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-.ax-list { list-style: none; margin: 0; padding: 0; }
-.ax-row { border-bottom: 1px solid var(--rule); }
-.ax-row-btn { all: unset; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) 84px 3.2rem; grid-template-rows: auto auto; column-gap: 0.8rem; align-items: center; width: 100%; padding: 0.55rem 0.5rem; cursor: pointer; color: var(--ink); }
-.ax-row-btn:hover, .ax-row-btn:focus-visible, .ax-row.is-open .ax-row-btn { background: var(--hot); color: var(--page-bg); }
-.ax-row-btn:hover *, .ax-row-btn:focus-visible *, .ax-row.is-open .ax-row-btn * { color: var(--page-bg) !important; }
-.ax-row-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
-.ax-row-name { grid-column: 1; grid-row: 1; font-family: var(--font-display); font-weight: 500; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--hot); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ax-row-meta { grid-column: 1; grid-row: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.5; }
-.ax-spark { grid-column: 2; grid-row: 1 / 3; display: block; }
-.ax-row-min { grid-column: 3; grid-row: 1 / 3; text-align: right; color: var(--ink); font-size: 12px; letter-spacing: 0.06em; }
-.ax-nt { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; border: 1px solid var(--rule); color: var(--acid); padding: 0 0.3rem; vertical-align: 0.2em; margin-left: 0.3rem; }
-.ax-row.is-open .ax-nt, .ax-row-btn:hover .ax-nt { border-color: var(--page-bg); }
-/* the detail pane: one panel, or two or three across */
-.ax-detail { display: grid; gap: var(--space-4); grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 1100px) {
-  .ax-detail[data-n="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ax-detail[data-n="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ax-browse-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.8rem; margin: 0.8rem 0 0; }
+.ax-browse-label { margin: 0; }
+.ax-browse { display: flex; flex-wrap: wrap; gap: 0.2rem 0.9rem; margin: 0; }
+.ax-browse .chart-chip { all: unset; cursor: pointer; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); border-bottom: 1px solid var(--rule); padding: 0.1rem 0; }
+.ax-browse .chart-chip:hover { border-bottom-color: var(--ink); }
+.ax-browse .chart-chip[aria-pressed="true"] { color: var(--ink); background: transparent; border-bottom: 2px solid var(--ink); }
+.ax-browse .chart-chip:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ax-rungs { margin: var(--space-3) 0 0; }
+.ax-legend-none { outline: 1px solid #d9d9d5; outline-offset: -1px; }
+.ax-count { margin: 0.4rem 0 0; padding: 0.4rem 0; border-top: 1px solid var(--rule); }
+/* the list */
+.ax-grid { --sp-col: 30px; --sp-gap: 3px; width: 100%; border-collapse: collapse; table-layout: auto; border: 0; background: transparent; margin: 0; }
+.ax-grid th { text-align: left; font-weight: 400; font-size: 10px; letter-spacing: 0.12em; padding: 0.3rem 0.8rem 0.3rem 0; border-bottom: 1px solid var(--ink); white-space: nowrap; vertical-align: bottom; }
+.ax-grid th.num, .ax-grid td.num { text-align: right; padding-right: 0.5rem; }
+.ax-grid td { padding: 0 0.8rem 0 0; border-bottom: 1px solid var(--rule); height: 42px; box-sizing: border-box; vertical-align: middle; white-space: nowrap; }
+.ax-row { cursor: pointer; }
+.ax-row:hover td, .ax-row:focus-within td { background: var(--surface); }
+.ax-row.is-open td { background: var(--surface); border-bottom-color: transparent; }
+.ax-row.is-open .ax-c-name { box-shadow: inset 3px 0 0 var(--ink); }
+.ax-row.is-pinned td { border-top: 1px solid var(--ink); }
+.ax-c-name { width: 30%; max-width: 0; overflow: hidden; text-overflow: ellipsis; padding-left: 0.5rem !important; }
+.ax-row-btn { all: unset; cursor: pointer; display: inline-flex; align-items: baseline; max-width: 100%; min-width: 0; color: var(--ink); }
+.ax-row-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ax-row-name { font-family: var(--font-display); font-weight: 500; font-size: 1.02rem; letter-spacing: -0.01em; color: var(--hot); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.ax-c-age, .ax-c-pos { width: 1%; }
+.ax-c-age, .ax-c-pos, .ax-c-club, .ax-c-min { letter-spacing: 0.08em; }
+.ax-c-club { max-width: 0; width: 26%; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
+.ax-c-spark, .ax-col-spark { width: 1%; }
+.ax-c-min { width: 1%; color: var(--ink); font-variant-numeric: tabular-nums; }
+.ax-grid .ax-c-age, .ax-grid .ax-c-min { text-align: right; }
+.ax-nt { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; border: 1px solid var(--rule); color: var(--acid); padding: 0 0.3rem; margin-left: 0.4rem; flex: 0 0 auto; align-self: center; line-height: 1.5; }
+/* the sparkline: one fixed column per season, the header carries the labels */
+.ax-sp { display: grid; grid-template-columns: repeat(var(--n), var(--sp-col)); column-gap: var(--sp-gap); align-items: end; height: 22px; }
+.ax-sp-past { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); column-gap: 1px; width: calc(7 * var(--sp-col) + 6 * var(--sp-gap)); }
+.ax-sp-c { display: flex; align-items: flex-end; height: 100%; }
+.ax-sp-c i { display: block; width: 100%; }
+.ax-sp-head { height: auto; align-items: end; }
+.ax-sp-head .ax-sp-c { justify-content: center; font-size: 9px; letter-spacing: 0; height: auto; }
+/* an open player: his panel in a row of its own, under his row */
+.ax-detail-row > td { height: auto; white-space: normal; padding: 0 0 var(--space-4); background: var(--surface); border-bottom: 1px solid var(--ink); }
+.ax-panel { padding: var(--space-2) var(--space-3) 0; min-width: 0; }
+.ax-panel-folds { grid-column: 1 / -1; }
+@media (min-width: 960px) {
+  .ax-panel { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); column-gap: var(--space-4); align-items: start; }
+  .ax-panel > .ax-panel-head { grid-template-columns: 1fr; }
 }
-.ax-panel { border-top: 1px solid var(--hot); padding-top: var(--space-3); min-width: 0; }
-/* side by side, the charts share a baseline: each panel is a subgrid of the pane's rows */
-@supports (grid-template-rows: subgrid) {
-  .ax-detail[data-n="2"] .ax-panel, .ax-detail[data-n="3"] .ax-panel { display: grid; grid-template-rows: subgrid; grid-row: span 4; align-content: start; }
-}
+.ax-panel .ax-chart svg { background: var(--page-bg); }
 .ax-panel-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start; margin-bottom: var(--space-3); }
 .ax-panel-id { min-width: 0; }
 .ax-mug { display: grid; place-items: center; width: 84px; height: 84px; background: var(--surface); border: 1px solid var(--rule); overflow: hidden; position: relative; }
@@ -1040,9 +1075,6 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .ax-mug > span { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; color: var(--muted); }
 /* three across: a smaller head so the names keep their line */
 .ax-panel-name { overflow-wrap: anywhere; }
-.ax-detail[data-n="3"] .ax-mug { width: 56px; height: 56px; }
-.ax-detail[data-n="3"] .ax-panel-name { font-size: clamp(1.3rem, 1rem + 0.9vw, 1.7rem); }
-.ax-detail[data-n="3"] .ax-panel-head { gap: var(--space-2); }
 .ax-panel-name { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.4rem); letter-spacing: -0.04em; line-height: 1; margin: 0 0 0.4rem; color: var(--ink); }
 .ax-panel-meta, .ax-panel-rank { margin: 0; text-transform: none; letter-spacing: 0.06em; font-size: 12px; color: var(--ink); }
 .ax-panel-rank { color: var(--muted); }
@@ -1072,30 +1104,50 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 .ax-foot { border-top: 1px solid var(--rule); margin-top: var(--space-5); padding-top: var(--space-3); }
 .ax-foot a, .ax-note a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); }
 .ax-profile { padding-left: 0; padding-right: 0; }
-.ax-overview { border-top: 1px solid var(--hot); padding-top: var(--space-3); }
 .ax-statement { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); line-height: 1.25; letter-spacing: -0.015em; margin: 0.3rem 0 var(--space-3); color: var(--ink); max-width: 40ch; }
-@media (max-width: 959px) {
-  /* a phone reads the open player first; the list scrolls in its own box */
-  .ax-detail { order: -1; }
-  .ax-list { max-height: 70vh; overflow-y: auto; border-bottom: 1px solid var(--rule); }
-  .ax-controls { grid-template-columns: 1fr; }
-  .ax-row-btn { grid-template-columns: minmax(0, 1fr) 64px 3rem; }
-  .ax-spark { width: 64px; }
+@media (max-width: 719px) {
+  /* a phone: the table becomes stacked cards -- a name line, a meta line, then the seasons and the minutes */
+  .ax-grid, .ax-grid tbody, .ax-grid thead { display: block; }
+  .ax-grid thead tr { display: flex; justify-content: space-between; align-items: end; width: 100%; box-sizing: border-box; }
+  .ax-grid thead th { display: none; border: 0; }
+  .ax-grid thead th.ax-col-spark, .ax-grid thead th:last-child { display: block; padding: 0.3rem 0 0.2rem; width: auto; }
+  .ax-grid thead th:last-child { justify-self: end; text-align: right; padding-right: 0.5rem; }
+  .ax-grid thead tr { border-bottom: 1px solid var(--ink); padding-left: 0.5rem; }
+  .ax-row { display: grid; grid-template-columns: max-content max-content minmax(0, 1fr) auto; grid-template-areas: "name name name name" "age pos club club" "spark spark spark min"; column-gap: 0; padding: 0.5rem 0.5rem; border-bottom: 1px solid var(--rule); }
+  .ax-grid .ax-row td { display: block; height: auto; border: 0; padding: 0; background: transparent !important; width: auto; max-width: none; }
+  .ax-row:hover, .ax-row.is-open { background: var(--surface); }
+  .ax-row.is-open .ax-c-name { box-shadow: none; }
+  .ax-row.is-open { box-shadow: inset 3px 0 0 var(--ink); }
+  .ax-c-name { grid-area: name; padding-left: 0 !important; }
+  .ax-c-age { grid-area: age; text-align: left !important; }
+  .ax-c-pos { grid-area: pos; }
+  .ax-c-club { grid-area: club; overflow: hidden; text-overflow: ellipsis; }
+  .ax-c-pos::before, .ax-c-club::before { content: " · "; white-space: pre; color: var(--muted); }
+  .ax-grid .ax-row .ax-c-spark { grid-area: spark; padding-top: 0.35rem; }
+  .ax-c-min { grid-area: min; align-self: end; text-align: right; }
+  .ax-detail-row { display: block; }
+  .ax-detail-row > td { display: block; padding: 0 0 var(--space-3); }
+  .ax-panel { padding: var(--space-2) 0.5rem 0; }
+  .ax-controls .pool-control, .ax-controls .pool-control-search { flex: 1 1 100%; }
+  .ax-controls .pool-control:not(.pool-control-search):not(.ax-check) { flex: 1 1 calc(50% - 0.5rem); min-width: 0; }
+  .ax-grid { --sp-col: 28px; }
 }
-.ax-tabs { display: flex; gap: 0; margin-top: var(--space-3); border-bottom: 1px solid var(--rule); }
+.ax-tabs { display: flex; flex-wrap: wrap; gap: 0; margin-top: var(--space-3); border-bottom: 1px solid var(--rule); }
 .ax-head:has(.ax-tabs) { border-bottom: 0; padding-bottom: 0; }
-.ax-tab { all: unset; box-sizing: border-box; cursor: pointer; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem 0.6rem 0; margin-right: 1.2rem; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.ax-tab { all: unset; box-sizing: border-box; cursor: pointer; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem 0.6rem 0; margin-right: 1.2rem; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
 .ax-tab:hover { color: var(--ink); }
 .ax-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
 .ax-tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.ax-eras { border-top: 1px solid var(--hot); padding-top: var(--space-3); }
+.ax-eras { padding-top: var(--space-2); }
 .ax-era { margin-top: var(--space-4); }
 .ax-era-title { font-family: var(--font-display); font-weight: 500; font-size: 1.2rem; letter-spacing: -0.01em; color: var(--hot); margin: 0 0 0.4rem; }
 .ax-era .ax-table a, .ax-eras .ax-table a { color: var(--hot); text-decoration: none; border-bottom: 1px solid var(--rule); }
 .ax-era .ax-table a:hover, .ax-eras .ax-table a:hover { color: var(--ink); border-bottom-color: var(--ink); }
 .ax-eras .ax-table tr.is-open td { color: var(--hot); }
 .ax-past { color: var(--muted); }
-@media print { .ax-side { display: none; } }
+@media print { .ax-controls, .ax-browse-row, .ax-more-row { display: none; } }
+.ax-more-row { margin: var(--space-3) 0 0; text-align: center; }
+.ax-more-row .ax-btn[hidden] { display: none; }
 
 /* --- the nations page (docs/nations/, nations.app.js) --- */
 .nx-section { border-top: 1px solid var(--hot); padding-top: var(--space-3); margin-top: var(--space-5); }
@@ -1139,3 +1191,16 @@ details.chart-fold > summary { padding: 0.35rem 0; font-size: 10px; }
 
 /* the cross-links to the nations page and the atlas: their own line under the slide's last note */
 .pool-link.nations-link { margin: 0.6rem 0 0.4rem; }
+
+/* --- one rung palette on every page: the held colour for a top-9 league,
+   ink for a stepping stone, grey for another covered league, the pale base
+   for the home league, a hairline for no minutes (atlas.app.js TIER) --- */
+:root { --rung-top9: var(--acid); --rung-stepping: #111111; --rung-other: #8a8a8a; --rung-home: #c9c9c4; --rung-none: #e6e6e3; }
+.squad-swatch-top9, .tier-swatch.tier-top9, .tier-seg.tier-top9 { background: var(--rung-top9); }
+.squad-swatch-stepping, .tier-swatch.tier-stepping, .tier-seg.tier-stepping { background: var(--rung-stepping); }
+.squad-swatch-other, .tier-swatch.tier-other, .tier-seg.tier-other { background: var(--rung-other); }
+.squad-swatch-domestic, .tier-swatch.tier-domestic, .tier-seg.tier-domestic { background: var(--rung-home); }
+.squad-tile[data-tier="top9"] .squad-portrait, .squad-tile[data-tier="top9"] .squad-mono { border-color: var(--rung-top9); }
+.squad-tile[data-tier="stepping_stone"] .squad-portrait, .squad-tile[data-tier="stepping_stone"] .squad-mono { border-color: var(--rung-stepping); }
+.squad-tile[data-tier="other"] .squad-portrait, .squad-tile[data-tier="other"] .squad-mono { border-color: var(--rung-other); }
+.squad-tile[data-tier="domestic"] .squad-portrait, .squad-tile[data-tier="domestic"] .squad-mono { border-color: var(--rung-home); }

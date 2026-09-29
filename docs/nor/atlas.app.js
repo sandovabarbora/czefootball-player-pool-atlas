@@ -24,13 +24,20 @@
     page: CSS.getPropertyValue('--page-bg').trim() || '#ffffff',
     orange: '#c8531f', mint: '#2a8c8c', violet: '#6b4bb8',   // darkened for white paper (src/figstyle.py SEQ_*)
   };
-  // the rung of the league, darker the higher — the home league is the pale base
+  // the rung of the league, one palette on every chart and in the list: the
+  // held colour for a top-9 league, ink for a stepping stone, grey for another
+  // covered league, the pale base for the home league, a hairline for no minutes
   const TIER = {
-    domestic: { col: '#b5b5b0', label: 'home league', short: 'home', rank: 0 },
-    other: { col: C.mint, label: 'other league', short: 'other', rank: 1 },
-    stepping_stone: { col: C.violet, label: 'stepping stone', short: 'stepping', rank: 2 },
-    top9: { col: C.hot, label: 'top-9 league', short: 'top-9', rank: 3 },
+    domestic: { col: '#c9c9c4', label: 'home league', short: 'home', rank: 0 },
+    other: { col: '#8a8a8a', label: 'other league', short: 'other', rank: 1 },
+    stepping_stone: { col: '#111111', label: 'stepping stone', short: 'stepping', rank: 2 },
+    top9: { col: C.acid, label: 'top-9 league', short: 'top-9', rank: 3 },
   };
+  const NONE = { col: '#e6e6e3', label: 'no minutes' };
+  const RUNGS = ['top9', 'stepping_stone', 'other', 'domestic'];   // legend order, top rung first
+  const rungLegend = (extra = '') => RUNGS.map((k) => `<span><i style="background:${TIER[k].col}"></i>${TIER[k].label}</span>`).join('') +
+    `<span><i class="ax-legend-none" style="background:${NONE.col}"></i>${NONE.label}</span>` + extra;
+  const PAGE = 50;                     // rows shown at first, and added per "show 50 more"
   const POS = { FW: 'forwards', MF: 'midfielders', DF: 'defenders', GK: 'goalkeepers' };
   const HOME_NAME = root.dataset.homeName || 'Home-nation';
   const MAX_COMPARE = 3;
@@ -43,7 +50,8 @@
 
   // ------------------------------------------------------------ state
   let DATA = null, SEASONS = [], METRICS = null, YEAR_END = 2026;
-  let open = [];                       // player keys shown in the detail panel
+  let open = [];                       // player keys opened under their rows
+  let limit = PAGE;                    // rows shown in the list
   let view = 'players';                // or 'eras': the nation in the Big-5 since the history starts
   let eraSeason = null;                // the season opened in the eras view
   let HIST = null, ERAS = null, GEN = null;   // charts/careers_history.json, eras.json, generations.json — loaded when asked for
@@ -60,7 +68,10 @@
     nt: root.querySelector('[data-ax-nt]'),
     count: root.querySelector('[data-ax-count]'),
     list: root.querySelector('[data-ax-list]'),
-    detail: root.querySelector('[data-ax-detail]'),
+    head: root.querySelector('[data-ax-head]'),
+    overview: root.querySelector('[data-ax-overview]'),
+    rungs: root.querySelector('[data-ax-rungs]'),
+    more: root.querySelector('[data-ax-more]'),
     browse: root.querySelector('[data-ax-browse]'),
     empty: root.querySelector('[data-ax-empty]'),
   };
@@ -134,48 +145,79 @@
   }
 
   // ------------------------------------------------------------ the list: one row per player, a sparkline of his seasons
+  // one fixed column per covered season (the header carries the labels); a
+  // past player's own span of Big-5 seasons is squeezed into the same width
   function spark(p) {
     const dom = p.past ? p.d.span : SEASONS;
-    const w = 84, h = 22, n = dom.length, bw = Math.max(1, Math.floor((w - (n - 1) * 2) / n));
     const max = Math.max(p.d.peak, 900);
-    let rects = '';
-    dom.forEach((s, i) => {
+    const cols = dom.map((s) => {
       const row = p.d.bySeason.get(s);
-      if (!row) return;
-      const bh = Math.max(1, Math.round((row.min / max) * h));
-      rects += `<rect x="${i * (bw + 2)}" y="${h - bh}" width="${bw}" height="${bh}" fill="${TIER[row.tier].col}"${row.under_floor ? ' opacity=".4"' : ''}/>`;
-    });
-    return `<svg class="ax-spark" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true">${rects}</svg>`;
+      if (!row) return `<span class="ax-sp-c" title="${short(s)}: ${NONE.label}"><i style="height:2px;background:${NONE.col}"></i></span>`;
+      const h = Math.max(8, Math.round((row.min / max) * 100));
+      return `<span class="ax-sp-c" title="${short(s)}: ${fmtInt(row.min)} min, ${TIER[row.tier].label}"><i style="height:${h}%;background:${TIER[row.tier].col}${row.under_floor ? ';opacity:.4' : ''}"></i></span>`;
+    }).join('');
+    return `<span class="ax-sp${p.past ? ' ax-sp-past' : ''}" style="--n:${dom.length}" aria-hidden="true">${cols}</span>`;
   }
+  function sparkHead() {
+    return `<span class="ax-sp ax-sp-head" style="--n:${SEASONS.length}">${SEASONS.map((s) => `<span class="ax-sp-c">${short(s)}</span>`).join('')}</span>`;
+  }
+  function rowHtml(p) {
+    const isOpen = open.includes(p.key);
+    const hasNow = p.d.bySeason.has(METRICS);
+    return `<td class="ax-c-name"><button type="button" class="ax-row-btn" aria-expanded="${isOpen}">` +
+      `<span class="ax-row-name">${esc(p.name)}</span>${p.d.calls ? ' <span class="ax-nt" title="national-team call-ups in the covered seasons">NT</span>' : ''}${p.past ? ` <span class="ax-nt ax-past" title="not in today's pool: Big-5 seasons ${short(p.seasons[0].season)}–${short(p.d.last)}">${short(p.seasons[0].season)}–${short(p.d.last)}</span>` : ''}</button></td>` +
+      `<td class="ax-c-age num">${p.past ? `born ${p.born || '—'}` : (p.d.age != null ? p.d.age : '—')}</td>` +
+      `<td class="ax-c-pos">${p.pos || '—'}</td>` +
+      `<td class="ax-c-club">${esc(p.d.clubNow || '—')}</td>` +
+      `<td class="ax-c-spark">${spark(p)}</td>` +
+      `<td class="ax-c-min num"${hasNow ? '' : ` title="${p.past ? 'minutes of his best Big-5 season' : `no ${short(METRICS)} season in a covered league`}"`}>${hasNow ? fmtInt(p.d.minNow) : (p.past ? fmtInt(p.d.peak) : '—')}</td>`;
+  }
+  // the open players' panels are kept while their axes stay the same, so
+  // typing in the search does not redraw them
+  const panels = new Map();
+  const byKey = new Map();
   function renderList() {
     const rows = filtered();
-    ui.count.textContent = `${rows.length} of ${DATA.players.length}`;
+    const total = DATA.players.length;
+    // an open player always shows: in his place when the filters keep him
+    // (even past the rows shown), pinned on top when they do not
+    const shown = rows.slice(0, limit);
+    const inRows = new Set(rows.map((p) => p.key));
+    const extra = rows.slice(limit).filter((p) => open.includes(p.key));
+    const pinned = open.filter((k) => !inRows.has(k)).map((k) => byKey.get(k)).filter(Boolean);
+    const list = [...pinned, ...shown, ...extra];
+    ui.count.textContent = rows.length === total
+      ? `${total} players · showing ${Math.min(limit, rows.length)}`
+      : `${rows.length} of ${total} players · showing ${Math.min(limit, rows.length)}`;
     ui.empty.hidden = rows.length > 0;
+    if (ui.more) ui.more.hidden = rows.length <= limit;
+    if (ui.head) { const th = ui.head.querySelector('.ax-col-spark'); if (th && !th.dataset.done) { th.innerHTML = sparkHead(); th.dataset.done = '1'; } }
+    const openPlayers = open.map((k) => byKey.get(k)).filter(Boolean);
+    const yMax = Math.max(...openPlayers.map((p) => p.d.peak), 1800);
+    const axis = axisSeasons(openPlayers);
+    const sig = `${yMax}|${axis[0]}|${openPlayers.length > 1}|${root.clientWidth}`;
+    for (const [k, v] of panels) if (!open.includes(k) || v.sig !== sig) panels.delete(k);
     const frag = document.createDocumentFragment();
-    for (const p of rows) {
-      const li = document.createElement('li');
-      li.className = 'ax-row' + (open.includes(p.key) ? ' is-open' : '');
-      li.dataset.key = p.key;
-      li.innerHTML =
-        `<button type="button" class="ax-row-btn" aria-pressed="${open.includes(p.key)}">` +
-        `<span class="ax-row-name">${esc(p.name)}${p.d.calls ? ' <span class="ax-nt" title="national-team call-ups in the covered seasons">NT</span>' : ''}${p.past ? ` <span class="ax-nt ax-past" title="not in today's pool: Big-5 seasons ${short(p.seasons[0].season)}–${short(p.d.last)}">${short(p.seasons[0].season)}–${short(p.d.last)}</span>` : ''}</span>` +
-        `<span class="ax-row-meta">${p.past ? `born ${p.born || '—'}` : (p.d.age != null ? p.d.age : '—')} · ${p.pos || '—'} · ${esc(p.d.clubNow || '—')}</span>` +
-        `${spark(p)}<span class="ax-row-min"${p.d.bySeason.has(METRICS) ? '' : ` title="${p.past ? 'minutes of his best Big-5 season' : `no ${short(METRICS)} season in a covered league`}"`}>${p.d.bySeason.has(METRICS) ? fmtInt(p.d.minNow) : (p.past ? fmtInt(p.d.peak) : '—')}</span></button>`;
-      frag.appendChild(li);
+    for (const p of list) {
+      const isOpen = open.includes(p.key);
+      const tr = document.createElement('tr');
+      tr.className = 'ax-row' + (isOpen ? ' is-open' : '') + (pinned.includes(p) ? ' is-pinned' : '');
+      tr.dataset.key = p.key;
+      tr.innerHTML = rowHtml(p);
+      frag.appendChild(tr);
+      if (!isOpen) continue;
+      const dr = document.createElement('tr');
+      dr.className = 'ax-detail-row';
+      dr.dataset.key = p.key;
+      const td = document.createElement('td');
+      td.colSpan = 6;
+      let c = panels.get(p.key);
+      if (!c) { c = { sig, el: panel(p, yMax, openPlayers.length > 1, axis) }; panels.set(p.key, c); }
+      td.appendChild(c.el);
+      dr.appendChild(td);
+      frag.appendChild(dr);
     }
     ui.list.replaceChildren(frag);
-  }
-
-  // ------------------------------------------------------------ the detail: one panel per open player
-  const byKey = new Map();
-  function renderDetail() {
-    ui.detail.replaceChildren();
-    ui.detail.dataset.n = open.length;
-    if (!open.length) { renderOverview(); return; }
-    const players = open.map((k) => byKey.get(k)).filter(Boolean);
-    const yMax = Math.max(...players.map((p) => p.d.peak), 1800);
-    const axis = axisSeasons(players);
-    for (const p of players) ui.detail.appendChild(panel(p, yMax, players.length > 1, axis));
   }
 
   function mug(p) {
@@ -206,8 +248,8 @@
       (p.past ? '' : `<a class="ax-btn" href="../?player=${encodeURIComponent(p.name)}#pool">card in the report</a>`) +
       `</div></div></header>` +
       `<div class="ax-chart" data-ax-chart></div>` +
-      `${seasonTable(p)}${profileBars(p)}`;
-    el.querySelector('[data-ax-close]').addEventListener('click', () => { open = open.filter((k) => k !== p.key); pushHash(); render(); });
+      `<div class="ax-panel-folds">${seasonTable(p)}${profileBars(p)}</div>`;
+    el.querySelector('[data-ax-close]').addEventListener('click', (ev) => { ev.stopPropagation(); open = open.filter((k) => k !== p.key); pushHash(); render(); });
     if (hasD3) requestAnimationFrame(() => careerChart(el.querySelector('[data-ax-chart]'), p, yMax, compact, axis));
     else empty(el.querySelector('[data-ax-chart]'), 'the chart needs the D3 library, which did not load; the seasons are in the table below');
     return el;
@@ -275,7 +317,7 @@
     mono(svg.append('text').attr('x', w - M.r).attr('y', 12).attr('text-anchor', 'end').attr('fill', C.orange)).text('G+A / 90 ADJ.');
     // seasons not covered for this player: a faint mark so the gap is legible
     svg.append('g').selectAll('rect').data(AX.filter((s) => !p.d.bySeason.has(s))).join('rect')
-      .attr('x', (s) => x(s)).attr('y', H - M.b - 2).attr('width', x.bandwidth()).attr('height', 2).attr('fill', C.rule);
+      .attr('x', (s) => x(s)).attr('y', H - M.b - 2).attr('width', x.bandwidth()).attr('height', 2).attr('fill', NONE.col);
     // bars: one stack per season, a segment per stint (the longest at the bottom)
     const seasons = p.seasons, segs = [];
     for (const s of seasons) {
@@ -297,19 +339,18 @@
       .attr('cx', (d) => x(d.s.season) + x.bandwidth() / 2).attr('cy', (d) => y2(d.st.ga90_adj)).attr('r', 4)
       .attr('fill', (d) => (d.s.under_floor ? C.page : C.orange)).attr('stroke', C.orange).attr('stroke-width', 1.4)
       .on('mousemove', (ev, d) => showTip(tipHtml(p, d.s, d.st), ev.clientX, ev.clientY)).on('mouseleave', hideTip);
-    // national-team call-ups: acid ticks above the season that ended in that year
+    // national-team call-ups: ink ticks above the season that ended in that year (the held colour is the top-9 rung)
     const calls = p.calls.map((c) => ({ ...c, season: AX.find((s) => +s.slice(5, 9) === c.year) })).filter((c) => c.season);
     const byS = d3.group(calls, (c) => c.season);
     svg.append('g').selectAll('g').data([...byS]).join('g').each(function ([s, cs]) {
       const g = d3.select(this), cx = x(s) + x.bandwidth() / 2;
-      g.append('rect').attr('x', cx - 6).attr('y', M.t - 10).attr('width', 12).attr('height', 3).attr('fill', C.acid);
+      g.append('rect').attr('x', cx - 6).attr('y', M.t - 10).attr('width', 12).attr('height', 3).attr('fill', C.ink);
       g.append('rect').attr('x', cx - 10).attr('y', M.t - 16).attr('width', 20).attr('height', 14).attr('fill', 'transparent')
         .on('mousemove', (ev) => showTip(`<b>${esc(p.name)}</b><span>${cs.map((c) => esc(c.event)).join('<br>')}</span><span class="mono">national team</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
     });
     // legend
     const leg = document.createElement('p'); leg.className = 'ax-legend';
-    leg.innerHTML = Object.entries(TIER).map(([k, t]) => `<span><i style="background:${t.col}"></i>${t.label}</span>`).join('') +
-      `<span><i class="ax-legend-line"></i>G+A / 90 adj.</span><span><i style="background:${C.acid};height:3px"></i>NT call-up</span>`;
+    leg.innerHTML = rungLegend(`<span><i class="ax-legend-line"></i>G+A / 90 adj.</span><span><i style="background:${C.ink};height:3px"></i>NT call-up</span>`);
     box.appendChild(leg);
   }
   function tipHtml(p, s, st) {
@@ -322,22 +363,25 @@
   }
 
   // ------------------------------------------------------------ nothing open: the pool's own trend
+  let overviewSig = '';
   function renderOverview() {
-    const el = document.createElement('section');
-    el.className = 'ax-overview';
-    const nTop = DATA.players.filter((p) => p.d.tierNow === 'top9').length;
+    const el = ui.overview; if (!el) return;
+    const pool = DATA.players.filter((p) => !p.past);   // today's pool only, whether or not past players are listed
+    const sig = `${pool.length}|${el.clientWidth}`;
+    if (sig === overviewSig) return;
+    overviewSig = sig;
+    const nTop = pool.filter((p) => p.d.tierNow === 'top9').length;
     el.innerHTML = `<p class="ax-kicker">the pool, season by season</p>` +
       `<h2 class="ax-statement">Pick a player on the left, or start from the whole pool: where its minutes were played, ${short(SEASONS[0])} to ${short(SEASONS[SEASONS.length - 1])}.</h2>` +
       `<div class="ax-chart" data-ax-overview></div>` +
-      `<p class="ax-note">Minutes of the ${DATA.players.length} pool players who appear in the covered leagues, stacked by the rung of the league. ${nTop} of them play in a top-9 league now. Hover a band for the season's numbers; the current season has only begun.</p>`;
-    ui.detail.appendChild(el);
-    if (hasD3) requestAnimationFrame(() => overviewChart(el.querySelector('[data-ax-overview]')));
+      `<p class="ax-note">Minutes of the ${pool.length} pool players who appear in the covered leagues, stacked by the rung of the league. ${nTop} of them play in a top-9 league now. Hover a band for the season's numbers; the current season has only begun.</p>`;
+    if (hasD3) requestAnimationFrame(() => overviewChart(el.querySelector('[data-ax-overview]'), pool));
   }
-  function overviewChart(box) {
+  function overviewChart(box, pool) {
     const keys = ['domestic', 'other', 'stepping_stone', 'top9'];
     const rows = SEASONS.map((s) => {
       const r = { season: s, domestic: 0, other: 0, stepping_stone: 0, top9: 0, n: 0 };
-      for (const p of DATA.players) { const row = p.d.bySeason.get(s); if (!row) continue; r.n += 1; for (const st of row.stints) r[st.tier] += st.min; }
+      for (const p of pool) { const row = p.d.bySeason.get(s); if (!row) continue; r.n += 1; for (const st of row.stints) r[st.tier] += st.min; }
       return r;
     });
     const w = Math.max(320, box.clientWidth || 700), H = 340, M = { t: 26, r: 16, b: 34, l: 56 };
@@ -359,7 +403,7 @@
         showTip(`<b>${short(r.season)} · ${TIER[d.key].label}</b><span>${fmtInt(r[d.key])} of ${fmtInt(tot)} minutes · ${Math.round((100 * r[d.key]) / tot)} %</span><span class="mono">${r.n} players with a season</span>`, ev.clientX, ev.clientY);
       }).on('mouseleave', hideTip);
     const leg = document.createElement('p'); leg.className = 'ax-legend';
-    leg.innerHTML = keys.map((k) => `<span><i style="background:${TIER[k].col}"></i>${TIER[k].label}</span>`).join('');
+    leg.innerHTML = rungLegend();
     box.appendChild(leg);
   }
 
@@ -475,8 +519,14 @@
     else if (open.length < MAX_COMPARE) open = [...open, key];
     else open = [...open.slice(1), key];
     pushHash(); render();
-    if (window.innerWidth < 960 && open.length) ui.detail.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
   }
+  // bring the first open player's row into view (a link from the eras or generations view, a shared link)
+  function revealOpen() {
+    if (!open.length || view !== 'players') return;
+    const tr = ui.list.querySelector(`.ax-row[data-key="${CSS_ESC(open[0])}"]`);
+    if (tr) tr.scrollIntoView({ behavior: 'auto', block: 'start' });
+  }
+  const CSS_ESC = (v) => (window.CSS && window.CSS.escape ? window.CSS.escape(v) : String(v).replace(/"/g, '\\"'));
   function render() {
     if (ui.tabs) ui.tabs.querySelectorAll('[data-ax-view]').forEach((b) => b.setAttribute('aria-selected', b.dataset.axView === view));
     if (ui.players) ui.players.hidden = view !== 'players';
@@ -484,7 +534,7 @@
     if (ui.gen) ui.gen.hidden = view !== 'gen';
     if (view === 'eras') { renderEras(); return; }
     if (view === 'gen') { renderGen(); return; }
-    renderList(); renderDetail();
+    renderOverview(); renderList();
   }
 
   // ------------------------------------------------------------ eras: the nation in the Big-5, season by season
@@ -562,7 +612,7 @@
         preset = preset === b ? null : b;
         ui.pos.value = ''; ui.tier.value = ''; ui.nt.checked = false; ui.q.value = ''; ui.sort.value = 'name';
         if (preset) for (const [k, v] of Object.entries(preset.set)) { if (k === 'nt') ui.nt.checked = v; else ui[k].value = v; }
-        renderBrowse(); renderList();
+        limit = PAGE; renderBrowse(); renderList();
       });
       return btn;
     }));
@@ -579,16 +629,20 @@
     readHash();
     if (view === 'eras') loadEras().then(render);
     if (view === 'gen') loadGen().then(render);
+    if (ui.rungs) ui.rungs.innerHTML = rungLegend();
     renderBrowse();
     render();
-    for (const el of [ui.q, ui.pos, ui.tier, ui.sort, ui.nt]) el.addEventListener('input', () => { preset = null; renderBrowse(); renderList(); });
+    if (open.length) requestAnimationFrame(revealOpen);
+    for (const el of [ui.q, ui.pos, ui.tier, ui.sort, ui.nt]) el.addEventListener('input', () => { preset = null; limit = PAGE; renderBrowse(); renderList(); });
+    if (ui.more) ui.more.addEventListener('click', () => { limit += PAGE; renderList(); });
     if (ui.past) ui.past.addEventListener('change', () => {
-      if (ui.past.checked) { ui.past.disabled = true; loadPast().then(() => { ui.past.disabled = false; renderList(); }); }
+      if (ui.past.checked) { ui.past.disabled = true; loadPast().then(() => { ui.past.disabled = false; render(); }); }
       else { for (const p of DATA.players.filter((q) => q.past)) byKey.delete(p.key); DATA.players = DATA.players.filter((q) => !q.past); HIST = null; histLoading = null; open = open.filter((k) => byKey.has(k)); pushHash(); render(); }
     });
     if (ui.tabs) ui.tabs.addEventListener('click', (ev) => { const b = ev.target.closest('[data-ax-view]'); if (b) setView(b.dataset.axView); });
-    ui.list.addEventListener('click', (ev) => { const li = ev.target.closest('.ax-row'); if (li) toggle(li.dataset.key); });
-    window.addEventListener('hashchange', () => { readHash(); render(); });
-    let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(renderDetail, 150); });
+    ui.list.addEventListener('click', (ev) => { const tr = ev.target.closest('.ax-row'); if (tr && !ev.target.closest('a')) toggle(tr.dataset.key); });
+    window.addEventListener('hashchange', () => { readHash(); render(); requestAnimationFrame(revealOpen); });
+    let t, lastW = window.innerWidth;
+    window.addEventListener('resize', () => { if (window.innerWidth === lastW) return; lastW = window.innerWidth; clearTimeout(t); t = setTimeout(() => { if (view === 'players') render(); }, 150); });
   }).catch((e) => { console.warn('atlas failed', e); ui.empty.hidden = false; ui.empty.textContent = 'the career data did not load'; });
 })();
