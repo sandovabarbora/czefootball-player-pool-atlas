@@ -5,19 +5,19 @@
   <link rel="canonical" href="https://football.bsandova.com/den/q/break/">
   <meta name="atlas-split" content="1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>When did the train leave? · Danish football · Player pool atlas</title>
-  <meta name="description" content="Danish players with ≥ 450 Big-5 minutes: 38 at the 2025/26 peak, 13 at the 1995/96 low, 38 in 2025/26. The break is dated to 2021/22.">
+  <title>Danish players with 450+ minutes in the Big-5 leagues per season, 1995/96 to 2025/26 · Danish football · Player pool atlas</title>
+  <meta name="description" content="Danish players with ≥ 450 Big-5 minutes numbered 38 at the 2025/26 peak, 13 at the 1995/96 low and 38 in 2025/26.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css?v=202609291536">
-  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="../../style.css?v=202609292251">
+  <link rel="stylesheet" href="../../modern.css?v=202609292251">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../../charts.js?v=202609291536"></script>
-  <script defer src="../../atlas.js?v=202609291536"></script>
+  <script defer src="../../charts.js?v=202609292251"></script>
+  <script defer src="../../atlas.js?v=202609292251"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -28,20 +28,20 @@
     <details class="topbar-q" data-current>
       <summary>Questions</summary>
       <ol class="topbar-q-list">
-        <li><a href="../../q/why/">Why the train left</a></li>
-        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
-        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/why/">Five pathway measures: Denmark, Norway and Czechia, 2025/26</a></li>
+        <li><a href="../../q/per-head/">Players per million</a></li>
+        <li><a href="../../q/cohorts/">Cohort counts</a></li>
         <li><a href="../../q/youth/">Youth minutes at home</a></li>
-        <li><a href="../../q/abroad/">Where they go</a></li>
-        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
-        <li><a href="../../q/fare/">How they fare</a></li>
-        <li><a href="../../q/national-team/">National-team squad</a></li>
-        <li><a href="../../q/break/" aria-current="page">When the train left</a></li>
+        <li><a href="../../q/abroad/">Destinations abroad</a></li>
+        <li><a href="../../q/leaving-late/">Age at the first top-9 season and output over the first two seasons, 115 exports</a></li>
+        <li><a href="../../q/fare/">Minutes share abroad</a></li>
+        <li><a href="../../q/national-team/">National-team squad by tier</a></li>
+        <li><a href="../../q/break/" aria-current="page">Big-5 count and its steps</a></li>
         <li><a href="../../q/peers/">Norway and Czechia</a></li>
         <li><a href="../../q/goalkeepers/">Goalkeepers</a></li>
-        <li><a href="../../q/gap/">What the gap is made of</a></li>
-        <li><a href="../../q/cards/">Who the players are</a></li>
-        <li><a href="../../q/changes/">What changed in a year</a></li>
+        <li><a href="../../q/gap/">Gap decomposition</a></li>
+        <li><a href="../../q/cards/">Showcase cards and the pool</a></li>
+        <li><a href="../../q/changes/">Change since last season</a></li>
       </ol>
     </details>
     <a href="../../methodology/">Methodology</a>
@@ -61,42 +61,49 @@
 
 <section class="slide" id="q7">
   <div class="container">
-    <h2 class="slide-q">When did the train leave?</h2>
+    <h2 class="slide-q">Danish players with 450+ minutes in the Big-5 leagues per season, 1995/96 to 2025/26</h2>
     
-    <p class="slide-a">Danish players with ≥ 450 Big-5 minutes: <strong>38</strong> at the 2025/26 peak, 13 at the 1995/96 low, 38 in 2025/26. The break is dated to 2021/22.</p>
+    <p class="slide-a">Danish players with ≥ 450 Big-5 minutes numbered <strong>38</strong> at the 2025/26 peak, 13 at the 1995/96 low and 38 in 2025/26.</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="../../big5_series.svg" alt="Line chart: Danish players with at least 450 minutes in the Big-5 leagues, 1995/96 to 2025/26, against eight peer countries; a lower panel shows per-million rates for Denmark, Norway and Czechia.">
         <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1995/96. Danish players are the green line; the dashed rules are the seasons the model dates the rise and the fall to, with their probabilities; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
       </figure>
+      <p class="slide-detail">The change-point model’s most probable season for the rise is 2021/22 (posterior 23 %), a level change of ×1.41 (90 % HDI 0.88–1.97). The 90 % interval for the rise includes ×1.00, so the rise is not distinguishable from no change at that level.</p>
+      <p class="slide-detail">Change-point fit: R-hat ≤ 1.004, minimum bulk ESS 372, 3 divergent transitions; a small number of divergences can bias the posterior slightly and is disclosed rather than tuned away.</p>
       
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">Break posterior 23 %; a level change of ×1.41 (0.88–1.97).</p>
-    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Danish players with ≥ 450 minutes in the Big-5 leagues each season since 2020/21, with the rise and the fall each dated by a change-point model.</p>
-    <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then looked for the two seasons where that count changed level for good — once up, once down — and stayed there.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1995/96 → 2025/26; peers on the same rule; the names are the most-minutes Danish players of each peak season, goalkeepers included — a lineup of presence, not a quality ranking: 2025/26: Victor Nelsson, Morten Frendrup, Joachim Andersen; 2024/25: Morten Frendrup, Mikkel Damsgaard, Christian Nørgaard; 2022/23: Kasper Schmeichel, Pierre Højbjerg, Rasmus Nicolaisen. The break dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="../../methodology/#series-model">§ Methodology</a>.</p>
+    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Danish players with ≥ 450 minutes in the Big-5 leagues each season since 1995/96, with the rise and the fall each dated by a change-point model.</p>
+    <p class="slide-did"><span class="slide-did-label">What we did</span> We counted, season by season, how many home-nation players had real playing time in Europe's five biggest leagues, then asked a change-point model for the most probable seasons of a lasting rise and a lasting fall, with a probability on each.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> FBref Big-5 player tables 1995/96 → 2025/26; peers on the same rule. The names are, for each of the three seasons with the highest counts, the Danish players with the most Big-5 minutes that season, goalkeepers included, listed as a record of presence and not as a quality ranking: 2025/26: Victor Nelsson, Morten Frendrup, Joachim Andersen; 2024/25: Morten Frendrup, Mikkel Damsgaard, Christian Nørgaard; 2022/23: Kasper Schmeichel, Pierre Højbjerg, Rasmus Nicolaisen. The dates come from a Bayesian local-level model with two ordered change points, one for the rise and one for the fall (Adams and MacKay, 2007); detail in <a href="../../methodology/#series-model">§ Methodology</a>.</p>
     </details>
-    <p class="slide-so">A federation tracking this would watch whether the post-break level holds for another season, not treat one break as final.</p>
+    <div class="slide-close">
+      <h3 class="slide-close-h">What this means</h3>
+      <p class="slide-means">The model’s most probable season for the rise is 2021/22 (posterior 23 %; level ×1.41, 90 % HDI 0.88–1.97). A break model describes the timing of a change in level; it identifies no cause, and the posterior says how sure the model is of the season. The forecast is the one registered item in the atlas and is scored only when the season’s tables are final.</p>
+      <h3 class="slide-close-h">What this does not show</h3>
+      <p class="slide-notshow">Players in leagues outside the Big-5 (the top-9 count on the per-head page is wider), why the level changed, and any season beyond the one registered forecast.</p>
+      <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit c28dc59 · code: <code>src/big5_series.py, src/series_model.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
     <p class="pool-link nations-link"><a href="/nations/#long-run">The same series for 17 countries since 1995/96, with two dated steps each →</a></p>
     <p class="pool-link nations-link"><a href="../../players/#generations">The nation by year of birth — who reached the Big-5, and where the exports come from →</a></p>
+    </div>
     
   </div>
 </section>
 
 <nav class="qpager container" aria-label="Questions">
-  <a class="qpager-prev" href="../../q/national-team/"><span class="qpager-dir">← Previous</span> What is the national-team squad built from?</a>
+  <a class="qpager-prev" href="../../q/national-team/"><span class="qpager-dir">← Previous</span> League tier of the UEFA Euro 2024 squad: Denmark and the peers at the tournament</a>
   <a class="qpager-home" href="../../">Back to the summary</a>
-  <a class="qpager-next" href="../../q/peers/"><span class="qpager-dir">Next →</span> How do Norway and Czechia do it?</a>
+  <a class="qpager-next" href="../../q/peers/"><span class="qpager-dir">Next →</span> Denmark, Norway and Czechia on seven pathway measures, 2025/26</a>
 </nav>
 </main>
 
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
-      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-kicker">Barbora Šandová</p>
+      <p class="role-body">Data and code are in the repository below. Corrections are welcome by e-mail.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -108,15 +115,11 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Photo credits (48 portraits, Wikimedia Commons)</summary>
+        <summary>Photo credits (33 portraits, Wikimedia Commons)</summary>
         <ul class="small">
           
           <li data-fbref-id="c78380e9" data-player-key="tonni adamsen|1994">
             Tonni Adamsen — <a href="https://commons.wikimedia.org/wiki/File:Tonni_Adamsen.jpg">Tonni_Adamsen.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e34fc66d" data-player-key="joachim andersen|1996">
-            Joachim Andersen — <a href="https://www.premierleague.com/players/26151/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="df525574" data-player-key="peter ankersen|1990">
@@ -125,14 +128,6 @@
           
           <li data-fbref-id="2f15cb71" data-player-key="hjalte bidstrup|2006">
             Hjalte Bidstrup — <a href="https://commons.wikimedia.org/wiki/File:Hjalte_Bidstrup,_20250808_(cropped).jpg">Hjalte_Bidstrup,_20250808_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="a1d95db3" data-player-key="mika biereth|2003">
-            Mika Biereth — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d328a254" data-player-key="philip billing|1996">
-            Philip Billing — <a href="https://www.premierleague.com/players/8882/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="1cdb21b9" data-player-key="jakob breum|2003">
@@ -155,10 +150,6 @@
             Henrik Dalsgaard — <a href="https://commons.wikimedia.org/wiki/File:Henrik_Dalsgaard_AaB_training.jpg">Henrik_Dalsgaard_AaB_training.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="215f3907" data-player-key="mikkel damsgaard|2000">
-            Mikkel Damsgaard — <a href="https://www.premierleague.com/players/49731/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6a0a13c8" data-player-key="kasper davidsen|2005">
             Kasper Davidsen — <a href="https://commons.wikimedia.org/wiki/File:2026-03-04_Kasper_Davidsen.jpg">2026-03-04_Kasper_Davidsen.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -169,14 +160,6 @@
           
           <li data-fbref-id="cc83b74d" data-player-key="kasper dolberg|1997">
             Kasper Dolberg — <a href="https://commons.wikimedia.org/wiki/File:Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg">Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e6536124" data-player-key="patrick dorgu|2004">
-            Patrick Dorgu — <a href="https://www.premierleague.com/players/146567/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="980522ec" data-player-key="christian eriksen|1992">
-            Christian Eriksen — <a href="https://www.premierleague.com/players/4845/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="762179d9" data-player-key="rasmus falk|1992">
@@ -211,10 +194,6 @@
             Sebastian Grønning — <a href="https://commons.wikimedia.org/wiki/File:220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg">220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="675261f8" data-player-key="conrad harder|2005">
-            Conrad Harder — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="d4456fb3" data-player-key="morten hjulmand|1999">
             Morten Hjulmand — <a href="https://commons.wikimedia.org/wiki/File:MortenHjulmandSporting24.jpg">MortenHjulmandSporting24.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -227,20 +206,8 @@
             Carlo Holse — <a href="https://commons.wikimedia.org/wiki/File:Carlo_Holse_(cropped).jpg">Carlo_Holse_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="7e598f96" data-player-key="lucas hogsberg|2006">
-            Lucas Høgsberg — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="8b04d6c1" data-player-key="pierre hojbjerg|1995">
             Pierre Højbjerg — <a href="https://commons.wikimedia.org/wiki/File:Pierre-Emile_Højbjerg.jpg">Pierre-Emile_Højbjerg.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="3e2bbae6" data-player-key="oscar hojlund|2005">
-            Oscar Højlund — <a href="https://www.bundesliga.com/en/player/oscar-hojlund">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="491a433d" data-player-key="rasmus hojlund|2003">
-            Rasmus Højlund — <a href="https://www.premierleague.com/players/122934/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="25355bd8" data-player-key="jonathan asp jensen|2006">
@@ -251,10 +218,6 @@
             Mathias Jørgensen — <a href="https://commons.wikimedia.org/wiki/File:Zanka_-_RSCA_(2024)_(cropped).jpg">Zanka_-_RSCA_(2024)_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="e25ef30a" data-player-key="thomas jorgensen|2005">
-            Thomas Jørgensen — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6e269dd3" data-player-key="mikkel kaufmann|2001">
             Mikkel Kaufmann — <a href="https://commons.wikimedia.org/wiki/File:Mikkel_Kaufmann.jpg">Mikkel_Kaufmann.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -263,16 +226,8 @@
             Emil Kornvig — <a href="https://commons.wikimedia.org/wiki/File:Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg">Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="39769cff" data-player-key="rasmus kristensen|1997">
-            Rasmus Kristensen — <a href="https://www.premierleague.com/players/15702/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="4722115c" data-player-key="alexander lyng|2004">
             Alexander Lyng — <a href="https://commons.wikimedia.org/wiki/File:Alexander_Lyng,_DK-NO,_04-09-2025.png">Alexander_Lyng,_DK-NO,_04-09-2025.png</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="4c90fabc" data-player-key="noah nartey|2005">
-            Noah Nartey — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="e53b5534" data-player-key="victor nelsson|1998">
@@ -283,16 +238,8 @@
             Casper Nielsen — <a href="https://commons.wikimedia.org/wiki/File:Casper_Nielsen_2016_olympics.jpg">Casper_Nielsen_2016_olympics.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="7b355808" data-player-key="william osula|2003">
-            William Osula — <a href="https://www.premierleague.com/players/114590/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="229da5b2" data-player-key="mileta rajovic|1999">
             Mileta Rajovic — <a href="https://commons.wikimedia.org/wiki/File:Mileta_Rajović_2024.jpg">Mileta_Rajović_2024.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="1fffae99" data-player-key="jens stage|1996">
-            Jens Stage — <a href="https://www.bundesliga.com/en/player/jens-stage">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="6d445ffc" data-player-key="asger sorensen|1996">
@@ -306,7 +253,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
+    <p class="rendered-at">Rendered: 2026-09-29 22:49</p>
   </div>
 </footer>
 

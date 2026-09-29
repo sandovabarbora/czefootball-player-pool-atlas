@@ -159,7 +159,7 @@
         const top = c.channels.slice().sort((a, b) => b.contribution - a.contribution)[0];
         const dir = c.gap_total >= 0 ? 'behind' : 'ahead of';
         // the source leaves shares empty when the gap is under its threshold: contributions only, no attribution
-        const attrib = top.share == null ? `the gap is too small to attribute (largest channel: ${CHANNEL[top.name]}, ${top.contribution >= 0 ? '+' : '−'}${Math.abs(top.contribution).toFixed(1)})` : `${CHANNEL[top.name]} carries ${pct(top.share)} of that gap`;
+        const attrib = top.share == null ? `the gap is too small to attribute (largest channel: ${CHANNEL[top.name]}, ${top.contribution >= 0 ? '+' : '−'}${Math.abs(top.contribution).toFixed(1)})` : `the largest contribution is ${CHANNEL[top.name]}, ${top.contribution >= 0 ? '+' : '−'}${Math.abs(top.contribution).toFixed(2)} per million (${pct(top.share)} of that gap; descriptive)`;
         return `${esc(e.name)} is ${Math.abs(c.gap_total).toFixed(1)} per million ${dir} ${esc(nameOf(c.contrast))}; ${attrib}`;
       });
       art.innerHTML = (home ? `<h3 class="nx-h3">${esc(e.name)} against its peers</h3>` : `<summary>${esc(e.name)} against its peers</summary>`) +

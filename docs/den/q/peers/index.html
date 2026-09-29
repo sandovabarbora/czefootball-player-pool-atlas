@@ -5,19 +5,19 @@
   <link rel="canonical" href="https://football.bsandova.com/den/q/peers/">
   <meta name="atlas-split" content="1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How do Norway and Czechia do it? · Danish football · Player pool atlas</title>
-  <meta name="description" content="Structural benchmark of the Danish professional football player pool against 8 peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.">
+  <title>Denmark, Norway and Czechia on seven pathway measures, 2025/26 · Danish football · Player pool atlas</title>
+  <meta name="description" content="The Danish professional football player pool against 8 peer countries: players per head in Europe's top-ranked leagues, cohort counts, youth minutes at home, moves abroad and the national-team squad. Exploratory and descriptive, from public data; not pre-registered.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css?v=202609291536">
-  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="../../style.css?v=202609292251">
+  <link rel="stylesheet" href="../../modern.css?v=202609292251">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../../charts.js?v=202609291536"></script>
-  <script defer src="../../atlas.js?v=202609291536"></script>
+  <script defer src="../../charts.js?v=202609292251"></script>
+  <script defer src="../../atlas.js?v=202609292251"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -28,20 +28,20 @@
     <details class="topbar-q" data-current>
       <summary>Questions</summary>
       <ol class="topbar-q-list">
-        <li><a href="../../q/why/">Why the train left</a></li>
-        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
-        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/why/">Five pathway measures: Denmark, Norway and Czechia, 2025/26</a></li>
+        <li><a href="../../q/per-head/">Players per million</a></li>
+        <li><a href="../../q/cohorts/">Cohort counts</a></li>
         <li><a href="../../q/youth/">Youth minutes at home</a></li>
-        <li><a href="../../q/abroad/">Where they go</a></li>
-        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
-        <li><a href="../../q/fare/">How they fare</a></li>
-        <li><a href="../../q/national-team/">National-team squad</a></li>
-        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/abroad/">Destinations abroad</a></li>
+        <li><a href="../../q/leaving-late/">Age at the first top-9 season and output over the first two seasons, 115 exports</a></li>
+        <li><a href="../../q/fare/">Minutes share abroad</a></li>
+        <li><a href="../../q/national-team/">National-team squad by tier</a></li>
+        <li><a href="../../q/break/">Big-5 count and its steps</a></li>
         <li><a href="../../q/peers/" aria-current="page">Norway and Czechia</a></li>
         <li><a href="../../q/goalkeepers/">Goalkeepers</a></li>
-        <li><a href="../../q/gap/">What the gap is made of</a></li>
-        <li><a href="../../q/cards/">Who the players are</a></li>
-        <li><a href="../../q/changes/">What changed in a year</a></li>
+        <li><a href="../../q/gap/">Gap decomposition</a></li>
+        <li><a href="../../q/cards/">Showcase cards and the pool</a></li>
+        <li><a href="../../q/changes/">Change since last season</a></li>
       </ol>
     </details>
     <a href="../../methodology/">Methodology</a>
@@ -61,15 +61,15 @@
 
 <section class="slide" id="q8">
   <div class="container">
-    <h2 class="slide-q">How do Norway and Czechia do it?</h2>
+    <h2 class="slide-q">Denmark, Norway and Czechia on seven pathway measures, 2025/26</h2>
     <p class="slide-a"></p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="slope">
         <img src="../../pathway_slope.svg" alt="Slope chart: Norway, Czechia and Denmark on six pathway metrics, each rescaled 0 (worst of the three) to 1 (best of the three), one line per country.">
-        <figcaption>How to read it: six measures, each rescaled so 0 is the worst of the three countries and 1 the best, one line per country. A line that stays high is a pathway that is open at every stage; where the green line dips is where Denmark loses ground.</figcaption>
+        <figcaption>How to read it: six measures, each rescaled so 0 is the worst of the three countries and 1 the best, one line per country. With only three countries the rescaling stretches any difference to the full height, including differences of a few tenths; read the raw values in the table.</figcaption>
       </figure>
       <details class="fold">
-        <summary>The six numbers, unscaled</summary>
+        <summary>The seven numbers, unscaled</summary>
         <table class="kv-table peer-compare" aria-label="Denmark, Norway and Czechia on six same-definition pathway numbers">
           <thead>
             <tr><th>Metric</th><th class="cohort-cze">DEN</th><th>NOR</th><th>CZE</th></tr>
@@ -105,7 +105,7 @@
             </tr>
             
             <tr>
-              <td>Export age (recent)</td>
+              <td>Age at first top-9 season (recent entrants)</td>
               
               
               <td class="cohort-cze">22</td>
@@ -176,30 +176,37 @@
             
           </tbody>
         </table>
+        <p class="capita-note">— : no value; for the squad row, the country did not play at the tournament.</p>
       </details>
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Norway and Czechia against Denmark on the same six 9-strongest-league pathway definitions, same seasons.</p>
-    <p class="slide-did"><span class="slide-did-label">What we did</span> We compared the home nation with the two comparison countries on six numbers, each one defined and measured in exactly the same way for all three.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> Same definitions, same seasons; a comparison, not a causal claim. Each metric is rescaled 0-1 across the three countries for the chart above, direction chosen so 1.0 is always the more open pathway (more players per million, more U21 minutes, an earlier export age, fewer sideways moves, a bigger minutes share abroad, more of the squad in the top-9); the table below keeps the raw numbers.</p>
+    <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Norway and Czechia against Denmark on the same seven pathway definitions, same seasons.</p>
+    <p class="slide-did"><span class="slide-did-label">What we did</span> We compared the home nation with the two comparison countries on seven numbers, each one defined and measured in exactly the same way for all three.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> Same definitions, same seasons; a comparison, not a causal claim. The chart rescales the first six measures 0–1 across the three countries, direction chosen so 1.0 is always the more open pathway (more players per million, more U21 minutes, an earlier age at the first top-9 season, fewer sideways moves, a bigger minutes share abroad, more of the squad in the top-9); the table keeps the raw numbers.</p>
     </details>
-    <p class="slide-so">A federation tracking this would watch which of the six numbers moves first, not the overall picture alone.</p>
+    <div class="slide-close">
+      <h3 class="slide-close-h">What this means</h3>
+      <p class="slide-means">The table gives the seven measures side by side, measured the same way for the three countries, so a difference in the table is a difference in the data. With three countries no measure can be tied statistically to the per-head count, and the rescaled chart exaggerates small differences.</p>
+      <h3 class="slide-close-h">What this does not show</h3>
+      <p class="slide-notshow">Why the three countries differ, how the measures move over time, and any country outside the three.</p>
+      <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit c28dc59 · code: <code>src/render.py (_build_peer_compare), src/pathways.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
+    </div>
   </div>
 </section>
 
 <nav class="qpager container" aria-label="Questions">
-  <a class="qpager-prev" href="../../q/break/"><span class="qpager-dir">← Previous</span> When did the train leave?</a>
+  <a class="qpager-prev" href="../../q/break/"><span class="qpager-dir">← Previous</span> Danish players with 450+ minutes in the Big-5 leagues per season, 1995/96 to 2025/26</a>
   <a class="qpager-home" href="../../">Back to the summary</a>
-  <a class="qpager-next" href="../../q/goalkeepers/"><span class="qpager-dir">Next →</span> Do goalkeepers follow a different path?</a>
+  <a class="qpager-next" href="../../q/goalkeepers/"><span class="qpager-dir">Next →</span> Danish goalkeepers in the top-9 leagues per million and their age at the first top-9 season, 2025/26</a>
 </nav>
 </main>
 
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
-      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-kicker">Barbora Šandová</p>
+      <p class="role-body">Data and code are in the repository below. Corrections are welcome by e-mail.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -211,15 +218,11 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Photo credits (48 portraits, Wikimedia Commons)</summary>
+        <summary>Photo credits (33 portraits, Wikimedia Commons)</summary>
         <ul class="small">
           
           <li data-fbref-id="c78380e9" data-player-key="tonni adamsen|1994">
             Tonni Adamsen — <a href="https://commons.wikimedia.org/wiki/File:Tonni_Adamsen.jpg">Tonni_Adamsen.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e34fc66d" data-player-key="joachim andersen|1996">
-            Joachim Andersen — <a href="https://www.premierleague.com/players/26151/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="df525574" data-player-key="peter ankersen|1990">
@@ -228,14 +231,6 @@
           
           <li data-fbref-id="2f15cb71" data-player-key="hjalte bidstrup|2006">
             Hjalte Bidstrup — <a href="https://commons.wikimedia.org/wiki/File:Hjalte_Bidstrup,_20250808_(cropped).jpg">Hjalte_Bidstrup,_20250808_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="a1d95db3" data-player-key="mika biereth|2003">
-            Mika Biereth — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d328a254" data-player-key="philip billing|1996">
-            Philip Billing — <a href="https://www.premierleague.com/players/8882/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="1cdb21b9" data-player-key="jakob breum|2003">
@@ -258,10 +253,6 @@
             Henrik Dalsgaard — <a href="https://commons.wikimedia.org/wiki/File:Henrik_Dalsgaard_AaB_training.jpg">Henrik_Dalsgaard_AaB_training.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="215f3907" data-player-key="mikkel damsgaard|2000">
-            Mikkel Damsgaard — <a href="https://www.premierleague.com/players/49731/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6a0a13c8" data-player-key="kasper davidsen|2005">
             Kasper Davidsen — <a href="https://commons.wikimedia.org/wiki/File:2026-03-04_Kasper_Davidsen.jpg">2026-03-04_Kasper_Davidsen.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -272,14 +263,6 @@
           
           <li data-fbref-id="cc83b74d" data-player-key="kasper dolberg|1997">
             Kasper Dolberg — <a href="https://commons.wikimedia.org/wiki/File:Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg">Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e6536124" data-player-key="patrick dorgu|2004">
-            Patrick Dorgu — <a href="https://www.premierleague.com/players/146567/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="980522ec" data-player-key="christian eriksen|1992">
-            Christian Eriksen — <a href="https://www.premierleague.com/players/4845/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="762179d9" data-player-key="rasmus falk|1992">
@@ -314,10 +297,6 @@
             Sebastian Grønning — <a href="https://commons.wikimedia.org/wiki/File:220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg">220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="675261f8" data-player-key="conrad harder|2005">
-            Conrad Harder — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="d4456fb3" data-player-key="morten hjulmand|1999">
             Morten Hjulmand — <a href="https://commons.wikimedia.org/wiki/File:MortenHjulmandSporting24.jpg">MortenHjulmandSporting24.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -330,20 +309,8 @@
             Carlo Holse — <a href="https://commons.wikimedia.org/wiki/File:Carlo_Holse_(cropped).jpg">Carlo_Holse_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="7e598f96" data-player-key="lucas hogsberg|2006">
-            Lucas Høgsberg — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="8b04d6c1" data-player-key="pierre hojbjerg|1995">
             Pierre Højbjerg — <a href="https://commons.wikimedia.org/wiki/File:Pierre-Emile_Højbjerg.jpg">Pierre-Emile_Højbjerg.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="3e2bbae6" data-player-key="oscar hojlund|2005">
-            Oscar Højlund — <a href="https://www.bundesliga.com/en/player/oscar-hojlund">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="491a433d" data-player-key="rasmus hojlund|2003">
-            Rasmus Højlund — <a href="https://www.premierleague.com/players/122934/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="25355bd8" data-player-key="jonathan asp jensen|2006">
@@ -354,10 +321,6 @@
             Mathias Jørgensen — <a href="https://commons.wikimedia.org/wiki/File:Zanka_-_RSCA_(2024)_(cropped).jpg">Zanka_-_RSCA_(2024)_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="e25ef30a" data-player-key="thomas jorgensen|2005">
-            Thomas Jørgensen — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6e269dd3" data-player-key="mikkel kaufmann|2001">
             Mikkel Kaufmann — <a href="https://commons.wikimedia.org/wiki/File:Mikkel_Kaufmann.jpg">Mikkel_Kaufmann.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -366,16 +329,8 @@
             Emil Kornvig — <a href="https://commons.wikimedia.org/wiki/File:Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg">Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="39769cff" data-player-key="rasmus kristensen|1997">
-            Rasmus Kristensen — <a href="https://www.premierleague.com/players/15702/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="4722115c" data-player-key="alexander lyng|2004">
             Alexander Lyng — <a href="https://commons.wikimedia.org/wiki/File:Alexander_Lyng,_DK-NO,_04-09-2025.png">Alexander_Lyng,_DK-NO,_04-09-2025.png</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="4c90fabc" data-player-key="noah nartey|2005">
-            Noah Nartey — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="e53b5534" data-player-key="victor nelsson|1998">
@@ -386,16 +341,8 @@
             Casper Nielsen — <a href="https://commons.wikimedia.org/wiki/File:Casper_Nielsen_2016_olympics.jpg">Casper_Nielsen_2016_olympics.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="7b355808" data-player-key="william osula|2003">
-            William Osula — <a href="https://www.premierleague.com/players/114590/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="229da5b2" data-player-key="mileta rajovic|1999">
             Mileta Rajovic — <a href="https://commons.wikimedia.org/wiki/File:Mileta_Rajović_2024.jpg">Mileta_Rajović_2024.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="1fffae99" data-player-key="jens stage|1996">
-            Jens Stage — <a href="https://www.bundesliga.com/en/player/jens-stage">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="6d445ffc" data-player-key="asger sorensen|1996">
@@ -409,7 +356,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
+    <p class="rendered-at">Rendered: 2026-09-29 22:49</p>
   </div>
 </footer>
 
