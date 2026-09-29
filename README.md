@@ -63,14 +63,19 @@ Each stage is its own target (`make fetch`, `make pool`, `make photos`,
 without refetching anything:
 
 ```bash
-uv sync && make restore-snapshot && make render && make pages
+uv sync && make restore-snapshot && make figures && make pages
 ```
 
+`make figures` refits the models (seeded, so the outputs match the snapshot;
+about 15 minutes an edition) and redraws the figures `site/build.sh` needs.
+The front-page findings read `outputs/nations/nations.json`: run
+`make restore-snapshot && make figures` for every edition, then
+`make nations`, then `make pages` per edition.
+
 `make restore-snapshot` copies the snapshot into `data/processed/` without
-overwriting a newer processed file. Plain `make render` also works on a
-clean clone: every reader of a processed file falls back to the snapshot
-copy when the processed one is missing, and the cohort heatmap is redrawn
-from the tables when `outputs/intl_cohort_heatmap.svg` is absent.
+overwriting a newer processed file. `make render` alone also works on a
+clean clone (every reader of a processed file falls back to the snapshot
+copy), but `site/build.sh` stops without the model figures.
 
 `make fetch` (part of `make all`) opens a real Chrome window per FBref page
 (`soccerdata`'s undetected-Chrome mode) and takes roughly an hour cold — only

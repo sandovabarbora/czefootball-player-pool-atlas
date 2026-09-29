@@ -43,6 +43,8 @@ changelog:
     - 'Methodology: data availability with sources, snapshot dates and licence notes; reproduction commands, snapshot commit and seeds; all limitations in one list; references with access dates, DOIs and
       the data sources (FBref, soccerdata, Wikipedia, Wikidata, Eurostat demo_pjan, UEFA). The review and ruling counts and the build-flow section were replaced by a line on the automated tests; the tracking-data
       demonstration was removed.'
+    - 'Reproduction: the rebuild command now includes make figures, which refits the seeded models from the snapshot and redraws the figures; without it a clean clone stopped at the missing figures.'
+    - 'Cross-edition page: the decomposition section is retitled from “why a nation lags” to a description of the split, “mechanism” wording is replaced by “channel”, and each contrast is labelled as a gap in players per million.'
   - date: '2026-09-29'
     nations:
     - cze

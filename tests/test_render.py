@@ -299,7 +299,7 @@ def test_toc_lists_nine_questions_then_explore_then_method():
             assert f'href="#q{n}"' in frag, n
         assert 'href="#explore"' in frag
     assert 'id="findings"' not in html
-    assert 'id="data-quality"' in html and 'id="checks"' in html and 'id="how-built"' not in html
+    assert 'id="data-quality"' in html and 'id="checks"' in html and '<h3 id="how-built">' not in html
 
 
 def test_checks_section_counts_tests_and_claims_no_review():

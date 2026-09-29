@@ -427,7 +427,8 @@ if "take" in blocks:
                    f'<p class="finding-link"><a href="q/{dest}/">Read the evidence →</a></p></div></li>')
     kicker = re.search(r'<p class="close-kicker">.*?</p>', t, re.S).group(0)
     line = re.search(r'<p class="close-line take-line">.*?</p>', t, re.S)
-    front.append('<section class="take" id="take">\n  <div class="container">\n    ' + kicker
+    # `for-federation`: the retired block's anchor lands on the findings (old links keep working)
+    front.append('<section class="take" id="take">\n  <span id="for-federation"></span>\n  <div class="container">\n    ' + kicker
                  + '\n    <ol class="findings">\n      ' + "\n      ".join(lis) + "\n    </ol>\n    "
                  + (line.group(0) if line else "") + "\n  </div>\n</section>")
 if "colophon" in blocks:

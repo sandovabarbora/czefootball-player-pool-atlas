@@ -1,4 +1,4 @@
-.PHONY: help install fetch fetch-big5 fetch-history edition nations pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers facts
+.PHONY: help figures install fetch fetch-big5 fetch-history edition nations pool photos features reduce benchmark series analogs sensitivity strength compare pathways eda data-quality render all clean test test-all-nations lint check snapshot restore-snapshot share-tables pages keepers goalkeepers facts
 
 # NATION selects the home nation for every target below (default: cze) --
 # it is read straight from the environment by src/config.py, so
@@ -40,6 +40,7 @@ help:
 	@echo "  facts            Pipeline facts for the why-funnel: club breadth of youth minutes, league age structure, age at first move abroad"
 	@echo "  eda              One raw row to a feature vector: cleaning ledger link, rejected candidates, two EDA figures"
 	@echo "  data-quality     Recompute the data-quality log checks"
+	@echo "  figures          Refit the models and redraw the figures from the restored snapshot (clean clone, before pages)"
 	@echo "  render           Render the HTML report (en + cs)"
 	@echo "  all              fetch -> pool -> photos -> features -> reduce -> benchmark -> series -> analogs -> sensitivity -> strength -> compare -> pathways -> keepers -> goalkeepers -> panel -> gap -> eda -> data-quality -> render"
 	@echo "  pages            render, then build the site (docs/ for cze, docs/\$$(NATION) otherwise) with site/build.sh"
@@ -154,6 +155,22 @@ eda:
 
 data-quality:
 	$(ACT) python -m src.data_quality
+
+# Refit the models and redraw the figures from the restored snapshot (no
+# network): what a clean clone needs before `make pages`. PyMC fits are seeded,
+# so the model outputs match the snapshot; ~15 min per edition.
+figures:
+	$(ACT) python -m src.big5_series
+	$(ACT) python -m src.series_model
+	$(ACT) python -m src.league_strength
+	$(ACT) python -m src.model_comparison
+	$(ACT) python -m src.feature_eda
+	$(ACT) python -m src.goalkeepers
+	$(ACT) python -m src.youth_panel
+	$(ACT) python -m src.gap_decomposition
+	$(ACT) python -m src.export_age_model
+	$(ACT) python -m src.charts_export
+	$(ACT) python -m src.careers_export
 
 render: data-quality
 	$(ACT) python -m src.render

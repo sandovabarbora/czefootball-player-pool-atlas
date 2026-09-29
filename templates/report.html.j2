@@ -2349,6 +2349,8 @@
       {% endif %}
     </ul>
 
+    {# retired sections' anchors (build flow, tracking demo, removed 29 September 2026) land here #}
+    <span id="how-built"></span><span id="tracking"></span>
     <h3 id="reproducibility">{{ t('ch4.repro.h3') }}</h3>
     <p>{{ t('ch4.repro.p', url=repo_url, url_short=repo_url | replace('https://', ''), seed=seed, snapshot=journal.snapshot_commit, fetched=journal.fetched) }}</p>
     <p>{{ t('ch4.repro.bq', url=repo_url) }}</p>

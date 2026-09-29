@@ -102,6 +102,7 @@ def edition_summary(nation: str) -> dict | None:
         fa = next((x for x in paths.get("fare", []) if x["country"] == c), {})
         mech[c] = {"per_million": r["per_million"], "share_u21": y.get("share_u21"), "regulars_per_club": st.get("regulars_per_club"),
                    "first_move_age": f.get("median_age"), "first_move_n": f.get("n"), "fare_min_share": fa.get("median_min_share"),
+                   "fare_lo": fa.get("min_share_lo"), "fare_hi": fa.get("min_share_hi"), "fare_n": fa.get("n"),
                    "multiplier": mult.get(y.get("league") or st.get("league") or "")}
     contrasts = []
     gpanel = {r["country"]: r for r in (gap or {}).get("panel", [])}
@@ -386,7 +387,7 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
         parts = []
         for c in dec["contrasts"]:
             ch = {x["name"]: x for x in c["channels"]}
-            parts.append(f"against {name(c['contrast'])} ({_f2(c['gap_total'])} per million) youth minutes go with {_signed(ch['u21_share']['contribution'])} "
+            parts.append(f"against {name(c['contrast'])} (a gap of {_f2(c['gap_total'])} per million) youth minutes go with {_signed(ch['u21_share']['contribution'])} "
                          f"(90 % bootstrap interval {_signed(ch['u21_share']['lo'])} to {_signed(ch['u21_share']['hi'])}), league strength with "
                          f"{_signed(ch['league_strength']['contribution'])} ({_signed(ch['league_strength']['lo'])} to {_signed(ch['league_strength']['hi'])}) "
                          f"and export age with {_signed(ch['export_age']['contribution'])}, residual {_signed(c['residual'])}")
@@ -480,14 +481,16 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
             lines.append(f"home-league UEFA-coefficient multiplier ×{h['multiplier']:.2f}, {r[0]} of {r[1]}")
         r = rank("fare_min_share")
         if r:
-            lines.append(f"median share of club minutes for exports {h['fare_min_share'] * 100:.0f} %, {r[0]} of {r[1]}")
+            lines.append(f"median share of club minutes for exports {h['fare_min_share'] * 100:.0f} %"
+                         + (f" (90 % bootstrap interval {h['fare_lo'] * 100:.0f}–{h['fare_hi'] * 100:.0f} %, n = {h['fare_n']})" if h.get("fare_lo") is not None else "")
+                         + f", {r[0]} of {r[1]} by the median")
         og = ed.get("origins")
         if og and og["n"] >= 10:
             lines.append(f"{og['top2_share'] * 100:.0f} % of the {og['n']} players who went from the home league to a top-9 league since {season_slash(og['from'])} left from {' or '.join(og['top2'])}")
         if lines:
             items.append({
                 "head": f"Where {name(home)} ranks among {n_all} countries on the pathway measures, {season_slash(recent['seasons'][-1]) if recent else ''} (1 = highest share, youngest age, most moves).",
-                "body": "; ".join(lines)[:1].upper() + "; ".join(lines)[1:] + ". These are descriptive ranks on medians and counts without intervals, so neighbouring ranks can swap with a few players; none of them is shown to cause the per-head count.",
+                "body": "; ".join(lines)[:1].upper() + "; ".join(lines)[1:] + ". These are descriptive ranks on medians and counts; apart from the minutes share they carry no interval, so neighbouring ranks can swap with a few players; none of them is shown to cause the per-head count.",
             })
     # 5 · the two documented reforms, as sequences
     if long and long.get("youth") and reforms:
