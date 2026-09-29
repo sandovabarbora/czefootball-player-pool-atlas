@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en" data-home="ENG">
+<head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="https://football.bsandova.com/eng/q/why/">
+  <meta name="atlas-split" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why the train left · English football · Player pool atlas</title>
+  <meta name="description" content="Structural benchmark of the English professional football player pool against 7 peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css?v=202609291536">
+  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+  <script defer src="../../charts.js?v=202609291536"></script>
+  <script defer src="../../atlas.js?v=202609291536"></script>
+</head>
+<body id="top">
+<nav class="topbar" aria-label="Navigation">
+  <a class="topbar-brand" href="../../">English Football <span>Atlas</span></a>
+  <button type="button" class="menu-btn" aria-controls="site-menu" aria-expanded="false">Menu</button>
+  <div class="topbar-links" id="site-menu">
+    <a href="../../">Summary</a>
+    <details class="topbar-q" data-current>
+      <summary>Questions</summary>
+      <ol class="topbar-q-list">
+        <li><a href="../../q/why/" aria-current="page">Why the train left</a></li>
+        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
+        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/youth/">Youth minutes at home</a></li>
+        <li><a href="../../q/abroad/">Where they go</a></li>
+        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
+        <li><a href="../../q/fare/">How they fare</a></li>
+        <li><a href="../../q/national-team/">National-team squad</a></li>
+        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/peers/">France and Spain</a></li>
+        <li><a href="../../q/goalkeepers/">Goalkeepers</a></li>
+        <li><a href="../../q/gap/">What the gap is made of</a></li>
+        <li><a href="../../q/cards/">Who the players are</a></li>
+        <li><a href="../../q/changes/">What changed in a year</a></li>
+      </ol>
+    </details>
+    <a href="../../methodology/">Methodology</a>
+    <a href="../../players/">Players</a>
+    <a href="/nations/">Nations</a>
+    <p class="menu-switch" aria-label="Atlas"><a href="/q/why/">CZE</a> · <span aria-current="page">ENG</span> · <a href="/ger/q/why/">GER</a> · <a href="/den/q/why/">DEN</a> · <a href="/nor/q/why/">NOR</a> · <a href="/esp/q/why/">ESP</a></p>
+  </div>
+  <div class="atlas-switch" aria-label="Atlas">
+    <a href="/q/why/">CZE</a> · <span aria-current="page">ENG</span> · <a href="/ger/q/why/">GER</a> · <a href="/den/q/why/">DEN</a> · <a href="/nor/q/why/">NOR</a> · <a href="/esp/q/why/">ESP</a>
+  </div>
+</nav>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main" class="page page-q">
+<div class="qpage-head container"><p class="qpage-crumb"><a href="../../">Summary</a> · Question 1 of 14</p></div>
+
+<section class="why-funnel" id="why-funnel">
+  <div class="container">
+    <h2>Why the train left</h2>
+    <p class="funnel-lead">Five numbers, in the order they build on each other, show where the pool of players available to the national team gets thin. Each one is shown for English football and for the two countries used as a comparison throughout this report; each links to the part of the report that shows the full evidence.</p>
+    <figure class="figure-bleed" data-chart="funnel">
+      <img src="../../why_funnel.svg" alt="Five-stage funnel: English football next to France and Spain on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.">
+      <figcaption>How to read it: one rung per stage of the argument, each on its own scale, so the dots show the distance between countries, not the size of the number. The filled green dot is England; the open dots are the two comparison countries. Under each rung is which direction means a more open pathway. Hover a dot for the exact value.</figcaption>
+    </figure>
+    <ol class="funnel-stages">
+      <li class="funnel-stage">
+        <a href="../../q/youth/#q3"><p class="funnel-stage-line">Young players do not get much of the playing time in the country's own top league.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Share of league minutes that went to players aged 21 or under</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 3.0 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> 8.8 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> 4.8 %</span>
+            
+          </div>
+        </div>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Clubs that gave those young players more than a tenth of their own playing time</p>
+          <div class="funnel-metric-row">
+            
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 10 of 20 clubs</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> 14 of 18 clubs</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> 7 of 20 clubs</span>
+            
+          </div>
+        </div>
+        
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Under-21 nationals who were regular starters, per club in the league</p>
+          <div class="funnel-metric-row">
+            
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 0.50 per club (10 players)</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> 1.28 per club (23 players)</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> 0.70 per club (14 players)</span>
+            
+          </div>
+        </div>
+        
+        <p class="funnel-note funnel-note-small">The regular-starter line is drawn at ten starts; at five it is 0.8 per club, at fifteen 0.4 (ten: 0.5).</p>
+        <p class="funnel-note">The shortage is one of selection, not of late cameos: 2.9 % of the league’s starts went to them against 3.0 % of its minutes, so they are picked to start about as often as they are played at all. They are, though, taken off early — 72 minutes in a start against the league’s own 82.</p>
+        
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/youth/#q3"><p class="funnel-stage-line">The league those minutes are missing from is, on average, an old one.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Average age of a minute played in the league</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 26.1</span>
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> 25.6</span>
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> 26.9</span>
+            
+          </div>
+        </div>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Share of league minutes that went to players aged 30 or over</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 16.7 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> 20.2 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> 28.9 %</span>
+            
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/leaving-late/#q4b"><p class="funnel-stage-line">So the first move to a foreign league, when it happens, comes late.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Age the first time a player has real playing time in a foreign league, over the players abroad today</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 22 years <span class="muted small">(49 players)</span></span>
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> 23 years <span class="muted small">(205 players)</span></span>
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> 25 years <span class="muted small">(132 players)</span></span>
+            
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/abroad/#q4"><p class="funnel-stage-line">And the move, when it happens, is often not a step up.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Share of moves abroad to a league no stronger than the player's own</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 100 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> —</span>
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> —</span>
+            
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/per-head/#q1"><p class="funnel-stage-line">The layer of players in Europe's strongest leagues stays thin, and it fell sharply once.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Players in Europe's strongest leagues, for every million people</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">ENG</span> 3.60</span>
+            
+            <span class="funnel-country"><span class="capita-code">FRA</span> 5.79</span>
+            
+            <span class="funnel-country"><span class="capita-code">ESP</span> 9.54</span>
+            
+          </div>
+        </div>
+        
+        <p class="funnel-metric-note">Around the 2007/08 season, the model finds a possible shift in the count of English players in Europe's strongest leagues, with 11 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="../../q/break/#q7">Break & forecast</a>.</p>
+        
+      </li>
+    </ol>
+    
+    <p class="funnel-take-one-thing">
+      
+      
+      
+      If you take one thing from this: the single measured link that carries the most of the gap is different for each comparison — how strong the domestic league is for France, how old players are when they move abroad for Spain. That is one decomposition over 8 countries — a description of the gap, not a weight to plan by.
+      
+    </p>
+    
+    <details class="fold funnel-caveats">
+      <summary>What this does not show</summary>
+      <ul>
+        <li>Money: transfer fees, wages and academy budgets play no part in any number above.</li>
+        <li>How the academy and coaching set-up actually work day to day, which no public data source used here can see.</li>
+        <li>Agents, and how a move abroad actually gets arranged, which happens off any table this pipeline can read.</li>
+        <li>The direction of the arrow: a low share of playing time for young players at home could help cause a thin generation, or just as easily be a symptom of one — the five numbers above are associations measured the same way for every country.</li>
+        
+      </ul>
+    </details>
+  </div>
+</section>
+
+<section class="explore qpage-evidence">
+  <div class="container">
+    <h2>Explore the data</h2>
+    <details class="fold" open>
+      <summary>Why does the train leave?</summary>
+      <div class="explore-block">
+    <h3 id="pathways">Why does the train leave?</h3>
+    <p>Four exhibits comparing England with 7 peer countries: youth exposure at home, export route, how exports fare, and who made it.</p>
+
+    <h4>Exhibit A — youth exposure at home</h4>
+    <p>Share of a domestic league's total minutes played by its own nationals aged 21 or under, 2025/26.</p>
+    
+    
+    <p class="capita-note">* Σ minutes of players with the league country's nationality and age ≤ 21 at the season's start ÷ Σ minutes of all players in the league, 2025/26. Under-23 shares: NED 24.2 %, FRA 14.4 %, BEL 16.4 %, GER 10.9 %, POR 9.1 %, ESP 16.9 %, ENG 6.4 %, ITA 7.3 %. A league without a bar is not covered by FBref.</p>
+
+    <h4>Exhibit B — export route</h4>
+    <p>
+      For every peer-country player on a 2026/27 top-9 roster: the age at the first top-9 season (full roster, and recent entrants only) and, for recent entrants, the league of the season before it. Not informative for this nation: Premier League and every peer's own league are themselves top-9 leagues, so the domestic / top-9 split has no content here; the exhibit is kept for comparability with other nations.
+      English exports: 154 players, median export age 21 (recent entrants 29, median 20), 0 % of the recent ones straight from the Premier League*.
+    </p>
+    <table class="kv-table">
+      <thead>
+        <tr>
+          <th>Country</th><th>n</th><th>Recent</th>
+          <th>Export age (all)</th><th>Export age (recent)</th>
+          <th>Domestic</th><th>Stepping stone</th><th>Other top-9</th><th>Not covered</th>
+          <th>Censored</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="cohort-cze">
+          <td><span class="capita-code">ENG</span> England</td>
+          <td>154</td>
+          <td>29</td>
+          <td>21</td>
+          <td>20</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>100 %</td>
+          <td class="muted">39 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">FRA</span> France</td>
+          <td>313</td>
+          <td>107</td>
+          <td>21</td>
+          <td>21</td>
+          <td>0 %</td>
+          <td>2 %</td>
+          <td>0 %</td>
+          <td>98 %</td>
+          <td class="muted">34 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">GER</span> Germany</td>
+          <td>208</td>
+          <td>63</td>
+          <td>22.5</td>
+          <td>22</td>
+          <td>0 %</td>
+          <td>57 %</td>
+          <td>0 %</td>
+          <td>43 %</td>
+          <td class="muted">36 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">ESP</span> Spain</td>
+          <td>368</td>
+          <td>98</td>
+          <td>22</td>
+          <td>21.5</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>100 %</td>
+          <td class="muted">33 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">ITA</span> Italy</td>
+          <td>144</td>
+          <td>36</td>
+          <td>21</td>
+          <td>22</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>100 %</td>
+          <td class="muted">32 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">NED</span> Netherlands</td>
+          <td>268</td>
+          <td>78</td>
+          <td>20</td>
+          <td>20.5</td>
+          <td>0 %</td>
+          <td>3 %</td>
+          <td>0 %</td>
+          <td>97 %</td>
+          <td class="muted">29 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">POR</span> Portugal</td>
+          <td>176</td>
+          <td>40</td>
+          <td>20.5</td>
+          <td>20.5</td>
+          <td>0 %</td>
+          <td>5 %</td>
+          <td>0 %</td>
+          <td>95 %</td>
+          <td class="muted">36 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">BEL</span> Belgium</td>
+          <td>208</td>
+          <td>55</td>
+          <td>20</td>
+          <td>20</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>100 %</td>
+          <td class="muted">32 %</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">
+      * Export age = age at the first season in any headline league, history back to 2020/21; a first appearance already in 2020/21 is censored. Recent entrants: first top-9 season 2025/26 or 2026/27, the only ones whose previous season lies inside the fetched window (2024/25 onwards for peer domestic leagues). Stepping-stone leagues: NED-Eredivisie, BEL-Pro League, POR-Primeira Liga, TUR-Süper Lig, GER-2. Bundesliga. Not covered: no earlier row in the data.
+    </p>
+
+    <h4>Exhibit C — how the exports fare</h4>
+    <p>Peer-country players at a top-9 club in 2025/26: median share of the club's minutes, and the club's strength within its league.</p>
+    
+    <div class="capita" role="list" aria-label="Median club goals-scored percentile of exports' clubs, by country">
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.6; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">ESP</span>
+          Spain <span class="muted small">n = 464</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">60 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.6; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">POR</span>
+          Portugal <span class="muted small">n = 268</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">60 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.594; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">BEL</span>
+          Belgium <span class="muted small">n = 253</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">59 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           data-highlight="cze"
+           style="--value: 0.553; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">ENG</span>
+          England <span class="muted small">n = 208</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">55 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.5; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">GER</span>
+          Germany <span class="muted small">n = 262</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">50 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.475; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">NED</span>
+          Netherlands <span class="muted small">n = 372</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">48 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.472; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">FRA</span>
+          France <span class="muted small">n = 395</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">47 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.45; --max: 0.6;">
+        <div class="capita-country">
+          <span class="capita-code">ITA</span>
+          Italy <span class="muted small">n = 201</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">45 %</div>
+      </div>
+      
+    </div>
+    <p class="capita-note">* Minutes share = player minutes ÷ (club matches × 90), 2025/26, one row per player-season. Club strength proxy: goals-scored percentile within league — clubs ranked by the goals their own roster scored that season (ClubElo was unreachable at run time). Both are medians over the country's exports; n per country in the bars.</p>
+
+    <h4>Exhibit D — profile of those who made it</h4>
+    <p>Goals + assists per 90, league-adjusted, in 2025/26 by the tier of the player's own league: domestic, stepping stone, top-9, or another covered league. English count and median against the median of the peer countries' values. Not informative for this nation: Premier League and every peer's own league are themselves top-9 leagues, so the domestic / top-9 split has no content here; the exhibit is kept for comparability with other nations.</p>
+    <details class="fold fold-table">
+      <summary>Profile table by tier and position group</summary>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Tier</th><th>Group</th><th>ENG n</th><th>ENG median</th><th>Peer median n</th><th>Peer median</th></tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>stepping-stone league</td>
+            <td>FW</td>
+            <td class="cohort-cze">0</td>
+            <td class="cohort-cze">—</td>
+            <td>2</td>
+            <td>0.22</td>
+          </tr>
+          
+          <tr>
+            <td>stepping-stone league</td>
+            <td>MF</td>
+            <td class="cohort-cze">0</td>
+            <td class="cohort-cze">—</td>
+            <td>3</td>
+            <td>0.09</td>
+          </tr>
+          
+          <tr>
+            <td>stepping-stone league</td>
+            <td>DF</td>
+            <td class="cohort-cze">0</td>
+            <td class="cohort-cze">—</td>
+            <td>1</td>
+            <td>0.03</td>
+          </tr>
+          
+          <tr>
+            <td>top-9 league</td>
+            <td>FW</td>
+            <td class="cohort-cze">19</td>
+            <td class="cohort-cze">0.32</td>
+            <td>26</td>
+            <td>0.28</td>
+          </tr>
+          
+          <tr>
+            <td>top-9 league</td>
+            <td>MF</td>
+            <td class="cohort-cze">64</td>
+            <td class="cohort-cze">0.21</td>
+            <td>84</td>
+            <td>0.14</td>
+          </tr>
+          
+          <tr>
+            <td>top-9 league</td>
+            <td>DF</td>
+            <td class="cohort-cze">51</td>
+            <td class="cohort-cze">0.08</td>
+            <td>64</td>
+            <td>0.05</td>
+          </tr>
+          
+          <tr>
+            <td>other covered league</td>
+            <td>FW</td>
+            <td class="cohort-cze">5</td>
+            <td class="cohort-cze">0.12</td>
+            <td>6</td>
+            <td>0.14</td>
+          </tr>
+          
+          <tr>
+            <td>other covered league</td>
+            <td>MF</td>
+            <td class="cohort-cze">1</td>
+            <td class="cohort-cze">0.13</td>
+            <td>7</td>
+            <td>0.08</td>
+          </tr>
+          
+          <tr>
+            <td>other covered league</td>
+            <td>DF</td>
+            <td class="cohort-cze">4</td>
+            <td class="cohort-cze">0.02</td>
+            <td>11</td>
+            <td>0.03</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+    <p class="capita-note">* Tier = the league of the player's own 2025/26 season. Peer median n and peer median are medians across the peer countries present in that tier and group; a tier a country has no player in is absent, not zero.</p>
+
+    
+    
+    <h4>Exhibit E — where English exports go</h4>
+    <p>Of the 144 mapped English players, 48 play outside the Premier League.</p>
+    
+    <ul class="small dest-examples">
+      
+      <li><span class="capita-code">top-9</span> <code>Christian Burgess · Lloyd Kelly · Ross Sykes</code></li>
+      
+      <li><span class="capita-code">other</span> <code>Luis Binks · Luke Plange · Nathan Butler-Oyedeji</code></li>
+      
+    </ul>
+    <p class="capita-note">* Buckets by the league of the player's own 2025/26 season; a player is counted once per position group, like everywhere else on the page, so one with rows in two groups counts in each; the number in front of each bar is the player count, the median multiplier is the bucket's median league multiplier. Sideways: destination league multiplier &lt;= the domestic league&#39;s multiplier.</p>
+    
+    
+
+    
+    
+    <h4 id="exhibit-f">F · The 2026 FIFA World Cup squad by league tier</h4>
+    
+    
+    <p>
+      Where the 26 players named to the 2026 FIFA World Cup squad played in 2025/26, next to Germany, France, Spain, Netherlands, Belgium, Portugal. Tier = the league of the player's most-minutes 2025/26 row.
+    </p>
+    <details class="fold fold-table">
+      <summary>Minutes, multipliers and age cohorts by country</summary>
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Median minutes</th><th>Median multiplier</th>
+            <th>U22</th><th>23–25</th>
+            <th>26–29</th><th>30+</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr class="cohort-cze">
+            <td><span class="capita-code">ENG</span> England</td>
+            <td>2199</td>
+            <td>1.000</td>
+            <td>2</td>
+            <td>8</td>
+            <td>9</td>
+            <td>7</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">GER</span> Germany</td>
+            <td>2208.5</td>
+            <td>0.788</td>
+            <td>2</td>
+            <td>8</td>
+            <td>4</td>
+            <td>12</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">FRA</span> France</td>
+            <td>2316</td>
+            <td>0.807</td>
+            <td>3</td>
+            <td>7</td>
+            <td>10</td>
+            <td>6</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">ESP</span> Spain</td>
+            <td>2181</td>
+            <td>0.807</td>
+            <td>3</td>
+            <td>8</td>
+            <td>7</td>
+            <td>8</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">NED</span> Netherlands</td>
+            <td>1903</td>
+            <td>1.000</td>
+            <td>1</td>
+            <td>7</td>
+            <td>11</td>
+            <td>7</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">BEL</span> Belgium</td>
+            <td>2034</td>
+            <td>0.807</td>
+            <td>4</td>
+            <td>8</td>
+            <td>5</td>
+            <td>9</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">POR</span> Portugal</td>
+            <td>2226</td>
+            <td>0.807</td>
+            <td>1</td>
+            <td>6</td>
+            <td>11</td>
+            <td>8</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+    <p class="capita-note">* 8 squad players have no 2025/26 row in the fetched leagues and are counted as unmatched.</p>
+    
+      </div>
+    </details>
+  </div>
+</section>
+
+<nav class="qpager container" aria-label="Questions">
+  <span class="qpager-prev"></span>
+  <a class="qpager-home" href="../../">Back to the summary</a>
+  <a class="qpager-next" href="../../q/per-head/"><span class="qpager-dir">Next →</span> Is the English pool thin?</a>
+</nav>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="role-block">
+      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
+      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-author">
+        <span class="role-author-name">Barbora Šandová</span>
+        <span class="role-author-contact">
+          <a href="mailto:hello@bsandova.com">hello@bsandova.com</a>
+          &middot;
+          <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>
+        </span>
+      </p>
+    </div>
+    <div class="photo-credits" id="photo-credits">
+      <details class="fold">
+        <summary>Photo credits (88 portraits, Wikimedia Commons)</summary>
+        <ul class="small">
+          
+          <li data-fbref-id="f586779e" data-player-key="tammy abraham|1997">
+            Tammy Abraham — <a href="https://www.premierleague.com/players/13286/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c81d773d" data-player-key="tosin adarabioyo|1997">
+            Tosin Adarabioyo — <a href="https://www.premierleague.com/players/13549/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="cd1acf9d" data-player-key="trent alexander-arnold|1998">
+            Trent Alexander-Arnold — <a href="https://www.premierleague.com/players/14732/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="de31038e" data-player-key="elliot anderson|2002">
+            Elliot Anderson — <a href="https://www.premierleague.com/players/51593/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e4238fb1" data-player-key="jaidon anthony|1999">
+            Jaidon Anthony — <a href="https://www.premierleague.com/players/50460/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="68c720b5" data-player-key="adam armstrong|1997">
+            Adam Armstrong — <a href="https://commons.wikimedia.org/wiki/File:Southampton_Starting_Eleven_22112025_(1)_(cropped_Adam_Armstrong).jpg">Southampton Starting Eleven 22112025 (1) (cropped Adam Armstrong).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3ea50f67" data-player-key="harvey barnes|1997">
+            Harvey Barnes — <a href="https://www.premierleague.com/players/14716/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="57d88cf9" data-player-key="jude bellingham|2003">
+            Jude Bellingham — <a href="https://www.laliga.com/en-GB/player/jude-bellingham">LaLiga, official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c88ff68d" data-player-key="jobe bellingham|2005">
+            Jobe Bellingham — <a href="https://www.bundesliga.com/en/player/jobe-bellingham">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="79c84d1c" data-player-key="jarrod bowen|1996">
+            Jarrod Bowen — <a href="https://www.premierleague.com/players/8868/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f8766ef9" data-player-key="christian burgess|1991">
+            Christian Burgess — <a href="https://commons.wikimedia.org/wiki/File:Christian_Burgess_(2026).jpg">Christian Burgess (2026).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b2d31e83" data-player-key="dan burn|1992">
+            Dan Burn — <a href="https://www.premierleague.com/players/8707/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="59e6e5bf" data-player-key="dominic calvert-lewin|1997">
+            Dominic Calvert-Lewin — <a href="https://www.premierleague.com/players/9576/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="5515376c" data-player-key="trevoh chalobah|1999">
+            Trevoh Chalobah — <a href="https://www.premierleague.com/players/14575/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d2424d1b" data-player-key="ben chilwell|1996">
+            Ben Chilwell — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="2afc7272" data-player-key="lewis cook|1997">
+            Lewis Cook — <a href="https://www.premierleague.com/players/10766/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4654e5f5" data-player-key="charlie cresswell|2002">
+            Charlie Cresswell — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6d0ea6d9" data-player-key="max dean|2004">
+            Max Dean — <a href="https://commons.wikimedia.org/wiki/File:Max_Dean_(2026).jpg">Max Dean (2026).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="dd897ee7" data-player-key="liam delap|2003">
+            Liam Delap — <a href="https://www.premierleague.com/players/51813/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="5c74c0f5" data-player-key="kiernan dewsbury-hall|1998">
+            Kiernan Dewsbury-Hall — <a href="https://www.premierleague.com/players/14706/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="282f75f3" data-player-key="lewis dunk|1991">
+            Lewis Dunk — <a href="https://www.premierleague.com/players/8163/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4e015693" data-player-key="james garner|2001">
+            James Garner — <a href="https://www.premierleague.com/players/23841/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="32f60ed8" data-player-key="morgan gibbs-white|2000">
+            Morgan Gibbs-White — <a href="https://www.premierleague.com/players/15259/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="645a3363" data-player-key="angel gomes|2000">
+            Angel Gomes — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="7a11550b" data-player-key="joe gomez|1997">
+            Joe Gomez — <a href="https://commons.wikimedia.org/wiki/File:Joe_Gomez_04012026_(1).jpg">Joe Gomez 04012026 (1).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="2bd83368" data-player-key="anthony gordon|2001">
+            Anthony Gordon — <a href="https://commons.wikimedia.org/wiki/File:Anthony_Gordon_England_v_Ghana_23_June_2026-017_(cropped).jpg">Anthony Gordon England v Ghana 23 June 2026-017 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="f58515f5" data-player-key="archie gray|2006">
+            Archie Gray — <a href="https://commons.wikimedia.org/wiki/File:Rangers_v_Tottenham_Hotspur_-_54202663229_(Archie_Gray).jpg">Rangers v Tottenham Hotspur - 54202663229 (Archie Gray).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b0b4fd3e" data-player-key="jack grealish|1995">
+            Jack Grealish — <a href="https://www.premierleague.com/players/4260/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="58eee997" data-player-key="mason greenwood|2001">
+            Mason Greenwood — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d0706b27" data-player-key="marc guehi|2000">
+            Marc Guéhi — <a href="https://www.premierleague.com/players/14569/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="da011f18" data-player-key="lewis hall|2004">
+            Lewis Hall — <a href="https://www.premierleague.com/players/108922/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="aa849a12" data-player-key="jack harrison|1996">
+            Jack Harrison — <a href="https://commons.wikimedia.org/wiki/File:Jack_Harrison_13092025_(9).jpg">Jack Harrison 13092025 (9).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="64e17fab" data-player-key="ayden heaven|2006">
+            Ayden Heaven — <a href="https://www.premierleague.com/players/133114/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="935e6b8f" data-player-key="jordan henderson|1990">
+            Jordan Henderson — <a href="https://www.premierleague.com/players/3712/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="69942fb3" data-player-key="james hill|2002">
+            James Hill — <a href="https://www.premierleague.com/players/51942/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e98211e7" data-player-key="jack hinshelwood|2005">
+            Jack Hinshelwood — <a href="https://www.premierleague.com/players/112739/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="15f3ec41" data-player-key="callum hudson-odoi|2000">
+            Callum Hudson-Odoi — <a href="https://www.premierleague.com/players/23702/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="a0666d3e" data-player-key="will hughes|1995">
+            Will Hughes — <a href="https://www.premierleague.com/players/8589/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d2b32e91" data-player-key="bashir humphreys|2003">
+            Bashir Humphreys — <a href="https://www.premierleague.com/players/51498/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="bd9553e6" data-player-key="omari hutchinson|2003">
+            Omari Hutchinson — <a href="https://www.premierleague.com/players/98300/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="84c5ceea" data-player-key="tim iroegbunam|2003">
+            Tim Iroegbunam — <a href="https://www.premierleague.com/players/66538/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="1265a93a" data-player-key="reece james|1999">
+            Reece James — <a href="https://commons.wikimedia.org/wiki/File:Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg">Reece James England v Ghana 23 June 2026-248 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="5bc2f6ca" data-player-key="reece james|1999">
+            Reece James — <a href="https://commons.wikimedia.org/wiki/File:Reece_James_England_v_Ghana_23_June_2026-248_(cropped).jpg">Reece James England v Ghana 23 June 2026-248 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4fb9c88f" data-player-key="curtis jones|2001">
+            Curtis Jones — <a href="https://commons.wikimedia.org/wiki/File:Curtis_Jones_in_2022.jpg">Curtis Jones in 2022.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="21a66f6a" data-player-key="harry kane|1993">
+            Harry Kane — <a href="https://www.bundesliga.com/en/player/harry-kane">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c5b7c315" data-player-key="michael keane|1993">
+            Michael Keane — <a href="https://www.premierleague.com/players/4333/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f31def1e" data-player-key="lloyd kelly|1998">
+            Lloyd Kelly — <a href="https://commons.wikimedia.org/wiki/File:Lloyd_Kelly_2020.png">Lloyd Kelly 2020.png</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="0313a347" data-player-key="ezri konsa|1997">
+            Ezri Konsa — <a href="https://www.premierleague.com/players/13274/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f0068e0f" data-player-key="josh laurent|1995">
+            Josh Laurent — <a href="https://commons.wikimedia.org/wiki/File:Josh_Laurent_26042025_(6).jpg">Josh Laurent 26042025 (6).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="41f08ac8" data-player-key="keane lewis-potter|2001">
+            Keane Lewis-Potter — <a href="https://www.premierleague.com/players/24369/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="afed6722" data-player-key="tino livramento|2002">
+            Tino Livramento — <a href="https://www.premierleague.com/players/49495/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e97fd090" data-player-key="ruben loftus-cheek|1996">
+            Ruben Loftus-Cheek — <a href="https://commons.wikimedia.org/wiki/File:Ruben_Loftus-Cheek_2018-06-13_1.jpg">Ruben Loftus-Cheek 2018-06-13 1.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="a2b105e0" data-player-key="sean longstaff|1997">
+            Sean Longstaff — <a href="https://www.premierleague.com/players/14897/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="bf34eebd" data-player-key="noni madueke|2002">
+            Noni Madueke — <a href="https://www.premierleague.com/players/67407/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d8931174" data-player-key="harry maguire|1993">
+            Harry Maguire — <a href="https://www.premierleague.com/players/9566/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c6220452" data-player-key="kobbie mainoo|2005">
+            Kobbie Mainoo — <a href="https://www.premierleague.com/players/108936/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e3a5814e" data-player-key="ainsley maitland-niles|1997">
+            Ainsley Maitland-Niles — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="fc15fb84" data-player-key="dwight mcneil|1999">
+            Dwight McNeil — <a href="https://www.premierleague.com/players/24797/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="2c6835e5" data-player-key="lewis miley|2006">
+            Lewis Miley — <a href="https://www.premierleague.com/players/117647/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="5cbd1eb0" data-player-key="tyrick mitchell|1999">
+            Tyrick Mitchell — <a href="https://www.premierleague.com/players/24334/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="de112b84" data-player-key="jacob murphy|1995">
+            Jacob Murphy — <a href="https://www.premierleague.com/players/9662/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="91ca4a16" data-player-key="nico o&#39;reilly|2005">
+            Nico O&#39;Reilly — <a href="https://www.premierleague.com/players/112948/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="dc7f8a28" data-player-key="cole palmer|2002">
+            Cole Palmer — <a href="https://www.premierleague.com/players/49293/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c795c408" data-player-key="jonathan panzo|2000">
+            Jonathan Panzo — <a href="https://www.premierleague.com/players/21885/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="2140e999" data-player-key="luke plange|2002">
+            Luke Plange — <a href="https://www.premierleague.com/players/49476/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4125cb98" data-player-key="jarell quansah|2003">
+            Jarell Quansah — <a href="https://www.bundesliga.com/en/player/jarell-quansah">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="1544f145" data-player-key="jacob ramsey|2001">
+            Jacob Ramsey — <a href="https://www.premierleague.com/players/19888/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="a1d5bd30" data-player-key="marcus rashford|1997">
+            Marcus Rashford — <a href="https://www.laliga.com/en-GB/player/marcus-rashford">LaLiga, official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="1c7012b8" data-player-key="declan rice|1999">
+            Declan Rice — <a href="https://www.premierleague.com/players/15202/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="2e5915f1" data-player-key="morgan rogers|2002">
+            Morgan Rogers — <a href="https://www.premierleague.com/players/23968/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8c12f884" data-player-key="jonathan rowe|2003">
+            Jonathan Rowe — <a href="https://commons.wikimedia.org/wiki/File:Rowe_asse_om_2425.png">Rowe asse om 2425.png</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="17695062" data-player-key="emile smith rowe|2000">
+            Emile Smith Rowe — <a href="https://www.premierleague.com/players/14445/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="bc7dc64d" data-player-key="bukayo saka|2001">
+            Bukayo Saka — <a href="https://www.premierleague.com/players/49481/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="104d0bb8" data-player-key="alex scott|2003">
+            Alex Scott — <a href="https://www.premierleague.com/players/74976/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="9c94165b" data-player-key="luke shaw|1995">
+            Luke Shaw — <a href="https://www.premierleague.com/players/4608/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="00f0482f" data-player-key="shola shoretire|2004">
+            Shola Shoretire — <a href="https://commons.wikimedia.org/wiki/File:Shola_Shoretire_2021_(cropped).jpg">Shola Shoretire 2021 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="383b10fd" data-player-key="jahmai simpson-pusey|2005">
+            Jahmai Simpson-Pusey — <a href="https://www.bundesliga.com/en/player/jahmai-simpson-pusey">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="20b104bc" data-player-key="adam smith|1991">
+            Adam Smith — <a href="https://commons.wikimedia.org/wiki/File:Chelsea_0_Bournemouth_1_(4)_-_копия.jpg">Chelsea 0 Bournemouth 1 (4) - копия.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e77dc3b2" data-player-key="dominic solanke|1997">
+            Dominic Solanke — <a href="https://www.premierleague.com/players/10443/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="9bc9a519" data-player-key="djed spence|2000">
+            Djed Spence — <a href="https://www.premierleague.com/players/23764/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4d0be953" data-player-key="ross sykes|1999">
+            Ross Sykes — <a href="https://commons.wikimedia.org/wiki/File:Ross_James_Sykes_USG_2023.jpg">Ross James Sykes USG 2023.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="15ea812b" data-player-key="james tarkowski|1992">
+            James Tarkowski — <a href="https://www.premierleague.com/players/8143/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="21512407" data-player-key="kieran trippier|1990">
+            Kieran Trippier — <a href="https://www.premierleague.com/players/3905/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="45963054" data-player-key="jamie vardy|1987">
+            Jamie Vardy — <a href="https://commons.wikimedia.org/wiki/File:Jamie_Vardy_2018.jpg">Jamie Vardy 2018.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="86dd77d1" data-player-key="kyle walker|1990">
+            Kyle Walker — <a href="https://www.premierleague.com/players/3955/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="aed3a70f" data-player-key="ollie watkins|1995">
+            Ollie Watkins — <a href="https://www.premierleague.com/players/8658/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="ce5143da" data-player-key="danny welbeck|1990">
+            Danny Welbeck — <a href="https://www.premierleague.com/players/3452/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c596fcb0" data-player-key="callum wilson|1992">
+            Callum Wilson — <a href="https://www.premierleague.com/players/8454/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+        </ul>
+      </details>
+    </div>
+    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const toc = document.getElementById('toc');
+    if (!toc) return;
+    const btn = toc.querySelector('.toc-toggle');
+    if (!btn) return;
+    const KEY = 'atlas-toc-collapsed';
+    const apply = (collapsed) => {
+      toc.dataset.collapsed = collapsed ? 'true' : 'false';
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      btn.setAttribute('aria-label', collapsed ? btn.dataset.labelShow : btn.dataset.labelHide);
+    };
+    try {
+      apply(localStorage.getItem(KEY) === 'true');
+    } catch (e) {
+      apply(false);
+    }
+    btn.addEventListener('click', () => {
+      const next = toc.dataset.collapsed !== 'true';
+      apply(next);
+      try { localStorage.setItem(KEY, next ? 'true' : 'false'); } catch (e) {}
+    });
+  })();
+</script>
+
+<script>
+  window.renderTex = () => {
+    document.querySelectorAll('[data-tex]').forEach(el => {
+      try { katex.render(el.dataset.tex, el, { displayMode: true, throwOnError: false }); el.classList.add('formula-tex'); } catch (e) {}
+    });
+  };
+  if (window.katex) window.renderTex();
+  (() => {
+    // contents panel on narrow screens
+    const btn = document.querySelector('.toc-btn'), toc = document.getElementById('toc');
+    if (btn && toc) {
+      const set = (open) => { document.body.classList.toggle('toc-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('toc-open')));
+      toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM);
+    // chapter ledes (p.framing.lede) always clamp to two lines regardless of
+    // length, so every chapter opens with a fast-scan preview
+    const cs = document.documentElement.lang === 'cs';
+    const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
+    const clampCandidates = [
+      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote):not(.slide-a):not(.slide-how), .container > .muted.small'),
+      ...document.querySelectorAll('.container > p.framing.lede'),
+    ];
+    clampCandidates.forEach((p) => {
+      const lede = p.classList.contains('lede');
+      const narrow = matchMedia('(max-width: 719px)').matches;
+      if (!lede && p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      p.classList.add('clamp');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => { const open = p.classList.toggle('clamp-open'); b.textContent = open ? L[1] : L[0]; b.setAttribute('aria-expanded', String(open)); });
+      p.after(b);
+    });
+    // player index: filter rows by name (no library)
+    const q = document.getElementById('player-search');
+    const table = document.querySelector('.player-index-table');
+    if (q && table) {
+      const rows = [...table.querySelectorAll('tbody tr[data-name]')];
+      const count = document.querySelector('.player-index-count');
+      const fold = table.closest('details');
+      const ascii = (s) => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      q.addEventListener('input', () => {
+        const needle = ascii(q.value.trim());
+        let shown = 0;
+        rows.forEach((r) => { const hit = !needle || r.dataset.name.includes(needle); r.hidden = !hit; if (hit) shown++; });
+        if (count) count.textContent = shown;
+        if (fold && needle) fold.open = true;
+      });
+    }
+  })();
+  (() => {
+    document.querySelectorAll('.capita').forEach((capita) => {
+      if (!('IntersectionObserver' in window)) return;
+      capita.dataset.animate = '';
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) { capita.dataset.animate = 'in'; io.disconnect(); }
+      }, { threshold: 0.3 });
+      io.observe(capita);
+    });
+    const links = [...document.querySelectorAll('.toc-sticky a[href^="#"]')];
+    const targets = links.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+    if (targets.length) {
+      const byId = new Map(links.map(a => [a.hash.slice(1), a]));
+      let current = null, ticking = false;
+      const update = () => {
+        ticking = false;
+        const line = 96;
+        let best = null;
+        for (const t of targets) { if (t.getBoundingClientRect().top <= line) best = t; else break; }
+        const id = best ? best.id : null;
+        if (id === current) return;
+        current = id;
+        links.forEach(a => a.removeAttribute('aria-current'));
+        if (id) byId.get(id)?.setAttribute('aria-current', 'true');
+      };
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
+    }
+  })();
+</script>
+
+<script>
+  (() => {
+    // phone: the menu button opens the links as a panel; desktop: the
+    // Questions list closes on a click elsewhere or on Escape
+    const btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu');
+    if (btn && menu) {
+      const set = (open) => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('menu-open')));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    const q = document.querySelector('.topbar-q');
+    if (q) {
+      if (matchMedia('(max-width: 719px)').matches) q.open = true;
+      document.addEventListener('click', (e) => { if (!matchMedia('(max-width: 719px)').matches && !q.contains(e.target)) q.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') q.open = false; });
+    }
+  })();
+</script>
+</body>
+</html>

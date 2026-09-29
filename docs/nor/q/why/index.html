@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en" data-home="NOR">
+<head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="https://football.bsandova.com/nor/q/why/">
+  <meta name="atlas-split" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why the train left · Norwegian football · Player pool atlas</title>
+  <meta name="description" content="Structural benchmark of the Norwegian professional football player pool against 8 peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css?v=202609291536">
+  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+  <script defer src="../../charts.js?v=202609291536"></script>
+  <script defer src="../../atlas.js?v=202609291536"></script>
+</head>
+<body id="top">
+<nav class="topbar" aria-label="Navigation">
+  <a class="topbar-brand" href="../../">Norwegian Football <span>Atlas</span></a>
+  <button type="button" class="menu-btn" aria-controls="site-menu" aria-expanded="false">Menu</button>
+  <div class="topbar-links" id="site-menu">
+    <a href="../../">Summary</a>
+    <details class="topbar-q" data-current>
+      <summary>Questions</summary>
+      <ol class="topbar-q-list">
+        <li><a href="../../q/why/" aria-current="page">Why the train left</a></li>
+        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
+        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/youth/">Youth minutes at home</a></li>
+        <li><a href="../../q/abroad/">Where they go</a></li>
+        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
+        <li><a href="../../q/fare/">How they fare</a></li>
+        <li><a href="../../q/national-team/">National-team squad</a></li>
+        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/peers/">Denmark and Czechia</a></li>
+        <li><a href="../../q/goalkeepers/">Goalkeepers</a></li>
+        <li><a href="../../q/gap/">What the gap is made of</a></li>
+        <li><a href="../../q/cards/">Who the players are</a></li>
+        <li><a href="../../q/changes/">What changed in a year</a></li>
+      </ol>
+    </details>
+    <a href="../../methodology/">Methodology</a>
+    <a href="../../players/">Players</a>
+    <a href="/nations/">Nations</a>
+    <p class="menu-switch" aria-label="Atlas"><a href="/q/why/">CZE</a> · <a href="/eng/q/why/">ENG</a> · <a href="/ger/q/why/">GER</a> · <a href="/den/q/why/">DEN</a> · <span aria-current="page">NOR</span> · <a href="/esp/q/why/">ESP</a></p>
+  </div>
+  <div class="atlas-switch" aria-label="Atlas">
+    <a href="/q/why/">CZE</a> · <a href="/eng/q/why/">ENG</a> · <a href="/ger/q/why/">GER</a> · <a href="/den/q/why/">DEN</a> · <span aria-current="page">NOR</span> · <a href="/esp/q/why/">ESP</a>
+  </div>
+</nav>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main" class="page page-q">
+<div class="qpage-head container"><p class="qpage-crumb"><a href="../../">Summary</a> · Question 1 of 14</p></div>
+
+<section class="why-funnel" id="why-funnel">
+  <div class="container">
+    <h2>Why the train left</h2>
+    <p class="funnel-lead">Five numbers, in the order they build on each other, show where the pool of players available to the national team gets thin. Each one is shown for Norwegian football and for the two countries used as a comparison throughout this report; each links to the part of the report that shows the full evidence.</p>
+    <figure class="figure-bleed" data-chart="funnel">
+      <img src="../../why_funnel.svg" alt="Five-stage funnel: Norwegian football next to Denmark and Czechia on the share of playing time young players get at home, the league's average age, the age of the first move abroad, the share of sideways moves, and players per million people in Europe's strongest leagues.">
+      <figcaption>How to read it: one rung per stage of the argument, each on its own scale, so the dots show the distance between countries, not the size of the number. The filled green dot is Norway; the open dots are the two comparison countries. Under each rung is which direction means a more open pathway. Hover a dot for the exact value.</figcaption>
+    </figure>
+    <ol class="funnel-stages">
+      <li class="funnel-stage">
+        <a href="../../q/youth/#q3"><p class="funnel-stage-line">Young players do not get much of the playing time in the country's own top league.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Share of league minutes that went to players aged 21 or under</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 11.5 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 15.3 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> 6.4 %</span>
+            
+          </div>
+        </div>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Clubs that gave those young players more than a tenth of their own playing time</p>
+          <div class="funnel-metric-row">
+            
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 12 of 16 clubs</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 11 of 12 clubs</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> 9 of 16 clubs</span>
+            
+          </div>
+        </div>
+        
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Under-21 nationals who were regular starters, per club in the league</p>
+          <div class="funnel-metric-row">
+            
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 1.56 per club (25 players)</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 2.50 per club (30 players)</span>
+            
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> 1.06 per club (17 players)</span>
+            
+          </div>
+        </div>
+        
+        <p class="funnel-note funnel-note-small">The regular-starter line is drawn at ten starts; at five it is 2.4 per club, at fifteen 0.9 (ten: 1.6).</p>
+        <p class="funnel-note">The shortage is one of selection, not of late cameos: 11.2 % of the league’s starts went to them against 11.5 % of its minutes, so they are picked to start about as often as they are played at all. They are, though, taken off early — 75 minutes in a start against the league’s own 80.</p>
+        
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/youth/#q3"><p class="funnel-stage-line">The league those minutes are missing from is, on average, an old one.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Average age of a minute played in the league</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 25.6</span>
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 25.4</span>
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> 26.0</span>
+            
+          </div>
+        </div>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Share of league minutes that went to players aged 30 or over</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 15.9 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 19.5 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> 21.1 %</span>
+            
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/leaving-late/#q4b"><p class="funnel-stage-line">So the first move to a foreign league, when it happens, comes late.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Age the first time a player has real playing time in a foreign league, over the players abroad today</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 22.5 years <span class="muted small">(60 players)</span></span>
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 23 years <span class="muted small">(112 players)</span></span>
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> 24 years <span class="muted small">(32 players)</span></span>
+            
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/abroad/#q4"><p class="funnel-stage-line">And the move, when it happens, is often not a step up.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Share of moves abroad to a league no stronger than the player's own</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 22 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 10 %</span>
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> —</span>
+            
+          </div>
+        </div>
+      </li>
+      <li class="funnel-stage">
+        <a href="../../q/per-head/#q1"><p class="funnel-stage-line">The layer of players in Europe's strongest leagues stays thin, and it fell sharply once.</p></a>
+        <div class="funnel-metric">
+          <p class="funnel-metric-label">Players in Europe's strongest leagues, for every million people</p>
+          <div class="funnel-metric-row">
+            
+            <span class="funnel-country" data-highlight="cze"><span class="capita-code">NOR</span> 9.37</span>
+            
+            <span class="funnel-country"><span class="capita-code">DEN</span> 12.58</span>
+            
+            <span class="funnel-country"><span class="capita-code">CZE</span> 2.39</span>
+            
+          </div>
+        </div>
+        
+        <p class="funnel-metric-note">Around the 2004/05 season, the model finds a possible shift in the count of Norwegian players in Europe's strongest leagues, with 27 percent probability that it is a genuine change rather than an ordinary season-to-season dip. <a href="../../q/break/#q7">Break & forecast</a>.</p>
+        
+      </li>
+    </ol>
+    
+    <p class="funnel-take-one-thing">
+      
+      If you take one thing from this: the single measured link that carries the most of the gap with both Denmark and Czechia is how strong the domestic league is. That is one decomposition over 8 countries — a description of the gap, not a weight to plan by.
+      
+    </p>
+    
+    <details class="fold funnel-caveats">
+      <summary>What this does not show</summary>
+      <ul>
+        <li>Money: transfer fees, wages and academy budgets play no part in any number above.</li>
+        <li>How the academy and coaching set-up actually work day to day, which no public data source used here can see.</li>
+        <li>Agents, and how a move abroad actually gets arranged, which happens off any table this pipeline can read.</li>
+        <li>The direction of the arrow: a low share of playing time for young players at home could help cause a thin generation, or just as easily be a symptom of one — the five numbers above are associations measured the same way for every country.</li>
+        
+      </ul>
+    </details>
+  </div>
+</section>
+
+<section class="explore qpage-evidence">
+  <div class="container">
+    <h2>Explore the data</h2>
+    <details class="fold" open>
+      <summary>Why does the train leave?</summary>
+      <div class="explore-block">
+    <h3 id="pathways">Why does the train leave?</h3>
+    <p>Four exhibits comparing Norway with 8 peer countries: youth exposure at home, export route, how exports fare, and who made it.</p>
+
+    <h4>Exhibit A — youth exposure at home</h4>
+    <p>Share of a domestic league's total minutes played by its own nationals aged 21 or under, 2025/26.</p>
+    
+    
+    <p class="capita-note">* Σ minutes of players with the league country's nationality and age ≤ 21 at the season's start ÷ Σ minutes of all players in the league, 2025/26. Under-23 shares: DEN 21.2 %, HUN 22.6 %, CRO 22.7 %, NOR 19.8 %, AUT 16.5 %, POL 14.4 %, SUI 16.6 %, CZE 13.5 %. A league without a bar is not covered by FBref.</p>
+
+    <h4>Exhibit B — export route</h4>
+    <p>
+      For every peer-country player on a 2026/27 top-9 roster: the age at the first top-9 season (full roster, and recent entrants only) and, for recent entrants, the league of the season before it.
+      Norwegian exports: 37 players, median export age 21 (recent entrants 17, median 22), 53 % of the recent ones straight from the Eliteserien*.
+    </p>
+    <table class="kv-table">
+      <thead>
+        <tr>
+          <th>Country</th><th>n</th><th>Recent</th>
+          <th>Export age (all)</th><th>Export age (recent)</th>
+          <th>Domestic</th><th>Stepping stone</th><th>Other top-9</th><th>Not covered</th>
+          <th>Censored</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="cohort-cze">
+          <td><span class="capita-code">NOR</span> Norway</td>
+          <td>37</td>
+          <td>17</td>
+          <td>21</td>
+          <td>22</td>
+          <td>53 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>47 %</td>
+          <td class="muted">19 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">DEN</span> Denmark</td>
+          <td>65</td>
+          <td>25</td>
+          <td>22</td>
+          <td>22</td>
+          <td>60 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>40 %</td>
+          <td class="muted">14 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">SUI</span> Switzerland</td>
+          <td>42</td>
+          <td>13</td>
+          <td>23</td>
+          <td>21</td>
+          <td>85 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>15 %</td>
+          <td class="muted">33 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">AUT</span> Austria</td>
+          <td>37</td>
+          <td>13</td>
+          <td>23</td>
+          <td>22</td>
+          <td>54 %</td>
+          <td>8 %</td>
+          <td>0 %</td>
+          <td>38 %</td>
+          <td class="muted">35 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">CZE</span> Czechia</td>
+          <td>15</td>
+          <td>7</td>
+          <td>23</td>
+          <td>22</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>100 %</td>
+          <td class="muted">20 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">CRO</span> Croatia</td>
+          <td>39</td>
+          <td>10</td>
+          <td>23</td>
+          <td>24.5</td>
+          <td>60 %</td>
+          <td>10 %</td>
+          <td>0 %</td>
+          <td>30 %</td>
+          <td class="muted">31 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">POL</span> Poland</td>
+          <td>30</td>
+          <td>13</td>
+          <td>23</td>
+          <td>24</td>
+          <td>38 %</td>
+          <td>23 %</td>
+          <td>0 %</td>
+          <td>38 %</td>
+          <td class="muted">20 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">HUN</span> Hungary</td>
+          <td>18</td>
+          <td>11</td>
+          <td>22</td>
+          <td>22</td>
+          <td>91 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>9 %</td>
+          <td class="muted">11 %</td>
+        </tr>
+        
+        <tr>
+          <td><span class="capita-code">SVK</span> Slovakia</td>
+          <td>11</td>
+          <td>4</td>
+          <td>24</td>
+          <td>23</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>0 %</td>
+          <td>100 %</td>
+          <td class="muted">27 %</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">
+      * Export age = age at the first season in any headline league, history back to 2020/21; a first appearance already in 2020/21 is censored. Recent entrants: first top-9 season 2025/26 or 2026/27, the only ones whose previous season lies inside the fetched window (2024/25 onwards for peer domestic leagues). Stepping-stone leagues: NED-Eredivisie, BEL-Pro League, POR-Primeira Liga, TUR-Süper Lig, GER-2. Bundesliga. Not covered: no earlier row in the data.
+    </p>
+
+    <h4>Exhibit C — how the exports fare</h4>
+    <p>Peer-country players at a top-9 club in 2025/26: median share of the club's minutes, and the club's strength within its league.</p>
+    
+    <div class="capita" role="list" aria-label="Median club goals-scored percentile of exports' clubs, by country">
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.722; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">HUN</span>
+          Hungary <span class="muted small">n = 15</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">72 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.667; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">CZE</span>
+          Czechia <span class="muted small">n = 26</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">67 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.6; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">SVK</span>
+          Slovakia <span class="muted small">n = 17</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">60 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.594; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">AUT</span>
+          Austria <span class="muted small">n = 44</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">59 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           data-highlight="cze"
+           style="--value: 0.556; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">NOR</span>
+          Norway <span class="muted small">n = 52</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">56 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.556; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">DEN</span>
+          Denmark <span class="muted small">n = 75</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">56 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.55; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">CRO</span>
+          Croatia <span class="muted small">n = 47</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">55 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.55; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">POL</span>
+          Poland <span class="muted small">n = 45</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">55 %</div>
+      </div>
+      
+      <div class="capita-row" role="listitem"
+           
+           style="--value: 0.5; --max: 0.722;">
+        <div class="capita-country">
+          <span class="capita-code">SUI</span>
+          Switzerland <span class="muted small">n = 54</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">50 %</div>
+      </div>
+      
+    </div>
+    <p class="capita-note">* Minutes share = player minutes ÷ (club matches × 90), 2025/26, one row per player-season. Club strength proxy: goals-scored percentile within league — clubs ranked by the goals their own roster scored that season (ClubElo was unreachable at run time). Both are medians over the country's exports; n per country in the bars.</p>
+
+    <h4>Exhibit D — profile of those who made it</h4>
+    <p>Goals + assists per 90, league-adjusted, in 2025/26 by the tier of the player's own league: domestic, stepping stone, top-9, or another covered league. Norwegian count and median against the median of the peer countries' values.</p>
+    <details class="fold fold-table">
+      <summary>Profile table by tier and position group</summary>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Tier</th><th>Group</th><th>NOR n</th><th>NOR median</th><th>Peer median n</th><th>Peer median</th></tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>domestic league</td>
+            <td>FW</td>
+            <td class="cohort-cze">31</td>
+            <td class="cohort-cze">0.18</td>
+            <td>16.5</td>
+            <td>0.12</td>
+          </tr>
+          
+          <tr>
+            <td>domestic league</td>
+            <td>MF</td>
+            <td class="cohort-cze">72</td>
+            <td class="cohort-cze">0.10</td>
+            <td>57</td>
+            <td>0.06</td>
+          </tr>
+          
+          <tr>
+            <td>domestic league</td>
+            <td>DF</td>
+            <td class="cohort-cze">76</td>
+            <td class="cohort-cze">0.04</td>
+            <td>42.5</td>
+            <td>0.02</td>
+          </tr>
+          
+          <tr>
+            <td>stepping-stone league</td>
+            <td>FW</td>
+            <td class="cohort-cze">0</td>
+            <td class="cohort-cze">—</td>
+            <td>2</td>
+            <td>0.28</td>
+          </tr>
+          
+          <tr>
+            <td>stepping-stone league</td>
+            <td>MF</td>
+            <td class="cohort-cze">2</td>
+            <td class="cohort-cze">0.07</td>
+            <td>2</td>
+            <td>0.09</td>
+          </tr>
+          
+          <tr>
+            <td>stepping-stone league</td>
+            <td>DF</td>
+            <td class="cohort-cze">1</td>
+            <td class="cohort-cze">0.01</td>
+            <td>2</td>
+            <td>0.05</td>
+          </tr>
+          
+          <tr>
+            <td>top-9 league</td>
+            <td>FW</td>
+            <td class="cohort-cze">6</td>
+            <td class="cohort-cze">0.29</td>
+            <td>5</td>
+            <td>0.28</td>
+          </tr>
+          
+          <tr>
+            <td>top-9 league</td>
+            <td>MF</td>
+            <td class="cohort-cze">23</td>
+            <td class="cohort-cze">0.13</td>
+            <td>16</td>
+            <td>0.14</td>
+          </tr>
+          
+          <tr>
+            <td>top-9 league</td>
+            <td>DF</td>
+            <td class="cohort-cze">11</td>
+            <td class="cohort-cze">0.06</td>
+            <td>8</td>
+            <td>0.04</td>
+          </tr>
+          
+          <tr>
+            <td>other covered league</td>
+            <td>FW</td>
+            <td class="cohort-cze">7</td>
+            <td class="cohort-cze">0.16</td>
+            <td>6</td>
+            <td>0.13</td>
+          </tr>
+          
+          <tr>
+            <td>other covered league</td>
+            <td>MF</td>
+            <td class="cohort-cze">9</td>
+            <td class="cohort-cze">0.08</td>
+            <td>6.5</td>
+            <td>0.08</td>
+          </tr>
+          
+          <tr>
+            <td>other covered league</td>
+            <td>DF</td>
+            <td class="cohort-cze">3</td>
+            <td class="cohort-cze">0.02</td>
+            <td>10.5</td>
+            <td>0.02</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+    <p class="capita-note">* Tier = the league of the player's own 2025/26 season. Peer median n and peer median are medians across the peer countries present in that tier and group; a tier a country has no player in is absent, not zero.</p>
+
+    
+    
+    <h4>Exhibit E — where Norwegian exports go</h4>
+    <p>Of the 236 mapped Norwegian players, 59 play outside the Eliteserien.</p>
+    
+    <ul class="small dest-examples">
+      
+      <li><span class="capita-code">top-9</span> <code>Sondre Ørjasæter · Tobias Lauritsen · Erling Haaland</code></li>
+      
+      <li><span class="capita-code">peer country league</span> <code>Fredrik Ulvestad · Kristian Arnstad · Robin Dahl Østrøm</code></li>
+      
+      <li><span class="capita-code">stepping stone</span> <code>Jonas Therkelsen · Jesper Daland</code></li>
+      
+      <li><span class="capita-code">other</span> <code>Sivert Mannsverk</code></li>
+      
+    </ul>
+    <p class="capita-note">* Buckets by the league of the player's own 2025/26 season; a player is counted once per position group, like everywhere else on the page, so one with rows in two groups counts in each; the number in front of each bar is the player count, the median multiplier is the bucket's median league multiplier. Sideways: destination league multiplier &lt;= the domestic league&#39;s multiplier.</p>
+    
+    
+
+    
+    
+    <h4 id="exhibit-f">F · The 2026 FIFA World Cup squad by league tier</h4>
+    
+    
+    <p>
+      Where the 26 players named to the 2026 FIFA World Cup squad played in 2025/26, next to Switzerland, Austria, Czechia. Tier = the league of the player's most-minutes 2025/26 row.
+    </p>
+    <details class="fold fold-table">
+      <summary>Minutes, multipliers and age cohorts by country</summary>
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Median minutes</th><th>Median multiplier</th>
+            <th>U22</th><th>23–25</th>
+            <th>26–29</th><th>30+</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr class="cohort-cze">
+            <td><span class="capita-code">NOR</span> Norway</td>
+            <td>2164.5</td>
+            <td>0.832</td>
+            <td>2</td>
+            <td>6</td>
+            <td>14</td>
+            <td>4</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">SUI</span> Switzerland</td>
+            <td>2132</td>
+            <td>0.788</td>
+            <td>1</td>
+            <td>5</td>
+            <td>10</td>
+            <td>10</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">AUT</span> Austria</td>
+            <td>1711.5</td>
+            <td>0.788</td>
+            <td>1</td>
+            <td>6</td>
+            <td>10</td>
+            <td>9</td>
+          </tr>
+          
+          <tr>
+            <td><span class="capita-code">CZE</span> Czechia</td>
+            <td>1826.5</td>
+            <td>0.434</td>
+            <td>1</td>
+            <td>6</td>
+            <td>10</td>
+            <td>9</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+    <p class="capita-note">* 6 squad players have no 2025/26 row in the fetched leagues and are counted as unmatched.</p>
+    
+      </div>
+    </details>
+  </div>
+</section>
+
+<nav class="qpager container" aria-label="Questions">
+  <span class="qpager-prev"></span>
+  <a class="qpager-home" href="../../">Back to the summary</a>
+  <a class="qpager-next" href="../../q/per-head/"><span class="qpager-dir">Next →</span> Is the Norwegian pool thin?</a>
+</nav>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="role-block">
+      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
+      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-author">
+        <span class="role-author-name">Barbora Šandová</span>
+        <span class="role-author-contact">
+          <a href="mailto:hello@bsandova.com">hello@bsandova.com</a>
+          &middot;
+          <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>
+        </span>
+      </p>
+    </div>
+    <div class="photo-credits" id="photo-credits">
+      <details class="fold">
+        <summary>Photo credits (49 portraits, Wikimedia Commons)</summary>
+        <ul class="small">
+          
+          <li data-fbref-id="a8c0acb7" data-player-key="kristoffer ajer|1998">
+            Kristoffer Ajer — <a href="https://www.premierleague.com/players/20113/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="45bdedc8" data-player-key="kristian arnstad|2003">
+            Kristian Arnstad — <a href="https://commons.wikimedia.org/wiki/File:Kristian_Arnstad_-_RSCA_(2021)_(cropped).jpg">Kristian Arnstad - RSCA (2021) (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="fbde2933" data-player-key="edvin austbo|2005">
+            Edvin Austbø — <a href="https://commons.wikimedia.org/wiki/File:Edvin_Austbø_17_Viking_FK_UECL_20250813_(4).jpg">Edvin Austbø 17 Viking FK UECL 20250813 (4).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e4114f5d" data-player-key="patrick berg|1997">
+            Patrick Berg — <a href="https://commons.wikimedia.org/wiki/File:Patrick_Berg_France_v_Norway_26_June_26-018.jpg">Patrick Berg France v Norway 26 June 26-018.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="d0b6129f" data-player-key="sander berge|1998">
+            Sander Berge — <a href="https://www.premierleague.com/players/21614/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="3724baa1" data-player-key="fredrik andre bjorkan|1998">
+            Fredrik André Bjørkan — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_André_Bjørkan_Morocco_v_Norway_7_June_2026-40_(cropped).jpg">Fredrik André Bjørkan Morocco v Norway 7 June 2026-40 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b5d543e4" data-player-key="marius broholm|2004">
+            Marius Broholm — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6e17d441" data-player-key="jesper daland|2000">
+            Jesper Daland — <a href="https://commons.wikimedia.org/wiki/File:JesperDalandjunui2024.jpg">JesperDalandjunui2024.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b54b05e2" data-player-key="oliver edvardsen|1999">
+            Oliver Edvardsen — <a href="https://commons.wikimedia.org/wiki/File:Go_Ahead_Eagles_-_FC_Volendam_-_52915162430_(Oliver_Valaker_Edvardsen).jpg">Go Ahead Eagles - FC Volendam - 52915162430 (Oliver Valaker Edvardsen).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="9a12e666" data-player-key="daniel eid|1998">
+            Daniel Eid — <a href="https://commons.wikimedia.org/wiki/File:Sogndal-Jerv-021021-9.jpg">Sogndal-Jerv-021021-9.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3a770838" data-player-key="magnus wolff eikrem|1990">
+            Magnus Wolff Eikrem — <a href="https://commons.wikimedia.org/wiki/File:Magnus_Wolff_Eikrem_(Molde_FK)_-_Norway_national_under-21_football_team_(01).jpg">Magnus Wolff Eikrem (Molde FK) - Norway national under-21 football team (01).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="68dc0dac" data-player-key="mohamed elyounoussi|1994">
+            Mohamed Elyounoussi — <a href="https://commons.wikimedia.org/wiki/File:CSKA_Moscow_v_Basel_(3).jpg">CSKA Moscow v Basel (3).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4353dd07" data-player-key="kristian eriksen|1995">
+            Kristian Eriksen — <a href="https://commons.wikimedia.org/wiki/File:Kristian_Eriksen_Ham-Kam_2015.jpg">Kristian Eriksen Ham-Kam 2015.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="d019d5db" data-player-key="hakon evjen|2000">
+            Håkon Evjen — <a href="https://commons.wikimedia.org/wiki/File:Håkon_Evjen_2023.jpg">Håkon Evjen 2023.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="57fe6b9b" data-player-key="henrik falchener|2003">
+            Henrik Falchener — <a href="https://commons.wikimedia.org/wiki/File:Henrik_Falchener_France_v_Norway_26_June_26-019.jpg">Henrik Falchener France v Norway 26 June 26-019.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b686f4c0" data-player-key="fredrik gulbrandsen|1992">
+            Fredrik Gulbrandsen — <a href="https://commons.wikimedia.org/wiki/File:FC_Admira_Wacker_Mödling_vs._FC_Red_Bull_Salzburg_2018-04-15_(064).jpg">FC Admira Wacker Mödling vs. FC Red Bull Salzburg 2018-04-15 (064).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="1f44ac21" data-player-key="erling haaland|2000">
+            Erling Haaland — <a href="https://www.premierleague.com/players/65970/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="12c35abe" data-player-key="jens petter hauge|1999">
+            Jens Petter Hauge — <a href="https://commons.wikimedia.org/wiki/File:Jens_Petter_Hauge_France_v_Norway_26_June_26-016.jpg">Jens Petter Hauge France v Norway 26 June 26-016.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="da9f4fa3" data-player-key="herman haugen|2000">
+            Herman Haugen — <a href="https://commons.wikimedia.org/wiki/File:Herman_Haugen_2_Viking_FK_UECL_20250813_(1).jpg">Herman Haugen 2 Viking FK UECL 20250813 (1).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="70d2c6e7" data-player-key="aune heggebo|2001">
+            Aune Heggebø — <a href="https://commons.wikimedia.org/wiki/File:Krystian_Bielik_and_Aune_Heggebø_04102025_(1).jpg">Krystian Bielik and Aune Heggebø 04102025 (1).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="61b77d0a" data-player-key="noah holm|2001">
+            Noah Holm — <a href="https://commons.wikimedia.org/wiki/File:Noah_Holm.jpg">Noah Holm.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="62e0b5c2" data-player-key="ruben yttergard jenssen|1988">
+            Ruben Yttergård Jenssen — <a href="https://commons.wikimedia.org/wiki/File:Ruben_Yttergård_Jenssen_-_2009-09-27_at_20-07-30.jpg">Ruben Yttergård Jenssen - 2009-09-27 at 20-07-30.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="5186dfbf" data-player-key="joshua kitolano|2001">
+            Joshua Kitolano — <a href="https://commons.wikimedia.org/wiki/File:GAE_-_Sparta_Rotterdam_-_53278200750_(cropped).jpg">GAE - Sparta Rotterdam - 53278200750 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3a4c9e5c" data-player-key="fredrik pallesen knudsen|1996">
+            Fredrik Pallesen Knudsen — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_Pallesen_Knudsen_2026.jpg">Fredrik Pallesen Knudsen 2026.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="aaf0e970" data-player-key="axel kryger|1997">
+            Axel Kryger — <a href="https://commons.wikimedia.org/wiki/File:Axel_Kryger_-_Bryne_-_Haugesund_-_2025-04-21.jpg">Axel Kryger - Bryne - Haugesund - 2025-04-21.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="f553b2b3" data-player-key="jorgen strand larsen|2000">
+            Jørgen Strand Larsen — <a href="https://www.premierleague.com/players/35670/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d266f8c9" data-player-key="tobias lauritsen|1997">
+            Tobias Lauritsen — <a href="https://commons.wikimedia.org/wiki/File:GAE_-_Sparta_Rotterdam_-_53276846272_(cropped).jpg">GAE - Sparta Rotterdam - 53276846272 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="773e16b9" data-player-key="sivert mannsverk|2002">
+            Sivert Mannsverk — <a href="https://commons.wikimedia.org/wiki/File:Sivert_Heggheim_Mannsverk_05042025_(3).jpg">Sivert_Heggheim_Mannsverk_05042025_(3).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="a091311f" data-player-key="eman markovic|1999">
+            Eman Marković — <a href="https://commons.wikimedia.org/wiki/File:IFK_Göteborg_-_Malmö_FF_34.jpg">IFK Göteborg - Malmö FF 34.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4e32cf6d" data-player-key="ulrik mathisen|1999">
+            Ulrik Mathisen — <a href="https://commons.wikimedia.org/wiki/File:Ulrik_Mathisen.jpg">Ulrik Mathisen.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="70c52749" data-player-key="birger meling|1994">
+            Birger Meling — <a href="https://commons.wikimedia.org/wiki/File:Raków-Kopenhaga-_1_(Birger_Meling).jpg">Raków-Kopenhaga- 1 (Birger Meling).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4ab12002" data-player-key="antonio nusa|2005">
+            Antonio Nusa — <a href="https://www.bundesliga.com/en/player/antonio-nusa">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="c70b221c" data-player-key="birk risa|1998">
+            Birk Risa — <a href="https://commons.wikimedia.org/wiki/File:Birk_Risa_NYCvATL-06.12.25-006_(cropped).jpg">Birk Risa NYCvATL-06.12.25-006 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="df3f0efa" data-player-key="martin ove roseth|1998">
+            Martin Ove Roseth — <a href="https://commons.wikimedia.org/wiki/File:Martin_Ove_Roseth_4_Viking_FK_UECL_20250813_(2).jpg">Martin Ove Roseth 4 Viking FK UECL 20250813 (2).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="009a4f60" data-player-key="julian ryerson|1997">
+            Julian Ryerson — <a href="https://www.bundesliga.com/en/player/julian-ryerson">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="f6af14b0" data-player-key="ulrik saltnes|1992">
+            Ulrik Saltnes — <a href="https://commons.wikimedia.org/wiki/File:Saltnes.jpg">Saltnes.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="505b4e06" data-player-key="sverre sandal|2003">
+            Sverre Sandal — <a href="https://commons.wikimedia.org/wiki/File:Sverre_Sandal_18072026_(5).jpg">Sverre Sandal 18072026 (5).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="a427724f" data-player-key="andreas schjelderup|2004">
+            Andreas Schjelderup — <a href="https://commons.wikimedia.org/wiki/File:Andreas_Schjelderup_France_v_Norway_26_June_26-111.jpg">Andreas Schjelderup France v Norway 26 June 26-111.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="ce22ca27" data-player-key="fredrik sjolstad|1994">
+            Fredrik Sjølstad — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_Sjølstad_Ham-Kam_2015.jpg">Fredrik Sjølstad Ham-Kam 2015.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="78f13530" data-player-key="ola solbakken|1998">
+            Ola Solbakken — <a href="https://commons.wikimedia.org/wiki/File:Ola_Solbakken.jpg">Ola Solbakken.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e1453b38" data-player-key="joachim soltvedt|1995">
+            Joachim Soltvedt — <a href="https://commons.wikimedia.org/wiki/File:Joachim_Soltvedt_-_SK_Brann_-_53881393939_(cropped).jpg">Joachim Soltvedt - SK Brann - 53881393939 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e92cd3f7" data-player-key="alexander sorloth|1995">
+            Alexander Sørloth — <a href="https://www.laliga.com/en-GB/player/alexander-sorloth">LaLiga, official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d1b49282" data-player-key="morten thorsby|1996">
+            Morten Thorsby — <a href="https://commons.wikimedia.org/wiki/File:Morten_Thorsby_France_v_Norway_26_June_26-027.jpg">Morten Thorsby France v Norway 26 June 26-027.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="8f160d73" data-player-key="fredrik ulvestad|1992">
+            Fredrik Ulvestad — <a href="https://commons.wikimedia.org/wiki/File:Fredrik_Ulvestad_(Djurgården,_2020,_cropped).jpg">Fredrik Ulvestad (Djurgården, 2020, cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="482e9289" data-player-key="gustav valsvik|1993">
+            Gustav Valsvik — <a href="https://commons.wikimedia.org/wiki/File:GustavValsvik_(cropped).jpg">GustavValsvik (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="aa982b0f" data-player-key="hugo vetlesen|2000">
+            Hugo Vetlesen — <a href="https://commons.wikimedia.org/wiki/File:FC_Salzburg_gegen_Club_Brügge_(2025-08-06_Championsleague_Qualifikation_Dritte_Runde)_69_(Hugo_Vetlesen).jpg">FC Salzburg gegen Club Brügge (2025-08-06 Championsleague Qualifikation Dritte Runde) 69 (Hugo Vetlesen).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="063ae595" data-player-key="gustav wikheim|1993">
+            Gustav Wikheim — <a href="https://commons.wikimedia.org/wiki/File:Gustav_Wikheim_(Djurgården_vs_Halmstad,_30_September_2023).jpg">Gustav Wikheim (Djurgården vs Halmstad, 30 September 2023).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="9ffe5479" data-player-key="sondre orjasaeter|2003">
+            Sondre Ørjasæter — <a href="https://commons.wikimedia.org/wiki/File:Sondre_Ørjasæter_2026.jpg">Sondre_Ørjasæter_2026.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b35a7399" data-player-key="leo ostigard|1999">
+            Leo Østigård — <a href="https://commons.wikimedia.org/wiki/File:Leo_Ostigard_Morocco_v_Norway_7_June_2026-42.jpg">Leo Ostigard Morocco v Norway 7 June 2026-42.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+        </ul>
+      </details>
+    </div>
+    <p class="rendered-at">Rendered: 2026-09-29 13:15</p>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const toc = document.getElementById('toc');
+    if (!toc) return;
+    const btn = toc.querySelector('.toc-toggle');
+    if (!btn) return;
+    const KEY = 'atlas-toc-collapsed';
+    const apply = (collapsed) => {
+      toc.dataset.collapsed = collapsed ? 'true' : 'false';
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      btn.setAttribute('aria-label', collapsed ? btn.dataset.labelShow : btn.dataset.labelHide);
+    };
+    try {
+      apply(localStorage.getItem(KEY) === 'true');
+    } catch (e) {
+      apply(false);
+    }
+    btn.addEventListener('click', () => {
+      const next = toc.dataset.collapsed !== 'true';
+      apply(next);
+      try { localStorage.setItem(KEY, next ? 'true' : 'false'); } catch (e) {}
+    });
+  })();
+</script>
+
+<script>
+  window.renderTex = () => {
+    document.querySelectorAll('[data-tex]').forEach(el => {
+      try { katex.render(el.dataset.tex, el, { displayMode: true, throwOnError: false }); el.classList.add('formula-tex'); } catch (e) {}
+    });
+  };
+  if (window.katex) window.renderTex();
+  (() => {
+    // contents panel on narrow screens
+    const btn = document.querySelector('.toc-btn'), toc = document.getElementById('toc');
+    if (btn && toc) {
+      const set = (open) => { document.body.classList.toggle('toc-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('toc-open')));
+      toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM);
+    // chapter ledes (p.framing.lede) always clamp to two lines regardless of
+    // length, so every chapter opens with a fast-scan preview
+    const cs = document.documentElement.lang === 'cs';
+    const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
+    const clampCandidates = [
+      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote):not(.slide-a):not(.slide-how), .container > .muted.small'),
+      ...document.querySelectorAll('.container > p.framing.lede'),
+    ];
+    clampCandidates.forEach((p) => {
+      const lede = p.classList.contains('lede');
+      const narrow = matchMedia('(max-width: 719px)').matches;
+      if (!lede && p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      p.classList.add('clamp');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => { const open = p.classList.toggle('clamp-open'); b.textContent = open ? L[1] : L[0]; b.setAttribute('aria-expanded', String(open)); });
+      p.after(b);
+    });
+    // player index: filter rows by name (no library)
+    const q = document.getElementById('player-search');
+    const table = document.querySelector('.player-index-table');
+    if (q && table) {
+      const rows = [...table.querySelectorAll('tbody tr[data-name]')];
+      const count = document.querySelector('.player-index-count');
+      const fold = table.closest('details');
+      const ascii = (s) => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      q.addEventListener('input', () => {
+        const needle = ascii(q.value.trim());
+        let shown = 0;
+        rows.forEach((r) => { const hit = !needle || r.dataset.name.includes(needle); r.hidden = !hit; if (hit) shown++; });
+        if (count) count.textContent = shown;
+        if (fold && needle) fold.open = true;
+      });
+    }
+  })();
+  (() => {
+    document.querySelectorAll('.capita').forEach((capita) => {
+      if (!('IntersectionObserver' in window)) return;
+      capita.dataset.animate = '';
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) { capita.dataset.animate = 'in'; io.disconnect(); }
+      }, { threshold: 0.3 });
+      io.observe(capita);
+    });
+    const links = [...document.querySelectorAll('.toc-sticky a[href^="#"]')];
+    const targets = links.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+    if (targets.length) {
+      const byId = new Map(links.map(a => [a.hash.slice(1), a]));
+      let current = null, ticking = false;
+      const update = () => {
+        ticking = false;
+        const line = 96;
+        let best = null;
+        for (const t of targets) { if (t.getBoundingClientRect().top <= line) best = t; else break; }
+        const id = best ? best.id : null;
+        if (id === current) return;
+        current = id;
+        links.forEach(a => a.removeAttribute('aria-current'));
+        if (id) byId.get(id)?.setAttribute('aria-current', 'true');
+      };
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
+    }
+  })();
+</script>
+
+<script>
+  (() => {
+    // phone: the menu button opens the links as a panel; desktop: the
+    // Questions list closes on a click elsewhere or on Escape
+    const btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu');
+    if (btn && menu) {
+      const set = (open) => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('menu-open')));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    const q = document.querySelector('.topbar-q');
+    if (q) {
+      if (matchMedia('(max-width: 719px)').matches) q.open = true;
+      document.addEventListener('click', (e) => { if (!matchMedia('(max-width: 719px)').matches && !q.contains(e.target)) q.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') q.open = false; });
+    }
+  })();
+</script>
+</body>
+</html>

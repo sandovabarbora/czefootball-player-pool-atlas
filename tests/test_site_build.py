@@ -56,10 +56,21 @@ def site_dir(tmp_path_factory) -> tuple[Path, bool]:
     return out, _docs_fingerprint() == before
 
 
+def _site_pages(out: Path) -> list[Path]:
+    """The report's pages after the split (site/split_pages.py): the front
+    page, one page per question, this autumn, methodology."""
+    pages = [out / "index.html", out / "methodology" / "index.html", *sorted((out / "q").glob("*/index.html"))]
+    if (out / "this-autumn" / "index.html").exists():
+        pages.append(out / "this-autumn" / "index.html")
+    return pages
+
+
 @pytest.fixture(scope="module")
 def built(site_dir) -> dict[str, str]:
+    """The whole report, every page of it concatenated (the checks below ask
+    what the report carries, not which page it sits on)."""
     out, _ = site_dir
-    pages = {"en": (out / "index.html").read_text(encoding="utf-8")}
+    pages = {"en": "\n".join(p.read_text(encoding="utf-8") for p in _site_pages(out))}
     if HAS_CS:
         pages["cs"] = (out / "cs" / "index.html").read_text(encoding="utf-8")
     return pages
@@ -87,6 +98,7 @@ def test_site_layer_is_applied_to_both_pages(built):
         prefix = "" if lang == "en" else "../"
         assert '<nav class="topbar"' in html and 'class="lang-switch"' not in html
         assert f'href="{prefix}modern.css?v=' in html and f'src="{prefix}atlas.js?v=' in html
+        assert 'href="../../modern.css?v=' in html   # a question page's assets, two levels up
         assert 'hreflang="cs"' not in html
         # one card per position group per showcase rule (currently 5 rules, 3
         # groups); a rule can miss a group, so the count is a range.
@@ -115,15 +127,40 @@ def test_player_atlas_page_is_built_with_portraits(site_dir):
     """site/build_atlas.py: the player atlas page next to the report, and the
     careers data it reads decorated with each player's portrait."""
     out, _ = site_dir
-    page = (out / "atlas" / "index.html").read_text(encoding="utf-8")
+    page = (out / "players" / "index.html").read_text(encoding="utf-8")
     assert "data-atlas-app" in page and 'src="../atlas.app.js?v=' in page and '<nav class="topbar"' in page
     assert (out / "atlas.app.js").exists()
     data = json.loads((out / "charts" / "careers.json").read_text(encoding="utf-8"))
     assert data["players"] and data["seasons_covered"] and data["metrics_season"] in data["seasons_covered"]
     assert any(p.get("photo") for p in data["players"]), "no portrait made it into the careers data"
-    # the report links every pool row to its career
-    en = (out / "index.html").read_text(encoding="utf-8")
-    assert 'href="atlas/#p/' in en and 'href="atlas/"' in en
+    # the report links every card to its career, and the front page to the atlas
+    cards = (out / "q" / "cards" / "index.html").read_text(encoding="utf-8")
+    assert 'href="../../players/#p/' in cards
+    assert 'href="players/"' in (out / "index.html").read_text(encoding="utf-8")
+    # the old address forwards, keeping the #p/... hash
+    old = (out / "atlas" / "index.html").read_text(encoding="utf-8")
+    assert "location.replace('../players/' + location.search + location.hash)" in old
+
+
+def test_report_is_split_into_a_front_page_and_one_page_per_question(site_dir):
+    """site/split_pages.py: a short front page, one page per question with
+    previous/next, this autumn, methodology; old #anchors forwarded."""
+    out, _ = site_dir
+    front = (out / "index.html").read_text(encoding="utf-8")
+    slugs = sorted(p.parent.name for p in (out / "q").glob("*/index.html"))
+    assert {"why", "per-head", "cohorts", "youth", "abroad", "national-team", "break", "goalkeepers", "cards"} <= set(slugs)
+    assert 'class="findings"' in front and front.count("Read the evidence →") >= 5
+    assert 'class="slide"' not in front and 'id="methodology"' not in front
+    # the old anchors: #q1 -> q/per-head/, #methodology -> methodology/
+    m = re.search(r"const P = (\[.*?\]), M = (\{.*?\});", front)
+    assert m, "no old-anchor map on the front page"
+    pages, table = json.loads(m.group(1)), json.loads(m.group(2))
+    assert pages[table["q1"]] == "q/per-head/" and pages[table["methodology"]] == "methodology/"
+    meth = (out / "methodology" / "index.html").read_text(encoding="utf-8")
+    assert 'id="methodology"' in meth and 'id="references"' in meth and 'id="downloads"' in meth
+    for slug in slugs:
+        page = (out / "q" / slug / "index.html").read_text(encoding="utf-8")
+        assert '<nav class="topbar"' in page and 'class="qpager' in page and 'href="../../"' in page
 
 
 @pytest.mark.skipif(NATION != "cze", reason="the nations page is built into the root site only")

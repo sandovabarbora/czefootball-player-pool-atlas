@@ -1,0 +1,2358 @@
+<!DOCTYPE html>
+<html lang="en" data-home="DEN">
+<head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="https://football.bsandova.com/den/methodology/">
+  <meta name="atlas-split" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methodology · Danish football · Player pool atlas</title>
+  <meta name="description" content="Structural benchmark of the Danish professional football player pool against 8 peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=202609291536">
+  <link rel="stylesheet" href="../modern.css?v=202609291536">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+  <script defer src="../charts.js?v=202609291536"></script>
+  <script defer src="../atlas.js?v=202609291536"></script>
+</head>
+<body id="top">
+<nav class="topbar" aria-label="Navigation">
+  <a class="topbar-brand" href="../">Danish Football <span>Atlas</span></a>
+  <button type="button" class="menu-btn" aria-controls="site-menu" aria-expanded="false">Menu</button>
+  <button type="button" class="toc-btn" aria-controls="toc" aria-expanded="false">Contents</button>
+  <div class="topbar-links" id="site-menu">
+    <a href="../">Summary</a>
+    <details class="topbar-q">
+      <summary>Questions</summary>
+      <ol class="topbar-q-list">
+        <li><a href="../q/why/">Why the train left</a></li>
+        <li><a href="../q/per-head/">Is the pool thin?</a></li>
+        <li><a href="../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../q/youth/">Youth minutes at home</a></li>
+        <li><a href="../q/abroad/">Where they go</a></li>
+        <li><a href="../q/leaving-late/">Does leaving later cost anything?</a></li>
+        <li><a href="../q/fare/">How they fare</a></li>
+        <li><a href="../q/national-team/">National-team squad</a></li>
+        <li><a href="../q/break/">When the train left</a></li>
+        <li><a href="../q/peers/">Norway and Czechia</a></li>
+        <li><a href="../q/goalkeepers/">Goalkeepers</a></li>
+        <li><a href="../q/gap/">What the gap is made of</a></li>
+        <li><a href="../q/cards/">Who the players are</a></li>
+        <li><a href="../q/changes/">What changed in a year</a></li>
+      </ol>
+    </details>
+    <a href="../methodology/" aria-current="page">Methodology</a>
+    <a href="../players/">Players</a>
+    <a href="/nations/">Nations</a>
+    <p class="menu-switch" aria-label="Atlas"><a href="/methodology/">CZE</a> · <a href="/eng/methodology/">ENG</a> · <a href="/ger/methodology/">GER</a> · <span aria-current="page">DEN</span> · <a href="/nor/methodology/">NOR</a> · <a href="/esp/methodology/">ESP</a></p>
+  </div>
+  <div class="atlas-switch" aria-label="Atlas">
+    <a href="/methodology/">CZE</a> · <a href="/eng/methodology/">ENG</a> · <a href="/ger/methodology/">GER</a> · <span aria-current="page">DEN</span> · <a href="/nor/methodology/">NOR</a> · <a href="/esp/methodology/">ESP</a>
+  </div>
+</nav>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main" class="page page-methodology">
+<nav class="toc-sticky" aria-label="Report contents" id="toc">
+<button type="button" class="toc-toggle" aria-controls="toc" aria-expanded="true"
+          aria-label="Hide contents" data-label-show="Show contents" data-label-hide="Hide contents">
+    <span class="toc-toggle-glyph" aria-hidden="true"></span>
+  </button>
+  <p class="toc-heading">Contents</p><ol>
+    <li><a href="#methodology">How it is built, validated and where it stops</a>
+      <ol>
+          <li><a href="#multipliers">League multipliers</a></li>
+          <li><a href="#league-strength">League strength</a></li>
+          <li><a href="#model-comparison">Three models, one task, five seasons</a></li>
+          <li><a href="#series-model">Dating the break and one forecast</a></li>
+          <li><a href="#youth-panel">Cross-country youth-minutes panel</a></li>
+          <li><a href="#gap-decomposition">What the gap is made of</a></li>
+          <li><a href="#export-age-model">Age at export</a></li>
+          <li><a href="#shrinkage">Bayesian shrinkage</a></li>
+          <li><a href="#pca-loadings">PCA loadings</a></li>
+          <li><a href="#sensitivity">Sensitivity analysis</a></li>
+          <li><a href="#limitations">Limitations</a></li>
+          <li><a href="#validation-robustness">Validation & robustness</a></li>
+          <li><a href="#reproducibility">Reproducibility</a></li>
+          <li><a href="#tracking">What tracking data would add</a></li>
+          <li><a href="#related-methods">Related methods</a></li>
+          <li><a href="#glossary">Glossary</a></li>
+          <li><a href="#references">References</a></li>
+        </ol>
+    </li>
+  </ol>
+</nav>
+
+<aside class="chapter-divider" role="separator" aria-label="Chapter IV">
+  <p class="chapter-numeral">IV</p>
+  <span class="chapter-mark" aria-hidden="true"></span>
+  <p class="chapter-title">How it is built, validated and where it stops</p>
+  <p class="chapter-synopsis">A replicable pipeline: data sources, league multipliers, Bayesian shrinkage, PCA loadings, sensitivity analysis. Limitations and reproducibility.</p>
+</aside>
+
+<section class="methodology">
+  <div class="container">
+    <h2 id="methodology">How it is built, validated and where it stops</h2>
+
+    <h3 id="data-sources">Data sources</h3>
+    <ul>
+      <li><strong>FBref</strong> (via <code>soccerdata</code>): player season tables (standard, playing time) for the 9 headline leagues, the Superliga, the peer domestic leagues and the German second tier; the country page "Players from Denmark" for pool discovery; the nationality column for peer counts</li>
+      <li><strong>Wikipedia</strong>: national-team squad tables (UEFA Euro 2024, UEFA European Under-21 Championship 2025) for the call-up flag</li>
+      <li><strong>Wikidata / Wikimedia Commons</strong>: player portraits (P18) matched on name, citizenship and date of birth; credits in the footer</li>
+      <li><strong>UEFA association coefficients</strong> (via Wikipedia) as the league-strength source, ClubElo being unreachable at run time</li>
+      <li><strong>Eurostat</strong>: population estimates, 2024</li>
+    </ul>
+
+    
+    <h3 id="features-from-raw">From raw tables to a feature vector</h3>
+    <p>One 2025/26 player-season, traced from its raw FBref row to the five-number vector the rest of this chapter builds on: Victor Nelsson, the Danish player with the most 2025/26 minutes among those who cleared the inclusion floor.</p>
+
+    <details class="fold">
+      <summary>Victor Nelsson: raw row and feature row</summary>
+      <table class="kv-table">
+        <caption>Raw FBref row, 2025/26</caption>
+        <thead><tr><th>Column</th><th>Value</th></tr></thead>
+        <tbody>
+          
+          <tr><td><code>league</code></td><td>ITA-Serie A</td></tr>
+          
+          <tr><td><code>season</code></td><td>2025-2026</td></tr>
+          
+          <tr><td><code>team</code></td><td>Hellas Verona</td></tr>
+          
+          <tr><td><code>player</code></td><td>Victor Nelsson</td></tr>
+          
+          <tr><td><code>nation</code></td><td>DEN</td></tr>
+          
+          <tr><td><code>pos</code></td><td>DF</td></tr>
+          
+          <tr><td><code>born</code></td><td>1998</td></tr>
+          
+          <tr><td><code>age</code></td><td>26</td></tr>
+          
+          <tr><td><code>mp</code></td><td>38</td></tr>
+          
+          <tr><td><code>min</code></td><td>3315</td></tr>
+          
+          <tr><td><code>gls</code></td><td>0</td></tr>
+          
+          <tr><td><code>ast</code></td><td>0</td></tr>
+          
+          <tr><td><code>pk</code></td><td>0</td></tr>
+          
+          <tr><td><code>crdy</code></td><td>4</td></tr>
+          
+          <tr><td><code>crdr</code></td><td>0</td></tr>
+          
+        </tbody>
+      </table>
+      <table class="kv-table">
+        <caption>Feature row after the pipeline</caption>
+        <thead><tr>
+          <th>Feature</th><th>Raw</th>
+          <th>Shrunk</th><th>Quality-adjusted</th>
+          <th>Z-score</th>
+        </tr></thead>
+        <tbody>
+          
+          <tr>
+            <td><code>npg_p90</code></td><td>0.000</td><td>0.006</td>
+            <td>0.005</td><td>−0.71</td>
+          </tr>
+          
+          <tr>
+            <td><code>ast_p90</code></td><td>0.000</td><td>0.000</td>
+            <td>0.000</td><td>−0.80</td>
+          </tr>
+          
+          <tr>
+            <td><code>min_share</code></td><td>0.969</td><td>0.969</td>
+            <td>0.969</td><td>1.61</td>
+          </tr>
+          
+          <tr>
+            <td><code>age</code></td><td>26.000</td><td>26.000</td>
+            <td>26.000</td><td>0.03</td>
+          </tr>
+          
+          <tr>
+            <td><code>cards_p90</code></td><td>0.109</td><td>0.127</td>
+            <td>0.127</td><td>−0.98</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+
+    <p>Six wrangling checks turn the raw rows above into the pool used everywhere else in this report, recomputed on every run:</p>
+    <ul>
+      
+      <li>Women&#39;s entries filtered: 0 entries.</li>
+      
+      <li>Namesakes in the pool: 18 players.</li>
+      
+      <li>Pool players without season tables: 517 players.</li>
+      
+      <li>Split-season rows collapsed: 441 rows.</li>
+      
+      <li>Unmatched call-up names: 68 names.</li>
+      
+      <li>Missing birth years: 0 rows.</li>
+      
+      <li>Unjoined goalkeeper rows: 12 rows.</li>
+      
+      <li>Superliga rows without a nationality: 14 rows.</li>
+      
+    </ul>
+    <p class="capita-note">The full log, with the recorded pipeline incidents, is in <a href="#data-quality">the data-quality log</a> below.</p>
+
+    <p>Every position group shares the same five-number vector (spec §5): a raw column becomes a per-90 rate, shrunk toward its league-season median (Efron and Morris, 1975), then multiplied by the league quality projection.</p>
+    <ul class="eda-feature-list">
+      <li><code>npg_p90</code> — non-penalty goals per 90 minutes: penalties are shot quality, not open-play production, and inflate a taker's raw goal count for reasons that have nothing to do with how the player creates chances</li>
+      <li><code>ast_p90</code> — assists per 90 minutes: the direct creative complement to non-penalty goals, on the same basic table for every league in the corpus</li>
+      <li><code>min_share</code> — minutes played ÷ (club matches × 90): the coach's own read of the player, sturdier than counting appearances (see below)</li>
+      <li><code>age</code> — age at the season's start (start year − birth year): median production still shifts by age band in this corpus (see below), so it stays as its own axis rather than being folded into anything else</li>
+      <li><code>cards_p90</code> — yellow + 2 × red cards per 90 minutes: a discipline signal folded into one rate because red cards alone are too sparse a signal on their own (see below)</li>
+    </ul>
+
+    <p>Five candidates considered for the 2025/26 vector and what the data said about each, corpus-wide (every fetched nationality, the same population the rest of this chapter describes):</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Candidate</th><th>Statistic</th>
+        <th>Value</th><th>Decision</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr><td><code>gls_p90</code></td><td>Correlation with npg_p90</td><td>0.973</td><td>Replaced by npg_p90</td></tr>
+        
+        <tr><td><code>mp</code></td><td>Correlation with minutes played</td><td>0.844</td><td>Replaced by minutes share</td></tr>
+        
+        <tr><td><code>crdr_p90</code></td><td>Share of player-seasons with zero red cards</td><td>0.854</td><td>Folded into cards</td></tr>
+        
+        <tr><td><code>age</code></td><td>Spread of median goals + assists per 90 across age bands (max − min band)</td><td>0.028</td><td>Kept</td></tr>
+        
+        <tr><td><code>born</code></td><td>Share of player-seasons missing a birth year</td><td>0.003</td><td>Kept — required for the player key</td></tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">Despite the high correlation, goals and non-penalty goals diverge for the players who take penalties: Iuri Medeiros (HUN-NB I, 100 %); Yanis Zouaoui (FRA-Ligue 1, 100 %); Domagoj Antolić (CRO-HNL, 100 %). Appearances (mp) correlate strongly with minutes but not perfectly — a substitute cameo counts the same as 90 minutes started, which is why minutes share, not appearances, measures playing time here. Median goals + assists per 90 by age band runs from 0.147 (30+) – 0.175 (23-25).</p>
+
+    <p>The picture behind league adjustment: the same raw rate reads very differently depending on the league it was earned in.</p>
+    <figure class="figure-bleed">
+      <img src="../eda_distributions.svg" alt="Small multiples: the five raw per-90 features' distributions by league, boxplots per league, the Superliga highlighted, 7 leagues shown.">
+    </figure>
+
+    
+    <p>What shrinkage does to a low-minute player: at the inclusion floor the league median still carries most of the weight; Victor Jensen's rate moves the most of any Danish-eligible player this season.</p>
+    <figure class="figure-bleed">
+      <img src="../eda_shrinkage.svg" alt="Scatter of raw vs shrunk non-penalty goals per 90 against minutes for Danish-eligible players, with the shrinkage weight on the league median as a function of minutes overlaid.">
+    </figure>
+    
+    
+
+    <h3 id="multipliers">League multipliers (quality projection)</h3>
+    <p class="formula" data-tex="\text{npG/90}_{\text{quality}} = \text{npG/90}_{\text{shrunk}} \times m_{\text{league}}">npG/90_quality = npG/90_shrunk × m_league</p>
+    <table class="kv-table">
+      <thead><tr><th>League</th><th>Multiplier</th></tr></thead>
+      <tbody>
+        
+        <tr><td>ENG-Premier League</td><td>1.000</td></tr>
+        
+        <tr><td>ITA-Serie A</td><td>0.856</td></tr>
+        
+        <tr><td>ESP-La Liga</td><td>0.807</td></tr>
+        
+        <tr><td>GER-Bundesliga</td><td>0.788</td></tr>
+        
+        <tr><td>FRA-Ligue 1</td><td>0.666</td></tr>
+        
+        <tr><td>POR-Primeira Liga</td><td>0.630</td></tr>
+        
+        <tr><td>BEL-Pro League</td><td>0.573</td></tr>
+        
+        <tr><td>NED-Eredivisie</td><td>0.510</td></tr>
+        
+        <tr><td>TUR-Süper Lig</td><td>0.484</td></tr>
+        
+        <tr><td>GER-2. Bundesliga</td><td>0.473</td></tr>
+        
+        <tr><td>POL-Ekstraklasa</td><td>0.438</td></tr>
+        
+        <tr><td>CZE-First League</td><td>0.434</td></tr>
+        
+        <tr><td>NOR-Eliteserien</td><td>0.374</td></tr>
+        
+        <tr><td>DEN-Superliga</td><td>0.371</td></tr>
+        
+        <tr><td>SUI-Super League</td><td>0.293</td></tr>
+        
+        <tr><td>AUT-Bundesliga</td><td>0.268</td></tr>
+        
+        <tr><td>HUN-NB I</td><td>0.265</td></tr>
+        
+        <tr><td>CRO-HNL</td><td>0.249</td></tr>
+        
+        <tr><td>SVK-Super Liga</td><td>0.217</td></tr>
+        
+      </tbody>
+    </table>
+    <p class="muted small">Method: <code>uefa_coefficient</code>. ClubElo unavailable at run time (HTTP error); fell back to Wikipedia&#39;s UEFA men&#39;s association coefficient, current 5-year ranking (2022–23–2026–27 seasons). tier-1 multiplier = coef[country] / max(coef); tier-2 multiplier = 0.6 * tier-1 multiplier of the same country (stated assumption, not derived from data). Strongest tier-1 country = 1.00. The sensitivity analysis below shows the ranking's robustness to ±20 % on any one multiplier.</p>
+
+    
+    <h3 id="league-strength">League strength: two estimates</h3>
+    <p class="plain">A season in one league is not automatically worth the same as a season in another: goals and assists come easier in some competitions than others. This section works out an exchange rate between leagues by watching the same players before and after they change league, the way a manager judges a new signing by how his output changes at the new club.</p>
+    <details class="fold method-body">
+      <summary>Full method, figures and diagnostics</summary>
+    <p>How much is a Superliga season worth in Premier League terms? The UEFA multiplier above answers that from countries' continental results; this model answers the same question from the players who actually changed leagues.</p>
+    <p>Movers — 2125 players observed in at least two leagues across 8108 qualifying player-seasons — anchor the model, since only a player's own before/after change of league separates their level from the league's scoring environment. A hierarchical Poisson model of non-penalty goals plus assists per 90 (Gelman et al., 2013) fits a league effect and a player effect together, sampled with NUTS (Hoffman and Gelman, 2014) in PyMC (Abril-Pla et al., 2023) and diagnosed with ArviZ (Kumar et al., 2019). Partial pooling keeps the league effects regularised while leaving player effects close to unpooled, the same within-subject logic behind plus-minus and RAPM ratings elsewhere in team sports (Kharrat, McHale and Peña, 2020; Hvattum, 2019).</p>
+    <figure class="figure-bleed">
+      <img src="../league_strength.svg" alt="Dot and 90 % HDI of the model's league-strength multiplier m_L per league, sorted, with each league's UEFA multiplier as a hollow marker.">
+    </figure>
+    
+    <p>In these terms, a Superliga season converts to 0.64 of a Premier League one (90 % HDI 0.58–0.70).</p>
+    
+    <table class="kv-table strength-table">
+      <thead><tr>
+        <th>League</th><th>m_L (median)</th>
+        <th>90 % HDI</th><th>Transitions</th>
+        <th>UEFA</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr >
+          <td>ENG-Premier League</td><td>1.000</td>
+          <td>1.000–1.000</td>
+          <td class="num">589</td>
+          <td>1.000</td>
+        </tr>
+        
+        <tr >
+          <td>ITA-Serie A</td><td>0.934</td>
+          <td>0.890–0.980</td>
+          <td class="num">569</td>
+          <td>0.856</td>
+        </tr>
+        
+        <tr >
+          <td>ESP-La Liga</td><td>0.909</td>
+          <td>0.863–0.955</td>
+          <td class="num">435</td>
+          <td>0.807</td>
+        </tr>
+        
+        <tr >
+          <td>FRA-Ligue 1</td><td>0.810</td>
+          <td>0.772–0.848</td>
+          <td class="num">672</td>
+          <td>0.666</td>
+        </tr>
+        
+        <tr >
+          <td>GER-Bundesliga</td><td>0.777</td>
+          <td>0.743–0.814</td>
+          <td class="num">588</td>
+          <td>0.788</td>
+        </tr>
+        
+        <tr >
+          <td>HUN-NB I</td><td>0.743</td>
+          <td>0.630–0.869</td>
+          <td class="num">35</td>
+          <td>0.265</td>
+        </tr>
+        
+        <tr >
+          <td>POR-Primeira Liga</td><td>0.721</td>
+          <td>0.679–0.762</td>
+          <td class="num">352</td>
+          <td>0.630</td>
+        </tr>
+        
+        <tr >
+          <td>BEL-Pro League</td><td>0.671</td>
+          <td>0.633–0.708</td>
+          <td class="num">474</td>
+          <td>0.573</td>
+        </tr>
+        
+        <tr >
+          <td>CZE-First League</td><td>0.664</td>
+          <td>0.586–0.748</td>
+          <td class="num">65</td>
+          <td>0.434</td>
+        </tr>
+        
+        <tr >
+          <td>TUR-Süper Lig</td><td>0.659</td>
+          <td>0.625–0.696</td>
+          <td class="num">472</td>
+          <td>0.484</td>
+        </tr>
+        
+        <tr >
+          <td>POL-Ekstraklasa</td><td>0.659</td>
+          <td>0.596–0.721</td>
+          <td class="num">135</td>
+          <td>0.438</td>
+        </tr>
+        
+        <tr >
+          <td>AUT-Bundesliga</td><td>0.654</td>
+          <td>0.584–0.733</td>
+          <td class="num">80</td>
+          <td>0.268</td>
+        </tr>
+        
+        <tr data-highlight="cze">
+          <td>DEN-Superliga</td><td>0.636</td>
+          <td>0.577–0.702</td>
+          <td class="num">117</td>
+          <td>0.371</td>
+        </tr>
+        
+        <tr >
+          <td>GER-2. Bundesliga</td><td>0.600</td>
+          <td>0.556–0.644</td>
+          <td class="num">229</td>
+          <td>0.473</td>
+        </tr>
+        
+        <tr >
+          <td>CRO-HNL</td><td>0.598</td>
+          <td>0.526–0.668</td>
+          <td class="num">64</td>
+          <td>0.249</td>
+        </tr>
+        
+        <tr >
+          <td>NED-Eredivisie</td><td>0.597</td>
+          <td>0.566–0.631</td>
+          <td class="num">386</td>
+          <td>0.510</td>
+        </tr>
+        
+        <tr >
+          <td>SUI-Super League</td><td>0.596</td>
+          <td>0.544–0.653</td>
+          <td class="num">128</td>
+          <td>0.293</td>
+        </tr>
+        
+        <tr >
+          <td>NOR-Eliteserien</td><td>0.574</td>
+          <td>0.510–0.644</td>
+          <td class="num">66</td>
+          <td>0.374</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <p>Refit on seasons before 2025/26, the model predicts each mover's first 2025/26 row after a league change — 865 such moves — against two baselines: the same rate as before, and that rate scaled by the ratio of UEFA multipliers. This is the same population CIES Football Observatory's expatriate-player reports track (Poli, Ravenel and Besson, 2024).</p>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Method</th><th>Log predictive density</th>
+        <th>MAE (rate)</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr>
+          <td>Same rate as before</td>
+          <td>−2.625</td>
+          <td>0.137</td>
+        </tr>
+        
+        <tr>
+          <td>Rate × UEFA ratio</td>
+          <td>−2.728</td>
+          <td>0.151</td>
+        </tr>
+        
+        <tr>
+          <td>Model</td>
+          <td>−2.173</td>
+          <td>0.128</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <p>Against 18 leagues in common, the model's medians and the UEFA multipliers correlate at Spearman's rho = 0.72.</p>
+    <ul class="disagreements">
+      
+      <li>HUN-NB I: model rank 6 vs UEFA rank 17 (m_L 0.74 vs multiplier 0.27).</li>
+      
+      <li>NED-Eredivisie: model rank 16 vs UEFA rank 8 (m_L 0.60 vs multiplier 0.51).</li>
+      
+      <li>NOR-Eliteserien: model rank 18 vs UEFA rank 13 (m_L 0.57 vs multiplier 0.37).</li>
+      
+    </ul>
+
+    <p>R-hat ≤ 1.005, minimum bulk ESS 1220, 0 divergent transitions across 8108 player-seasons from 2125 movers; fit in 223 s.</p>
+
+    <details class="fold">
+      <summary>Posterior predictive check</summary>
+      <p>Observed vs. replicated non-penalty goals plus assists per player-season (Vehtari, Gelman and Gabry, 2017): 15 % vs 14 % share of zeros, mean 4.45 vs 4.45, 90th percentile 11.00 vs 10.86.</p>
+      <figure class="figure-bleed">
+        <img src="../league_strength_ppc.svg" alt="Bar chart comparing the observed and posterior-predictive-replicated distribution of non-penalty goals plus assists per player-season, grouped 0/1/2/3/4/5+.">
+      </figure>
+    </details>
+    <p>What the movers do not show: they are not a random sample — players tend to move up when they are good and down when they are older — so the within-player contrast describes the league difference for the kind of player who moves, and the age term absorbs only the part of that selection that is age. The interval is the model's uncertainty, not the selection's.</p>
+
+    <p>The report's rankings keep the UEFA-coefficient multiplier throughout; the model above is shown alongside it as a check on that multiplier's own assumption — that continental results track player-level strength — not as a replacement for it.</p>
+    </details>
+    
+
+    
+    <h3 id="model-comparison">Three models, one task, five seasons</h3>
+    <p class="plain">Here we ask a simple question of five different methods: given a player's numbers this season, how well can each one guess his numbers next season. Each method is tested only on seasons it has not already seen, the way a scout's judgement only really counts for what he predicts before a season starts, not after it has finished.</p>
+    <details class="fold method-body">
+      <summary>Full method, figures and diagnostics</summary>
+    <p>What does a player's season tell us about the next one, given where he plays, how old he is and — for exports — at what age he moved? In model terms: predict a player's league-adjusted production next season (non-penalty goals plus assists per 90, quality-adjusted) from this season's numbers, for every player-season pair with at least 450 minutes in both seasons, every nationality in the corpus.</p>
+    <p>Evaluated by rolling-origin cross-validation (Hyndman and Athanasopoulos, 2021): for each of 5 target seasons in turn, every model trains only on pairs whose target season came earlier and is tested on that season's pairs — the same discipline a forecaster uses when the future is genuinely unknown at fit time, and what makes the per-season table below a real "performance over time" read rather than one blended number. Two baselines — persistence (next season = this season) and shrinkage to the league mean — sit alongside three fitted models sharing the same eight features: a hierarchical Bayesian regression (target ~ Normal(μ, σ), partial pooling on league and player, NUTS, 2 chains × 400 draws per origin (Gelman et al., 2013)), a gradient-boosted regressor and a small multilayer perceptron (scikit-learn (Pedregosa et al., 2011), hidden layers 64/32 — a small MLP, not an embedding model: PyTorch is not part of this pipeline). The Bayesian model's training rows are subsampled to at most 2500 per origin to keep five origins' worth of fits inside the runtime budget; the other four models train on the full split. The target is adjusted with the multiplier of the league the player is in next season; the features only know this season's league, so a move is a change the models cannot see coming — a limitation shared by all five.</p>
+    <figure class="figure-bleed">
+      <img src="../model_comparison.svg" alt="Line chart of RMSE per target season, one line per model, persistence dashed.">
+    </figure>
+    <table class="kv-table compare-table">
+      <thead><tr>
+        <th>Model</th>
+        <th>2021/22</th><th>2022/23</th><th>2023/24</th><th>2024/25</th><th>2025/26</th>
+        <th>Pooled</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr >
+          <td>Persistence</td>
+          
+          <td>0.0768 (0.054)</td>
+          
+          <td>0.0782 (0.056)</td>
+          
+          <td>0.0789 (0.056)</td>
+          
+          <td>0.0787 (0.057)</td>
+          
+          <td>0.0684 (0.048)</td>
+          
+          <td class="compare-rmse-bar" style="--value: 0.0751; --max: 0.1225;">0.0751 (0.053)</td>
+        </tr>
+        
+        <tr >
+          <td>Shrinkage to league mean</td>
+          
+          <td>0.1343 (0.104)</td>
+          
+          <td>0.1293 (0.100)</td>
+          
+          <td>0.1311 (0.098)</td>
+          
+          <td>0.1271 (0.098)</td>
+          
+          <td>0.1099 (0.089)</td>
+          
+          <td class="compare-rmse-bar" style="--value: 0.1225; --max: 0.1225;">0.1225 (0.095)</td>
+        </tr>
+        
+        <tr >
+          <td>Hierarchical Bayesian</td>
+          
+          <td>—</td>
+          
+          <td>0.0712 (0.052)</td>
+          
+          <td>0.0760 (0.054)</td>
+          
+          <td>0.0722 (0.053)</td>
+          
+          <td>0.0681 (0.052)</td>
+          
+          <td class="compare-rmse-bar" style="--value: 0.0714; --max: 0.1225;">0.0714 (0.053)</td>
+        </tr>
+        
+        <tr data-highlight="winner">
+          <td>Gradient boosting</td>
+          
+          <td>—</td>
+          
+          <td>0.0723 (0.051)</td>
+          
+          <td>0.0744 (0.051)</td>
+          
+          <td>0.0698 (0.051)</td>
+          
+          <td>0.0677 (0.051)</td>
+          
+          <td class="compare-rmse-bar" style="--value: 0.0706; --max: 0.1225;">0.0706 (0.051)</td>
+        </tr>
+        
+        <tr >
+          <td>Small MLP</td>
+          
+          <td>—</td>
+          
+          <td>0.0794 (0.059)</td>
+          
+          <td>0.0792 (0.057)</td>
+          
+          <td>0.0735 (0.054)</td>
+          
+          <td>0.0714 (0.054)</td>
+          
+          <td class="compare-rmse-bar" style="--value: 0.0753; --max: 0.1225;">0.0753 (0.056)</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">Each cell: RMSE (MAE), in league-adjusted npG+A per 90. The first origin's training set is empty by construction — the corpus's earliest feature season leaves no earlier target season to train on — so only the two baselines are reported there.</p>
+
+    
+    <p>The Bayesian model's 90 % predictive interval covered the observed value 92 % of the time, pooled across the 4 origins it was fit for (2022/23: 91 %, 2023/24: 90 %, 2024/25: 91 %, 2025/26: 93 %).</p>
+    
+
+    
+    <p>By pooled RMSE, Gradient boosting wins (0.071 vs 0.075 for persistence, 6 % lower).</p>
+    
+    
+    <p>The clearest season-to-season move in the winner's own RMSE is between 2023/24 and 2024/25 (0.005) — the kind of drift this rolling-origin table exists to surface.</p>
+    
+    </details>
+    
+
+    
+    <h3 id="series-model">Dating the break and one forecast</h3>
+    <p class="plain">This section finds the two seasons when the count of home-nation players in Europe's five biggest leagues changed level for good — the rise and the fall — and puts a probability on each being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
+    <details class="fold method-body">
+      <summary>Full method, figures and diagnostics</summary>
+    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus two ordered step changes δ₁, δ₂ in the level at unknown seasons τ₁ < τ₂ — on the series back to 1990/91 one step is misspecified, since the count rises through the 1990s and falls after the 2000s plateau, and a single step lands on whichever change buys more likelihood. NUTS only samples continuous parameters, so the τ pair is not sampled directly — every ordered pair of candidate seasons at least 3 seasons from either end and from each other is marginalised out of the model with a single log-sum-exp potential, and each break's own posterior is recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, two-break setting. The report's "break" is the step that lowers the level; the other is the rise. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
+    <figure class="figure-bleed">
+      <img src="../series_model.svg" alt="Line chart of the Denmark series with the change-point model's fitted level in a pale green band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
+      <figcaption>How to read it: the black dots are the observed count, the pale green band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
+    </figure>
+    <p>For Denmark, the model dates the break to 2021/22 (23 % posterior probability), a ×1.41 (0.88–1.97, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.081.</p>
+    
+    
+    <ul class="break-top">
+      
+      <li>2021/22: 23 %</li>
+      
+      <li>2020/21: 12 %</li>
+      
+      <li>2022/23: 11 %</li>
+      
+    </ul>
+    
+    <p>The same model, fit separately for the two contrast countries:</p>
+    <ul class="contrast-break">
+      
+      <li>Norway: 2004/05 (27 % posterior), ×0.66 (0.29–1.34). Rise: 2021/22 (23 %), ×1.32.</li>
+      
+      <li>Czechia: 2014/15 (56 % posterior), ×0.60 (0.39–1.03). Rise: 2000/01 (55 %), ×1.65.</li>
+      
+    </ul>
+
+    <p>One-step-ahead rolling-origin backtest of the plain local level (no change point) against the naive "same as last season", 15 origins from 2010/11 to 2024/25:</p>
+    <table class="kv-table series-backtest-table">
+      <thead><tr>
+        <th>Origin</th><th>Forecast season</th>
+        <th>Actual</th><th>Model median (90 % interval)</th>
+        <th>Naive</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr>
+          <td>2010/11</td><td>2011/12</td><td class="num">13</td>
+          <td class="num">17 (9–26)</td><td class="num">15</td>
+        </tr>
+        
+        <tr>
+          <td>2011/12</td><td>2012/13</td><td class="num">14</td>
+          <td class="num">16 (8–25)</td><td class="num">13</td>
+        </tr>
+        
+        <tr>
+          <td>2012/13</td><td>2013/14</td><td class="num">15</td>
+          <td class="num">16 (9–24)</td><td class="num">14</td>
+        </tr>
+        
+        <tr>
+          <td>2013/14</td><td>2014/15</td><td class="num">20</td>
+          <td class="num">15 (9–24)</td><td class="num">15</td>
+        </tr>
+        
+        <tr>
+          <td>2014/15</td><td>2015/16</td><td class="num">14</td>
+          <td class="num">17 (10–25)</td><td class="num">20</td>
+        </tr>
+        
+        <tr>
+          <td>2015/16</td><td>2016/17</td><td class="num">16</td>
+          <td class="num">16 (9–24)</td><td class="num">14</td>
+        </tr>
+        
+        <tr>
+          <td>2016/17</td><td>2017/18</td><td class="num">22</td>
+          <td class="num">16 (9–25)</td><td class="num">16</td>
+        </tr>
+        
+        <tr>
+          <td>2017/18</td><td>2018/19</td><td class="num">21</td>
+          <td class="num">17 (11–26)</td><td class="num">22</td>
+        </tr>
+        
+        <tr>
+          <td>2018/19</td><td>2019/20</td><td class="num">24</td>
+          <td class="num">18 (11–27)</td><td class="num">21</td>
+        </tr>
+        
+        <tr>
+          <td>2019/20</td><td>2020/21</td><td class="num">24</td>
+          <td class="num">19 (12–29)</td><td class="num">24</td>
+        </tr>
+        
+        <tr>
+          <td>2020/21</td><td>2021/22</td><td class="num">30</td>
+          <td class="num">21 (13–31)</td><td class="num">24</td>
+        </tr>
+        
+        <tr>
+          <td>2021/22</td><td>2022/23</td><td class="num">33</td>
+          <td class="num">24 (14–37)</td><td class="num">30</td>
+        </tr>
+        
+        <tr>
+          <td>2022/23</td><td>2023/24</td><td class="num">33</td>
+          <td class="num">28 (18–42)</td><td class="num">33</td>
+        </tr>
+        
+        <tr>
+          <td>2023/24</td><td>2024/25</td><td class="num">34</td>
+          <td class="num">30 (19–45)</td><td class="num">33</td>
+        </tr>
+        
+        <tr>
+          <td>2024/25</td><td>2025/26</td><td class="num">38</td>
+          <td class="num">32 (21–46)</td><td class="num">34</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p>Pooled across 15 origins: MAE 4.60 for the model against 2.73 for the naive baseline, 100 % of the 90 % intervals covered the observed value.</p>
+
+    <p>The one forecast, for next season (2026/27), from the same change-point-free model fitted on the full series:</p>
+    <table class="kv-table series-forecast-table">
+      <thead><tr>
+        <th>Country</th><th>Season</th>
+        <th>Median</th><th>90 % interval</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr data-highlight="cze">
+          <td>Denmark</td><td>2026/27</td><td class="num">34</td>
+          <td class="num">23–50</td>
+        </tr>
+        
+        <tr >
+          <td>Norway</td><td>2026/27</td><td class="num">22</td>
+          <td class="num">11–37</td>
+        </tr>
+        
+        <tr >
+          <td>Czechia</td><td>2026/27</td><td class="num">11</td>
+          <td class="num">5–19</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p class="capita-note">A demonstration of the method on a count of players, not a statement about any player.</p>
+
+    <p>Change-point fit: R-hat ≤ 1.004, minimum bulk ESS 372, 3 divergent transitions across 31 seasons.</p>
+    </details>
+    
+
+    
+    <h3 id="youth-panel">Cross-country youth-minutes panel</h3>
+    <p class="plain">This section asks whether the pattern from the funnel above — countries that give young players more minutes at home tend to have a deeper pool in the strongest leagues — holds up across every country in the comparison set, not only the two shown earlier. Two seasons and a handful of countries is a small sample, so the range around the estimate is wide.</p>
+    <details class="fold method-body">
+      <summary>Full method, figures and diagnostics</summary>
+    <p>For each of the 8 peer countries, the 2024/25 → 2025/26 average U21 share of domestic-league minutes (x) against the 2024/25 → 2025/26 average top-9 players per million (y) — one row per country. A Bayesian simple regression, y ~ Normal(α + β·x, σ), weakly informative priors (4 chains × 1000 draws (Abril-Pla et al., 2023)), answers the between-country question slide 3 asks: does a country with a higher average U21 share also have a deeper pool, on average (Gelman et al., 2013). Cross-checked against a plain pooled least-squares slope on the full two-season panel (numpy polyfit, ignoring country structure entirely, 1000 percentile-bootstrap resamples — statsmodels is not a dependency here), which should agree in sign. Two seasons per country (previous and metrics; the current season is partial and left out); a peer whose top flight FBref does not track is absent from the panel, which is why n can be below the peer count.</p>
+    <figure class="figure-bleed">
+      <img src="../youth_panel.svg" alt="Scatter of the panel with the between-country fitted line and its 90 % band.">
+    </figure>
+    <p>β = +10.11 per 10 percentage points of U21 share (90 % HDI −1.69–23.26), R² = 0.27; OLS on the same 8 country means lands close by, at +10.65 (−3.85–20.33), and the pooled-panel OLS slope agrees in sign at +7.76 (1.12–13.99). n = 8; the interval is wide because the panel is small.</p>
+    <p>R-hat ≤ 1.001, minimum bulk ESS 2126, 0 divergent transitions.</p>
+    <p>A separate check: the same regression, but with a country random intercept fit on the full two-season panel instead of country means. Within-country changes across the two seasons carry no signal — β_within = −0.16 per 10 percentage points (90 % HDI −2.53–2.17), n = 16 country-seasons (R-hat ≤ 1.004, minimum bulk ESS 851, 0 divergent transitions; posterior-median country-intercept scale σ_country = 5.19). With only two seasons per country the intercept absorbs almost all of the between-country pattern the fit above isolates, leaving this estimate driven by season-to-season noise alone; reported here as a robustness check, not a second headline.</p>
+    <p>Descriptive only: a country's average U21 share and its average per-capita count are shown together because they are the numbers on hand, not because one is claimed to produce the other.</p>
+    <details class="fold">
+      <summary>Panel rows (n = 16)</summary>
+      <table class="kv-table">
+        <thead><tr>
+          <th>Country</th><th>Season</th>
+          <th>U21 share</th><th>Per million</th>
+        </tr></thead>
+        <tbody>
+          
+          <tr >
+            <td>CRO</td><td>2024/25</td><td>12.8 %</td><td class="num">15.54</td>
+          </tr>
+          
+          <tr data-highlight="cze">
+            <td>DEN</td><td>2024/25</td><td>13.2 %</td><td class="num">13.42</td>
+          </tr>
+          
+          <tr >
+            <td>NOR</td><td>2024/25</td><td>10.5 %</td><td class="num">9.01</td>
+          </tr>
+          
+          <tr >
+            <td>SUI</td><td>2024/25</td><td>9.2 %</td><td class="num">5.36</td>
+          </tr>
+          
+          <tr >
+            <td>AUT</td><td>2024/25</td><td>6.4 %</td><td class="num">5.02</td>
+          </tr>
+          
+          <tr >
+            <td>CZE</td><td>2024/25</td><td>11.1 %</td><td class="num">2.20</td>
+          </tr>
+          
+          <tr >
+            <td>HUN</td><td>2024/25</td><td>12.2 %</td><td class="num">1.36</td>
+          </tr>
+          
+          <tr >
+            <td>POL</td><td>2024/25</td><td>12.5 %</td><td class="num">1.26</td>
+          </tr>
+          
+          <tr data-highlight="cze">
+            <td>DEN</td><td>2025/26</td><td>15.3 %</td><td class="num">12.58</td>
+          </tr>
+          
+          <tr >
+            <td>CRO</td><td>2025/26</td><td>14.0 %</td><td class="num">12.18</td>
+          </tr>
+          
+          <tr >
+            <td>NOR</td><td>2025/26</td><td>11.5 %</td><td class="num">9.37</td>
+          </tr>
+          
+          <tr >
+            <td>SUI</td><td>2025/26</td><td>7.7 %</td><td class="num">6.03</td>
+          </tr>
+          
+          <tr >
+            <td>AUT</td><td>2025/26</td><td>9.2 %</td><td class="num">4.80</td>
+          </tr>
+          
+          <tr >
+            <td>CZE</td><td>2025/26</td><td>6.3 %</td><td class="num">2.39</td>
+          </tr>
+          
+          <tr >
+            <td>HUN</td><td>2025/26</td><td>14.1 %</td><td class="num">1.57</td>
+          </tr>
+          
+          <tr >
+            <td>POL</td><td>2025/26</td><td>9.3 %</td><td class="num">1.23</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </details>
+    </details>
+    
+
+    
+    <h3 id="gap-decomposition">What the gap is made of</h3>
+    <p class="plain">The gap between the home nation and a comparison country, in players per million, can be split into pieces that line up with three things this report already measures: how much young players play at home, how strong the domestic league is, and how old players are when they move abroad. This does not say which of the three causes the gap, only how much of it moves together with each one — the way a manager might note that a poor season lines up with an injury crisis without claiming the injuries alone explain it.</p>
+    <details class="fold method-body">
+      <summary>Full method, figures and diagnostics</summary>
+    <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier (every country in this run used the model estimate)) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
+    <figure class="figure-bleed">
+      <img src="../gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
+      <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and Denmark. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
+    </figure>
+    <table class="kv-table">
+      <thead><tr>
+        <th>Contrast</th><th>Channel</th>
+        <th>Contribution</th><th>Share of gap</th>
+        <th>90 % interval</th>
+      </tr></thead>
+      <tbody>
+        
+        
+        <tr>
+          <td rowspan="4">Norway<br><span class="muted small">Gap (players per million): −3.21</span></td>
+          <td>U21 minutes</td>
+          <td class="num">−3.15</td>
+          <td class="num">98 %</td>
+          <td class="num">−4.49 – −1.15</td>
+        </tr>
+        
+        <tr>
+          
+          <td>League strength</td>
+          <td class="num">+3.49</td>
+          <td class="num">−109 %</td>
+          <td class="num">+1.27 – +4.91</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Export age</td>
+          <td class="num">0.00</td>
+          <td class="num">0 %</td>
+          <td class="num">0.00 – 0.00</td>
+        </tr>
+        
+        <tr>
+          <td>Residual</td>
+          <td class="num">−3.55</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+        
+        
+        <tr>
+          <td rowspan="4">Czechia<br><span class="muted small">Gap (players per million): −10.19</span></td>
+          <td>U21 minutes</td>
+          <td class="num">−7.41</td>
+          <td class="num">73 %</td>
+          <td class="num">−10.31 – −2.34</td>
+        </tr>
+        
+        <tr>
+          
+          <td>League strength</td>
+          <td class="num">−1.63</td>
+          <td class="num">16 %</td>
+          <td class="num">−2.21 – −0.64</td>
+        </tr>
+        
+        <tr>
+          
+          <td>Export age</td>
+          <td class="num">0.00</td>
+          <td class="num">0 %</td>
+          <td class="num">0.00 – 0.00</td>
+        </tr>
+        
+        <tr>
+          <td>Residual</td>
+          <td class="num">−1.16</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <p>Bootstrap 90 % intervals on each channel's contribution, 1000 resamples of the panel's rows (the model refit on each resample; the home/contrast countries' own values held fixed); the residual itself is not bootstrapped — it is the two countries' own observed counts minus the fitted gap.</p>
+    <p>A decomposition of a correlation this panel happens to show, not a causal accounting; with n = 8 and three correlated national-level channels, the shares are indicative, not precise. A channel's share of the gap is only shown when the gap itself is at least 3 players per million — below that, a small denominator can send a share past 100 % in either direction; the contribution itself, in players per million, is always reported.</p>
+    </details>
+    
+
+    
+    
+    <h3 id="export-age-model">Age at export</h3>
+    <p class="plain">Players who move abroad younger tend to end up producing more once they are there, but that is not necessarily because moving young helps a career: clubs are also more willing to take a chance on a player they already rate highly at a younger age. This section fits a curve to that pattern while trying to hold the strength of the player's original league fixed, but it cannot fully tell the two explanations apart.</p>
+    <details class="fold method-body">
+      <summary>Full method, figures and diagnostics</summary>
+    <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do Danish players go when they leave?", reused here) — 115 players, ages 17–31 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the quadratic branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
+    <figure class="figure-bleed">
+      <img src="../export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as green points against every other peer export in grey, and a rug of every export's age along the axis.">
+      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Green dots are Danish exports — hover for the name.</figcaption>
+    </figure>
+    <table class="kv-table">
+      <thead><tr><th>Age</th><th>Expected G+A/90 (median)</th><th>90 % HDI</th></tr></thead>
+      <tbody>
+        
+        <tr><td>19</td><td class="num">0.14</td><td class="num">0.12 – 0.16</td></tr>
+        
+        <tr><td>21</td><td class="num">0.14</td><td class="num">0.12 – 0.16</td></tr>
+        
+        <tr><td>23</td><td class="num">0.14</td><td class="num">0.12 – 0.16</td></tr>
+        
+        <tr><td>25</td><td class="num">0.14</td><td class="num">0.12 – 0.16</td></tr>
+        
+        <tr><td>27</td><td class="num">0.14</td><td class="num">0.12 – 0.16</td></tr>
+        
+      </tbody>
+    </table>
+    <p>β, per one-unit increase in origin-league strength (m_L): −0.03 (−0.12–0.05).</p>
+    <p>Danish exports' own country effect: +0.01 (−0.01–0.03); Danish exports arrive at a median age of 22.</p>
+    <p>The same model, fit again without origin-league strength: the country-effect scale (σ_n) is 0.138 with the league term in the model and 0.139 without it — what moves between the two is what the league term is absorbing.</p>
+    <p>Leave-one-nation-out: excluding Denmark's own 25 exports (n = 90 remaining) and refitting, the 21-vs-24 difference is 0.00 (−0.01–0.01), against 0.00 in the full fit.</p>
+    <details class="fold">
+      <summary>Posterior predictive check</summary>
+      <p>Observed vs. replicated y (mean league-adjusted G+A/90 over the first two top-9 seasons): mean 0.14 vs 0.14, sd 0.10 vs 0.10, 10th percentile 0.02 vs 0.01, 90th percentile 0.27 vs 0.28.</p>
+    </details>
+    <p>R-hat ≤ 1.003, minimum bulk ESS 1128, 0 divergent transitions across 115 players; fit in 7.1 s.</p>
+    <p>What this model does not separate: the corpus is not a random sample of players who could have left later. Players who leave earlier tend to be the ones judged ready earliest — a selection effect the age curve mixes with any genuine development effect of arriving young, and this report does not try to tell the two apart.</p>
+    </details>
+    
+
+    <h3 id="shrinkage">Bayesian shrinkage</h3>
+    <p>Per-90 rates of players with few minutes are shrunk towards the median of their league and season (players with at least 900 minutes) using the empirical Bayes formula (Efron and Morris, 1975), with K = 10 phantom matches expressed as 900 minutes:</p>
+    <p class="formula" data-tex="\text{shrunk rate} = \dfrac{\text{events} + K \cdot \text{league median}}{\text{minutes} / 90 + K},\qquad K = 10">shrunk_rate = (events + K × league_median) / (minutes / 90 + K), &nbsp; K = 10</p>
+    <p>At 450 minutes (the inclusion floor) the league median carries 67 % of the weight; at 900 minutes the player's own rate and the median weigh the same. Minutes share and age are not shrunk.</p>
+    
+    <p class="plain">Goalkeepers are counted the same way as outfield players throughout this report, with one difference: because a goalkeeper's save numbers swing around a lot from game to game, the model needs a bigger sample of shots faced before it trusts a keeper's own numbers over the league average.</p>
+    <p>Goalkeeper rates (chapter II's counter-example) use the same formula. GA/90 and saves/90 are shrunk toward their league-season median with the same K = 900 minutes, and GA/90 is then quality-adjusted by the league multiplier — a goal conceded in a stronger league counts less. Save percentage is shrunk the same way but against shots on target faced, not minutes: a single season's shot count sits far below K = 900, so save_pct_shrunk compresses hard toward the league median for almost every goalkeeper — a large gap in the raw, unshrunk save percentage is the more informative read there.</p>
+    
+
+    <h3 id="pca-loadings">PCA loadings</h3>
+    <p>One five-feature vector per position group (npg_p90, ast_p90, min_share, age, cards_p90), standardised, reduced to two components per projection. Style uses the shrunk rates; quality multiplies the rates by the league multiplier first.</p>
+    <details class="fold fold-table"><summary>Loadings table</summary><table class="loadings-table">
+      <thead>
+        <tr>
+          <th>Group</th><th>Projection</th><th>PC</th><th>% variance</th>
+          <th>npG/90</th><th>A/90</th><th>min share</th><th>age</th><th>cards/90</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>FW</td>
+          <td>style</td>
+          <td>PC1</td>
+          <td>25.2 %</td>
+          <td>0.533</td>
+          <td>0.215</td>
+          <td>0.651</td>
+          <td>0.430</td>
+          <td>−0.246</td>
+        </tr>
+        
+        <tr>
+          <td>FW</td>
+          <td>style</td>
+          <td>PC2</td>
+          <td>23.6 %</td>
+          <td>−0.206</td>
+          <td>−0.271</td>
+          <td>−0.120</td>
+          <td>0.823</td>
+          <td>0.439</td>
+        </tr>
+        
+        <tr>
+          <td>FW</td>
+          <td>quality</td>
+          <td>PC1</td>
+          <td>28.9 %</td>
+          <td>0.636</td>
+          <td>0.380</td>
+          <td>0.482</td>
+          <td>0.217</td>
+          <td>−0.415</td>
+        </tr>
+        
+        <tr>
+          <td>FW</td>
+          <td>quality</td>
+          <td>PC2</td>
+          <td>24.9 %</td>
+          <td>−0.108</td>
+          <td>−0.114</td>
+          <td>0.133</td>
+          <td>0.910</td>
+          <td>0.361</td>
+        </tr>
+        
+        <tr>
+          <td>MF</td>
+          <td>style</td>
+          <td>PC1</td>
+          <td>29.5 %</td>
+          <td>0.597</td>
+          <td>0.601</td>
+          <td>0.383</td>
+          <td>0.073</td>
+          <td>−0.361</td>
+        </tr>
+        
+        <tr>
+          <td>MF</td>
+          <td>style</td>
+          <td>PC2</td>
+          <td>23.2 %</td>
+          <td>−0.245</td>
+          <td>−0.117</td>
+          <td>0.484</td>
+          <td>0.828</td>
+          <td>0.082</td>
+        </tr>
+        
+        <tr>
+          <td>MF</td>
+          <td>quality</td>
+          <td>PC1</td>
+          <td>30.0 %</td>
+          <td>0.590</td>
+          <td>0.608</td>
+          <td>0.382</td>
+          <td>0.133</td>
+          <td>−0.344</td>
+        </tr>
+        
+        <tr>
+          <td>MF</td>
+          <td>quality</td>
+          <td>PC2</td>
+          <td>24.2 %</td>
+          <td>−0.244</td>
+          <td>−0.199</td>
+          <td>0.490</td>
+          <td>0.809</td>
+          <td>0.087</td>
+        </tr>
+        
+        <tr>
+          <td>DF</td>
+          <td>style</td>
+          <td>PC1</td>
+          <td>25.0 %</td>
+          <td>0.546</td>
+          <td>0.429</td>
+          <td>0.505</td>
+          <td>0.183</td>
+          <td>−0.480</td>
+        </tr>
+        
+        <tr>
+          <td>DF</td>
+          <td>style</td>
+          <td>PC2</td>
+          <td>21.1 %</td>
+          <td>−0.343</td>
+          <td>−0.378</td>
+          <td>0.278</td>
+          <td>0.804</td>
+          <td>−0.128</td>
+        </tr>
+        
+        <tr>
+          <td>DF</td>
+          <td>quality</td>
+          <td>PC1</td>
+          <td>25.8 %</td>
+          <td>0.432</td>
+          <td>0.356</td>
+          <td>0.578</td>
+          <td>0.327</td>
+          <td>−0.496</td>
+        </tr>
+        
+        <tr>
+          <td>DF</td>
+          <td>quality</td>
+          <td>PC2</td>
+          <td>21.7 %</td>
+          <td>−0.462</td>
+          <td>−0.375</td>
+          <td>0.104</td>
+          <td>0.797</td>
+          <td>−0.023</td>
+        </tr>
+        
+      </tbody>
+    </table></details>
+
+    <h3 id="sensitivity">Sensitivity analysis (±20 % multipliers)</h3>
+    <p>
+      For each scenario the quality-adjusted ranking of Danish-eligible players within each position group was recomputed and compared with the baseline; "top-10" is the union of the 3 groups' own top tens (30 players at baseline). Of the 41 scenarios, 27 change nobody in that set; the largest churn is 3 (DEN-Superliga multiplier +20%, mean rank shift 1.98 in the top twenty)*.
+    </p>
+    <details class="fold fold-table"><summary>Scenario table</summary><table class="sensitivity-table">
+      <thead>
+        <tr>
+          <th>Scenario</th><th>Description</th>
+          <th>Top-10 overlap</th><th>Top-10 churn</th><th>Mean Δ rank (top 20)</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>baseline</td>
+          <td>current multipliers from config/league_quality.yaml</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>ENG-Premier League_minus20</td>
+          <td>ENG-Premier League multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.27</td>
+        </tr>
+        
+        <tr>
+          <td>ENG-Premier League_plus20</td>
+          <td>ENG-Premier League multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.12</td>
+        </tr>
+        
+        <tr>
+          <td>ITA-Serie A_minus20</td>
+          <td>ITA-Serie A multiplier -20%</td>
+          <td>29 / 30</td>
+          <td>1</td>
+          <td>0.78</td>
+        </tr>
+        
+        <tr>
+          <td>ITA-Serie A_plus20</td>
+          <td>ITA-Serie A multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.43</td>
+        </tr>
+        
+        <tr>
+          <td>ESP-La Liga_minus20</td>
+          <td>ESP-La Liga multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>ESP-La Liga_plus20</td>
+          <td>ESP-La Liga multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>GER-Bundesliga_minus20</td>
+          <td>GER-Bundesliga multiplier -20%</td>
+          <td>29 / 30</td>
+          <td>1</td>
+          <td>1.27</td>
+        </tr>
+        
+        <tr>
+          <td>GER-Bundesliga_plus20</td>
+          <td>GER-Bundesliga multiplier +20%</td>
+          <td>28 / 30</td>
+          <td>2</td>
+          <td>0.62</td>
+        </tr>
+        
+        <tr>
+          <td>FRA-Ligue 1_minus20</td>
+          <td>FRA-Ligue 1 multiplier -20%</td>
+          <td>29 / 30</td>
+          <td>1</td>
+          <td>0.42</td>
+        </tr>
+        
+        <tr>
+          <td>FRA-Ligue 1_plus20</td>
+          <td>FRA-Ligue 1 multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.37</td>
+        </tr>
+        
+        <tr>
+          <td>NED-Eredivisie_minus20</td>
+          <td>NED-Eredivisie multiplier -20%</td>
+          <td>27 / 30</td>
+          <td>3</td>
+          <td>1.65</td>
+        </tr>
+        
+        <tr>
+          <td>NED-Eredivisie_plus20</td>
+          <td>NED-Eredivisie multiplier +20%</td>
+          <td>28 / 30</td>
+          <td>2</td>
+          <td>1.07</td>
+        </tr>
+        
+        <tr>
+          <td>POR-Primeira Liga_minus20</td>
+          <td>POR-Primeira Liga multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.30</td>
+        </tr>
+        
+        <tr>
+          <td>POR-Primeira Liga_plus20</td>
+          <td>POR-Primeira Liga multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.18</td>
+        </tr>
+        
+        <tr>
+          <td>BEL-Pro League_minus20</td>
+          <td>BEL-Pro League multiplier -20%</td>
+          <td>29 / 30</td>
+          <td>1</td>
+          <td>0.50</td>
+        </tr>
+        
+        <tr>
+          <td>BEL-Pro League_plus20</td>
+          <td>BEL-Pro League multiplier +20%</td>
+          <td>29 / 30</td>
+          <td>1</td>
+          <td>0.30</td>
+        </tr>
+        
+        <tr>
+          <td>TUR-Süper Lig_minus20</td>
+          <td>TUR-Süper Lig multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>TUR-Süper Lig_plus20</td>
+          <td>TUR-Süper Lig multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.02</td>
+        </tr>
+        
+        <tr>
+          <td>CZE-First League_minus20</td>
+          <td>CZE-First League multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>CZE-First League_plus20</td>
+          <td>CZE-First League multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>SVK-Super Liga_minus20</td>
+          <td>SVK-Super Liga multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>SVK-Super Liga_plus20</td>
+          <td>SVK-Super Liga multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>AUT-Bundesliga_minus20</td>
+          <td>AUT-Bundesliga multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>AUT-Bundesliga_plus20</td>
+          <td>AUT-Bundesliga multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>HUN-NB I_minus20</td>
+          <td>HUN-NB I multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>HUN-NB I_plus20</td>
+          <td>HUN-NB I multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>POL-Ekstraklasa_minus20</td>
+          <td>POL-Ekstraklasa multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>POL-Ekstraklasa_plus20</td>
+          <td>POL-Ekstraklasa multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>CRO-HNL_minus20</td>
+          <td>CRO-HNL multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>CRO-HNL_plus20</td>
+          <td>CRO-HNL multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>DEN-Superliga_minus20</td>
+          <td>DEN-Superliga multiplier -20%</td>
+          <td>28 / 30</td>
+          <td>2</td>
+          <td>1.32</td>
+        </tr>
+        
+        <tr>
+          <td>DEN-Superliga_plus20</td>
+          <td>DEN-Superliga multiplier +20%</td>
+          <td>27 / 30</td>
+          <td>3</td>
+          <td>1.98</td>
+        </tr>
+        
+        <tr>
+          <td>SUI-Super League_minus20</td>
+          <td>SUI-Super League multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>SUI-Super League_plus20</td>
+          <td>SUI-Super League multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>NOR-Eliteserien_minus20</td>
+          <td>NOR-Eliteserien multiplier -20%</td>
+          <td>29 / 30</td>
+          <td>1</td>
+          <td>1.03</td>
+        </tr>
+        
+        <tr>
+          <td>NOR-Eliteserien_plus20</td>
+          <td>NOR-Eliteserien multiplier +20%</td>
+          <td>27 / 30</td>
+          <td>3</td>
+          <td>0.68</td>
+        </tr>
+        
+        <tr>
+          <td>GER-2. Bundesliga_minus20</td>
+          <td>GER-2. Bundesliga multiplier -20%</td>
+          <td>28 / 30</td>
+          <td>2</td>
+          <td>0.68</td>
+        </tr>
+        
+        <tr>
+          <td>GER-2. Bundesliga_plus20</td>
+          <td>GER-2. Bundesliga multiplier +20%</td>
+          <td>29 / 30</td>
+          <td>1</td>
+          <td>0.30</td>
+        </tr>
+        
+        <tr>
+          <td>all_minus20</td>
+          <td>every league multiplier -20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+        <tr>
+          <td>all_plus20</td>
+          <td>every league multiplier +20%</td>
+          <td>30 / 30</td>
+          <td>0</td>
+          <td>0.00</td>
+        </tr>
+        
+      </tbody>
+    </table></details>
+    <p class="capita-note">* Churn = baseline top-10 members that leave the set under the scenario; mean Δ rank = mean absolute rank change over the baseline top-20 union. Scenarios: baseline, every league ±20 % on its own, and all leagues ±20 % at once.</p>
+
+    <p>The table above is fixed at the config multipliers; the panel below is the same Danish-eligible top ten made interactive — drag any league's slider (0.5×–1.5× of its default) and the ranking recomputes in the browser.</p>
+    <div class="sensitivity-live" data-shrunk='[{"ast_shrunk": 0.0464, "league": "DEN-Superliga", "name": "Adam Andersen", "npg_shrunk": 0.017, "player_key": "adam andersen|2005"}, {"ast_shrunk": 0.1588, "league": "GER-Bundesliga", "name": "Adam Daghim", "npg_shrunk": 0.1278, "player_key": "adam daghim|2005"}, {"ast_shrunk": 0.162, "league": "DEN-Superliga", "name": "Adam S\u00f8rensen", "npg_shrunk": 0.0808, "player_key": "adam sorensen|2000"}, {"ast_shrunk": 0.1308, "league": "DEN-Superliga", "name": "Agon Mucolli", "npg_shrunk": 0.2907, "player_key": "agon mucolli|1998"}, {"ast_shrunk": 0.1936, "league": "GER-Bundesliga", "name": "Albert Gr\u00f8nbaek", "npg_shrunk": 0.1432, "player_key": "albert gronbaek|2001"}, {"ast_shrunk": 0.0, "league": "POR-Primeira Liga", "name": "Alexander Bah", "npg_shrunk": 0.1586, "player_key": "alexander bah|1997"}, {"ast_shrunk": 0.1778, "league": "DEN-Superliga", "name": "Alexander Lind", "npg_shrunk": 0.3763, "player_key": "alexander lind|2002"}, {"ast_shrunk": 0.0806, "league": "DEN-Superliga", "name": "Alexander Lyng", "npg_shrunk": 0.1444, "player_key": "alexander lyng|2004"}, {"ast_shrunk": 0.019, "league": "CZE-First League", "name": "Alexander Munksgaard", "npg_shrunk": 0.0521, "player_key": "alexander munksgaard|1997"}, {"ast_shrunk": 0.0573, "league": "NOR-Eliteserien", "name": "Anders B\u00e6rtelsen", "npg_shrunk": 0.0978, "player_key": "anders baertelsen|2000"}, {"ast_shrunk": 0.0828, "league": "DEN-Superliga", "name": "Anders Dahl", "npg_shrunk": 0.0915, "player_key": "anders dahl|2002"}, {"ast_shrunk": 0.0674, "league": "DEN-Superliga", "name": "Andr\u00e9 R\u00f8mer", "npg_shrunk": 0.0589, "player_key": "andre romer|1993"}, {"ast_shrunk": 0.1254, "league": "DEN-Superliga", "name": "Andreas Cornelius", "npg_shrunk": 0.2776, "player_key": "andreas cornelius|1993"}, {"ast_shrunk": 0.0786, "league": "NOR-Eliteserien", "name": "Andreas Nibe", "npg_shrunk": 0.0836, "player_key": "andreas nibe|2003"}, {"ast_shrunk": 0.1318, "league": "DEN-Superliga", "name": "Andreas Oggesen", "npg_shrunk": 0.0351, "player_key": "andreas oggesen|1994"}, {"ast_shrunk": 0.1074, "league": "DEN-Superliga", "name": "Andreas Poulsen", "npg_shrunk": 0.0479, "player_key": "andreas poulsen|1999"}, {"ast_shrunk": 0.1801, "league": "DEN-Superliga", "name": "Andreas Pyndt Andersen", "npg_shrunk": 0.039, "player_key": "andreas pyndt andersen|2001"}, {"ast_shrunk": 0.0797, "league": "NOR-Eliteserien", "name": "Andreas Skovgaard", "npg_shrunk": 0.0268, "player_key": "andreas skovgaard|1997"}, {"ast_shrunk": 0.1938, "league": "DEN-Superliga", "name": "Andrew Hjulsager", "npg_shrunk": 0.1149, "player_key": "andrew hjulsager|1995"}, {"ast_shrunk": 0.2336, "league": "BEL-Pro League", "name": "Anosike Ementa", "npg_shrunk": 0.1697, "player_key": "anosike ementa|2002"}, {"ast_shrunk": 0.1473, "league": "NED-Eredivisie", "name": "Anton Gaaei", "npg_shrunk": 0.0461, "player_key": "anton gaaei|2002"}, {"ast_shrunk": 0.5026, "league": "DEN-Superliga", "name": "Aral \u015eim\u015fir", "npg_shrunk": 0.3127, "player_key": "aral simsir|2002"}, {"ast_shrunk": 0.0446, "league": "CZE-First League", "name": "Asger S\u00f8rensen", "npg_shrunk": 0.0, "player_key": "asger sorensen|1996"}, {"ast_shrunk": 0.0514, "league": "NED-Eredivisie", "name": "Aske Adelgaard", "npg_shrunk": 0.0504, "player_key": "aske adelgaard|2003"}, {"ast_shrunk": 0.1889, "league": "DEN-Superliga", "name": "Asker Beck", "npg_shrunk": 0.1379, "player_key": "asker beck|2003"}, {"ast_shrunk": 0.0197, "league": "DEN-Superliga", "name": "Bj\u00f8rn Paulsen", "npg_shrunk": 0.0834, "player_key": "bjorn paulsen|1991"}, {"ast_shrunk": 0.0926, "league": "NOR-Eliteserien", "name": "Carl Lange", "npg_shrunk": 0.0663, "player_key": "carl lange|1998"}, {"ast_shrunk": 0.0991, "league": "TUR-S\u00fcper Lig", "name": "Carlo Holse", "npg_shrunk": 0.228, "player_key": "carlo holse|1999"}, {"ast_shrunk": 0.0337, "league": "TUR-S\u00fcper Lig", "name": "Casper H\u00f8jer Nielsen", "npg_shrunk": 0.0, "player_key": "casper hojer nielsen|1994"}, {"ast_shrunk": 0.0962, "league": "BEL-Pro League", "name": "Casper Nielsen", "npg_shrunk": 0.1592, "player_key": "casper nielsen|1994"}, {"ast_shrunk": 0.1567, "league": "DEN-Superliga", "name": "Charly Horneman", "npg_shrunk": 0.3317, "player_key": "charly horneman|2004"}, {"ast_shrunk": 0.2717, "league": "GER-Bundesliga", "name": "Christian Eriksen", "npg_shrunk": 0.033, "player_key": "christian eriksen|1992"}, {"ast_shrunk": 0.1773, "league": "DEN-Superliga", "name": "Christian Gammelgaard", "npg_shrunk": 0.2573, "player_key": "christian gammelgaard|2003"}, {"ast_shrunk": 0.2353, "league": "GER-2. Bundesliga", "name": "Christian Rasmussen", "npg_shrunk": 0.2622, "player_key": "christian rasmussen|2003"}, {"ast_shrunk": 0.1032, "league": "DEN-Superliga", "name": "Christian S\u00f8rensen", "npg_shrunk": 0.0152, "player_key": "christian sorensen|1992"}, {"ast_shrunk": 0.1546, "league": "DEN-Superliga", "name": "Clement Bischoff", "npg_shrunk": 0.277, "player_key": "clement bischoff|2005"}, {"ast_shrunk": 0.259, "league": "AUT-Bundesliga", "name": "Clement Bischoff", "npg_shrunk": 0.1179, "player_key": "clement bischoff|2005"}, {"ast_shrunk": 0.2031, "league": "GER-Bundesliga", "name": "Conrad Harder", "npg_shrunk": 0.3258, "player_key": "conrad harder|2005"}, {"ast_shrunk": 0.009, "league": "DEN-Superliga", "name": "Daniel H\u00f8egh", "npg_shrunk": 0.1152, "player_key": "daniel hoegh|1991"}, {"ast_shrunk": 0.1285, "league": "DEN-Superliga", "name": "Daniel Wass", "npg_shrunk": 0.0446, "player_key": "daniel wass|1989"}, {"ast_shrunk": 0.1437, "league": "NOR-Eliteserien", "name": "Elias S\u00f8rensen", "npg_shrunk": 0.4175, "player_key": "elias sorensen|1999"}, {"ast_shrunk": 0.197, "league": "CRO-HNL", "name": "Emil Frederiksen", "npg_shrunk": 0.1483, "player_key": "emil frederiksen|2000"}, {"ast_shrunk": 0.1954, "league": "NOR-Eliteserien", "name": "Emil Holten", "npg_shrunk": 0.2209, "player_key": "emil holten|1996"}, {"ast_shrunk": 0.072, "league": "POL-Ekstraklasa", "name": "Emil Kornvig", "npg_shrunk": 0.1942, "player_key": "emil kornvig|2000"}, {"ast_shrunk": 0.1121, "league": "NOR-Eliteserien", "name": "Emil Kornvig", "npg_shrunk": 0.22, "player_key": "emil kornvig|2000"}, {"ast_shrunk": 0.0494, "league": "NOR-Eliteserien", "name": "Emil Schlichting", "npg_shrunk": 0.1322, "player_key": "emil schlichting|2004"}, {"ast_shrunk": 0.223, "league": "DEN-Superliga", "name": "Emilio Simonsen", "npg_shrunk": 0.0902, "player_key": "emilio simonsen|1999"}, {"ast_shrunk": 0.1845, "league": "DEN-Superliga", "name": "Eskild Dall", "npg_shrunk": 0.2323, "player_key": "eskild dall|2003"}, {"ast_shrunk": 0.0946, "league": "DEN-Superliga", "name": "Felix Winther", "npg_shrunk": 0.1184, "player_key": "felix winther|2000"}, {"ast_shrunk": 0.1524, "league": "DEN-Superliga", "name": "Filip Bundgaard", "npg_shrunk": 0.3279, "player_key": "filip bundgaard|2004"}, {"ast_shrunk": 0.0799, "league": "NOR-Eliteserien", "name": "Frederik Carstensen", "npg_shrunk": 0.3423, "player_key": "frederik carstensen|2002"}, {"ast_shrunk": 0.2899, "league": "DEN-Superliga", "name": "Frederik Emmery", "npg_shrunk": 0.2263, "player_key": "frederik emmery|2006"}, {"ast_shrunk": 0.1912, "league": "NOR-Eliteserien", "name": "Frederik Flex", "npg_shrunk": 0.0271, "player_key": "frederik flex|2004"}, {"ast_shrunk": 0.0149, "league": "DEN-Superliga", "name": "Frederik Ibsen", "npg_shrunk": 0.0209, "player_key": "frederik ibsen|1999"}, {"ast_shrunk": 0.0799, "league": "DEN-Superliga", "name": "Frederik Lauenborg", "npg_shrunk": 0.0698, "player_key": "frederik lauenborg|1997"}, {"ast_shrunk": 0.0084, "league": "DEN-Superliga", "name": "Frederik Rieper", "npg_shrunk": 0.0118, "player_key": "frederik rieper|1999"}, {"ast_shrunk": 0.0592, "league": "DEN-Superliga", "name": "Frederik Tingager", "npg_shrunk": 0.0655, "player_key": "frederik tingager|1993"}, {"ast_shrunk": 0.0704, "league": "ITA-Serie A", "name": "Gustav Isaksen", "npg_shrunk": 0.2763, "player_key": "gustav isaksen|2001"}, {"ast_shrunk": 0.1032, "league": "DEN-Superliga", "name": "Gustav Marcussen", "npg_shrunk": 0.1291, "player_key": "gustav marcussen|1998"}, {"ast_shrunk": 0.0327, "league": "BEL-Pro League", "name": "Gustav Mortensen", "npg_shrunk": 0.0307, "player_key": "gustav mortensen|2004"}, {"ast_shrunk": 0.0106, "league": "DEN-Superliga", "name": "Harvey Berthel Askou", "npg_shrunk": 0.0447, "player_key": "harvey berthel askou|2006"}, {"ast_shrunk": 0.0367, "league": "DEN-Superliga", "name": "Henrik Dalsgaard", "npg_shrunk": 0.0677, "player_key": "henrik dalsgaard|1989"}, {"ast_shrunk": 0.0354, "league": "ITA-Serie A", "name": "Henrik Meister", "npg_shrunk": 0.1734, "player_key": "henrik meister|2003"}, {"ast_shrunk": 0.0808, "league": "DEN-Superliga", "name": "Hjalte Bidstrup", "npg_shrunk": 0.0513, "player_key": "hjalte bidstrup|2006"}, {"ast_shrunk": 0.1668, "league": "NED-Eredivisie", "name": "Isak Jensen", "npg_shrunk": 0.1048, "player_key": "isak jensen|2003"}, {"ast_shrunk": 0.0466, "league": "DEN-Superliga", "name": "Jacob Amb\u00e6k", "npg_shrunk": 0.3498, "player_key": "jacob ambaek|2008"}, {"ast_shrunk": 0.097, "league": "ENG-Premier League", "name": "Jacob Bruun Larsen", "npg_shrunk": 0.0527, "player_key": "jacob bruun larsen|1998"}, {"ast_shrunk": 0.0313, "league": "AUT-Bundesliga", "name": "Jacob Rasmussen", "npg_shrunk": 0.0351, "player_key": "jacob rasmussen|1997"}, {"ast_shrunk": 0.0128, "league": "NOR-Eliteserien", "name": "Jacob Steffensen", "npg_shrunk": 0.0416, "player_key": "jacob steffensen|2002"}, {"ast_shrunk": 0.1628, "league": "NED-Eredivisie", "name": "Jacob Trenskow", "npg_shrunk": 0.3391, "player_key": "jacob trenskow|2000"}, {"ast_shrunk": 0.1976, "league": "NED-Eredivisie", "name": "Jakob Breum", "npg_shrunk": 0.2276, "player_key": "jakob breum|2003"}, {"ast_shrunk": 0.1414, "league": "DEN-Superliga", "name": "Jakob Jessen", "npg_shrunk": 0.0395, "player_key": "jakob jessen|2004"}, {"ast_shrunk": 0.0099, "league": "BEL-Pro League", "name": "Jakob Kiilerich", "npg_shrunk": 0.0093, "player_key": "jakob kiilerich|2000"}, {"ast_shrunk": 0.1093, "league": "NOR-Eliteserien", "name": "Jakob S\u00f8rensen", "npg_shrunk": 0.1131, "player_key": "jakob sorensen|1998"}, {"ast_shrunk": 0.1492, "league": "DEN-Superliga", "name": "Jakob Vester", "npg_shrunk": 0.2029, "player_key": "jakob vester|2004"}, {"ast_shrunk": 0.0176, "league": "NOR-Eliteserien", "name": "Japhet Sery", "npg_shrunk": 0.0573, "player_key": "japhet sery|2000"}, {"ast_shrunk": 0.0322, "league": "DEN-Superliga", "name": "Jens Martin Gammelby", "npg_shrunk": 0.107, "player_key": "jens martin gammelby|1995"}, {"ast_shrunk": 0.0734, "league": "ITA-Serie A", "name": "Jens Odgaard", "npg_shrunk": 0.2294, "player_key": "jens odgaard|1999"}, {"ast_shrunk": 0.0802, "league": "GER-Bundesliga", "name": "Jens Stage", "npg_shrunk": 0.3004, "player_key": "jens stage|1996"}, {"ast_shrunk": 0.0996, "league": "BEL-Pro League", "name": "Jeppe Erenbjerg", "npg_shrunk": 0.3498, "player_key": "jeppe erenbjerg|2000"}, {"ast_shrunk": 0.0603, "league": "DEN-Superliga", "name": "Jeppe Gr\u00f8nning", "npg_shrunk": 0.0299, "player_key": "jeppe gronning|1991"}, {"ast_shrunk": 0.0143, "league": "DEN-Superliga", "name": "Jeppe Kudsk", "npg_shrunk": 0.0605, "player_key": "jeppe kudsk|2003"}, {"ast_shrunk": 0.0314, "league": "ENG-Premier League", "name": "Joachim Andersen", "npg_shrunk": 0.0069, "player_key": "joachim andersen|1996"}, {"ast_shrunk": 0.127, "league": "GER-Bundesliga", "name": "Joakim M\u00e6hle", "npg_shrunk": 0.0939, "player_key": "joakim maehle|1997"}, {"ast_shrunk": 0.0171, "league": "GER-2. Bundesliga", "name": "Joel Felix", "npg_shrunk": 0.1092, "player_key": "joel felix|1998"}, {"ast_shrunk": 0.0254, "league": "NOR-Eliteserien", "name": "Jonas Mortensen", "npg_shrunk": 0.0272, "player_key": "jonas mortensen|2001"}, {"ast_shrunk": 0.0739, "league": "GER-Bundesliga", "name": "Jonas Wind", "npg_shrunk": 0.3019, "player_key": "jonas wind|1999"}, {"ast_shrunk": 0.1589, "league": "DEN-Superliga", "name": "Jonatan Lindekilde", "npg_shrunk": 0.2946, "player_key": "jonatan lindekilde|2006"}, {"ast_shrunk": 0.2069, "league": "SUI-Super League", "name": "Jonathan Asp Jensen", "npg_shrunk": 0.2876, "player_key": "jonathan asp jensen|2006"}, {"ast_shrunk": 0.0567, "league": "NOR-Eliteserien", "name": "Julius Eskesen", "npg_shrunk": 0.1059, "player_key": "julius eskesen|1999"}, {"ast_shrunk": 0.0675, "league": "DEN-Superliga", "name": "Julius Nielsen", "npg_shrunk": 0.1613, "player_key": "julius nielsen|2006"}, {"ast_shrunk": 0.1527, "league": "DEN-Superliga", "name": "Justin Janssen", "npg_shrunk": 0.1468, "player_key": "justin janssen|2006"}, {"ast_shrunk": 0.0678, "league": "GER-2. Bundesliga", "name": "Kasper Davidsen", "npg_shrunk": 0.1381, "player_key": "kasper davidsen|2005"}, {"ast_shrunk": 0.1949, "league": "NED-Eredivisie", "name": "Kasper Dolberg", "npg_shrunk": 0.2587, "player_key": "kasper dolberg|1997"}, {"ast_shrunk": 0.0739, "league": "AUT-Bundesliga", "name": "Kasper J\u00f8rgensen", "npg_shrunk": 0.1928, "player_key": "kasper jorgensen|1999"}, {"ast_shrunk": 0.2003, "league": "NOR-Eliteserien", "name": "Kasper Waarst H\u00f8gh", "npg_shrunk": 0.5232, "player_key": "kasper waarst hogh|2000"}, {"ast_shrunk": 0.0214, "league": "NOR-Eliteserien", "name": "Kevin Tshiembe", "npg_shrunk": 0.0229, "player_key": "kevin tshiembe|1997"}, {"ast_shrunk": 0.0803, "league": "DEN-Superliga", "name": "Lasse Fl\u00f6", "npg_shrunk": 0.051, "player_key": "lasse flo|2005"}, {"ast_shrunk": 0.0369, "league": "DEN-Superliga", "name": "Lasse Nielsen", "npg_shrunk": 0.0135, "player_key": "lasse nielsen|1988"}, {"ast_shrunk": 0.0812, "league": "DEN-Superliga", "name": "Laurits Pedersen", "npg_shrunk": 0.0403, "player_key": "laurits pedersen|2006"}, {"ast_shrunk": 0.1533, "league": "DEN-Superliga", "name": "Leonel Dahl Montano", "npg_shrunk": 0.0322, "player_key": "leonel dahl montano|1999"}, {"ast_shrunk": 0.0092, "league": "BEL-Pro League", "name": "Lucas Hey", "npg_shrunk": 0.0087, "player_key": "lucas hey|2003"}, {"ast_shrunk": 0.0133, "league": "FRA-Ligue 1", "name": "Lucas H\u00f8gsberg", "npg_shrunk": 0.0, "player_key": "lucas hogsberg|2006"}, {"ast_shrunk": 0.0357, "league": "AUT-Bundesliga", "name": "Ludwig Vraa-Jensen", "npg_shrunk": 0.0121, "player_key": "ludwig vraa-jensen|2005"}, {"ast_shrunk": 0.0147, "league": "DEN-Superliga", "name": "Lukas Kirkegaard", "npg_shrunk": 0.1038, "player_key": "lukas kirkegaard|2005"}, {"ast_shrunk": 0.0838, "league": "DEN-Superliga", "name": "Lukas Lerager", "npg_shrunk": 0.1025, "player_key": "lukas lerager|1993"}, {"ast_shrunk": 0.1268, "league": "DEN-Superliga", "name": "Mads Agger", "npg_shrunk": 0.1432, "player_key": "mads agger|1999"}, {"ast_shrunk": 0.0617, "league": "DEN-Superliga", "name": "Mads Bech S\u00f8rensen", "npg_shrunk": 0.0654, "player_key": "mads bech sorensen|1999"}, {"ast_shrunk": 0.0615, "league": "AUT-Bundesliga", "name": "Mads Bidstrup", "npg_shrunk": 0.0252, "player_key": "mads bidstrup|2001"}, {"ast_shrunk": 0.1302, "league": "DEN-Superliga", "name": "Mads Emil Madsen", "npg_shrunk": 0.1322, "player_key": "mads emil madsen|1998"}, {"ast_shrunk": 0.0837, "league": "DEN-Superliga", "name": "Mads Engg\u00e5rd", "npg_shrunk": 0.0536, "player_key": "mads enggard|2004"}, {"ast_shrunk": 0.0961, "league": "DEN-Superliga", "name": "Mads Freundlich", "npg_shrunk": 0.0478, "player_key": "mads freundlich|2003"}, {"ast_shrunk": 0.1821, "league": "DEN-Superliga", "name": "Mads Fr\u00f8kj\u00e6r-Jensen", "npg_shrunk": 0.0632, "player_key": "mads frokjaer-jensen|1999"}, {"ast_shrunk": 0.0871, "league": "NOR-Eliteserien", "name": "Mads Hansen", "npg_shrunk": 0.1754, "player_key": "mads hansen|2002"}, {"ast_shrunk": 0.0687, "league": "DEN-Superliga", "name": "Mads Larsen", "npg_shrunk": 0.0341, "player_key": "mads larsen|2001"}, {"ast_shrunk": 0.087, "league": "DEN-Superliga", "name": "Mads S\u00f8ndergaard", "npg_shrunk": 0.2309, "player_key": "mads sondergaard|2002"}, {"ast_shrunk": 0.0091, "league": "DEN-Superliga", "name": "Magnus Jensen", "npg_shrunk": 0.0386, "player_key": "magnus jensen|1996"}, {"ast_shrunk": 0.1537, "league": "DEN-Superliga", "name": "Magnus Mattsson", "npg_shrunk": 0.0764, "player_key": "magnus mattsson|1999"}, {"ast_shrunk": 0.0441, "league": "ITA-Serie A", "name": "Malthe Hojholt", "npg_shrunk": 0.0415, "player_key": "malthe hojholt|2001"}, {"ast_shrunk": 0.0331, "league": "GER-2. Bundesliga", "name": "Marcus Mathisen", "npg_shrunk": 0.0078, "player_key": "marcus mathisen|1996"}, {"ast_shrunk": 0.115, "league": "DEN-Superliga", "name": "Marcus McCoy", "npg_shrunk": 0.0856, "player_key": "marcus mccoy|2005"}, {"ast_shrunk": 0.1376, "league": "DEN-Superliga", "name": "Mark Brink", "npg_shrunk": 0.0367, "player_key": "mark brink|1998"}, {"ast_shrunk": 0.0233, "league": "ITA-Serie A", "name": "Martin Frese", "npg_shrunk": 0.0764, "player_key": "martin frese|1998"}, {"ast_shrunk": 0.1416, "league": "DEN-Superliga", "name": "Mathias Greve", "npg_shrunk": 0.0573, "player_key": "mathias greve|1995"}, {"ast_shrunk": 0.0595, "league": "ENG-Premier League", "name": "Mathias Jensen", "npg_shrunk": 0.1181, "player_key": "mathias jensen|1996"}, {"ast_shrunk": 0.0765, "league": "DEN-Superliga", "name": "Mathias Jensen", "npg_shrunk": 0.0668, "player_key": "mathias jensen|2005"}, {"ast_shrunk": 0.0645, "league": "DEN-Superliga", "name": "Mathias J\u00f8rgensen", "npg_shrunk": 0.0236, "player_key": "mathias jorgensen|1990"}, {"ast_shrunk": 0.1611, "league": "FRA-Ligue 1", "name": "Matt O\u0027Riley", "npg_shrunk": 0.1047, "player_key": "matt o\u0027riley|2000"}, {"ast_shrunk": 0.2417, "league": "AUT-Bundesliga", "name": "Maurits Kj\u00e6rgaard", "npg_shrunk": 0.1136, "player_key": "maurits kjaergaard|2003"}, {"ast_shrunk": 0.193, "league": "DEN-Superliga", "name": "Max Ejdum", "npg_shrunk": 0.0657, "player_key": "max ejdum|2004"}, {"ast_shrunk": 0.1363, "league": "NOR-Eliteserien", "name": "Michael Opoku", "npg_shrunk": 0.1411, "player_key": "michael opoku|2005"}, {"ast_shrunk": 0.1576, "league": "FRA-Ligue 1", "name": "Mika Biereth", "npg_shrunk": 0.2528, "player_key": "mika biereth|2003"}, {"ast_shrunk": 0.1225, "league": "DEN-Superliga", "name": "Mike Themsen", "npg_shrunk": 0.0425, "player_key": "mike themsen|2006"}, {"ast_shrunk": 0.0613, "league": "DEN-Superliga", "name": "Mike Vesterg\u00e5rd", "npg_shrunk": 0.0304, "player_key": "mike vestergard|1997"}, {"ast_shrunk": 0.0692, "league": "DEN-Superliga", "name": "Mikel Gogorza", "npg_shrunk": 0.2179, "player_key": "mikel gogorza|2006"}, {"ast_shrunk": 0.1548, "league": "ENG-Premier League", "name": "Mikkel Damsgaard", "npg_shrunk": 0.1563, "player_key": "mikkel damsgaard|2000"}, {"ast_shrunk": 0.0866, "league": "DEN-Superliga", "name": "Mikkel Duelund", "npg_shrunk": 0.3749, "player_key": "mikkel duelund|1997"}, {"ast_shrunk": 0.0143, "league": "NOR-Eliteserien", "name": "Mikkel Fischer", "npg_shrunk": 0.0153, "player_key": "mikkel fischer|2004"}, {"ast_shrunk": 0.1336, "league": "GER-Bundesliga", "name": "Mikkel Kaufmann", "npg_shrunk": 0.2901, "player_key": "mikkel kaufmann|2001"}, {"ast_shrunk": 0.0645, "league": "GER-2. Bundesliga", "name": "Mikkel Kirkeskov", "npg_shrunk": 0.0151, "player_key": "mikkel kirkeskov|1991"}, {"ast_shrunk": 0.1169, "league": "POL-Ekstraklasa", "name": "Mikkel Maigaard", "npg_shrunk": 0.0823, "player_key": "mikkel maigaard|1995"}, {"ast_shrunk": 0.0202, "league": "POL-Ekstraklasa", "name": "Mileta Rajovic", "npg_shrunk": 0.2157, "player_key": "mileta rajovic|1999"}, {"ast_shrunk": 0.0194, "league": "ITA-Serie A", "name": "Morten Frendrup", "npg_shrunk": 0.0408, "player_key": "morten frendrup|2001"}, {"ast_shrunk": 0.138, "league": "POR-Primeira Liga", "name": "Morten Hjulmand", "npg_shrunk": 0.1087, "player_key": "morten hjulmand|1999"}, {"ast_shrunk": 0.0817, "league": "NOR-Eliteserien", "name": "Muamer Brajanac", "npg_shrunk": 0.2164, "player_key": "muamer brajanac|2001"}, {"ast_shrunk": 0.1679, "league": "DEN-Superliga", "name": "Nicklas R\u00f8jkj\u00e6r", "npg_shrunk": 0.0995, "player_key": "nicklas rojkjaer|1998"}, {"ast_shrunk": 0.0618, "league": "NOR-Eliteserien", "name": "Nicklas Strunck", "npg_shrunk": 0.0916, "player_key": "nicklas strunck|1999"}, {"ast_shrunk": 0.1337, "league": "DEN-Superliga", "name": "Nicolai Poulsen", "npg_shrunk": 0.0867, "player_key": "nicolai poulsen|1993"}, {"ast_shrunk": 0.2206, "league": "DEN-Superliga", "name": "Nicolai Vallys", "npg_shrunk": 0.1897, "player_key": "nicolai vallys|1996"}, {"ast_shrunk": 0.0589, "league": "NED-Eredivisie", "name": "Niklas Vesterlund", "npg_shrunk": 0.0577, "player_key": "niklas vesterlund|1999"}, {"ast_shrunk": 0.1338, "league": "AUT-Bundesliga", "name": "Nikolai Baden", "npg_shrunk": 0.3286, "player_key": "nikolai baden|2000"}, {"ast_shrunk": 0.0613, "league": "DEN-Superliga", "name": "Nikolas Dyhr", "npg_shrunk": 0.065, "player_key": "nikolas dyhr|2001"}, {"ast_shrunk": 0.1667, "league": "GER-Bundesliga", "name": "Nikolas Nartey", "npg_shrunk": 0.2177, "player_key": "nikolas nartey|2000"}, {"ast_shrunk": 0.0121, "league": "DEN-Superliga", "name": "Noah Markmann", "npg_shrunk": 0.0169, "player_key": "noah markmann|2007"}, {"ast_shrunk": 0.1914, "league": "DEN-Superliga", "name": "Noah Nartey", "npg_shrunk": 0.3173, "player_key": "noah nartey|2005"}, {"ast_shrunk": 0.0584, "league": "FRA-Ligue 1", "name": "Noah Nartey", "npg_shrunk": 0.1812, "player_key": "noah nartey|2005"}, {"ast_shrunk": 0.061, "league": "ITA-Serie A", "name": "Oliver Jensen", "npg_shrunk": 0.0593, "player_key": "oliver jensen|2002"}, {"ast_shrunk": 0.0, "league": "ITA-Serie A", "name": "Oliver Nielsen", "npg_shrunk": 0.0108, "player_key": "oliver nielsen|2003"}, {"ast_shrunk": 0.0343, "league": "DEN-Superliga", "name": "Oliver Olsen", "npg_shrunk": 0.0637, "player_key": "oliver olsen|2000"}, {"ast_shrunk": 0.0831, "league": "DEN-Superliga", "name": "Oliver Rose-Villadsen", "npg_shrunk": 0.0175, "player_key": "oliver rose-villadsen|2001"}, {"ast_shrunk": 0.1873, "league": "DEN-Superliga", "name": "Olti Hyseni", "npg_shrunk": 0.2167, "player_key": "olti hyseni|2007"}, {"ast_shrunk": 0.0922, "league": "DEN-Superliga", "name": "Oscar Buch", "npg_shrunk": 0.2845, "player_key": "oscar buch|1997"}, {"ast_shrunk": 0.0902, "league": "GER-Bundesliga", "name": "Oscar H\u00f8jlund", "npg_shrunk": 0.1002, "player_key": "oscar hojlund|2005"}, {"ast_shrunk": 0.1261, "league": "NOR-Eliteserien", "name": "Oskar \u00d8hlenschl\u00e6ger", "npg_shrunk": 0.2176, "player_key": "oskar ohlenschlaeger|2004"}, {"ast_shrunk": 0.1947, "league": "ENG-Premier League", "name": "Patrick Dorgu", "npg_shrunk": 0.1965, "player_key": "patrick dorgu|2004"}, {"ast_shrunk": 0.1545, "league": "DEN-Superliga", "name": "Patrick Egelund", "npg_shrunk": 0.2768, "player_key": "patrick egelund|2000"}, {"ast_shrunk": 0.0385, "league": "DEN-Superliga", "name": "Patrick Mortensen", "npg_shrunk": 0.345, "player_key": "patrick mortensen|1989"}, {"ast_shrunk": 0.0862, "league": "DEN-Superliga", "name": "Pelle Mattsson", "npg_shrunk": 0.0753, "player_key": "pelle mattsson|2001"}, {"ast_shrunk": 0.0352, "league": "DEN-Superliga", "name": "Peter Ankersen", "npg_shrunk": 0.091, "player_key": "peter ankersen|1990"}, {"ast_shrunk": 0.1073, "league": "NOR-Eliteserien", "name": "Peter Christiansen", "npg_shrunk": 0.4855, "player_key": "peter christiansen|1999"}, {"ast_shrunk": 0.0694, "league": "DEN-Superliga", "name": "Peter Villum Berthelsen", "npg_shrunk": 0.1645, "player_key": "peter villum berthelsen|2006"}, {"ast_shrunk": 0.1212, "league": "DEN-Superliga", "name": "Philip Billing", "npg_shrunk": 0.1152, "player_key": "philip billing|1996"}, {"ast_shrunk": 0.1479, "league": "FRA-Ligue 1", "name": "Pierre H\u00f8jbjerg", "npg_shrunk": 0.1223, "player_key": "pierre hojbjerg|1995"}, {"ast_shrunk": 0.0929, "league": "DEN-Superliga", "name": "Rasmus Carstensen", "npg_shrunk": 0.2465, "player_key": "rasmus carstensen|2000"}, {"ast_shrunk": 0.139, "league": "DEN-Superliga", "name": "Rasmus Falk", "npg_shrunk": 0.0562, "player_key": "rasmus falk|1992"}, {"ast_shrunk": 0.1467, "league": "ITA-Serie A", "name": "Rasmus H\u00f8jlund", "npg_shrunk": 0.3366, "player_key": "rasmus hojlund|2003"}, {"ast_shrunk": 0.0143, "league": "GER-Bundesliga", "name": "Rasmus Kristensen", "npg_shrunk": 0.0912, "player_key": "rasmus kristensen|1997"}, {"ast_shrunk": 0.0751, "league": "DEN-Superliga", "name": "Rasmus Lauritsen", "npg_shrunk": 0.0275, "player_key": "rasmus lauritsen|1996"}, {"ast_shrunk": 0.0103, "league": "FRA-Ligue 1", "name": "Rasmus Nicolaisen", "npg_shrunk": 0.026, "player_key": "rasmus nicolaisen|1997"}, {"ast_shrunk": 0.05, "league": "DEN-Superliga", "name": "Rasmus Vinderslev", "npg_shrunk": 0.0817, "player_key": "rasmus vinderslev|1997"}, {"ast_shrunk": 0.0854, "league": "NOR-Eliteserien", "name": "Rezan Corlu", "npg_shrunk": 0.2027, "player_key": "rezan corlu|1997"}, {"ast_shrunk": 0.015, "league": "DEN-Superliga", "name": "Sabil Hansen", "npg_shrunk": 0.0635, "player_key": "sabil hansen|2005"}, {"ast_shrunk": 0.0678, "league": "DEN-Superliga", "name": "Sami Jalal", "npg_shrunk": 0.1789, "player_key": "sami jalal|2004"}, {"ast_shrunk": 0.0642, "league": "GER-2. Bundesliga", "name": "Sebastian Gr\u00f8nning", "npg_shrunk": 0.3876, "player_key": "sebastian gronning|1997"}, {"ast_shrunk": 0.1933, "league": "DEN-Superliga", "name": "Sebastian J\u00f8rgensen", "npg_shrunk": 0.1253, "player_key": "sebastian jorgensen|2000"}, {"ast_shrunk": 0.0, "league": "ITA-Serie A", "name": "Sebastian Otoa", "npg_shrunk": 0.0152, "player_key": "sebastian otoa|2004"}, {"ast_shrunk": 0.0605, "league": "NED-Eredivisie", "name": "Simon Graves Jensen", "npg_shrunk": 0.0095, "player_key": "simon graves jensen|1999"}, {"ast_shrunk": 0.0135, "league": "DEN-Superliga", "name": "Simon W\u00e6ver", "npg_shrunk": 0.019, "player_key": "simon waever|1996"}, {"ast_shrunk": 0.1869, "league": "DEN-Superliga", "name": "Sofus Berger Brix", "npg_shrunk": 0.1797, "player_key": "sofus berger brix|2003"}, {"ast_shrunk": 0.1379, "league": "DEN-Superliga", "name": "Sofus Johannesen", "npg_shrunk": 0.2972, "player_key": "sofus johannesen|2007"}, {"ast_shrunk": 0.0818, "league": "NED-Eredivisie", "name": "S\u00f8ren Tengstedt", "npg_shrunk": 0.3075, "player_key": "soren tengstedt|2000"}, {"ast_shrunk": 0.0099, "league": "DEN-Superliga", "name": "Svenn Crone", "npg_shrunk": 0.0983, "player_key": "svenn crone|1995"}, {"ast_shrunk": 0.1564, "league": "DEN-Superliga", "name": "Thomas Delaney", "npg_shrunk": 0.1014, "player_key": "thomas delaney|1991"}, {"ast_shrunk": 0.0639, "league": "DEN-Superliga", "name": "Thomas Gundelund", "npg_shrunk": 0.0134, "player_key": "thomas gundelund|2001"}, {"ast_shrunk": 0.2152, "league": "DEN-Superliga", "name": "Thomas J\u00f8rgensen", "npg_shrunk": 0.1333, "player_key": "thomas jorgensen|2005"}, {"ast_shrunk": 0.0, "league": "ITA-Serie A", "name": "Thomas Kristensen", "npg_shrunk": 0.0879, "player_key": "thomas kristensen|2002"}, {"ast_shrunk": 0.1353, "league": "DEN-Superliga", "name": "Tobias Bech", "npg_shrunk": 0.3843, "player_key": "tobias bech|2002"}, {"ast_shrunk": 0.1887, "league": "DEN-Superliga", "name": "Tobias Klysner", "npg_shrunk": 0.0655, "player_key": "tobias klysner|2001"}, {"ast_shrunk": 0.1149, "league": "DEN-Superliga", "name": "Tobias Lauritsen", "npg_shrunk": 0.0571, "player_key": "tobias lauritsen|2004"}, {"ast_shrunk": 0.0095, "league": "DEN-Superliga", "name": "Tobias Salquist", "npg_shrunk": 0.0403, "player_key": "tobias salquist|1995"}, {"ast_shrunk": 0.1445, "league": "DEN-Superliga", "name": "Tobias Sommer", "npg_shrunk": 0.0313, "player_key": "tobias sommer|2001"}, {"ast_shrunk": 0.0427, "league": "AUT-Bundesliga", "name": "Tochi Chukwuani", "npg_shrunk": 0.0777, "player_key": "tochi chukwuani|2003"}, {"ast_shrunk": 0.2148, "league": "DEN-Superliga", "name": "Tonni Adamsen", "npg_shrunk": 0.3913, "player_key": "tonni adamsen|1994"}, {"ast_shrunk": 0.1936, "league": "DEN-Superliga", "name": "Valdemar Andreasen", "npg_shrunk": 0.3655, "player_key": "valdemar andreasen|2005"}, {"ast_shrunk": 0.0178, "league": "DEN-Superliga", "name": "Valdemar Lund", "npg_shrunk": 0.0223, "player_key": "valdemar lund|2003"}, {"ast_shrunk": 0.1657, "league": "POR-Primeira Liga", "name": "Victor Froholdt", "npg_shrunk": 0.1645, "player_key": "victor froholdt|2006"}, {"ast_shrunk": 0.0903, "league": "NED-Eredivisie", "name": "Victor Jensen", "npg_shrunk": 0.402, "player_key": "victor jensen|2000"}, {"ast_shrunk": 0.0926, "league": "DEN-Superliga", "name": "Victor Jensen", "npg_shrunk": 0.06, "player_key": "victor jensen|2003"}, {"ast_shrunk": 0.0, "league": "ITA-Serie A", "name": "Victor Nelsson", "npg_shrunk": 0.0062, "player_key": "victor nelsson|1998"}, {"ast_shrunk": 0.0299, "league": "NOR-Eliteserien", "name": "Villads Nielsen", "npg_shrunk": 0.032, "player_key": "villads nielsen|2005"}, {"ast_shrunk": 0.0544, "league": "DEN-Superliga", "name": "Villads Westh", "npg_shrunk": 0.0475, "player_key": "villads westh|2004"}, {"ast_shrunk": 0.1418, "league": "DEN-Superliga", "name": "William Clem", "npg_shrunk": 0.1347, "player_key": "william clem|2004"}, {"ast_shrunk": 0.1258, "league": "DEN-Superliga", "name": "William Kirk", "npg_shrunk": 0.1168, "player_key": "william kirk|2007"}, {"ast_shrunk": 0.112, "league": "DEN-Superliga", "name": "William Madsen", "npg_shrunk": 0.104, "player_key": "william madsen|2002"}, {"ast_shrunk": 0.0334, "league": "ENG-Premier League", "name": "William Osula", "npg_shrunk": 0.5288, "player_key": "william osula|2003"}, {"ast_shrunk": 0.1685, "league": "DEN-Superliga", "name": "Younes Bakiz", "npg_shrunk": 0.123, "player_key": "younes bakiz|1999"}, {"ast_shrunk": 0.2509, "league": "NED-Eredivisie", "name": "Younes Namli", "npg_shrunk": 0.1576, "player_key": "younes namli|1994"}, {"ast_shrunk": 0.0506, "league": "GER-2. Bundesliga", "name": "Zidan Sertdemir", "npg_shrunk": 0.214, "player_key": "zidan sertdemir|2005"}]'>
+      <div class="sensitivity-live-controls" id="sensitivity-controls">
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">ENG-Premier League</span>
+          <input type="range" class="sens-range" data-league="ENG-Premier League"
+                 min="0.5" max="1.5"
+                 step="0.01" value="1.0" data-default="1.0"
+                 aria-label="ENG-Premier League multiplier">
+          <output class="sens-slider-value">1.00×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">ITA-Serie A</span>
+          <input type="range" class="sens-range" data-league="ITA-Serie A"
+                 min="0.428" max="1.284"
+                 step="0.01" value="0.856" data-default="0.856"
+                 aria-label="ITA-Serie A multiplier">
+          <output class="sens-slider-value">0.86×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">ESP-La Liga</span>
+          <input type="range" class="sens-range" data-league="ESP-La Liga"
+                 min="0.4035" max="1.2105"
+                 step="0.01" value="0.807" data-default="0.807"
+                 aria-label="ESP-La Liga multiplier">
+          <output class="sens-slider-value">0.81×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">GER-Bundesliga</span>
+          <input type="range" class="sens-range" data-league="GER-Bundesliga"
+                 min="0.394" max="1.182"
+                 step="0.01" value="0.788" data-default="0.788"
+                 aria-label="GER-Bundesliga multiplier">
+          <output class="sens-slider-value">0.79×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">FRA-Ligue 1</span>
+          <input type="range" class="sens-range" data-league="FRA-Ligue 1"
+                 min="0.333" max="0.999"
+                 step="0.01" value="0.666" data-default="0.666"
+                 aria-label="FRA-Ligue 1 multiplier">
+          <output class="sens-slider-value">0.67×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">POR-Primeira Liga</span>
+          <input type="range" class="sens-range" data-league="POR-Primeira Liga"
+                 min="0.315" max="0.945"
+                 step="0.01" value="0.63" data-default="0.63"
+                 aria-label="POR-Primeira Liga multiplier">
+          <output class="sens-slider-value">0.63×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">BEL-Pro League</span>
+          <input type="range" class="sens-range" data-league="BEL-Pro League"
+                 min="0.2865" max="0.8595"
+                 step="0.01" value="0.573" data-default="0.573"
+                 aria-label="BEL-Pro League multiplier">
+          <output class="sens-slider-value">0.57×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">NED-Eredivisie</span>
+          <input type="range" class="sens-range" data-league="NED-Eredivisie"
+                 min="0.255" max="0.765"
+                 step="0.01" value="0.51" data-default="0.51"
+                 aria-label="NED-Eredivisie multiplier">
+          <output class="sens-slider-value">0.51×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">TUR-Süper Lig</span>
+          <input type="range" class="sens-range" data-league="TUR-Süper Lig"
+                 min="0.242" max="0.726"
+                 step="0.01" value="0.484" data-default="0.484"
+                 aria-label="TUR-Süper Lig multiplier">
+          <output class="sens-slider-value">0.48×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">GER-2. Bundesliga</span>
+          <input type="range" class="sens-range" data-league="GER-2. Bundesliga"
+                 min="0.2365" max="0.7095"
+                 step="0.01" value="0.473" data-default="0.473"
+                 aria-label="GER-2. Bundesliga multiplier">
+          <output class="sens-slider-value">0.47×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">POL-Ekstraklasa</span>
+          <input type="range" class="sens-range" data-league="POL-Ekstraklasa"
+                 min="0.219" max="0.657"
+                 step="0.01" value="0.438" data-default="0.438"
+                 aria-label="POL-Ekstraklasa multiplier">
+          <output class="sens-slider-value">0.44×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">CZE-First League</span>
+          <input type="range" class="sens-range" data-league="CZE-First League"
+                 min="0.217" max="0.651"
+                 step="0.01" value="0.434" data-default="0.434"
+                 aria-label="CZE-First League multiplier">
+          <output class="sens-slider-value">0.43×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">NOR-Eliteserien</span>
+          <input type="range" class="sens-range" data-league="NOR-Eliteserien"
+                 min="0.187" max="0.561"
+                 step="0.01" value="0.374" data-default="0.374"
+                 aria-label="NOR-Eliteserien multiplier">
+          <output class="sens-slider-value">0.37×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">DEN-Superliga</span>
+          <input type="range" class="sens-range" data-league="DEN-Superliga"
+                 min="0.1855" max="0.5565"
+                 step="0.01" value="0.371" data-default="0.371"
+                 aria-label="DEN-Superliga multiplier">
+          <output class="sens-slider-value">0.37×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">SUI-Super League</span>
+          <input type="range" class="sens-range" data-league="SUI-Super League"
+                 min="0.1465" max="0.4395"
+                 step="0.01" value="0.293" data-default="0.293"
+                 aria-label="SUI-Super League multiplier">
+          <output class="sens-slider-value">0.29×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">AUT-Bundesliga</span>
+          <input type="range" class="sens-range" data-league="AUT-Bundesliga"
+                 min="0.134" max="0.402"
+                 step="0.01" value="0.268" data-default="0.268"
+                 aria-label="AUT-Bundesliga multiplier">
+          <output class="sens-slider-value">0.27×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">HUN-NB I</span>
+          <input type="range" class="sens-range" data-league="HUN-NB I"
+                 min="0.1325" max="0.3975"
+                 step="0.01" value="0.265" data-default="0.265"
+                 aria-label="HUN-NB I multiplier">
+          <output class="sens-slider-value">0.27×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">CRO-HNL</span>
+          <input type="range" class="sens-range" data-league="CRO-HNL"
+                 min="0.1245" max="0.3735"
+                 step="0.01" value="0.249" data-default="0.249"
+                 aria-label="CRO-HNL multiplier">
+          <output class="sens-slider-value">0.25×</output>
+        </label>
+        
+        <label class="sens-slider">
+          <span class="sens-slider-league">SVK-Super Liga</span>
+          <input type="range" class="sens-range" data-league="SVK-Super Liga"
+                 min="0.1085" max="0.3255"
+                 step="0.01" value="0.217" data-default="0.217"
+                 aria-label="SVK-Super Liga multiplier">
+          <output class="sens-slider-value">0.22×</output>
+        </label>
+        
+      </div>
+      <button type="button" class="sens-reset" id="sensitivity-reset">Reset</button>
+      <table class="sensitivity-live-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>League</th>
+            <th>q</th>
+            <th>Vs. default</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="sensitivity-live-churn"></p>
+      <p class="slide-how"><span class="slide-how-label">Sources</span> This is the offline sensitivity table above (§ Sensitivity analysis) made interactive: q = (npG/90_shrunk + A/90_shrunk) × m_league, recomputed client-side from the shrunk rates of every Danish-eligible metrics-season player, no server round-trip. The rank-change column compares each row's rank under the current sliders to its rank at the config defaults.</p>
+    </div>
+
+    
+    <h3 id="data-quality">Data-quality log</h3>
+    <details class="fold">
+      <summary>8 recomputed checks · 6 recorded incidents</summary>
+      <p>Every wrangling decision that changed a count, with the count. The first block is recomputed on every run; the second is the incident record (dates and counts as recorded at the time).</p>
+      <table class="dq-table"><thead><tr><th>Check</th><th>Count</th><th>What it counts</th></tr></thead>
+      <tbody><tr><td>Women&#39;s entries filtered</td><td class="num">0 entries</td><td>FBref country-page entries dropped for a surname ending in -ová (see Limitations).</td></tr><tr><td>Namesakes in the pool</td><td class="num">18 players</td><td>Active pool players sharing a normalised name (e.g. father and son), disambiguated by club.</td></tr><tr><td>Pool players without season tables</td><td class="num">517 players</td><td>Danish professionals on FBref&#39;s country page who play in a league without season tables and carry no metrics.</td></tr><tr><td>Split-season rows collapsed</td><td class="num">441 rows</td><td>Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).</td></tr><tr><td>Unmatched call-up names</td><td class="num">68 names</td><td>National-team squad-table names that match no Danish-eligible row in the feature tables.</td></tr><tr><td>Missing birth years</td><td class="num">0 rows</td><td>Season-table rows of nation DEN with no birth year, which cannot form a player_key.</td></tr><tr><td>Unjoined goalkeeper rows</td><td class="num">12 rows</td><td>Keeper-page rows with no matching GK row in the season tables on (league, season, team, player_key); dropped from every goalkeeper exhibit.</td></tr><tr><td>Superliga rows without a nationality</td><td class="num">14 rows</td><td>Season-table rows in the Superliga where FBref records no nationality — the highest rate of any league in this pipeline. Every “own nationals” share reads that column as its numerator while the denominator keeps the league’s full minutes, so those shares are floors, not point estimates.</td></tr></tbody></table>
+      <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li><li><span class="mono">2026-09-14</span> The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); caught in review. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model&#39;s margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported.</li></ul>
+    </details>
+    
+
+    <h3 id="limitations">Limitations of this analysis</h3>
+    <div class="limitations">
+      
+      <details class="fold fold-lim" open><summary>Leagues without metrics</summary><p>The pipeline fetches 19 competitions from FBref. 517 of the 960 Danish professionals found on FBref's country page play in a league without season tables and carry no metrics; they are listed by name and club only. The Danish second tier is not fetched; Sweden's top flight is not in the fetched set either, so Swedish exhibits are absent rather than thin.</p></details>
+      
+      <details class="fold fold-lim"><summary>Free-tier feature set</summary><p>The feature vector is five basic columns per 90 minutes: non-penalty goals, assists, minutes share, age and cards. No expected goals, no progressive passes, no tackles — the rule was one identical vector across every league in the corpus, and only the basic table is available for all of them. Defensive and creative contributions beyond assists are invisible to the map.</p></details>
+      
+      <details class="fold fold-lim"><summary>National-team flag source</summary><p>The flag "called up 2024–25" is parsed from Wikipedia squad tables (UEFA Euro 2024, UEFA European Under-21 Championship 2025) and matched on normalised name plus birth year. 29 of the 218 mapped players carry it. A squad table edit or a name variant can drop a call-up; the flag is a tag, not a cap count.</p></details>
+      
+      <details class="fold fold-lim"><summary>Photo coverage</summary><p>202 of the 960 pool players have a Wikimedia Commons portrait (Wikidata P18, matched on name, citizenship and birth date, occupation filtered to association football player) used on the site. Players without a portrait on the site show initials.</p></details>
+      
+      <details class="fold fold-lim"><summary>Season split</summary><p>The headline per-capita count and every metric use the complete 2025/26 season; trajectories run 2024/25 → 2025/26; the club on a card is the 2026/27 club (season in progress at build time).</p></details>
+      
+      <details class="fold fold-lim"><summary>League multipliers</summary><p>ClubElo was unreachable at run time, so the multipliers are UEFA association coefficients scaled to the strongest league = 1.00, and second-tier leagues are set to 0.6 × the first tier of the same country by assumption. The club-strength proxy in chapter II is the club's goals-scored percentile within its league, not an Elo rating. The sensitivity table shows how far a ±20 % error in any one multiplier moves the Danish ranking.</p></details>
+      
+      <details class="fold fold-lim"><summary>Export origins from recent entrants only</summary><p>The origin league of an export is known only when the season before the first top-9 season was fetched: 2020/21 onwards for the headline leagues, 2024/25 onwards for the peer domestic leagues. Origin shares and the recent export age are therefore computed over players whose first top-9 season is 2025/26 or 2026/27; earlier entrants count towards the full export age but not the origin mix, and a first appearance already in 2020/21 is censored (the censored share is shown).</p></details>
+      
+      <details class="fold fold-lim"><summary>Player identity</summary><p>FBref's season tables carry no player id, so players are joined on normalised name plus birth year across leagues and seasons; two players sharing both would collapse into one. A mid-season transfer produces two club rows that are collapsed into one minutes-weighted row before ranking.</p></details>
+      
+      <details class="fold fold-lim"><summary>Women&#39;s entries and the -ová heuristic</summary><p>FBref's country page mixes men's and women's competitions. Entries whose surname ends in -ová were dropped from the pool; a woman with a different surname ending would survive the filter, and a man with that ending would not. The suffix is specific to Czech feminine surnames, so for a nation whose naming convention doesn't use it (English, for one) the filter catches close to none of the contamination it targets; the "Women's entries filtered" count in the data-quality log below says how many it caught this run.</p></details>
+      
+      <details class="fold fold-lim"><summary>No market values, no scouting</summary><p>Transfer fees, market values, video and scouting reports are outside the public sources used here. The map describes statistical footprints and counts; selection and development decisions require the federation's own data and expertise, which this method does not have.</p></details>
+      
+      <details class="fold fold-lim"><summary>No event or tracking data</summary><p>Every feature here is a season aggregate from free FBref tables. The author's tracking work lives elsewhere: <a href="https://github.com/sandovabarbora/tactical-cz">tactical-cz</a> (broadcast-video player tracking for Czech football) and the hockey video PoC linked from <a href="https://hockey.bsandova.com">hockey.bsandova.com</a>. New columns enter in <code>src/features.py::per90</code> and the feature list in <code>config/feature_definitions.yaml</code>.</p></details>
+      
+    </div>
+
+    <h3 id="validation-robustness">Validation & robustness</h3>
+    <p>Each model in this pipeline carries its own validation next to where it is described; this section collects one headline diagnostic from each as it lands. So far:</p>
+    <ul>
+      
+      <li>Season-to-season model comparison (M1): rolling-origin evaluation over 5 seasons, pooled RMSE favours Gradient boosting (0.071 vs 0.075 for persistence), the Bayesian model's 90 % interval covered 92 % of observed values.</li>
+      
+      
+      <li>League strength (M2): R-hat ≤ 1.005, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.173), Spearman rho = 0.72 against the UEFA multipliers.</li>
+      
+      
+      <li>The break and forecast (M4): the break dates to 2021/22 (23 % posterior) for Denmark, a ×1.41 level change; the plain local level does not beat the naive baseline on MAE (4.60 vs 2.73) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
+      
+      
+      <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +10.11 per 10 percentage points of U21 share (−1.69–23.26), R² = 0.27; a plain pooled OLS slope agrees in sign at +7.76 (1.12–13.99) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = −0.16.</li>
+      
+      
+      <li>The gap decomposition (M5): ridge fit (α = 1.00) on n = 8 peer countries; for Norway, the residual is −3.55 of a −3.21 gap — a decomposition of a correlation, not a causal accounting.</li>
+      
+      
+      <li>Age at export (M1 proper): R-hat ≤ 1.003, 0 divergent transitions across 115 players; β on origin-league strength is −0.03; leaving out 25 Danish exports and refitting shifts the 21-vs-24 difference by +0.0004.</li>
+      
+    </ul>
+
+    <h3 id="reproducibility">Reproducibility</h3>
+    <p>The full pipeline is public: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed 42 for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.</p>
+    <p>The processed tables also load into BigQuery unchanged: <code><a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/tree/main/infra/bigquery">infra/bigquery/</a></code> has generated schemas, a <code>bq load</code> script and a key/unit contract for the model-output JSONs the tables don't cover. Run <code>infra/bigquery/load.sh -n &lt;dataset&gt; &lt;nation&gt;</code> to see the load commands without running them.</p>
+
+    <h3 id="how-built">How this was built</h3>
+    <details class="fold">
+      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 317 tests</summary>
+      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 317 tests.</p>
+      <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
+        <title id="build-diagram-title">Build-flow diagram</title>
+        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
+        <defs>
+          <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
+          </marker>
+        </defs>
+        <style>
+          .bp-node rect{stroke-width:1.4}
+          .bp-author rect{fill:var(--cream-100);stroke:var(--rule)}
+          .bp-sonnet rect{fill:var(--cream-100);stroke:var(--navy-700)}
+          .bp-opus rect{fill:var(--cream-100);stroke:var(--oxblood-700)}
+          .bp-label{font-family:var(--font-display);font-size:15px;fill:var(--ink);text-anchor:middle}
+          .bp-sub{font-family:var(--font-sans);font-size:10px;fill:var(--ink-soft);text-anchor:middle}
+          .bp-badge{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:.04em;text-anchor:end}
+          .bp-badge-sonnet{fill:var(--navy-700)}
+          .bp-badge-opus{fill:var(--oxblood-700)}
+          .bp-arrow{stroke:var(--muted);stroke-width:1.4}
+          .bp-arrowhead{fill:var(--muted)}
+          .bp-ledger rect{fill:var(--cream-100);stroke:var(--oxblood-700);stroke-width:1.4}
+          .bp-ledger-label{font-family:var(--font-sans);font-size:10px;font-weight:700;letter-spacing:.08em;fill:var(--oxblood-700);text-anchor:middle}
+          .bp-ledger-count{font-family:var(--font-mono);font-size:13px;fill:var(--ink);text-anchor:middle}
+          .bp-conn{stroke:var(--oxblood-700);stroke-width:1.1;stroke-dasharray:2.5,2.5;fill:none}
+        </style>
+        <line x1="420" y1="284" x2="440" y2="248" class="bp-conn"/>
+        <line x1="420" y1="452" x2="440" y2="282" class="bp-conn"/>
+        <g class="bp-node bp-author"><rect x="20" y="10" width="400" height="44" rx="3"/>
+          <text x="220" y="37" class="bp-label">Spec</text></g>
+        <line x1="220" y1="54" x2="220" y2="90" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-author"><rect x="20" y="94" width="400" height="44" rx="3"/>
+          <text x="220" y="121" class="bp-label">Plan</text></g>
+        <line x1="220" y1="138" x2="220" y2="174" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="178" width="400" height="44" rx="3"/>
+          <text x="210" y="205" class="bp-label">Task agent</text>
+          <text x="392" y="192" class="bp-badge bp-badge-sonnet">SONNET</text></g>
+        <line x1="220" y1="222" x2="220" y2="258" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="262" width="400" height="44" rx="3"/>
+          <text x="210" y="284" class="bp-label">Task review</text>
+          <text x="210" y="298" class="bp-sub">spec + quality</text>
+          <text x="392" y="276" class="bp-badge bp-badge-sonnet">SONNET</text></g>
+        <line x1="220" y1="306" x2="220" y2="342" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="346" width="400" height="44" rx="3"/>
+          <text x="210" y="373" class="bp-label">Fix rounds ≤ 5</text>
+          <text x="392" y="360" class="bp-badge bp-badge-sonnet">SONNET</text></g>
+        <line x1="220" y1="390" x2="220" y2="426" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-sonnet"><rect x="20" y="430" width="400" height="44" rx="3"/>
+          <text x="210" y="457" class="bp-label">Whole-branch review</text>
+          <text x="392" y="444" class="bp-badge bp-badge-sonnet">SONNET</text></g>
+        <line x1="220" y1="474" x2="220" y2="510" class="bp-arrow" marker-end="url(#bp-arrow)"/>
+        <g class="bp-node bp-opus"><rect x="20" y="514" width="400" height="44" rx="3"/>
+          <text x="210" y="541" class="bp-label">Deploy</text>
+          <text x="392" y="528" class="bp-badge bp-badge-opus">OPUS</text></g>
+        <g class="bp-ledger"><rect x="440" y="210" width="150" height="70" rx="3"/>
+          <text x="515" y="233" class="bp-ledger-label">Ledger</text>
+          <text x="515" y="256" class="bp-ledger-count">rulings: 25</text></g>
+      </svg>
+      <p class="build-diagram-legend">Implementers and reviewers: sonnet · controller: opus.</p>
+      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 36 tasks of this edition and the last.</p>
+      <p>Spec: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">design</a> · plan: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">tasks</a> · ledger: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulings</a>.</p>
+      
+      <p>Every edition's own design spec and ledger:
+        <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">v1 spec</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">v1 ledger</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-14-why-the-train-leaves-design.md">v1.2 spec</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-14-v1-2-progress.md">v1.2 ledger</a>.</p>
+      
+    </details>
+
+    <h3 id="tracking">What tracking data would add</h3>
+    <p class="plain">Everything above is built from season tables, because that is what exists for every league in the benchmark. The next layer of data — every player’s position ten times a second — exists for none of them publicly. So here is one match of it, from a different league, to show concretely what it answers that a season table cannot: not how many goals a player scored, but how he moves when he does not have the ball.</p>
+    <figure class="figure-bleed" data-chart="tracking">
+      <figcaption>How to read it: the pitch is drawn with both teams attacking left to right; every arrow is one off-ball run, from where it started to where it ended, coloured by the kind of run SkillCorner’s model labelled it. Bright arrows were passed to; thick ones were received. Pick a team, switch run types on and off, hover an arrow for the player and what came of it. Data: (SkillCorner, 2025), one A-League match, MIT licence; none of it enters any number in this report.</figcaption>
+    </figure>
+    <p>For a federation this is the layer that turns “how many minutes” into “what kind of minutes”: whether a young winger’s runs are the runs the first team needs, whether an export’s physical output matches his new league, whether a squad presses as one. The atlas cannot see it and does not pretend to; the pipeline is built so that a tracking feed, when a federation has one, becomes another table beside the season tables rather than a different project.</p>
+
+    <h3 id="related-methods">Related methods and what was taken from them</h3>
+    <p>The methods below shaped this report's design. Each entry states what the method is, what this report took from it, and what was left out and why.</p>
+    <p>One pairing here has no single citation behind it: the transfer-graph league-strength model (<a href="#league-strength">§ League strength</a>) and the age-at-export curve (<a href="#export-age-model">§ Age at export</a>) are fit independently and joined only through origin-league strength as a covariate — a within-player league-identification model feeding a spline-in-age production curve is, to the author's knowledge, this report's own combination, not drawn whole from any one method below.</p>
+    <ul class="related-methods-list">
+      <li>Empirical-Bayes shrinkage of a sparse per-unit rate toward a group mean (Efron and Morris, 1975) · taken: per-90 rates are shrunk toward the league-season median with a K = 10 phantom-match prior before the quality projection (§ Bayesian shrinkage) · left out: the fully hierarchical variance-component estimate the original method also supports, since one shared K fits this corpus's minutes floor well enough for a descriptive report.</li>
+      <li>Multilevel (partial-pooling) regression and posterior predictive checking as a model-diagnosis routine (Gelman et al., 2013) · taken: the league-strength and youth-panel models pool leagues and countries partially rather than fitting each alone or merging them into one, and the league-strength posterior predictive check (§ League strength) compares simulated to observed production · left out: model comparison by WAIC/LOO, since every model here is instead scored on seasons it never trained on (rolling-origin backtests), a stronger check for this report's purpose.</li>
+      <li>The No-U-Turn Sampler, the gradient-based MCMC method PyMC uses by default (Hoffman and Gelman, 2014) · taken: every Bayesian model in this report — league strength, model comparison, the change-point series, the youth panel — is fit with it and diagnosed on R-hat and divergences · left out: variational inference as a faster approximate alternative, since none of the four models is slow enough to need it.</li>
+      <li>Plus-minus and regularised adjusted plus-minus ratings, which isolate a player's contribution from teammates' and opponents' by regression (Kharrat, McHale and Peña, 2020; Hvattum, 2019) · taken: the league-strength model's within-player logic — only a mover's own before/after change of league separates their level from the league's scoring environment — follows the same identification idea, applied to leagues rather than teammates · left out: an actual RAPM fit over lineup data, which this corpus's season-level tables (no lineups, no possession data) cannot support.</li>
+      <li>Bayesian online change-point detection, a sequential method for locating a shift in a data-generating process (Adams and MacKay, 2007) · taken: a single unknown break season with a marginalised discrete location parameter, applied here to a short batch series rather than sequentially · left out: the online/sequential setting and multiple change points, since the series in question (one country's Big-5 count per season) is short, fixed, and plausibly has at most one structural shift.</li>
+      <li>The local-level model — a random walk plus noise for a slowly drifting series — in the state-space tradition (Durbin and Koopman, 2012) · taken: the change-point model (§ Dating the break) is exactly this local level in log space, with one added step change at the break · left out: a local linear trend or seasonal component, since the series is annual and too short for a trend term to be identifiable.</li>
+      <li>Rolling-origin (time-series) cross-validation: refit on data up to each origin, score only on what came after it (Hyndman and Athanasopoulos, 2021) · taken: both the model-comparison exercise (§ Three models, one task) and the change-point backtest (§ Dating the break) are scored this way, never on a random split that could leak future seasons into training · left out: expanding-vs-sliding-window variants beyond the single expanding-window scheme, since the corpus's five metrics seasons leave little room to compare schemes.</li>
+      <li>The Oaxaca–Blinder decomposition, splitting a gap between two groups' means into an explained and an unexplained part via a linear model (Oaxaca, 1973; Blinder, 1973) · taken: the gap-decomposition exhibit (§ What the gap is made of) splits the per-capita gap into the three measured channels plus a residual the same way · left out: the detailed, coefficient-level decomposition of the explained share, since three channels are few enough to read directly off the coefficients themselves.</li>
+      <li>The silhouette coefficient, a per-point measure of how well a clustering separates its groups (Rousseeuw, 1987) · taken: used to sanity-check the PCA cluster counts per position group and projection before they were fixed (§ Cluster archetypes) · left out: a silhouette sweep reported in the text, since the chosen cluster counts are stable across position groups and projections.</li>
+      <li>Gradient-boosted trees and a small multilayer perceptron, two non-Bayesian machine-learning baselines standard in this kind of comparison (Pedregosa et al., 2011) · taken: both sit alongside the persistence, shrinkage and Bayesian models in § Three models, one task, on the same eight features and the same rolling-origin split · left out: hyperparameter search beyond scikit-learn's defaults (plus the MLP's 64/32 hidden layers), since the comparison's point is model family, not a tuned leaderboard.</li>
+      <li>CIES Football Observatory's periodic counts of footballers playing outside their home association (Poli, Ravenel and Besson, 2024) · taken: the out-of-sample league-strength check (§ League strength) tracks the same population — players who changed league — though it does not reuse CIES's own counts · left out: CIES's expatriate-share figures as a number quoted in this report, since the per-capita and pathways exhibits already answer the same question from this report's own fetched player tables.</li>
+    </ul>
+    <h4 id="related-methods-future">Next steps not attempted</h4>
+    <ul class="related-methods-future">
+      <li>Player-season embeddings and graph methods over the transfer network — clubs and moves as a graph, players as nodes with learned representations — are natural next tools (graph neural networks, specifically) for a pool this size, but were not attempted here.</li>
+      <li>Event- and tracking-derived features (pressing intensity, progressive carries, expected threat) would sharpen the style axis beyond the five box-score numbers used here, but no tracking data source was available for this corpus.</li>
+    </ul>
+
+    <h3 id="glossary">Glossary</h3>
+    <p>Ten terms used in the <a href="#methodology">sections above</a>, each in one plain sentence with a football example.</p>
+    <dl class="glossary-list">
+      <div><dt>Per 90</dt><dd>A rate scaled to a full match: a player with three goals in five matches, each played the full ninety minutes, has a rate of 0.6 goals per 90 — it lets a player who came on as a substitute be compared fairly with one who started every match.</dd></div>
+      <div><dt>Minutes share</dt><dd>How much of a club's available playing time a player actually got, out of every minute the club's matches could have offered that season; a player who played every minute of every match has a minutes share of 100 percent.</dd></div>
+      <div><dt>Shrinkage</dt><dd>A way of not trusting a small sample too much: a player with only a handful of matches has his numbers pulled part of the way toward the league's typical number, the way a manager waits for more than one good game before trusting that a young player's form is real.</dd></div>
+      <div><dt>League multiplier / league strength</dt><dd>A number saying how much a goal, an assist or a minute is worth in one league compared with another; a striker's goal in a weaker league counts for less once it is adjusted by that league's own multiplier — the same idea as judging a transfer by the level the player is coming from.</dd></div>
+      <div><dt>Quality-adjusted</dt><dd>A player's raw numbers after they have been multiplied by the league multiplier above, so a rate earned in a strong league and one earned in a weaker league can be compared on the same footing.</dd></div>
+      <div><dt>Interval (90 percent)</dt><dd>A range around a number that shows how sure the model is, not a single guess; a ninety percent interval means the model thinks the true value falls inside that range about nine times out of ten.</dd></div>
+      <div><dt>Posterior</dt><dd>What the model believes about a number after it has seen the data, expressed as a range of plausible values rather than one single figure; the probability attached to a break season in this report is a posterior probability.</dd></div>
+      <div><dt>Out-of-sample</dt><dd>Checking a method only on matches, players or seasons it was not shown while it was being built — the way a manager judges a scouting report by what actually happens once the player signs, not by how well the report described what had already happened.</dd></div>
+      <div><dt>Cluster</dt><dd>A group of players whose season numbers look similar to each other and different from other groups, found automatically from the data rather than assigned by hand; a cluster is a style label such as "high-volume scorers", not a formal position.</dd></div>
+      <div><dt>Change point</dt><dd>The point in a series of seasons where the level genuinely shifts to a new one and stays there, rather than just one unusually high or low season on its own; this report finds one for the count of home-nation players in Europe's biggest leagues.</dd></div>
+    </dl>
+
+    <h3 id="references">References</h3>
+    <ul class="references-list">
+      
+      <li id="ref-abril_pla_et_al_2023"><a href="https://doi.org/10.7717/peerj-cs.1516">Abril-Pla, O. et al. (2023) &#39;PyMC: a modern, and comprehensive probabilistic programming framework in Python&#39;, PeerJ Computer Science, 9, e1516.</a></li>
+      
+      <li id="ref-adams_mackay_2007"><a href="https://arxiv.org/abs/0710.3742">Adams, R.P. and MacKay, D.J.C. (2007) Bayesian online changepoint detection. arXiv, 0710.3742. Available at: https://arxiv.org/abs/0710.3742 (Accessed: 15 September 2026).</a></li>
+      
+      <li id="ref-blinder_1973"><a href="https://doi.org/10.2307/144855">Blinder, A.S. (1973) &#39;Wage discrimination: reduced form and structural estimates&#39;, Journal of Human Resources, 8(4), pp. 436–455.</a></li>
+      
+      <li id="ref-durbin_koopman_2012"><a href="https://doi.org/10.1093/acprof:oso/9780199641178.001.0001">Durbin, J. and Koopman, S.J. (2012) Time Series Analysis by State Space Methods. 2nd edn. Oxford: Oxford University Press.</a></li>
+      
+      <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319.</a></li>
+      
+      <li id="ref-gelman_et_al_2013"><a href="https://www.stat.columbia.edu/~gelman/book/">Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A. and Rubin, D.B. (2013) Bayesian Data Analysis. 3rd edn. Boca Raton: CRC Press.</a></li>
+      
+      <li id="ref-hoffman_gelman_2014"><a href="https://www.jmlr.org/papers/v15/hoffman14a.html">Hoffman, M.D. and Gelman, A. (2014) &#39;The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo&#39;, Journal of Machine Learning Research, 15, pp. 1593–1623.</a></li>
+      
+      <li id="ref-honigstein2015"><a href="https://openlibrary.org/works/OL20016699W">Honigstein, R. (2015) Das Reboot: How German Football Reinvented Itself and Conquered the World. London: Yellow Jersey Press.</a></li>
+      
+      <li id="ref-hvattum_2019"><a href="https://doi.org/10.2478/ijcss-2019-0001">Hvattum, L.M. (2019) &#39;A comprehensive review of plus-minus ratings for evaluating individual players in team sports&#39;, International Journal of Computer Science in Sport, 18(1), pp. 1–23.</a></li>
+      
+      <li id="ref-hyndman_athanasopoulos_2021"><a href="https://otexts.com/fpp3/">Hyndman, R.J. and Athanasopoulos, G. (2021) Forecasting: Principles and Practice. 3rd edn. Melbourne: OTexts.</a></li>
+      
+      <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736.</a></li>
+      
+      <li id="ref-kumar_et_al_2019"><a href="https://doi.org/10.21105/joss.01143">Kumar, R., Carroll, C., Hartikainen, A. and Martin, O. (2019) &#39;ArviZ a unified library for exploratory analysis of Bayesian models in Python&#39;, Journal of Open Source Software, 4(33), 1143.</a></li>
+      
+      <li id="ref-oaxaca_1973"><a href="https://doi.org/10.2307/2525981">Oaxaca, R. (1973) &#39;Male-female wage differentials in urban labor markets&#39;, International Economic Review, 14(3), pp. 693–709.</a></li>
+      
+      <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830.</a></li>
+      
+      <li id="ref-poli_ravenel_besson_2024"><a href="https://football-observatory.com/IMG/sites/mr/mr95/en/">Poli, R., Ravenel, L. and Besson, R. (2024) Origins and destinations of football expatriates (2020-2024). CIES Football Observatory Monthly Report, 95. Available at: https://football-observatory.com/IMG/sites/mr/mr95/en/ (Accessed: 14 September 2026).</a></li>
+      
+      <li id="ref-premierleague2011"><a href="https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html">Premier League (2011) Elite Player Performance Plan. Premier League (archived page), web.archive.org, 22 April 2016. Available at: https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html (Accessed: 21 September 2026).</a></li>
+      
+      <li id="ref-rousseeuw_1987"><a href="https://doi.org/10.1016/0377-0427(87)90125-7">Rousseeuw, P.J. (1987) &#39;Silhouettes: a graphical aid to the interpretation and validation of cluster analysis&#39;, Journal of Computational and Applied Mathematics, 20, pp. 53–65.</a></li>
+      
+      <li id="ref-skillcorner_2025"><a href="https://github.com/SkillCorner/opendata">SkillCorner (2025) SkillCorner Open Data: broadcast tracking, dynamic events and phases of play for ten A-League 2024/25 matches. GitHub repository, SkillCorner/opendata. Available at: https://github.com/SkillCorner/opendata (Accessed: 21 September 2026).</a></li>
+      
+      <li id="ref-vehtari_gelman_gabry_2017"><a href="https://doi.org/10.1007/s11222-016-9696-4">Vehtari, A., Gelman, A. and Gabry, J. (2017) &#39;Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC&#39;, Statistics and Computing, 27(5), pp. 1413–1432.</a></li>
+      
+    </ul>
+  </div>
+</section>
+
+<section class="explore">
+  <div class="container">
+    <details class="fold">
+      <summary>Download the tables</summary>
+      <div class="explore-block">
+    <h3 id="downloads">Download the tables</h3>
+    <p>The tables behind this report, exactly as the pipeline produced them, committed to the public repository. An analyst can take these and work from them directly, not only from the pictures above.</p>
+    <ul class="downloads-list">
+      
+      <li>
+        <span class="downloads-label">Every player found in the pool, one row per player, before any season's numbers are attached.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/pool.parquet">pool.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Players per million people, one row per country — the number behind the very first slide.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/per_capita.parquet">per_capita.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The five-number season vector for every covered player, one file per position group (forwards, midfielders, defenders).</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/features_FW.parquet">features_FW.parquet</a> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/features_MF.parquet">features_MF.parquet</a> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/features_DF.parquet">features_DF.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Production by country, position group and age band, the numbers behind the international comparison.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/cohorts.parquet">cohorts.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Youth minutes at home, the age and route of the move abroad, how exports fare, and where they land — every number behind the pathway exhibits, in one file.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/pathways.json">pathways.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Season-by-season counts of home-nation players in Europe's five biggest leagues, back to the start of the fetched history.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/big5_history.parquet">big5_history.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Every season row this pipeline has fetched, for every league and nationality it covers — the raw table everything else in this report is built from.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/fbref_players.parquet">fbref_players.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">How each of the five season numbers contributes to the style and quality maps.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/pca_loadings.parquet">pca_loadings.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">How much the top players change when a league's strength is nudged up or down.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/sensitivity.parquet">sensitivity.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The three new numbers behind the why-the-train-left funnel: club breadth of youth minutes, the league's own age structure, and the age at a player's first move abroad.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/pipeline_facts.json">pipeline_facts.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">FBref’s playing-time and miscellaneous tables for every fetched league-season: starts, minutes per start, substitute appearances, on-off, crosses, interceptions, tackles won, fouls.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/fbref_roles.parquet">fbref_roles.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Every player in the pool as one row — the table behind the searchable list — with production, rank in his position group, playing-time split and role counts.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/pool_table.json">pool_table.json</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">The history seasons of the home, peer and stepping-stone leagues back to the start of the fetched history, the rows behind the player atlas’s careers.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/fbref_history.parquet">fbref_history.parquet</a></span>
+      </li>
+      
+      <li>
+        <span class="downloads-label">Where the pool moved between the two seasons: each player’s rung in each, the move between them, and minutes by rung.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/den/season_changes.json">season_changes.json</a></span>
+      </li>
+      
+    </ul>
+      </div>
+    </details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="role-block">
+      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
+      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-author">
+        <span class="role-author-name">Barbora Šandová</span>
+        <span class="role-author-contact">
+          <a href="mailto:hello@bsandova.com">hello@bsandova.com</a>
+          &middot;
+          <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>
+        </span>
+      </p>
+    </div>
+    <div class="photo-credits" id="photo-credits">
+      <details class="fold">
+        <summary>Photo credits (48 portraits, Wikimedia Commons)</summary>
+        <ul class="small">
+          
+          <li data-fbref-id="c78380e9" data-player-key="tonni adamsen|1994">
+            Tonni Adamsen — <a href="https://commons.wikimedia.org/wiki/File:Tonni_Adamsen.jpg">Tonni_Adamsen.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e34fc66d" data-player-key="joachim andersen|1996">
+            Joachim Andersen — <a href="https://www.premierleague.com/players/26151/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="df525574" data-player-key="peter ankersen|1990">
+            Peter Ankersen — <a href="https://commons.wikimedia.org/wiki/File:1._SC_Sollenau_vs._FC_Red_Bull_Salzburg_2014-07-12_(090).jpg">1._SC_Sollenau_vs._FC_Red_Bull_Salzburg_2014-07-12_(090).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="2f15cb71" data-player-key="hjalte bidstrup|2006">
+            Hjalte Bidstrup — <a href="https://commons.wikimedia.org/wiki/File:Hjalte_Bidstrup,_20250808_(cropped).jpg">Hjalte_Bidstrup,_20250808_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="a1d95db3" data-player-key="mika biereth|2003">
+            Mika Biereth — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d328a254" data-player-key="philip billing|1996">
+            Philip Billing — <a href="https://www.premierleague.com/players/8882/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="1cdb21b9" data-player-key="jakob breum|2003">
+            Jakob Breum — <a href="https://commons.wikimedia.org/wiki/File:GAE_-_PAOK_Saloniki_(Jakob_Breum).jpg">GAE_-_PAOK_Saloniki_(Jakob_Breum).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="d234b7e7" data-player-key="anders baertelsen|2000">
+            Anders Bærtelsen — <a href="https://commons.wikimedia.org/wiki/File:Anders_Bærtelsen_21_Viking_FK_UECL_20250813_(1).jpg">Anders_Bærtelsen_21_Viking_FK_UECL_20250813_(1).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="c693347d" data-player-key="andreas cornelius|1993">
+            Andreas Cornelius — <a href="https://commons.wikimedia.org/wiki/File:Andreas_Cornelius_cropped.jpg">Andreas_Cornelius_cropped.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4b998d48" data-player-key="svenn crone|1995">
+            Svenn Crone — <a href="https://commons.wikimedia.org/wiki/File:Svenn_Crone_-_SK_Brann_-_53881467620_(cropped).jpg">Svenn_Crone_-_SK_Brann_-_53881467620_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="563cbac0" data-player-key="henrik dalsgaard|1989">
+            Henrik Dalsgaard — <a href="https://commons.wikimedia.org/wiki/File:Henrik_Dalsgaard_AaB_training.jpg">Henrik_Dalsgaard_AaB_training.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="215f3907" data-player-key="mikkel damsgaard|2000">
+            Mikkel Damsgaard — <a href="https://www.premierleague.com/players/49731/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6a0a13c8" data-player-key="kasper davidsen|2005">
+            Kasper Davidsen — <a href="https://commons.wikimedia.org/wiki/File:2026-03-04_Kasper_Davidsen.jpg">2026-03-04_Kasper_Davidsen.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="fe641c1a" data-player-key="thomas delaney|1991">
+            Thomas Delaney — <a href="https://commons.wikimedia.org/wiki/File:Delaney,_Thomas_Werder_17-18_WP_(cropped).jpg">Delaney,_Thomas_Werder_17-18_WP_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="cc83b74d" data-player-key="kasper dolberg|1997">
+            Kasper Dolberg — <a href="https://commons.wikimedia.org/wiki/File:Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg">Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e6536124" data-player-key="patrick dorgu|2004">
+            Patrick Dorgu — <a href="https://www.premierleague.com/players/146567/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="980522ec" data-player-key="christian eriksen|1992">
+            Christian Eriksen — <a href="https://www.premierleague.com/players/4845/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="762179d9" data-player-key="rasmus falk|1992">
+            Rasmus Falk — <a href="https://commons.wikimedia.org/wiki/File:Rasmus_Falk,_FC_København_-_Aab,_22._May_2022_-_FCK_spillerne_varmer_op_(c)_(cropped).jpg">Rasmus_Falk,_FC_København_-_Aab,_22._May_2022_-_FCK_spillerne_varmer_op_(c)_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="f4d60499" data-player-key="morten frendrup|2001">
+            Morten Frendrup — <a href="https://commons.wikimedia.org/wiki/File:Morten_Frendrup,_FC_Salzburg_gegen_Brøndby_IF_(Championsleague_Play_off_Hinspiel_17._August_2021).jpg">Morten_Frendrup,_FC_Salzburg_gegen_Brøndby_IF_(Championsleague_Play_off_Hinspiel_17._August_2021).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="046ca6db" data-player-key="victor froholdt|2006">
+            Victor Froholdt — <a href="https://commons.wikimedia.org/wiki/File:FC_Salzburg_gegen_FC_Porto_(2025-09-25_UEFA_Euro_League_)_87_(Victor_Froholdt).jpg">FC_Salzburg_gegen_FC_Porto_(2025-09-25_UEFA_Euro_League_)_87_(Victor_Froholdt).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="6f7d7bc2" data-player-key="anton gaaei|2002">
+            Anton Gaaei — <a href="https://commons.wikimedia.org/wiki/File:Anton_Gaaei_(cropped).jpg">Anton_Gaaei_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b648463f" data-player-key="jens martin gammelby|1995">
+            Jens Martin Gammelby — <a href="https://commons.wikimedia.org/wiki/File:Jens_Martin_Gammelby_17._August_2021_(cropped).jpg">Jens_Martin_Gammelby_17._August_2021_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="98ca4feb" data-player-key="mathias greve|1995">
+            Mathias Greve — <a href="https://commons.wikimedia.org/wiki/File:Greve_(2022).jpg">Greve_(2022).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="b289970e" data-player-key="jeppe gronning|1991">
+            Jeppe Grønning — <a href="https://commons.wikimedia.org/wiki/File:Jeppe_Grønning_20120902.JPG">Jeppe_Grønning_20120902.JPG</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="8da24e7d" data-player-key="sebastian gronning|1997">
+            Sebastian Grønning — <a href="https://commons.wikimedia.org/wiki/File:220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg">220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="675261f8" data-player-key="conrad harder|2005">
+            Conrad Harder — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="d4456fb3" data-player-key="morten hjulmand|1999">
+            Morten Hjulmand — <a href="https://commons.wikimedia.org/wiki/File:MortenHjulmandSporting24.jpg">MortenHjulmandSporting24.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="2ef16f06" data-player-key="andrew hjulsager|1995">
+            Andrew Hjulsager — <a href="https://commons.wikimedia.org/wiki/File:XXIII_Memorial_Quinocho_(RC_Celta_vs_Mainz_05)_-_16.jpg">XXIII_Memorial_Quinocho_(RC_Celta_vs_Mainz_05)_-_16.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e248e62f" data-player-key="carlo holse|1999">
+            Carlo Holse — <a href="https://commons.wikimedia.org/wiki/File:Carlo_Holse_(cropped).jpg">Carlo_Holse_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="7e598f96" data-player-key="lucas hogsberg|2006">
+            Lucas Høgsberg — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="8b04d6c1" data-player-key="pierre hojbjerg|1995">
+            Pierre Højbjerg — <a href="https://commons.wikimedia.org/wiki/File:Pierre-Emile_Højbjerg.jpg">Pierre-Emile_Højbjerg.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="3e2bbae6" data-player-key="oscar hojlund|2005">
+            Oscar Højlund — <a href="https://www.bundesliga.com/en/player/oscar-hojlund">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="491a433d" data-player-key="rasmus hojlund|2003">
+            Rasmus Højlund — <a href="https://www.premierleague.com/players/122934/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="25355bd8" data-player-key="jonathan asp jensen|2006">
+            Jonathan Asp Jensen — <a href="https://commons.wikimedia.org/wiki/File:FC_Red_Bull_Salzburg_gegen_Bayern_München_(2025-01-06_Testspiel)_114.jpg">FC_Red_Bull_Salzburg_gegen_Bayern_München_(2025-01-06_Testspiel)_114.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="0db5d2c8" data-player-key="mathias jorgensen|1990">
+            Mathias Jørgensen — <a href="https://commons.wikimedia.org/wiki/File:Zanka_-_RSCA_(2024)_(cropped).jpg">Zanka_-_RSCA_(2024)_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="e25ef30a" data-player-key="thomas jorgensen|2005">
+            Thomas Jørgensen — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6e269dd3" data-player-key="mikkel kaufmann|2001">
+            Mikkel Kaufmann — <a href="https://commons.wikimedia.org/wiki/File:Mikkel_Kaufmann.jpg">Mikkel_Kaufmann.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="35271c4d" data-player-key="emil kornvig|2000">
+            Emil Kornvig — <a href="https://commons.wikimedia.org/wiki/File:Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg">Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="39769cff" data-player-key="rasmus kristensen|1997">
+            Rasmus Kristensen — <a href="https://www.premierleague.com/players/15702/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="4722115c" data-player-key="alexander lyng|2004">
+            Alexander Lyng — <a href="https://commons.wikimedia.org/wiki/File:Alexander_Lyng,_DK-NO,_04-09-2025.png">Alexander_Lyng,_DK-NO,_04-09-2025.png</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="4c90fabc" data-player-key="noah nartey|2005">
+            Noah Nartey — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="e53b5534" data-player-key="victor nelsson|1998">
+            Victor Nelsson — <a href="https://commons.wikimedia.org/wiki/File:Victor_Enok_Nelsson_2021.png">Victor_Enok_Nelsson_2021.png</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="f6a90edd" data-player-key="casper nielsen|1994">
+            Casper Nielsen — <a href="https://commons.wikimedia.org/wiki/File:Casper_Nielsen_2016_olympics.jpg">Casper_Nielsen_2016_olympics.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="7b355808" data-player-key="william osula|2003">
+            William Osula — <a href="https://www.premierleague.com/players/114590/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="229da5b2" data-player-key="mileta rajovic|1999">
+            Mileta Rajovic — <a href="https://commons.wikimedia.org/wiki/File:Mileta_Rajović_2024.jpg">Mileta_Rajović_2024.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="1fffae99" data-player-key="jens stage|1996">
+            Jens Stage — <a href="https://www.bundesliga.com/en/player/jens-stage">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
+          </li>
+          
+          <li data-fbref-id="6d445ffc" data-player-key="asger sorensen|1996">
+            Asger Sørensen — <a href="https://commons.wikimedia.org/wiki/File:Union_Vöcklamarkt_gegen_FC_Red_Bull_Salzburg_21.jpg">Union_Vöcklamarkt_gegen_FC_Red_Bull_Salzburg_21.jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+          <li data-fbref-id="d40fd89d" data-player-key="nicolai vallys|1996">
+            Nicolai Vallys — <a href="https://commons.wikimedia.org/wiki/File:Vallys_(2022).jpg">Vallys_(2022).jpg</a>, Wikimedia Commons — see file page for the licence
+          </li>
+          
+        </ul>
+      </details>
+    </div>
+    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const toc = document.getElementById('toc');
+    if (!toc) return;
+    const btn = toc.querySelector('.toc-toggle');
+    if (!btn) return;
+    const KEY = 'atlas-toc-collapsed';
+    const apply = (collapsed) => {
+      toc.dataset.collapsed = collapsed ? 'true' : 'false';
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      btn.setAttribute('aria-label', collapsed ? btn.dataset.labelShow : btn.dataset.labelHide);
+    };
+    try {
+      apply(localStorage.getItem(KEY) === 'true');
+    } catch (e) {
+      apply(false);
+    }
+    btn.addEventListener('click', () => {
+      const next = toc.dataset.collapsed !== 'true';
+      apply(next);
+      try { localStorage.setItem(KEY, next ? 'true' : 'false'); } catch (e) {}
+    });
+  })();
+</script>
+
+<script>
+  window.renderTex = () => {
+    document.querySelectorAll('[data-tex]').forEach(el => {
+      try { katex.render(el.dataset.tex, el, { displayMode: true, throwOnError: false }); el.classList.add('formula-tex'); } catch (e) {}
+    });
+  };
+  if (window.katex) window.renderTex();
+  (() => {
+    // contents panel on narrow screens
+    const btn = document.querySelector('.toc-btn'), toc = document.getElementById('toc');
+    if (btn && toc) {
+      const set = (open) => { document.body.classList.toggle('toc-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('toc-open')));
+      toc.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    // long paragraphs: clamp with a More / Less toggle (text stays in the DOM);
+    // chapter ledes (p.framing.lede) always clamp to two lines regardless of
+    // length, so every chapter opens with a fast-scan preview
+    const cs = document.documentElement.lang === 'cs';
+    const L = cs ? ['Více', 'Méně'] : ['More', 'Less'];
+    const clampCandidates = [
+      ...document.querySelectorAll('.container > p:not(.framing):not(.capita-note):not(.formula):not(.continue):not(.hero-footnote):not(.slide-a):not(.slide-how), .container > .muted.small'),
+      ...document.querySelectorAll('.container > p.framing.lede'),
+    ];
+    clampCandidates.forEach((p) => {
+      const lede = p.classList.contains('lede');
+      const narrow = matchMedia('(max-width: 719px)').matches;
+      if (!lede && p.textContent.trim().length < (narrow ? 360 : 480)) return;
+      p.classList.add('clamp');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'clamp-btn'; b.textContent = L[0]; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => { const open = p.classList.toggle('clamp-open'); b.textContent = open ? L[1] : L[0]; b.setAttribute('aria-expanded', String(open)); });
+      p.after(b);
+    });
+    // player index: filter rows by name (no library)
+    const q = document.getElementById('player-search');
+    const table = document.querySelector('.player-index-table');
+    if (q && table) {
+      const rows = [...table.querySelectorAll('tbody tr[data-name]')];
+      const count = document.querySelector('.player-index-count');
+      const fold = table.closest('details');
+      const ascii = (s) => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      q.addEventListener('input', () => {
+        const needle = ascii(q.value.trim());
+        let shown = 0;
+        rows.forEach((r) => { const hit = !needle || r.dataset.name.includes(needle); r.hidden = !hit; if (hit) shown++; });
+        if (count) count.textContent = shown;
+        if (fold && needle) fold.open = true;
+      });
+    }
+  })();
+  (() => {
+    document.querySelectorAll('.capita').forEach((capita) => {
+      if (!('IntersectionObserver' in window)) return;
+      capita.dataset.animate = '';
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) { capita.dataset.animate = 'in'; io.disconnect(); }
+      }, { threshold: 0.3 });
+      io.observe(capita);
+    });
+    const links = [...document.querySelectorAll('.toc-sticky a[href^="#"]')];
+    const targets = links.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+    if (targets.length) {
+      const byId = new Map(links.map(a => [a.hash.slice(1), a]));
+      let current = null, ticking = false;
+      const update = () => {
+        ticking = false;
+        const line = 96;
+        let best = null;
+        for (const t of targets) { if (t.getBoundingClientRect().top <= line) best = t; else break; }
+        const id = best ? best.id : null;
+        if (id === current) return;
+        current = id;
+        links.forEach(a => a.removeAttribute('aria-current'));
+        if (id) byId.get(id)?.setAttribute('aria-current', 'true');
+      };
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
+    }
+  })();
+</script>
+
+<script>
+  (() => {
+    // phone: the menu button opens the links as a panel; desktop: the
+    // Questions list closes on a click elsewhere or on Escape
+    const btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu');
+    if (btn && menu) {
+      const set = (open) => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('menu-open')));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    const q = document.querySelector('.topbar-q');
+    if (q) {
+      if (matchMedia('(max-width: 719px)').matches) q.open = true;
+      document.addEventListener('click', (e) => { if (!matchMedia('(max-width: 719px)').matches && !q.contains(e.target)) q.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') q.open = false; });
+    }
+  })();
+</script>
+</body>
+</html>

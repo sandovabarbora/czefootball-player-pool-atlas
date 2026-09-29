@@ -79,10 +79,9 @@ HTML = f'''<!DOCTYPE html>
 <nav class="topbar" aria-label="Navigation">
   <a class="topbar-brand" href="../">Czech Football <span>Atlas</span></a>
   <div class="topbar-links">
-    <a href="../#summary">Summary</a>
-    <a href="../#pathways">Pathways</a>
-    <a href="../#q9">Cards</a>
-    <a href="../atlas/">Players</a>
+    <a href="../">Summary</a>
+    <a href="../methodology/">Methodology</a>
+    <a href="../players/">Players</a>
     <a href="./" aria-current="page">Nations</a>
   </div>
   <div class="atlas-switch" aria-label="Atlas">

@@ -17,15 +17,36 @@
 <body id="top" class="ax-page nx-page">
 <nav class="topbar" aria-label="Navigation">
   <a class="topbar-brand" href="../">Czech Football <span>Atlas</span></a>
-  <div class="topbar-links">
-    <a href="../#summary">Summary</a>
-    <a href="../#pathways">Pathways</a>
-    <a href="../#q9">Cards</a>
-    <a href="../atlas/">Players</a>
-    <a href="./" aria-current="page">Nations</a>
+  <button type="button" class="menu-btn" aria-controls="site-menu" aria-expanded="false">Menu</button>
+  <div class="topbar-links" id="site-menu">
+    <a href="../">Summary</a>
+    <details class="topbar-q">
+      <summary>Questions</summary>
+      <ol class="topbar-q-list">
+        <li><a href="../q/why/">Why the train left</a></li>
+        <li><a href="../q/per-head/">Is the pool thin?</a></li>
+        <li><a href="../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../q/youth/">Youth minutes at home</a></li>
+        <li><a href="../q/abroad/">Where they go</a></li>
+        <li><a href="../q/leaving-late/">Does leaving later cost anything?</a></li>
+        <li><a href="../q/fare/">How they fare</a></li>
+        <li><a href="../q/national-team/">National-team squad</a></li>
+        <li><a href="../q/break/">When the train left</a></li>
+        <li><a href="../q/peers/">Norway and Denmark</a></li>
+        <li><a href="../q/goalkeepers/">Goalkeepers</a></li>
+        <li><a href="../q/gap/">What the gap is made of</a></li>
+        <li><a href="../q/cards/">Who the players are</a></li>
+        <li><a href="../q/changes/">What changed in a year</a></li>
+      </ol>
+    </details>
+    <a href="../this-autumn/">This autumn</a>
+    <a href="../methodology/">Methodology</a>
+    <a href="../players/">Players</a>
+    <a href="/nations/" aria-current="page">Nations</a>
+    <p class="menu-switch" aria-label="Atlas"><span aria-current="page">CZE</span> · <a href="/eng/">ENG</a> · <a href="/ger/">GER</a> · <a href="/den/">DEN</a> · <a href="/nor/">NOR</a> · <a href="/esp/">ESP</a></p>
   </div>
   <div class="atlas-switch" aria-label="Atlas">
-    <a href="/">CZE</a> · <a href="/den/">DEN</a> · <a href="/eng/">ENG</a> · <a href="/esp/">ESP</a> · <a href="/ger/">GER</a> · <a href="/nor/">NOR</a>
+    <span aria-current="page">CZE</span> · <a href="/eng/">ENG</a> · <a href="/ger/">GER</a> · <a href="/den/">DEN</a> · <a href="/nor/">NOR</a> · <a href="/esp/">ESP</a>
   </div>
 </nav>
 <main class="ax container" data-nations-app>
@@ -107,5 +128,23 @@
     </ol>
   </footer>
 </main>
+<script>
+  (() => {
+    // phone: the menu button opens the links as a panel; desktop: the
+    // Questions list closes on a click elsewhere or on Escape
+    const btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu');
+    if (btn && menu) {
+      const set = (open) => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', String(open)); };
+      btn.addEventListener('click', () => set(!document.body.classList.contains('menu-open')));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    }
+    const q = document.querySelector('.topbar-q');
+    if (q) {
+      if (matchMedia('(max-width: 719px)').matches) q.open = true;
+      document.addEventListener('click', (e) => { if (!matchMedia('(max-width: 719px)').matches && !q.contains(e.target)) q.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') q.open = false; });
+    }
+  })();
+</script>
 </body>
 </html>
