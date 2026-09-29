@@ -28,10 +28,10 @@ from src.render import (
 )
 
 SECTION_IDS = (
-    "summary", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q8b", "q9", "for-federation",
+    "summary", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q8b", "q9", "contribution", "colophon", "changelog",
     "explore", "benchmark", "observations", "clusters", "trajectories", "pathways",
     "exhibit-f", "analogs", "players", "methodology", "multipliers", "league-strength", "shrinkage",
-    "pca-loadings", "sensitivity", "data-quality", "limitations", "validation-robustness", "how-built",
+    "pca-loadings", "sensitivity", "data-quality", "limitations", "validation-robustness", "checks", "data-availability",
     "reproducibility", "references", "photo-credits",
 )
 
@@ -199,14 +199,19 @@ def test_nine_slides_each_carry_question_answer_proof_and_how():
         assert idx == sorted(idx), n
 
 
-def test_for_a_federation_stays_after_the_slides_before_explore():
+def test_no_advice_blocks_and_every_question_closes_with_means_notshow_and_meta():
+    """Editorial pass (29 September 2026): the "For a federation" block and the
+    "A federation tracking this would watch" lines are gone; every question
+    ends with What this means, What this does not show and a metadata line
+    (snapshot, code path, exploratory status)."""
     ctx = build_context_from_fixtures("en")
     html = _render(ctx)
-    assert 'class="for-federation"' in html and "Run for England" not in html
-    q9_pos = html.index('id="q9"')
-    fed_pos = html.index('class="for-federation"')
-    explore_pos = html.index('id="explore"')
-    assert q9_pos < fed_pos < explore_pos
+    assert 'class="for-federation"' not in html and "A federation tracking this" not in html
+    assert 'class="slide-so"' not in html
+    for sid in ("q1", "q2", "q3", "q5", "q6", "q7", "q8", "q9"):
+        block = re.search(rf'<section class="slide" id="{sid}">(.*?)</section>', html, re.S).group(1)
+        assert "What this means" in block and "What this does not show" in block, sid
+        assert 'class="slide-meta"' in block and "exploratory, not pre-registered" in block, sid
 
 
 def test_explore_section_folds_the_old_chapters_and_keeps_their_ids():
@@ -289,18 +294,19 @@ def test_toc_lists_nine_questions_then_explore_then_method():
     for frag in (toc_sticky, toc_mobile):
         assert 'href="#findings"' not in frag
         assert 'href="#data-quality"' not in frag
-        assert 'href="#how-built"' not in frag
+        assert 'href="#how-built"' not in frag and 'href="#tracking"' not in frag
         for n in range(1, 10):
             assert f'href="#q{n}"' in frag, n
         assert 'href="#explore"' in frag
     assert 'id="findings"' not in html
-    assert 'id="data-quality"' in html and 'id="how-built"' in html
+    assert 'id="data-quality"' in html and 'id="checks"' in html and 'id="how-built"' not in html
 
 
-def test_how_built_section_counts_tests_and_rulings():
+def test_checks_section_counts_tests_and_claims_no_review():
     ctx = build_context_from_fixtures("en")
     html = render_html(ctx)
-    assert 'id="how-built"' in html and str(ctx["facts"]["n_tests"]) in html
+    assert 'id="checks"' in html and str(ctx["facts"]["n_tests"]) in html
+    assert "No external review" in html and "whole-branch review" not in html
 
 
 def test_no_typed_season_in_render_or_i18n_module():
@@ -457,6 +463,7 @@ def test_slide_8b_how_discloses_censoring_and_gains_home_note_only_when_headline
     assert "needs no move" in how2
 
 
+@pytest.mark.skip(reason="the Czech edition is retired; slide.8b.a changed in the editorial pass and its Czech string was removed")
 def test_slide_8b_a_uses_czech_nominative_plural_agreement():
     """Task 18 fix round 1, item 5: the counted-noun + verb pair must agree
     as nominative plural + plural verb ('brankáři hrají'), not genitive

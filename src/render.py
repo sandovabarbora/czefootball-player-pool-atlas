@@ -41,14 +41,33 @@ from src import config
 from src.feature_eda import RAW_COLUMNS as FEATURE_EDA_RAW_COLUMNS
 from src.features import FEATURES as FEATURE_EDA_FEATURES
 from src.figstyle import (
-    CREAM, INK, MUTED, NAVY, OXBLOOD, RULE, SEQ_BLUE, SEQ_LILAC, SEQ_MINT, SEQ_OCHRE, SEQ_ORANGE, SEQ_VIOLET, use_style,
+    CREAM,
+    INK,
+    MUTED,
+    NAVY,
+    OXBLOOD,
+    RULE,
+    SEQ_BLUE,
+    SEQ_LILAC,
+    SEQ_MINT,
+    SEQ_OCHRE,
+    SEQ_ORANGE,
+    SEQ_VIOLET,
+    use_style,
 )
-from src.i18n import EN, LANGS, Translator, localize_html_numbers
+from src.i18n import EN, Translator, localize_html_numbers
 from src.international_benchmark import render_cohort_heatmap
 from src.logging_setup import setup as logging_setup
-from src.references import harvard_list, in_text, in_text_multi, refs_by_key
 from src.predictions import build as build_predictions
-from src.utils import collapse_player_seasons, normalize_name, player_key as make_player_key, read_parquet, resolve_processed, season_label
+from src.references import harvard_list, in_text, in_text_multi, refs_by_key
+from src.utils import (
+    collapse_player_seasons,
+    normalize_name,
+    read_parquet,
+    resolve_processed,
+    season_label,
+)
+from src.utils import player_key as make_player_key
 
 matplotlib.use("Agg")
 
@@ -822,6 +841,15 @@ def _build_cards(showcase: list[dict], analogs: dict, features: dict[str, pd.Dat
     return cards
 
 
+def _fare_overlap(rows: list[dict], home: str) -> int | None:
+    """How many other countries' bootstrap intervals overlap the home one."""
+    h = next((r for r in rows if r["country"] == home), None)
+    if not h or h.get("lo") is None:
+        return None
+    return sum(1 for r in rows if r["country"] != home and r.get("lo") is not None
+               and r["lo"] <= h["hi"] and r["hi"] >= h["lo"])
+
+
 def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
     youth = []
     for r in pw.get("youth_exposure", []):
@@ -851,7 +879,9 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
     fare_rows = pw.get("fare", [])
     fare_min = sorted(
         [{"country": r["country"], "name": names.get(r["country"], r["country"]), "n": int(r["n"]),
-          "value": round(float(r["median_min_share"]), 3)} for r in fare_rows],
+          "value": round(float(r["median_min_share"]), 3),
+          "lo": _opt_float(r.get("min_share_lo"), 3), "hi": _opt_float(r.get("min_share_hi"), 3)}
+         for r in fare_rows if r.get("median_min_share") is not None],
         key=lambda r: -r["value"])
     fare_goals = sorted(
         [{"country": r["country"], "name": names.get(r["country"], r["country"]), "n": int(r["n"]),
@@ -897,6 +927,9 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
             "buckets": buckets,
             "sideways_share": float(dest_raw.get("sideways_share") or 0),  # rounded once, at display time
             "sideways_definition": str(dest_raw.get("sideways_definition") or ""),
+            "sideways_n": dest_raw.get("sideways_n"),
+            "sideways_leagues": dest_raw.get("sideways_leagues") or {},
+            "top9_n": next((int(b["n"]) for b in dest_raw.get("buckets", []) if b["bucket"] == "top9"), 0),
         }
 
     return {
@@ -909,11 +942,24 @@ def _build_pathways(pw: dict, names: dict[str, str], peers: list[str]) -> dict:
         "fare_min_rank": next((i + 1 for i, r in enumerate(fare_min) if r["country"] == config.HOME), None),
         "fare_goals_rank": next((i + 1 for i, r in enumerate(fare_goals) if r["country"] == config.HOME), None),
         "youth_rank": next((i + 1 for i, r in enumerate(youth) if r["country"] == config.HOME), None),
+        "fare_overlap": _fare_overlap(fare_min, config.HOME),
         "n_countries": len(peers),
     }
 
 
-def _build_gk(gk_raw: dict) -> dict:
+def _rank_text(rows: list[dict], home: str, key: str = "per_million") -> str:
+    """'5' or, when the home value ties others at display precision, '4–5'
+    (the positions the tied group spans)."""
+    vals = [r.get(key) for r in rows]
+    mine = next((r.get(key) for r in rows if r.get("country") == home), None)
+    if mine is None:
+        return "—"
+    above = sum(1 for v in vals if v is not None and v > mine)
+    same = sum(1 for v in vals if v is not None and v == mine)
+    return f"{above + 1}" if same == 1 else f"{above + 1}–{above + same}"
+
+
+def _build_gk(gk_raw: dict, display_names: dict[str, str] | None = None) -> dict:
     """Slide 8b context: the goalkeepers counter-example (Task 18), built
     from `goalkeepers.json` (`src.goalkeepers.build_goalkeepers`'s payload,
     already display-rounded there). `{}` when the file is missing --
@@ -923,6 +969,11 @@ def _build_gk(gk_raw: dict) -> dict:
     """
     if not gk_raw:
         return {}
+    display_names = display_names or {}
+
+    def _named(rows):
+        return [{**r, "player": display_names.get(r.get("player_key"), r.get("player"))} for r in rows]
+
     per_million = gk_raw.get("per_million", [])
     home_row = next((r for r in per_million if r.get("country") == config.HOME), None)
     export_age = gk_raw.get("export_age", {}) or {}
@@ -939,14 +990,16 @@ def _build_gk(gk_raw: dict) -> dict:
     return {
         "home_row": home_row,
         "home_rank": gk_raw.get("home_rank"),
+        "rank_text": _rank_text(per_million, config.HOME),
         "n_peers": gk_raw.get("n_peers"),
         "min_minutes": gk_raw.get("min_minutes"),
         "phantom_minutes": gk_raw.get("phantom_minutes"),
         "export_age": export_age,
         "earlier_or_later": earlier_or_later,
-        "club_tier": gk_raw.get("club_tier", []),
+        "club_tier": _named(gk_raw.get("club_tier", [])),
         "club_strength_proxy": gk_raw.get("club_strength_proxy", ""),
-        "production": gk_raw.get("production", {}),
+        "production": {**(gk_raw.get("production", {}) or {}),
+                       "home": _named((gk_raw.get("production", {}) or {}).get("home", []))},
         "cards": gk_raw.get("cards", []),
         "per_million": per_million,
         "max_per_million": max((r["per_million"] for r in per_million), default=0),
@@ -1524,9 +1577,17 @@ def _build_gap_decomposition(gd: dict, names: dict[str, str]) -> dict:
     for c in gd.get("contrasts", []):
         channels = [{**ch, "label": GAP_CHANNEL_LABELS.get(ch["name"], ch["name"])} for ch in c.get("channels", [])]
         contrasts.append({**c, "name": names.get(c["contrast"], c["contrast"]), "channels": channels})
+    panel = {r["country"]: r for r in gd.get("panel", [])}
+    home = gd.get("home", config.HOME)
+    trio = [home, *[c["contrast"] for c in contrasts]]
+    x3 = [panel.get(c, {}).get("x3") for c in trio]
     return {
         "contrasts": contrasts,
         "primary": contrasts[0] if contrasts else None,
+        "panel": panel,
+        "home_x2": panel.get(home, {}).get("x2"),
+        "x3_equal": (x3[0] if x3 and None not in x3 and len(set(x3)) == 1 else None),
+        "trio_names": [names.get(c, c) for c in trio],
         "n": gd.get("n", 0),
         "coefficients": gd.get("coefficients", {}) or {},
         "ridge_alpha": gd.get("ridge_alpha"),
@@ -1670,6 +1731,9 @@ def _build_why_funnel(
             "break_prob": big5.get("break_prob"),
         },
         "take_one_thing": take_one_thing,
+        # the home nation's sample behind each brief row (clubs, players, minutes)
+        "brief_n": {"players": home_starts.get("players"), "clubs": home_starts.get("clubs"),
+                    "minutes": int((age_by.get(config.HOME) or {}).get("minutes_total") or 0) or None},
     }
 
 
@@ -1822,7 +1886,7 @@ def _build_this_autumn(news: dict | None, pool_table: dict, squad_players: list[
             "in_squad": None if best is None or squad_keys is None else best["player_key"] in squad_keys,
         })
     sources = [{"n": i + 1, **by_key[k], "date": _long_date(by_key[k].get("date")),
-                "accessed": _long_date(by_key[k]["accessed"])} for i, k in enumerate(order)]
+                "accessed": _long_date(by_key[k]["accessed"]), "secondary": bool(by_key[k].get("secondary"))} for i, k in enumerate(order)]
     season = pool_table.get("season")
     return {
         "data_as_of": _long_date(news["data_as_of"]), "news_as_of": _long_date(news["news_as_of"]),
@@ -1935,8 +1999,9 @@ def _build_limitations(facts: dict, tr: Translator | None = None) -> list[dict]:
     params = dict(facts, max_multiplier=f"{facts['max_multiplier']:.2f}",
                   tier2_factor=f"{facts['tier2_factor']:g}")
     out = []
-    for name in ("leagues", "features", "nt", "photos", "seasons", "multipliers", "origins",
-                 "identity", "women", "scope", "tracking"):
+    for name in ("scope", "money", "academy", "agents", "arrow", "causal", "per_head", "nationality",
+                 "leagues", "features", "nt", "photos", "seasons", "multipliers", "club_proxy", "origins",
+                 "small_n", "identity", "women", "tracking"):
         # Markup: lim.tracking.body carries <a> links (spec §10 copy is trusted, not
         # user input); without it Jinja's autoescape would print the tags as text.
         out.append({"title": tr.raw(f"lim.{name}.title"),
@@ -2048,6 +2113,14 @@ def _build_player_index(features: dict[str, pd.DataFrame], coords: dict[str, pd.
     return sorted(rows, key=lambda r: (_last_name(r["ascii_name"]), r["ascii_name"]))
 
 
+def licensed_photos(photos: dict) -> dict:
+    """Portraits the site may show: Wikimedia Commons files only. League
+    portraits (official club/league headshots) carry no licence the atlas can
+    cite, so they are left out and the player shows initials (29 September
+    2026)."""
+    return {k: v for k, v in photos.items() if not str(v.get("license", "")).startswith("league portrait")}
+
+
 def _photo_credits(photos: dict, used_keys: set[str]) -> list[dict]:
     rows = [
         {"fbref_id": fid, "name": v["name"], "player_key": v["player_key"],
@@ -2066,7 +2139,7 @@ def _photo_credits(photos: dict, used_keys: set[str]) -> list[dict]:
 # report's pictures of them.
 DOWNLOAD_GROUPS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("downloads.pool", ("pool.parquet",)),
-    ("downloads.per_capita", ("per_capita.parquet",)),
+    ("downloads.per_capita", ("per_capita.parquet", "per_capita_floors.json")),
     ("downloads.features", ("features_FW.parquet", "features_MF.parquet", "features_DF.parquet")),
     ("downloads.cohorts", ("cohorts.parquet",)),
     ("downloads.pathways", ("pathways.json",)),
@@ -2082,6 +2155,73 @@ DOWNLOAD_GROUPS: tuple[tuple[str, tuple[str, ...]], ...] = (
 )
 
 
+def _sha256(path: Path) -> str:
+    import hashlib
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+
+
+def _git_short(path: str) -> str | None:
+    """Short hash of the last commit that touched `path` (the data snapshot),
+    or None outside a git checkout."""
+    import subprocess
+    try:
+        out = subprocess.run(["git", "log", "-1", "--format=%h", "--", path], cwd=config.ROOT_DIR,
+                             capture_output=True, text=True, timeout=10)
+        return out.stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def _long(d: Any) -> str:
+    """2026-09-14 -> '14 September 2026' (the house date style)."""
+    d = dt.date.fromisoformat(str(d))
+    return f"{d.day} {d.strftime('%B')} {d.year}"
+
+
+def _build_journal(per_capita_floors: dict, trajectory: dict[str, pd.DataFrame],
+                   squad_rows: list[dict] | None, n_peers: int) -> dict:
+    """Publication metadata (config/journal.yaml), the per-capita floor
+    sensitivity (src.international_benchmark.per_capita_floors), the scale of
+    one season's change in production (trajectory tables), per-country
+    unmatched squad players and the change log for this edition."""
+    from importlib import metadata
+
+    import yaml
+    j = yaml.safe_load((config.CONFIG_DIR / "journal.yaml").read_text(encoding="utf-8"))
+    code = config.HOME
+    floors = {}
+    for f in (per_capita_floors or {}).get("floors", []):
+        row = next((r for r in f["rows"] if r["country"] == code), None)
+        if row:
+            floors[int(f["min_minutes"])] = {**row, "n_countries": len(f["rows"])}
+    deltas = pd.concat([t[t["home_eligible"]]["delta"] for t in trajectory.values() if not t.empty] or [pd.Series(dtype=float)])
+    try:
+        sd_version = metadata.version("soccerdata")
+    except metadata.PackageNotFoundError:
+        sd_version = "1.9"
+    root = {"cze": "/"}.get(config.NATION, f"/{config.NATION}/")
+    log = [e for e in (j.get("changelog") or []) if not e.get("nations") or config.NATION in e["nations"]]
+    return {
+        "published": _long(j["published"]), "updated": _long(j["updated"]), "version": j["version"],
+        "status": j["status"],
+        "fetched": _long(j["data"]["season_tables_fetched"]),
+        "history": _long(j["data"]["big5_history_committed"]),
+        "population": j["data"]["population"], "population_accessed": _long(j["data"]["population_accessed"]),
+        "uefa_accessed": _long(j["data"]["uefa_accessed"]), "uefa_window": j["data"].get("uefa_window", ""), "squads_accessed": _long(j["data"]["squads_accessed"]),
+        "snapshot_commit": _git_short(f"data/snapshot/{config.NATION}") or "—",
+        "soccerdata": sd_version,
+        "url": f"football.bsandova.com{root}",
+        "floors": floors,
+        "traj_sd": float(deltas.std()) if len(deltas) > 1 else None,
+        "traj_n": int(len(deltas)),
+        "squad_unmatched": ", ".join(f"{r['country']} {r['unmatched']}" for r in (squad_rows or [])),
+        "squad_total": sum(int(r.get("n", 0)) for r in (squad_rows or [])),
+        "squad_countries": len(squad_rows or []),
+        "changelog": [{"date": _long(e["date"]), "items": e["items"]} for e in log],
+        "n_peers": n_peers - 1,
+    }
+
+
 def _build_downloads(repo_url: str) -> list[dict]:
     """`{label_key, files: [{name, url}]}` per `DOWNLOAD_GROUPS` entry,
     restricted to files actually present in `config.SNAPSHOT_DIR` (a group
@@ -2090,7 +2230,8 @@ def _build_downloads(repo_url: str) -> list[dict]:
     raw_base = repo_url.replace("https://github.com/", "https://raw.githubusercontent.com/") + f"/main/data/snapshot/{config.NATION}"
     rows = []
     for label_key, filenames in DOWNLOAD_GROUPS:
-        files = [{"name": fn, "url": f"{raw_base}/{fn}"} for fn in filenames if (config.SNAPSHOT_DIR / fn).exists()]
+        files = [{"name": fn, "url": f"{raw_base}/{fn}", "sha256": _sha256(config.SNAPSHOT_DIR / fn)}
+                 for fn in filenames if (config.SNAPSHOT_DIR / fn).exists()]
         if files:
             rows.append({"label_key": label_key, "files": files})
     return rows
@@ -2135,6 +2276,7 @@ def load_data() -> dict[str, Any]:
         "showcase": _load_json(p / "showcase.json", []),
         "analogs": _load_json(p / "analogs.json", {}),
         "pathways": _load_json(p / "pathways.json", {}),
+        "per_capita_floors": _load_json(p / "per_capita_floors.json", {}),
         "goalkeepers": _load_json(p / "goalkeepers.json", {}),
         "squad_lens": _load_json(p / "squad_lens.json", {}),
         "big5_series": _load_json(p / "big5_series.json", {}),
@@ -2149,7 +2291,7 @@ def load_data() -> dict[str, Any]:
         "pool_table": _load_json(p / "pool_table.json", {}),
         "season_changes": _load_json(p / "season_changes.json", {}),
         "feature_eda": _load_json(p / "feature_eda.json", {}),
-        "photos": _load_json(SITE_PLAYERS, {}),
+        "photos": licensed_photos(_load_json(SITE_PLAYERS, {})),
         "cluster_labels": config.cluster_labels(),
         "build_process": config.build_process(),
         "league_quality": config.league_quality(),
@@ -2208,7 +2350,16 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
                          current_table=data["fbref_players"] if not data["fbref_players"].empty else None)
     nt_core_event = config.squads().get("nt_core_event")
     pathways = _build_pathways(data["pathways"], names, peers)
-    gk = _build_gk(data["goalkeepers"])
+    display_names = {r["player_key"]: r["player"] for r in (data["pool_table"] or {}).get("rows", []) if r.get("player_key")}
+    # the portrait manifest keeps the accented names (every entry, licensed or not: a name is not a portrait)
+    for v in _load_json(SITE_PLAYERS, {}).values():
+        if v.get("player_key") and v.get("name"):
+            display_names[v["player_key"]] = v["name"]
+    # Wikipedia's squad lists keep the diacritics FBref drops ("Matej Kovar")
+    if not data["peer_squads"].empty and {"player_norm", "born", "player"} <= set(data["peer_squads"].columns):
+        for r in data["peer_squads"].itertuples():
+            display_names[f"{r.player_norm}|{r.born}"] = r.player
+    gk = _build_gk(data["goalkeepers"], display_names)
     squad_lens = _build_squad_lens(data["squad_lens"], names)
     if squad_lens:
         # Slide 6's face grid (Task 25b): the home nation's individual squad
@@ -2296,6 +2447,10 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
             big5["rise_prob"] = series_model["break"]["rise"]["prob"]
             big5["rise_delta"] = series_model["break"]["rise"]["delta"]
             big5["rise_after"] = series_model["break"]["rise"].get("after", False)
+            big5["rise_lo"] = series_model["break"]["rise"].get("lo")
+            big5["rise_hi"] = series_model["break"]["rise"].get("hi")
+        big5["no_change"] = big5["delta_lo"] <= 1.0 <= big5["delta_hi"]
+        big5["diagnostics"] = data["series_model"].get("diagnostics", {})
     peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
                                        features_all, lq, lg, metrics, names)
 
@@ -2324,6 +2479,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
     # ledger is what the page quotes, the live model only says whether it moved
     live_forecast = (data["series_model"].get("forecast") or {}).get(config.HOME)
     predictions = build_predictions(live_forecast)
+    for pr in predictions:
+        pr["registered_on_long"] = _long(pr["registered_on"]) if pr.get("registered_on") else None
 
     multipliers = sorted(
         [{"league": k, "value": float(v)} for k, v in lq["multipliers"].items()],
@@ -2384,6 +2541,8 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         "gap_decomposition": gap_decomposition,
         "export_age_model": export_age_model,
         "why_funnel": why_funnel,
+        "journal": _build_journal(data["per_capita_floors"], data["trajectory"],
+                                  (squad_lens or {}).get("rows"), len(per_capita)),
         "pool_table": pool_table,
         "season_changes": season_changes,
         "this_autumn": this_autumn,
@@ -2826,6 +2985,14 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         }),
         "gap_decomposition": gap_decomposition_fixture,
         "why_funnel": why_funnel_fixture,
+        "journal": {"published": "15 September 2026", "updated": "29 September 2026", "version": 2,
+                    "status": "exploratory, not pre-registered", "fetched": "14 September 2026",
+                    "history": "22 September 2026", "population": "Eurostat, population on 1 January 2024 (table demo_pjan)",
+                    "population_accessed": "14 September 2026", "uefa_accessed": "14 September 2026", "uefa_window": "",
+                    "squads_accessed": "14 September 2026", "snapshot_commit": "c28dc59", "soccerdata": "1.9.1",
+                    "url": "football.bsandova.com/", "floors": {}, "traj_sd": 0.1, "traj_n": 10,
+                    "squad_unmatched": "CZE 1", "squad_total": 3, "squad_countries": 2,
+                    "changelog": [{"date": "29 September 2026", "items": ["Fixture entry."]}], "n_peers": 1},
         "pool_table": _build_pool_table({"season": "2025-2026", "groups": {"FW": 1, "MF": 0, "DF": 0, "GK": 0}, "rows": [{
             "player_key": "jan novak|2000", "player": "Jan Novák", "pos_group": "FW", "born": 2000, "age": 25,
             "nt_flag": False, "club": "Sparta Prague", "league": "CZE-First League", "tier": "domestic",

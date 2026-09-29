@@ -259,8 +259,12 @@ def test_harvard_formatter_matches_the_brief_example():
     }
     assert format_harvard(ref) == (
         "Efron, B. and Morris, C. (1975) 'Data analysis using Stein's estimator and its "
-        "generalizations', Journal of the American Statistical Association, 70(350), pp. 311–319."
+        "generalizations', Journal of the American Statistical Association, 70(350), pp. 311–319. "
+        "https://doi.org/10.1080/01621459.1975.10479864."
     )
+    # the access date follows the locator when the entry records one
+    assert format_harvard({**ref, "accessed": "29 September 2026"}).endswith(
+        "https://doi.org/10.1080/01621459.1975.10479864. Accessed 29 September 2026.")
 
 
 def test_config_refs_yaml_file_is_well_formed_and_verifiable():

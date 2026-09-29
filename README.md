@@ -21,15 +21,24 @@ tactics commentary, public data only.
 a fresh build and paste its output here; the date is the freshness signal,
 not a promise the numbers can't drift.*
 
-**2.39** top-9-league players per million inhabitants -- 26 Czech players on
-the current rosters of Europe's nine strongest leagues (England, Italy,
+**2.39** top-9-league players per million inhabitants -- 26 Czech players who
+appeared (any minutes) on the 2025/26 rosters of Europe's nine top-ranked leagues (England, Italy,
 Spain, Germany, France, Netherlands, Portugal, Belgium, Turkey), divided by
 a 2024 Eurostat population estimate of 10.9 M. That ranks Czechia 7th of 9
 peer countries: Denmark 12.58, Croatia 12.18, Norway 9.37, Switzerland 6.03,
 Austria 4.80, Slovakia 3.14, **Czechia 2.39**, Hungary 1.57, Poland 1.23.
 
+With a floor of 450 minutes the count is 23 (2.11 per million), with 900
+minutes 16 (1.47); Czechia is 7th of 9 under all three
+(`data/processed/cze/per_capita_floors.json`).
+
+The atlas is exploratory and descriptive and was not pre-registered, apart
+from one forecast (`config/predictions.yaml`); text, figures and data are
+CC BY 4.0, code MIT. Publication metadata and the change log live in
+`config/journal.yaml`.
+
 *Footnote (as shown on the page): numerator is players with the country's
-FBref nationality on the current roster of the 9 headline leagues;
+FBref nationality who appeared on a roster of the 9 headline leagues;
 denominator is Eurostat 2024 population. Every number in the report is
 computed from the fetched data, not typed in by hand.*
 

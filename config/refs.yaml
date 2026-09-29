@@ -11,7 +11,6 @@
 # (type: book, edition, place, publisher) for a book, or
 # (type: report, series, number, accessed) for an online report -- plus doi
 # and/or url on every entry.
-
 - key: efron_morris_1975
   authors: ["Efron, B.", "Morris, C."]
   year: 1975
@@ -21,7 +20,7 @@
   issue: 350
   pages: "311-319"
   doi: "10.1080/01621459.1975.10479864"
-
+  accessed: "29 September 2026"
 - key: gelman_et_al_2013
   type: book
   authors: ["Gelman, A.", "Carlin, J.B.", "Stern, H.S.", "Dunson, D.B.", "Vehtari, A.", "Rubin, D.B."]
@@ -30,8 +29,9 @@
   edition: "3rd"
   place: Boca Raton
   publisher: CRC Press
+  doi: "10.1201/b16018"
   url: "https://www.stat.columbia.edu/~gelman/book/"
-
+  accessed: "29 September 2026"
 - key: hoffman_gelman_2014
   authors: ["Hoffman, M.D.", "Gelman, A."]
   year: 2014
@@ -40,7 +40,7 @@
   volume: 15
   pages: "1593-1623"
   url: "https://www.jmlr.org/papers/v15/hoffman14a.html"
-
+  accessed: "29 September 2026"
 - key: vehtari_gelman_gabry_2017
   authors: ["Vehtari, A.", "Gelman, A.", "Gabry, J."]
   year: 2017
@@ -50,7 +50,7 @@
   issue: 5
   pages: "1413-1432"
   doi: "10.1007/s11222-016-9696-4"
-
+  accessed: "29 September 2026"
 - key: abril_pla_et_al_2023
   authors: ["Abril-Pla, O."]
   et_al: true
@@ -60,7 +60,7 @@
   volume: 9
   pages: "e1516"
   doi: "10.7717/peerj-cs.1516"
-
+  accessed: "29 September 2026"
 - key: kumar_et_al_2019
   authors: ["Kumar, R.", "Carroll, C.", "Hartikainen, A.", "Martin, O."]
   year: 2019
@@ -70,7 +70,7 @@
   issue: 33
   pages: "1143"
   doi: "10.21105/joss.01143"
-
+  accessed: "29 September 2026"
 - key: rousseeuw_1987
   authors: ["Rousseeuw, P.J."]
   year: 1987
@@ -79,7 +79,7 @@
   volume: 20
   pages: "53-65"
   doi: "10.1016/0377-0427(87)90125-7"
-
+  accessed: "29 September 2026"
 - key: pedregosa_et_al_2011
   authors: ["Pedregosa, F."]
   et_al: true
@@ -89,7 +89,7 @@
   volume: 12
   pages: "2825-2830"
   url: "https://www.jmlr.org/papers/v12/pedregosa11a.html"
-
+  accessed: "29 September 2026"
 - key: kharrat_mchale_pena_2020
   authors: ["Kharrat, T.", "McHale, I.G.", "Peña, J.L."]
   year: 2020
@@ -99,7 +99,7 @@
   issue: 2
   pages: "726-736"
   doi: "10.1016/j.ejor.2019.11.026"
-
+  accessed: "29 September 2026"
 - key: hvattum_2019
   authors: ["Hvattum, L.M."]
   year: 2019
@@ -109,7 +109,7 @@
   issue: 1
   pages: "1-23"
   doi: "10.2478/ijcss-2019-0001"
-
+  accessed: "29 September 2026"
 - key: poli_ravenel_besson_2024
   type: report
   authors: ["Poli, R.", "Ravenel, L.", "Besson, R."]
@@ -119,7 +119,6 @@
   number: 95
   url: "https://football-observatory.com/IMG/sites/mr/mr95/en/"
   accessed: "14 September 2026"
-
 - key: hyndman_athanasopoulos_2021
   type: book
   authors: ["Hyndman, R.J.", "Athanasopoulos, G."]
@@ -129,7 +128,7 @@
   place: Melbourne
   publisher: OTexts
   url: "https://otexts.com/fpp3/"
-
+  accessed: "29 September 2026"
 - key: adams_mackay_2007
   type: report
   authors: ["Adams, R.P.", "MacKay, D.J.C."]
@@ -139,7 +138,6 @@
   number: "0710.3742"
   url: "https://arxiv.org/abs/0710.3742"
   accessed: "15 September 2026"
-
 - key: durbin_koopman_2012
   type: book
   authors: ["Durbin, J.", "Koopman, S.J."]
@@ -149,7 +147,7 @@
   place: Oxford
   publisher: Oxford University Press
   doi: "10.1093/acprof:oso/9780199641178.001.0001"
-
+  accessed: "29 September 2026"
 - key: oaxaca_1973
   authors: ["Oaxaca, R."]
   year: 1973
@@ -159,7 +157,7 @@
   issue: 3
   pages: "693-709"
   doi: "10.2307/2525981"
-
+  accessed: "29 September 2026"
 - key: blinder_1973
   authors: ["Blinder, A.S."]
   year: 1973
@@ -169,16 +167,7 @@
   issue: 4
   pages: "436-455"
   doi: "10.2307/144855"
-
-- key: skillcorner_2025
-  type: report
-  authors: ["SkillCorner"]
-  year: 2025
-  title: "SkillCorner Open Data: broadcast tracking, dynamic events and phases of play for ten A-League 2024/25 matches"
-  series: GitHub repository
-  number: "SkillCorner/opendata"
-  url: "https://github.com/SkillCorner/opendata"
-  accessed: "21 September 2026"
+  accessed: "29 September 2026"
 
 # Reform dates drawn as timing markers on the cross-nation page (2026-09-21,
 # src/nations_compare.py) -- documented dates, cited so a reader can check
@@ -191,7 +180,7 @@
   place: London
   publisher: Yellow Jersey Press
   url: "https://openlibrary.org/works/OL20016699W"
-
+  accessed: "29 September 2026"
 - key: premierleague2011
   type: report
   authors: ["Premier League"]
@@ -201,3 +190,108 @@
   number: "web.archive.org, 22 April 2016"
   url: "https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html"
   accessed: "21 September 2026"
+
+# Front-page contribution paragraph (29 September 2026): work on player
+# development, selection and migration the atlas is placed against. Each DOI
+# resolved (doi.org -> 302) and matched on Crossref (title, journal, volume,
+# pages) on 29 September 2026.
+- key: larsen_et_al_2013
+  authors: ["Larsen, C.H.", "Alfermann, D.", "Henriksen, K.", "Christensen, M.K."]
+  year: 2013
+  title: "Successful talent development in soccer: the characteristics of the environment"
+  container: "Sport, Exercise, and Performance Psychology"
+  volume: 2
+  issue: 3
+  pages: "190-206"
+  doi: "10.1037/a0031958"
+  accessed: "29 September 2026"
+
+- key: gullich_2014
+  authors: ["Güllich, A."]
+  year: 2014
+  title: "Selection, de-selection and progression in German football talent promotion"
+  container: European Journal of Sport Science
+  volume: 14
+  issue: 6
+  pages: "530-537"
+  doi: "10.1080/17461391.2013.858371"
+  accessed: "29 September 2026"
+
+- key: relvas_et_al_2010
+  authors: ["Relvas, H.", "Littlewood, M.", "Nesti, M.", "Gilbourne, D.", "Richardson, D."]
+  year: 2010
+  title: "Organizational structures and working practices in elite European professional football clubs: understanding the relationship between youth and professional domains"
+  container: European Sport Management Quarterly
+  volume: 10
+  issue: 2
+  pages: "165-187"
+  doi: "10.1080/16184740903559891"
+  accessed: "29 September 2026"
+
+- key: helsen_van_winckel_williams_2005
+  authors: ["Helsen, W.F.", "Van Winckel, J.", "Williams, A.M."]
+  year: 2005
+  title: "The relative age effect in youth soccer across Europe"
+  container: Journal of Sports Sciences
+  volume: 23
+  issue: 6
+  pages: "629-636"
+  doi: "10.1080/02640410400021310"
+  accessed: "29 September 2026"
+
+# Data sources (29 September 2026): every source the pipeline reads, with the
+# table code, the version or the snapshot date. FBref answers scripted
+# requests with 403; its pages were read by the pipeline on the fetch date.
+- key: fbref_2026
+  type: report
+  authors: ["Sports Reference"]
+  year: 2026
+  title: "FBref: player standard and playing-time season tables, 17 leagues, 1995/96 to 2026/27"
+  series: "Data snapshot, season tables fetched 14 September 2026, Big-5 history committed 22 September 2026"
+  url: "https://fbref.com/en/"
+  accessed: "14 September 2026"
+
+- key: soccerdata_2026
+  type: report
+  authors: ["Robberechts, P."]
+  year: 2026
+  title: "soccerdata: scrape soccer data from the web"
+  series: "Python package, version 1.9.1"
+  url: "https://github.com/probberechts/soccerdata"
+  accessed: "29 September 2026"
+
+- key: wikipedia_squads_2026
+  type: report
+  authors: ["Wikipedia contributors"]
+  year: 2026
+  title: "2026 FIFA World Cup squads"
+  series: "Wikipedia, CC BY-SA 4.0"
+  url: "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads"
+  accessed: "14 September 2026"
+
+- key: wikidata_2026
+  type: report
+  authors: ["Wikidata contributors"]
+  year: 2026
+  title: "Wikidata: image (P18), country of citizenship and date of birth of association football players"
+  series: "Wikidata, CC0"
+  url: "https://www.wikidata.org/wiki/Wikidata:Main_Page"
+  accessed: "14 September 2026"
+
+- key: eurostat_demo_pjan
+  type: report
+  authors: ["Eurostat"]
+  year: 2024
+  title: "Population on 1 January by age and sex"
+  series: "Table demo_pjan, reference date 1 January 2024"
+  url: "https://ec.europa.eu/eurostat/databrowser/view/demo_pjan/default/table"
+  accessed: "14 September 2026"
+
+- key: uefa_coefficients_2026
+  type: report
+  authors: ["UEFA"]
+  year: 2026
+  title: "Men's association club coefficients"
+  series: "Five-season ranking as published on the fetch date, read from its transcription at en.wikipedia.org/wiki/UEFA_coefficient"
+  url: "https://www.uefa.com/nationalassociations/uefarankings/country/"
+  accessed: "14 September 2026"

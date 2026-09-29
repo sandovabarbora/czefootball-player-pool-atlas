@@ -92,11 +92,13 @@ def test_fixture_context_renders_in_czech():
     en = render_html(build_context_from_fixtures("en"))
     cs = render_html(build_context_from_fixtures("cs"))
     assert '<html lang="en">' in en and '<html lang="cs">' in cs
-    for heading in re.findall(r"<h2[^>]*>([^<]+)</h2>", en):
-        assert heading not in cs, heading
+    # the Czech edition is retired: strings changed in the editorial pass fall
+    # back to English, the rest stay translated
+    headings = re.findall(r"<h2[^>]*>([^<]+)</h2>", en)
+    assert any(h not in cs for h in headings)
     assert 'href="../style.css"' in cs and 'src="../atlas_FW.svg"' in cs
     assert "Útočníci" in cs and "Střelci s vysokým objemem" in cs
-    assert "zlepšení" in cs and "Vybrán jako: nejvyšší" in cs
+    assert "Vybrán jako: nejvyšší" in cs   # cards show the one-season change, not a direction word, since 29 September 2026
     assert ">1,65<" in cs and ">1.65<" in en  # hero figure, decimal comma
     assert "{{" not in cs and "{%" not in cs
     assert "Nejvyšší kvalitou upravená produkce" in cs and "Highest quality-adjusted production" in en
@@ -114,8 +116,8 @@ def test_auto_injected_nation_words_fill_in_without_an_explicit_param():
     assert cs.auto["cs_name"] == "Česko" and cs.auto["cs_adj_pl"] == "čeští" and cs.auto["cs_Adj_pl"] == "Čeští"
     # an explicit param still wins over an auto one of the same name
     assert en.raw("slide.4.how", season="2025/26", home_note="", adj="Overridden") == \
-        "Destination league of every Overridden-eligible player's 2025/26 row; " \
-        "sideways = destination multiplier ≤ Overridden league multiplier " \
+        "Destination league of every Overridden-eligible player's 2025/26 row with at least 450 minutes, one row per position group; " \
+        "sideways = destination multiplier ≤ Overridden league multiplier, both UEFA-coefficient multipliers " \
         '(<a href="#league-strength">league strength: two estimates, § Methodology</a>).'
 
 

@@ -1,0 +1,106 @@
+# Publication metadata for every edition's pages (editorial standard v1,
+# bsandova.com/docs/style/editorial-standard.md, adapted to an atlas):
+# dates, version, data dates and the change log shown at the foot of the
+# front page. Read by src.render._build_journal; nothing here is computed.
+published: 2026-09-15
+updated: 2026-09-29
+version: 2
+status: exploratory, not pre-registered
+data:
+  season_tables_fetched: 2026-09-14     # FBref season tables, every league (src.fetch_fbref)
+  big5_history_committed: 2026-09-22    # Big-5 history back to 1995/96 (src.fetch_big5_history), snapshot c28dc59
+  population: "Eurostat, population on 1 January 2024 (table demo_pjan)"
+  population_accessed: 2026-09-14
+  uefa_accessed: 2026-09-14
+  uefa_window: "2022/23–2026/27"            # the five seasons of the ranking current on the fetch date (config/league_quality.yaml)
+  squads_accessed: 2026-09-14
+# Change log: newest first. `nations` limits an entry to some editions
+# (codes as in config/nations/*.yaml); without it an entry is on every edition.
+changelog:
+  - date: '2026-09-29'
+    items:
+    - 'Checked against editorial standard v1 on 29 September 2026. Pages now carry a research kicker, a metadata block (status: exploratory, not pre-registered; data snapshot; code; cite as; licence), a question-and-contribution
+      paragraph with five external references, How to cite and this change log; every question page ends with What this means, What this does not show and a metadata line.'
+    - 'Advice drawn from descriptive data was removed: the “A federation tracking this would watch” line on every question, the “For a federation” and “What this is for” blocks, the targets and the “numbers
+      to watch” in the findings, and the heuristic sentence under the two reforms, now retitled “Youth minutes in Germany and England after two academy reforms (descriptive)” with Honigstein (2015) and Premier
+      League (2011) cited inline.'
+    - 'Correction: the per-head count was described as players with at least 450 minutes; it counts every player who appeared (any minutes). The number is unchanged and the page now gives the count at 450
+      and 900 minutes beside it (new table per_capita_floors.json, src/international_benchmark.py).'
+    - 'Correction: the findings quoted the Big-5 steps from the cross-edition fit (outputs/nations/nations.json, long_run); they now quote the edition’s own change-point fit, the one its Big-5 page shows,
+      with the posterior and the 90 % HDI of each step. The claims that a peer’s presence “came back” (resting on posteriors of 23–31 %) were removed.'
+    - 'Correction: the gap decomposition’s league-strength coefficient is negative in the fit; the text now says so (a weaker home league goes with more players per million) instead of reading league strength
+      as an advantage. The export-age channel is reported as zero by construction where the countries compared share the same median export age; the two export-age measures are named apart (age at the first
+      season abroad; age at the first top-9 season).'
+    - 'Correction: the recent youth-minutes finding compared two endpoints; it now reports an OLS slope over the six seasons with its 90 % CI, and the slope at the upper bound of the last season where the
+      share is a floor.'
+    - 'Stepping-stone leagues are now disjoint from the top nine (config/leagues.yaml: only the German second tier). Every tier rule already checked the top nine first, so no count changed; pathways.json,
+      pool_table.json and season_changes.json were recomputed and are identical.'
+    - 'New intervals: 90 % percentile-bootstrap intervals on each country’s median minutes share abroad (2 000 resamples, seed 42; pathways.json); interval types are labelled throughout (90 % HDI, 90 % bootstrap
+      interval, 90 % CI).'
+    - Exhibit C on the pathway page now shows the minutes-share bars and the club goals-scored percentile bars under their own labels; before, only the goals percentile was drawn under a paragraph that led
+      with the minutes share.
+    - League and club headshots, which carry no licence the atlas can cite, are no longer shown; players without a Wikimedia Commons portrait show initials.
+    - 'Methodology: data availability with sources, snapshot dates and licence notes; reproduction commands, snapshot commit and seeds; all limitations in one list; references with access dates, DOIs and
+      the data sources (FBref, soccerdata, Wikipedia, Wikidata, Eurostat demo_pjan, UEFA). The review and ruling counts and the build-flow section were replaced by a line on the automated tests; the tracking-data
+      demonstration was removed.'
+  - date: '2026-09-29'
+    nations:
+    - cze
+    items:
+    - 'Per-head count, same value, corrected label: 26 players, 2.39 per million, rank 7 of 9 with any minutes; added: 23 (2.11, rank 7) at 450 minutes and 16 (1.47, rank 7) at 900 minutes.'
+    - 'Big-5 steps in the findings: 2014/15 ×0.58 and 2000/01 ×1.66 (cross-edition fit) became 2014/15 ×0.60 (90 % HDI 0.39–1.03, posterior 56 %) and 2000/01 ×1.65 (0.87–2.46, posterior 55 %) from the edition’s
+      own fit.'
+    - 'Youth-minutes finding: “The trend runs the wrong way: Czechia''s own under-21s went from 10 % to 6 % of home-league minutes in 6 seasons.” became “Czechia’s own under-21 nationals’ share of home-league
+      minutes over 6 seasons: a trend of −0.39 pp a season (90 % CI −1.26 to +0.48).”'
+    - Norway’s median age at the first season abroad was printed as 22 (rounding) on the front page; it is 22.5 (n = 60), as on the pathway page.
+    - The 2025/26 home under-21 share in the six-season series was printed as 6.3 % (a stored value rounded to four decimals); it is 6.4 %, as everywhere else (floor 6.4 %, upper bound 7.6 %).
+    - 'Goalkeepers per million: “rank 5 of 9” became “rank 4–5 of 9”, tied with Slovakia at 0.37.'
+    - 'Destinations: the 19 % sideways share is now given as 5 of 27 players, by league: Hungary 3, Austria 1, Switzerland 1.'
+    - 'Minutes share abroad: 50 % (3rd of 9 by the median) now carries its 90 % bootstrap interval, 22–66 %, and the note that 8 of the other 8 countries’ intervals overlap it.'
+    - 'National-team squad, Exhibit F: “9 squad players have no 2025/26 row” is the total across the five countries; the note now gives it per country.'
+    - 'This autumn: publication dates added for Seznam Zprávy (29 June 2026) and Livesport.cz (25 June 2026); the Wikipedia source for the coach’s appointment is marked secondary because the federation’s
+      own release was not located; the Czech quotation moved to its footnote.'
+  - date: '2026-09-29'
+    nations:
+    - den
+    items:
+    - 'Per-head count, same value, corrected label: 75 players, 12.58 per million, rank 1 of 9 with any minutes; added: 61 (10.23, rank 1) at 450 minutes and 51 (8.56, rank 1) at 900 minutes.'
+    - 'Big-5 steps in the findings: 2021/22 ×1.43 and 2017/18 ×1.04 (cross-edition fit) became 2021/22 ×1.41 (90 % HDI 0.88–1.97, posterior 23 %) and 2017/18 ×1.04 (0.60–1.59, posterior 9 %) from the edition’s
+      own fit.'
+    - 'Youth-minutes finding: “No trend at home: Denmark''s own under-21s held at 15 % of home-league minutes across 6 seasons.” became “Denmark’s own under-21 nationals’ share of home-league minutes over
+      6 seasons: a trend of −0.32 pp a season (90 % CI −0.83 to +0.20).”'
+  - date: '2026-09-29'
+    nations:
+    - eng
+    items:
+    - 'Per-head count, same value, corrected label: 208 players, 3.60 per million, rank 6 of 8 with any minutes; added: 140 (2.43, rank 7) at 450 minutes and 114 (1.98, rank 6) at 900 minutes.'
+    - 'Big-5 steps in the findings: 2007/08 ×0.96 and 2001/02 ×0.85 (cross-edition fit) became 2007/08 ×0.95 (90 % HDI 0.77–1.17, posterior 11 %) from the edition’s own fit.'
+    - 'Youth-minutes finding: “The trend runs the wrong way: England''s own under-21s went from 5 % to 3 % of home-league minutes in 6 seasons.” became “England’s own under-21 nationals’ share of home-league
+      minutes over 6 seasons: a trend of −0.29 pp a season (90 % CI −0.78 to +0.21).”'
+  - date: '2026-09-29'
+    nations:
+    - esp
+    items:
+    - 'Per-head count, same value, corrected label: 464 players, 9.54 per million, rank 4 of 8 with any minutes; added: 329 (6.77, rank 4) at 450 minutes and 275 (5.66, rank 4) at 900 minutes.'
+    - 'Big-5 steps in the findings: 2001/02 ×1.02 and 1998/99 ×1.00 (cross-edition fit) became 2001/02 ×1.02 (90 % HDI 0.90–1.12, posterior 2 %) and 1998/99 ×1.00 (0.85–1.15, posterior 23 %) from the edition’s
+      own fit.'
+    - 'Youth-minutes finding: “No trend at home: Spain''s own under-21s held at 5 % of home-league minutes across 6 seasons.” became “Spain’s own under-21 nationals’ share of home-league minutes over 6 seasons:
+      a trend of +0.36 pp a season (90 % CI −0.35 to +1.08).”'
+  - date: '2026-09-29'
+    nations:
+    - ger
+    items:
+    - 'Per-head count, same value, corrected label: 262 players, 3.13 per million, rank 8 of 8 with any minutes; added: 191 (2.28, rank 8) at 450 minutes and 155 (1.85, rank 8) at 900 minutes.'
+    - 'Big-5 steps in the findings: 2000/01 ×0.75 and 2010/11 ×1.03 (cross-edition fit) became 2000/01 ×0.76 (90 % HDI 0.65–0.98, posterior 69 %) and 2010/11 ×1.04 (0.84–1.22, posterior 21 %) from the edition’s
+      own fit.'
+    - 'Youth-minutes finding: “The trend runs the right way: Germany''s own under-21s went from 3 % to 6 % of home-league minutes in 6 seasons.” became “Germany’s own under-21 nationals’ share of home-league
+      minutes over 6 seasons: a trend of +0.50 pp a season (90 % CI +0.08 to +0.92).”'
+  - date: '2026-09-29'
+    nations:
+    - nor
+    items:
+    - 'Per-head count, same value, corrected label: 52 players, 9.37 per million, rank 3 of 9 with any minutes; added: 40 (7.21, rank 3) at 450 minutes and 29 (5.23, rank 3) at 900 minutes.'
+    - 'Big-5 steps in the findings: 2004/05 ×0.66 and 2021/22 ×1.32 (cross-edition fit) became 2004/05 ×0.66 (90 % HDI 0.29–1.34, posterior 27 %) and 2021/22 ×1.32 (0.34–2.23, posterior 23 %) from the edition’s
+      own fit.'
+    - 'Youth-minutes finding: “The trend runs the right way: Norway''s own under-21s went from 8 % to 11 % of home-league minutes in 6 seasons.” became “Norway’s own under-21 nationals’ share of home-league
+      minutes over 6 seasons: a trend of +1.01 pp a season (90 % CI +0.50 to +1.52).”'
