@@ -31,7 +31,7 @@ from src import config
 from src.pool_table import _tier
 from src.season_changes import GROUPS as CHANGE_GROUPS
 from src.season_changes import classify
-from src.utils import read_parquet
+from src.utils import break_pick, read_parquet
 
 LOG = logging.getLogger(__name__)
 GROUPS = ("FW", "MF", "DF")
@@ -75,15 +75,20 @@ def clusters_payload(summary: pd.DataFrame, labels: dict) -> dict:
 
 
 def big5_payload(big5: dict, series_model: dict, names: dict[str, str]) -> dict:
+    brk = series_model.get("break") or {}
     return {
         "seasons": big5["seasons"],
         "countries": {c: {"name": names.get(c, c), "n": v["n"], "per_million": v["per_million"]}
                       for c, v in big5["countries"].items()},
         "home": config.HOME,
         "contrast": list(config.nation().get("series_contrast", [])),
-        "break": [b for b in [(series_model.get("break") or {}).get("modal")] if b] or (series_model.get("break") or {}).get("top", [])[:1],
-        "rise": [b for b in [((series_model.get("break") or {}).get("rise") or {}).get("modal")] if b
-                 and ((series_model.get("break") or {}).get("rise") or {}).get("delta_factor", {}).get("median", 0) > 1],
+        # the same seasons and the same "is it a step" rule as the report's
+        # Big-5 page (render._build_series_model): a factor within ±5 % of one
+        # is not dated, and each break's season is its own most probable one
+        "break": [b for b in [break_pick(brk, brk.get("rise"))] if b
+                  and abs(brk.get("delta_factor", {}).get("median", 1) - 1) >= 0.05],
+        "rise": [b for b in [break_pick(brk["rise"], brk)] if b
+                 and brk["rise"].get("delta_factor", {}).get("median", 0) >= 1.05] if brk.get("rise") else [],
         "forecast": series_model.get("forecast", {}),
     }
 

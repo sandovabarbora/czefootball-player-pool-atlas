@@ -32,6 +32,19 @@ def season_label(season: str) -> str:
     return f"{start}/{end[-2:]}"
 
 
+def break_pick(block: dict, other: dict | None = None) -> dict:
+    """`{season, prob}` to report for one break of the two-break change-point
+    fit (series_model.break_summary): the season where this break's own
+    marginal posterior peaks, so "most probable season" is literally true;
+    only when both breaks' marginals peak on the same season does it fall
+    back to the season this break takes in the most probable pair (`modal`)."""
+    top = (block.get("top") or [None])[0]
+    other_top = ((other or {}).get("top") or [None])[0]
+    if top is None or (other_top is not None and other_top.get("season") == top.get("season") and block.get("modal")):
+        return block.get("modal") or top or {}
+    return top
+
+
 def normalize_name(name: str) -> str:
     """Canonicalize a player name for cross-source matching.
 

@@ -29,7 +29,7 @@ import numpy as np
 import pandas as pd
 
 from src import config, series_model
-from src.utils import read_parquet
+from src.utils import break_pick, read_parquet
 
 LOG = logging.getLogger(__name__)
 MIN_MINUTES = 450          # the Big-5 series' own floor (src.big5_series)
@@ -137,15 +137,17 @@ def edition_summary(nation: str) -> dict | None:
                    "fare_min_share": fare.get("median_min_share")},
         "squad": {"event": (lens or {}).get("event"), "top9_share": sq_top9, "n": sq.get("matched")},
         "big5": {"n": series.get("n"), "seasons": (b5 or {}).get("seasons"),
-                 "break": {"season": (brk.get("modal") or (brk.get("top") or [{}])[0]).get("season"),
-                           "prob": (brk.get("modal") or (brk.get("top") or [{}])[0]).get("prob"),
+                 "break": {"season": break_pick(brk, brk.get("rise")).get("season"),
+                           "prob": break_pick(brk, brk.get("rise")).get("prob"),
                            "factor": (brk.get("delta_factor") or {}).get("median"),
                            "lo": (brk.get("delta_factor") or {}).get("lo"), "hi": (brk.get("delta_factor") or {}).get("hi")},
-                 "rise": ({"season": (brk["rise"].get("modal") or brk["rise"]["top"][0])["season"],
-                           "prob": (brk["rise"].get("modal") or brk["rise"]["top"][0])["prob"],
+                 "rise": ({"season": break_pick(brk["rise"], brk)["season"],
+                           "prob": break_pick(brk["rise"], brk)["prob"],
                            "factor": brk["rise"]["delta_factor"]["median"],
                            "lo": brk["rise"]["delta_factor"].get("lo"), "hi": brk["rise"]["delta_factor"].get("hi")}
-                          if brk.get("rise") and brk["rise"]["delta_factor"]["median"] > 1 else None)},
+                          # the other step whenever it is one (±5 %, the Big-5 page's rule),
+                          # rise or earlier fall
+                          if brk.get("rise") and abs(brk["rise"]["delta_factor"]["median"] - 1) >= 0.05 else None)},
         "decomposition": {"contrasts": contrasts, "coefficients": (gap or {}).get("coefficients"), "n": (gap or {}).get("n"),
                           "ridge_alpha": (gap or {}).get("ridge_alpha"),
                           "home_x2": gpanel.get(code, {}).get("x2"), "home_x3": gpanel.get(code, {}).get("x3")},
@@ -228,8 +230,10 @@ def long_run(big5: pd.DataFrame, countries: dict[str, dict], fit_breaks: bool = 
             idata, grid = series_model.fit_change_point(y.astype("float64"), n_breaks=2, seed=config.RANDOM_SEED)
             s = series_model.break_summary(idata, y.astype("float64"), grid, seasons)
             entry["breaks"] = {
-                "fall": {**s["modal"], "factor": s["delta_factor"]["median"]},
-                "other": {**s["rise"]["modal"], "factor": s["rise"]["delta_factor"]["median"],
+                "fall": {**break_pick(s, s["rise"]), "factor": s["delta_factor"]["median"],
+                         "lo": s["delta_factor"]["lo"], "hi": s["delta_factor"]["hi"]},
+                "other": {**break_pick(s["rise"], s), "factor": s["rise"]["delta_factor"]["median"],
+                          "lo": s["rise"]["delta_factor"]["lo"], "hi": s["rise"]["delta_factor"]["hi"],
                           "kind": "rise" if s["rise"]["delta_factor"]["median"] > 1 else "fall"},
                 "fall_is_a_fall": s["fall_is_a_fall"],
             }
@@ -362,14 +366,23 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
         br, rise = ed["big5"]["break"], ed["big5"].get("rise")
         inc = br.get("lo") is not None and br["lo"] <= 1.0 <= br["hi"]
         kind = "fall" if br["factor"] < 1 else "rise"
-        fall = (f"The change-point model’s most probable season for the {kind} is {season_slash(br['season'])} "
-                f"(posterior {br['prob'] * 100:.0f} %), a level change of ×{_f2(br['factor'])} (90 % HDI {_f2(br['lo'])}–{_f2(br['hi'])})"
-                + (f"; that interval includes ×1.00, so the {kind} is not distinguishable from no change at the 90 % level." if inc else "."))
-        kind2 = "rise" if rise and rise["factor"] > 1 else "fall"
-        rise_txt = (f" Its most probable season for the other step, a {kind2}, is {season_slash(rise['season'])} (posterior {rise['prob'] * 100:.0f} %), "
-                    f"×{_f2(rise['factor'])} (90 % HDI {_f2(rise['lo'])}–{_f2(rise['hi'])})." if rise and rise.get("lo") is not None else "")
+        # the Big-5 page's rule (render._build_series_model): a step within
+        # ±5 % of no change is not dated
+        is_step = abs(br["factor"] - 1.0) >= 0.05
+        if is_step:
+            fall = (f"The change-point model’s most probable season for the {kind} is {season_slash(br['season'])} "
+                    f"(posterior {br['prob'] * 100:.0f} %), a level change of ×{_f2(br['factor'])} (90 % HDI {_f2(br['lo'])}–{_f2(br['hi'])})"
+                    + (f"; that interval includes ×1.00, so the {kind} is not distinguishable from no change at the 90 % level." if inc else "."))
+        else:
+            fall = (f"The change-point model finds no step worth dating: its best candidate is {season_slash(br['season'])} "
+                    f"(posterior {br['prob'] * 100:.0f} %), a level change of ×{_f2(br['factor'])} (90 % HDI {_f2(br['lo'])}–{_f2(br['hi'])}), within 5 % of no change.")
+        kind2 = "rise" if rise and rise["factor"] > 1 else ("earlier fall" if rise and rise["season"] < br["season"] else "fall")
+        rise_txt = (f" Its most probable season for the other step, {'an' if kind2.startswith('e') else 'a'} {kind2}, is {season_slash(rise['season'])} (posterior {rise['prob'] * 100:.0f} %), "
+                    f"×{_f2(rise['factor'])} (90 % HDI {_f2(rise['lo'])}–{_f2(rise['hi'])})"
+                    + ("; that interval includes ×1.00." if rise["lo"] <= 1.0 <= rise["hi"] else ".")
+                    if is_step and rise and rise.get("lo") is not None else "")
         gen = ""
-        i_fall = long["seasons"].index(br["season"]) if br["season"] in long["seasons"] else None
+        i_fall = long["seasons"].index(br["season"]) if is_step and br["season"] in long["seasons"] else None
         age = h.get("age_median", [None] * len(n))
         if i_fall is not None and age[i_fall] is not None and age[n.index(peak)] is not None:
             deb = h["debut_n"][i_fall]
@@ -441,7 +454,7 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
             if others:
                 body += (f" The last step, {season_slash(S[-2])} to {season_slash(S[-1])}, for the comparison countries and for other leagues whose share fell "
                          f"by 2 points or more: " + "; ".join(others) + ".")
-            items.append({"head": f"{name(home)}’s own under-21 nationals’ share of home-league minutes over {len(S)} seasons: a trend of "
+            items.append({"head": f"{name(home)}’s own under-21 nationals’ share of home-league minutes over {tr['n']} seasons: a trend of "
                                   f"{_signed(tr['slope'] * 100)} pp a season (90 % CI {_signed(tr['lo'] * 100)} to {_signed(tr['hi'] * 100)}).",
                           "body": body})
     # 4 · where the nation ranks on the pathway measures, with values and samples, no targets

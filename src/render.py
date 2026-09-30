@@ -61,6 +61,7 @@ from src.logging_setup import setup as logging_setup
 from src.predictions import build as build_predictions
 from src.references import harvard_list, in_text, in_text_multi, refs_by_key
 from src.utils import (
+    break_pick,
     collapse_player_seasons,
     normalize_name,
     read_parquet,
@@ -1444,7 +1445,7 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     if not sm:
         return {}
     br = sm["break"]
-    home_top = br.get("modal") or br["top"][0]
+    home_top = break_pick(br, br.get("rise"))
     home_break = {
         "season": season_label(home_top["season"]), "prob": home_top["prob"],
         "delta": br["delta_factor"]["median"], "lo": br["delta_factor"]["lo"], "hi": br["delta_factor"]["hi"],
@@ -1461,11 +1462,11 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     if br.get("rise") and br["rise"]["delta_factor"]["median"] >= 1.05:
         rs = br["rise"]
         home_break["rise"] = {
-            "season": season_label((rs.get("modal") or rs["top"][0])["season"]), "prob": (rs.get("modal") or rs["top"][0])["prob"],
+            "season": season_label(break_pick(rs, br)["season"]), "prob": break_pick(rs, br)["prob"],
             "delta": rs["delta_factor"]["median"], "lo": rs["delta_factor"]["lo"], "hi": rs["delta_factor"]["hi"],
             "top": [{"season": season_label(r["season"]), "prob": r["prob"]} for r in rs["top"]],
             # a rise after the fall is a recovery (Norway), not the rise before it
-            "after": (rs.get("modal") or rs["top"][0])["season"] > (br.get("modal") or br["top"][0])["season"],
+            "after": break_pick(rs, br)["season"] > home_top["season"],
         }
         home_break["fall_is_a_fall"] = br.get("fall_is_a_fall", True)
     elif br.get("rise") and br["rise"]["delta_factor"]["median"] <= 0.95:
@@ -1473,15 +1474,15 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
         # in two moves) -- the other step is written up as an earlier fall
         rs = br["rise"]
         home_break["earlier"] = {
-            "season": season_label((rs.get("modal") or rs["top"][0])["season"]), "prob": (rs.get("modal") or rs["top"][0])["prob"],
+            "season": season_label(break_pick(rs, br)["season"]), "prob": break_pick(rs, br)["prob"],
             "delta": rs["delta_factor"]["median"], "lo": rs["delta_factor"]["lo"], "hi": rs["delta_factor"]["hi"],
         }
     contrast = [
         {
             "code": code, "name": names.get(code, code),
-            "season": season_label((c.get("modal") or c["top"][0])["season"]), "prob": (c.get("modal") or c["top"][0])["prob"],
+            "season": season_label(break_pick(c, c.get("rise"))["season"]), "prob": break_pick(c, c.get("rise"))["prob"],
             "delta": c["delta_factor"]["median"], "lo": c["delta_factor"]["lo"], "hi": c["delta_factor"]["hi"],
-            "rise": ({"season": season_label((c["rise"].get("modal") or c["rise"]["top"][0])["season"]), "prob": (c["rise"].get("modal") or c["rise"]["top"][0])["prob"],
+            "rise": ({"season": season_label(break_pick(c["rise"], c)["season"]), "prob": break_pick(c["rise"], c)["prob"],
                       "delta": c["rise"]["delta_factor"]["median"]}
                      if c.get("rise") and c["rise"]["delta_factor"]["median"] > 1.0 else None),
         }
