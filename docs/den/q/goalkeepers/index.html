@@ -5,19 +5,19 @@
   <link rel="canonical" href="https://football.bsandova.com/den/q/goalkeepers/">
   <meta name="atlas-split" content="1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Do goalkeepers follow a different path? · Danish football · Player pool atlas</title>
-  <meta name="description" content="4 Danish goalkeepers play ≥ 450 minutes in the top-9 leagues — rank 1 of 9 per million — and they get there later than outfield exports.">
+  <title>Danish goalkeepers in the top-9 leagues per million and their age at the first top-9 season, 2025/26 · Danish football · Player pool atlas</title>
+  <meta name="description" content="4 Danish goalkeepers played ≥ 450 minutes in the top-9 leagues, 0.67 per million (rank 1 of 9), and their median age at the first top-9 season was 24 (n = 4) against 22.5 for outfield exports (n = 68).">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css?v=202609291536">
-  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="../../style.css?v=202609300210">
+  <link rel="stylesheet" href="../../modern.css?v=202609300210">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../../charts.js?v=202609291536"></script>
-  <script defer src="../../atlas.js?v=202609291536"></script>
+  <script defer src="../../charts.js?v=202609300210"></script>
+  <script defer src="../../atlas.js?v=202609300210"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -28,20 +28,20 @@
     <details class="topbar-q" data-current>
       <summary>Questions</summary>
       <ol class="topbar-q-list">
-        <li><a href="../../q/why/">Why the train left</a></li>
-        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
-        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/why/">Five pathway measures: Denmark, Norway and Czechia, 2025/26</a></li>
+        <li><a href="../../q/per-head/">Players per million</a></li>
+        <li><a href="../../q/cohorts/">Cohort counts</a></li>
         <li><a href="../../q/youth/">Youth minutes at home</a></li>
-        <li><a href="../../q/abroad/">Where they go</a></li>
-        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
-        <li><a href="../../q/fare/">How they fare</a></li>
-        <li><a href="../../q/national-team/">National-team squad</a></li>
-        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/abroad/">Destinations abroad</a></li>
+        <li><a href="../../q/leaving-late/">Age at the first top-9 season and output over the first two seasons, 115 exports</a></li>
+        <li><a href="../../q/fare/">Minutes share abroad</a></li>
+        <li><a href="../../q/national-team/">National-team squad by tier</a></li>
+        <li><a href="../../q/break/">Big-5 count and its steps</a></li>
         <li><a href="../../q/peers/">Norway and Czechia</a></li>
         <li><a href="../../q/goalkeepers/" aria-current="page">Goalkeepers</a></li>
-        <li><a href="../../q/gap/">What the gap is made of</a></li>
-        <li><a href="../../q/cards/">Who the players are</a></li>
-        <li><a href="../../q/changes/">What changed in a year</a></li>
+        <li><a href="../../q/gap/">Gap decomposition</a></li>
+        <li><a href="../../q/cards/">Showcase cards and the pool</a></li>
+        <li><a href="../../q/changes/">Change since last season</a></li>
       </ol>
     </details>
     <a href="../../methodology/">Methodology</a>
@@ -61,8 +61,8 @@
 
 <section class="slide" id="q8b">
   <div class="container">
-    <h2 class="slide-q">Do goalkeepers follow a different path?</h2>
-    <p class="slide-a">4 Danish goalkeepers play ≥ 450 minutes in the top-9 leagues — rank <strong>1 of 9</strong> per million — and they get there later than outfield exports.</p>
+    <h2 class="slide-q">Danish goalkeepers in the top-9 leagues per million and their age at the first top-9 season, 2025/26</h2>
+    <p class="slide-a">4 Danish goalkeepers played ≥ 450 minutes in the top-9 leagues, <strong>0.67 per million</strong> (rank 1 of 9), and their median age at the first top-9 season was 24 (n = 4) against 22.5 for outfield exports (n = 68).</p>
     <div class="slide-proof">
       <figure class="figure-bleed">
         <img src="../../gk_export_age.svg" alt="Strip plot of age at first top-9-league appearance, Danish goalkeepers against outfield exports, one dot per player, medians marked.">
@@ -111,9 +111,8 @@
             <tr>
               <th>Player</th><th>Club</th>
               <th>League</th><th>Minutes</th>
-              <th>GA/90</th><th>Saves/90</th>
+              <th>Goals against per 90</th><th>Saves per 90</th>
               <th>Save %</th><th>Clean-sheet share</th>
-              <th>GA/90, quality-adj.</th>
             </tr>
           </thead>
           <tbody>
@@ -122,154 +121,130 @@
               <td>Mads Hermansen</td><td>West Ham</td><td>ENG-Premier League</td><td>1620</td>
               <td>1.56</td><td>2.94</td>
               <td>65.9 %</td><td>39 %</td>
-              <td>1.49</td>
             </tr>
             
             <tr>
               <td>Frederik Rønnow</td><td>Union Berlin</td><td>GER-Bundesliga</td><td>2640</td>
               <td>1.84</td><td>2.56</td>
               <td>64.3 %</td><td>17 %</td>
-              <td>2.25</td>
             </tr>
             
             <tr>
               <td>Jonathan Fischer</td><td>Metz</td><td>FRA-Ligue 1</td><td>2354</td>
               <td>2.14</td><td>3.52</td>
               <td>65.0 %</td><td>18 %</td>
-              <td>2.90</td>
             </tr>
             
             <tr>
               <td>Andreas Jungdal</td><td>Westerlo</td><td>BEL-Pro League</td><td>3600</td>
               <td>1.43</td><td>2.77</td>
               <td>68.8 %</td><td>35 %</td>
-              <td>2.50</td>
             </tr>
             
             <tr>
               <td>Jesper Hansen</td><td>AGF</td><td>DEN-Superliga</td><td>2700</td>
               <td>0.97</td><td>3.03</td>
               <td>65.4 %</td><td>30 %</td>
-              <td>2.91</td>
             </tr>
             
             <tr>
               <td>Valdemar Thorsen</td><td>FC Fredericia</td><td>DEN-Superliga</td><td>990</td>
               <td>1.73</td><td>2.82</td>
               <td>63.9 %</td><td>0 %</td>
-              <td>4.27</td>
             </tr>
             
             <tr>
               <td>Jonas Lössl</td><td>Midtjylland</td><td>DEN-Superliga</td><td>450</td>
               <td>1.80</td><td>2.00</td>
               <td>63.8 %</td><td>20 %</td>
-              <td>4.17</td>
             </tr>
             
             <tr>
               <td>Andreas Hansen</td><td>Nordsjælland</td><td>DEN-Superliga</td><td>2430</td>
               <td>1.22</td><td>3.44</td>
               <td>65.2 %</td><td>33 %</td>
-              <td>3.44</td>
             </tr>
             
             <tr>
               <td>William Lykke</td><td>Nordsjælland</td><td>DEN-Superliga</td><td>450</td>
               <td>2.60</td><td>1.40</td>
               <td>63.4 %</td><td>0 %</td>
-              <td>4.89</td>
             </tr>
             
             <tr>
               <td>Theo Sander</td><td>Odense</td><td>DEN-Superliga</td><td>600</td>
               <td>2.25</td><td>1.65</td>
               <td>63.4 %</td><td>0 %</td>
-              <td>4.73</td>
             </tr>
             
             <tr>
               <td>Jannich Storch</td><td>Randers</td><td>DEN-Superliga</td><td>540</td>
               <td>1.67</td><td>2.33</td>
               <td>63.9 %</td><td>33 %</td>
-              <td>4.08</td>
             </tr>
             
             <tr>
               <td>Nicolai Larsen</td><td>Silkeborg</td><td>DEN-Superliga</td><td>2788</td>
               <td>2.10</td><td>4.58</td>
               <td>64.9 %</td><td>10 %</td>
-              <td>5.21</td>
             </tr>
             
             <tr>
               <td>Marcus Bundgaard</td><td>SønderjyskE</td><td>DEN-Superliga</td><td>2097</td>
               <td>1.33</td><td>2.75</td>
               <td>64.4 %</td><td>29 %</td>
-              <td>3.66</td>
             </tr>
             
             <tr>
               <td>Nicolai Flø</td><td>SønderjyskE</td><td>DEN-Superliga</td><td>693</td>
               <td>2.08</td><td>3.25</td>
               <td>63.9 %</td><td>22 %</td>
-              <td>4.60</td>
             </tr>
             
             <tr>
               <td>Lucas Lund Pedersen</td><td>Viborg</td><td>DEN-Superliga</td><td>2880</td>
               <td>1.59</td><td>3.03</td>
               <td>64.2 %</td><td>28 %</td>
-              <td>4.19</td>
             </tr>
             
             <tr>
               <td>Peter Vindahl Jensen</td><td>Sparta Prague</td><td>CZE-First League</td><td>1908</td>
               <td>1.08</td><td>2.03</td>
               <td>67.3 %</td><td>36 %</td>
-              <td>2.59</td>
             </tr>
             
             <tr>
               <td>Hans Christian Bernat</td><td>Karlsruher</td><td>GER-2. Bundesliga</td><td>2970</td>
               <td>1.85</td><td>3.76</td>
               <td>67.3 %</td><td>15 %</td>
-              <td>3.69</td>
             </tr>
             
             <tr>
               <td>Oliver Christensen</td><td>Sturm Graz</td><td>AUT-Bundesliga</td><td>1316</td>
               <td>1.23</td><td>2.67</td>
               <td>66.2 %</td><td>33 %</td>
-              <td>4.72</td>
             </tr>
             
             <tr>
               <td>Jonathan Fischer</td><td>Fredrikstad</td><td>NOR-Eliteserien</td><td>1530</td>
               <td>1.18</td><td>3.06</td>
               <td>66.7 %</td><td>29 %</td>
-              <td>3.37</td>
             </tr>
             
             <tr>
               <td>Jakob Haugaard</td><td>Tromsø</td><td>NOR-Eliteserien</td><td>2700</td>
               <td>1.20</td><td>2.07</td>
               <td>65.9 %</td><td>33 %</td>
-              <td>3.34</td>
             </tr>
             
             <tr>
               <td>Oscar Hedvall</td><td>Vålerenga</td><td>NOR-Eliteserien</td><td>1260</td>
               <td>1.86</td><td>3.57</td>
               <td>66.2 %</td><td>21 %</td>
-              <td>4.46</td>
             </tr>
             
           </tbody>
         </table>
-        <p class="capita-note">Peer median quality-adjusted GA/90:
-          <span class="capita-code">DEN</span> 3.69 · <span class="capita-code">NOR</span> 4.01 · <span class="capita-code">SUI</span> 4.95 · <span class="capita-code">AUT</span> 4.76 · <span class="capita-code">CZE</span> 2.86 · <span class="capita-code">CRO</span> 5.19 · <span class="capita-code">POL</span> 2.74 · <span class="capita-code">HUN</span> 5.29 · <span class="capita-code">SVK</span> 2.90
-        </p>
       </details>
       
       
@@ -382,27 +357,33 @@
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">0.67 per million; first top-9 season at a median age of 24, against 22.5 for outfield exports.</p>
+      <p class="slide-detail">0.67 per million; first top-9 season at a median age of 24 (n = 4), against 22.5 for outfield exports (n = 68); with this few goalkeepers the two medians cannot be compared.</p>
     <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: Danish goalkeepers with ≥ 450 minutes in the top-9 leagues, per million inhabitants, against outfield export age.</p>
     <p class="slide-did"><span class="slide-did-label">What we did</span> We counted goalkeepers the same way we counted outfield players, then compared the age each group first reached one of the strongest leagues.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> 450-minute floor, 2025/26 rosters, same K = 900 shrinkage as the rest of the report; first season in a fetched top-9 table; players already there in 2020/21 are censored — 25 % of the goalkeepers, 19 % of the outfield exports; a comparison of two pathways inside one nation, not a causal claim.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> 450-minute floor, 2025/26 rosters; goals against and saves per 90 are shrunk toward the league median with a prior worth 900 minutes, as every rate in the atlas; first season in a fetched top-9 table; players already there in 2020/21 are censored (25 % of the goalkeepers, 19 % of the outfield exports); a comparison of two pathways inside one nation, not a causal claim.</p>
     </details>
-    <p class="slide-so">A federation tracking this would watch whether the goalkeeper pathway keeps diverging from outfield export age, not one season's gap.</p>
+    <div class="slide-close">
+      <h3 class="slide-close-h">What this means</h3>
+      <p class="slide-means">Denmark had 4 goalkeepers with at least 450 minutes in the top-9 leagues. The age comparison rests on 4 goalkeepers, too few to tell two medians apart, and the per-million rank rests on counts of a few goalkeepers per country, where one player moves a country by several places.</p>
+      <h3 class="slide-close-h">What this does not show</h3>
+      <p class="slide-notshow">Goalkeepers’ performance separated from their defence, goalkeepers in leagues outside the nine, and back-up goalkeepers below 450 minutes.</p>
+      <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit 7cbfe45 · code: <code>src/goalkeepers.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
+    </div>
   </div>
 </section>
 
 <nav class="qpager container" aria-label="Questions">
-  <a class="qpager-prev" href="../../q/peers/"><span class="qpager-dir">← Previous</span> How do Norway and Czechia do it?</a>
+  <a class="qpager-prev" href="../../q/peers/"><span class="qpager-dir">← Previous</span> Denmark, Norway and Czechia on seven pathway measures, 2025/26</a>
   <a class="qpager-home" href="../../">Back to the summary</a>
-  <a class="qpager-next" href="../../q/gap/"><span class="qpager-dir">Next →</span> What is the gap made of?</a>
+  <a class="qpager-next" href="../../q/gap/"><span class="qpager-dir">Next →</span> Gap in players per million between Denmark and Norway and Czechia, split over three measured channels (descriptive)</a>
 </nav>
 </main>
 
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
-      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-kicker">Barbora Šandová</p>
+      <p class="role-body">Data and code are in the repository below. Corrections are welcome by e-mail.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -414,15 +395,11 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Photo credits (48 portraits, Wikimedia Commons)</summary>
+        <summary>Photo credits (33 portraits, Wikimedia Commons)</summary>
         <ul class="small">
           
           <li data-fbref-id="c78380e9" data-player-key="tonni adamsen|1994">
             Tonni Adamsen — <a href="https://commons.wikimedia.org/wiki/File:Tonni_Adamsen.jpg">Tonni_Adamsen.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e34fc66d" data-player-key="joachim andersen|1996">
-            Joachim Andersen — <a href="https://www.premierleague.com/players/26151/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="df525574" data-player-key="peter ankersen|1990">
@@ -431,14 +408,6 @@
           
           <li data-fbref-id="2f15cb71" data-player-key="hjalte bidstrup|2006">
             Hjalte Bidstrup — <a href="https://commons.wikimedia.org/wiki/File:Hjalte_Bidstrup,_20250808_(cropped).jpg">Hjalte_Bidstrup,_20250808_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="a1d95db3" data-player-key="mika biereth|2003">
-            Mika Biereth — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d328a254" data-player-key="philip billing|1996">
-            Philip Billing — <a href="https://www.premierleague.com/players/8882/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="1cdb21b9" data-player-key="jakob breum|2003">
@@ -461,10 +430,6 @@
             Henrik Dalsgaard — <a href="https://commons.wikimedia.org/wiki/File:Henrik_Dalsgaard_AaB_training.jpg">Henrik_Dalsgaard_AaB_training.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="215f3907" data-player-key="mikkel damsgaard|2000">
-            Mikkel Damsgaard — <a href="https://www.premierleague.com/players/49731/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6a0a13c8" data-player-key="kasper davidsen|2005">
             Kasper Davidsen — <a href="https://commons.wikimedia.org/wiki/File:2026-03-04_Kasper_Davidsen.jpg">2026-03-04_Kasper_Davidsen.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -475,14 +440,6 @@
           
           <li data-fbref-id="cc83b74d" data-player-key="kasper dolberg|1997">
             Kasper Dolberg — <a href="https://commons.wikimedia.org/wiki/File:Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg">Kasper_Dolberg,_Lens_-_Nice_(23-01-2021)_45.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e6536124" data-player-key="patrick dorgu|2004">
-            Patrick Dorgu — <a href="https://www.premierleague.com/players/146567/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="980522ec" data-player-key="christian eriksen|1992">
-            Christian Eriksen — <a href="https://www.premierleague.com/players/4845/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="762179d9" data-player-key="rasmus falk|1992">
@@ -517,10 +474,6 @@
             Sebastian Grønning — <a href="https://commons.wikimedia.org/wiki/File:220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg">220410_K리그1_FC_서울_vs_수원_삼성_블루윙즈_(Sebastian_Grønning).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="675261f8" data-player-key="conrad harder|2005">
-            Conrad Harder — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="d4456fb3" data-player-key="morten hjulmand|1999">
             Morten Hjulmand — <a href="https://commons.wikimedia.org/wiki/File:MortenHjulmandSporting24.jpg">MortenHjulmandSporting24.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -533,20 +486,8 @@
             Carlo Holse — <a href="https://commons.wikimedia.org/wiki/File:Carlo_Holse_(cropped).jpg">Carlo_Holse_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="7e598f96" data-player-key="lucas hogsberg|2006">
-            Lucas Høgsberg — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="8b04d6c1" data-player-key="pierre hojbjerg|1995">
             Pierre Højbjerg — <a href="https://commons.wikimedia.org/wiki/File:Pierre-Emile_Højbjerg.jpg">Pierre-Emile_Højbjerg.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="3e2bbae6" data-player-key="oscar hojlund|2005">
-            Oscar Højlund — <a href="https://www.bundesliga.com/en/player/oscar-hojlund">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="491a433d" data-player-key="rasmus hojlund|2003">
-            Rasmus Højlund — <a href="https://www.premierleague.com/players/122934/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="25355bd8" data-player-key="jonathan asp jensen|2006">
@@ -557,10 +498,6 @@
             Mathias Jørgensen — <a href="https://commons.wikimedia.org/wiki/File:Zanka_-_RSCA_(2024)_(cropped).jpg">Zanka_-_RSCA_(2024)_(cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="e25ef30a" data-player-key="thomas jorgensen|2005">
-            Thomas Jørgensen — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6e269dd3" data-player-key="mikkel kaufmann|2001">
             Mikkel Kaufmann — <a href="https://commons.wikimedia.org/wiki/File:Mikkel_Kaufmann.jpg">Mikkel_Kaufmann.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
@@ -569,16 +506,8 @@
             Emil Kornvig — <a href="https://commons.wikimedia.org/wiki/File:Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg">Go_Ahead_Eagles_-_SK_Brann_-_53880152842_(Emil_Kornvig).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="39769cff" data-player-key="rasmus kristensen|1997">
-            Rasmus Kristensen — <a href="https://www.premierleague.com/players/15702/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="4722115c" data-player-key="alexander lyng|2004">
             Alexander Lyng — <a href="https://commons.wikimedia.org/wiki/File:Alexander_Lyng,_DK-NO,_04-09-2025.png">Alexander_Lyng,_DK-NO,_04-09-2025.png</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="4c90fabc" data-player-key="noah nartey|2005">
-            Noah Nartey — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="e53b5534" data-player-key="victor nelsson|1998">
@@ -589,16 +518,8 @@
             Casper Nielsen — <a href="https://commons.wikimedia.org/wiki/File:Casper_Nielsen_2016_olympics.jpg">Casper_Nielsen_2016_olympics.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="7b355808" data-player-key="william osula|2003">
-            William Osula — <a href="https://www.premierleague.com/players/114590/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="229da5b2" data-player-key="mileta rajovic|1999">
             Mileta Rajovic — <a href="https://commons.wikimedia.org/wiki/File:Mileta_Rajović_2024.jpg">Mileta_Rajović_2024.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="1fffae99" data-player-key="jens stage|1996">
-            Jens Stage — <a href="https://www.bundesliga.com/en/player/jens-stage">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="6d445ffc" data-player-key="asger sorensen|1996">
@@ -612,7 +533,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
+    <p class="rendered-at">Rendered: 2026-09-30 02:10</p>
   </div>
 </footer>
 

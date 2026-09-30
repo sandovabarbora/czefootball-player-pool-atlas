@@ -26,6 +26,7 @@
   const short = (s) => `${s.slice(2, 4)}/${s.slice(7, 9)}`;
   const pct = (v, d = 0) => (v == null ? '—' : `${(v * 100).toFixed(d)} %`);
   const f1 = (v) => (v == null ? '—' : Number(v).toFixed(1));
+  const sg = (v, d = 2) => (v == null ? '—' : `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(d)}`);
   const f2 = (v) => (v == null ? '—' : Number(v).toFixed(2));
   const hasD3 = typeof d3 !== 'undefined';
   const CHANNEL = { u21_share: 'youth minutes at home', league_strength: 'home-league strength', export_age: 'age of the first move' };
@@ -46,80 +47,11 @@
   const colour = (code) => { if (code === HOME) return C.acid; if (!colourOf.has(code)) colourOf.set(code, PALETTE[colourOf.size % PALETTE.length]); return colourOf.get(code); };
   const nameOf = (code) => (D.countries[code] || {}).name || code;
 
-  // ------------------------------------------------------------ 0 · what to take from it — the conclusions, written from the data
-  function renderTakeaways() {
-    const box = root.querySelector('[data-nx-takeaways]'); if (!box || !hasD3 || box.children.length) return;   // the build writes them; this is the fallback
-    const L = D.long_run, R = D.recent, homeEd = D.editions.find((e) => e.code === HOME);
-    const name = (c) => esc(nameOf(c));
-    const items = [];
-    // 1 · the long run: who fell and did not come back
-    if (L && L.countries[HOME] && L.countries[HOME].breaks) {
-      const bigFive = new Set(['ENG', 'FRA', 'GER', 'ESP', 'ITA']);
-      const steps = (v) => [v.breaks.fall, v.breaks.other].map((s) => ({ season: s.season, factor: s.factor, kind: s.factor > 1 ? 'rise' : 'fall' })).sort((a, b) => (a.season < b.season ? -1 : 1));
-      const small = Object.entries(L.countries).filter(([c, v]) => !bigFive.has(c) && v.breaks);
-      const h = L.countries[HOME], hs = steps(h), n = h.n;
-      const peak = Math.max(...n), peakS = L.seasons[n.indexOf(peak)];
-      const endsInFall = small.filter(([, v]) => steps(v)[1].kind === 'fall').map(([c]) => c);
-      const cameBack = small.filter(([, v]) => { const [a, b] = steps(v); return a.kind === 'fall' && b.kind === 'rise' && b.factor >= 1.2; });
-      if (hs[1].kind === 'fall') {
-        const others = endsInFall.filter((c) => c !== HOME);
-        items.push({
-          head: `${name(HOME)} is ${others.length ? 'one of ' + (others.length + 1) + ' small nations' : 'the one small nation'} whose Big-5 presence fell and has not come back.`,
-          body: `It rose in ${short(hs[0].season)} (×${f2(hs[0].factor)}) and fell in ${short(hs[1].season)} (×${f2(hs[1].factor)}); ${n[n.length - 1]} players with 450+ Big-5 minutes now against ${peak} at the ${short(peakS)} peak. ${cameBack.length ? `${cameBack.map(([c, v]) => { const [a, b] = steps(v); return `${name(c)} fell too (${short(a.season)}) and came back ${+b.season.slice(0, 4) - +a.season.slice(0, 4)} seasons later`; }).join('; ')}. ` : ''}Every other small peer's later step is a rise.`,
-        });
-      } else {
-        items.push({ head: `${name(HOME)}'s Big-5 presence: ${hs.map((s) => `${s.kind} in ${short(s.season)} (×${f2(s.factor)})`).join(', then ')}.`,
-          body: `${n[n.length - 1]} players with 450+ Big-5 minutes now, ${peak} at the ${short(peakS)} peak.` });
-      }
-    }
-    // 2 · the decomposition: one problem or two
-    if (homeEd && homeEd.decomposition.contrasts.length) {
-      const cs = homeEd.decomposition.contrasts.map((c) => ({ c, top: c.channels.slice().sort((a, b) => b.contribution - a.contribution)[0] }));
-      const tops = [...new Set(cs.map((x) => x.top.name))];
-      const behind = cs.filter((x) => x.c.gap_total > 0);
-      if (behind.length) {
-        const clause = behind.map((x) => `against ${name(x.c.contrast)} ${CHANNEL[x.top.name]} carries ${x.top.share != null ? pct(x.top.share) : 'most'} of a ${x.c.gap_total.toFixed(1)}-per-million gap`).join('; ');
-        items.push({
-          head: tops.length > 1 ? `Two problems at once, not one: which mechanism carries the gap depends on the peer.` : `One mechanism carries the gap to every peer: ${CHANNEL[tops[0]]}.`,
-          body: `${clause.charAt(0).toUpperCase() + clause.slice(1)}. ${tops.length > 1 ? 'They add up rather than compete: a league that gives its young few minutes and is weak besides loses on both counts.' : ''}`,
-        });
-      }
-    }
-    // 3 · the trend: six seasons at home, and what moved with it
-    if (R && R.leagues[HOME] && L) {
-      const S = R.seasons, v = R.leagues[HOME].u21_share, a = v.find((x) => x != null), b = v.slice().reverse().find((x) => x != null);
-      const i0 = L.seasons.indexOf(S[0]), i1 = L.seasons.indexOf(S[S.length - 1]);
-      const pmChange = (c) => (L.countries[c] && i0 >= 0 && i1 >= 0 ? L.countries[c].per_million[i1] - L.countries[c].per_million[i0] : null);
-      const peers = (homeEd ? homeEd.decomposition.contrasts.map((c) => c.contrast) : []).filter((c) => R.leagues[c]);
-      const peerText = peers.map((c) => { const pv = R.leagues[c].u21_share, pa = pv.find((x) => x != null), pb = pv.slice().reverse().find((x) => x != null); const d = pmChange(c); return `${name(c)} ${pct(pa, 0)} → ${pct(pb, 0)}${d != null ? ` and ${d >= 0 ? '+' : ''}${f1(d)} per million in the Big-5` : ''}`; }).join('; ');
-      const dHome = pmChange(HOME);
-      if (a != null && b != null) items.push({
-        head: `The trend runs ${b < a ? 'the wrong' : 'the right'} way: ${name(HOME)}'s own under-21s went from ${pct(a, 0)} to ${pct(b, 0)} of home-league minutes in ${S.length} seasons.`,
-        body: `Over the same seasons ${peerText}${dHome != null ? `; ${name(HOME)} ${dHome === 0 ? 'no change' : (dHome > 0 ? '+' : '') + f1(dHome)} per million` : ''}. Across the ${Object.keys(R.leagues).length} covered leagues the change in youth minutes and the change in Big-5 presence lean the same way — a weak signal with the right sign, not a law.`,
-      });
-    }
-    // 4 · the causal reading, on the one documented case the data can follow
-    if (L && L.youth && D.reforms.length) {
-      const cases = D.reforms.map((r) => {
-        const Y = L.youth[r.country]; if (!Y) return null;
-        const i = L.seasons.indexOf(r.season); if (i < 0) return null;
-        const before = Y.own_u21_share[Math.max(0, i - 1)], after = Y.own_u21_share.slice(i, i + 12).filter((x) => x != null);
-        const peakAfter = after.length ? Math.max(...after) : null, peakIdx = peakAfter != null ? Y.own_u21_share.indexOf(peakAfter, i) : -1;
-        const now = Y.own_u21_share.slice().reverse().find((x) => x != null);
-        return { r, before, peakAfter, now, peakSeason: peakIdx >= 0 ? L.seasons[peakIdx] : null, rose: peakAfter != null && before != null && peakAfter >= before * 1.5, held: now != null && before != null && now >= before * 1.5 };
-      }).filter(Boolean);
-      const worked = cases.filter((c) => c.rose), flat = cases.filter((c) => !c.rose);
-      const text = [
-        ...worked.map((c) => `${name(c.r.country)} after its ${c.r.label} (${short(c.r.season)}): its own under-21s' share of ${esc(L.youth[c.r.country].league.replace(/^[A-Z]{3}-/, ''))} minutes went from ${pct(c.before, 0)} to ${pct(c.peakAfter, 0)} by ${short(c.peakSeason)}${c.held ? ` and is ${pct(c.now, 0)} now — the turn held` : ` but is ${pct(c.now, 0)} now — the turn did not hold`}`),
-        ...flat.map((c) => `${name(c.r.country)} after its ${c.r.label} (${short(c.r.season)}): no such turn (${pct(c.before, 0)} before, ${pct(c.peakAfter, 0)} at best after)`),
-      ].join('. ');
-      items.push({
-        head: `Can a reform cause it? The data can follow ${cases.length === 1 ? 'one documented case' : cases.length + ' documented cases'}, and only as a sequence.`,
-        body: `${text}. A sequence in one country against none in another is the strongest thing this data can say; it is not a counterfactual. Read as a heuristic: minutes for the young at home are the lever a federation holds, the effect is counted in seasons, and a weaker league yields less from it.`,
-      });
-    }
-    box.innerHTML = items.map((it, i) => `<div class="nx-take"><p class="nx-take-n">${i + 1}</p><div><p class="nx-take-head">${it.head}</p><p class="nx-take-body">${it.body}</p></div></div>`).join('');
-  }
+  // ------------------------------------------------------------ 0 · the findings
+  // The build writes them as static HTML from outputs/nations/nations.json
+  // (src.nations_compare.takeaways, site/takeaways.py), with their intervals;
+  // the page generates none of its own, so there is no client-side fallback.
+  function renderTakeaways() {}
 
   // ------------------------------------------------------------ A · side by side
   function renderTable() {
@@ -159,26 +91,26 @@
         const top = c.channels.slice().sort((a, b) => b.contribution - a.contribution)[0];
         const dir = c.gap_total >= 0 ? 'behind' : 'ahead of';
         // the source leaves shares empty when the gap is under its threshold: contributions only, no attribution
-        const attrib = top.share == null ? `the gap is too small to attribute (largest channel: ${CHANNEL[top.name]}, ${top.contribution >= 0 ? '+' : '−'}${Math.abs(top.contribution).toFixed(1)})` : `${CHANNEL[top.name]} carries ${pct(top.share)} of that gap`;
+        const attrib = top.share == null ? `the gap is too small to attribute (largest channel: ${CHANNEL[top.name]}, ${top.contribution >= 0 ? '+' : '−'}${Math.abs(top.contribution).toFixed(1)})` : `the largest contribution is ${CHANNEL[top.name]}, ${top.contribution >= 0 ? '+' : '−'}${Math.abs(top.contribution).toFixed(2)} per million${top.lo != null && top.lo !== top.hi ? ` (90 % bootstrap interval ${sg(top.lo)} to ${sg(top.hi)})` : ''}, ${pct(top.share)} of that gap (descriptive)`;
         return `${esc(e.name)} is ${Math.abs(c.gap_total).toFixed(1)} per million ${dir} ${esc(nameOf(c.contrast))}; ${attrib}`;
       });
       art.innerHTML = (home ? `<h3 class="nx-h3">${esc(e.name)} against its peers</h3>` : `<summary>${esc(e.name)} against its peers</summary>`) +
         `<p class="nx-lead">${lead.join('. ')}.</p>` +
         `<div class="nx-bars">${dc.contrasts.map((c) => `<div class="nx-contrast"><p class="ax-kicker">vs ${esc(nameOf(c.contrast))} · gap ${c.gap_total.toFixed(1)} per million · residual ${c.residual == null ? '—' : c.residual.toFixed(1)}</p>` +
-          c.channels.map((ch) => `<div class="nx-bar"><span class="nx-bar-label">${CHANNEL[ch.name] || ch.name}</span><span class="nx-bar-track"><span class="nx-bar-fill${ch.contribution < 0 ? ' is-neg' : ''}" style="width:${Math.min(100, Math.abs(ch.share != null ? ch.share : ch.contribution / (c.gap_total || 1)) * 100)}%"></span></span><span class="nx-bar-val">${ch.contribution >= 0 ? '+' : '−'}${Math.abs(ch.contribution).toFixed(1)}${ch.share != null ? ` · ${pct(ch.share)}` : ''}</span></div>`).join('') +
+          c.channels.map((ch) => `<div class="nx-bar"><span class="nx-bar-label">${CHANNEL[ch.name] || ch.name}</span><span class="nx-bar-track"><span class="nx-bar-fill${ch.contribution < 0 ? ' is-neg' : ''}" style="width:${Math.min(100, Math.abs(ch.share != null ? ch.share : ch.contribution / (c.gap_total || 1)) * 100)}%"></span></span><span class="nx-bar-val">${ch.contribution >= 0 ? '+' : '−'}${Math.abs(ch.contribution).toFixed(1)}${ch.lo != null && ch.lo !== ch.hi ? ` (${sg(ch.lo, 1)} to ${sg(ch.hi, 1)})` : ''}${ch.share != null ? ` · ${pct(ch.share)}` : ''}</span></div>`).join('') +
           '</div>').join('')}</div>`;
       box.appendChild(art);
     }
     const note = document.createElement('p'); note.className = 'ax-note';
-    note.textContent = 'How to read it: each bar is one mechanism\'s share of the gap to that peer at the fitted coefficients; the bars can sum to more than the gap.';
+    note.textContent = 'How to read it: each bar is one channel\'s contribution to the gap to that peer at the fitted coefficients, with its 90 % bootstrap interval in brackets; the bars can sum to more than the gap. The split describes an association, not a cause.';
     box.appendChild(note);
-    // the youth link measured the two ways that matter: across countries, and within them over time
+    // the youth link measured two ways: across countries, and within them over time
     const home = D.editions.find((e) => e.code === HOME);
     const yl = home && home.youth_link;
     if (yl && yl.between && yl.within) {
       const p = document.createElement('p'); p.className = 'ax-statement nx-within';
       const b = yl.between, w = yl.within;
-      p.innerHTML = `Is the youth share a cause? Across ${yl.n_countries} countries, ten points more under-21 share go with <strong>${b.median >= 0 ? '+' : ''}${f1(b.median)}</strong> players per million (${f1(b.lo)} to ${f1(b.hi)}). Within countries, from one season to the next, <strong>${w.median >= 0 ? '+' : ''}${f1(w.median)}</strong> (${f1(w.lo)} to ${f1(w.hi)}) — nothing yet, on ${yl.n} country-seasons. The share is a fact; its weight is not settled.`;
+      p.innerHTML = `Across ${yl.n_countries} countries (country means), ten points more under-21 share go with <strong>${b.median >= 0 ? '+' : ''}${f1(b.median)}</strong> players per million (90 % HDI ${f1(b.lo)} to ${f1(b.hi)}). Within countries, from one season to the next, the same slope is <strong>${w.median >= 0 ? '+' : ''}${f1(w.median)}</strong> (90 % HDI ${f1(w.lo)} to ${f1(w.hi)}), on ${yl.n} country-seasons. Both are associations; neither is a causal estimate.`;
       box.appendChild(p);
     }
   }
@@ -197,7 +129,7 @@
     box.appendChild(ctrl);
     const rows = D.panel.filter((r) => r[axis] != null && r.y != null);
     const w = Math.max(320, box.clientWidth || 800), narrow = w < 640, H = 420, M = { t: 30, r: 24, b: 44, l: 48 };
-    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'players per million against the chosen mechanism, one point per country');
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('width', w).attr('height', H).attr('role', 'img').attr('aria-label', 'players per million against the chosen measure, one point per country');
     const x = d3.scaleLinear().domain(d3.extent(rows, (r) => r[axis])).nice().range([M.l, w - M.r]);
     const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.y)]).nice().range([H - M.b, M.t]);
     const gy = svg.append('g').attr('transform', `translate(${M.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(w - M.l - M.r)));
@@ -343,7 +275,7 @@
         for (const [k, b] of [['fall', br.fall], ['other', br.other]]) {
           const kind = k === 'fall' ? (br.fall_is_a_fall ? 'fall' : 'step') : b.kind;
           svg.append('rect').attr('x', x(b.season) - 4).attr('y', y(ys[S.indexOf(b.season)]) - 4).attr('width', 8).attr('height', 8).attr('fill', col).attr('transform', `rotate(45 ${x(b.season)} ${y(ys[S.indexOf(b.season)])})`)
-            .on('mousemove', (ev) => showTip(`<b>${esc(nameOf(c))} · ${short(b.season)}</b><span>${kind} · ×${f2(b.factor)} · ${pct(b.prob)} posterior</span><span class="mono">two-break model, this season's marginal</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
+            .on('mousemove', (ev) => showTip(`<b>${esc(nameOf(c))} · ${short(b.season)}</b><span>${kind} · ×${f2(b.factor)}${b.lo != null ? ` (90 % HDI ${f2(b.lo)}–${f2(b.hi)})` : ''} · ${pct(b.prob)} posterior</span><span class="mono">two-break model, this season's marginal</span>`, ev.clientX, ev.clientY)).on('mouseleave', hideTip);
         }
       }
       svg.append('g').selectAll('circle').data(ys.map((v, i) => ({ v, s: S[i] }))).join('circle').attr('cx', (d) => x(d.s)).attr('cy', (d) => y(d.v)).attr('r', 6).attr('fill', 'transparent')
@@ -360,25 +292,19 @@
     const box = root.querySelector('[data-nx-analogies]'); if (!box || !D.long_run) return;
     const L = D.long_run, home = L.countries[HOME];
     if (!home) { box.replaceChildren(); return; }
-    const bigFive = new Set(['ENG', 'FRA', 'GER', 'ESP', 'ITA']);
-    const small = Object.entries(L.countries).filter(([c, v]) => !bigFive.has(c) && v.breaks);
-    // each country's two steps in time order, each a rise or a fall by its factor
-    const steps = (v) => [v.breaks.fall, v.breaks.other].map((s) => ({ season: s.season, factor: s.factor, kind: s.factor > 1 ? 'rise' : 'fall' })).sort((a, b) => (a.season < b.season ? -1 : 1));
-    const gap = (a, b) => +b.slice(0, 4) - +a.slice(0, 4);
     const name = (c) => esc(nameOf(c));
-    const fmtStep = (s) => `${short(s.season)} ×${f2(s.factor)}`;
-    const endsInFall = small.filter(([, v]) => steps(v)[1].kind === 'fall');
-    const cameBack = small.filter(([, v]) => { const [a, b] = steps(v); return a.kind === 'fall' && b.kind === 'rise' && b.factor >= 1.2; });
-    const onlyUp = small.filter(([, v]) => steps(v).every((s) => s.kind === 'rise') && steps(v)[1].factor >= 1.2).sort((a, b) => steps(b[1])[1].factor - steps(a[1])[1].factor);
     const corr = (a, b) => { const ma = d3.mean(a), mb = d3.mean(b); const num = d3.sum(a, (v, i) => (v - ma) * (b[i] - mb)); const den = Math.sqrt(d3.sum(a, (v) => (v - ma) ** 2) * d3.sum(b, (v) => (v - mb) ** 2)); return den ? num / den : 0; };
     const like = Object.entries(L.countries).filter(([c]) => c !== HOME).map(([c, v]) => [c, corr(home.per_million, v.per_million)]).sort((a, b) => b[1] - a[1]);
     const parts = [];
-    parts.push(endsInFall.length ? `${endsInFall.map(([c, v]) => `${name(c)} (${fmtStep(steps(v)[1])})`).join(', ')} ${endsInFall.length === 1 ? 'is the one small nation whose later step is a fall' : 'are the small nations whose later step is a fall'}` : 'No small nation\'s later step is a fall');
-    if (cameBack.length) parts.push(`${cameBack.length === 1 ? "One" : cameBack.length === 2 ? "Two" : cameBack.length} that fell and came back: ${cameBack.map(([c, v]) => { const [a, b] = steps(v); return `${name(c)} (${fmtStep(a)} → ${fmtStep(b)}, ${gap(a.season, b.season)} seasons later)`; }).join('; ')}`);
-    if (onlyUp.length) parts.push(`Stepped up without a fall first: ${onlyUp.slice(0, 6).map(([c, v]) => `${name(c)} (${fmtStep(steps(v)[1])})`).join(', ')}`);
+    // the home nation's two dated steps, each with its size, 90 % HDI and posterior;
+    // no grouping of countries into "fell" or "came back" on point estimates
+    if (home.breaks) {
+      const st = [home.breaks.fall, home.breaks.other].slice().sort((a, b) => (a.season < b.season ? -1 : 1));
+      parts.push(`${name(HOME)}'s two dated steps in this fit: ${st.map((s) => `${short(s.season)} ×${f2(s.factor)}${s.lo != null ? ` (90 % HDI ${f2(s.lo)}–${f2(s.hi)})` : ''}, posterior ${pct(s.prob)}`).join('; ')}`);
+    }
     const nearest = like[0];
     const shape = nearest && nearest[1] >= 0.5 ? `The long run shaped most like ${name(HOME)}'s is ${name(nearest[0])}'s (r = ${nearest[1].toFixed(2)}).` : `No long run closely resembles ${name(HOME)}'s${nearest ? ` (nearest: ${name(nearest[0])}, r = ${nearest[1].toFixed(2)})` : ''}.`;
-    box.innerHTML = `<p class="nx-lead">${parts.join('. ')}. ${shape}</p>`;
+    box.innerHTML = `<p class="nx-lead">${parts.length ? parts.join('. ') + '. ' : ''}${shape} A dated step says when a level most probably changed, not why; every country's steps are in the table below.</p>`;
   }
   function renderBreaksTable() {
     const box = root.querySelector('[data-nx-breaks]'); if (!box || !D.long_run) return;
@@ -392,7 +318,7 @@
     for (const { c, v } of rows) {
       const b = v.breaks, first = b.other.season < b.fall.season ? b.other : b.fall, second = first === b.other ? b.fall : b.other;
       const kind = (s) => (s === b.fall ? (b.fall_is_a_fall ? 'fall' : 'step') : s.kind);
-      const step = (s) => `${short(s.season)} ${kind(s)} ×${f2(s.factor)} (${pct(s.prob)})`;
+      const step = (s) => `${short(s.season)} ${kind(s)} ×${f2(s.factor)} (${s.lo != null ? `90 % HDI ${f2(s.lo)}–${f2(s.hi)}, ` : ''}${pct(s.prob)} posterior)`;
       const peak = Math.max(...v.n), peakS = L.seasons[v.n.indexOf(peak)];
       html += `<tr${c === HOME ? ' class="is-open"' : ''}><td><i class="ax-dot" style="background:${colour(c)}"></i>${esc(v.name)}</td><td class="num">${v.n[0]}</td><td class="num">${peak} · ${short(peakS)}</td><td class="num">${v.n[v.n.length - 1]}</td><td class="mono">${step(first)}</td><td class="mono">${step(second)}</td>${homeS ? `<td class="num">${c === HOME ? '—' : corr(homeS, v.per_million).toFixed(2)}</td>` : ''}</tr>`;
     }

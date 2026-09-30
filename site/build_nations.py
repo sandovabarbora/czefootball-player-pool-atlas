@@ -56,7 +56,10 @@ if home_ed and home_ed["decomposition"]["contrasts"]:
         top = max(c["channels"], key=lambda ch: ch["contribution"])
         label = {"u21_share": "youth minutes at home", "league_strength": "home-league strength", "export_age": "the age of the first move"}[top["name"]]
         peer = data["countries"].get(c["contrast"], {}).get("name", c["contrast"])
-        parts.append(f'against {peer}, {label} carries {round(top["share"] * 100)} % of a {abs(c["gap_total"]):.1f}-per-million gap')
+        def sg(x):
+            return f"{x:+.2f}".replace("-", "\u2212")
+        interval = f" (90 % bootstrap interval {sg(top['lo'])} to {sg(top['hi'])})" if top.get("lo") is not None else ""
+        parts.append(f'against {peer} (a gap of {c["gap_total"]:.2f} per million) the largest segment goes with {label}, {sg(top["contribution"])}{interval}')
     home_dec = "; ".join(parts)
 
 HTML = f'''<!DOCTYPE html>
@@ -92,31 +95,32 @@ HTML = f'''<!DOCTYPE html>
   <header class="ax-head">
     <p class="ax-kicker">Nations · {len(eds)} editions · {n_countries} countries in the long run · {span}</p>
     <h1 class="ax-title">The same five questions, asked of {len(eds)} nations.</h1>
-    <p class="ax-lead">Each edition — {names} — measures its pool the same way: how many players reach the strongest leagues per million, how many minutes the home league gives its own under-21s, when the first move abroad comes, how strong the home league is, and what the national-team squad is built from. Side by side, the numbers say where a nation is out of line. The decomposition says which mechanism carries most of a gap. The long run says when each country's presence in the Big-5 changed level. None of it proves a cause; the page says where that line is.</p>
+    <p class="ax-lead">Each edition — {names} — measures its pool the same way: how many players reach the strongest leagues per million, how many minutes the home league gives its own under-21s, when the first move abroad comes, how strong the home league is, and what the national-team squad is built from. Side by side, the table shows where the editions differ on the same definitions; the decomposition describes how each gap lines up with three measured channels; the long run dates when each country's presence in the Big-5 most probably changed level. The page is exploratory and descriptive, was not pre-registered and identifies no cause.</p>
+    <p class="ax-note">Data: each edition's snapshot under data/snapshot/ (FBref tables fetched 14 September 2026) · code: src/nations_compare.py, site/build_nations.py · status: exploratory, not pre-registered</p>
   </header>
 
   <section class="nx-section nx-takeaways" id="take">
-    <p class="ax-kicker">What to take from it</p>
+    <p class="ax-kicker">Findings</p>
     <div data-nx-takeaways>{_take.render((data.get("takeaways") or {}).get(home, []))}</div>
-    <p class="ax-note">Each statement is written from the numbers below at build time, so it moves when they do; the evidence and its limits follow in order.</p>
+    <p class="ax-note">Each finding is generated from the numbers below at build time; all are descriptive, and the evidence and its limits follow in order.</p>
   </section>
 
   <section class="nx-section" id="side-by-side">
     <p class="ax-kicker">A · side by side</p>
-    <h2 class="ax-statement">Where Czechia is out of line, in the numbers every edition shares.</h2>
+    <h2 class="ax-statement">Six editions on the same pathway measures, last completed season.</h2>
     <div data-nx-table></div>
-    <p class="ax-note">How to read it: each edition's own headline numbers, last completed season; the brightest value in a row is the best of the editions.</p>
+    <p class="ax-note">How to read it: each edition's own headline numbers, last completed season; the brightest value in a row marks the edition ranked first on that row.</p>
     <details class="fold ax-fold"><summary>what the rows mean</summary>
       <p class="ax-note">Per million counts players with a season in the nine strongest leagues. For a nation whose home league is one of them (England, Germany, Spain) that includes the home league — which is why the rank is against the nation's own peer set, not across editions. Under-21 minutes and regular starters are measured in the home league; the first move abroad is the median age at a player's first season in a headline league; the squad row is the share of the last full national-team squad playing in a top-9 league.</p>
     </details>
   </section>
 
   <section class="nx-section" id="why">
-    <p class="ax-kicker">B · why a nation lags — youth, or something else</p>
-    <h2 class="ax-statement">{("Czechia " + esc_html(home_dec) + ".") if home_dec else "Each edition decomposes its gap against its peers into three mechanisms."}</h2>
+    <p class="ax-kicker">B · the gap to the peers, split over three measured channels (descriptive)</p>
+    <h2 class="ax-statement">{("Czechia " + esc_html(home_dec) + ".") if home_dec else "Each edition splits its gap to its peers over three measured channels."}</h2>
     <div data-nx-decomp></div>
     <details class="fold ax-fold"><summary>how the decomposition works, and what it cannot say</summary>
-      <p class="ax-note">Each edition's own decomposition: a ridge regression of players-per-million on youth share, home-league strength and the age of the first move across that edition's eight or nine peers, then a Oaxaca–Blinder-style accounting of the gap to each contrast (<a href="#ref-oaxaca_1973">{in_text(refs["oaxaca_1973"])}</a>; <a href="#ref-blinder_1973">{in_text(refs["blinder_1973"])}</a>). A channel's share is how much of the gap that mechanism accounts for at the fitted coefficients; the channels can sum to more than the gap and the residual takes the rest. It says which measured mechanism carries a gap. It does not say what would happen if the youth share rose — that needs change over time within a country.</p>
+      <p class="ax-note">Each edition's own decomposition: a ridge regression of players-per-million on youth share, home-league strength and the age of the first move across that edition's eight or nine peers, then a Oaxaca–Blinder-style accounting of the gap to each contrast (<a href="#ref-oaxaca_1973">{in_text(refs["oaxaca_1973"])}</a>; <a href="#ref-blinder_1973">{in_text(refs["blinder_1973"])}</a>). A channel's share is how much of the gap goes with that channel at the fitted coefficients; the channels can sum to more than the gap and the residual takes the rest. A positive league-strength segment can mean a weaker home league for the comparison country: in Czechia's fit the league-strength coefficient is negative. The split describes an association across few, correlated countries; it does not say what would happen if the youth share rose, which would need change over time within a country.</p>
     </details>
     <h3 class="nx-h3">Six seasons at home — the change the cross-section cannot see</h3>
     <div class="ax-chart" data-nx-recent></div>
@@ -125,7 +129,7 @@ HTML = f'''<!DOCTYPE html>
     <p class="ax-note">How to read it: each country's change in that share against its change in Big-5 presence over the same seasons — the within-country picture, one point per country, {n_recent} countries and six seasons: a direction, not an estimate.</p>
     <h3 class="nx-h3">The cross-section behind it</h3>
     <div class="ax-chart" data-nx-scatter></div>
-    <p class="ax-note">How to read it: one point per country ({len(data.get("panel", []))}), last completed season; pick the mechanism on the x-axis. The dashed line is a plain fit for the direction only — the three mechanisms move together, so a stronger league keeps more of its young players and exports them later.</p>
+    <p class="ax-note">How to read it: one point per country ({len(data.get("panel", []))}), last completed season; pick the measure on the x-axis. The dashed line is a plain fit for the direction only; the three measures move together across countries, so the line describes an association.</p>
   </section>
 
   <section class="nx-section" id="long-run">
@@ -134,24 +138,24 @@ HTML = f'''<!DOCTYPE html>
     <div class="ax-chart" data-nx-long></div>
     <p class="ax-note">How to read it: players with {lr.get("min_minutes", 450)}+ minutes in a Big-5 league that season, per million; a diamond is a dated step (hover for size and certainty); a dashed rule is a documented reform — a date, not a cause.</p>
     <details class="fold ax-fold"><summary>how we know, and the two reform dates</summary>
-      <p class="ax-note">FBref's season tables for the Premier League, Serie A, La Liga, Bundesliga and Ligue 1, from the first season all five are covered. Each country gets the report's two-step change-point model (<a href="#ref-adams_mackay_2007">{in_text(refs["adams_mackay_2007"])}</a>, in a batch, two-break setting). For a Big-5 nation the count includes its own league, so its series is mostly about how international that league became. Reform markers: {reform_lines}. Whether a series moved <em>because</em> of a reform is not something a marker can tell; the honest reading is the timing, against countries that did nothing.</p>
+      <p class="ax-note">FBref's season tables for the Premier League, Serie A, La Liga, Bundesliga and Ligue 1, from the first season all five are covered. Each country gets the report's two-step change-point model (<a href="#ref-adams_mackay_2007">{in_text(refs["adams_mackay_2007"])}</a>, in a batch, two-break setting). For a Big-5 nation the count includes its own league, so its series is mostly about how international that league became. Reform markers: {reform_lines}. A marker cannot tell whether a series moved because of a reform; it shows the timing, beside countries without such a reform.</p>
     </details>
     <div data-nx-analogies></div>
     <details class="fold ax-fold"><summary>every country's steps as a table</summary><div data-nx-breaks></div>
-      <p class="ax-note">"Shape vs CZE" is the correlation of the per-million series with Czechia's — the countries whose long run looks most like Czechia's are the analogies worth reading, whatever their level. A second step that is a rise is a recovery after a plateau; Czechia's second step is the one fall among the small nations.</p></details>
+      <p class="ax-note">"Shape vs CZE" is the correlation of the per-million series with Czechia's — the countries whose long run is shaped most like Czechia's, whatever their level. Each step comes with its posterior and interval in the table; a step whose interval includes no change is not distinguishable from none.</p></details>
     <h3 class="nx-h3">When a country's players arrive, and how young</h3>
     <div class="ax-chart" data-nx-debut></div>
-    <p class="ax-note">How to read it: the same countries as above; age at a player's first Big-5 season of {lr.get("min_minutes", 450)}+ minutes (three-season median, because a small nation sends two or three a year), or the under-23 share of the nation's Big-5 minutes, or the count of first seasons. Did a recovery come with younger arrivals? Did Czechia's arrivals get older around its fall?</p>
+    <p class="ax-note">How to read it: the same countries as above; age at a player's first Big-5 season of {lr.get("min_minutes", 450)}+ minutes (three-season median, because a small nation sends two or three a year), or the under-23 share of the nation's Big-5 minutes, or the count of first seasons; the chart shows whether a rise came with younger arrivals and how the age of Czechia's arrivals moved around its fall.</p>
     <h3 class="nx-h3">Youth minutes in the Big-5 leagues themselves</h3>
     <div class="ax-chart" data-nx-youth></div>
-    <p class="ax-note">How to read it: the share of each Big-5 league's minutes played by its own under-21s (age at 1 July), season by season — the one youth series the data carries back this far. Germany after 2001/02 is the case to read first.</p>
+    <p class="ax-note">How to read it: the share of each Big-5 league's minutes played by its own under-21s (age at 1 July), season by season — the one youth series the data carries back this far.</p>
   </section>
 
   <section class="nx-section" id="limits">
     <p class="ax-kicker">D · what this can and cannot say</p>
     <ul class="nx-limits">
-      <li><strong>Can:</strong> put {len(eds)} nations on one ruler; say which measured mechanism carries most of a gap; date when a country's Big-5 presence changed level; show whether a reform preceded a change.</li>
-      <li><strong>Cannot:</strong> attribute a change to a reform (no counterfactual, no randomisation); separate mechanisms that move together; see youth minutes in the small leagues before FBref covers them.</li>
+      <li><strong>Can:</strong> put {len(eds)} nations on one ruler; describe how a gap lines up with measured channels; date when a country's Big-5 presence changed level; show whether a reform preceded a change.</li>
+      <li><strong>Cannot:</strong> attribute a change to a reform (no counterfactual, no randomisation); separate channels that move together; see youth minutes in the small leagues before FBref covers them.</li>
       <li><strong>Next:</strong> the same decomposition within a country over time, and a synthetic-control read of the two dated reforms against the countries that did nothing — both need more seasons than the small leagues have yet.</li>
     </ul>
   </section>

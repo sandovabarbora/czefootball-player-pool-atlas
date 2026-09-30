@@ -197,6 +197,8 @@
    "country": "NOR",
    "n": 52,
    "median_min_share": 0.37364583333333334,
+   "min_share_lo": 0.2664636561695385,
+   "min_share_hi": 0.47524305555555557,
    "median_club_goals_pct": 0.5555555555555556,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -204,6 +206,8 @@
    "country": "DEN",
    "n": 75,
    "median_min_share": 0.45495495495495497,
+   "min_share_lo": 0.4084967320261438,
+   "min_share_hi": 0.5464912280701755,
    "median_club_goals_pct": 0.5555555555555556,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -211,6 +215,8 @@
    "country": "SUI",
    "n": 54,
    "median_min_share": 0.4812798092209857,
+   "min_share_lo": 0.384640522875817,
+   "min_share_hi": 0.5782432164785106,
    "median_club_goals_pct": 0.5,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -218,6 +224,8 @@
    "country": "AUT",
    "n": 44,
    "median_min_share": 0.4300653594771242,
+   "min_share_lo": 0.35292397660818714,
+   "min_share_hi": 0.5494351073762839,
    "median_club_goals_pct": 0.59375,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -225,6 +233,8 @@
    "country": "CZE",
    "n": 26,
    "median_min_share": 0.5001578282828283,
+   "min_share_lo": 0.21814814814814815,
+   "min_share_hi": 0.6563175615807195,
    "median_club_goals_pct": 0.6666666666666666,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -232,6 +242,8 @@
    "country": "CRO",
    "n": 47,
    "median_min_share": 0.46319444444444446,
+   "min_share_lo": 0.3088235294117647,
+   "min_share_hi": 0.5748538011695906,
    "median_club_goals_pct": 0.55,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -239,6 +251,8 @@
    "country": "POL",
    "n": 45,
    "median_min_share": 0.4121212121212121,
+   "min_share_lo": 0.27037037037037037,
+   "min_share_hi": 0.5437908496732026,
    "median_club_goals_pct": 0.55,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -246,6 +260,8 @@
    "country": "HUN",
    "n": 15,
    "median_min_share": 0.5753472222222222,
+   "min_share_lo": 0.3915824915824916,
+   "min_share_hi": 0.6760942760942761,
    "median_club_goals_pct": 0.7222222222222222,
    "club_strength_proxy": "goals-scored percentile within league"
   },
@@ -253,6 +269,8 @@
    "country": "SVK",
    "n": 17,
    "median_min_share": 0.7580645161290323,
+   "min_share_lo": 0.3843137254901961,
+   "min_share_hi": 0.810233918128655,
    "median_club_goals_pct": 0.6,
    "club_strength_proxy": "goals-scored percentile within league"
   }
@@ -925,6 +943,12 @@
     "median_multiplier": 0.666
    }
   ],
+  "sideways_n": 13,
+  "sideways_leagues": {
+   "DEN-Superliga": 9,
+   "AUT-Bundesliga": 3,
+   "HUN-NB I": 1
+  },
   "sideways_share": 0.22033898305084745,
   "sideways_definition": "destination league multiplier <= the domestic league's multiplier",
   "examples": {

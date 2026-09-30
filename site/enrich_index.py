@@ -47,6 +47,9 @@ _PLAYERS_PATH = Path(__file__).with_name(f"players.{NATION}.json")
 # chip()/photo() already fall back to initials-only monograms for any key
 # missing from PLAYERS, so an empty dict here just means every player does.
 PLAYERS = json.load(open(_PLAYERS_PATH, encoding="utf-8")) if _PLAYERS_PATH.exists() else {}
+# league or club headshots carry no licence the atlas can cite (29 September
+# 2026): only Wikimedia Commons portraits are shown, everyone else gets initials
+PLAYERS = {k: v for k, v in PLAYERS.items() if not str(v.get("license", "")).startswith("league portrait")}
 BY_KEY = {v["player_key"]: dict(v, fbref_id=k) for k, v in PLAYERS.items()}
 SITE = "https://football.bsandova.com/"
 # Home-nation words the site layer needs outside the report's own i18n
@@ -210,7 +213,7 @@ sub(r'<body>\n', '<body id="top">\n' + TOPBAR, 1)
 EDITION_NAMES = {"cze": "Czechia", "eng": "England", "ger": "Germany", "den": "Denmark", "nor": "Norway", "esp": "Spain"}
 _others = " · ".join(f'<a href="{root}">The {EDITION_NAMES.get(code, code.upper())} edition</a>'
                      for code, root in ATLAS_ROOTS.items() if code != NATION)
-_more = f' · <a href="{P}atlas/">The player atlas</a>' + (' · <a href="/nations/#take">Six nations: what to take from it</a>'
+_more = f' · <a href="{P}atlas/">The player atlas</a>' + (' · <a href="/nations/#take">Six nations compared</a>'
         if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists() else "")
 sub(r' · <a href="/(?:eng/)?">The (?:England|Czech) edition</a></p>', f' · {_others}{_more}</p>' if _others else f'{_more}</p>', 1)
 
@@ -236,9 +239,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import takeaways as _take  # noqa: E402
 _items = _take.load(HOME_CODE)
 if _items:
-    TAKE = ('<section class="take" id="take">\n  <div class="container">\n    <p class="close-kicker">What to take from it</p>\n'
+    TAKE = ('<section class="take" id="take">\n  <div class="container">\n    <p class="close-kicker">Findings</p>\n'
             + _take.render(_items)
-            + f'\n    <p class="close-line take-line">Each statement is written from the numbers on this page and on <a href="/nations/#take">the six-nation comparison</a>; the evidence follows, one question at a time.</p>\n  </div>\n</section>\n\n')
+            + f'\n    <p class="close-line take-line">Each finding is generated from the pipeline outputs of this edition and of <a href="/nations/#take">the six-edition comparison</a>; all are descriptive, and the evidence is on the question pages.</p>\n  </div>\n</section>\n\n')
     sub(r'(<section class="quickread" id="quickread">)', lambda m: TAKE + m.group(1), 1)
 
 # ---------------------------------------------------------------- cross-links to the nations page (root site only)
@@ -254,7 +257,7 @@ NATIONS_LINKS = {
 if (Path(__file__).resolve().parents[1] / "outputs" / "nations" / "nations.json").exists():
     for sid, (label, href) in NATIONS_LINKS.items():
         sid = sid.rstrip("b")   # a second link on the same slide lands after the first
-        sub(rf'(<section class="slide" id="{sid}".*?<p class="slide-so">.*?</p>(?:\n    <p class="pool-link nations-link">.*?</p>)*)',
+        sub(rf'(<section class="slide" id="{sid}".*?<p class="slide-meta">.*?</p>(?:\n    <p class="pool-link nations-link">.*?</p>)*)',
             rf'\1\n    <p class="pool-link nations-link"><a href="{href}">{label}</a></p>', 1, flags=re.S)
 
 # the home nation for docs/charts.js (tooltips label home-nation players with it)
@@ -455,7 +458,11 @@ if _n_squad:
 def lim_fold(m):
     title, text = m.group(1), m.group(2).strip()
     return f'<details class="fold fold-lim"><summary>{title}</summary><p>{text}</p></details>'
-sub(r'<p><strong>([^<]+?)\.?</strong>\s*(.*?)</p>', lim_fold, 11, re.S)
+_lim_block = re.search(r'<div class="limitations">(.*?)</div>', html, re.S)
+_n_lim = len(re.findall(r'<p><strong>', _lim_block.group(1))) if _lim_block else 0
+if _n_lim < 11:
+    fails.append(("limitations", _n_lim, ">=11"))
+sub(r'<p><strong>([^<]+?)\.?</strong>\s*(.*?)</p>', lim_fold, _n_lim, re.S)
 sub(r'(<div class="limitations">\s*)<details class="fold fold-lim">', r'\1<details class="fold fold-lim" open>', 1)
 
 # historical analogs: each list folds; the first target stays open

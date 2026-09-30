@@ -5,19 +5,19 @@
   <link rel="canonical" href="https://football.bsandova.com/eng/q/gap/">
   <meta name="atlas-split" content="1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>What is the gap made of? · English football · Player pool atlas</title>
-  <meta name="description" content="Of the 2.19 players per million between France and England, U21 minutes go with −3.40, league strength with +9.71, export age with −4.26.">
+  <title>Gap in players per million between England and France and Spain, split over three measured channels (descriptive) · English football · Player pool atlas</title>
+  <meta name="description" content="Of the 2.19 players per million between France and England, youth minutes go with −3.40 (−10.65 to +4.24), league strength with +9.71 (+1.94 to +13.65) and export age with −4.26 (−9.60 to −0.47); of the 5.94 for Spain, with −1.06 (−3.31 to +1.35), +4.72 (+1.04 to +6.68) and −6.39 (−14.28 to −0.71) (90 % bootstrap intervals).">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css?v=202609291536">
-  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="../../style.css?v=202609300210">
+  <link rel="stylesheet" href="../../modern.css?v=202609300210">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../../charts.js?v=202609291536"></script>
-  <script defer src="../../atlas.js?v=202609291536"></script>
+  <script defer src="../../charts.js?v=202609300210"></script>
+  <script defer src="../../atlas.js?v=202609300210"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -28,20 +28,20 @@
     <details class="topbar-q" data-current>
       <summary>Questions</summary>
       <ol class="topbar-q-list">
-        <li><a href="../../q/why/">Why the train left</a></li>
-        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
-        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/why/">Five pathway measures: England, France and Spain, 2025/26</a></li>
+        <li><a href="../../q/per-head/">Players per million</a></li>
+        <li><a href="../../q/cohorts/">Cohort counts</a></li>
         <li><a href="../../q/youth/">Youth minutes at home</a></li>
-        <li><a href="../../q/abroad/">Where they go</a></li>
-        <li><a href="../../q/leaving-late/">Does leaving later cost anything?</a></li>
-        <li><a href="../../q/fare/">How they fare</a></li>
-        <li><a href="../../q/national-team/">National-team squad</a></li>
-        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/abroad/">Destinations abroad</a></li>
+        <li><a href="../../q/leaving-late/">Age at the first top-9 season and output over the first two seasons, 691 exports</a></li>
+        <li><a href="../../q/fare/">Minutes share abroad</a></li>
+        <li><a href="../../q/national-team/">National-team squad by tier</a></li>
+        <li><a href="../../q/break/">Big-5 count and its steps</a></li>
         <li><a href="../../q/peers/">France and Spain</a></li>
         <li><a href="../../q/goalkeepers/">Goalkeepers</a></li>
-        <li><a href="../../q/gap/" aria-current="page">What the gap is made of</a></li>
-        <li><a href="../../q/cards/">Who the players are</a></li>
-        <li><a href="../../q/changes/">What changed in a year</a></li>
+        <li><a href="../../q/gap/" aria-current="page">Gap decomposition</a></li>
+        <li><a href="../../q/cards/">Showcase cards and the pool</a></li>
+        <li><a href="../../q/changes/">Change since last season</a></li>
       </ol>
     </details>
     <a href="../../methodology/">Methodology</a>
@@ -61,38 +61,50 @@
 
 <section class="slide" id="q8c">
   <div class="container">
-    <h2 class="slide-q">What is the gap made of?</h2>
-    <p class="slide-a">Of the <strong>2.19</strong> players per million between France and England, U21 minutes go with −3.40, league strength with +9.71, export age with −4.26.</p>
+    
+    <h2 class="slide-q">Gap in players per million between England and France and Spain, split over three measured channels (descriptive)</h2>
+    <p class="slide-a">Of the <strong>2.19</strong> players per million between France and England, youth minutes go with −3.40 (−10.65 to +4.24), league strength with +9.71 (+1.94 to +13.65) and export age with −4.26 (−9.60 to −0.47); of the 5.94 for Spain, with −1.06 (−3.31 to +1.35), +4.72 (+1.04 to +6.68) and −6.39 (−14.28 to −0.71) (90 % bootstrap intervals).</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="gap">
         <img src="../../gap_decomposition.svg" alt="One horizontal stacked bar per contrast country: the contribution of U21 minutes, league strength and export age to its per-capita gap with England, plus the residual; whiskers show each channel's bootstrap interval.">
-        <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and England. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
+        <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and England. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment is negative where the fitted term for that channel predicts fewer players per million for the comparison country than for England.</figcaption>
       </figure>
+      
+      <p class="slide-detail">In this 8-country fit the league-strength coefficient is negative (−51.13 per unit of the league multiplier m_L): a weaker home league goes with more players per million in the top-ranked leagues, so a contrast country whose league is weaker than England’s (m_L 1.000) gets a positive league-strength contribution.</p>
+      
+      
+      <p class="slide-detail">Shares of a gap can add up to more than 100 % when the residual is negative, that is when the channels together predict more than the observed gap.</p>
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">+0.14 is not carried by the three channels.</p>
+      <p class="slide-detail">Of the 2.19 per million between France and England, a residual of +0.14 is not carried by the three channels.</p>
     <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: a linear split of the per-capita gap into U21 minutes, league strength and export age across 8 peer countries.</p>
     <p class="slide-did"><span class="slide-did-label">What we did</span> We used the players who changed leagues to work out what a season in one league is worth in another, then split the gap between countries into the parts that line up with young players' minutes, league strength and the age players move abroad.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> Ridge-regression linear split, Blinder-Oaxaca-style (Oaxaca, 1973; Blinder, 1973), fit on the 8 peer countries with data on all three channels; bootstrap 90 % intervals, 1000 resamples; a decomposition of a correlation, not a causal accounting.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> Ridge-regression linear split (α = 1.00, standardised channels), Blinder-Oaxaca-style (Oaxaca, 1973; Blinder, 1973), fit on the 8 peer countries with data on all three channels; 90 % bootstrap intervals, 1000 resamples, seed 42 plus the contrast’s index; with 8 countries and three correlated channels the split is indicative; a decomposition of a correlation, not a causal accounting.</p>
     </details>
-    <p class="slide-so">A federation tracking this would watch which channel's contribution grows, not treat the split as fixed.</p>
+    <div class="slide-close">
+      <h3 class="slide-close-h">What this means</h3>
+      <p class="slide-means">The decomposition says how the gap lines up with three measured channels across 8 countries, with the contributions and intervals above. With 8 countries, three correlated channels and a ridge penalty, the split is indicative: it describes an association and gives no estimate of what would change if one channel changed.</p>
+      <h3 class="slide-close-h">What this does not show</h3>
+      <p class="slide-notshow">Channels the model does not include (coaching, money, scouting), countries outside the 8, and a causal share of the gap for any channel.</p>
+      <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit 7cbfe45 · code: <code>src/gap_decomposition.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
     <p class="pool-link nations-link"><a href="/nations/#why">The decomposition for every edition, side by side →</a></p>
+    </div>
   </div>
 </section>
 
 <nav class="qpager container" aria-label="Questions">
-  <a class="qpager-prev" href="../../q/goalkeepers/"><span class="qpager-dir">← Previous</span> Do goalkeepers follow a different path?</a>
+  <a class="qpager-prev" href="../../q/goalkeepers/"><span class="qpager-dir">← Previous</span> English goalkeepers in the top-9 leagues per million and their age at the first top-9 season, 2025/26</a>
   <a class="qpager-home" href="../../">Back to the summary</a>
-  <a class="qpager-next" href="../../q/cards/"><span class="qpager-dir">Next →</span> Who are the players?</a>
+  <a class="qpager-next" href="../../q/cards/"><span class="qpager-dir">Next →</span> Showcase cards: 14 English players chosen by six selection rules, and the 2025/26 pool</a>
 </nav>
 </main>
 
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
-      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-kicker">Barbora Šandová</p>
+      <p class="role-body">Data and code are in the repository below. Corrections are welcome by e-mail.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -104,103 +116,19 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Photo credits (88 portraits, Wikimedia Commons)</summary>
+        <summary>Photo credits (18 portraits, Wikimedia Commons)</summary>
         <ul class="small">
-          
-          <li data-fbref-id="f586779e" data-player-key="tammy abraham|1997">
-            Tammy Abraham — <a href="https://www.premierleague.com/players/13286/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c81d773d" data-player-key="tosin adarabioyo|1997">
-            Tosin Adarabioyo — <a href="https://www.premierleague.com/players/13549/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="cd1acf9d" data-player-key="trent alexander-arnold|1998">
-            Trent Alexander-Arnold — <a href="https://www.premierleague.com/players/14732/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="de31038e" data-player-key="elliot anderson|2002">
-            Elliot Anderson — <a href="https://www.premierleague.com/players/51593/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="e4238fb1" data-player-key="jaidon anthony|1999">
-            Jaidon Anthony — <a href="https://www.premierleague.com/players/50460/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
           
           <li data-fbref-id="68c720b5" data-player-key="adam armstrong|1997">
             Adam Armstrong — <a href="https://commons.wikimedia.org/wiki/File:Southampton_Starting_Eleven_22112025_(1)_(cropped_Adam_Armstrong).jpg">Southampton Starting Eleven 22112025 (1) (cropped Adam Armstrong).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="3ea50f67" data-player-key="harvey barnes|1997">
-            Harvey Barnes — <a href="https://www.premierleague.com/players/14716/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="57d88cf9" data-player-key="jude bellingham|2003">
-            Jude Bellingham — <a href="https://www.laliga.com/en-GB/player/jude-bellingham">LaLiga, official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c88ff68d" data-player-key="jobe bellingham|2005">
-            Jobe Bellingham — <a href="https://www.bundesliga.com/en/player/jobe-bellingham">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="79c84d1c" data-player-key="jarrod bowen|1996">
-            Jarrod Bowen — <a href="https://www.premierleague.com/players/8868/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="f8766ef9" data-player-key="christian burgess|1991">
             Christian Burgess — <a href="https://commons.wikimedia.org/wiki/File:Christian_Burgess_(2026).jpg">Christian Burgess (2026).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="b2d31e83" data-player-key="dan burn|1992">
-            Dan Burn — <a href="https://www.premierleague.com/players/8707/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="59e6e5bf" data-player-key="dominic calvert-lewin|1997">
-            Dominic Calvert-Lewin — <a href="https://www.premierleague.com/players/9576/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="5515376c" data-player-key="trevoh chalobah|1999">
-            Trevoh Chalobah — <a href="https://www.premierleague.com/players/14575/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d2424d1b" data-player-key="ben chilwell|1996">
-            Ben Chilwell — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2afc7272" data-player-key="lewis cook|1997">
-            Lewis Cook — <a href="https://www.premierleague.com/players/10766/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="4654e5f5" data-player-key="charlie cresswell|2002">
-            Charlie Cresswell — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6d0ea6d9" data-player-key="max dean|2004">
             Max Dean — <a href="https://commons.wikimedia.org/wiki/File:Max_Dean_(2026).jpg">Max Dean (2026).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="dd897ee7" data-player-key="liam delap|2003">
-            Liam Delap — <a href="https://www.premierleague.com/players/51813/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="5c74c0f5" data-player-key="kiernan dewsbury-hall|1998">
-            Kiernan Dewsbury-Hall — <a href="https://www.premierleague.com/players/14706/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="282f75f3" data-player-key="lewis dunk|1991">
-            Lewis Dunk — <a href="https://www.premierleague.com/players/8163/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="4e015693" data-player-key="james garner|2001">
-            James Garner — <a href="https://www.premierleague.com/players/23841/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="32f60ed8" data-player-key="morgan gibbs-white|2000">
-            Morgan Gibbs-White — <a href="https://www.premierleague.com/players/15259/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="645a3363" data-player-key="angel gomes|2000">
-            Angel Gomes — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="7a11550b" data-player-key="joe gomez|1997">
@@ -215,60 +143,8 @@
             Archie Gray — <a href="https://commons.wikimedia.org/wiki/File:Rangers_v_Tottenham_Hotspur_-_54202663229_(Archie_Gray).jpg">Rangers v Tottenham Hotspur - 54202663229 (Archie Gray).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="b0b4fd3e" data-player-key="jack grealish|1995">
-            Jack Grealish — <a href="https://www.premierleague.com/players/4260/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="58eee997" data-player-key="mason greenwood|2001">
-            Mason Greenwood — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d0706b27" data-player-key="marc guehi|2000">
-            Marc Guéhi — <a href="https://www.premierleague.com/players/14569/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="da011f18" data-player-key="lewis hall|2004">
-            Lewis Hall — <a href="https://www.premierleague.com/players/108922/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="aa849a12" data-player-key="jack harrison|1996">
             Jack Harrison — <a href="https://commons.wikimedia.org/wiki/File:Jack_Harrison_13092025_(9).jpg">Jack Harrison 13092025 (9).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="64e17fab" data-player-key="ayden heaven|2006">
-            Ayden Heaven — <a href="https://www.premierleague.com/players/133114/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="935e6b8f" data-player-key="jordan henderson|1990">
-            Jordan Henderson — <a href="https://www.premierleague.com/players/3712/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="69942fb3" data-player-key="james hill|2002">
-            James Hill — <a href="https://www.premierleague.com/players/51942/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="e98211e7" data-player-key="jack hinshelwood|2005">
-            Jack Hinshelwood — <a href="https://www.premierleague.com/players/112739/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="15f3ec41" data-player-key="callum hudson-odoi|2000">
-            Callum Hudson-Odoi — <a href="https://www.premierleague.com/players/23702/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="a0666d3e" data-player-key="will hughes|1995">
-            Will Hughes — <a href="https://www.premierleague.com/players/8589/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d2b32e91" data-player-key="bashir humphreys|2003">
-            Bashir Humphreys — <a href="https://www.premierleague.com/players/51498/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="bd9553e6" data-player-key="omari hutchinson|2003">
-            Omari Hutchinson — <a href="https://www.premierleague.com/players/98300/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="84c5ceea" data-player-key="tim iroegbunam|2003">
-            Tim Iroegbunam — <a href="https://www.premierleague.com/players/66538/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="1265a93a" data-player-key="reece james|1999">
@@ -283,186 +159,42 @@
             Curtis Jones — <a href="https://commons.wikimedia.org/wiki/File:Curtis_Jones_in_2022.jpg">Curtis Jones in 2022.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="21a66f6a" data-player-key="harry kane|1993">
-            Harry Kane — <a href="https://www.bundesliga.com/en/player/harry-kane">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c5b7c315" data-player-key="michael keane|1993">
-            Michael Keane — <a href="https://www.premierleague.com/players/4333/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="f31def1e" data-player-key="lloyd kelly|1998">
             Lloyd Kelly — <a href="https://commons.wikimedia.org/wiki/File:Lloyd_Kelly_2020.png">Lloyd Kelly 2020.png</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="0313a347" data-player-key="ezri konsa|1997">
-            Ezri Konsa — <a href="https://www.premierleague.com/players/13274/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="f0068e0f" data-player-key="josh laurent|1995">
             Josh Laurent — <a href="https://commons.wikimedia.org/wiki/File:Josh_Laurent_26042025_(6).jpg">Josh Laurent 26042025 (6).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="41f08ac8" data-player-key="keane lewis-potter|2001">
-            Keane Lewis-Potter — <a href="https://www.premierleague.com/players/24369/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="afed6722" data-player-key="tino livramento|2002">
-            Tino Livramento — <a href="https://www.premierleague.com/players/49495/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="e97fd090" data-player-key="ruben loftus-cheek|1996">
             Ruben Loftus-Cheek — <a href="https://commons.wikimedia.org/wiki/File:Ruben_Loftus-Cheek_2018-06-13_1.jpg">Ruben Loftus-Cheek 2018-06-13 1.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="a2b105e0" data-player-key="sean longstaff|1997">
-            Sean Longstaff — <a href="https://www.premierleague.com/players/14897/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="bf34eebd" data-player-key="noni madueke|2002">
-            Noni Madueke — <a href="https://www.premierleague.com/players/67407/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d8931174" data-player-key="harry maguire|1993">
-            Harry Maguire — <a href="https://www.premierleague.com/players/9566/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c6220452" data-player-key="kobbie mainoo|2005">
-            Kobbie Mainoo — <a href="https://www.premierleague.com/players/108936/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="e3a5814e" data-player-key="ainsley maitland-niles|1997">
-            Ainsley Maitland-Niles — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="fc15fb84" data-player-key="dwight mcneil|1999">
-            Dwight McNeil — <a href="https://www.premierleague.com/players/24797/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2c6835e5" data-player-key="lewis miley|2006">
-            Lewis Miley — <a href="https://www.premierleague.com/players/117647/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="5cbd1eb0" data-player-key="tyrick mitchell|1999">
-            Tyrick Mitchell — <a href="https://www.premierleague.com/players/24334/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="de112b84" data-player-key="jacob murphy|1995">
-            Jacob Murphy — <a href="https://www.premierleague.com/players/9662/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="91ca4a16" data-player-key="nico o&#39;reilly|2005">
-            Nico O&#39;Reilly — <a href="https://www.premierleague.com/players/112948/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="dc7f8a28" data-player-key="cole palmer|2002">
-            Cole Palmer — <a href="https://www.premierleague.com/players/49293/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c795c408" data-player-key="jonathan panzo|2000">
-            Jonathan Panzo — <a href="https://www.premierleague.com/players/21885/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2140e999" data-player-key="luke plange|2002">
-            Luke Plange — <a href="https://www.premierleague.com/players/49476/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="4125cb98" data-player-key="jarell quansah|2003">
-            Jarell Quansah — <a href="https://www.bundesliga.com/en/player/jarell-quansah">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="1544f145" data-player-key="jacob ramsey|2001">
-            Jacob Ramsey — <a href="https://www.premierleague.com/players/19888/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="a1d5bd30" data-player-key="marcus rashford|1997">
-            Marcus Rashford — <a href="https://www.laliga.com/en-GB/player/marcus-rashford">LaLiga, official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="1c7012b8" data-player-key="declan rice|1999">
-            Declan Rice — <a href="https://www.premierleague.com/players/15202/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2e5915f1" data-player-key="morgan rogers|2002">
-            Morgan Rogers — <a href="https://www.premierleague.com/players/23968/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="8c12f884" data-player-key="jonathan rowe|2003">
             Jonathan Rowe — <a href="https://commons.wikimedia.org/wiki/File:Rowe_asse_om_2425.png">Rowe asse om 2425.png</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="17695062" data-player-key="emile smith rowe|2000">
-            Emile Smith Rowe — <a href="https://www.premierleague.com/players/14445/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="bc7dc64d" data-player-key="bukayo saka|2001">
-            Bukayo Saka — <a href="https://www.premierleague.com/players/49481/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="104d0bb8" data-player-key="alex scott|2003">
-            Alex Scott — <a href="https://www.premierleague.com/players/74976/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="9c94165b" data-player-key="luke shaw|1995">
-            Luke Shaw — <a href="https://www.premierleague.com/players/4608/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="00f0482f" data-player-key="shola shoretire|2004">
             Shola Shoretire — <a href="https://commons.wikimedia.org/wiki/File:Shola_Shoretire_2021_(cropped).jpg">Shola Shoretire 2021 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="383b10fd" data-player-key="jahmai simpson-pusey|2005">
-            Jahmai Simpson-Pusey — <a href="https://www.bundesliga.com/en/player/jahmai-simpson-pusey">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="20b104bc" data-player-key="adam smith|1991">
             Adam Smith — <a href="https://commons.wikimedia.org/wiki/File:Chelsea_0_Bournemouth_1_(4)_-_копия.jpg">Chelsea 0 Bournemouth 1 (4) - копия.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="e77dc3b2" data-player-key="dominic solanke|1997">
-            Dominic Solanke — <a href="https://www.premierleague.com/players/10443/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="9bc9a519" data-player-key="djed spence|2000">
-            Djed Spence — <a href="https://www.premierleague.com/players/23764/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="4d0be953" data-player-key="ross sykes|1999">
             Ross Sykes — <a href="https://commons.wikimedia.org/wiki/File:Ross_James_Sykes_USG_2023.jpg">Ross James Sykes USG 2023.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="15ea812b" data-player-key="james tarkowski|1992">
-            James Tarkowski — <a href="https://www.premierleague.com/players/8143/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="21512407" data-player-key="kieran trippier|1990">
-            Kieran Trippier — <a href="https://www.premierleague.com/players/3905/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="45963054" data-player-key="jamie vardy|1987">
             Jamie Vardy — <a href="https://commons.wikimedia.org/wiki/File:Jamie_Vardy_2018.jpg">Jamie Vardy 2018.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="86dd77d1" data-player-key="kyle walker|1990">
-            Kyle Walker — <a href="https://www.premierleague.com/players/3955/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="aed3a70f" data-player-key="ollie watkins|1995">
-            Ollie Watkins — <a href="https://www.premierleague.com/players/8658/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="ce5143da" data-player-key="danny welbeck|1990">
-            Danny Welbeck — <a href="https://www.premierleague.com/players/3452/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c596fcb0" data-player-key="callum wilson|1992">
-            Callum Wilson — <a href="https://www.premierleague.com/players/8454/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
+    <p class="rendered-at">Rendered: 2026-09-30 02:10</p>
   </div>
 </footer>
 

@@ -55,10 +55,10 @@
       <p class="cycle-section-label">{{ t('ch3.card.traj', previous=seasons.previous, metrics=seasons.metrics) }}</p>
       <p class="cycle-traj">
         <span class="cycle-traj-arrow" aria-hidden="true">{{ trend_arrow(p.trajectory.direction) }}</span>
-        <span class="cycle-traj-dir">{{ term(p.trajectory.direction) }}</span>
+        <span class="cycle-traj-dir">{{ t('ch3.card.change') }}</span>
         <span class="cycle-traj-delta">{{ signed2(p.trajectory.delta) }}</span>
         <span class="cycle-traj-unit">{{ t('metric.prod.short') }}</span>
-        <span class="cycle-traj-detail">{{ p.trajectory.min_prev }} {{ t('ch3.card.min') }} &rarr; {{ p.trajectory.min_curr }} {{ t('ch3.card.min') }}</span>
+        <span class="cycle-traj-detail">({{ t('ch3.card.one_season') }}, {{ p.trajectory.min_prev }} {{ t('ch3.card.min') }} &rarr; {{ p.trajectory.min_curr }} {{ t('ch3.card.min') }})</span>
       </p>
     </div>
     {% endif %}
@@ -128,6 +128,15 @@
     <p class="muted small">{{ t('ch3.card.selected', reason=term(p.reason)) }}</p>
   </article>
 {%- endmacro -%}
+{%- macro closing(key, code, p) -%}
+    <div class="slide-close">
+      <h3 class="slide-close-h">{{ t('page.means.h3') }}</h3>
+      <p class="slide-means">{{ t(key ~ '.means', **p) }}</p>
+      <h3 class="slide-close-h">{{ t('page.notshow.h3') }}</h3>
+      <p class="slide-notshow">{{ t(key ~ '.notshow', **p) }}</p>
+      <p class="slide-meta">{{ t('page.meta', fetched=journal.fetched, snapshot=journal.snapshot_commit, code=code) }}</p>
+    </div>
+{%- endmacro -%}
 {%- set topn = headline_leagues | length -%}
 {%- set cze = per_capita | selectattr('country', 'equalto', home_code) | list | first -%}
 {%- set gt = {} -%}
@@ -186,6 +195,7 @@
       <details class="toc-method">
         <summary><a href="#methodology">{{ t('toc.methodology') }}</a></summary>
         <ol>
+          <li><a href="#data-availability">{{ t('toc.availability') }}</a></li>
           <li><a href="#multipliers">{{ t('toc.multipliers') }}</a></li>
           <li><a href="#league-strength">{{ t('toc.strength') }}</a></li>
           <li><a href="#model-comparison">{{ t('toc.compare') }}</a></li>
@@ -199,7 +209,6 @@
           <li><a href="#limitations">{{ t('toc.limitations') }}</a></li>
           <li><a href="#validation-robustness">{{ t('toc.validation') }}</a></li>
           <li><a href="#reproducibility">{{ t('toc.reproducibility') }}</a></li>
-          <li><a href="#tracking">{{ t('toc.tracking') }}</a></li>
           <li><a href="#related-methods">{{ t('toc.related_methods') }}</a></li>
           <li><a href="#glossary">{{ t('toc.glossary') }}</a></li>
           <li><a href="#references">{{ t('toc.references') }}</a></li>
@@ -212,13 +221,13 @@
 <header class="report-header">
   <div class="container">
     <h1>{{ t('mast.title') }}</h1>
-    <p class="masthead-subtitle">{{ t('hero.h2') }}</p>
+    <p class="masthead-subtitle">{{ t('hero.h2', topn=topn, season=seasons.metrics) }}</p>
 
     <details class="toc-mobile" open>
       <summary>{{ t('toc.aria') }}</summary>
       <ol>
         <li><a href="#q1">{{ t('toc.q1') }}</a> · <a href="#q2">{{ t('toc.q2') }}</a> · <a href="#q3">{{ t('toc.q3') }}</a> · <a href="#q4">{{ t('toc.q4') }}</a>{% if export_age_model.age_curve %} · <a href="#q4b">{{ t('toc.q4b') }}</a>{% endif %} · <a href="#q5">{{ t('toc.q5') }}</a> · <a href="#q6">{{ t('toc.q6') }}</a> · <a href="#q7">{{ t('toc.q7') }}</a> · <a href="#q8">{{ t('toc.q8', a=pc_a, b=pc_b) }}</a>{% if gk %} · <a href="#q8b">{{ t('toc.q8b') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#q8c">{{ t('toc.q8c') }}</a>{% endif %} · <a href="#q9">{{ t('toc.q9') }}</a></li>
-        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %}{% if export_age_model.age_curve %} · <a href="#export-age-model">{{ t('toc.short.export_age') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#tracking">{{ t('toc.short.tracking') }}</a> · <a href="#related-methods">{{ t('toc.short.related_methods') }}</a> · <a href="#glossary">{{ t('toc.short.glossary') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
+        <li><a href="#explore">{{ t('toc.explore') }}</a> · <a href="#methodology">{{ t('toc.methodology') }}</a> · <a href="#multipliers">{{ t('toc.short.multipliers') }}</a> · <a href="#league-strength">{{ t('toc.short.strength') }}</a> · <a href="#model-comparison">{{ t('toc.short.compare') }}</a> · <a href="#series-model">{{ t('toc.short.series') }}</a>{% if youth_panel.between %} · <a href="#youth-panel">{{ t('toc.short.panel') }}</a>{% endif %}{% if gap_decomposition.contrasts %} · <a href="#gap-decomposition">{{ t('toc.short.gap') }}</a>{% endif %}{% if export_age_model.age_curve %} · <a href="#export-age-model">{{ t('toc.short.export_age') }}</a>{% endif %} · <a href="#shrinkage">{{ t('toc.short.shrinkage') }}</a> · <a href="#pca-loadings">{{ t('toc.short.pca') }}</a> · <a href="#sensitivity">{{ t('toc.short.sensitivity') }}</a> · <a href="#limitations">{{ t('toc.short.limitations') }}</a> · <a href="#related-methods">{{ t('toc.short.related_methods') }}</a> · <a href="#glossary">{{ t('toc.short.glossary') }}</a> · <a href="#references">{{ t('toc.short.references') }}</a></li>
       </ol>
     </details>
   </div>
@@ -229,6 +238,7 @@
    ============================================================================= #}
 <section class="hero" id="summary">
   <div class="container">
+    <p class="hero-kicker">{{ t('front.kicker', n_peers=hero.n_peers - 1, season=seasons.metrics) }}</p>
     <div class="hero-grid">
       <div class="hero-num">
         <span class="hero-num-figure">{{ '%.2f' | format(hero.per_million) }}<span class="ast" aria-hidden="true">*</span></span>
@@ -243,10 +253,10 @@
         {% set move = why_funnel.stage3.rows[0] if why_funnel.stage3.rows else none %}
         {% set clauses = [] %}
         {% if reg and reg[0].per_club is not none and best %}{% set _ = clauses.append(t('hero.finding.youth', per_club='%.1f' | format(reg[0].per_club), best_per_club='%.1f' | format(best.per_club), best=term(why_funnel.countries | selectattr('code', 'equalto', best.code) | map(attribute='name') | first))) %}{% endif %}
-        {% if move and move.age is not none %}{% set _ = clauses.append(t('hero.finding.move', age=g(move.age))) %}{% endif %}
-        {% if big5 and big5.break_season and big5.break_prob >= 0.5 %}{% set _ = clauses.append(t('hero.finding.break', season=big5.break_season)) %}{% endif %}
+        {% if move and move.age is not none %}{% set _ = clauses.append(t('hero.finding.move', age=g(move.age), n=move.n)) %}{% endif %}
+        {% if big5 and big5.break_season and big5.break_prob >= 0.5 %}{% set _ = clauses.append(t('hero.finding.break', kind=t('word.fall' if big5.delta < 1 else 'word.rise'), season=big5.break_season, prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi))) %}{% endif %}
         <p class="hero-finding">
-          {{ t('hero.finding', rank=ordinal(hero.rank), n=hero.n_peers) }}
+          {{ t('hero.finding', rank=ordinal(hero.rank), n=hero.n_peers, n_peers=hero.n_peers - 1) }}
           {% if clauses %}{{ t('hero.finding.lead') }} {% for c in clauses %}{% if not loop.first %}{% if loop.last %}; and {% else %}; {% endif %}{% endif %}{{ c }}{% endfor %}.{% endif %}
         </p>
         <p class="hero-path">{{ t('hero.path') }}</p>
@@ -254,12 +264,14 @@
           {{ t('hero.lead') }}
           {% if hero.gap %}{{ t('hero.sublead.gap', group=gt[hero.gap.pos_group] | lower, cohort=hero.gap.cohort, cze_n=hero.gap.cze_n,
                                 s=('' if hero.gap.cze_n == 1 or lang != 'en' else 's'), topn=topn, peer=g(hero.gap.peer_median_n)) }}{% endif %}
-          {% if hero.export_cze and hero.export_den %}{{ t('hero.sublead.export', topn=topn, cze=g(hero.export_cze.median_export_age_recent), den=g(hero.export_den.median_export_age_recent), b=pc_b) }}{% endif %}
+          {% if hero.export_cze and hero.export_den %}{{ t('hero.sublead.export', topn=topn, cze=g(hero.export_cze.median_export_age_recent), den=g(hero.export_den.median_export_age_recent), b=pc_b, n_cze=hero.export_cze.n_recent, n_den=hero.export_den.n_recent) }}{% endif %}
           {{ t('hero.sublead.close') }}
         </p>
       </div>
     </div>
-    <p class="hero-footnote">{{ t('hero.footnote', n=hero.n_players, season=seasons.metrics, topn=topn, pop=('%.1f' | format(hero.population_m)), min=feature_defs.min_minutes) }}</p>
+    {% set fl = journal.floors %}
+    {% set floors_txt = (t('hero.floors', n450=fl[450].n_players, pm450=f2(fl[450].per_million), r450=fl[450].rank, n900=fl[900].n_players, pm900=f2(fl[900].per_million), r900=fl[900].rank, n=fl[450].n_countries) if (450 in fl and 900 in fl) else '') %}
+    <p class="hero-footnote">{{ t('hero.footnote', n=hero.n_players, season=seasons.metrics, topn=topn, pop=('%.1f' | format(hero.population_m)), min=feature_defs.min_minutes, floors=floors_txt) }}</p>
   </div>
 </section>
 
@@ -288,7 +300,7 @@
       <li class="quickread-tile">
         <a href="#q6">
           <span class="quickread-figure">{{ '%.0f' | format(squad_cze_row.top9_pct) }} %</span>
-          <span class="quickread-line">{{ t('quickread.3', event=squad_lens.event, topn=topn, best_pct=('%.0f' | format(squad_best_row.top9_pct))) }}</span>
+          <span class="quickread-line">{{ t('quickread.3', event=squad_lens.event, topn=topn, best_pct=('%.0f' | format(squad_best_row.top9_pct)), n_top9=((squad_cze_row.top9_pct * squad_cze_row.n / 100) | round | int), n=squad_cze_row.n, n_peers=squad_peer_rows | length) }}</span>
         </a>
       </li>
       {% endif %}
@@ -296,7 +308,7 @@
       <li class="quickread-tile">
         <a href="#q7">
           <span class="quickread-figure">{{ big5.break_season }}</span>
-          <span class="quickread-line">{{ t('quickread.4', break_prob=pct(big5.break_prob)) }}</span>
+          <span class="quickread-line">{{ t('quickread.4', kind=t('word.fall' if big5.delta < 1 else 'word.rise'), break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</span>
         </a>
       </li>
       {% endif %}
@@ -348,7 +360,7 @@
 {%- endmacro -%}
 <section class="why-funnel" id="why-funnel">
   <div class="container">
-    <h2>{{ t('why_funnel.h2') }}</h2>
+    <h2>{{ t('why_funnel.h2', a=pc_a, b=pc_b, season=seasons.metrics) }}</h2>
     <p class="funnel-lead">{{ t('why_funnel.lead') }}</p>
     <figure class="figure-bleed" data-chart="funnel">
       <img src="{{ assets }}why_funnel.svg" alt="{{ t('why_funnel.figure.alt', a=pc_a, b=pc_b) }}">
@@ -445,7 +457,7 @@
           </div>
         </div>
         {% if why_funnel.stage5.break_season %}
-        <p class="funnel-metric-note">{{ t('why_funnel.stage5.break', season=why_funnel.stage5.break_season, prob=pctword(why_funnel.stage5.break_prob)) }} <a href="#q7">{{ t('toc.short.series') }}</a>.</p>
+        <p class="funnel-metric-note">{{ t('why_funnel.stage5.break', kind=t('word.fall' if big5.delta < 1 else 'word.rise'), season=why_funnel.stage5.break_season, prob=pct(why_funnel.stage5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.no_change %}{{ t('slide.7.no_change', kind=t('word.fall' if big5.delta < 1 else 'word.rise')) }}{% endif %} <a href="#q7">{{ t('toc.short.series') }}</a>.</p>
         {% endif %}
       </li>
     </ol>
@@ -461,8 +473,12 @@
       {% endif %}
     </p>
     {% endif %}
-    <details class="fold funnel-caveats">
-      <summary>{{ t('why_funnel.caveat.h3') }}</summary>
+    <div class="slide-close">
+      <h3 class="slide-close-h">{{ t('page.means.h3') }}</h3>
+      <p class="slide-means">{{ t('why_funnel.means', a=pc_a, b=pc_b) }}</p>
+    </div>
+    <div class="funnel-caveats slide-close">
+      <h3 class="slide-close-h">{{ t('page.notshow.h3') }}</h3>
       <ul>
         <li>{{ t('why_funnel.caveat.1') }}</li>
         <li>{{ t('why_funnel.caveat.2') }}</li>
@@ -474,7 +490,8 @@
              hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }} {{ t('why_funnel.stage1.bound_starts') }}</li>
         {% endif %}
       </ul>
-    </details>
+      <p class="slide-meta">{{ t('page.meta', fetched=journal.fetched, snapshot=journal.snapshot_commit, code='src/pipeline_facts.py, src/pathways.py') }}</p>
+    </div>
   </div>
 </section>
 
@@ -490,7 +507,7 @@
 </div>
 <section class="slide" id="q1">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.1.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.1.q', topn=topn, season=seasons.metrics) }}</h2>
     <p class="slide-a">{% if hero.rank == 1 and hero.second %}{{ t('slide.1.a_leader', n=hero.n_peers, pm=f2(hero.per_million), second=term(hero.second.name), second_pm=f2(hero.second.per_million)) }}{% else %}{{ t('slide.1.a', rank=ordinal(hero.rank), n=hero.n_peers, pm=f2(hero.per_million), top=term(hero.top.name), top_pm=f2(hero.top.per_million)) }}{% endif %}</p>
     <div class="slide-proof">
       <div class="capita" role="list" aria-label="{{ t('ch1.capita.aria') }}">
@@ -507,22 +524,26 @@
         </div>
         {% endfor %}
       </div>
+      <p class="slide-read">{{ t('slide.1.read', season=seasons.metrics) }}</p>
     </div>
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.1.aq', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn, n=hero.n_peers) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.1.aq', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn, n=hero.n_peers, n_peers=hero.n_peers - 1) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.1.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.1.how', min=feature_defs.min_minutes, season=seasons.metrics, topn=topn) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.1.so') }}</p>
+    {% set fl = journal.floors %}
+    {{ closing('slide.1', 'src/international_benchmark.py', {'n_players': hero.n_players, 'pop': '%.1f' | format(hero.population_m), 'n': hero.n_peers, 'topn': topn, 'min': feature_defs.min_minutes,
+        'n450': (fl[450].n_players if 450 in fl else '—'), 'pm450': (f2(fl[450].per_million) if 450 in fl else '—'), 'r450': (fl[450].rank if 450 in fl else '—'),
+        'n900': (fl[900].n_players if 900 in fl else '—'), 'pm900': (f2(fl[900].per_million) if 900 in fl else '—'), 'r900': (fl[900].rank if 900 in fl else '—')}) }}
   </div>
 </section>
 
 <section class="slide" id="q2">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.2.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.2.q', topn=topn, season=seasons.metrics) }}</h2>
     {% set gap0 = cohort_gaps[0] %}
-    <p class="slide-a">{{ t('slide.2.a', group=term(gap0.group_title), cohort=gap0.cohort, cze=gap0.cze_n, peer=g(gap0.peer_median_n)) }}</p>
+    <p class="slide-a">{{ t('slide.2.a', group=term(gap0.group_title) | lower, cohort=gap0.cohort, cze=gap0.cze_n, peer=g(gap0.peer_median_n)) }}</p>
     <div class="slide-proof">
       {% set cohortgap_peer_max = (cohort_gaps[:5] | map(attribute='peer_median_n') | max) or 1 %}
       <table class="kv-table cohort-gap-table">
@@ -540,6 +561,7 @@
           {% endfor %}
         </tbody>
       </table>
+      <p class="slide-read">{{ t('slide.2.read', min=feature_defs.min_minutes, topn=topn) }}</p>
     </div>
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
@@ -547,7 +569,7 @@
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.2.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.2.how', min=feature_defs.min_minutes) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.2.so') }}</p>
+    {{ closing('slide.2', 'src/international_benchmark.py', {'group': term(gap0.group_title) | lower, 'cohort': gap0.cohort, 'min': feature_defs.min_minutes}) }}
   </div>
 </section>
 
@@ -557,7 +579,7 @@
 </div>
 <section class="slide" id="q3">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.3.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.3.q', season=seasons.metrics) }}</h2>
     <p class="slide-a">{% if pw.youth_cze and pw.youth_cze.share_u21 is not none %}{{ t('slide.3.a', cze_pct=('%.1f' | format(pw.youth_cze.share_u21 * 100)), best_name=term(pw.youth_top.name), best_pct=('%.1f' | format(pw.youth_top.share_u21 * 100))) }}{% endif %}</p>
     <div class="slide-proof">
       {% set youth_max = pw.youth | map(attribute='share_u21') | reject('none') | max %}
@@ -565,7 +587,7 @@
       <p class="slide-caveat">{{ t('slide.3.uncertain', n=youth_panel.between.n,
            beta=signed2(youth_panel.between.beta_per_10pp.median), lo=f2(youth_panel.between.beta_per_10pp.lo), hi=f2(youth_panel.between.beta_per_10pp.hi),
            within=signed2(youth_panel.within.beta_per_10pp.median), wlo=f2(youth_panel.within.beta_per_10pp.lo), whi=f2(youth_panel.within.beta_per_10pp.hi),
-           topn=topn) }}</p>
+           topn=topn, r2=f2(youth_panel.between.r2), n_within=youth_panel.within.n) }}</p>
       {% endif %}
       <div class="capita" role="list" aria-label="{{ t('ch2.a.aria') }}">
         {% for r in pw.youth %}
@@ -577,10 +599,11 @@
             {{ term(r.name) }}
           </div>
           <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
-          <div class="capita-value">{% if r.share_u21 is none %}<span class="muted" title="{{ t('ch2.a.nodata') }}">—</span>{% else %}{{ pct1(r.share_u21) }}{% endif %}</div>
+          <div class="capita-value">{% if r.share_u21 is none %}<span class="muted">{{ t('ch2.a.nodata') }}</span>{% else %}{{ pct1(r.share_u21) }}{% endif %}</div>
         </div>
         {% endfor %}
       </div>
+      <p class="slide-read">{{ t('slide.3.read') }}</p>
       {% if youth_panel.between %}
       <details class="fold">
         <summary>{{ t('slide.3.panel.summary') }}</summary>
@@ -597,18 +620,20 @@
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.3.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.3.how', season=seasons.metrics) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.3.so') }}</p>
+    {% set b3 = why_funnel.stage1.bound %}
+    {{ closing('slide.3', 'src/pathways.py, src/youth_panel.py', {'cze_pct': ('%.1f' | format(pw.youth_cze.share_u21 * 100)) if (pw.youth_cze and pw.youth_cze.share_u21 is not none) else '—', 'season': seasons.metrics,
+        'bound': (t('slide.3.bound', hi='%.1f' | format(b3.hi * 100)) if b3 else '')}) }}
   </div>
 </section>
 
 <section class="slide" id="q4">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.4.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.4.q', min=feature_defs.min_minutes, season=seasons.metrics) }}</h2>
     {% if pathways.destinations %}
     {% set dest = pathways.destinations %}
     {% set top9_bucket = (dest.buckets | selectattr('bucket', 'equalto', 'top9') | list | first) %}
-    <p class="slide-a">{{ t('slide.4.a', abroad=dest.n_abroad, total=dest.n_total, topn=topn,
-                            top9_pct=(('%.0f' | format(top9_bucket.share_of_abroad * 100)) if top9_bucket else '—'),
+    <p class="slide-a">{{ t('slide.4.a', abroad=dest.n_abroad, total=dest.n_total, topn=topn, top9_n=dest.top9_n,
+                            sideways_n=(dest.sideways_n if dest.sideways_n is not none else '—'),
                             sideways_pct=('%.0f' | format(dest.sideways_share * 100))) }}</p>
     <div class="slide-proof">
       {% if dest.buckets %}
@@ -626,15 +651,18 @@
         {% endfor %}
       </div>
       {% endif %}
+      <p class="slide-read">{{ t('slide.4.read') }}</p>
+      {% if dest.sideways_leagues %}<p class="slide-detail">{{ t('slide.4.sideways', n=dest.sideways_n, leagues=(dest.sideways_leagues | dictsort(by='value', reverse=true) | map('join', ': ') | join(', '))) }}</p>{% endif %}
     </div>
     {% endif %}
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
+    {% if league_strength.home and not league_strength.home_is_reference %}<p class="slide-detail">{{ t('slide.5.a2', m_l=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi), uefa=f2(league_strength.home.uefa)) }}</p>{% endif %}
     <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4.aq', season=seasons.metrics, topn=topn) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4.how', season=seasons.metrics, home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.4.so') }}</p>
+    {% if pathways.destinations %}{{ closing('slide.4', 'src/pathways.py', {'total': pathways.destinations.n_total, 'abroad': pathways.destinations.n_abroad, 'home_n': pathways.destinations.n_total - pathways.destinations.n_abroad, 'top9_n': pathways.destinations.top9_n, 'topn': topn}) }}{% endif %}
   </div>
 </section>
 
@@ -642,7 +670,7 @@
 {% set eam = export_age_model %}
 <section class="slide" id="q4b">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.4b.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.4b.q', topn=topn, n=eam.n) }}</h2>
     {% set eam_zero = (eam.diff_21_24.lo <= 0 and eam.diff_21_24.hi >= 0) %}
     <p class="slide-a">{{ t('slide.4b.a_zero' if eam_zero else 'slide.4b.a', n=eam.n, topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
                           y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
@@ -660,21 +688,30 @@
       <p class="slide-detail">{{ t('slide.4b.a_detail', topn=topn, y21=f2(eam.y21.median), lo=f2(eam.y21.lo), hi=f2(eam.y21.hi),
                           y24=f2(eam.y24.median), lo24=f2(eam.y24.lo), hi24=f2(eam.y24.hi),
                           diff=signed(eam.diff_21_24.median), dlo=f3(eam.diff_21_24.lo), dhi=f3(eam.diff_21_24.hi),
-                          age_home=g(eam.home_median_age),
+                          age_home=g(eam.home_median_age), n_home=(eam.lono.n_excluded if eam.lono else '—'),
                           zero_note=(t('slide.4b.zero_note', n=eam.n) if (eam.diff_21_24.lo <= 0 and eam.diff_21_24.hi >= 0) else '')) }}</p>
     <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.4b.aq', topn=topn, n=eam.n) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.4b.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.4b.how', n=eam.n, branch=(t('ch4.export.branch.spline') if eam.use_spline else t('ch4.export.branch.quadratic')), cite=cite_multi(['gelman_et_al_2013', 'hoffman_gelman_2014'])) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.4b.so') }}</p>
+    <div class="slide-close">
+      <h3 class="slide-close-h">{{ t('page.means.h3') }}</h3>
+      <p class="slide-means">{{ t('slide.4b.means_zero' if eam_zero else 'slide.4b.means', n=eam.n, topn=topn, diff=signed(eam.diff_21_24.median)) }}</p>
+      <h3 class="slide-close-h">{{ t('page.notshow.h3') }}</h3>
+      <p class="slide-notshow">{{ t('slide.4b.notshow', topn=topn) }}</p>
+      <p class="slide-meta">{{ t('page.meta', fetched=journal.fetched, snapshot=journal.snapshot_commit, code='src/export_age_model.py') }}</p>
+    </div>
   </div>
 </section>
 {% endif %}
 
 <section class="slide" id="q5">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.5.q') }}</h2>
-    <p class="slide-a">{% if pw.fare_min_cze %}{{ t('slide.5.a', cze=('%.0f' | format(pw.fare_min_cze.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length) }}{% endif %}
+    <h2 class="slide-q">{{ t('slide.5.q', topn=topn, season=seasons.metrics) }}</h2>
+    {% set fc = pw.fare_min_cze %}
+    <p class="slide-a">{% if fc %}{{ t('slide.5.a', cze=('%.0f' | format(fc.value * 100)), rank=ordinal(pw.fare_min_rank), n=pw.fare_min | length, n_home=fc.n,
+        lo=('%.0f' | format(fc.get('lo') * 100)) if fc.get('lo') is not none else '—', hi=('%.0f' | format(fc.get('hi') * 100)) if fc.get('hi') is not none else '—',
+        overlap=(pw.fare_overlap if pw.fare_overlap is not none else '—')) }}{% endif %}
       </p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="fare">
@@ -691,7 +728,7 @@
                style="--value: {{ r.value }}; --max: {{ fare_min_max }};">
             <div class="capita-country">
               <span class="capita-code">{{ r.country }}</span>
-              {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
+              {{ term(r.name) }} <span class="muted small">n = {{ r.n }}{% if r.get('lo') is not none %} · {{ t('slide.5.th.interval') }} {{ pct(r.get('lo')) }}–{{ pct(r.get('hi')) }}{% endif %}</span>
             </div>
             <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
             <div class="capita-value">{{ pct(r.value) }}</div>
@@ -702,12 +739,11 @@
     </div>
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
-      {% if league_strength.home and not league_strength.home_is_reference %}<p class="slide-detail">{{ t('slide.5.a2', m_l=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi), uefa=f2(league_strength.home.uefa)) }}</p>{% endif %}
     <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.5.aq', season=seasons.metrics) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.5.did') }}</p>
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how', home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.5.how', topn=topn, home_note=(t('slide.home_note', topn=topn, topn_minus_1=(topn - 1)) if (domestic_league_code in headline_leagues) else '')) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.5.so') }}</p>
+    {{ closing('slide.5', 'src/pathways.py', {'topn': topn, 'cze': ('%.0f' | format(fc.value * 100)) if fc else '—'}) }}
   </div>
 </section>
 
@@ -717,9 +753,10 @@
 </div>
 <section class="slide" id="q6">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.6.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.6.q', event=(squad_lens.event if squad_lens else nt_core_event)) }}</h2>
     <p class="slide-a">{% if squad_cze_row and squad_best_row %}{{ t('slide.6.a', cze_pct=('%.0f' | format(squad_cze_row.top9_pct)), event=squad_lens.event, topn=topn,
-                            best_name=term(squad_best_row.name), best_pct=('%.0f' | format(squad_best_row.top9_pct))) }}{% endif %}</p>
+                            best_name=term(squad_best_row.name), best_pct=('%.0f' | format(squad_best_row.top9_pct)),
+                            n_top9=((squad_cze_row.top9_pct * squad_cze_row.n / 100) | round | int), n=squad_cze_row.n, n_peers=squad_peer_rows | length, season=seasons.metrics) }}{% endif %}</p>
     <div class="slide-proof">
       {% if squad_lens and squad_lens.players %}
       <ul class="squad-legend">
@@ -765,33 +802,36 @@
         </div>
       </details>
       {% endif %}
+      <p class="slide-read">{{ t('slide.6.read', season=seasons.metrics) }}</p>
     </div>
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
     <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.6.aq', event=nt_core_event, season=seasons.metrics) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.6.did') }}</p>
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.6.how', season=seasons.metrics) }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.6.how', season=seasons.metrics, unmatched=journal.squad_unmatched) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.6.so') }}</p>
+    {% if squad_cze_row %}{{ closing('slide.6', 'src/squad_lens.py', {'n_top9': ((squad_cze_row.top9_pct * squad_cze_row.n / 100) | round | int), 'n': squad_cze_row.n, 'event': squad_lens.event, 'topn': topn, 'pp': (100 / squad_cze_row.n) | round | int, 'n_peers': squad_peer_rows | length}) }}{% endif %}
   </div>
 </section>
 
 <section class="slide" id="q7">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.7.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.7.q', min=feature_defs.min_minutes, first_season=big5.first_season, last_season=big5.last_season) }}</h2>
     {% if big5 %}
-    <p class="slide-a">{% if big5.no_break %}{{ t('slide.7.a_nobreak', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta)) }}{% else %}{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_rise_after' if big5.rise_after else 'slide.7.a_rise', rise_season=big5.rise_season) }}{% endif %}{% endif %}</p>
+    <p class="slide-a">{% if big5.no_break %}{{ t('slide.7.a_nobreak', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta)) }}{% else %}{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season) }}{% endif %}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
         <figcaption>{{ t('slide.7.caption', first_season=big5.first_season) }}</figcaption>
       </figure>
+      {% if not big5.no_break %}<p class="slide-detail">{{ t('slide.7.a_detail', kind=t('word.fall' if big5.delta < 1 else 'word.rise'), break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_detail_rise', rise_season=big5.rise_season, rise_prob=pct(big5.rise_prob), rise_delta=f2(big5.rise_delta), rise_lo=f2(big5.rise_lo), rise_hi=f2(big5.rise_hi)) }}{% endif %}{% if big5.no_change %}{{ t('slide.7.no_change', kind=t('word.fall' if big5.delta < 1 else 'word.rise')) }}{% endif %}</p>{% endif %}
+      {% if big5.diagnostics %}<p class="slide-detail">{{ t('slide.7.diag', rhat=f3(big5.diagnostics.max_rhat), ess=(big5.diagnostics.min_ess_bulk | round | int), div=big5.diagnostics.n_divergences) }}</p>{% endif %}
       {% for pr in predictions %}
       <aside class="scoreboard" id="prediction-{{ loop.index }}">
         <p class="scoreboard-kicker">{{ t('pred.kicker') }}</p>
         <p class="scoreboard-claim">{{ t('pred.claim', point=pr.point, lo=pr.lo, hi=pr.hi, season=pr.target_season | replace('-', '/') | replace('/20', '/'), min=feature_defs.min_minutes, pct=(pr.interval * 100) | round | int) }}</p>
         <dl class="scoreboard-meta">
-          <div><dt>{{ t('pred.registered') }}</dt><dd>{{ pr.registered_on }} · <code>{{ pr.registered_commit }}</code></dd></div>
+          <div><dt>{{ t('pred.registered') }}</dt><dd>{{ t('pred.registration', commit=pr.registered_commit, date=pr.registered_on_long or pr.registered_on, season=pr.target_season | replace('-', '/') | replace('/20', '/')) }}</dd></div>
           <div><dt>{{ t('pred.baseline') }}</dt><dd>{{ t('pred.baseline_value', n=pr.naive) }}</dd></div>
           <div><dt>{{ t('pred.scoring') }}</dt><dd>{{ t('pred.scoring_rule', pct=(pr.interval * 100) | round | int) }}</dd></div>
           <div><dt>{{ t('pred.outcome') }}</dt><dd>
@@ -816,19 +856,18 @@
     </div>
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
-      <p class="slide-detail">{{ t('slide.7.a_detail', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_detail_rise', rise_prob=pct(big5.rise_prob), rise_delta=f2(big5.rise_delta)) }}{% endif %}</p>
-    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.7.aq', min=feature_defs.min_minutes, history_start=seasons.history_start) }}</p>
+    <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.7.aq', min=feature_defs.min_minutes, first_season=big5.first_season) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.7.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.7.so') }}</p>
+    {{ closing('slide.7', 'src/big5_series.py, src/series_model.py', {'kind': t('word.fall' if big5.delta < 1 else 'word.rise'), 'break_season': big5.break_season, 'break_prob': pct(big5.break_prob), 'delta': f2(big5.delta), 'lo': f2(big5.delta_lo), 'hi': f2(big5.delta_hi), 'topn': topn}) }}
     {% endif %}
   </div>
 </section>
 
 <section class="slide" id="q8">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.8.q', a=pc_a, b=pc_b) }}</h2>
+    <h2 class="slide-q">{{ t('slide.8.q', a=pc_a, b=pc_b, season=seasons.metrics) }}</h2>
     <p class="slide-a">{% if peer_compare.nor_u21 is not none and peer_compare.nor_top9 is not none %}{{ t('slide.8.a', a=pc_a, nor_u21=('%.0f' | format(peer_compare.nor_u21 * 100)), cze_u21=('%.0f' | format(peer_compare.cze_u21 * 100)),
                             nor_top9=('%.0f' | format(peer_compare.nor_top9 * 100)), cze_top9=('%.0f' | format(peer_compare.cze_top9 * 100)), topn=topn) }}{% endif %}</p>
     <div class="slide-proof">
@@ -862,6 +901,7 @@
             {% endfor %}
           </tbody>
         </table>
+        <p class="capita-note">{{ t('slide.8.table_note') }}</p>
       </details>
     </div>
     <details class="fold slide-method">
@@ -870,16 +910,17 @@
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8.how') }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.8.so') }}</p>
+    {{ closing('slide.8', 'src/render.py (_build_peer_compare), src/pathways.py', {}) }}
   </div>
 </section>
 
 {% if gk and gk.home_rank %}
 <section class="slide" id="q8b">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.8b.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.8b.q', topn=topn, season=seasons.metrics) }}</h2>
     <p class="slide-a">{{ t('slide.8b.a', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
-                          pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
+                          pm=f2(gk.home_row.per_million), rank=(gk.rank_text or gk.home_rank), n=gk.n_peers,
+                          n_gk_age=gk.export_age.gk_n, n_out=gk.export_age.outfield_n,
                           gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age),
                           earlier_or_later=(t('slide.8b.earlier') if gk.earlier_or_later == 'earlier' else (t('slide.8b.later') if gk.earlier_or_later == 'later' else t('slide.8b.same_age')))) }}</p>
     <div class="slide-proof">
@@ -917,7 +958,6 @@
               <th>{{ t('gk.tier.th.league') }}</th><th>{{ t('gk.tier.th.min') }}</th>
               <th>{{ t('gk.production.th.ga90') }}</th><th>{{ t('gk.production.th.saves90') }}</th>
               <th>{{ t('gk.production.th.savepct') }}</th><th>{{ t('gk.production.th.csshare') }}</th>
-              <th>{{ t('gk.production.th.ga90q') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -926,14 +966,10 @@
               <td>{{ r.player }}</td><td>{{ r.team }}</td><td>{{ r.league }}</td><td>{{ r.min }}</td>
               <td>{{ f2(r.ga90) }}</td><td>{{ f2(r.saves90) }}</td>
               <td>{{ '%.1f' | format(r.save_pct_shrunk) }} %</td><td>{{ pct(r.cs_share) }}</td>
-              <td>{{ f2(r.ga90_q) }}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
-        <p class="capita-note">{{ t('gk.production.medians_label') }}
-          {% for m in gk.production.peer_medians %}<span class="capita-code">{{ m.country }}</span> {{ f2(m.median_ga90_q) }}{% if not loop.last %} · {% endif %}{% endfor %}
-        </p>
       </details>
       {% endif %}
       {% if gk.per_million %}
@@ -959,7 +995,8 @@
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
       <p class="slide-detail">{{ t('slide.8b.a_detail', n_gk=gk.home_row.n_gk, min=gk.min_minutes, topn=topn,
-                          pm=f2(gk.home_row.per_million), rank=gk.home_rank, n=gk.n_peers,
+                          pm=f2(gk.home_row.per_million), rank=(gk.rank_text or gk.home_rank), n=gk.n_peers,
+                          n_gk_age=gk.export_age.gk_n, n_out=gk.export_age.outfield_n,
                           gk_age=g(gk.export_age.gk_median_age), out_age=g(gk.export_age.outfield_median_age),
                           earlier_or_later=(t('slide.8b.earlier') if gk.earlier_or_later == 'earlier' else (t('slide.8b.later') if gk.earlier_or_later == 'later' else t('slide.8b.same_age')))) }}</p>
     <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8b.aq', min=gk.min_minutes, topn=topn) }}</p>
@@ -969,7 +1006,7 @@
                           censored_out_pct=('%.0f' | format(gk.export_age.outfield_censored_share * 100)),
                           home_note=(t('slide.8b.home_note', topn=topn) if (domestic_league_code in headline_leagues) else '')) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.8b.so') }}</p>
+    {{ closing('slide.8b', 'src/goalkeepers.py', {'n_gk': gk.home_row.n_gk, 'min': gk.min_minutes, 'topn': topn, 'n_gk_age': gk.export_age.gk_n}) }}
   </div>
 </section>
 {% endif %}
@@ -978,15 +1015,25 @@
 {% set gdp = gap_decomposition.primary %}
 <section class="slide" id="q8c">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.8c.q') }}</h2>
+    {% set gd2 = gap_decomposition.contrasts[1] if gap_decomposition.contrasts | length > 1 else gdp %}
+    <h2 class="slide-q">{{ t('slide.8c.q', a=term(gdp.name), b=term(gd2.name)) }}</h2>
     <p class="slide-a">{{ t('slide.8c.a', gap=f2(gdp.gap_total), contrast=term(gdp.name),
                           c1=signed2(gdp.channels[0].contribution), c2=signed2(gdp.channels[1].contribution),
-                          c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
+                          c3=signed2(gdp.channels[2].contribution) ~ ((' (' ~ signed2(gdp.channels[2].lo) ~ ' to ' ~ signed2(gdp.channels[2].hi) ~ ')') if gdp.channels[2].lo is not none and gdp.channels[2].lo != gdp.channels[2].hi else ''), resid=signed2(gdp.residual),
+                          c1lo=signed2(gdp.channels[0].lo), c1hi=signed2(gdp.channels[0].hi), c2lo=signed2(gdp.channels[1].lo), c2hi=signed2(gdp.channels[1].hi),
+                          gap2=f2(gd2.gap_total), contrast2=term(gd2.name),
+                          d1=signed2(gd2.channels[0].contribution), d2=signed2(gd2.channels[1].contribution), d3=signed2(gd2.channels[2].contribution) ~ ((' (' ~ signed2(gd2.channels[2].lo) ~ ' to ' ~ signed2(gd2.channels[2].hi) ~ ')') if gd2.channels[2].lo is not none and gd2.channels[2].lo != gd2.channels[2].hi else ''),
+                          d1lo=signed2(gd2.channels[0].lo), d1hi=signed2(gd2.channels[0].hi), d2lo=signed2(gd2.channels[1].lo), d2hi=signed2(gd2.channels[1].hi)) }}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="gap">
         <img src="{{ assets }}gap_decomposition.svg" alt="{{ t('slide.8c.alt') }}">
         <figcaption>{{ t('slide.8c.caption') }}</figcaption>
       </figure>
+      {% set b2 = gap_decomposition.coefficients.b.x2 if (gap_decomposition.coefficients and gap_decomposition.coefficients.b) else none %}
+      {% if b2 is not none %}<p class="slide-detail">{{ t('slide.8c.sign_neg' if b2 < 0 else 'slide.8c.sign_pos', n=gap_decomposition.n, b2=signed2(b2), home_x2=f3(gap_decomposition.home_x2)) }}</p>{% endif %}
+      {% set tn = [] %}{% for x in gap_decomposition.trio_names %}{% set _ = tn.append(term(x)) %}{% endfor %}{% set trio_txt = (tn[:-1] | join(', ')) ~ ' and ' ~ tn[-1] %}
+      {% if gap_decomposition.x3_equal is not none %}<p class="slide-detail">{{ t('slide.8c.x3_zero', countries=trio_txt, topn=topn, age=g(gap_decomposition.x3_equal)) }}</p>{% endif %}
+      <p class="slide-detail">{{ t('slide.8c.shares') }}</p>
     </div>
     <details class="fold slide-method">
       <summary>{{ t('slide.method_summary') }}</summary>
@@ -995,18 +1042,19 @@
                           c3=signed2(gdp.channels[2].contribution), resid=signed2(gdp.residual)) }}</p>
     <p class="slide-aq"><span class="slide-aq-label">{{ t('slide.aq_label') }}</span> {{ t('slide.8c.aq', n=gap_decomposition.n) }}</p>
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.8c.did') }}</p>
-    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
+    <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.8c.how', n=gap_decomposition.n, n_boot=gap_decomposition.n_boot, alpha=f2(gap_decomposition.ridge_alpha), cite_ob=cite_multi(['oaxaca_1973', 'blinder_1973'])) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.8c.so') }}</p>
+    {{ closing('slide.8c', 'src/gap_decomposition.py', {'n': gap_decomposition.n}) }}
   </div>
 </section>
 {% endif %}
 
 <section class="slide" id="q9">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.9.q') }}</h2>
+    <h2 class="slide-q">{{ t('slide.9.q', n=cards | length, season=seasons.metrics) }}</h2>
     <p class="slide-a">{{ t('slide.9.a', n=cards | length) }}</p>
     <div class="slide-proof">
+      <p class="slide-read">{{ t('slide.9.read', season=seasons.metrics) }}</p>
       <details class="fold">
         <summary>{{ t('ch3.cards.rules.summary', n=cards | length) }}</summary>
         <p class="capita-note">{{ t('ch3.cards.rules', event=nt_core_event, metric=t('metric.prod')) }}</p>
@@ -1089,7 +1137,7 @@
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.9.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.9.how', season=seasons.metrics) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.9.so') }}</p>
+    {{ closing('slide.9', 'src/historical_analogs.py, src/render.py (_build_cards), src/pool_table.py', {}) }}
   </div>
 </section>
 
@@ -1109,8 +1157,8 @@
 {%- endmacro -%}
 <section class="slide" id="q10">
   <div class="container">
-    <h2 class="slide-q">{{ t('slide.10.q') }}</h2>
-    <p class="slide-a">{{ t('slide.10.a', up=season_changes.moves.up.n, down=season_changes.moves.down.n, ss_prev=season_changes.stepping.players_prev, ss_curr=season_changes.stepping.players_curr, top_prev=season_changes.top9.players_prev, top_curr=season_changes.top9.players_curr) }}</p>
+    <h2 class="slide-q">{{ t('slide.10.q', previous=season_changes.previous_label, metrics=season_changes.metrics_label) }}</h2>
+    <p class="slide-a">{{ t('slide.10.a', up=season_changes.moves.up.n, down=season_changes.moves.down.n, top_prev=season_changes.top9.players_prev, top_curr=season_changes.top9.players_curr, previous=season_changes.previous_label, metrics=season_changes.metrics_label, topn=topn) }}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="changes">
         <figcaption>{{ t('slide.10.sankey_caption') }}</figcaption>
@@ -1124,7 +1172,7 @@
         </div>
         {% endfor %}
       </div>
-      <p class="capita-note">{{ t('slide.10.tiers_note', previous=season_changes.previous_label, metrics=season_changes.metrics_label, n_prev=season_changes.n_prev, n_curr=season_changes.n_curr) }}</p>
+      <p class="capita-note">{{ t('slide.10.tiers_note', previous=season_changes.previous_label, metrics=season_changes.metrics_label, n_prev=season_changes.n_prev, n_curr=season_changes.n_curr, min=season_changes.min_minutes) }}</p>
       <div class="movers-grid changes-moves">
         {{ changes_col(t('slide.10.move_up'), season_changes.moves.up, true) }}
         {{ changes_col(t('slide.10.move_down'), season_changes.moves.down, true) }}
@@ -1139,7 +1187,7 @@
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.10.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.10.how', min=season_changes.min_minutes) }}</p>
     </details>
-    <p class="slide-so">{{ t('slide.10.so') }}</p>
+    {{ closing('slide.10', 'src/season_changes.py', {'up': season_changes.moves.up.n, 'down': season_changes.moves.down.n, 'entered': season_changes.moves.entered.n, 'left': season_changes.moves.left.n}) }}
   </div>
 </section>
 {% endif %}
@@ -1178,7 +1226,7 @@
           {% else %}
           <p class="autumn-min muted">{{ t('autumn.card.unmatched') }}</p>
           {% endif %}
-          {% if r.quote %}<p class="autumn-quote">{{ t('autumn.card.quote', quote=r.quote, gloss=r.quote_en) }}</p>{% endif %}
+          {% if r.quote %}<p class="autumn-quote">{{ t('autumn.card.quote', gloss=r.quote_en, fn=fn(r.notes)) }}</p>{% endif %}
         </li>
         {% endfor %}
       </ul>
@@ -1187,47 +1235,13 @@
       <h3 class="autumn-sources-h">{{ t('autumn.sources.h') }}</h3>
       <ol class="autumn-sources">
         {% for s in au.sources %}
-        <li id="autumn-src-{{ s.n }}">{{ s.publisher }} ({{ s.date or t('autumn.source.nd') }}). <a href="{{ s.url }}" rel="noopener">{{ s.url }}</a>, {{ t('autumn.source.accessed', date=s.accessed) }}.</li>
+        <li id="autumn-src-{{ s.n }}">{{ s.publisher }} ({{ s.date or t('autumn.source.nd') }}). <a href="{{ s.url }}" rel="noopener">{{ s.url }}</a>, {{ t('autumn.source.accessed', date=s.accessed) }}.{% if s.secondary %} {{ t('autumn.source.secondary') }}.{% endif %}{% for q in au.retirements if q.quote and s.n in q.notes %} {{ t('autumn.quote_fn', source=q.name, quote=q.quote) }}{% endfor %}</li>
         {% endfor %}
       </ol>
     </div>
   </div>
 </section>
 {% endif %}
-
-{# =============================================================================
-   FOR A FEDERATION — what a federation gets from this method, right after the
-   nine slides and before "Explore the data"
-   ============================================================================= #}
-<section class="for-federation" id="for-federation">
-  <div class="container">
-    <details class="fold fed-fold">
-      <summary>{{ t('fed.h3') }}</summary>
-    <ul class="fed-grid">
-      <li class="fed-tile"><a href="#q1">
-        <span class="fed-tile-title">{{ t('fed.benchmark.title') }}</span>
-        <span class="fed-tile-body">{{ t('fed.benchmark.body') }}</span>
-        <span class="fed-tile-used-by">{{ t('fed.benchmark.used_by') }}</span>
-      </a></li>
-      <li class="fed-tile"><a href="#pathways">
-        <span class="fed-tile-title">{{ t('fed.pathways.title') }}</span>
-        <span class="fed-tile-body">{{ t('fed.pathways.body') }}</span>
-        <span class="fed-tile-used-by">{{ t('fed.pathways.used_by') }}</span>
-      </a></li>
-      <li class="fed-tile"><a href="#q6">
-        <span class="fed-tile-title">{{ t('fed.squad.title') }}</span>
-        <span class="fed-tile-body">{{ t('fed.squad.body') }}</span>
-        <span class="fed-tile-used-by">{{ t('fed.squad.used_by') }}</span>
-      </a></li>
-      <li class="fed-tile"><a href="#methodology">
-        <span class="fed-tile-title">{{ t('fed.models.title') }}</span>
-        <span class="fed-tile-body">{{ t('fed.models.body') }}</span>
-        <span class="fed-tile-used-by">{{ t('fed.models.used_by') }}</span>
-      </a></li>
-    </ul>
-    </details>
-  </div>
-</section>
 
 {# =============================================================================
    ONE-PAGE BRIEF (Task 26E2) — the whole argument on one screen, meant to
@@ -1251,14 +1265,16 @@
         <tr>
           <th>{{ t('brief.th.number') }}</th>
           {% for c in why_funnel.countries %}<th{% if c.code == home_code %} class="cohort-cze"{% endif %}>{{ c.code }}</th>{% endfor %}
+          <th>{{ t('brief.th.n') }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>{{ t('why_funnel.stage1.metric1') }}</td>{% for cell in why_funnel.stage1.share_u21 %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
-        <tr><td>{{ t('why_funnel.stage2.metric1') }}</td>{% for cell in why_funnel.stage2.mean_age %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
-        <tr><td>{{ t('why_funnel.stage3.metric1') }}</td>{% for r in why_funnel.stage3.rows %}<td class="num">{% if r.age is none %}—{% else %}{{ g(r.age) }}{% endif %}</td>{% endfor %}</tr>
-        <tr><td>{{ t('why_funnel.stage4.metric1') }}</td>{% for cell in why_funnel.stage4.sideways %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
-        <tr><td>{{ t('why_funnel.stage5.metric1') }}</td>{% for cell in why_funnel.stage5.per_million %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}</tr>
+        {% set bn = why_funnel.brief_n or {} %}
+        <tr><td>{{ t('why_funnel.stage1.metric1') }}</td>{% for cell in why_funnel.stage1.share_u21 %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}<td class="small">{% if bn.players is defined and bn.players is not none %}{{ t('brief.n.youth', players=bn.players, clubs=bn.clubs) }}{% else %}—{% endif %}</td></tr>
+        <tr><td>{{ t('why_funnel.stage2.metric1') }}</td>{% for cell in why_funnel.stage2.mean_age %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}<td class="small">{% if bn.minutes is defined and bn.minutes is not none %}{{ t('brief.n.age', minutes='{:,}'.format(bn.minutes).replace(',', ' ')) }}{% else %}—{% endif %}</td></tr>
+        <tr><td>{{ t('why_funnel.stage3.metric1') }}</td>{% for r in why_funnel.stage3.rows %}<td class="num">{% if r.age is none %}—{% else %}{{ g(r.age) }}{% endif %}</td>{% endfor %}<td class="small">{{ t('brief.n.move', n=why_funnel.stage3.rows[0].n) if why_funnel.stage3.rows and why_funnel.stage3.rows[0].n else '—' }}</td></tr>
+        <tr><td>{{ t('why_funnel.stage4.metric1') }}</td>{% for cell in why_funnel.stage4.sideways %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}<td class="small">{{ t('brief.n.abroad', n=pathways.destinations.n_abroad) if pathways.destinations else '—' }}</td></tr>
+        <tr><td>{{ t('why_funnel.stage5.metric1') }}</td>{% for cell in why_funnel.stage5.per_million %}<td class="num">{{ funnel_cell(cell) }}</td>{% endfor %}<td class="small">{{ t('brief.n.pm', n=hero.n_players) }}</td></tr>
       </tbody>
     </table>
     {% if why_funnel.take_one_thing %}
@@ -1278,23 +1294,10 @@
       <div><dt>{{ t('brief.check.strength') }}</dt><dd>{{ t('brief.check.strength_value', median=f2(league_strength.home.median), lo=f2(league_strength.home.hdi_lo), hi=f2(league_strength.home.hdi_hi)) }}</dd></div>
       {% endif %}
       {% if big5 and big5.break_season and not big5.no_break %}
-      <div><dt>{{ t('brief.check.break') }}</dt><dd>{{ t('brief.check.break_value', season=big5.break_season, prob=pctword(big5.break_prob)) }}</dd></div>
+      <div><dt>{{ t('brief.check.break') }}</dt><dd>{{ t('brief.check.break_value', season=big5.break_season, prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}</dd></div>
       {% endif %}
     </dl>
-    <div class="brief-caveats">
-      <h3>{{ t('why_funnel.caveat.h3') }}</h3>
-      <ul>
-        <li>{{ t('why_funnel.caveat.1') }}</li>
-        <li>{{ t('why_funnel.caveat.2') }}</li>
-        <li>{{ t('why_funnel.caveat.3') }}</li>
-        <li>{{ t('why_funnel.caveat.4') }}</li>
-        {% if why_funnel.stage1.bound %}
-        <li>{{ t('why_funnel.stage1.bound',
-             lo='%.1f' | format(why_funnel.stage1.bound.lo * 100),
-             hi='%.1f' | format(why_funnel.stage1.bound.hi * 100)) }} {{ t('why_funnel.stage1.bound_starts') }}</li>
-        {% endif %}
-      </ul>
-    </div>
+    <p class="brief-limits">{{ t('brief.limits') }}</p>
     </details>
   </div>
 </section>
@@ -1312,7 +1315,7 @@
       <summary>{{ t('toc.benchmark') }}</summary>
       <div class="explore-block">
     <h3 id="benchmark">{{ t('ch1.benchmark.h3') }}</h3>
-    <p>{{ t('ch1.benchmark.p') }}</p>
+    <p>{{ t('ch1.benchmark.p', topn=topn) }}</p>
 
     {% for grp in groups %}
     <h4>{{ t('ch1.cohorts.h4', group=gt[grp] | lower) }}</h4>
@@ -1412,7 +1415,7 @@
       <summary>{{ t('toc.trajectories') }}</summary>
       <div class="explore-block">
     <h3 id="trajectories">{{ t('ch1.traj.h3', previous=seasons.previous, metrics=seasons.metrics, min=thresholds.min_minutes) }}</h3>
-    <p>{{ t('ch1.traj.p', band=f2(thresholds.direction)) }}</p>
+    <p>{{ t('ch1.traj.p', band=f2(thresholds.direction), sd=f2(journal.traj_sd), n=journal.traj_n) }}</p>
     {% for grp in groups %}
     {% set m = movers[grp] %}
     <h4>{{ t('ch1.traj.h4', group=gt[grp], n=m.n_czech, up=m.directions.improving, stable=m.directions.stable, down=m.directions.declining) }}</h4>
@@ -1511,6 +1514,23 @@
 
     <h4>{{ t('ch2.c.h3') }}</h4>
     <p>{{ t('ch2.c.p', topn=topn, season=seasons.metrics) }}</p>
+    <p class="capita-note"><strong>{{ t('ch2.c.label.min') }}</strong></p>
+    {% set fare_min_max2 = pw.fare_min | map(attribute='value') | max %}
+    <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.min') }}">
+      {% for r in pw.fare_min %}
+      <div class="capita-row" role="listitem"
+           {% if r.country == home_code %}data-highlight="cze"{% endif %}
+           style="--value: {{ r.value }}; --max: {{ fare_min_max2 }};">
+        <div class="capita-country">
+          <span class="capita-code">{{ r.country }}</span>
+          {{ term(r.name) }} <span class="muted small">n = {{ r.n }}</span>
+        </div>
+        <div class="capita-bar" aria-hidden="true"><div class="capita-bar-fill"></div></div>
+        <div class="capita-value">{{ pct(r.value) }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="capita-note"><strong>{{ t('ch2.c.label.goals') }}</strong></p>
     {% set fare_goals_max = pw.fare_goals | map(attribute='value') | max %}
     <div class="capita" role="list" aria-label="{{ t('ch2.c.aria.goals') }}">
       {% for r in pw.fare_goals %}
@@ -1600,7 +1620,7 @@
         </tbody>
       </table>
     </details>
-    <p class="capita-note">{{ t('ch2.f.note', unmatched=total_unmatched, season=squad_lens.season_label) }}</p>
+    <p class="capita-note">{{ t('ch2.f.note', unmatched=total_unmatched, season=squad_lens.season_label, total=journal.squad_total, countries=journal.squad_countries, per_country=journal.squad_unmatched) }}</p>
     {% endif %}
       </div>
     </details>
@@ -1704,7 +1724,7 @@
       {% for row in downloads %}
       <li>
         <span class="downloads-label">{{ t(row.label_key) }}</span>
-        <span class="downloads-links">{% for f in row.files %}<a href="{{ f.url }}">{{ f.name }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</span>
+        <span class="downloads-links">{% for f in row.files %}<a href="{{ f.url }}">{{ f.name }}</a>{% if f.sha256 %} <code class="small" title="{{ t('downloads.hash') }}">{{ f.sha256 }}</code>{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}</span>
       </li>
       {% endfor %}
     </ul>
@@ -1730,13 +1750,16 @@
     <h2 id="methodology">{{ t('ch4.h2') }}</h2>
 
     <h3 id="data-sources">{{ t('ch4.sources.h3') }}</h3>
+    <p class="slide-meta">{{ t('page.meta', fetched=journal.fetched, snapshot=journal.snapshot_commit, code='src/, config/') }}</p>
     <ul>
-      <li>{{ t('ch4.sources.fbref', topn=topn) }}</li>
-      <li>{{ t('ch4.sources.wikipedia', events=facts.nt_events) }}</li>
-      <li>{{ t('ch4.sources.wikidata') }}</li>
-      <li>{{ t('ch4.sources.uefa') }}</li>
-      <li>{{ t('ch4.sources.eurostat') }}</li>
+      <li>{{ t('ch4.sources.fbref', topn=topn, sd=journal.soccerdata, fetched=journal.fetched, history=journal.history) }} {{ cite_multi(['fbref_2026', 'soccerdata_2026']) }}</li>
+      <li>{{ t('ch4.sources.wikipedia', events=facts.nt_events, accessed=journal.squads_accessed) }} {{ cite.wikipedia_squads_2026 }}</li>
+      <li>{{ t('ch4.sources.wikidata') }} {{ cite.wikidata_2026 }}</li>
+      <li>{{ t('ch4.sources.uefa', accessed=journal.uefa_accessed, window=journal.uefa_window) }} {{ cite.uefa_coefficients_2026 }}</li>
+      <li>{{ t('ch4.sources.eurostat', accessed=journal.population_accessed) }} {{ cite.eurostat_demo_pjan }}</li>
     </ul>
+    <h3 id="data-availability">{{ t('ch4.availability.h3') }}</h3>
+    <p>{{ t('ch4.availability.p', nation_dir=home_code | lower, snapshot=journal.snapshot_commit) }}</p>
 
     {% if feature_eda.raw_row %}
     <h3 id="features-from-raw">{{ t('ch4.eda.h3') }}</h3>
@@ -2293,10 +2316,9 @@
                 coverage=pct(model_comparison.bayesian_pooled_coverage)) }}</li>
       {% endif %}
       {% if league_strength.leagues %}
+      {% set lpd = [] %}{% for r in league_strength.oos.rows %}{% set _ = lpd.append(r.method_label ~ ' ' ~ f3(r.log_pred_density)) %}{% endfor %}
       <li>{{ t('ch4.validation.m2', rhat=f3(league_strength.diagnostics.max_rhat), div=league_strength.diagnostics.n_divergences,
-                oos_winner=(league_strength.oos.winner.method_label if league_strength.oos.winner else '—'),
-                oos_logpd=(f3(league_strength.oos.winner.log_pred_density) if league_strength.oos.winner else '—'),
-                rho=f2(league_strength.spearman.rho)) }}</li>
+                lpd=(lpd | join('; ')), rho=f2(league_strength.spearman.rho)) }}</li>
       {% endif %}
       {% if series_model.break %}
       <li>{{ t('ch4.validation.m3', season=series_model.break.season, prob=pct(series_model.break.prob),
@@ -2327,86 +2349,14 @@
       {% endif %}
     </ul>
 
+    {# retired sections' anchors (build flow, tracking demo, removed 29 September 2026) land here #}
+    <span id="how-built"></span><span id="tracking"></span>
     <h3 id="reproducibility">{{ t('ch4.repro.h3') }}</h3>
-    <p>{{ t('ch4.repro.p', url=repo_url, url_short=repo_url | replace('https://', ''), seed=seed) }}</p>
+    <p>{{ t('ch4.repro.p', url=repo_url, url_short=repo_url | replace('https://', ''), seed=seed, snapshot=journal.snapshot_commit, fetched=journal.fetched) }}</p>
     <p>{{ t('ch4.repro.bq', url=repo_url) }}</p>
 
-    <h3 id="how-built">{{ t('ch4.built.h3') }}</h3>
-    <details class="fold">
-      <summary>{{ t('ch4.built.summary', n_rulings=facts.n_rulings, n_tests=facts.n_tests) }}</summary>
-      <p>{{ t('ch4.built.p1', n_rulings=facts.n_rulings, n_tests=facts.n_tests) }}</p>
-      <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
-        <title id="build-diagram-title">{{ t('ch4.built.svg.title') }}</title>
-        <desc id="build-diagram-desc">{{ t('ch4.built.svg.desc', n_rulings=facts.n_rulings, n_tasks=facts.n_tasks) }}</desc>
-        <defs>
-          <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
-          </marker>
-        </defs>
-        <style>
-          .bp-node rect{stroke-width:1.4}
-          .bp-author rect{fill:var(--cream-100);stroke:var(--rule)}
-          .bp-sonnet rect{fill:var(--cream-100);stroke:var(--navy-700)}
-          .bp-opus rect{fill:var(--cream-100);stroke:var(--oxblood-700)}
-          .bp-label{font-family:var(--font-display);font-size:15px;fill:var(--ink);text-anchor:middle}
-          .bp-sub{font-family:var(--font-sans);font-size:10px;fill:var(--ink-soft);text-anchor:middle}
-          .bp-badge{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:.04em;text-anchor:end}
-          .bp-badge-sonnet{fill:var(--navy-700)}
-          .bp-badge-opus{fill:var(--oxblood-700)}
-          .bp-arrow{stroke:var(--muted);stroke-width:1.4}
-          .bp-arrowhead{fill:var(--muted)}
-          .bp-ledger rect{fill:var(--cream-100);stroke:var(--oxblood-700);stroke-width:1.4}
-          .bp-ledger-label{font-family:var(--font-sans);font-size:10px;font-weight:700;letter-spacing:.08em;fill:var(--oxblood-700);text-anchor:middle}
-          .bp-ledger-count{font-family:var(--font-mono);font-size:13px;fill:var(--ink);text-anchor:middle}
-          .bp-conn{stroke:var(--oxblood-700);stroke-width:1.1;stroke-dasharray:2.5,2.5;fill:none}
-        </style>
-        <line x1="420" y1="284" x2="440" y2="248" class="bp-conn"/>
-        <line x1="420" y1="452" x2="440" y2="282" class="bp-conn"/>
-        <g class="bp-node bp-author"><rect x="20" y="10" width="400" height="44" rx="3"/>
-          <text x="220" y="37" class="bp-label">{{ t('ch4.built.flow.spec') }}</text></g>
-        <line x1="220" y1="54" x2="220" y2="90" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-author"><rect x="20" y="94" width="400" height="44" rx="3"/>
-          <text x="220" y="121" class="bp-label">{{ t('ch4.built.flow.plan') }}</text></g>
-        <line x1="220" y1="138" x2="220" y2="174" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="178" width="400" height="44" rx="3"/>
-          <text x="210" y="205" class="bp-label">{{ t('ch4.built.flow.agent') }}</text>
-          <text x="392" y="192" class="bp-badge bp-badge-sonnet">{{ build_process.implementers | upper }}</text></g>
-        <line x1="220" y1="222" x2="220" y2="258" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="262" width="400" height="44" rx="3"/>
-          <text x="210" y="284" class="bp-label">{{ t('ch4.built.flow.task_review') }}</text>
-          <text x="210" y="298" class="bp-sub">{{ t('ch4.built.flow.task_review_sub') }}</text>
-          <text x="392" y="276" class="bp-badge bp-badge-sonnet">{{ build_process.reviewers | upper }}</text></g>
-        <line x1="220" y1="306" x2="220" y2="342" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="346" width="400" height="44" rx="3"/>
-          <text x="210" y="373" class="bp-label">{{ t('ch4.built.flow.fix_rounds', n=build_process.max_fix_rounds) }}</text>
-          <text x="392" y="360" class="bp-badge bp-badge-sonnet">{{ build_process.implementers | upper }}</text></g>
-        <line x1="220" y1="390" x2="220" y2="426" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="430" width="400" height="44" rx="3"/>
-          <text x="210" y="457" class="bp-label">{{ t('ch4.built.flow.whole_branch_review') }}</text>
-          <text x="392" y="444" class="bp-badge bp-badge-sonnet">{{ build_process.reviewers | upper }}</text></g>
-        <line x1="220" y1="474" x2="220" y2="510" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-opus"><rect x="20" y="514" width="400" height="44" rx="3"/>
-          <text x="210" y="541" class="bp-label">{{ t('ch4.built.flow.deploy') }}</text>
-          <text x="392" y="528" class="bp-badge bp-badge-opus">{{ build_process.controller | upper }}</text></g>
-        <g class="bp-ledger"><rect x="440" y="210" width="150" height="70" rx="3"/>
-          <text x="515" y="233" class="bp-ledger-label">{{ t('ch4.built.flow.ledger') }}</text>
-          <text x="515" y="256" class="bp-ledger-count">{{ t('ch4.built.svg.rulings', n=facts.n_rulings) }}</text></g>
-      </svg>
-      <p class="build-diagram-legend">{{ t('ch4.built.legend', impl=build_process.implementers, rev=build_process.reviewers, ctrl=build_process.controller) }}</p>
-      <p>{{ t('ch4.built.peer_review', n_reviews=facts.n_reviews, n_tasks=facts.n_tasks) }}</p>
-      <p>{{ t('ch4.built.p2', spec=spec_url, plan=plan_url, ledger=ledger_url) }}</p>
-      {% if how_built_links %}
-      <p>{{ t('ch4.built.p3') }}
-        {% for link in how_built_links %}{% if link.spec_url %}<a href="{{ link.spec_url }}">{{ link.edition }} {{ t('ch4.built.spec_word') }}</a>{% endif %}{% if link.spec_url and link.ledger_url %} · {% endif %}{% if link.ledger_url %}<a href="{{ link.ledger_url }}">{{ link.edition }} {{ t('ch4.built.ledger_word') }}</a>{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}.</p>
-      {% endif %}
-    </details>
-
-    <h3 id="tracking">{{ t('ch4.tracking.h3') }}</h3>
-    <p class="plain">{{ t('ch4.tracking.plain') }}</p>
-    <figure class="figure-bleed" data-chart="tracking">
-      <figcaption>{{ t('ch4.tracking.caption', cite=cite.skillcorner_2025) }}</figcaption>
-    </figure>
-    <p>{{ t('ch4.tracking.p') }}</p>
+    <h3 id="checks">{{ t('toc.checks') }}</h3>
+    <p>{{ t('ch4.checks.p', n_tests=facts.n_tests) }}</p>
 
     <h3 id="related-methods">{{ t('ch4.related.h3') }}</h3>
     <p>{{ t('ch4.related.intro') }}</p>
@@ -2443,6 +2393,12 @@
       <div><dt>{{ t('glossary.oos.term') }}</dt><dd>{{ t('glossary.oos.def') }}</dd></div>
       <div><dt>{{ t('glossary.cluster.term') }}</dt><dd>{{ t('glossary.cluster.def') }}</dd></div>
       <div><dt>{{ t('glossary.changepoint.term') }}</dt><dd>{{ t('glossary.changepoint.def') }}</dd></div>
+      <div><dt>{{ t('glossary.hdi.term') }}</dt><dd>{{ t('glossary.hdi.def') }}</dd></div>
+      <div><dt>{{ t('glossary.top9.term') }}</dt><dd>{{ t('glossary.top9.def') }}</dd></div>
+      <div><dt>{{ t('glossary.export_age.term') }}</dt><dd>{{ t('glossary.export_age.def') }}</dd></div>
+      <div><dt>{{ t('glossary.pools.term') }}</dt><dd>{{ t('glossary.pools.def') }}</dd></div>
+      <div><dt>{{ t('glossary.sideways.term') }}</dt><dd>{{ t('glossary.sideways.def') }}</dd></div>
+      <div><dt>{{ t('glossary.stepping.term') }}</dt><dd>{{ t('glossary.stepping.def') }}</dd></div>
     </dl>
 
     <h3 id="references">{{ t('ch4.refs.h3') }}</h3>
@@ -2461,9 +2417,43 @@
 <section class="close" id="close">
   <div class="container">
     <p class="close-kicker">{{ t('close.kicker') }}</p>
-    <p class="close-statement">{{ t('close.statement', pm=f2(hero.per_million), rank=ordinal(hero.rank), n=hero.n_peers) }}</p>
-    <p class="close-line">{{ t('close.line') }}</p>
     <p class="close-links"><a href="#brief">{{ t('close.link.brief') }}</a> · <a href="#pool">{{ t('close.link.pool') }}</a> · <a href="#downloads">{{ t('close.link.data') }}</a>{% if home_code == 'CZE' %} · <a href="/eng/">{{ t('close.link.eng') }}</a>{% else %} · <a href="/">{{ t('close.link.cze') }}</a>{% endif %}</p>
+  </div>
+</section>
+
+<section class="contribution" id="contribution">
+  <div class="container">
+    <h2>{{ t('front.contribution.h2') }}</h2>
+    <p>{{ t('front.contribution.p', topn=topn, cite_larsen=cite.larsen_et_al_2013, cite_gullich=cite.gullich_2014, cite_relvas=cite.relvas_et_al_2010, cite_helsen=cite.helsen_van_winckel_williams_2005, cite_cies=cite.poli_ravenel_besson_2024) }}</p>
+  </div>
+</section>
+
+<section class="colophon" id="colophon">
+  <div class="container">
+    <ul class="meta-block" aria-label="{{ t('front.meta.aria') }}">
+      <li>{{ t('front.meta.published', published=journal.published, updated=journal.updated, version=journal.version) }}</li>
+      {% set pr0 = predictions[0] if predictions else none %}
+      <li>{{ t('front.meta.status', status=journal.status, season=(pr0.target_season | replace('-', '/') | replace('/20', '/')) if pr0 else '—', commit=pr0.registered_commit if pr0 else '—', date=(pr0.registered_on_long or pr0.registered_on) if pr0 else '—') }}</li>
+      <li>{{ t('front.meta.data', soccerdata=journal.soccerdata, fetched=journal.fetched, history=journal.history, population=journal.population, snapshot=journal.snapshot_commit) }}</li>
+      <li>{{ t('front.meta.code', repo=repo_url, repo_short=repo_url | replace('https://', ''), snapshot=journal.snapshot_commit) }}</li>
+      <li>{{ t('front.meta.cite', title=t('front.title'), url=journal.url, version=journal.version) }}</li>
+      <li>{{ t('front.meta.licence') }}</li>
+    </ul>
+  </div>
+</section>
+
+<section class="citelog" id="citelog">
+  <div class="container">
+    <h2 id="how-to-cite">{{ t('front.cite.h2') }}</h2>
+    <p>{{ t('front.cite.p', title=t('front.title'), url=journal.url, version=journal.version, repo=repo_url, repo_short=repo_url | replace('https://', ''), snapshot=journal.snapshot_commit) }}</p>
+    <h2 id="changelog">{{ t('front.changelog.h2') }}</h2>
+    <ul class="changelog">
+      {% for e in journal.changelog %}
+      <li><span class="mono">{{ e.date }}</span>
+        <ul>{% for it in e["items"] %}<li>{{ it | safe }}</li>{% endfor %}</ul>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
 </section>
 

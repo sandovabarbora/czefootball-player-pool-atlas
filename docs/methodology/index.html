@@ -6,18 +6,18 @@
   <meta name="atlas-split" content="1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Methodology · Czech football · Player pool atlas</title>
-  <meta name="description" content="Structural benchmark of the Czech professional football player pool against 8 peer countries: per-capita density in Europe's strongest leagues, cohort gaps, PCA atlases by position group, pathways abroad. Descriptive, reproducible, public data only.">
+  <meta name="description" content="The Czech professional football player pool against 8 peer countries: players per head in Europe's top-ranked leagues, cohort counts, youth minutes at home, moves abroad and the national-team squad. Exploratory and descriptive, from public data; not pre-registered.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202609291755">
-  <link rel="stylesheet" href="../modern.css?v=202609291755">
+  <link rel="stylesheet" href="../style.css?v=202609300210">
+  <link rel="stylesheet" href="../modern.css?v=202609300210">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../charts.js?v=202609291755"></script>
-  <script defer src="../atlas.js?v=202609291755"></script>
+  <script defer src="../charts.js?v=202609300210"></script>
+  <script defer src="../atlas.js?v=202609300210"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -29,20 +29,20 @@
     <details class="topbar-q">
       <summary>Questions</summary>
       <ol class="topbar-q-list">
-        <li><a href="../q/why/">Why the train left</a></li>
-        <li><a href="../q/per-head/">Is the pool thin?</a></li>
-        <li><a href="../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../q/why/">Five pathway measures: Czechia, Norway and Denmark, 2025/26</a></li>
+        <li><a href="../q/per-head/">Players per million</a></li>
+        <li><a href="../q/cohorts/">Cohort counts</a></li>
         <li><a href="../q/youth/">Youth minutes at home</a></li>
-        <li><a href="../q/abroad/">Where they go</a></li>
-        <li><a href="../q/leaving-late/">Does leaving later cost anything?</a></li>
-        <li><a href="../q/fare/">How they fare</a></li>
-        <li><a href="../q/national-team/">National-team squad</a></li>
-        <li><a href="../q/break/">When the train left</a></li>
+        <li><a href="../q/abroad/">Destinations abroad</a></li>
+        <li><a href="../q/leaving-late/">Age at the first top-9 season and output over the first two seasons, 115 exports</a></li>
+        <li><a href="../q/fare/">Minutes share abroad</a></li>
+        <li><a href="../q/national-team/">National-team squad by tier</a></li>
+        <li><a href="../q/break/">Big-5 count and its steps</a></li>
         <li><a href="../q/peers/">Norway and Denmark</a></li>
         <li><a href="../q/goalkeepers/">Goalkeepers</a></li>
-        <li><a href="../q/gap/">What the gap is made of</a></li>
-        <li><a href="../q/cards/">Who the players are</a></li>
-        <li><a href="../q/changes/">What changed in a year</a></li>
+        <li><a href="../q/gap/">Gap decomposition</a></li>
+        <li><a href="../q/cards/">Showcase cards and the pool</a></li>
+        <li><a href="../q/changes/">Change since last season</a></li>
       </ol>
     </details>
     <a href="../this-autumn/">This autumn</a>
@@ -65,11 +65,12 @@
     <span class="toc-toggle-glyph" aria-hidden="true"></span>
   </button>
   <p class="toc-heading">Contents</p><ol>
-    <li><a href="#methodology">How it is built, validated and where it stops</a>
+    <li><a href="#methodology">Methodology, data and limitations</a>
       <ol>
+          <li><a href="#data-availability">Data availability</a></li>
           <li><a href="#multipliers">League multipliers</a></li>
           <li><a href="#league-strength">League strength</a></li>
-          <li><a href="#model-comparison">Three models, one task, five seasons</a></li>
+          <li><a href="#model-comparison">Five methods, one task, five seasons</a></li>
           <li><a href="#series-model">Dating the break and one forecast</a></li>
           <li><a href="#youth-panel">Cross-country youth-minutes panel</a></li>
           <li><a href="#gap-decomposition">What the gap is made of</a></li>
@@ -80,7 +81,6 @@
           <li><a href="#limitations">Limitations</a></li>
           <li><a href="#validation-robustness">Validation & robustness</a></li>
           <li><a href="#reproducibility">Reproducibility</a></li>
-          <li><a href="#tracking">What tracking data would add</a></li>
           <li><a href="#related-methods">Related methods</a></li>
           <li><a href="#glossary">Glossary</a></li>
           <li><a href="#references">References</a></li>
@@ -92,22 +92,25 @@
 <aside class="chapter-divider" role="separator" aria-label="Chapter IV">
   <p class="chapter-numeral">IV</p>
   <span class="chapter-mark" aria-hidden="true"></span>
-  <p class="chapter-title">How it is built, validated and where it stops</p>
-  <p class="chapter-synopsis">A replicable pipeline: data sources, league multipliers, Bayesian shrinkage, PCA loadings, sensitivity analysis. Limitations and reproducibility.</p>
+  <p class="chapter-title">Methodology, data and limitations</p>
+  <p class="chapter-synopsis">Data sources and availability, the models behind the numbers, all limitations in one place, reproduction and references.</p>
 </aside>
 
 <section class="methodology">
   <div class="container">
-    <h2 id="methodology">How it is built, validated and where it stops</h2>
+    <h2 id="methodology">Methodology, data and limitations</h2>
 
     <h3 id="data-sources">Data sources</h3>
+    <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit 7cbfe45 · code: <code>src/, config/</code> · status: exploratory, not pre-registered · <a href="#limitations">all limitations</a></p>
     <ul>
-      <li><strong>FBref</strong> (via <code>soccerdata</code>): player season tables (standard, playing time) for the 9 headline leagues, the Czech First League, the peer domestic leagues and the German second tier; the country page "Players from Czechia" for pool discovery; the nationality column for peer counts</li>
-      <li><strong>Wikipedia</strong>: national-team squad tables (2024–25 Nations League, 2026 FIFA World Cup, 2026 World Cup qualification, UEFA Euro 2024, UEFA European Under-21 Championship 2025) for the call-up flag</li>
-      <li><strong>Wikidata / Wikimedia Commons</strong>: player portraits (P18) matched on name, citizenship and date of birth; credits in the footer</li>
-      <li><strong>UEFA association coefficients</strong> (via Wikipedia) as the league-strength source, ClubElo being unreachable at run time</li>
-      <li><strong>Eurostat</strong>: population estimates, 2024</li>
+      <li><strong>FBref</strong> (Sports Reference), read with <code>soccerdata</code> 1.9.1: player season tables (standard, playing time) for the 9 headline leagues, the Czech First League, the peer domestic leagues and the German second tier; the country page "Players from Czechia" for pool discovery; the nationality column for peer counts. Season tables fetched 14 September 2026; the Big-5 history back to 1995/96 is in the snapshot committed 22 September 2026 (Sports Reference, 2026; Robberechts, 2026)</li>
+      <li><strong>Wikipedia</strong>: national-team squad tables (2024–25 Nations League, 2026 FIFA World Cup, 2026 World Cup qualification, UEFA Euro 2024, UEFA European Under-21 Championship 2025), accessed 14 September 2026; text under CC BY-SA 4.0 (Wikipedia contributors, 2026)</li>
+      <li><strong>Wikidata / Wikimedia Commons</strong>: player portraits (P18) matched on name, citizenship and date of birth; Wikidata is CC0, each Commons file carries its own licence (credits in the footer) (Wikidata contributors, 2026)</li>
+      <li><strong>UEFA association coefficients</strong>, men’s five-season ranking (2022/23–2026/27, as published on the fetch date), primary source uefa.com, read from Wikipedia’s transcription of UEFA’s table on 14 September 2026 because ClubElo was unreachable; ranks 1–9 of that ranking are exactly the nine headline leagues (England, Italy, Spain, Germany, France, Portugal, Belgium, the Netherlands, Türkiye) (UEFA, 2026)</li>
+      <li><strong>Eurostat</strong>: population on 1 January 2024, table demo_pjan, accessed 14 September 2026; reuse under the European Commission’s reuse policy with attribution (Eurostat, 2024)</li>
     </ul>
+    <h3 id="data-availability">Data availability</h3>
+    <p>The processed tables behind every page are committed in the public repository under <code>data/snapshot/cze/</code> (snapshot commit 7cbfe45) and listed with their SHA-256 prefixes under <a href="#downloads">Download the tables</a>. Raw FBref pages are not redistributed; FBref’s own terms of use apply to its data. Squad lists from Wikipedia are CC BY-SA 4.0 and are credited as such; Wikidata is CC0; Eurostat data are reused with attribution; the UEFA coefficients are public rankings quoted with their source. League or club headshots are not used: a portrait appears only where a Wikimedia Commons file exists, credited in the footer with a link to its file page. The atlas’s own text, figures and data are CC BY 4.0 and its code MIT.</p>
 
     
     <h3 id="features-from-raw">From raw tables to a feature vector</h3>
@@ -475,7 +478,7 @@
         </tr>
         
         <tr>
-          <td>Model</td>
+          <td>Transfer-graph model</td>
           <td>−2.174</td>
           <td>0.127</td>
         </tr>
@@ -510,7 +513,7 @@
     
 
     
-    <h3 id="model-comparison">Three models, one task, five seasons</h3>
+    <h3 id="model-comparison">Five methods, one task, five seasons</h3>
     <p class="plain">Here we ask a simple question of five different methods: given a player's numbers this season, how well can each one guess his numbers next season. Each method is tested only on seasons it has not already seen, the way a scout's judgement only really counts for what he predicts before a season starts, not after it has finished.</p>
     <details class="fold method-body">
       <summary>Full method, figures and diagnostics</summary>
@@ -629,7 +632,7 @@
     <p class="plain">This section finds the two seasons when the count of home-nation players in Europe's five biggest leagues changed level for good — the rise and the fall — and puts a probability on each being the true turning point rather than an ordinary dip. It also makes one forecast for next season, as a demonstration of the method, not a prediction about any player.</p>
     <details class="fold method-body">
       <summary>Full method, figures and diagnostics</summary>
-    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus two ordered step changes δ₁, δ₂ in the level at unknown seasons τ₁ < τ₂ — on the series back to 1990/91 one step is misspecified, since the count rises through the 1990s and falls after the 2000s plateau, and a single step lands on whichever change buys more likelihood. NUTS only samples continuous parameters, so the τ pair is not sampled directly — every ordered pair of candidate seasons at least 3 seasons from either end and from each other is marginalised out of the model with a single log-sum-exp potential, and each break's own posterior is recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, two-break setting. The report's "break" is the step that lowers the level; the other is the rise. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
+    <p>The series is modelled as a local level in state space (Durbin and Koopman, 2012): the log of the season count follows a Gaussian random walk (σ ~ HalfNormal(0.2)), plus two ordered step changes δ₁, δ₂ in the level at unknown seasons τ₁ < τ₂ — on the series since 1995/96 one step is misspecified wherever the count both rises and falls, and a single step lands on whichever change buys more likelihood. NUTS only samples continuous parameters, so the τ pair is not sampled directly — every ordered pair of candidate seasons at least 3 seasons from either end and from each other is marginalised out of the model with a single log-sum-exp potential, and each break's own posterior is recovered afterwards from the continuous draws, the standard move for a marginalised discrete parameter (Gelman et al., 2013); the changepoint idea itself is due to (Adams and MacKay, 2007), applied here to a batch, two-break setting. The report's "break" is the step that lowers the level; the other is the rise. Each step is dated to the season where its own marginal posterior peaks, and a step within ±5 % of no change is not dated. A rolling-origin backtest (Hyndman and Athanasopoulos, 2021) refits the same local level without the step at each of 15 origins, forecasting one season ahead and scoring against the naive "same as last season" baseline — the honest forecaster's read, since no real origin knows in advance which side of a break it sits on. The one forecast below, from the same change-point-free model fitted on the full series, is a demonstration of the method on a count of players, not a statement about any player.</p>
     <figure class="figure-bleed">
       <img src="../series_model.svg" alt="Line chart of the Czechia series with the change-point model's fitted level in a pale green band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
       <figcaption>How to read it: the black dots are the observed count, the pale green band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
@@ -776,7 +779,7 @@
     <p class="plain">This section asks whether the pattern from the funnel above — countries that give young players more minutes at home tend to have a deeper pool in the strongest leagues — holds up across every country in the comparison set, not only the two shown earlier. Two seasons and a handful of countries is a small sample, so the range around the estimate is wide.</p>
     <details class="fold method-body">
       <summary>Full method, figures and diagnostics</summary>
-    <p>For each of the 8 peer countries, the 2024/25 → 2025/26 average U21 share of domestic-league minutes (x) against the 2024/25 → 2025/26 average top-9 players per million (y) — one row per country. A Bayesian simple regression, y ~ Normal(α + β·x, σ), weakly informative priors (4 chains × 1000 draws (Abril-Pla et al., 2023)), answers the between-country question slide 3 asks: does a country with a higher average U21 share also have a deeper pool, on average (Gelman et al., 2013). Cross-checked against a plain pooled least-squares slope on the full two-season panel (numpy polyfit, ignoring country structure entirely, 1000 percentile-bootstrap resamples — statsmodels is not a dependency here), which should agree in sign. Two seasons per country (previous and metrics; the current season is partial and left out); a peer whose top flight FBref does not track is absent from the panel, which is why n can be below the peer count.</p>
+    <p>For each of the 8 peer countries, the 2024/25 → 2025/26 average U21 share of domestic-league minutes (x) against the 2024/25 → 2025/26 average top-9 players per million (y), one row per country. A Bayesian simple regression, y ~ Normal(α + β·x, σ), weakly informative priors (4 chains × 1000 draws (Abril-Pla et al., 2023)), answers the between-country question of the youth-minutes page: does a country with a higher average U21 share also have a deeper pool, on average (Gelman et al., 2013). Cross-checked against a plain pooled least-squares slope on the full two-season panel (numpy polyfit, ignoring country structure entirely, 1000 percentile-bootstrap resamples; statsmodels is not a dependency here), which should agree in sign. Two seasons per country (previous and metrics; the current season is partial and left out); a peer whose top flight FBref does not track is absent from the panel, which is why n can be below the peer count.</p>
     <figure class="figure-bleed">
       <img src="../youth_panel.svg" alt="Scatter of the panel with the between-country fitted line and its 90 % band.">
     </figure>
@@ -871,7 +874,7 @@
     <p>Ridge regression (α = 1.00, standardised channels, converted back to original units) of top-9 players per million on three channels — U21 share of domestic minutes, domestic league strength (<a href="#league-strength">M2's m_L</a> where the country's top flight is in that model's fitted set, else the UEFA-coefficient multiplier (every country in this run used the model estimate)) and median export age (recent entrants, or the all-time median for a country with none recently) — over the 8 peer countries with data on all three channels, metrics season. For one contrast country at a time, the fitted model's own prediction splits the gap exactly into one term per channel — the linear-model form of the Blinder-Oaxaca wage decomposition (Oaxaca, 1973; Blinder, 1973), applied here to a per-capita player count. Three linear channels means this split is Shapley-equivalent: the Shapley value of an additive term in a linear model equals its own coefficient's contribution, so no permutation machinery is implemented. The residual is whatever the three channels do not carry.</p>
     <figure class="figure-bleed">
       <img src="../gap_decomposition.svg" alt="Horizontal stacked bar per contrast country: three channel contributions plus the residual; whiskers show each channel's bootstrap interval.">
-      <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and Czechia. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment can be negative when the channel works the other way.</figcaption>
+      <figcaption>How to read it: the whole bar is the gap in players per million between the comparison country and Czechia. Each segment is how much of that gap goes with one measured channel — youth minutes, league strength, export age — under the decomposition; the hatched remainder is what the three channels do not carry. A segment is negative where the fitted term for that channel predicts fewer players per million for the comparison country than for Czechia.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr>
@@ -955,13 +958,13 @@
     
     
     <h3 id="export-age-model">Age at export</h3>
-    <p class="plain">Players who move abroad younger tend to end up producing more once they are there, but that is not necessarily because moving young helps a career: clubs are also more willing to take a chance on a player they already rate highly at a younger age. This section fits a curve to that pattern while trying to hold the strength of the player's original league fixed, but it cannot fully tell the two explanations apart.</p>
+    <p class="plain">This section asks whether players who reach one of the top-ranked leagues younger produce more there in their first two seasons, holding the strength of the league they came from fixed. Clubs are also more willing to take an early chance on a player they already rate highly, so the curve cannot separate that selection from any effect of leaving young.</p>
     <details class="fold method-body">
       <summary>Full method, figures and diagnostics</summary>
     <p>For every peer-nationality player (home nation included) whose first top-9-league season lies inside the fetched window and isn't censored (the same censoring rule as "Where do Czech players go when they leave?", reused here) — 115 players, ages 17–31 — age at that season is modelled against league-adjusted production over the player's first one or two top-9 seasons. f(age) is a natural cubic spline with knots at 19, 21, 23 and 25 (a plain quadratic below n = 150; the quadratic branch was used here), alongside origin-league strength (the transfer-graph model, <a href="#league-strength">§ League strength</a>), position and a partially pooled country effect (Gelman et al., 2013), sampled with NUTS (Hoffman and Gelman, 2014), 4 chains × 1000 draws; every design column and the outcome were standardised before fitting, the youth-minutes panel's own lesson about raw-scale priors on differently-scaled covariates.</p>
     <figure class="figure-bleed">
       <img src="../export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, home-nation exports as green points against every other peer export in grey, and a rug of every export's age along the axis.">
-      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Green dots are Czech exports — hover for the name.</figcaption>
+      <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means no measurable difference in output by arrival age. Green dots are Czech exports — hover for the name.</figcaption>
     </figure>
     <table class="kv-table">
       <thead><tr><th>Age</th><th>Expected G+A/90 (median)</th><th>90 % HDI</th></tr></thead>
@@ -1704,34 +1707,52 @@
       <p>Every wrangling decision that changed a count, with the count. The first block is recomputed on every run; the second is the incident record (dates and counts as recorded at the time).</p>
       <table class="dq-table"><thead><tr><th>Check</th><th>Count</th><th>What it counts</th></tr></thead>
       <tbody><tr><td>Women&#39;s entries filtered</td><td class="num">92 entries</td><td>FBref country-page entries dropped for a surname ending in -ová (see Limitations).</td></tr><tr><td>Namesakes in the pool</td><td class="num">2 players</td><td>Active pool players sharing a normalised name (e.g. father and son), disambiguated by club.</td></tr><tr><td>Pool players without season tables</td><td class="num">125 players</td><td>Czech professionals on FBref&#39;s country page who play in a league without season tables and carry no metrics.</td></tr><tr><td>Split-season rows collapsed</td><td class="num">441 rows</td><td>Player-season-group rows merged into one after a mid-season transfer (minutes summed, rates minutes-weighted).</td></tr><tr><td>Unmatched call-up names</td><td class="num">18 names</td><td>National-team squad-table names that match no Czech-eligible row in the feature tables.</td></tr><tr><td>Missing birth years</td><td class="num">0 rows</td><td>Season-table rows of nation CZE with no birth year, which cannot form a player_key.</td></tr><tr><td>Unjoined goalkeeper rows</td><td class="num">12 rows</td><td>Keeper-page rows with no matching GK row in the season tables on (league, season, team, player_key); dropped from every goalkeeper exhibit.</td></tr><tr><td>Czech First League rows without a nationality</td><td class="num">232 rows</td><td>Season-table rows in the Czech First League where FBref records no nationality — the highest rate of any league in this pipeline. Every “own nationals” share reads that column as its numerator while the denominator keeps the league’s full minutes, so those shares are floors, not point estimates.</td></tr></tbody></table>
-      <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li><li><span class="mono">2026-09-14</span> The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); caught in review. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model&#39;s margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported.</li></ul>
+      <ul class="dq-events"><li><span class="mono">2026-09-14</span> A stale FBref season index made soccerdata fetch the season-less URL, which FBref serves as the season in progress: nine leagues&#39; 2025/26 tables were 2026/27 after four rounds. Fixed by checking the page&#39;s own heading against the requested season. <span class="mono">(9 leagues, recorded)</span></li><li><span class="mono">2026-09-14</span> FBref intermittently served a squads-only page (no season table yet) for a season still in progress. Fixed by a single refetch, in the same page-heading guard.</li><li><span class="mono">2026-09-13</span> ClubElo&#39;s API answered 502 for the whole run; league multipliers fell back to UEFA association coefficients.</li><li><span class="mono">2026-09-13</span> The Wikidata portrait query matched on name, citizenship and birth date only; seven portraits belonged to namesakes in other sports until an occupation filter was added. <span class="mono">(7 portraits, recorded)</span></li><li><span class="mono">2026-09-13</span> Slovakia&#39;s top flight is not on FBref at all; this report&#39;s Slovak exhibits rest entirely on players abroad.</li><li><span class="mono">2026-09-14</span> The first out-of-sample comparison of the league-strength model applied the UEFA-multiplier baseline in the wrong direction and started both baselines from a raw previous-season rate (a zero-goal season predicted zero); found before publication. Corrected: multiplier ratio m_prev / m_new, baselines from the shrunk rate. The model&#39;s margin over the baselines shrank from about 3 nats to 0.5 and is the figure reported.</li></ul>
     </details>
     
 
     <h3 id="limitations">Limitations of this analysis</h3>
     <div class="limitations">
       
-      <details class="fold fold-lim" open><summary>Leagues without metrics</summary><p>The pipeline fetches 19 competitions from FBref. 125 of the 440 Czech professionals found on FBref's country page play in a league without season tables and carry no metrics; they are listed by name and club only. The Czech second tier and the Slovak top flight are not on FBref at all; Slovakia's exhibits in chapter II therefore rest on its players abroad.</p></details>
+      <details class="fold fold-lim" open><summary>No market values, no scouting</summary><p>Transfer fees, market values, video and scouting reports are outside the public sources used here. The atlas describes statistical footprints and counts; it makes no selection or development recommendation.</p></details>
+      
+      <details class="fold fold-lim"><summary>Money</summary><p>Transfer fees, wages and academy budgets play no part in any number in the atlas.</p></details>
+      
+      <details class="fold fold-lim"><summary>Academies and coaching</summary><p>How academies and coaching work day to day is invisible to every public source used here.</p></details>
+      
+      <details class="fold fold-lim"><summary>Agents and how moves happen</summary><p>How a move abroad is arranged, and by whom, happens off every table this pipeline reads.</p></details>
+      
+      <details class="fold fold-lim"><summary>Direction of the arrow</summary><p>A low share of playing time for young players at home could help cause a thin generation or be a symptom of one; every pathway measure is an association measured the same way for every country.</p></details>
+      
+      <details class="fold fold-lim"><summary>Exploratory, not causal</summary><p>The atlas is exploratory and was not pre-registered, apart from one forecast. Break models describe the timing of a change; decompositions and panels describe associations; the reform dates on the cross-edition page are timing markers. No page estimates what a change in policy would do.</p></details>
+      
+      <details class="fold fold-lim"><summary>The per-head count and its floor</summary><p>The per-head count includes every player who appeared in a top-9 league, however few minutes he played; the per-head page gives the same count at 450 and 900 minutes.</p></details>
+      
+      <details class="fold fold-lim"><summary>Nationality gaps in the home league</summary><p>FBref records no nationality for part of the home league’s rows. Every “own nationals” share counts those players as foreign while keeping their minutes in the total, so the home under-21 share is a floor, with the upper bound given where it is used (see the data-quality log).</p></details>
+      
+      <details class="fold fold-lim"><summary>Leagues without metrics</summary><p>The pipeline fetches 19 competitions from FBref. 125 of the 440 Czech professionals found on FBref's country page play in a league without season tables and carry no metrics; they are listed by name and club only. The Czech second tier and the Slovak top flight are not on FBref at all; Slovakia's exhibits in chapter II therefore rest on its players abroad.</p></details>
       
       <details class="fold fold-lim"><summary>Free-tier feature set</summary><p>The feature vector is five basic columns per 90 minutes: non-penalty goals, assists, minutes share, age and cards. No expected goals, no progressive passes, no tackles — the rule was one identical vector across every league in the corpus, and only the basic table is available for all of them. Defensive and creative contributions beyond assists are invisible to the map.</p></details>
       
       <details class="fold fold-lim"><summary>National-team flag source</summary><p>The flag "called up 2024–26" is parsed from Wikipedia squad tables (2024–25 Nations League, 2026 FIFA World Cup, 2026 World Cup qualification, UEFA Euro 2024, UEFA European Under-21 Championship 2025) and matched on normalised name plus birth year. 60 of the 192 mapped players carry it. A squad table edit or a name variant can drop a call-up; the flag is a tag, not a cap count.</p></details>
       
-      <details class="fold fold-lim"><summary>Photo coverage</summary><p>300 of the 440 pool players have a Wikimedia Commons portrait (Wikidata P18, matched on name, citizenship and birth date, occupation filtered to association football player) used on the site. Players without a portrait on the site show initials.</p></details>
+      <details class="fold fold-lim"><summary>Photo coverage</summary><p>50 of the 440 pool players have a Wikimedia Commons portrait (Wikidata P18, matched on name, citizenship and birth date, occupation filtered to association football player) used on the site. Players without a portrait on the site show initials.</p></details>
       
       <details class="fold fold-lim"><summary>Season split</summary><p>The headline per-capita count and every metric use the complete 2025/26 season; trajectories run 2024/25 → 2025/26; the club on a card is the 2026/27 club (season in progress at build time).</p></details>
       
       <details class="fold fold-lim"><summary>League multipliers</summary><p>ClubElo was unreachable at run time, so the multipliers are UEFA association coefficients scaled to the strongest league = 1.00, and second-tier leagues are set to 0.6 × the first tier of the same country by assumption. The club-strength proxy in chapter II is the club's goals-scored percentile within its league, not an Elo rating. The sensitivity table shows how far a ±20 % error in any one multiplier moves the Czech ranking.</p></details>
       
+      <details class="fold fold-lim"><summary>Club-strength proxy</summary><p>Club strength is the club’s goals-scored percentile within its league, not an Elo rating: ClubElo was unreachable at run time, and goals scored mixes attacking style with overall strength.</p></details>
+      
       <details class="fold fold-lim"><summary>Export origins from recent entrants only</summary><p>The origin league of an export is known only when the season before the first top-9 season was fetched: 2020/21 onwards for the headline leagues, 2024/25 onwards for the peer domestic leagues. Origin shares and the recent export age are therefore computed over players whose first top-9 season is 2025/26 or 2026/27; earlier entrants count towards the full export age but not the origin mix, and a first appearance already in 2020/21 is censored (the censored share is shown).</p></details>
+      
+      <details class="fold fold-lim"><summary>Small samples</summary><p>Several measures rest on few units: cohort cells are single-digit counts, the goalkeeper comparison has a handful of players per country, the gap decomposition and the youth panel have eight or nine countries, and the season-change panel has two seasons. Their intervals, where given, are wide; counts without an interval are administrative.</p></details>
       
       <details class="fold fold-lim"><summary>Player identity</summary><p>FBref's season tables carry no player id, so players are joined on normalised name plus birth year across leagues and seasons; two players sharing both would collapse into one. A mid-season transfer produces two club rows that are collapsed into one minutes-weighted row before ranking.</p></details>
       
       <details class="fold fold-lim"><summary>Women&#39;s entries and the -ová heuristic</summary><p>FBref's country page mixes men's and women's competitions. Entries whose surname ends in -ová were dropped from the pool; a woman with a different surname ending would survive the filter, and a man with that ending would not. The suffix is specific to Czech feminine surnames, so for a nation whose naming convention doesn't use it (English, for one) the filter catches close to none of the contamination it targets; the "Women's entries filtered" count in the data-quality log below says how many it caught this run.</p></details>
       
-      <details class="fold fold-lim"><summary>No market values, no scouting</summary><p>Transfer fees, market values, video and scouting reports are outside the public sources used here. The map describes statistical footprints and counts; selection and development decisions require the federation's own data and expertise, which this method does not have.</p></details>
-      
-      <details class="fold fold-lim"><summary>No event or tracking data</summary><p>Every feature here is a season aggregate from free FBref tables. The author's tracking work lives elsewhere: <a href="https://github.com/sandovabarbora/tactical-cz">tactical-cz</a> (broadcast-video player tracking for Czech football) and the hockey video PoC linked from <a href="https://hockey.bsandova.com">hockey.bsandova.com</a>. New columns enter in <code>src/features.py::per90</code> and the feature list in <code>config/feature_definitions.yaml</code>.</p></details>
+      <details class="fold fold-lim"><summary>No event or tracking data</summary><p>Every feature is a season aggregate from free FBref tables; no event or tracking data enter any number.</p></details>
       
     </div>
 
@@ -1742,7 +1763,8 @@
       <li>Season-to-season model comparison (M1): rolling-origin evaluation over 5 seasons, pooled RMSE favours Gradient boosting (0.071 vs 0.075 for persistence), the Bayesian model's 90 % interval covered 91 % of observed values.</li>
       
       
-      <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions, out-of-sample log predictive density favours "Model" (−2.174), Spearman rho = 0.74 against the UEFA multipliers.</li>
+      
+      <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions; out-of-sample log predictive density Same rate as before −2.628; Rate × UEFA ratio −2.734; Transfer-graph model −2.174; Spearman rho = 0.74 against the UEFA multipliers.</li>
       
       
       <li>The break and forecast (M4): the break dates to 2014/15 (56 % posterior) for Czechia, a ×0.60 level change; the plain local level beats the naive baseline on MAE (2.47 vs 2.73) with 93 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
@@ -1754,90 +1776,18 @@
       <li>The gap decomposition (M5): ridge fit (α = 1.00) on n = 8 peer countries; for Norway, the residual is −2.37 of a 6.98 gap — a decomposition of a correlation, not a causal accounting.</li>
       
       
-      <li>Age at export (M1 proper): R-hat ≤ 1.002, 0 divergent transitions across 115 players; β on origin-league strength is −0.03; leaving out 8 Czech exports and refitting shifts the 21-vs-24 difference by +0.0007.</li>
+      <li>Age at export (M6): R-hat ≤ 1.002, 0 divergent transitions across 115 players; β on origin-league strength is −0.03; leaving out 8 Czech exports and refitting shifts the 21-vs-24 difference by +0.0007.</li>
       
     </ul>
 
+    
+    <span id="how-built"></span><span id="tracking"></span>
     <h3 id="reproducibility">Reproducibility</h3>
-    <p>The full pipeline is public: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>. MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make render</code> renders this report from the committed data snapshot and <code>make pages</code> builds the site; <code>make all</code> refetches everything and runs the whole pipeline. Random seed 42 for every stochastic step (KMeans). Fetchers cache raw pages and are idempotent; the render step never touches the network.</p>
+    <p>The pipeline is public: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, code under the MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> rebuilds this edition from the committed data snapshot (commit 7cbfe45; FBref tables fetched 14 September 2026); <code>make figures</code> refits the models with their seeds (about 15 minutes an edition), which reproduces the model outputs in the snapshot, and redraws the figures. The findings on the front page come from the cross-edition file: run <code>make restore-snapshot &amp;&amp; make figures</code> for every edition (<code>NATION=den</code>, <code>eng</code>, <code>esp</code>, <code>ger</code>, <code>nor</code> and the default), then <code>make nations</code>, then <code>make pages</code> for each edition. <code>make test</code> runs the automated checks; <code>make all</code> refetches everything and reruns the whole pipeline. Seed 42 for every stochastic step: KMeans, every PyMC fit (random_seed), the bootstrap on the minutes share and the gap decomposition’s bootstrap (42 plus the contrast’s index). Fetchers cache raw pages; the render step never touches the network. Each question page names the module that computes its data in its metadata line.</p>
     <p>The processed tables also load into BigQuery unchanged: <code><a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/tree/main/infra/bigquery">infra/bigquery/</a></code> has generated schemas, a <code>bq load</code> script and a key/unit contract for the model-output JSONs the tables don't cover. Run <code>infra/bigquery/load.sh -n &lt;dataset&gt; &lt;nation&gt;</code> to see the load commands without running them.</p>
 
-    <h3 id="how-built">How this was built</h3>
-    <details class="fold">
-      <summary>Spec → plan → task agents → reviews → ledger · 25 rulings · 318 tests</summary>
-      <p>The report was produced with an agentic workflow: a written design spec, an implementation plan of small tasks, a fresh coding agent per task, a spec-compliance and code-quality review after each, a whole-branch review at the end. Every decision the controller made without the author is a dated <em>ruling</em> in a ledger — 25 across this edition and the last. The author wrote the framing, the cluster reads and the rulings; the agents wrote the code under 318 tests.</p>
-      <svg class="build-diagram" viewBox="0 0 620 572" role="img" aria-labelledby="build-diagram-title build-diagram-desc" xmlns="http://www.w3.org/2000/svg">
-        <title id="build-diagram-title">Build-flow diagram</title>
-        <desc id="build-diagram-desc">Spec, then plan, then one task agent per task, a two-stage task review, up to five fix rounds, a whole-branch review, then deploy; the ledger on the side records every ruling — 25 so far, across 36 tasks.</desc>
-        <defs>
-          <marker id="bp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" class="bp-arrowhead"/>
-          </marker>
-        </defs>
-        <style>
-          .bp-node rect{stroke-width:1.4}
-          .bp-author rect{fill:var(--cream-100);stroke:var(--rule)}
-          .bp-sonnet rect{fill:var(--cream-100);stroke:var(--navy-700)}
-          .bp-opus rect{fill:var(--cream-100);stroke:var(--oxblood-700)}
-          .bp-label{font-family:var(--font-display);font-size:15px;fill:var(--ink);text-anchor:middle}
-          .bp-sub{font-family:var(--font-sans);font-size:10px;fill:var(--ink-soft);text-anchor:middle}
-          .bp-badge{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:.04em;text-anchor:end}
-          .bp-badge-sonnet{fill:var(--navy-700)}
-          .bp-badge-opus{fill:var(--oxblood-700)}
-          .bp-arrow{stroke:var(--muted);stroke-width:1.4}
-          .bp-arrowhead{fill:var(--muted)}
-          .bp-ledger rect{fill:var(--cream-100);stroke:var(--oxblood-700);stroke-width:1.4}
-          .bp-ledger-label{font-family:var(--font-sans);font-size:10px;font-weight:700;letter-spacing:.08em;fill:var(--oxblood-700);text-anchor:middle}
-          .bp-ledger-count{font-family:var(--font-mono);font-size:13px;fill:var(--ink);text-anchor:middle}
-          .bp-conn{stroke:var(--oxblood-700);stroke-width:1.1;stroke-dasharray:2.5,2.5;fill:none}
-        </style>
-        <line x1="420" y1="284" x2="440" y2="248" class="bp-conn"/>
-        <line x1="420" y1="452" x2="440" y2="282" class="bp-conn"/>
-        <g class="bp-node bp-author"><rect x="20" y="10" width="400" height="44" rx="3"/>
-          <text x="220" y="37" class="bp-label">Spec</text></g>
-        <line x1="220" y1="54" x2="220" y2="90" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-author"><rect x="20" y="94" width="400" height="44" rx="3"/>
-          <text x="220" y="121" class="bp-label">Plan</text></g>
-        <line x1="220" y1="138" x2="220" y2="174" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="178" width="400" height="44" rx="3"/>
-          <text x="210" y="205" class="bp-label">Task agent</text>
-          <text x="392" y="192" class="bp-badge bp-badge-sonnet">SONNET</text></g>
-        <line x1="220" y1="222" x2="220" y2="258" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="262" width="400" height="44" rx="3"/>
-          <text x="210" y="284" class="bp-label">Task review</text>
-          <text x="210" y="298" class="bp-sub">spec + quality</text>
-          <text x="392" y="276" class="bp-badge bp-badge-sonnet">SONNET</text></g>
-        <line x1="220" y1="306" x2="220" y2="342" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="346" width="400" height="44" rx="3"/>
-          <text x="210" y="373" class="bp-label">Fix rounds ≤ 5</text>
-          <text x="392" y="360" class="bp-badge bp-badge-sonnet">SONNET</text></g>
-        <line x1="220" y1="390" x2="220" y2="426" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-sonnet"><rect x="20" y="430" width="400" height="44" rx="3"/>
-          <text x="210" y="457" class="bp-label">Whole-branch review</text>
-          <text x="392" y="444" class="bp-badge bp-badge-sonnet">SONNET</text></g>
-        <line x1="220" y1="474" x2="220" y2="510" class="bp-arrow" marker-end="url(#bp-arrow)"/>
-        <g class="bp-node bp-opus"><rect x="20" y="514" width="400" height="44" rx="3"/>
-          <text x="210" y="541" class="bp-label">Deploy</text>
-          <text x="392" y="528" class="bp-badge bp-badge-opus">OPUS</text></g>
-        <g class="bp-ledger"><rect x="440" y="210" width="150" height="70" rx="3"/>
-          <text x="515" y="233" class="bp-ledger-label">Ledger</text>
-          <text x="515" y="256" class="bp-ledger-count">rulings: 25</text></g>
-      </svg>
-      <p class="build-diagram-legend">Implementers and reviewers: sonnet · controller: opus.</p>
-      <p>Reviews are two-stage per task — spec compliance, then code quality — and every review's findings are written into the ledger, not just its verdict: 40 lines mentioning a review across the 36 tasks of this edition and the last.</p>
-      <p>Spec: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">design</a> · plan: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/plans/2026-09-12-czech-football-player-pool-atlas.md">tasks</a> · ledger: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">rulings</a>.</p>
-      
-      <p>Every edition's own design spec and ledger:
-        <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-12-czech-football-player-pool-atlas-design.md">v1 spec</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-12-v1-progress.md">v1 ledger</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/specs/2026-09-14-why-the-train-leaves-design.md">v1.2 spec</a> · <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/blob/main/docs/superpowers/ledgers/2026-09-14-v1-2-progress.md">v1.2 ledger</a>.</p>
-      
-    </details>
-
-    <h3 id="tracking">What tracking data would add</h3>
-    <p class="plain">Everything above is built from season tables, because that is what exists for every league in the benchmark. The next layer of data — every player’s position ten times a second — exists for none of them publicly. So here is one match of it, from a different league, to show concretely what it answers that a season table cannot: not how many goals a player scored, but how he moves when he does not have the ball.</p>
-    <figure class="figure-bleed" data-chart="tracking">
-      <figcaption>How to read it: the pitch is drawn with both teams attacking left to right; every arrow is one off-ball run, from where it started to where it ended, coloured by the kind of run SkillCorner’s model labelled it. Bright arrows were passed to; thick ones were received. Pick a team, switch run types on and off, hover an arrow for the player and what came of it. Data: (SkillCorner, 2025), one A-League match, MIT licence; none of it enters any number in this report.</figcaption>
-    </figure>
-    <p>For a federation this is the layer that turns “how many minutes” into “what kind of minutes”: whether a young winger’s runs are the runs the first team needs, whether an export’s physical output matches his new league, whether a squad presses as one. The atlas cannot see it and does not pretend to; the pipeline is built so that a tracking feed, when a federation has one, becomes another table beside the season tables rather than a different project.</p>
+    <h3 id="checks">Internal automated checks</h3>
+    <p>319 automated tests (pytest) check the pipeline and the site build on every change. No external review of the atlas has taken place.</p>
 
     <h3 id="related-methods">Related methods and what was taken from them</h3>
     <p>The methods below shaped this report's design. Each entry states what the method is, what this report took from it, and what was left out and why.</p>
@@ -1847,13 +1797,13 @@
       <li>Multilevel (partial-pooling) regression and posterior predictive checking as a model-diagnosis routine (Gelman et al., 2013) · taken: the league-strength and youth-panel models pool leagues and countries partially rather than fitting each alone or merging them into one, and the league-strength posterior predictive check (§ League strength) compares simulated to observed production · left out: model comparison by WAIC/LOO, since every model here is instead scored on seasons it never trained on (rolling-origin backtests), a stronger check for this report's purpose.</li>
       <li>The No-U-Turn Sampler, the gradient-based MCMC method PyMC uses by default (Hoffman and Gelman, 2014) · taken: every Bayesian model in this report — league strength, model comparison, the change-point series, the youth panel — is fit with it and diagnosed on R-hat and divergences · left out: variational inference as a faster approximate alternative, since none of the four models is slow enough to need it.</li>
       <li>Plus-minus and regularised adjusted plus-minus ratings, which isolate a player's contribution from teammates' and opponents' by regression (Kharrat, McHale and Peña, 2020; Hvattum, 2019) · taken: the league-strength model's within-player logic — only a mover's own before/after change of league separates their level from the league's scoring environment — follows the same identification idea, applied to leagues rather than teammates · left out: an actual RAPM fit over lineup data, which this corpus's season-level tables (no lineups, no possession data) cannot support.</li>
-      <li>Bayesian online change-point detection, a sequential method for locating a shift in a data-generating process (Adams and MacKay, 2007) · taken: a single unknown break season with a marginalised discrete location parameter, applied here to a short batch series rather than sequentially · left out: the online/sequential setting and multiple change points, since the series in question (one country's Big-5 count per season) is short, fixed, and plausibly has at most one structural shift.</li>
-      <li>The local-level model — a random walk plus noise for a slowly drifting series — in the state-space tradition (Durbin and Koopman, 2012) · taken: the change-point model (§ Dating the break) is exactly this local level in log space, with one added step change at the break · left out: a local linear trend or seasonal component, since the series is annual and too short for a trend term to be identifiable.</li>
+      <li>Bayesian online change-point detection, a sequential method for locating a shift in a data-generating process (Adams and MacKay, 2007) · taken: unknown break seasons with a marginalised discrete location parameter, here two ordered change points (a rise and a fall) on a short batch series rather than sequentially · left out: the online, sequential setting and more than two change points, since one country’s Big-5 count per season is short and fixed.</li>
+      <li>The local-level model — a random walk plus noise for a slowly drifting series — in the state-space tradition (Durbin and Koopman, 2012) · taken: the change-point model (§ Dating the break) is exactly this local level in log space, with two added step changes at the breaks · left out: a local linear trend or seasonal component, since the series is annual and too short for a trend term to be identifiable.</li>
       <li>Rolling-origin (time-series) cross-validation: refit on data up to each origin, score only on what came after it (Hyndman and Athanasopoulos, 2021) · taken: both the model-comparison exercise (§ Three models, one task) and the change-point backtest (§ Dating the break) are scored this way, never on a random split that could leak future seasons into training · left out: expanding-vs-sliding-window variants beyond the single expanding-window scheme, since the corpus's five metrics seasons leave little room to compare schemes.</li>
       <li>The Oaxaca–Blinder decomposition, splitting a gap between two groups' means into an explained and an unexplained part via a linear model (Oaxaca, 1973; Blinder, 1973) · taken: the gap-decomposition exhibit (§ What the gap is made of) splits the per-capita gap into the three measured channels plus a residual the same way · left out: the detailed, coefficient-level decomposition of the explained share, since three channels are few enough to read directly off the coefficients themselves.</li>
       <li>The silhouette coefficient, a per-point measure of how well a clustering separates its groups (Rousseeuw, 1987) · taken: used to sanity-check the PCA cluster counts per position group and projection before they were fixed (§ Cluster archetypes) · left out: a silhouette sweep reported in the text, since the chosen cluster counts are stable across position groups and projections.</li>
       <li>Gradient-boosted trees and a small multilayer perceptron, two non-Bayesian machine-learning baselines standard in this kind of comparison (Pedregosa et al., 2011) · taken: both sit alongside the persistence, shrinkage and Bayesian models in § Three models, one task, on the same eight features and the same rolling-origin split · left out: hyperparameter search beyond scikit-learn's defaults (plus the MLP's 64/32 hidden layers), since the comparison's point is model family, not a tuned leaderboard.</li>
-      <li>CIES Football Observatory's periodic counts of footballers playing outside their home association (Poli, Ravenel and Besson, 2024) · taken: the out-of-sample league-strength check (§ League strength) tracks the same population — players who changed league — though it does not reuse CIES's own counts · left out: CIES's expatriate-share figures as a number quoted in this report, since the per-capita and pathways exhibits already answer the same question from this report's own fetched player tables.</li>
+      <li>CIES Football Observatory’s periodic counts of footballers playing outside their home association (Poli, Ravenel and Besson, 2024) · taken: the population of players who changed league, which the out-of-sample league-strength check tracks, and the framing of the atlas’s contribution on the front page · left out: CIES’s own counts, since the atlas computes its per-head and pathway measures from its own fetched tables.</li>
     </ul>
     <h4 id="related-methods-future">Next steps not attempted</h4>
     <ul class="related-methods-future">
@@ -1862,7 +1812,7 @@
     </ul>
 
     <h3 id="glossary">Glossary</h3>
-    <p>Ten terms used in the <a href="#methodology">sections above</a>, each in one plain sentence with a football example.</p>
+    <p>Terms used in the <a href="#methodology">sections above</a>, each in one plain sentence.</p>
     <dl class="glossary-list">
       <div><dt>Per 90</dt><dd>A rate scaled to a full match: a player with three goals in five matches, each played the full ninety minutes, has a rate of 0.6 goals per 90 — it lets a player who came on as a substitute be compared fairly with one who started every match.</dd></div>
       <div><dt>Minutes share</dt><dd>How much of a club's available playing time a player actually got, out of every minute the club's matches could have offered that season; a player who played every minute of every match has a minutes share of 100 percent.</dd></div>
@@ -1874,48 +1824,72 @@
       <div><dt>Out-of-sample</dt><dd>Checking a method only on matches, players or seasons it was not shown while it was being built — the way a manager judges a scouting report by what actually happens once the player signs, not by how well the report described what had already happened.</dd></div>
       <div><dt>Cluster</dt><dd>A group of players whose season numbers look similar to each other and different from other groups, found automatically from the data rather than assigned by hand; a cluster is a style label such as "high-volume scorers", not a formal position.</dd></div>
       <div><dt>Change point</dt><dd>The point in a series of seasons where the level genuinely shifts to a new one and stays there, rather than just one unusually high or low season on its own; this report finds one for the count of home-nation players in Europe's biggest leagues.</dd></div>
+      <div><dt>90 % HDI and bootstrap interval</dt><dd>A 90 % highest-density interval is the narrowest range holding 90 % of a Bayesian model’s posterior; a 90 % bootstrap interval is the 5th to 95th percentile of an estimate recomputed on resampled data.</dd></div>
+      <div><dt>Top-9 leagues</dt><dd>The nine leagues ranked 1–9 in UEFA’s men’s association coefficient ranking on the fetch date (England, Italy, Spain, Germany, France, Portugal, Belgium, the Netherlands, Türkiye); the Big-5 are the first five.</dd></div>
+      <div><dt>Export age (two measures)</dt><dd>Age at the first season with real playing time in a foreign league (the pathway measures and the brief), and age at the first season in a top-9 league (the destination tables and the gap decomposition, recent entrants only); the two are different numbers for the same players.</dd></div>
+      <div><dt>Players counted</dt><dd>Per head: players with the country’s FBref nationality who appeared in a top-9 league in the season, all positions. Destinations: Czech-eligible outfield players with at least 450 minutes in a covered league, one row per position group. Season changes: the same players, one row per player. Pool list: every Czech-eligible player with a season row. Country page: every professional FBref lists for the country, including those in leagues without tables.</dd></div>
+      <div><dt>Sideways move</dt><dd>A player abroad in a league whose UEFA-coefficient multiplier is no higher than his home league’s.</dd></div>
+      <div><dt>Stepping-stone league</dt><dd>A covered league below the top nine that is no peer’s home league; in this configuration only the German second tier.</dd></div>
     </dl>
 
     <h3 id="references">References</h3>
     <ul class="references-list">
       
-      <li id="ref-abril_pla_et_al_2023"><a href="https://doi.org/10.7717/peerj-cs.1516">Abril-Pla, O. et al. (2023) &#39;PyMC: a modern, and comprehensive probabilistic programming framework in Python&#39;, PeerJ Computer Science, 9, e1516.</a></li>
+      <li id="ref-abril_pla_et_al_2023"><a href="https://doi.org/10.7717/peerj-cs.1516">Abril-Pla, O. et al. (2023) &#39;PyMC: a modern, and comprehensive probabilistic programming framework in Python&#39;, PeerJ Computer Science, 9, e1516. https://doi.org/10.7717/peerj-cs.1516. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-adams_mackay_2007"><a href="https://arxiv.org/abs/0710.3742">Adams, R.P. and MacKay, D.J.C. (2007) Bayesian online changepoint detection. arXiv, 0710.3742. Available at: https://arxiv.org/abs/0710.3742 (Accessed: 15 September 2026).</a></li>
+      <li id="ref-adams_mackay_2007"><a href="https://arxiv.org/abs/0710.3742">Adams, R.P. and MacKay, D.J.C. (2007) Bayesian online changepoint detection. arXiv, 0710.3742. https://arxiv.org/abs/0710.3742. Accessed 15 September 2026.</a></li>
       
-      <li id="ref-blinder_1973"><a href="https://doi.org/10.2307/144855">Blinder, A.S. (1973) &#39;Wage discrimination: reduced form and structural estimates&#39;, Journal of Human Resources, 8(4), pp. 436–455.</a></li>
+      <li id="ref-blinder_1973"><a href="https://doi.org/10.2307/144855">Blinder, A.S. (1973) &#39;Wage discrimination: reduced form and structural estimates&#39;, Journal of Human Resources, 8(4), pp. 436–455. https://doi.org/10.2307/144855. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-durbin_koopman_2012"><a href="https://doi.org/10.1093/acprof:oso/9780199641178.001.0001">Durbin, J. and Koopman, S.J. (2012) Time Series Analysis by State Space Methods. 2nd edn. Oxford: Oxford University Press.</a></li>
+      <li id="ref-durbin_koopman_2012"><a href="https://doi.org/10.1093/acprof:oso/9780199641178.001.0001">Durbin, J. and Koopman, S.J. (2012) Time Series Analysis by State Space Methods. 2nd edn. Oxford: Oxford University Press. https://doi.org/10.1093/acprof:oso/9780199641178.001.0001. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319.</a></li>
+      <li id="ref-efron_morris_1975"><a href="https://doi.org/10.1080/01621459.1975.10479864">Efron, B. and Morris, C. (1975) &#39;Data analysis using Stein&#39;s estimator and its generalizations&#39;, Journal of the American Statistical Association, 70(350), pp. 311–319. https://doi.org/10.1080/01621459.1975.10479864. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-gelman_et_al_2013"><a href="https://www.stat.columbia.edu/~gelman/book/">Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A. and Rubin, D.B. (2013) Bayesian Data Analysis. 3rd edn. Boca Raton: CRC Press.</a></li>
+      <li id="ref-eurostat_demo_pjan"><a href="https://ec.europa.eu/eurostat/databrowser/view/demo_pjan/default/table">Eurostat (2024) Population on 1 January by age and sex. Table demo_pjan, reference date 1 January 2024. https://ec.europa.eu/eurostat/databrowser/view/demo_pjan/default/table. Accessed 14 September 2026.</a></li>
       
-      <li id="ref-hoffman_gelman_2014"><a href="https://www.jmlr.org/papers/v15/hoffman14a.html">Hoffman, M.D. and Gelman, A. (2014) &#39;The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo&#39;, Journal of Machine Learning Research, 15, pp. 1593–1623.</a></li>
+      <li id="ref-gelman_et_al_2013"><a href="https://doi.org/10.1201/b16018">Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A. and Rubin, D.B. (2013) Bayesian Data Analysis. 3rd edn. Boca Raton: CRC Press. https://doi.org/10.1201/b16018. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-honigstein2015"><a href="https://openlibrary.org/works/OL20016699W">Honigstein, R. (2015) Das Reboot: How German Football Reinvented Itself and Conquered the World. London: Yellow Jersey Press.</a></li>
+      <li id="ref-gullich_2014"><a href="https://doi.org/10.1080/17461391.2013.858371">Güllich, A. (2014) &#39;Selection, de-selection and progression in German football talent promotion&#39;, European Journal of Sport Science, 14(6), pp. 530–537. https://doi.org/10.1080/17461391.2013.858371. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-hvattum_2019"><a href="https://doi.org/10.2478/ijcss-2019-0001">Hvattum, L.M. (2019) &#39;A comprehensive review of plus-minus ratings for evaluating individual players in team sports&#39;, International Journal of Computer Science in Sport, 18(1), pp. 1–23.</a></li>
+      <li id="ref-helsen_van_winckel_williams_2005"><a href="https://doi.org/10.1080/02640410400021310">Helsen, W.F., Van Winckel, J. and Williams, A.M. (2005) &#39;The relative age effect in youth soccer across Europe&#39;, Journal of Sports Sciences, 23(6), pp. 629–636. https://doi.org/10.1080/02640410400021310. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-hyndman_athanasopoulos_2021"><a href="https://otexts.com/fpp3/">Hyndman, R.J. and Athanasopoulos, G. (2021) Forecasting: Principles and Practice. 3rd edn. Melbourne: OTexts.</a></li>
+      <li id="ref-hoffman_gelman_2014"><a href="https://www.jmlr.org/papers/v15/hoffman14a.html">Hoffman, M.D. and Gelman, A. (2014) &#39;The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo&#39;, Journal of Machine Learning Research, 15, pp. 1593–1623. https://www.jmlr.org/papers/v15/hoffman14a.html. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736.</a></li>
+      <li id="ref-honigstein2015"><a href="https://openlibrary.org/works/OL20016699W">Honigstein, R. (2015) Das Reboot: How German Football Reinvented Itself and Conquered the World. London: Yellow Jersey Press. https://openlibrary.org/works/OL20016699W. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-kumar_et_al_2019"><a href="https://doi.org/10.21105/joss.01143">Kumar, R., Carroll, C., Hartikainen, A. and Martin, O. (2019) &#39;ArviZ a unified library for exploratory analysis of Bayesian models in Python&#39;, Journal of Open Source Software, 4(33), 1143.</a></li>
+      <li id="ref-hvattum_2019"><a href="https://doi.org/10.2478/ijcss-2019-0001">Hvattum, L.M. (2019) &#39;A comprehensive review of plus-minus ratings for evaluating individual players in team sports&#39;, International Journal of Computer Science in Sport, 18(1), pp. 1–23. https://doi.org/10.2478/ijcss-2019-0001. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-oaxaca_1973"><a href="https://doi.org/10.2307/2525981">Oaxaca, R. (1973) &#39;Male-female wage differentials in urban labor markets&#39;, International Economic Review, 14(3), pp. 693–709.</a></li>
+      <li id="ref-hyndman_athanasopoulos_2021"><a href="https://otexts.com/fpp3/">Hyndman, R.J. and Athanasopoulos, G. (2021) Forecasting: Principles and Practice. 3rd edn. Melbourne: OTexts. https://otexts.com/fpp3/. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830.</a></li>
+      <li id="ref-kharrat_mchale_pena_2020"><a href="https://doi.org/10.1016/j.ejor.2019.11.026">Kharrat, T., McHale, I.G. and Peña, J.L. (2020) &#39;Plus–minus player ratings for soccer&#39;, European Journal of Operational Research, 283(2), pp. 726–736. https://doi.org/10.1016/j.ejor.2019.11.026. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-poli_ravenel_besson_2024"><a href="https://football-observatory.com/IMG/sites/mr/mr95/en/">Poli, R., Ravenel, L. and Besson, R. (2024) Origins and destinations of football expatriates (2020-2024). CIES Football Observatory Monthly Report, 95. Available at: https://football-observatory.com/IMG/sites/mr/mr95/en/ (Accessed: 14 September 2026).</a></li>
+      <li id="ref-kumar_et_al_2019"><a href="https://doi.org/10.21105/joss.01143">Kumar, R., Carroll, C., Hartikainen, A. and Martin, O. (2019) &#39;ArviZ a unified library for exploratory analysis of Bayesian models in Python&#39;, Journal of Open Source Software, 4(33), 1143. https://doi.org/10.21105/joss.01143. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-premierleague2011"><a href="https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html">Premier League (2011) Elite Player Performance Plan. Premier League (archived page), web.archive.org, 22 April 2016. Available at: https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html (Accessed: 21 September 2026).</a></li>
+      <li id="ref-larsen_et_al_2013"><a href="https://doi.org/10.1037/a0031958">Larsen, C.H., Alfermann, D., Henriksen, K. and Christensen, M.K. (2013) &#39;Successful talent development in soccer: the characteristics of the environment&#39;, Sport, Exercise, and Performance Psychology, 2(3), pp. 190–206. https://doi.org/10.1037/a0031958. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-rousseeuw_1987"><a href="https://doi.org/10.1016/0377-0427(87)90125-7">Rousseeuw, P.J. (1987) &#39;Silhouettes: a graphical aid to the interpretation and validation of cluster analysis&#39;, Journal of Computational and Applied Mathematics, 20, pp. 53–65.</a></li>
+      <li id="ref-oaxaca_1973"><a href="https://doi.org/10.2307/2525981">Oaxaca, R. (1973) &#39;Male-female wage differentials in urban labor markets&#39;, International Economic Review, 14(3), pp. 693–709. https://doi.org/10.2307/2525981. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-skillcorner_2025"><a href="https://github.com/SkillCorner/opendata">SkillCorner (2025) SkillCorner Open Data: broadcast tracking, dynamic events and phases of play for ten A-League 2024/25 matches. GitHub repository, SkillCorner/opendata. Available at: https://github.com/SkillCorner/opendata (Accessed: 21 September 2026).</a></li>
+      <li id="ref-pedregosa_et_al_2011"><a href="https://www.jmlr.org/papers/v12/pedregosa11a.html">Pedregosa, F. et al. (2011) &#39;Scikit-learn: machine learning in Python&#39;, Journal of Machine Learning Research, 12, pp. 2825–2830. https://www.jmlr.org/papers/v12/pedregosa11a.html. Accessed 29 September 2026.</a></li>
       
-      <li id="ref-vehtari_gelman_gabry_2017"><a href="https://doi.org/10.1007/s11222-016-9696-4">Vehtari, A., Gelman, A. and Gabry, J. (2017) &#39;Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC&#39;, Statistics and Computing, 27(5), pp. 1413–1432.</a></li>
+      <li id="ref-poli_ravenel_besson_2024"><a href="https://football-observatory.com/IMG/sites/mr/mr95/en/">Poli, R., Ravenel, L. and Besson, R. (2024) Origins and destinations of football expatriates (2020-2024). CIES Football Observatory Monthly Report, 95. https://football-observatory.com/IMG/sites/mr/mr95/en/. Accessed 14 September 2026.</a></li>
+      
+      <li id="ref-premierleague2011"><a href="https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html">Premier League (2011) Elite Player Performance Plan. Premier League (archived page), web.archive.org, 22 April 2016. https://web.archive.org/web/20160422012902/http://www.premierleague.com/content/premierleague/en-gb/youth/elite-player-performance-plan.html. Accessed 21 September 2026.</a></li>
+      
+      <li id="ref-relvas_et_al_2010"><a href="https://doi.org/10.1080/16184740903559891">Relvas, H., Littlewood, M., Nesti, M., Gilbourne, D. and Richardson, D. (2010) &#39;Organizational structures and working practices in elite European professional football clubs: understanding the relationship between youth and professional domains&#39;, European Sport Management Quarterly, 10(2), pp. 165–187. https://doi.org/10.1080/16184740903559891. Accessed 29 September 2026.</a></li>
+      
+      <li id="ref-soccerdata_2026"><a href="https://github.com/probberechts/soccerdata">Robberechts, P. (2026) soccerdata: scrape soccer data from the web. Python package, version 1.9.1. https://github.com/probberechts/soccerdata. Accessed 29 September 2026.</a></li>
+      
+      <li id="ref-rousseeuw_1987"><a href="https://doi.org/10.1016/0377-0427(87)90125-7">Rousseeuw, P.J. (1987) &#39;Silhouettes: a graphical aid to the interpretation and validation of cluster analysis&#39;, Journal of Computational and Applied Mathematics, 20, pp. 53–65. https://doi.org/10.1016/0377-0427(87)90125-7. Accessed 29 September 2026.</a></li>
+      
+      <li id="ref-fbref_2026"><a href="https://fbref.com/en/">Sports Reference (2026) FBref: player standard and playing-time season tables, 17 leagues, 1995/96 to 2026/27. Data snapshot, season tables fetched 14 September 2026, Big-5 history committed 22 September 2026. https://fbref.com/en/. Accessed 14 September 2026.</a></li>
+      
+      <li id="ref-uefa_coefficients_2026"><a href="https://www.uefa.com/nationalassociations/uefarankings/country/">UEFA (2026) Men&#39;s association club coefficients. Five-season ranking as published on the fetch date, read from its transcription at en.wikipedia.org/wiki/UEFA_coefficient. https://www.uefa.com/nationalassociations/uefarankings/country/. Accessed 14 September 2026.</a></li>
+      
+      <li id="ref-vehtari_gelman_gabry_2017"><a href="https://doi.org/10.1007/s11222-016-9696-4">Vehtari, A., Gelman, A. and Gabry, J. (2017) &#39;Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC&#39;, Statistics and Computing, 27(5), pp. 1413–1432. https://doi.org/10.1007/s11222-016-9696-4. Accessed 29 September 2026.</a></li>
+      
+      <li id="ref-wikidata_2026"><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata contributors (2026) Wikidata: image (P18), country of citizenship and date of birth of association football players. Wikidata, CC0. https://www.wikidata.org/wiki/Wikidata:Main_Page. Accessed 14 September 2026.</a></li>
+      
+      <li id="ref-wikipedia_squads_2026"><a href="https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads">Wikipedia contributors (2026) 2026 FIFA World Cup squads. Wikipedia, CC BY-SA 4.0. https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads. Accessed 14 September 2026.</a></li>
       
     </ul>
   </div>
@@ -1932,72 +1906,72 @@
       
       <li>
         <span class="downloads-label">Every player found in the pool, one row per player, before any season's numbers are attached.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet">pool.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool.parquet">pool.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">91c7391ed317a866</code></span>
       </li>
       
       <li>
-        <span class="downloads-label">Players per million people, one row per country — the number behind the very first slide.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/per_capita.parquet">per_capita.parquet</a></span>
+        <span class="downloads-label">Players per million people, one row per country, the numbers behind the per-head page, and the same count at floors of 1, 450 and 900 minutes.</span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/per_capita.parquet">per_capita.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">f05218670ef0fc0e</code> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/per_capita_floors.json">per_capita_floors.json</a> <code class="small" title="SHA-256, first 16 hex digits">6fa16c76c5d60d28</code></span>
       </li>
       
       <li>
         <span class="downloads-label">The five-number season vector for every covered player, one file per position group (forwards, midfielders, defenders).</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/features_FW.parquet">features_FW.parquet</a> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/features_MF.parquet">features_MF.parquet</a> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/features_DF.parquet">features_DF.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/features_FW.parquet">features_FW.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">393484176b41a366</code> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/features_MF.parquet">features_MF.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">bd52be4086c2ff90</code> · <a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/features_DF.parquet">features_DF.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">440672171c08fe4c</code></span>
       </li>
       
       <li>
         <span class="downloads-label">Production by country, position group and age band, the numbers behind the international comparison.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/cohorts.parquet">cohorts.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/cohorts.parquet">cohorts.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">8d9aaefb18360692</code></span>
       </li>
       
       <li>
         <span class="downloads-label">Youth minutes at home, the age and route of the move abroad, how exports fare, and where they land — every number behind the pathway exhibits, in one file.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pathways.json">pathways.json</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pathways.json">pathways.json</a> <code class="small" title="SHA-256, first 16 hex digits">980662c06ffc7903</code></span>
       </li>
       
       <li>
         <span class="downloads-label">Season-by-season counts of home-nation players in Europe's five biggest leagues, back to the start of the fetched history.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/big5_history.parquet">big5_history.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/big5_history.parquet">big5_history.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">c5ec255b1fd5ad0a</code></span>
       </li>
       
       <li>
         <span class="downloads-label">Every season row this pipeline has fetched, for every league and nationality it covers — the raw table everything else in this report is built from.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_players.parquet">fbref_players.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_players.parquet">fbref_players.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">73ac499bb3b639ce</code></span>
       </li>
       
       <li>
         <span class="downloads-label">How each of the five season numbers contributes to the style and quality maps.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pca_loadings.parquet">pca_loadings.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pca_loadings.parquet">pca_loadings.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">f462fbc3d83e50a7</code></span>
       </li>
       
       <li>
         <span class="downloads-label">How much the top players change when a league's strength is nudged up or down.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/sensitivity.parquet">sensitivity.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/sensitivity.parquet">sensitivity.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">88db645bfdbca492</code></span>
       </li>
       
       <li>
         <span class="downloads-label">The three new numbers behind the why-the-train-left funnel: club breadth of youth minutes, the league's own age structure, and the age at a player's first move abroad.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pipeline_facts.json">pipeline_facts.json</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pipeline_facts.json">pipeline_facts.json</a> <code class="small" title="SHA-256, first 16 hex digits">3c85d7b1291eac74</code></span>
       </li>
       
       <li>
         <span class="downloads-label">FBref’s playing-time and miscellaneous tables for every fetched league-season: starts, minutes per start, substitute appearances, on-off, crosses, interceptions, tackles won, fouls.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_roles.parquet">fbref_roles.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_roles.parquet">fbref_roles.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">1984752c10b203ba</code></span>
       </li>
       
       <li>
         <span class="downloads-label">Every player in the pool as one row — the table behind the searchable list — with production, rank in his position group, playing-time split and role counts.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool_table.json">pool_table.json</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/pool_table.json">pool_table.json</a> <code class="small" title="SHA-256, first 16 hex digits">c00a3e7f83794853</code></span>
       </li>
       
       <li>
         <span class="downloads-label">The history seasons of the home, peer and stepping-stone leagues back to the start of the fetched history, the rows behind the player atlas’s careers.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_history.parquet">fbref_history.parquet</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/fbref_history.parquet">fbref_history.parquet</a> <code class="small" title="SHA-256, first 16 hex digits">264427d67485ad2f</code></span>
       </li>
       
       <li>
         <span class="downloads-label">Where the pool moved between the two seasons: each player’s rung in each, the move between them, and minutes by rung.</span>
-        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/season_changes.json">season_changes.json</a></span>
+        <span class="downloads-links"><a href="https://raw.githubusercontent.com/sandovabarbora/czefootball-player-pool-atlas/main/data/snapshot/cze/season_changes.json">season_changes.json</a> <code class="small" title="SHA-256, first 16 hex digits">740814462a6eafe6</code></span>
       </li>
       
     </ul>
@@ -2010,8 +1984,8 @@
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
-      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-kicker">Barbora Šandová</p>
+      <p class="role-body">Data and code are in the repository below. Corrections are welcome by e-mail.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -2023,373 +1997,41 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Photo credits (90 portraits, Wikimedia Commons)</summary>
+        <summary>Photo credits (7 portraits, Wikimedia Commons)</summary>
         <ul class="small">
           
           <li data-fbref-id="cd682b6b" data-player-key="lukas ambros|2004">
             Lukáš Ambros — <a href="https://commons.wikimedia.org/wiki/File:Ambros_2026.jpg">Ambros 2026.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="2b3efa4a" data-player-key="jan boril|1991">
-            Jan Bořil — <a href="https://www.chanceliga.cz/hrac/1988">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="341e14aa" data-player-key="jakub brabec|1992">
             Jakub Brabec — <a href="https://commons.wikimedia.org/wiki/File:Jakub_Brabec,_Czech_Rp.-Montenegro_EURO_2020_QR_10-06-2019.jpg">Jakub Brabec, Czech Rp.-Montenegro EURO 2020 QR 10-06-2019.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e43aa80b" data-player-key="david buchta|1999">
-            David Buchta — <a href="https://www.chanceliga.cz/hrac/3745">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="54b2f056" data-player-key="martin cedidla|2001">
-            Martin Cedidla — <a href="https://www.chanceliga.cz/hrac/3697">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="ded82b9a" data-player-key="stepan chaloupek|2003">
-            Štěpán Chaloupek — <a href="https://www.chanceliga.cz/hrac/4189">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="254b831b" data-player-key="matej chalus|1998">
-            Matěj Chaluš — <a href="https://www.chanceliga.cz/hrac/3249">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="3028e991" data-player-key="martin chlumecky|1997">
             Martin Chlumecký — <a href="https://commons.wikimedia.org/wiki/File:Martin_Chlumecký_2025.jpg">Martin_Chlumecký_2025.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="163bbd4a" data-player-key="tomas chory|1995">
-            Tomáš Chorý — <a href="https://www.chanceliga.cz/hrac/2977">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="fad3e13e" data-player-key="jan chramosta|1990">
-            Jan Chramosta — <a href="https://www.chanceliga.cz/hrac/1904">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="fdf3cb77" data-player-key="vladimir coufal|1992">
-            Vladimír Coufal — <a href="https://www.bundesliga.com/en/player/vladimir-coufal">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="57735db1" data-player-key="vlastimil danicek|1991">
-            Vlastimil Daníček — <a href="https://www.chanceliga.cz/hrac/2130">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="6b07e743" data-player-key="krystof danek|2003">
             Kryštof Daněk — <a href="https://commons.wikimedia.org/wiki/File:Kryštof_Daněk.jpg">Kryštof Daněk.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="3eb0f2df" data-player-key="vladimir darida|1990">
-            Vladimír Darida — <a href="https://www.chanceliga.cz/hrac/2029">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="9213f119" data-player-key="jiri fleisman|1984">
-            Jiří Fleišman — <a href="https://www.chanceliga.cz/hrac/2050">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="8a2270e8" data-player-key="simon gabriel|2001">
-            Šimon Gabriel — <a href="https://www.chanceliga.cz/hrac/3875">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="08c995bd" data-player-key="matej hadas|2003">
-            Matěj Hadaš — <a href="https://www.chanceliga.cz/hrac/4116">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="32821d05" data-player-key="denis halinsky|2003">
-            Denis Halinský — <a href="https://www.chanceliga.cz/hrac/4296">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="8454388c" data-player-key="milan havel|1994">
-            Milan Havel — <a href="https://www.chanceliga.cz/hrac/2793">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="e03c2d97" data-player-key="tomas holes|1993">
-            Tomáš Holeš — <a href="https://www.chanceliga.cz/hrac/2205">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="67c69e4c" data-player-key="daniel horak|2000">
-            Daniel Horák — <a href="https://www.chanceliga.cz/hrac/3922">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="95d5aea2" data-player-key="robin hranac|2000">
-            Robin Hranáč — <a href="https://www.bundesliga.com/en/player/robin-hranac">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c034085a" data-player-key="eric hunal|2005">
-            Eric Hunál — <a href="https://www.chanceliga.cz/hrac/4863">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="08299b06" data-player-key="lukas hulka|1995">
-            Lukáš Hůlka — <a href="https://www.chanceliga.cz/hrac/2681">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="67768dda" data-player-key="marek icha|2002">
-            Marek Icha — <a href="https://www.chanceliga.cz/hrac/4199">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="be837003" data-player-key="vaclav jurecka|1994">
-            Václav Jurečka — <a href="https://www.chanceliga.cz/hrac/3634">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="aa1f9f05" data-player-key="pavel juroska|2001">
-            Pavel Juroska — <a href="https://www.chanceliga.cz/hrac/4224">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="7678f6c0" data-player-key="christophe kabongo|2003">
-            Christophe Kabongo — <a href="https://www.chanceliga.cz/hrac/4692">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="67dd5e20" data-player-key="michal kohut|2000">
-            Michal Kohút — <a href="https://www.chanceliga.cz/hrac/3659">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c4e324c1" data-player-key="jakub kolar|2000">
-            Jakub Kolar — <a href="https://www.chanceliga.cz/hrac/3822">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="916fe1bb" data-player-key="josef kolarik|2007">
-            Josef Kolářík — <a href="https://www.chanceliga.cz/hrac/4944">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="fbeb4504" data-player-key="mikulas konecny|2006">
-            Mikuláš Konečný — <a href="https://www.chanceliga.cz/hrac/4397">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c9c1058d" data-player-key="matyas kozak|2001">
-            Matyas Kozak — <a href="https://www.chanceliga.cz/hrac/3934">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="8fcbca33" data-player-key="daniel kozma|1995">
-            Daniel Kozma — <a href="https://www.chanceliga.cz/hrac/3708">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="5b5c2228" data-player-key="ladislav krejci|1999">
             Ladislav Krejčí — <a href="https://commons.wikimedia.org/wiki/File:Ladislav_Krejčí_01112025_(3).jpg">Ladislav Krejčí 01112025 (3).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="43cd8b69" data-player-key="michael krmencik|1993">
-            Michael Krmenčík — <a href="https://www.chanceliga.cz/hrac/2116">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="4bce9c16" data-player-key="jan kuchta|1997">
-            Jan Kuchta — <a href="https://www.chanceliga.cz/hrac/3246">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c02311e7" data-player-key="vasil kusej|2000">
-            Vasil Kušej — <a href="https://www.chanceliga.cz/hrac/4366">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="69b2bb80" data-player-key="roman kvet|1997">
-            Roman Květ — <a href="https://www.chanceliga.cz/hrac/3396">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="5a51caa1" data-player-key="jakub kristan|2002">
-            Jakub Křišťan — <a href="https://www.chanceliga.cz/hrac/4279">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2914fac4" data-player-key="tomas ladra|1997">
-            Tomáš Ladra — <a href="https://www.chanceliga.cz/hrac/3502">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="b450673f" data-player-key="daniel langhamer|2003">
-            Daniel Langhamer — <a href="https://www.chanceliga.cz/hrac/4063">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="8e371868" data-player-key="david lischka|1997">
-            David Lischka — <a href="https://www.chanceliga.cz/hrac/3293">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="8dcbb3fb" data-player-key="daniel marecek|1998">
-            Daniel Mareček — <a href="https://www.chanceliga.cz/hrac/3888">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="4adc7b42" data-player-key="lukas masopust|1993">
-            Lukáš Masopust — <a href="https://www.chanceliga.cz/hrac/2266">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="781cff03" data-player-key="jan matousek|1998">
-            Jan Matoušek — <a href="https://www.chanceliga.cz/hrac/3463">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="048481fb" data-player-key="lukas masek|2004">
-            Lukáš Mašek — <a href="https://www.chanceliga.cz/hrac/4039">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="b1566bbe" data-player-key="ondrej mihalik|1997">
-            Ondřej Mihálik — <a href="https://www.chanceliga.cz/hrac/3082">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="fc8bbea7" data-player-key="matej mikulenka|2004">
-            Matěj Mikulenka — <a href="https://www.chanceliga.cz/hrac/4590">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="e0f613ad" data-player-key="filip novak|1990">
-            Filip Novák — <a href="https://www.chanceliga.cz/hrac/1909">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="9c87af24" data-player-key="jan paluska|2005">
-            Jan Paluska — <a href="https://www.chanceliga.cz/hrac/4468">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="bb833a0a" data-player-key="vojtech patrak|2000">
-            Vojtech Patrak — <a href="https://www.chanceliga.cz/hrac/3921">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="cffc27c7" data-player-key="tomas petrasek|1992">
-            Tomáš Petrášek — <a href="https://www.chanceliga.cz/hrac/4735">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="b5b2e1ba" data-player-key="vaclav pilar|1988">
-            Václav Pilař — <a href="https://www.chanceliga.cz/hrac/2039">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d21e3b0c" data-player-key="karel pojezny|2001">
-            Karel Pojezný — <a href="https://www.chanceliga.cz/hrac/4203">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d1bf91e0" data-player-key="matej polidar|1999">
-            Matěj Polidar — <a href="https://www.chanceliga.cz/hrac/3700">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="5ef85695" data-player-key="tomas poznar|1988">
-            Tomáš Poznar — <a href="https://www.chanceliga.cz/hrac/3207">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="39731086" data-player-key="filip prebsl|2003">
-            Filip Prebsl — <a href="https://www.chanceliga.cz/hrac/4233">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="8f21b7bd" data-player-key="lukas provod|1996">
-            Lukáš Provod — <a href="https://www.chanceliga.cz/hrac/3786">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2c320058" data-player-key="matej pulkrab|1997">
-            Matěj Pulkrab — <a href="https://www.chanceliga.cz/hrac/3278">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="f9078d19" data-player-key="david puskac|1993">
-            David Puškáč — <a href="https://www.chanceliga.cz/hrac/3636">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="3170788d" data-player-key="matej rynes|2001">
-            Matěj Ryneš — <a href="https://www.chanceliga.cz/hrac/4079">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="fa18b6cc" data-player-key="lukas sadilek|1996">
             Lukáš Sadílek — <a href="https://commons.wikimedia.org/wiki/File:Lukáš_Sadílek,_Karviná-Slovácko_02-09-2018.jpg">Lukáš Sadílek, Karviná-Slovácko 02-09-2018.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="5d4f7d61" data-player-key="patrik schick|1996">
-            Patrik Schick — <a href="https://www.bundesliga.com/en/player/patrik-schick">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="fde5fc24" data-player-key="vaclav sejk|2002">
-            Václav Sejk — <a href="https://www.chanceliga.cz/hrac/4217">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="79678afd" data-player-key="adam sevinsky|2004">
-            Adam Sevinsky — <a href="https://www.chanceliga.cz/hrac/4595">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="060e8217" data-player-key="vojtech smrz|1997">
-            Vojtěch Smrž — <a href="https://www.chanceliga.cz/hrac/3401">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="c75bba87" data-player-key="hugo sochurek|2008">
-            Hugo Sochůrek — <a href="https://www.chanceliga.cz/hrac/5064">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="765b7bfc" data-player-key="alexandr sojka|2003">
-            Alexandr Sojka — <a href="https://www.chanceliga.cz/hrac/4647">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="6613c819" data-player-key="tomas soucek|1995">
-            Tomáš Souček — <a href="https://www.premierleague.com/players/25183/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2942aabf" data-player-key="karel spacil|2003">
-            Karel Spáčil — <a href="https://www.chanceliga.cz/hrac/4585">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="79bb9bfb" data-player-key="vojtech stransky|2003">
-            Vojtech Stransky — <a href="https://www.chanceliga.cz/hrac/3896">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="f301f363" data-player-key="michal travnik|1994">
-            Michal Trávník — <a href="https://www.chanceliga.cz/hrac/2223">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="7d86c007" data-player-key="daniel vasulin|1998">
-            Daniel Vašulín — <a href="https://www.chanceliga.cz/hrac/4131">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="bd948e76" data-player-key="dalibor vecerka|2003">
-            Dalibor Večerka — <a href="https://www.chanceliga.cz/hrac/3999">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d5aac0e9" data-player-key="denis visinsky|2003">
-            Denis Višinský — <a href="https://www.chanceliga.cz/hrac/4091">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="aed44b64" data-player-key="adam vlkanova|1994">
-            Adam Vlkanova — <a href="https://www.chanceliga.cz/hrac/3144">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="eb326dcd" data-player-key="matyas vojta|2004">
-            Matyas Vojta — <a href="https://www.chanceliga.cz/hrac/4367">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="374c0932" data-player-key="patrik vydra|2003">
-            Patrik Vydra — <a href="https://www.chanceliga.cz/hrac/4255">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="bc647827" data-player-key="jaroslav zeleny|1992">
-            Jaroslav Zelený — <a href="https://www.chanceliga.cz/hrac/2090">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="6b43494c" data-player-key="tomas zlatohlavek|2000">
-            Tomás Zlatohlávek — <a href="https://www.chanceliga.cz/hrac/3596">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="f2adef96" data-player-key="filip zorvan|1996">
-            Filip Zorvan — <a href="https://www.chanceliga.cz/hrac/3045">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="01e0589c" data-player-key="marcel cermak|1998">
-            Marcel Čermák — <a href="https://www.chanceliga.cz/hrac/4358">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="bb1cf301" data-player-key="vaclav cerny|1997">
             Václav Černý — <a href="https://commons.wikimedia.org/wiki/File:Vaclav_Cerny_2014.png">Vaclav Cerny 2014.png</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="bb4a41bc" data-player-key="lukas cerv|2001">
-            Lukáš Červ — <a href="https://www.chanceliga.cz/hrac/3873">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="53ee75b8" data-player-key="filip cihak|1999">
-            Filip Čihák — <a href="https://www.chanceliga.cz/hrac/3574">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="298c8aa1" data-player-key="tomas cvancara|2000">
-            Tomáš Čvančara — <a href="https://www.chanceliga.cz/hrac/3592">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="4f482363" data-player-key="michal sevcik|2002">
-            Michal Ševčík — <a href="https://www.chanceliga.cz/hrac/3943">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="e9b893af" data-player-key="pavel sulc|2000">
-            Pavel Šulc — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="47ef9781" data-player-key="jachym sip|2003">
-            Jáchym Šíp — <a href="https://www.chanceliga.cz/hrac/3887">Chance Liga (LFA), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 17:55</p>
+    <p class="rendered-at">Rendered: 2026-09-30 02:10</p>
   </div>
 </footer>
 

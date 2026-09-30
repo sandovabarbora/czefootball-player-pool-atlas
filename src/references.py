@@ -73,23 +73,23 @@ def format_harvard(ref: dict[str, Any]) -> str:
     year, title = ref["year"], ref["title"]
     rtype = ref.get("type", "article")
 
+    accessed = f" Accessed {ref['accessed']}." if ref.get("accessed") else ""
+    locator = f" https://doi.org/{ref['doi']}." if ref.get("doi") else (f" {ref['url']}." if ref.get("url") else "")
+
     if rtype == "book":
         parts = f"{authors} ({year}) {title}."
         if ref.get("edition"):
             parts += f" {ref['edition']} edn."
         if ref.get("place") and ref.get("publisher"):
             parts += f" {ref['place']}: {ref['publisher']}."
-        return parts
+        return parts + locator + accessed
 
     if rtype == "report":
         parts = f"{authors} ({year}) {title}."
         if ref.get("series"):
             number = f", {ref['number']}" if ref.get("number") else ""
             parts += f" {ref['series']}{number}."
-        if ref.get("url"):
-            accessed = f" (Accessed: {ref['accessed']})" if ref.get("accessed") else ""
-            parts += f" Available at: {ref['url']}{accessed}."
-        return parts
+        return parts + locator + accessed
 
     # article (default)
     parts = f"{authors} ({year}) '{title}', {ref['container']}"
@@ -99,7 +99,7 @@ def format_harvard(ref: dict[str, Any]) -> str:
     pages = _format_pages(ref.get("pages"))
     if pages:
         parts += f", {pages}"
-    return parts + "."
+    return parts + "." + locator + accessed
 
 
 def in_text_multi(refs: list[dict[str, Any]]) -> str:

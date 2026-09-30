@@ -2,9 +2,10 @@
 question -- the last step of the site layer (site/build.sh), after
 enrich_index.py and build_atlas.py.
 
-  index.html            summary: masthead, hero, the dated teaser, the
-                        findings (what to take from it), the quick read, the
-                        brief, what this is for
+  index.html            summary: masthead, hero, the question and
+                        contribution, the dated teaser, the findings, the
+                        metadata block, the facts strip, the brief, how to
+                        cite and the change log
   q/<slug>/index.html   one question each: the slide, the evidence from
                         "Explore the data" that belongs to it, previous/next
   this-autumn/          the dated news section with its sources (when the
@@ -186,7 +187,8 @@ for n in body.children:
            ("section", "autumn"): "autumn", ("section", "for-federation"): "for-federation",
            ("section", "brief"): "brief", ("section", "explore"): "explore",
            ("aside", "chapter-divider"): "chapter", ("section", "methodology"): "methodology",
-           ("section", "close"): "close"}
+           ("section", "close"): "close", ("section", "contribution"): "contribution",
+           ("section", "colophon"): "colophon", ("section", "citelog"): "citelog"}
     k = next((v for (t, cl), v in key.items() if n.tag == t and cl in c), None)
     if k:
         blocks[k] = n
@@ -394,6 +396,8 @@ PAGES["methodology/"] = meth
 
 # the front page
 front = [src(blocks["masthead"]), src(blocks["hero"])]
+if "contribution" in blocks:
+    front.append(src(blocks["contribution"]))
 if HAS_AUTUMN:
     au = src(blocks["autumn"])
     asof = re.search(r'<p class="autumn-asof">.*?</p>', au, re.S)
@@ -423,9 +427,12 @@ if "take" in blocks:
                    f'<p class="finding-link"><a href="q/{dest}/">Read the evidence →</a></p></div></li>')
     kicker = re.search(r'<p class="close-kicker">.*?</p>', t, re.S).group(0)
     line = re.search(r'<p class="close-line take-line">.*?</p>', t, re.S)
-    front.append('<section class="take" id="take">\n  <div class="container">\n    ' + kicker
+    # `for-federation`: the retired block's anchor lands on the findings (old links keep working)
+    front.append('<section class="take" id="take">\n  <span id="for-federation"></span>\n  <div class="container">\n    ' + kicker
                  + '\n    <ol class="findings">\n      ' + "\n      ".join(lis) + "\n    </ol>\n    "
                  + (line.group(0) if line else "") + "\n  </div>\n</section>")
+if "colophon" in blocks:
+    front.append(src(blocks["colophon"]))
 if "quickread" in blocks:
     front.append(src(blocks["quickread"]))
 qlist = "\n".join(f'      <li><a href="q/{q["slug"]}/">{_html.escape(q["title"])}</a></li>' for q in questions)
@@ -433,7 +440,7 @@ front.append('<section class="front-index" id="questions">\n  <div class="contai
              f'    <ol class="front-q">\n{qlist}\n    </ol>\n    <p class="front-more">'
              + ('<a href="this-autumn/">This autumn</a> · ' if HAS_AUTUMN else "")
              + '<a href="methodology/">Methodology</a> · <a href="players/">Players</a></p>\n  </div>\n</section>')
-for k in ("brief", "for-federation", "close"):
+for k in ("brief", "citelog", "close"):
     if k in blocks:
         front.append(src(blocks[k]))
 PAGES[""] = front

@@ -22,7 +22,7 @@ news_as_of: 2026-09-29
 sources:
   - key: seznam_koubek
     publisher: Seznam Zprávy
-    date: null
+    date: 2026-06-29
     url: "https://www.seznamzpravy.cz/clanek/sport-fotbal-velky-zvrat-fotbaliste-jsou-bez-trenera-koubek-konci-309636"
     accessed: 2026-09-29
   - key: wiki_denia
@@ -30,6 +30,7 @@ sources:
     date: null
     url: "https://en.wikipedia.org/wiki/Santi_Denia"
     accessed: 2026-09-29
+    secondary: true        # the federation's own release was not located on 29 September 2026
   - key: rpi_denia
     publisher: Radio Prague International
     date: 2026-08-06
@@ -37,7 +38,7 @@ sources:
     accessed: 2026-09-29
   - key: livesport_schick
     publisher: Livesport.cz
-    date: null
+    date: 2026-06-25
     url: "https://www.livesport.cz/zpravy/fotbal-mistrovstvi-sveta-schick-se-louci-s-narodnim-tymem-cesky-fotbal-ma-podle-nej-na-vic-spousta-veci-nefunguje/GWYA312l/"
     accessed: 2026-09-29
   - key: isport_cerny
@@ -72,6 +73,6 @@ retirements:
     sources: [isport_cerny]
   - name: Václav Černý
     announced: 2026-07-10
-    quote: "těžké a bolestivé rozhodnutí"
-    quote_en: a difficult and painful decision
+    quote: "těžký a bolestivý proces"
+    quote_en: a difficult and painful process
     sources: [isport_cerny]

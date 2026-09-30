@@ -5,19 +5,19 @@
   <link rel="canonical" href="https://football.bsandova.com/ger/q/leaving-late/">
   <meta name="atlas-split" content="1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Does leaving later cost anything? · German football · Player pool atlas</title>
-  <meta name="description" content="Arrive in the top-9 at 21 and you produce +0.017 more league-adjusted G+A per 90 over your first two seasons than arriving at 24. German exports arrive at a median age of 21.">
+  <title>Age at the first top-9 season and output over the first two seasons, 691 exports · German football · Player pool atlas</title>
+  <meta name="description" content="Players who reach a top-9 league at 21 produce +0.017 more league-adjusted goals plus assists per 90 over their first two seasons than those arriving at 24 (90 % HDI 0.004 to 0.028, n = 691 exports).">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css?v=202609291536">
-  <link rel="stylesheet" href="../../modern.css?v=202609291536">
+  <link rel="stylesheet" href="../../style.css?v=202609300211">
+  <link rel="stylesheet" href="../../modern.css?v=202609300211">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../../charts.js?v=202609291536"></script>
-  <script defer src="../../atlas.js?v=202609291536"></script>
+  <script defer src="../../charts.js?v=202609300211"></script>
+  <script defer src="../../atlas.js?v=202609300211"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -28,20 +28,20 @@
     <details class="topbar-q" data-current>
       <summary>Questions</summary>
       <ol class="topbar-q-list">
-        <li><a href="../../q/why/">Why the train left</a></li>
-        <li><a href="../../q/per-head/">Is the pool thin?</a></li>
-        <li><a href="../../q/cohorts/">Where is it thin?</a></li>
+        <li><a href="../../q/why/">Five pathway measures: Germany, France and Spain, 2025/26</a></li>
+        <li><a href="../../q/per-head/">Players per million</a></li>
+        <li><a href="../../q/cohorts/">Cohort counts</a></li>
         <li><a href="../../q/youth/">Youth minutes at home</a></li>
-        <li><a href="../../q/abroad/">Where they go</a></li>
-        <li><a href="../../q/leaving-late/" aria-current="page">Does leaving later cost anything?</a></li>
-        <li><a href="../../q/fare/">How they fare</a></li>
-        <li><a href="../../q/national-team/">National-team squad</a></li>
-        <li><a href="../../q/break/">When the train left</a></li>
+        <li><a href="../../q/abroad/">Destinations abroad</a></li>
+        <li><a href="../../q/leaving-late/" aria-current="page">Age at the first top-9 season and output over the first two seasons, 691 exports</a></li>
+        <li><a href="../../q/fare/">Minutes share abroad</a></li>
+        <li><a href="../../q/national-team/">National-team squad by tier</a></li>
+        <li><a href="../../q/break/">Big-5 count and its steps</a></li>
         <li><a href="../../q/peers/">France and Spain</a></li>
         <li><a href="../../q/goalkeepers/">Goalkeepers</a></li>
-        <li><a href="../../q/gap/">What the gap is made of</a></li>
-        <li><a href="../../q/cards/">Who the players are</a></li>
-        <li><a href="../../q/changes/">What changed in a year</a></li>
+        <li><a href="../../q/gap/">Gap decomposition</a></li>
+        <li><a href="../../q/cards/">Showcase cards and the pool</a></li>
+        <li><a href="../../q/changes/">Change since last season</a></li>
       </ol>
     </details>
     <a href="../../methodology/">Methodology</a>
@@ -61,38 +61,44 @@
 
 <section class="slide" id="q4b">
   <div class="container">
-    <h2 class="slide-q">Does leaving later cost anything?</h2>
+    <h2 class="slide-q">Age at the first top-9 season and output over the first two seasons, 691 exports</h2>
     
-    <p class="slide-a">Arrive in the top-9 at 21 and you produce <strong>+0.017</strong> more league-adjusted G+A per 90 over your first two seasons than arriving at 24. German exports arrive at a median age of 21.</p>
+    <p class="slide-a">Players who reach a top-9 league at 21 produce <strong>+0.017</strong> more league-adjusted goals plus assists per 90 over their first two seasons than those arriving at 24 (90 % HDI 0.004 to 0.028, n = 691 exports).</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-chart="export-age">
         <img src="../../export_age_model.svg" alt="Line chart: the fitted age-at-export curve with its 90 % band, German exports as points against every other peer export, and a rug of every export's age along the axis.">
-        <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means arriving later costs nothing measurable. Green dots are German exports — hover for the name.</figcaption>
+        <figcaption>How to read it: the horizontal axis is a player’s age in his first top-9 season; the vertical axis is his league-adjusted goals plus assists per 90 over the first two seasons there. The line is the model’s expected value at each age, the band its 90 % interval; a flat line means no measurable difference in output by arrival age. Green dots are German exports — hover for the name.</figcaption>
       </figure>
     </div>
     <details class="fold slide-method">
       <summary>How we know</summary>
-      <p class="slide-detail">At 21: 0.15 (0.13–0.17); at 24: 0.13 (0.11–0.15); the difference +0.017 (0.004–0.028).</p>
+      <p class="slide-detail">At 21: 0.15 (90 % HDI 0.13–0.17); at 24: 0.13 (0.11–0.15); the difference +0.017 (0.004 to 0.028). German exports in the model sample reached a top-9 league at a median age of 21 (n = 72).</p>
     <p class="slide-aq"><span class="slide-aq-label">As an analytics question</span> In numbers: mean league-adjusted goals + assists per 90 over the first two top-9 seasons, as a function of age at the first one, given origin-league strength and position, 691 peer-nationality exports.</p>
     <p class="slide-did"><span class="slide-did-label">What we did</span> We looked at the age a player first arrived in one of the strongest leagues and checked whether players who arrived earlier ended up producing more, once we accounted for the strength of the league they came from.</p>
-    <p class="slide-how"><span class="slide-how-label">Sources</span> Age curve (natural cubic spline) on league-adjusted production, given origin-league strength (<a href="../../methodology/#league-strength">§ Methodology</a>), position and a country effect, 691 peer-nationality exports (Gelman et al., 2013; Hoffman and Gelman, 2014); better players tend to leave earlier, so the curve mixes selection with development and this report does not separate them.</p>
+    <p class="slide-how"><span class="slide-how-label">Sources</span> Age curve (natural cubic spline) on league-adjusted production, given origin-league strength (<a href="../../methodology/#league-strength">§ Methodology</a>), position and a country effect, 691 peer-nationality exports (Gelman et al., 2013; Hoffman and Gelman, 2014); 90 % HDI; better players tend to leave earlier, so the curve mixes selection with development and this atlas does not separate them.</p>
     </details>
-    <p class="slide-so">A federation tracking this would watch how the age-at-export curve shifts across cohorts, not any single player's outcome.</p>
+    <div class="slide-close">
+      <h3 class="slide-close-h">What this means</h3>
+      <p class="slide-means">Across 691 exports from the peer countries, arriving at 21 goes with +0.017 more league-adjusted goals plus assists per 90 than arriving at 24, with the interval above. The curve mixes selection (better players leave earlier) with any effect of leaving young, so it is an association and not an estimate of what an earlier move would do for a given player.</p>
+      <h3 class="slide-close-h">What this does not show</h3>
+      <p class="slide-notshow">Players who never reached a top-9 league, output after the first two seasons, and minutes, which a player may not get at all after an early move.</p>
+      <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit 7cbfe45 · code: <code>src/export_age_model.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
+    </div>
   </div>
 </section>
 
 <nav class="qpager container" aria-label="Questions">
-  <a class="qpager-prev" href="../../q/abroad/"><span class="qpager-dir">← Previous</span> Where do German players go when they leave?</a>
+  <a class="qpager-prev" href="../../q/abroad/"><span class="qpager-dir">← Previous</span> Where German-eligible players with 450+ minutes played in 2025/26, by league tier</a>
   <a class="qpager-home" href="../../">Back to the summary</a>
-  <a class="qpager-next" href="../../q/fare/"><span class="qpager-dir">Next →</span> How do they fare there?</a>
+  <a class="qpager-next" href="../../q/fare/"><span class="qpager-dir">Next →</span> Share of club minutes played by exports in the top-9 leagues, by country of origin, 2025/26</a>
 </nav>
 </main>
 
 <footer>
   <div class="container">
     <div class="role-block">
-      <p class="role-kicker">Built by Barbora Šandová — data &amp; cloud engineer</p>
-      <p class="role-body">Tracking-data PoCs for football and hockey. This page is the deliverable: pipeline, models, validation and the report are one repository.</p>
+      <p class="role-kicker">Barbora Šandová</p>
+      <p class="role-body">Data and code are in the repository below. Corrections are welcome by e-mail.</p>
       <p class="role-author">
         <span class="role-author-name">Barbora Šandová</span>
         <span class="role-author-contact">
@@ -104,16 +110,8 @@
     </div>
     <div class="photo-credits" id="photo-credits">
       <details class="fold">
-        <summary>Photo credits (86 portraits, Wikimedia Commons)</summary>
+        <summary>Photo credits (38 portraits, Wikimedia Commons)</summary>
         <ul class="small">
-          
-          <li data-fbref-id="dc38e3bc" data-player-key="ragnar ache|1998">
-            Ragnar Ache — <a href="https://www.bundesliga.com/en/player/ragnar-ache">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="5e66fa06" data-player-key="waldemar anton|1996">
-            Waldemar Anton — <a href="https://www.bundesliga.com/en/player/waldemar-anton">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
           
           <li data-fbref-id="86e119e0" data-player-key="maximilian arnold|1994">
             Maximilian Arnold — <a href="https://commons.wikimedia.org/wiki/File:Krasnodar-Wolfsburg_(19)_2014-10-24_Maximilian_Arnold.jpg">Krasnodar-Wolfsburg (19) 2014-10-24 Maximilian Arnold.jpg</a>, Wikimedia Commons — see file page for the licence
@@ -127,32 +125,12 @@
             Barış Atik — <a href="https://commons.wikimedia.org/wiki/File:2022-04-24_Fußball,_Männer,_3._Liga,_1._FC_Magdeburg_-_FSV_Zwickau_1DX_8444_by_Stepro_(cropped).jpg">2022-04-24 Fußball, Männer, 3. Liga, 1. FC Magdeburg - FSV Zwickau 1DX 8444 by Stepro (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="442b56fa" data-player-key="ridle baku|1998">
-            Ridle Baku — <a href="https://www.bundesliga.com/en/player/ridle-baku">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="30ae134d" data-player-key="kevin behrens|1991">
             Kevin Behrens — <a href="https://commons.wikimedia.org/wiki/File:Kevin_Behrens_2023.jpg">Kevin Behrens 2023.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="857a5abe" data-player-key="stefan bell|1991">
-            Stefan Bell — <a href="https://www.bundesliga.com/en/player/stefan-bell">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="07d3bfec" data-player-key="tom bischof|2005">
-            Tom Bischof — <a href="https://www.bundesliga.com/en/player/tom-bischof">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="bbd79358" data-player-key="moritz broschinski|2000">
             Moritz Broschinski — <a href="https://commons.wikimedia.org/wiki/File:2022-11-11_Borussia_Dortund_II_gegen_FC_Erzgebirge_Aue_(3._Liga_2022-23)_by_Sandro_Halank–071.jpg">2022-11-11 Borussia Dortund II gegen FC Erzgebirge Aue (3. Liga 2022-23) by Sandro Halank–071.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="abc79c47" data-player-key="nathaniel brown|2003">
-            Nathaniel Brown — <a href="https://www.bundesliga.com/en/player/nathaniel-brown">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="05f99a4a" data-player-key="jonathan burkardt|2000">
-            Jonathan Burkardt — <a href="https://www.bundesliga.com/en/player/jonathan-burkardt">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="c38767ab" data-player-key="marnon busch|1994">
@@ -161,10 +139,6 @@
           
           <li data-fbref-id="ae7058f9" data-player-key="julian chabot|1998">
             Julian Chabot — <a href="https://commons.wikimedia.org/wiki/File:Jeff_Chabot_(2018).jpg">Jeff_Chabot_(2018).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="e9a7a107" data-player-key="laurin curda|2001">
-            Laurin Curda — <a href="https://www.bundesliga.com/en/player/laurin-curda">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="bb665d2b" data-player-key="pius dorn|1996">
@@ -179,48 +153,12 @@
             Johannes Eggestein — <a href="https://commons.wikimedia.org/wiki/File:2025-04-23_-_FC_St_Pauli_-_Johannes_Eggestein_3.jpg">2025-04-23 - FC St Pauli - Johannes Eggestein 3.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="beb882a8" data-player-key="maximilian eggestein|1996">
-            Maximilian Eggestein — <a href="https://www.bundesliga.com/en/player/maximilian-eggestein">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="328b4304" data-player-key="soufiane el-faouzi|2002">
-            Soufiane El-Faouzi — <a href="https://www.bundesliga.com/en/player/soufiane-el-faouzi">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="b6ce3e6c" data-player-key="robin fellhauer|1998">
-            Robin Fellhauer — <a href="https://www.bundesliga.com/en/player/robin-fellhauer">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="788da372" data-player-key="marcel franke|1993">
             Marcel Franke — <a href="https://commons.wikimedia.org/wiki/File:Franke,_Marcel_SpVgg_Gr.Fürth_16-17_(2)_WP.jpg">Franke, Marcel SpVgg Gr.Fürth 16-17 (2) WP.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="f0fe7f7f" data-player-key="noel futkeu|2002">
-            Noel Futkeu — <a href="https://www.bundesliga.com/en/player/noel-futkeu">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="0cf778df" data-player-key="chris fuhrich|1998">
-            Chris Führich — <a href="https://www.bundesliga.com/en/player/chris-fuhrich">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="f521b80a" data-player-key="matthias ginter|1994">
-            Matthias Ginter — <a href="https://www.bundesliga.com/en/player/matthias-ginter">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="88e357ef" data-player-key="serge gnabry|1995">
-            Serge Gnabry — <a href="https://www.bundesliga.com/en/player/serge-gnabry">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="2d970560" data-player-key="robin gosens|1994">
-            Robin Gosens — <a href="https://www.bundesliga.com/en/player/robin-gosens">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="98895d40" data-player-key="lukas gortler|1994">
             Lukas Görtler — <a href="https://commons.wikimedia.org/wiki/File:Lukas-goertler.jpg">Lukas-goertler.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="819b3158" data-player-key="ilkay gundogan|1990">
-            İlkay Gündoğan — <a href="https://www.premierleague.com/players/5101/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="07db670d" data-player-key="phil harres|2002">
@@ -231,60 +169,24 @@
             Marcel Heister — <a href="https://commons.wikimedia.org/wiki/File:Marcel_Heister.jpg">Marcel Heister.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="4e1ba0ae" data-player-key="david herold|2003">
-            David Herold — <a href="https://www.bundesliga.com/en/player/david-herold">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="877bc844" data-player-key="philipp hofmann|1993">
             Philipp Hofmann — <a href="https://commons.wikimedia.org/wiki/File:Philipp_Hofmann,_Brentford_FC,_December_2015.jpg">Philipp Hofmann, Brentford FC, December 2015.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="2a158218" data-player-key="benedict hollerbach|2001">
-            Benedict Hollerbach — <a href="https://www.bundesliga.com/en/player/benedict-hollerbach">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="410ab123" data-player-key="lewis holtby|1990">
             Lewis Holtby — <a href="https://commons.wikimedia.org/wiki/File:Lewis_Holtby_2011-08-03.jpg">Lewis Holtby 2011-08-03.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="ca618d23" data-player-key="lucas holer|1994">
-            Lucas Höler — <a href="https://www.bundesliga.com/en/player/lucas-holer">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="a93b6f4e" data-player-key="paul jaeckel|1998">
             Paul Jaeckel — <a href="https://commons.wikimedia.org/wiki/File:2022-04-20_Fußball,_Männer,_DFB-Pokal,_RB_Leipzig_-_1._FC_Union_Berlin_1DX_8163_by_Stepro.jpg">2022-04-20 Fußball, Männer, DFB-Pokal, RB Leipzig - 1. FC Union Berlin 1DX 8163 by Stepro.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="8449d35e" data-player-key="vitaly janelt|1998">
-            Vitaly Janelt — <a href="https://www.premierleague.com/players/23194/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="227c9f36" data-player-key="finn jeltsch|2006">
-            Finn Jeltsch — <a href="https://www.bundesliga.com/en/player/finn-jeltsch">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="86b30561" data-player-key="sebastian jung|1990">
             Sebastian Jung — <a href="https://commons.wikimedia.org/wiki/File:Krasnodar-Wolfsburg_(17).jpg">Krasnodar-Wolfsburg (17).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="6d7598d5" data-player-key="anton kade|2004">
-            Anton Kade — <a href="https://www.bundesliga.com/en/player/anton-kade">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="a0deb1e9" data-player-key="lennart karl|2008">
-            Lennart Karl — <a href="https://www.bundesliga.com/en/player/lennart-karl">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="51dbeea9" data-player-key="thilo kehrer|1996">
-            Thilo Kehrer — <a href="https://ligue1.com/">Ligue 1 (LFP), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="aeda1f69" data-player-key="felix klaus|1992">
             Felix Klaus — <a href="https://commons.wikimedia.org/wiki/File:Felix_Klaus_2012_(cropped).jpg">Felix Klaus 2012 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="0fbecd11" data-player-key="dominik kohr|1994">
-            Dominik Kohr — <a href="https://www.bundesliga.com/en/player/dominik-kohr">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="be738efd" data-player-key="lion lauberbach|1998">
@@ -295,72 +197,24 @@
             Toni Leistner — <a href="https://commons.wikimedia.org/wiki/File:Tleistnerunionberlin_(cropped).jpg">Tleistnerunionberlin (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="13fe7b69" data-player-key="jamie leweling|2001">
-            Jamie Leweling — <a href="https://www.bundesliga.com/en/player/jamie-leweling">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="9db21d7f" data-player-key="said el mala|2006">
-            Said El Mala — <a href="https://www.bundesliga.com/en/player/said-el-mala">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="a9b9471c" data-player-key="stefano marino|2004">
-            Stefano Marino — <a href="https://www.bundesliga.com/en/player/stefano-marino">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="a31fbb72" data-player-key="luca marseiler|1997">
             Luca Marseiler — <a href="https://commons.wikimedia.org/wiki/File:Luca_Marseiler.jpg">Luca Marseiler.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="92a16062" data-player-key="eric martel|2002">
-            Eric Martel — <a href="https://www.bundesliga.com/en/player/eric-martel">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="6ce43701" data-player-key="youssoufa moukoko|2004">
             Youssoufa Moukoko — <a href="https://commons.wikimedia.org/wiki/File:2023-08-12_TSV_Schott_Mainz_gegen_Borussia_Dortmund_(DFB-Pokal_2023-24)_by_Sandro_Halank–066.jpg">2023-08-12 TSV Schott Mainz gegen Borussia Dortmund (DFB-Pokal 2023-24) by Sandro Halank–066.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="1b6d8083" data-player-key="paul nebel|2002">
-            Paul Nebel — <a href="https://www.bundesliga.com/en/player/paul-nebel">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="a45241d5" data-player-key="justin njinmah|2000">
-            Justin Njinmah — <a href="https://www.bundesliga.com/en/player/justin-njinmah">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="13d23b29" data-player-key="antonios papadopoulos|1999">
             Antonios Papadopoulos — <a href="https://commons.wikimedia.org/wiki/File:2023-08-12_TSV_Schott_Mainz_gegen_Borussia_Dortmund_(DFB-Pokal_2023-24)_by_Sandro_Halank–025.jpg">2023-08-12 TSV Schott Mainz gegen Borussia Dortmund (DFB-Pokal 2023-24) by Sandro Halank–025.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="2658c82f" data-player-key="aleksandar pavlovic|2004">
-            Aleksandar Pavlovic — <a href="https://www.bundesliga.com/en/player/aleksandar-pavlovic">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="80f252f6" data-player-key="dzenan pejcinovic|2005">
-            Dženan Pejčinović — <a href="https://www.bundesliga.com/en/player/dzenan-pejcinovic">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="11407d95" data-player-key="marvin pieringer|1999">
-            Marvin Pieringer — <a href="https://www.bundesliga.com/en/player/marvin-pieringer">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="7d450ed3" data-player-key="david raum|1998">
-            David Raum — <a href="https://www.bundesliga.com/en/player/david-raum">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="b1823b08" data-player-key="fabian reese|1997">
             Fabian Reese — <a href="https://commons.wikimedia.org/wiki/File:Fabian_reese.jpg">Fabian reese.jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="625fd441" data-player-key="nicolai remberg|2000">
-            Nicolai Remberg — <a href="https://www.bundesliga.com/en/player/nicolai-remberg">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="ce2c51c0" data-player-key="marlon ritter|1994">
             Marlon Ritter — <a href="https://commons.wikimedia.org/wiki/File:Marlon-Ritter-2016-07.jpg">Marlon-Ritter-2016-07.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="7e4c5a4a" data-player-key="maximilian rohr|1995">
-            Maximilian Rohr — <a href="https://www.bundesliga.com/en/player/maximilian-rohr">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="98daa26a" data-player-key="alexander rossipal|1996">
@@ -369,10 +223,6 @@
           
           <li data-fbref-id="2b114be3" data-player-key="leroy sane|1996">
             Leroy Sané — <a href="https://commons.wikimedia.org/wiki/File:Leroy_Sane_Ecuador_v_Germany_25_June_2026-004.jpg">Leroy Sane Ecuador v Germany 25 June 2026-004.jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="52afb588" data-player-key="kevin schade|2001">
-            Kevin Schade — <a href="https://www.premierleague.com/players/127594/">Premier League, official headshot</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="52c703f8" data-player-key="fabian schleusener|1991">
@@ -395,44 +245,8 @@
             Anton Stach — <a href="https://commons.wikimedia.org/wiki/File:Anton_Stach_13092025_(1).jpg">Anton Stach 13092025 (1).jpg</a>, Wikimedia Commons — see file page for the licence
           </li>
           
-          <li data-fbref-id="3b1ed320" data-player-key="angelo stiller|2001">
-            Angelo Stiller — <a href="https://www.bundesliga.com/en/player/angelo-stiller">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
           <li data-fbref-id="ff5ea0bf" data-player-key="malick thiaw|2001">
             Malick Thiaw — <a href="https://commons.wikimedia.org/wiki/File:Malick_Thiaw_Ecuador_v_Germany_25_June_2026-230_(cropped).jpg">Malick Thiaw Ecuador v Germany 25 June 2026-230 (cropped).jpg</a>, Wikimedia Commons — see file page for the licence
-          </li>
-          
-          <li data-fbref-id="fd53759d" data-player-key="jan thielmann|2002">
-            Jan Thielmann — <a href="https://www.bundesliga.com/en/player/jan-thielmann">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="3397e7b5" data-player-key="phillip tietz|1997">
-            Phillip Tietz — <a href="https://www.bundesliga.com/en/player/phillip-tietz">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="6b8887c2" data-player-key="steffen tigges|1998">
-            Steffen Tigges — <a href="https://www.bundesliga.com/en/player/steffen-tigges">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="a96e5dc0" data-player-key="jeremy toljan|1994">
-            Jeremy Toljan — <a href="https://www.laliga.com/en-GB/player/jeremy-toljan">LaLiga, official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="ebb32f3a" data-player-key="keke topp|2004">
-            Keke Topp — <a href="https://www.bundesliga.com/en/player/keke-topp">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="d646c218" data-player-key="lukas ullrich|2004">
-            Lukas Ullrich — <a href="https://www.bundesliga.com/en/player/lukas-ullrich">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="dd549382" data-player-key="deniz undav|1996">
-            Deniz Undav — <a href="https://www.bundesliga.com/en/player/deniz-undav">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
-          </li>
-          
-          <li data-fbref-id="e5a35ae9" data-player-key="luca waldschmidt|1996">
-            Luca Waldschmidt — <a href="https://www.bundesliga.com/en/player/luca-waldschmidt">Bundesliga (DFL), official portrait</a>, league portrait, used with credit; not part of the MIT-licensed repository
           </li>
           
           <li data-fbref-id="d0a1ddcb" data-player-key="marvin wanitzek|1993">
@@ -454,7 +268,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-29 13:14</p>
+    <p class="rendered-at">Rendered: 2026-09-30 02:11</p>
   </div>
 </footer>
 

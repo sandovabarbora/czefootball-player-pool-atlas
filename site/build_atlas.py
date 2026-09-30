@@ -46,6 +46,8 @@ if not careers_path.exists():
     sys.exit(f"no {careers_path} -- run `uv run python -m src.careers_export` first")
 players_path = Path(__file__).with_name(f"players.{NATION}.json")
 manifest = json.load(open(players_path, encoding="utf-8")) if players_path.exists() else {}
+# league or club headshots carry no licence the atlas can cite: Commons files only
+manifest = {k: v for k, v in manifest.items() if not str(v.get("license", "")).startswith("league portrait")}
 by_key = {v["player_key"]: v for v in manifest.values()}
 data = json.loads(careers_path.read_text(encoding="utf-8"))
 n_photo = 0
