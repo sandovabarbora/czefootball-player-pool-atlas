@@ -822,7 +822,9 @@
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
-        <figcaption>{{ t('slide.7.caption', first_season=big5.first_season) }}</figcaption>
+        {% set b5_kind = t('word.fall' if big5.delta is defined and big5.delta < 1 else 'word.rise') %}
+        {% if big5.rules == 'both' %}{% set b5_rules = t('slide.7.rules.both', kind=b5_kind) %}{% elif big5.rules == 'break' %}{% set b5_rules = t('slide.7.rules.break', kind=b5_kind) %}{% elif big5.rules == 'rise' %}{% set b5_rules = t('slide.7.rules.rise') %}{% else %}{% set b5_rules = t('slide.7.rules.none') %}{% endif %}
+        <figcaption>{{ t('slide.7.caption', first_season=big5.first_season, rules=b5_rules) }}</figcaption>
       </figure>
       {% if not big5.no_break %}<p class="slide-detail">{{ t('slide.7.a_detail', kind=t('word.fall' if big5.delta < 1 else 'word.rise'), break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_detail_rise', rise_season=big5.rise_season, rise_prob=pct(big5.rise_prob), rise_delta=f2(big5.rise_delta), rise_lo=f2(big5.rise_lo), rise_hi=f2(big5.rise_hi)) }}{% endif %}{% if big5.no_change %}{{ t('slide.7.no_change', kind=t('word.fall' if big5.delta < 1 else 'word.rise')) }}{% endif %}</p>{% endif %}
       {% if big5.diagnostics %}<p class="slide-detail">{{ t('slide.7.diag', rhat=f3(big5.diagnostics.max_rhat), ess=(big5.diagnostics.min_ess_bulk | round | int), div=big5.diagnostics.n_divergences) }}</p>{% endif %}

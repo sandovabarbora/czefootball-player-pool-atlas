@@ -3,7 +3,7 @@
 # dates, version, data dates and the change log shown at the foot of the
 # front page. Read by src.render._build_journal; nothing here is computed.
 published: 2026-09-15
-updated: 2026-09-29
+updated: 2026-09-30
 version: 2
 status: exploratory, not pre-registered
 data:
@@ -17,6 +17,9 @@ data:
 # Change log: newest first. `nations` limits an entry to some editions
 # (codes as in config/nations/*.yaml); without it an entry is on every edition.
 changelog:
+  - date: '2026-09-30'
+    items:
+    - 'The Big-5 chart caption now describes only the dated rules the chart draws in each edition; for Spain, where no step is drawn, it no longer mentions a rise and a fall.'
   - date: '2026-09-29'
     items:
     - 'Checked against editorial standard v1 on 29 September 2026. Pages now carry a research kicker, a metadata block (status: exploratory, not pre-registered; data snapshot; code; cite as; licence), a question-and-contribution

@@ -2427,6 +2427,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
 
     features_all = pd.concat(data["features"].values(), ignore_index=True)
     big5 = _build_big5(data["big5_series"])
+    big5["rules"] = "none"   # no change-point fit: the chart draws no dated rule
     # English names of the Big-5 chart's lower-panel contrast countries
     # (src.big5_series.MID_TONE_COUNTRIES = nation()["series_contrast"]), for
     # slide.7.alt's alt text; term()-translated in the template like every
@@ -2451,6 +2452,11 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
             big5["rise_lo"] = series_model["break"]["rise"].get("lo")
             big5["rise_hi"] = series_model["break"]["rise"].get("hi")
         big5["no_change"] = big5["delta_lo"] <= 1.0 <= big5["delta_hi"]
+        # the Big-5 chart's dashed rules (src.charts_export.big5_payload, the
+        # same two rules): the step marked "break" when it is one, the rise
+        # when it is one; the caption names exactly those
+        drawn = (not big5["no_break"], bool(series_model["break"].get("rise")))
+        big5["rules"] = {(True, True): "both", (True, False): "break", (False, True): "rise", (False, False): "none"}[drawn]
         big5["diagnostics"] = data["series_model"].get("diagnostics", {})
     peer_compare = _build_peer_compare(per_capita, pathways, squad_lens, data["big5_series"],
                                        features_all, lq, lg, metrics, names)
@@ -2748,7 +2754,7 @@ def build_context_from_fixtures(lang: str = "en") -> dict[str, Any]:
         "golden": f"{season_label(big5_seasons_raw[1])}: Jaroslav Drobný, Jaroslav Plašil, Radim Kučera",
         "contrast_names": ["Denmark", "Croatia"],
         "break_season": season_label(big5_seasons_raw[2]), "break_prob": 0.63,
-        "delta": 0.57, "delta_lo": 0.38, "delta_hi": 0.86,
+        "delta": 0.57, "delta_lo": 0.38, "delta_hi": 0.86, "rules": "break",
     }
     peer_compare = {
         "countries": ["CZE", "NOR", "DEN"],

@@ -136,7 +136,7 @@ HTML = f'''<!DOCTYPE html>
     <p class="ax-kicker">C · the long run, {span}</p>
     <h2 class="ax-statement">Who fell, who rose, and when — every country's presence in the Big-5, with two dated steps each.</h2>
     <div class="ax-chart" data-nx-long></div>
-    <p class="ax-note">How to read it: players with {lr.get("min_minutes", 450)}+ minutes in a Big-5 league that season, per million; a diamond is a dated step (hover for size and certainty); a dashed rule is a documented reform — a date, not a cause.</p>
+    <p class="ax-note">How to read it: players with {lr.get("min_minutes", 450)}+ minutes in a Big-5 league that season, per million; a diamond is a dated step (hover for size and certainty); a dashed rule is a documented reform — a date, not a cause. Convergence diagnostics for these cross-edition fits are not reported on this page, and some of the fits showed R-hat above 1.01; read their dated steps with that in mind.</p>
     <details class="fold ax-fold"><summary>how we know, and the two reform dates</summary>
       <p class="ax-note">FBref's season tables for the Premier League, Serie A, La Liga, Bundesliga and Ligue 1, from the first season all five are covered. Each country gets the report's two-step change-point model (<a href="#ref-adams_mackay_2007">{in_text(refs["adams_mackay_2007"])}</a>, in a batch, two-break setting). For a Big-5 nation the count includes its own league, so its series is mostly about how international that league became. Reform markers: {reform_lines}. A marker cannot tell whether a series moved because of a reform; it shows the timing, beside countries without such a reform.</p>
     </details>

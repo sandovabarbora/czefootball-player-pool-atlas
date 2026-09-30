@@ -22,14 +22,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202609300210">
-  <link rel="stylesheet" href="modern.css?v=202609300210">
+  <link rel="stylesheet" href="style.css?v=202609300450">
+  <link rel="stylesheet" href="modern.css?v=202609300450">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202609300210"></script>
-  <script defer src="atlas.js?v=202609300210"></script>
+  <script defer src="charts.js?v=202609300450"></script>
+  <script defer src="atlas.js?v=202609300450"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -151,11 +151,11 @@
 <section class="colophon" id="colophon">
   <div class="container">
     <ul class="meta-block" aria-label="About this page">
-      <li><span class="meta-k">published</span> 15 September 2026 · updated 29 September 2026 · version 2 (<a href="#changelog">change log</a>)</li>
+      <li><span class="meta-k">published</span> 15 September 2026 · updated 30 September 2026 · version 2 (<a href="#changelog">change log</a>)</li>
       
       <li><span class="meta-k">status</span> research, exploratory, not pre-registered. The one registered item is the Big-5 forecast for 2026/27 (registered forecast: numbers committed at 9505779 on 21 September 2026; commit times are self-reported).</li>
-      <li><span class="meta-k">data</span> FBref season tables via soccerdata 1.9.1, fetched 14 September 2026; Big-5 history from 1995/96, committed 22 September 2026; Wikipedia squad lists (CC BY-SA 4.0), Wikidata (CC0), Eurostat, population on 1 January 2024 (table demo_pjan), UEFA association coefficients; snapshot commit 7cbfe45. Sources, licences and hashes: <a href="methodology/#data-availability">data availability</a>.</li>
-      <li><span class="meta-k">code</span> <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot at 7cbfe45; rebuild: <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> (<a href="methodology/#reproducibility">reproduction</a>)</li>
+      <li><span class="meta-k">data</span> FBref season tables via soccerdata 1.9.1, fetched 14 September 2026; Big-5 history from 1995/96, committed 22 September 2026; Wikipedia squad lists (CC BY-SA 4.0), Wikidata (CC0), Eurostat, population on 1 January 2024 (table demo_pjan), UEFA association coefficients; snapshot commit ce793f3. Sources, licences and hashes: <a href="methodology/#data-availability">data availability</a>.</li>
+      <li><span class="meta-k">code</span> <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot at ce793f3; rebuild: <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> (<a href="methodology/#reproducibility">reproduction</a>)</li>
       <li><span class="meta-k">cite as</span> Šandová, B. (2026). <em>Czech football player pool atlas</em>. football.bsandova.com/, version 2.</li>
       <li><span class="meta-k">licence</span> code MIT; text, figures and data CC BY 4.0; player portraits are Wikimedia Commons files under their own licences (footer).</li>
     </ul>
@@ -269,9 +269,13 @@
 <section class="citelog" id="citelog">
   <div class="container">
     <h2 id="how-to-cite">How to cite</h2>
-    <p>Šandová, B. (2026). <em>Czech football player pool atlas</em>. football.bsandova.com/, version 2. Code and data: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot commit 7cbfe45. Text, figures and data are CC BY 4.0; the code is MIT.</p>
+    <p>Šandová, B. (2026). <em>Czech football player pool atlas</em>. football.bsandova.com/, version 2. Code and data: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot commit ce793f3. Text, figures and data are CC BY 4.0; the code is MIT.</p>
     <h2 id="changelog">Change log</h2>
     <ul class="changelog">
+      
+      <li><span class="mono">30 September 2026</span>
+        <ul><li>The Big-5 chart caption now describes only the dated rules the chart draws in each edition; for Spain, where no step is drawn, it no longer mentions a rise and a fall.</li></ul>
+      </li>
       
       <li><span class="mono">29 September 2026</span>
         <ul><li>Checked against editorial standard v1 on 29 September 2026. Pages now carry a research kicker, a metadata block (status: exploratory, not pre-registered; data snapshot; code; cite as; licence), a question-and-contribution paragraph with five external references, How to cite and this change log; every question page ends with What this means, What this does not show and a metadata line.</li><li>Advice drawn from descriptive data was removed: the “A federation tracking this would watch” line on every question, the “For a federation” and “What this is for” blocks, the targets and the “numbers to watch” in the findings, and the heuristic sentence under the two reforms, now retitled “Youth minutes in Germany and England after two academy reforms (descriptive)” with Honigstein (2015) and Premier League (2011) cited inline.</li><li>Correction: the per-head count was described as players with at least 450 minutes; it counts every player who appeared (any minutes). The number is unchanged and the page now gives the count at 450 and 900 minutes beside it (new table per_capita_floors.json, src/international_benchmark.py).</li><li>Correction: the findings quoted the Big-5 steps from the cross-edition fit (outputs/nations/nations.json, long_run); they now quote the edition’s own change-point fit, the one its Big-5 page shows, with the posterior and the 90 % HDI of each step. The claims that a peer’s presence “came back” (resting on posteriors of 23–31 %) were removed.</li><li>Correction: each Big-5 step is now dated to the season where its own posterior peaks; before, it was the season the step takes in the most probable pair of seasons, which for Spain was 2001/02 (posterior 2 %) where 2021/22 has 7 %. The findings follow the Big-5 page in not dating a step within 5 % of no change, and report an earlier fall as the other step. The method text now says the series starts in 1995/96, not 1990/91, and that the model has two steps.</li><li>Cross-edition page: every dated step in the long-run chart and table now carries its 90 % HDI (the long run was refitted with the same seed; only the dated seasons of Austria, Belgium, Italy, the Netherlands, Portugal and Spain moved, to their own most probable season). The lines the page generated in the browser, which grouped countries into those that “fell and came back” and asked whether the youth share is “a cause”, were removed; the decomposition bars show their 90 % bootstrap intervals.</li><li>Correction: the gap decomposition’s league-strength coefficient is negative in the fit; the text now says so (a weaker home league goes with more players per million) instead of reading league strength as an advantage. The export-age channel is reported as zero by construction where the countries compared share the same median export age; the two export-age measures are named apart (age at the first season abroad; age at the first top-9 season).</li><li>Correction: the recent youth-minutes finding compared two endpoints; it now reports an OLS slope over the six seasons with its 90 % CI, and the slope at the upper bound of the last season where the share is a floor.</li><li>Stepping-stone leagues are now disjoint from the top nine (config/leagues.yaml: only the German second tier). Every tier rule already checked the top nine first, so no count changed; pathways.json, pool_table.json and season_changes.json were recomputed and are identical.</li><li>New intervals: 90 % percentile-bootstrap intervals on each country’s median minutes share abroad (2 000 resamples, seed 42; pathways.json); interval types are labelled throughout (90 % HDI, 90 % bootstrap interval, 90 % CI).</li><li>Exhibit C on the pathway page now shows the minutes-share bars and the club goals-scored percentile bars under their own labels; before, only the goals percentile was drawn under a paragraph that led with the minutes share.</li><li>League and club headshots, which carry no licence the atlas can cite, are no longer shown; players without a Wikimedia Commons portrait show initials.</li><li>Methodology: data availability with sources, snapshot dates and licence notes; reproduction commands, snapshot commit and seeds; all limitations in one list; references with access dates, DOIs and the data sources (FBref, soccerdata, Wikipedia, Wikidata, Eurostat demo_pjan, UEFA). The review and ruling counts and the build-flow section were replaced by a line on the automated tests; the tracking-data demonstration was removed.</li><li>Reproduction: the rebuild command now includes make figures, which refits the seeded models from the snapshot and redraws the figures; without it a clean clone stopped at the missing figures.</li><li>Cross-edition page: the decomposition section is retitled from “why a nation lags” to a description of the split, “mechanism” wording is replaced by “channel”, and each contrast is labelled as a gap in players per million.</li></ul>
@@ -343,7 +347,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-09-30 02:10</p>
+    <p class="rendered-at">Rendered: 2026-09-30 04:50</p>
   </div>
 </footer>
 
