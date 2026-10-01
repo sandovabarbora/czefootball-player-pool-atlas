@@ -75,7 +75,7 @@ Validation:
   1. Posterior predictive check (`ppc_summary`): observed vs. replicated `y`
      -- mean, sd, 10th/90th percentile (Gelman et al., 2013).
   2. Leave-one-nation-out (`run_lono`): refit excluding the home nation's
-     own rows (lighter budget, same non-centred model) -- does the age
+     own rows (the main fit's budget, same non-centred model) -- does the age
      curve move? Reported as the shift in the age-21-vs-24 difference and
      in beta between the full and the LONO fit.
   3. Diagnostics: R-hat, ESS, divergence count (`diagnostics_summary`).
@@ -123,7 +123,10 @@ SPLINE_MIN_N = 150
 EVAL_AGES: tuple[int, ...] = (19, 21, 23, 25, 27)
 
 DRAWS, TUNE, CHAINS, TARGET_ACCEPT = 1000, 1000, 4, 0.9
-LONO_DRAWS, LONO_TUNE, LONO_CHAINS = 500, 500, 2
+# the leave-one-nation-out fit runs at the main fit's settings, with one
+# stricter step size where it fails the rule (design/count-and-lono-protocol.md)
+LONO_DRAWS, LONO_TUNE, LONO_CHAINS = DRAWS, TUNE, CHAINS
+LONO_STAGES = (TARGET_ACCEPT, 0.99)
 
 
 # =============================================================================
@@ -502,13 +505,17 @@ def diagnostics_summary(idata: az.InferenceData) -> dict[str, Any]:
     when present (the `use_strength=False` fit has none)."""
     var_names = [v for v in ("alpha", "b_age", "beta", "gamma_pos", "sigma_n", "sigma") if v in idata.posterior]
     summary = az.summary(idata, var_names=var_names, ci_prob=0.9)
-    return {
+    d = {
         "max_rhat": round(float(summary["r_hat"].max()), 4),
         "min_ess_bulk": round(float(summary["ess_bulk"].min()), 1),
         "min_ess_tail": round(float(summary["ess_tail"].min()), 1),
         "n_divergences": int(idata.sample_stats["diverging"].values.sum()),
         "sigma_n_median": round(float(idata.posterior["sigma_n"].median()), 4),
     }
+    # the convergence rule of design/edition-refit-protocol.md
+    d["pass"] = (d["max_rhat"] <= 1.01 and d["min_ess_bulk"] >= 400 and d["min_ess_tail"] >= 400
+                 and d["n_divergences"] == 0)
+    return d
 
 
 def ppc_summary(idata: az.InferenceData, design: dict[str, Any]) -> dict[str, Any]:
@@ -541,10 +548,10 @@ def run_lono(
     chains: int = LONO_CHAINS, target_accept: float = TARGET_ACCEPT, seed: int | None = None,
 ) -> dict[str, Any]:
     """Refit the WITH-strength model excluding the home nation's own rows:
-    does the age curve move? Lighter sampling budget (2 chains x 500 draws
-    by default, same convention as `src.league_strength.run_oos_validation`)
-    -- this refit exists to validate the model, its own posterior isn't
-    reported beyond the comparison below. `n_excluded` is always reported,
+    does the age curve move? The main fit's sampling budget, refitted once
+    at target_accept 0.99 if it fails the convergence rule
+    (design/count-and-lono-protocol.md) -- this refit exists to validate
+    the model, its own posterior isn't reported beyond the comparison below. `n_excluded` is always reported,
     even when the home nation has no rows to exclude (`n_excluded = 0`,
     `diff_21_24`/`beta` absent) or the remainder is empty (shouldn't happen
     in the live data, guarded against regardless).
@@ -557,15 +564,19 @@ def run_lono(
 
     design = build_design(sub)
     t0 = time.time()
-    idata = fit_model(design, use_strength=True, draws=draws, tune=tune, chains=chains,
-                      target_accept=target_accept, seed=seed)
+    for stage, ta in enumerate((target_accept, *LONO_STAGES[1:]), 1):
+        idata = fit_model(design, use_strength=True, draws=draws, tune=tune, chains=chains,
+                          target_accept=ta, seed=seed)
+        diag = {**diagnostics_summary(idata), "stage": stage}
+        if diag["pass"]:
+            break
     runtime_s = round(time.time() - t0, 1)
 
     return {
         "n_excluded": n_excluded, "n": design["n"],
         "diff_21_24": diff_between_ages(idata, design),
         "beta": beta_summary(idata, design),
-        "diagnostics": diagnostics_summary(idata),
+        "diagnostics": diag,
         "runtime_s": runtime_s,
     }
 

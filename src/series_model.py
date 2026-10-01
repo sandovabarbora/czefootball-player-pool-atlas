@@ -644,7 +644,9 @@ def main() -> None:
     render_figure(seasons, y_home, tau_grid, tau_probs, fitted_med, fitted_lo, fitted_hi,
                  home_forecast["season"], home_forecast["median"], home_forecast["lo"], home_forecast["hi"],
                  config.OUTPUTS_DIR / "series_model.svg",
-                 break_season=top_break["season"], break_prob=top_break["prob"])
+                 # a fit that fails the convergence rule dates nothing (design/edition-refit-protocol.md)
+                 break_season=top_break["season"] if diagnostics["pass"] else None,
+                 break_prob=top_break["prob"] if diagnostics["pass"] else None)
 
     LOG.info("done: %s, %.1f s total", config.NATION, time.time() - t_start)
 

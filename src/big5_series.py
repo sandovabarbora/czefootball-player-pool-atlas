@@ -72,8 +72,9 @@ def build_series(history: pd.DataFrame, peers: dict[str, dict], min_minutes: int
         n_list, per_million_list, minutes_share_list = [], [], []
         for season in seasons:
             season_nation = nation_rows[nation_rows["season"] == season]
-            qualifying = season_nation[season_nation["min"] >= min_minutes]
-            n = int(qualifying["player_key"].nunique())
+            # the floor applies to a player's minutes summed over every Big-5 club that season
+            per_player = season_nation.groupby("player_key")["min"].sum()
+            n = int((per_player >= min_minutes).sum())
             n_list.append(n)
             per_million_list.append(round(n / meta["population_m"], 2))
             total_min = float(season_totals.get(season, 0.0))

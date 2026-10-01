@@ -3,49 +3,49 @@
   "top": [
    {
     "season": "2000-2001",
-    "prob": 0.7537
+    "prob": 0.7773
    },
    {
     "season": "1998-1999",
-    "prob": 0.0594
+    "prob": 0.0572
    },
    {
-    "season": "1999-2000",
-    "prob": 0.0588
+    "season": "2001-2002",
+    "prob": 0.0534
    }
   ],
   "delta_factor": {
-   "median": 0.7503,
-   "lo": 0.644,
-   "hi": 0.9014
+   "median": 0.747,
+   "lo": 0.6453,
+   "hi": 0.8903
   },
   "modal": {
    "season": "2000-2001",
-   "prob": 0.7537
+   "prob": 0.7773
   },
   "rise": {
    "top": [
     {
      "season": "2010-2011",
-     "prob": 0.2016
+     "prob": 0.1908
     },
     {
      "season": "2011-2012",
-     "prob": 0.0722
+     "prob": 0.0701
     },
     {
      "season": "2013-2014",
-     "prob": 0.0581
+     "prob": 0.0597
     }
    ],
    "delta_factor": {
-    "median": 1.032,
-    "lo": 0.8272,
-    "hi": 1.2077
+    "median": 1.0315,
+    "lo": 0.839,
+    "hi": 1.2111
    },
    "modal": {
     "season": "2010-2011",
-    "prob": 0.2016
+    "prob": 0.1908
    }
   },
   "n_breaks": 2,
@@ -56,73 +56,73 @@
      "2000-2001",
      "2010-2011"
     ],
-    "prob": 0.1637
+    "prob": 0.1589
    },
    {
     "seasons": [
      "2000-2001",
      "2011-2012"
     ],
-    "prob": 0.0618
+    "prob": 0.061
    },
    {
     "seasons": [
      "2000-2001",
      "2013-2014"
     ],
-    "prob": 0.0482
+    "prob": 0.0504
    }
   ],
-  "sigma": 0.0289
+  "sigma": 0.0283
  },
  "contrast": {
   "FRA": {
    "top": [
     {
      "season": "2023-2024",
-     "prob": 0.2777
+     "prob": 0.3034
     },
     {
      "season": "2017-2018",
-     "prob": 0.0899
+     "prob": 0.0805
     },
     {
      "season": "2010-2011",
-     "prob": 0.055
+     "prob": 0.0546
     }
    ],
    "delta_factor": {
-    "median": 0.9247,
-    "lo": 0.8146,
-    "hi": 1.0451
+    "median": 0.9242,
+    "lo": 0.8175,
+    "hi": 1.0457
    },
    "modal": {
     "season": "2023-2024",
-    "prob": 0.2777
+    "prob": 0.3034
    },
    "rise": {
     "top": [
      {
-      "season": "1998-1999",
-      "prob": 0.1447
+      "season": "1999-2000",
+      "prob": 0.1345
      },
      {
-      "season": "1999-2000",
-      "prob": 0.1409
+      "season": "1998-1999",
+      "prob": 0.1298
      },
      {
       "season": "2000-2001",
-      "prob": 0.1061
+      "prob": 0.1041
      }
     ],
     "delta_factor": {
-     "median": 0.9309,
-     "lo": 0.8355,
-     "hi": 1.0397
+     "median": 0.9324,
+     "lo": 0.8356,
+     "hi": 1.0376
     },
     "modal": {
-     "season": "1998-1999",
-     "prob": 0.1447
+     "season": "1999-2000",
+     "prob": 0.1345
     }
    },
    "n_breaks": 2,
@@ -130,31 +130,31 @@
    "pair_top": [
     {
      "seasons": [
-      "1998-1999",
-      "2023-2024"
-     ],
-     "prob": 0.025
-    },
-    {
-     "seasons": [
       "1999-2000",
       "2023-2024"
      ],
-     "prob": 0.0249
+     "prob": 0.0252
     },
     {
      "seasons": [
       "2009-2010",
       "2023-2024"
      ],
-     "prob": 0.0225
+     "prob": 0.0249
+    },
+    {
+     "seasons": [
+      "1998-1999",
+      "2023-2024"
+     ],
+     "prob": 0.0245
     }
    ],
-   "sigma": 0.0249,
+   "sigma": 0.0248,
    "diagnostics": {
-    "max_rhat": 1.0015,
-    "min_ess_bulk": 3072.8,
-    "min_ess_tail": 3154.5,
+    "max_rhat": 1.0014,
+    "min_ess_bulk": 2753.5,
+    "min_ess_tail": 2718.6,
     "n_divergences": 0,
     "pass": true,
     "stage": 2
@@ -168,45 +168,45 @@
     },
     {
      "season": "2022-2023",
-     "prob": 0.0744
+     "prob": 0.0763
     },
     {
      "season": "2019-2020",
-     "prob": 0.0689
+     "prob": 0.0684
     }
    ],
    "delta_factor": {
-    "median": 1.0182,
-    "lo": 0.8906,
-    "hi": 1.1368
+    "median": 1.0187,
+    "lo": 0.8886,
+    "hi": 1.1426
    },
    "modal": {
     "season": "2001-2002",
-    "prob": 0.0277
+    "prob": 0.0272
    },
    "rise": {
     "top": [
      {
       "season": "1998-1999",
-      "prob": 0.2045
+      "prob": 0.2021
      },
      {
       "season": "2000-2001",
-      "prob": 0.1047
+      "prob": 0.105
      },
      {
       "season": "2001-2002",
-      "prob": 0.0752
+      "prob": 0.0741
      }
     ],
     "delta_factor": {
-     "median": 1.0105,
-     "lo": 0.8467,
-     "hi": 1.1384
+     "median": 1.01,
+     "lo": 0.8543,
+     "hi": 1.1493
     },
     "modal": {
      "season": "1998-1999",
-     "prob": 0.2045
+     "prob": 0.2021
     }
    },
    "n_breaks": 2,
@@ -217,31 +217,31 @@
       "1998-1999",
       "2001-2002"
      ],
-     "prob": 0.0277
+     "prob": 0.0272
     },
     {
      "seasons": [
       "1998-1999",
       "2004-2005"
      ],
-     "prob": 0.0116
+     "prob": 0.0118
     },
     {
      "seasons": [
       "1998-1999",
       "2002-2003"
      ],
-     "prob": 0.0112
+     "prob": 0.011
     }
    ],
-   "sigma": 0.0331,
+   "sigma": 0.0343,
    "diagnostics": {
-    "max_rhat": 1.0013,
-    "min_ess_bulk": 1809.0,
-    "min_ess_tail": 1964.1,
+    "max_rhat": 1.0064,
+    "min_ess_bulk": 1198.0,
+    "min_ess_tail": 1162.1,
     "n_divergences": 0,
     "pass": true,
-    "stage": 2
+    "stage": 1
    }
   }
  },
@@ -251,11 +251,11 @@
     "origin": "2010-2011",
     "next_season": "2011-2012",
     "actual": 164.0,
-    "median": 153,
-    "lo": 122,
-    "hi": 192,
+    "median": 154,
+    "lo": 123,
+    "hi": 191,
     "naive": 166.0,
-    "mae_model": 11.0,
+    "mae_model": 10.0,
     "mae_naive": 2.0,
     "covered": true
    },
@@ -265,7 +265,7 @@
     "actual": 159.0,
     "median": 160,
     "lo": 128,
-    "hi": 198,
+    "hi": 197,
     "naive": 164.0,
     "mae_model": 1.0,
     "mae_naive": 5.0,
@@ -286,23 +286,23 @@
    {
     "origin": "2013-2014",
     "next_season": "2014-2015",
-    "actual": 165.0,
+    "actual": 166.0,
     "median": 171,
     "lo": 138,
-    "hi": 211,
+    "hi": 210,
     "naive": 179.0,
-    "mae_model": 6.0,
-    "mae_naive": 14.0,
+    "mae_model": 5.0,
+    "mae_naive": 13.0,
     "covered": true
    },
    {
     "origin": "2014-2015",
     "next_season": "2015-2016",
-    "actual": 161.0,
-    "median": 167,
-    "lo": 134,
-    "hi": 205,
-    "naive": 165.0,
+    "actual": 162.0,
+    "median": 168,
+    "lo": 135,
+    "hi": 206,
+    "naive": 166.0,
     "mae_model": 6.0,
     "mae_naive": 4.0,
     "covered": true
@@ -311,23 +311,23 @@
     "origin": "2015-2016",
     "next_season": "2016-2017",
     "actual": 165.0,
-    "median": 163,
-    "lo": 131,
-    "hi": 198,
-    "naive": 161.0,
-    "mae_model": 2.0,
-    "mae_naive": 4.0,
+    "median": 164,
+    "lo": 133,
+    "hi": 199,
+    "naive": 162.0,
+    "mae_model": 1.0,
+    "mae_naive": 3.0,
     "covered": true
    },
    {
     "origin": "2016-2017",
     "next_season": "2017-2018",
     "actual": 162.0,
-    "median": 164,
-    "lo": 133,
+    "median": 165,
+    "lo": 134,
     "hi": 200,
     "naive": 165.0,
-    "mae_model": 2.0,
+    "mae_model": 3.0,
     "mae_naive": 3.0,
     "covered": true
    },
@@ -335,11 +335,11 @@
     "origin": "2017-2018",
     "next_season": "2018-2019",
     "actual": 170.0,
-    "median": 162,
+    "median": 163,
     "lo": 132,
     "hi": 198,
     "naive": 162.0,
-    "mae_model": 8.0,
+    "mae_model": 7.0,
     "mae_naive": 8.0,
     "covered": true
    },
@@ -361,7 +361,7 @@
     "actual": 150.0,
     "median": 162,
     "lo": 132,
-    "hi": 196,
+    "hi": 197,
     "naive": 159.0,
     "mae_model": 12.0,
     "mae_naive": 9.0,
@@ -371,36 +371,36 @@
     "origin": "2020-2021",
     "next_season": "2021-2022",
     "actual": 164.0,
-    "median": 156,
+    "median": 155,
     "lo": 126,
     "hi": 188,
     "naive": 150.0,
-    "mae_model": 8.0,
+    "mae_model": 9.0,
     "mae_naive": 14.0,
     "covered": true
    },
    {
     "origin": "2021-2022",
     "next_season": "2022-2023",
-    "actual": 160.0,
+    "actual": 162.0,
     "median": 160,
     "lo": 131,
     "hi": 193,
     "naive": 164.0,
-    "mae_model": 0.0,
-    "mae_naive": 4.0,
+    "mae_model": 2.0,
+    "mae_naive": 2.0,
     "covered": true
    },
    {
     "origin": "2022-2023",
     "next_season": "2023-2024",
-    "actual": 176.0,
-    "median": 160,
-    "lo": 131,
+    "actual": 177.0,
+    "median": 161,
+    "lo": 132,
     "hi": 193,
-    "naive": 160.0,
+    "naive": 162.0,
     "mae_model": 16.0,
-    "mae_naive": 16.0,
+    "mae_naive": 15.0,
     "covered": true
    },
    {
@@ -408,29 +408,29 @@
     "next_season": "2024-2025",
     "actual": 167.0,
     "median": 169,
-    "lo": 138,
-    "hi": 204,
-    "naive": 176.0,
+    "lo": 139,
+    "hi": 205,
+    "naive": 177.0,
     "mae_model": 2.0,
-    "mae_naive": 9.0,
+    "mae_naive": 10.0,
     "covered": true
    },
    {
     "origin": "2024-2025",
     "next_season": "2025-2026",
     "actual": 161.0,
-    "median": 167,
-    "lo": 137,
-    "hi": 201,
+    "median": 168,
+    "lo": 138,
+    "hi": 202,
     "naive": 167.0,
-    "mae_model": 6.0,
+    "mae_model": 7.0,
     "mae_naive": 6.0,
     "covered": true
    }
   ],
   "pooled": {
-   "mae_model": 7.2,
-   "mae_naive": 8.6,
+   "mae_model": 7.2667,
+   "mae_naive": 8.3333,
    "coverage90": 1.0,
    "fits_failed": 0
   }
@@ -439,12 +439,12 @@
   "GER": {
    "season": "2026-2027",
    "median": 164,
-   "lo": 134,
-   "hi": 196,
+   "lo": 135,
+   "hi": 197,
    "diagnostics": {
-    "max_rhat": 1.0012,
-    "min_ess_bulk": 4548.1,
-    "min_ess_tail": 5155.9,
+    "max_rhat": 1.0014,
+    "min_ess_bulk": 4905.7,
+    "min_ess_tail": 5668.4,
     "n_divergences": 0,
     "pass": true,
     "stage": 1
@@ -452,13 +452,13 @@
   },
   "FRA": {
    "season": "2026-2027",
-   "median": 210,
-   "lo": 181,
-   "hi": 242,
+   "median": 211,
+   "lo": 182,
+   "hi": 243,
    "diagnostics": {
-    "max_rhat": 1.0026,
-    "min_ess_bulk": 5602.8,
-    "min_ess_tail": 5033.1,
+    "max_rhat": 1.0019,
+    "min_ess_bulk": 5138.2,
+    "min_ess_tail": 5544.8,
     "n_divergences": 0,
     "pass": true,
     "stage": 1
@@ -466,23 +466,23 @@
   },
   "ESP": {
    "season": "2026-2027",
-   "median": 281,
-   "lo": 245,
-   "hi": 319,
+   "median": 282,
+   "lo": 247,
+   "hi": 320,
    "diagnostics": {
-    "max_rhat": 1.002,
-    "min_ess_bulk": 2219.9,
-    "min_ess_tail": 3332.7,
+    "max_rhat": 1.0014,
+    "min_ess_bulk": 2212.9,
+    "min_ess_tail": 3459.0,
     "n_divergences": 0,
     "pass": true,
-    "stage": 2
+    "stage": 1
    }
   }
  },
  "diagnostics": {
-  "max_rhat": 1.0033,
-  "min_ess_bulk": 1200.3,
-  "min_ess_tail": 1788.5,
+  "max_rhat": 1.0026,
+  "min_ess_bulk": 1729.5,
+  "min_ess_tail": 2127.6,
   "n_divergences": 0,
   "pass": true,
   "stage": 2

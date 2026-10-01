@@ -796,12 +796,12 @@
   <div class="container">
     <h2 class="slide-q">{{ t('slide.7.q', min=feature_defs.min_minutes, first_season=big5.first_season, last_season=big5.last_season) }}</h2>
     {% if big5 %}
-    <p class="slide-a">{% if big5.no_break %}{{ t('slide.7.a_nobreak', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta)) }}{% else %}{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season) }}{% endif %}</p>
+    <p class="slide-a">{% if big5.no_break %}{{ t('slide.7.a_unconverged' if big5.unconverged else 'slide.7.a_nobreak', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season, break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta)) }}{% else %}{{ t('slide.7.a', min=feature_defs.min_minutes, peak_n=big5.peak_n, peak_season=big5.peak_season, low_n=big5.low_n, low_season=big5.low_season, last_n=big5.last_n, last_season=big5.last_season) }}{% endif %}</p>
     <div class="slide-proof">
       <figure class="figure-bleed" data-atlas="big5" data-chart="big5">
         <img src="{{ assets }}big5_series.svg" alt="{{ t('slide.7.alt', min=feature_defs.min_minutes, start=big5.first_season, end=big5.last_season, a=term(big5.contrast_names[0]), b=term(big5.contrast_names[1])) }}">
         {% set b5_kind = t('word.fall' if big5.delta is defined and big5.delta < 1 else 'word.rise') %}
-        {% if big5.rules == 'both' %}{% set b5_rules = t('slide.7.rules.both', kind=b5_kind) %}{% elif big5.rules == 'break' %}{% set b5_rules = t('slide.7.rules.break', kind=b5_kind) %}{% elif big5.rules == 'rise' %}{% set b5_rules = t('slide.7.rules.rise') %}{% else %}{% set b5_rules = t('slide.7.rules.none') %}{% endif %}
+        {% if big5.rules == 'both' %}{% set b5_rules = t('slide.7.rules.both', kind=b5_kind) %}{% elif big5.rules == 'break' %}{% set b5_rules = t('slide.7.rules.break', kind=b5_kind) %}{% elif big5.rules == 'rise' %}{% set b5_rules = t('slide.7.rules.rise') %}{% else %}{% set b5_rules = t('slide.7.rules.unconverged' if big5.unconverged else 'slide.7.rules.none') %}{% endif %}
         <figcaption>{{ t('slide.7.caption', first_season=big5.first_season, rules=b5_rules) }}</figcaption>
       </figure>
       {% if not big5.no_break %}<p class="slide-detail">{{ t('slide.7.a_detail', kind=t('word.fall' if big5.delta < 1 else 'word.rise'), break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_detail_rise', rise_season=big5.rise_season, rise_prob=pct(big5.rise_prob), rise_delta=f2(big5.rise_delta), rise_lo=f2(big5.rise_lo), rise_hi=f2(big5.rise_hi)) }}{% endif %}{% if big5.no_change %}{{ t('slide.7.no_change', kind=t('word.fall' if big5.delta < 1 else 'word.rise')) }}{% endif %}</p>{% endif %}
@@ -840,7 +840,7 @@
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.7.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
     </details>
-    {{ closing('slide.7.nobreak' if big5.no_break else 'slide.7', 'src/big5_series.py, src/series_model.py', {'kind': t('word.fall' if big5.delta < 1 else 'word.rise'), 'break_season': big5.break_season, 'break_prob': pct(big5.break_prob), 'delta': f2(big5.delta), 'lo': f2(big5.delta_lo), 'hi': f2(big5.delta_hi), 'topn': topn}) }}
+    {{ closing('slide.7.unconverged' if big5.unconverged else ('slide.7.nobreak' if big5.no_break else 'slide.7'), 'src/big5_series.py, src/series_model.py', {'kind': t('word.fall' if big5.delta < 1 else 'word.rise'), 'break_season': big5.break_season, 'break_prob': pct(big5.break_prob), 'delta': f2(big5.delta), 'lo': f2(big5.delta_lo), 'hi': f2(big5.delta_hi), 'topn': topn}) }}
     {% endif %}
   </div>
 </section>
@@ -1972,10 +1972,10 @@
       <img src="{{ assets }}series_model.svg" alt="{{ t('ch4.series.fig_alt') }}">
       <figcaption>{{ t('ch4.series.caption') }}</figcaption>
     </figure>
-    <p>{{ t('ch4.series.nobreak.p' if series_model.break.is_step is sameas false else 'ch4.series.break.p', season=series_model.break.season, prob=pct(series_model.break.prob),
+    <p>{{ t('ch4.series.unconverged.p' if series_model.break.converged is sameas false else ('ch4.series.nobreak.p' if series_model.break.is_step is sameas false else 'ch4.series.break.p'), season=series_model.break.season, prob=pct(series_model.break.prob),
              delta=f2(series_model.break.delta), lo=f2(series_model.break.lo), hi=f2(series_model.break.hi),
              sigma=f3(series_model.break.sigma)) }}</p>
-    {% if series_model.break.earlier %}
+    {% if series_model.break.earlier and series_model.break.converged is not sameas false %}
     <p>{{ t('ch4.series.earlier.p', season=series_model.break.earlier.season, prob=pct(series_model.break.earlier.prob), delta=f2(series_model.break.earlier.delta), lo=f2(series_model.break.earlier.lo), hi=f2(series_model.break.earlier.hi)) }}</p>
     {% endif %}
     {% if series_model.break.rise %}
@@ -1984,7 +1984,7 @@
       <li>{{ t('ch4.series.rise.label') }}: {% for r in series_model.break.rise.top %}{{ t('ch4.series.break.top_item', season=r.season, prob=pct(r.prob)) }}{% if not loop.last %} · {% endif %}{% endfor %}</li>
       <li>{{ t('ch4.series.fall.label') }}: {% for r in series_model.break.top %}{{ t('ch4.series.break.top_item', season=r.season, prob=pct(r.prob)) }}{% if not loop.last %} · {% endif %}{% endfor %}</li>
     </ul>
-    {% else %}
+    {% elif series_model.break.converged is not sameas false %}
     <ul class="break-top">
       {% for r in series_model.break.top %}
       <li>{{ t('ch4.series.break.top_item', season=r.season, prob=pct(r.prob)) }}</li>
@@ -1994,8 +1994,8 @@
     <p>{{ t('ch4.series.contrast.p') }}</p>
     <ul class="contrast-break">
       {% for c in series_model.contrast %}
-      <li>{{ t('ch4.series.contrast.item', name=term(c.name), season=c.season, prob=pct(c.prob),
-                delta=f2(c.delta), lo=f2(c.lo), hi=f2(c.hi)) }}{% if c.rise %}{{ t('ch4.series.contrast.item_rise', season=c.rise.season, prob=pct(c.rise.prob), delta=f2(c.rise.delta)) }}{% endif %}</li>
+      <li>{% if not c.converged %}{{ t('ch4.series.contrast.item_unconverged', name=term(c.name)) }}{% else %}{{ t('ch4.series.contrast.item', name=term(c.name), season=c.season, prob=pct(c.prob),
+                delta=f2(c.delta), lo=f2(c.lo), hi=f2(c.hi)) }}{% endif %}{% if c.rise and c.converged %}{{ t('ch4.series.contrast.item_rise', season=c.rise.season, prob=pct(c.rise.prob), delta=f2(c.rise.delta)) }}{% endif %}</li>
       {% endfor %}
     </ul>
 
@@ -2166,7 +2166,8 @@
              diff=(signed2(eam.lono.diff_21_24.median) if eam.lono.diff_21_24 else '—'),
              lo=(f2(eam.lono.diff_21_24.lo) if eam.lono.diff_21_24 else '—'),
              hi=(f2(eam.lono.diff_21_24.hi) if eam.lono.diff_21_24 else '—'),
-             full_diff=signed2(eam.diff_21_24.median)) }}</p>
+             full_diff=signed2(eam.diff_21_24.median)) }}{% set ld = eam.lono.diagnostics %}{% if ld %} {{ t('ch4.export.lono_diag' if ld.pass else 'ch4.export.lono_diag_fail',
+             rhat=f3(ld.max_rhat), ess=(ld.min_ess_bulk | round | int), tail=(ld.min_ess_tail | round | int), div=ld.n_divergences) }}{% endif %}</p>
     <details class="fold">
       <summary>{{ t('ch4.export.ppc.summary') }}</summary>
       <p>{{ t('ch4.export.ppc.p', obs_mean=f2(eam.ppc.observed.mean), rep_mean=f2(eam.ppc.replicated.mean),
@@ -2304,7 +2305,7 @@
                 lpd=(lpd | join('; ')), rho=f2(league_strength.spearman.rho)) }}</li>
       {% endif %}
       {% if series_model.break %}
-      <li>{{ t('ch4.validation.m3', season=series_model.break.season, prob=pct(series_model.break.prob),
+      <li>{{ t('ch4.validation.m3' if series_model.break.is_step is not sameas false else ('ch4.validation.m3_unconverged' if series_model.break.converged is sameas false else 'ch4.validation.m3_nobreak'), season=series_model.break.season, prob=pct(series_model.break.prob),
                 delta=f2(series_model.break.delta), mae_model=f2(series_model.backtest.pooled.mae_model),
                 mae_naive=f2(series_model.backtest.pooled.mae_naive), coverage=pct(series_model.backtest.pooled.coverage90),
                 n=series_model.backtest.rows | length,
