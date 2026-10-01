@@ -62,10 +62,17 @@ QUESTIONS = [
     ("peers", "q8", []),
     ("goalkeepers", "q8b", []),
     ("gap", "q8c", []),
-    ("cards", "q9", ["clusters", "analogs", "players"]),
+    ("cards", "q9", []),
     ("changes", "q10", ["trajectories"]),
 ]
 METHOD_FOLDS = ["downloads"]
+# folds no page shows: the cluster maps repeat the cards page's interactive
+# atlas, the player index repeats its pool list and the players page, and each
+# card already carries its analogs. Old links to them go to the players page.
+DROPPED_FOLDS = ["clusters", "analogs", "players"]
+CARDS_MORE = ('<section class="explore qpage-evidence">\n  <div class="container">\n    '
+              '<p class="front-more">The full pool and every player\'s career: <a href="players/">Players</a></p>\n'
+              '  </div>\n</section>')
 # what to take from it, by position: the question page that holds its evidence
 TAKE_TO = ["break", "gap", "youth", "why", "youth"]
 
@@ -219,7 +226,7 @@ for n in ex_container.children:
         FOLDS[h3.attrs["id"]] = src(n)
     else:
         sys.exit(f"split_pages: unexpected block in explore: {TEXT[n.start:n.open_end]}")
-claimed = {f for _, _, fs in QUESTIONS for f in fs} | set(METHOD_FOLDS)
+claimed = {f for _, _, fs in QUESTIONS for f in fs} | set(METHOD_FOLDS) | set(DROPPED_FOLDS)
 if set(FOLDS) - claimed:
     sys.exit(f"split_pages: explore folds no page claims: {sorted(set(FOLDS) - claimed)}")
 
@@ -372,6 +379,8 @@ for i, q in enumerate(questions):
     if q["folds"]:
         folds = "\n".join(re.sub(r'^(\s*)<details class="fold">', r'\1<details class="fold" open>', FOLDS[f], count=1) for f in q["folds"])
         frag.append(f'<section class="explore qpage-evidence">\n  <div class="container">\n    {EXPLORE_H2 or ""}\n    {folds}\n  </div>\n</section>')
+    if q["slug"] == "cards":
+        frag.append(CARDS_MORE)
     frag.append(pager(i, ""))  # rewrite() adds the page depth
     PAGES[path] = frag
 
@@ -452,6 +461,9 @@ for path, frags in PAGES.items():
         for i_ in ids(f):
             WHERE.setdefault(i_, path)
 old_ids = set(ids(TEXT[body.start:body.end]))
+for f in DROPPED_FOLDS:
+    for i_ in ids(FOLDS[f]):
+        WHERE.setdefault(i_, "players/")
 for i_ in old_ids - set(WHERE):
     WHERE[i_] = ""          # nav-only ids (toc, skip link) land on the front page
 # the old contents' own ids (the toc) are not content

@@ -115,10 +115,11 @@ def test_site_layer_is_applied_to_both_pages(built):
         # the masthead cast strip went in the distill pass (the faces live on
         # the cards); the page must not carry it any more
         assert 'class="cast"' not in html
-        assert 'id="player-search"' in html and 'class="player-index-table"' in html
-        assert html.count("<details class=\"cluster\">") >= 12
+        # the player index is no longer published (the cards page's pool list and players/ carry the pool)
+        assert 'id="player-search"' not in html
+        # the static cluster maps are no longer published (the interactive atlas shows the projections)
+        assert "<details class=\"cluster\">" not in html and "data-cluster-names=" not in html
         assert "data-tex=" in html and "katex" in html
-        assert "data-cluster-names=" in html
 
 
 
@@ -192,11 +193,12 @@ def test_atlas_meta_covers_three_atlases_and_the_heatmap(site_dir):
 
 
 def test_player_index_has_one_row_per_mapped_player(built):
-    """One row per home-eligible player with a metrics-season feature row
-    (`src.render._build_player_index`) -- the exact count is nation-specific
-    (it tracks the size of that nation's own pool), so it's computed from
-    `features_{FW,MF,DF}.parquet` directly rather than a hardcoded range
-    calibrated to one nation's numbers."""
+    """The render's player index has one row per home-eligible player with a
+    metrics-season feature row (`src.render._build_player_index`) -- the exact
+    count is nation-specific, so it's computed from `features_{FW,MF,DF}.parquet`
+    directly. The split site no longer publishes the index (the cards page's
+    pool list and the players page carry the pool), so the built pages carry
+    no index rows."""
     from src.utils import read_parquet
 
     metrics_season = config.seasons()["metrics"]
@@ -205,9 +207,10 @@ def test_player_index_has_one_row_per_mapped_player(built):
         df = read_parquet(ROOT / "data" / "processed" / NATION / f"features_{group}.parquet")
         sub = df[(df["season"] == metrics_season) & df["home_eligible"]]
         expected += int(sub["player_key"].nunique())
+    render = (ROOT / "outputs" / NATION / "index.html").read_text(encoding="utf-8")
+    assert len(re.findall(r'<tr [^>]*data-name="', render)) == expected
     for html in built.values():
-        rows = re.findall(r'<tr [^>]*data-name="', html)
-        assert len(rows) == expected, (len(rows), expected)
+        assert not re.findall(r'<tr [^>]*data-name="', html)
 
 
 def _rank_top10(rows: list[dict], multipliers: dict[str, float]) -> list[str]:
