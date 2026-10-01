@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202610010936">
-  <link rel="stylesheet" href="../modern.css?v=202610010936">
+  <link rel="stylesheet" href="../style.css?v=202610011024">
+  <link rel="stylesheet" href="../modern.css?v=202610011024">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../charts.js?v=202610010936"></script>
-  <script defer src="../atlas.js?v=202610010936"></script>
+  <script defer src="../charts.js?v=202610011024"></script>
+  <script defer src="../atlas.js?v=202610011024"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -636,16 +636,16 @@
       <img src="../series_model.svg" alt="Line chart of the England series with the change-point model's fitted level in a pale green band, a vertical rule marking the most probable break season with its posterior probability, and the one-season forecast with its 90 % interval at the right edge, past a dashed divider.">
       <figcaption>How to read it: the black dots are the observed count, the pale green band the model’s fitted level; the dashed rules are the most probable rise and fall seasons with their posterior probabilities; past the divider on the right, the one-season forecast with its 90 % interval.</figcaption>
     </figure>
-    <p>For England, the model dates the break to 2007/08 (11 % posterior probability), a ×0.95 (0.77–1.17, 90 % HDI) change in the level; the random walk's own innovation scale is σ = 0.048.</p>
+    <p>For England, the model finds no step change worth dating: the best candidate is 2019/20 at 10 % posterior with a ×0.96 (0.76–1.18) change in the level; the random walk's own innovation scale is σ = 0.048.</p>
     
-    <p>The other step is a fall too, dated to 2001/02 (30 % posterior), a ×0.85 (0.70–1.03) change: the level came down in two moves rather than rising first.</p>
+    <p>The other step is a fall too, dated to 2001/02 (31 % posterior), a ×0.85 (0.70–1.03) change: the level came down in two moves rather than rising first.</p>
     
     
     <ul class="break-top">
       
-      <li>2007/08: 11 %</li>
+      <li>2019/20: 10 %</li>
       
-      <li>2019/20: 9 %</li>
+      <li>2007/08: 10 %</li>
       
       <li>2012/13: 8 %</li>
       
@@ -654,9 +654,9 @@
     <p>The same model, fit separately for the two contrast countries:</p>
     <ul class="contrast-break">
       
-      <li>France: 2023/24 (26 % posterior), ×0.93 (0.82–1.04).</li>
+      <li>France: 2023/24 (28 % posterior), ×0.92 (0.81–1.05).</li>
       
-      <li>Germany: 2000/01 (69 % posterior), ×0.76 (0.65–0.98). Rise: 2010/11 (21 %), ×1.04.</li>
+      <li>Germany: 2000/01 (75 % posterior), ×0.75 (0.64–0.90). Rise: 2010/11 (20 %), ×1.03.</li>
       
     </ul>
 
@@ -671,52 +671,52 @@
         
         <tr>
           <td>2010/11</td><td>2011/12</td><td class="num">148</td>
-          <td class="num">132 (105–165)</td><td class="num">134</td>
+          <td class="num">133 (105–164)</td><td class="num">134</td>
         </tr>
         
         <tr>
           <td>2011/12</td><td>2012/13</td><td class="num">128</td>
-          <td class="num">143 (113–173)</td><td class="num">148</td>
+          <td class="num">141 (113–174)</td><td class="num">148</td>
         </tr>
         
         <tr>
           <td>2012/13</td><td>2013/14</td><td class="num">111</td>
-          <td class="num">134 (106–165)</td><td class="num">128</td>
+          <td class="num">134 (107–164)</td><td class="num">128</td>
         </tr>
         
         <tr>
           <td>2013/14</td><td>2014/15</td><td class="num">136</td>
-          <td class="num">122 (96–151)</td><td class="num">111</td>
+          <td class="num">121 (95–150)</td><td class="num">111</td>
         </tr>
         
         <tr>
           <td>2014/15</td><td>2015/16</td><td class="num">114</td>
-          <td class="num">129 (104–159)</td><td class="num">136</td>
+          <td class="num">129 (103–159)</td><td class="num">136</td>
         </tr>
         
         <tr>
           <td>2015/16</td><td>2016/17</td><td class="num">114</td>
-          <td class="num">121 (97–150)</td><td class="num">114</td>
+          <td class="num">121 (96–150)</td><td class="num">114</td>
         </tr>
         
         <tr>
           <td>2016/17</td><td>2017/18</td><td class="num">122</td>
-          <td class="num">118 (94–146)</td><td class="num">114</td>
+          <td class="num">117 (93–145)</td><td class="num">114</td>
         </tr>
         
         <tr>
           <td>2017/18</td><td>2018/19</td><td class="num">112</td>
-          <td class="num">121 (96–149)</td><td class="num">122</td>
+          <td class="num">120 (95–148)</td><td class="num">122</td>
         </tr>
         
         <tr>
           <td>2018/19</td><td>2019/20</td><td class="num">133</td>
-          <td class="num">116 (90–144)</td><td class="num">112</td>
+          <td class="num">116 (92–142)</td><td class="num">112</td>
         </tr>
         
         <tr>
           <td>2019/20</td><td>2020/21</td><td class="num">142</td>
-          <td class="num">125 (99–155)</td><td class="num">133</td>
+          <td class="num">124 (100–153)</td><td class="num">133</td>
         </tr>
         
         <tr>
@@ -731,17 +731,17 @@
         
         <tr>
           <td>2022/23</td><td>2023/24</td><td class="num">130</td>
-          <td class="num">132 (108–162)</td><td class="num">134</td>
+          <td class="num">133 (107–162)</td><td class="num">134</td>
         </tr>
         
         <tr>
           <td>2023/24</td><td>2024/25</td><td class="num">139</td>
-          <td class="num">132 (106–161)</td><td class="num">130</td>
+          <td class="num">131 (106–160)</td><td class="num">130</td>
         </tr>
         
         <tr>
           <td>2024/25</td><td>2025/26</td><td class="num">127</td>
-          <td class="num">136 (110–165)</td><td class="num">139</td>
+          <td class="num">135 (109–164)</td><td class="num">139</td>
         </tr>
         
       </tbody>
@@ -757,25 +757,25 @@
       <tbody>
         
         <tr data-highlight="cze">
-          <td>England</td><td>2026/27</td><td class="num">130</td>
-          <td class="num">105–159</td>
+          <td>England</td><td>2026/27</td><td class="num">131</td>
+          <td class="num">106–160</td>
         </tr>
         
         <tr >
           <td>France</td><td>2026/27</td><td class="num">210</td>
-          <td class="num">182–242</td>
+          <td class="num">181–242</td>
         </tr>
         
         <tr >
           <td>Germany</td><td>2026/27</td><td class="num">164</td>
-          <td class="num">136–198</td>
+          <td class="num">135–197</td>
         </tr>
         
       </tbody>
     </table>
     <p class="capita-note">A demonstration of the method on a count of players, not a statement about any player.</p>
 
-    <p>Change-point fit: R-hat ≤ 1.009, minimum bulk ESS 221, 0 divergent transitions across 31 seasons.</p>
+    <p>Change-point fit, 4 chains × 2000 draws across 31 seasons: max R-hat 1.002, minimum bulk ESS 1836, minimum tail ESS 1854, 0 divergent transitions. Every fit in this section is checked against a convergence rule fixed on 1 October 2026, before the refit (design/edition-refit-protocol.md): max R-hat ≤ 1.01, bulk and tail ESS ≥ 400, no divergent transitions, with a stricter step size only for a fit that fails. The peers' change-point fits and the forecast fits: 5 of 5 pass. Backtest origins whose fit fails, kept in the scores: 0 of 15.</p>
     </details>
     
 
@@ -1772,7 +1772,7 @@
       <li>League strength (M2): R-hat ≤ 1.003, 0 divergent transitions; out-of-sample log predictive density Same rate as before −2.628; Rate × UEFA ratio −2.734; Transfer-graph model −2.174; Spearman rho = 0.74 against the UEFA multipliers.</li>
       
       
-      <li>The break and forecast (M4): the break dates to 2007/08 (11 % posterior) for England, a ×0.95 level change; the plain local level beats the naive baseline on MAE (10.40 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
+      <li>The break and forecast (M4): the break dates to 2019/20 (10 % posterior) for England, a ×0.96 level change; the plain local level beats the naive baseline on MAE (10.40 vs 12.07) with 100 % of the 90 % intervals covering the observed value over 15 rolling-origin backtests.</li>
       
       
       <li>The youth-minutes panel (M3): across 8 countries (country means, n = 8), the between-country slope is +13.94 per 10 percentage points of U21 share (−4.93–33.09), R² = 0.22; a plain pooled OLS slope agrees in sign at +13.57 (5.36–20.82) — the interval is wide because the panel is small. A within-country check (country-random-intercept fit on the full two-season panel) finds no signal: β_within = +1.56.</li>
@@ -2075,7 +2075,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-10-01 09:36</p>
+    <p class="rendered-at">Rendered: 2026-10-01 10:24</p>
   </div>
 </footer>
 

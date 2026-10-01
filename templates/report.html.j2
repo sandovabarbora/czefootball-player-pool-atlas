@@ -827,7 +827,7 @@
         <figcaption>{{ t('slide.7.caption', first_season=big5.first_season, rules=b5_rules) }}</figcaption>
       </figure>
       {% if not big5.no_break %}<p class="slide-detail">{{ t('slide.7.a_detail', kind=t('word.fall' if big5.delta < 1 else 'word.rise'), break_season=big5.break_season, break_prob=pct(big5.break_prob), delta=f2(big5.delta), lo=f2(big5.delta_lo), hi=f2(big5.delta_hi)) }}{% if big5.rise_season %}{{ t('slide.7.a_detail_rise', rise_season=big5.rise_season, rise_prob=pct(big5.rise_prob), rise_delta=f2(big5.rise_delta), rise_lo=f2(big5.rise_lo), rise_hi=f2(big5.rise_hi)) }}{% endif %}{% if big5.no_change %}{{ t('slide.7.no_change', kind=t('word.fall' if big5.delta < 1 else 'word.rise')) }}{% endif %}</p>{% endif %}
-      {% if big5.diagnostics %}<p class="slide-detail">{{ t('slide.7.diag', rhat=f3(big5.diagnostics.max_rhat), ess=(big5.diagnostics.min_ess_bulk | round | int), div=big5.diagnostics.n_divergences) }}</p>{% endif %}
+      {% if big5.diagnostics %}<p class="slide-detail">{{ t('slide.7.diag' if big5.diagnostics.pass else 'slide.7.diag_fail', rhat=f3(big5.diagnostics.max_rhat), ess=(big5.diagnostics.min_ess_bulk | round | int), tail=(big5.diagnostics.min_ess_tail | round | int), div=big5.diagnostics.n_divergences) }}</p>{% endif %}
       {% for pr in predictions %}
       <aside class="scoreboard" id="prediction-{{ loop.index }}">
         <p class="scoreboard-kicker">{{ t('pred.kicker') }}</p>
@@ -862,7 +862,7 @@
     <p class="slide-did"><span class="slide-did-label">{{ t('slide.did_label') }}</span> {{ t('slide.7.did') }}</p>
     <p class="slide-how"><span class="slide-how-label">{{ t('slide.how_label') }}</span> {{ t('slide.7.how', first_season=big5.first_season, last_season=big5.last_season, golden=big5.golden, cite_cp=cite.adams_mackay_2007) }}</p>
     </details>
-    {{ closing('slide.7', 'src/big5_series.py, src/series_model.py', {'kind': t('word.fall' if big5.delta < 1 else 'word.rise'), 'break_season': big5.break_season, 'break_prob': pct(big5.break_prob), 'delta': f2(big5.delta), 'lo': f2(big5.delta_lo), 'hi': f2(big5.delta_hi), 'topn': topn}) }}
+    {{ closing('slide.7.nobreak' if big5.no_break else 'slide.7', 'src/big5_series.py, src/series_model.py', {'kind': t('word.fall' if big5.delta < 1 else 'word.rise'), 'break_season': big5.break_season, 'break_prob': pct(big5.break_prob), 'delta': f2(big5.delta), 'lo': f2(big5.delta_lo), 'hi': f2(big5.delta_hi), 'topn': topn}) }}
     {% endif %}
   </div>
 </section>
@@ -2058,8 +2058,11 @@
     <p class="capita-note">{{ t('ch4.series.forecast.note') }}</p>
 
     <p>{{ t('ch4.series.diagnostics', rhat=f3(series_model.diagnostics.max_rhat),
-             ess=(series_model.diagnostics.min_ess_bulk | round | int), div=series_model.diagnostics.n_divergences,
-             t=(big5.seasons | length)) }}</p>
+             ess=(series_model.diagnostics.min_ess_bulk | round | int), tail=(series_model.diagnostics.min_ess_tail | round | int),
+             div=series_model.diagnostics.n_divergences, t=(big5.seasons | length),
+             chains=series_model.chains, draws=series_model.draws) }}{% if series_model.checks.n %} {{ t('ch4.series.checks',
+             passed=series_model.checks.passed, n=series_model.checks.n, bt_failed=series_model.checks.backtest_failed,
+             bt_n=series_model.checks.backtest_n) }}{% endif %}</p>
     </details>
     {% endif %}
 

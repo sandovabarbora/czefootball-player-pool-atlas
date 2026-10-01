@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css?v=202610010936">
-  <link rel="stylesheet" href="../../modern.css?v=202610010936">
+  <link rel="stylesheet" href="../../style.css?v=202610011024">
+  <link rel="stylesheet" href="../../modern.css?v=202610011024">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../../charts.js?v=202610010936"></script>
-  <script defer src="../../atlas.js?v=202610010936"></script>
+  <script defer src="../../charts.js?v=202610011024"></script>
+  <script defer src="../../atlas.js?v=202610011024"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -71,8 +71,8 @@
         
         <figcaption>How to read it: each line is one country’s count of players with at least 450 minutes in the five biggest leagues, season by season since 1995/96. Danish players are the green line; the dashed rule marked “break” is the season the model dates the rise to, with its posterior probability; the model’s other step is not a rise of 5 % or more and is not marked; the point past the last season is the forecast for next season with its 90 % interval. Toggle countries and switch to per million to compare fairly across sizes.</figcaption>
       </figure>
-      <p class="slide-detail">The change-point model’s most probable season for the rise is 2021/22 (posterior 23 %), a level change of ×1.41 (90 % HDI 0.88–1.97). The 90 % interval for the rise includes ×1.00, so the rise is not distinguishable from no change at that level.</p>
-      <p class="slide-detail">Change-point fit: R-hat ≤ 1.004, minimum bulk ESS 372, 3 divergent transitions; a small number of divergences can bias the posterior slightly and is disclosed rather than tuned away.</p>
+      <p class="slide-detail">The change-point model’s most probable season for the rise is 2021/22 (posterior 23 %), a level change of ×1.42 (90 % HDI 0.80–1.93). The 90 % interval for the rise includes ×1.00, so the rise is not distinguishable from no change at that level.</p>
+      <p class="slide-detail">Change-point fit: max R-hat 1.002, minimum bulk ESS 2458, minimum tail ESS 2674, 0 divergent transitions, within the convergence rule fixed before the refit of 1 October 2026 (R-hat ≤ 1.01, bulk and tail ESS ≥ 400, no divergences).</p>
       
     </div>
     <details class="fold slide-method">
@@ -83,7 +83,7 @@
     </details>
     <div class="slide-close">
       <h3 class="slide-close-h">What this means</h3>
-      <p class="slide-means">The model’s most probable season for the rise is 2021/22 (posterior 23 %; level ×1.41, 90 % HDI 0.88–1.97). A break model describes the timing of a change in level; it identifies no cause, and the posterior says how sure the model is of the season. The forecast is the one registered item in the atlas and is scored only when the season’s tables are final.</p>
+      <p class="slide-means">The model’s most probable season for the rise is 2021/22 (posterior 23 %; level ×1.42, 90 % HDI 0.80–1.93). A break model describes the timing of a change in level; it identifies no cause, and the posterior says how sure the model is of the season. The forecast is the one registered item in the atlas and is scored only when the season’s tables are final.</p>
       <h3 class="slide-close-h">What this does not show</h3>
       <p class="slide-notshow">Players in leagues outside the Big-5 (the top-9 count on the per-head page is wider), why the level changed, and any season beyond the one registered forecast.</p>
       <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit ce793f3 · code: <code>src/big5_series.py, src/series_model.py</code> · status: exploratory, not pre-registered · <a href="../../methodology/#limitations">all limitations</a></p>
@@ -255,7 +255,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-10-01 09:36</p>
+    <p class="rendered-at">Rendered: 2026-10-01 10:24</p>
   </div>
 </footer>
 
