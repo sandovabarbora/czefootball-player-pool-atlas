@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=202610011144">
-  <link rel="stylesheet" href="../modern.css?v=202610011144">
+  <link rel="stylesheet" href="../style.css?v=202610011220">
+  <link rel="stylesheet" href="../modern.css?v=202610011220">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="../charts.js?v=202610011144"></script>
-  <script defer src="../atlas.js?v=202610011144"></script>
+  <script defer src="../charts.js?v=202610011220"></script>
+  <script defer src="../atlas.js?v=202610011220"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -100,7 +100,7 @@
     <h2 id="methodology">Methodology, data and limitations</h2>
 
     <h3 id="data-sources">Data sources</h3>
-    <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit ddf1c7b · code: <code>src/, config/</code> · status: exploratory, not pre-registered · <a href="#limitations">all limitations</a></p>
+    <p class="slide-meta">Data snapshot: FBref tables fetched 14 September 2026, snapshot commit ef7dbd4 · code: <code>src/, config/</code> · status: exploratory, not pre-registered · <a href="#limitations">all limitations</a></p>
     <ul>
       <li><strong>FBref</strong> (Sports Reference), read with <code>soccerdata</code> 1.9.1: player season tables (standard, playing time) for the 9 headline leagues, the Eliteserien, the peer domestic leagues and the German second tier; the country page "Players from Norway" for pool discovery; the nationality column for peer counts. Season tables fetched 14 September 2026; the Big-5 history back to 1995/96 is in the snapshot committed 22 September 2026 (Sports Reference, 2026; Robberechts, 2026)</li>
       <li><strong>Wikipedia</strong>: national-team squad tables (2026 FIFA World Cup), accessed 14 September 2026; text under CC BY-SA 4.0 (Wikipedia contributors, 2026)</li>
@@ -109,7 +109,7 @@
       <li><strong>Eurostat</strong>: population on 1 January 2024, table demo_pjan, accessed 14 September 2026; reuse under the European Commission’s reuse policy with attribution (Eurostat, 2024)</li>
     </ul>
     <h3 id="data-availability">Data availability</h3>
-    <p>The processed tables behind every page are committed in the public repository under <code>data/snapshot/nor/</code> (snapshot commit ddf1c7b) and listed with their SHA-256 prefixes under <a href="#downloads">Download the tables</a>. Raw FBref pages are not redistributed; FBref’s own terms of use apply to its data. Squad lists from Wikipedia are CC BY-SA 4.0 and are credited as such; Wikidata is CC0; Eurostat data are reused with attribution; the UEFA coefficients are public rankings quoted with their source. League or club headshots are not used: a portrait appears only where a Wikimedia Commons file exists, credited in the footer with a link to its file page. The atlas’s own text, figures and data are CC BY 4.0 and its code MIT.</p>
+    <p>The processed tables behind every page are committed in the public repository under <code>data/snapshot/nor/</code> (snapshot commit ef7dbd4) and listed with their SHA-256 prefixes under <a href="#downloads">Download the tables</a>. Raw FBref pages are not redistributed; FBref’s own terms of use apply to its data. Squad lists from Wikipedia are CC BY-SA 4.0 and are credited as such; Wikidata is CC0; Eurostat data are reused with attribution; the UEFA coefficients are public rankings quoted with their source. League or club headshots are not used: a portrait appears only where a Wikimedia Commons file exists, credited in the footer with a link to its file page. The atlas’s own text, figures and data are CC BY 4.0 and its code MIT.</p>
 
     
     <h3 id="features-from-raw">From raw tables to a feature vector</h3>
@@ -1782,7 +1782,7 @@
     
     <span id="how-built"></span><span id="tracking"></span>
     <h3 id="reproducibility">Reproducibility</h3>
-    <p>The pipeline is public: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, code under the MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> rebuilds this edition from the committed data snapshot (commit ddf1c7b; FBref tables fetched 14 September 2026); <code>make figures</code> refits the models with their seeds (about 15 minutes an edition), which reproduces the model outputs in the snapshot, and redraws the figures. The findings on the front page come from the cross-edition file: run <code>make restore-snapshot &amp;&amp; make figures</code> for every edition (<code>NATION=den</code>, <code>eng</code>, <code>esp</code>, <code>ger</code>, <code>nor</code> and the default), then <code>make nations</code>, then <code>make pages</code> for each edition. <code>make test</code> runs the automated checks; <code>make all</code> refetches everything and reruns the whole pipeline. Seed 42 for every stochastic step: KMeans, every PyMC fit (random_seed), the bootstrap on the minutes share and the gap decomposition’s bootstrap (42 plus the contrast’s index). Fetchers cache raw pages; the render step never touches the network. Each question page names the module that computes its data in its metadata line.</p>
+    <p>The pipeline is public: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, code under the MIT licence. From a clean clone, <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> rebuilds this edition from the committed data snapshot (commit ef7dbd4; FBref tables fetched 14 September 2026); <code>make figures</code> refits the models with their seeds (about 15 minutes an edition), which reproduces the model outputs in the snapshot, and redraws the figures. The findings on the front page come from the cross-edition file: run <code>make restore-snapshot &amp;&amp; make figures</code> for every edition (<code>NATION=den</code>, <code>eng</code>, <code>esp</code>, <code>ger</code>, <code>nor</code> and the default), then <code>make nations</code>, then <code>make pages</code> for each edition. <code>make test</code> runs the automated checks; <code>make all</code> refetches everything and reruns the whole pipeline. Seed 42 for every stochastic step: KMeans, every PyMC fit (random_seed), the bootstrap on the minutes share and the gap decomposition’s bootstrap (42 plus the contrast’s index). Fetchers cache raw pages; the render step never touches the network. Each question page names the module that computes its data in its metadata line.</p>
     <p>The processed tables also load into BigQuery unchanged: <code><a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas/tree/main/infra/bigquery">infra/bigquery/</a></code> has generated schemas, a <code>bq load</code> script and a key/unit contract for the model-output JSONs the tables don't cover. Run <code>infra/bigquery/load.sh -n &lt;dataset&gt; &lt;nation&gt;</code> to see the load commands without running them.</p>
 
     <h3 id="checks">Internal automated checks</h3>
@@ -2166,7 +2166,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-10-01 11:43</p>
+    <p class="rendered-at">Rendered: 2026-10-01 12:20</p>
   </div>
 </footer>
 
