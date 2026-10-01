@@ -309,18 +309,24 @@
   function renderBreaksTable() {
     const box = root.querySelector('[data-nx-breaks]'); if (!box || !D.long_run) return;
     const L = D.long_run;
-    const rows = Object.entries(L.countries).filter(([, v]) => v.breaks).map(([c, v]) => ({ c, v }));
+    // a country whose fit fails the convergence rule keeps its row, without dated steps
+    const rows = Object.entries(L.countries).map(([c, v]) => ({ c, v }));
     // the analogy: who fell after 2000 and who rose — and who is closest to the home nation in shape
     const homeS = L.countries[HOME] ? L.countries[HOME].per_million : null;
     const corr = (a, b) => { const n = a.length, ma = d3.mean(a), mb = d3.mean(b); const num = d3.sum(a, (v, i) => (v - ma) * (b[i] - mb)); const den = Math.sqrt(d3.sum(a, (v) => (v - ma) ** 2) * d3.sum(b, (v) => (v - mb) ** 2)); return den ? num / den : 0; };
     rows.sort((p, q) => p.c.localeCompare(q.c));
     let html = `<div class="ax-table-wrap"><table class="ax-table nx-table"><thead><tr><th>country</th><th class="num">${short(L.seasons[0])}</th><th class="num">peak</th><th class="num">${short(L.seasons[L.seasons.length - 1])}</th><th>first step</th><th>second step</th>${homeS ? `<th class="num" title="correlation of the per-million series with ${esc(nameOf(HOME))}">shape vs ${HOME}</th>` : ''}</tr></thead><tbody>`;
     for (const { c, v } of rows) {
-      const b = v.breaks, first = b.other.season < b.fall.season ? b.other : b.fall, second = first === b.other ? b.fall : b.other;
+      const b = v.breaks;
       const kind = (s) => (s === b.fall ? (b.fall_is_a_fall ? 'fall' : 'step') : s.kind);
       const step = (s) => `${short(s.season)} ${kind(s)} ×${f2(s.factor)} (${s.lo != null ? `90 % HDI ${f2(s.lo)}–${f2(s.hi)}, ` : ''}${pct(s.prob)} posterior)`;
+      let steps = '<td class="mono" colspan="2">not dated: the fit fails the convergence rule</td>';
+      if (b) {
+        const first = b.other.season < b.fall.season ? b.other : b.fall, second = first === b.other ? b.fall : b.other;
+        steps = `<td class="mono">${step(first)}</td><td class="mono">${step(second)}</td>`;
+      }
       const peak = Math.max(...v.n), peakS = L.seasons[v.n.indexOf(peak)];
-      html += `<tr${c === HOME ? ' class="is-open"' : ''}><td><i class="ax-dot" style="background:${colour(c)}"></i>${esc(v.name)}</td><td class="num">${v.n[0]}</td><td class="num">${peak} · ${short(peakS)}</td><td class="num">${v.n[v.n.length - 1]}</td><td class="mono">${step(first)}</td><td class="mono">${step(second)}</td>${homeS ? `<td class="num">${c === HOME ? '—' : corr(homeS, v.per_million).toFixed(2)}</td>` : ''}</tr>`;
+      html += `<tr${c === HOME ? ' class="is-open"' : ''}><td><i class="ax-dot" style="background:${colour(c)}"></i>${esc(v.name)}</td><td class="num">${v.n[0]}</td><td class="num">${peak} · ${short(peakS)}</td><td class="num">${v.n[v.n.length - 1]}</td>${steps}${homeS ? `<td class="num">${c === HOME ? '—' : corr(homeS, v.per_million).toFixed(2)}</td>` : ''}</tr>`;
     }
     html += '</tbody></table></div>';
     box.innerHTML = html;

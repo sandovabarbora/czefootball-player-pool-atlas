@@ -3,7 +3,7 @@
 # dates, version, data dates and the change log shown at the foot of the
 # front page. Read by src.render._build_journal; nothing here is computed.
 published: 2026-09-15
-updated: 2026-09-30
+updated: 2026-10-01
 version: 2
 status: exploratory, not pre-registered
 data:
@@ -17,6 +17,10 @@ data:
 # Change log: newest first. `nations` limits an entry to some editions
 # (codes as in config/nations/*.yaml); without it an entry is on every edition.
 changelog:
+  - date: '2026-10-01'
+    items:
+    - 'The cross-edition change-point fits on the Nations page were refitted under a convergence rule written down before the refit (design/nations-refit-protocol.md): four chains, 2000 tuning steps and 2000 draws, target acceptance 0.95 and 0.99 only where needed; max R-hat at most 1.01, bulk and tail ESS at least 400, no divergent transitions. 15 of 17 fits pass and the page now lists every fit''s diagnostics. Denmark and Switzerland fail (one divergent transition each) and are no longer dated.'
+    - 'Dated steps that moved in the refit: Poland''s fall from 2014/15 to 2019/20 (×1.33, 90 % HDI 0.88–1.82) and its other step from 1998/99 to 2014/15; Italy''s other step from 2010/11 to 2009/10. Every other country keeps its seasons with small changes in size. Czechia''s fall stays at 2014/15, ×0.59, but its 90 % HDI widens from 0.38–0.97 to 0.37–1.02 and now includes no change; its rise stays at 2000/01, ×1.67 (0.74–2.40). The edition''s own Big-5 fit, used in the findings, is unchanged.'
   - date: '2026-09-30'
     items:
     - 'The Big-5 chart caption now describes only the dated rules the chart draws in each edition; for Spain, where no step is drawn, it no longer mentions a rise and a fall.'

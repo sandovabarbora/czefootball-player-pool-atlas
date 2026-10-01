@@ -186,6 +186,19 @@ def big5_table(nations: list[str]) -> pd.DataFrame | None:
     return None
 
 
+def _diagnostics(idata, stage: int) -> dict:
+    """Convergence of a cross-edition fit, by the rule in design/nations-refit-protocol.md."""
+    import arviz as az
+    names = ["mu0", "sigma", "delta", "z_eps"]
+    summ = az.summary(idata, var_names=names, kind="diagnostics")
+    rhat = float(summ["r_hat"].max())
+    bulk = float(summ["ess_bulk"].min())
+    tail = float(summ["ess_tail"].min())
+    div = int(np.asarray(idata["sample_stats"]["diverging"]).sum())
+    return {"stage": stage, "rhat_max": round(rhat, 4), "ess_bulk_min": round(bulk), "ess_tail_min": round(tail),
+            "divergences": div, "pass": rhat <= 1.01 and bulk >= 400 and tail >= 400 and div == 0}
+
+
 def long_run(big5: pd.DataFrame, countries: dict[str, dict], fit_breaks: bool = True) -> dict:
     """Every country's Big-5 presence since the history starts (players with
     >= MIN_MINUTES, per season, and per million), with the two-break model
@@ -227,7 +240,19 @@ def long_run(big5: pd.DataFrame, countries: dict[str, dict], fit_breaks: bool = 
                  "u23_share": [None if pd.isna(t) or not t else round(float(u / t), 3) for u, t in zip(u23.to_numpy(), tot.to_numpy())]}
         if fit_breaks and y.sum() >= 5 * len(y):   # a series of near-zeros has no break to date
             t0 = time.time()
-            idata, grid = series_model.fit_change_point(y.astype("float64"), n_breaks=2, seed=config.RANDOM_SEED)
+            # design/nations-refit-protocol.md: stage 1 for everyone, stage 2 (target_accept 0.99) only on failure
+            diag = None
+            for stage, ta in ((1, 0.95), (2, 0.99)):
+                idata, grid = series_model.fit_change_point(y.astype("float64"), n_breaks=2, seed=config.RANDOM_SEED,
+                                                            chains=4, tune=2000, draws=2000, target_accept=ta)
+                diag = _diagnostics(idata, stage)
+                if diag["pass"]:
+                    break
+            entry["diagnostics"] = diag
+            LOG.info("%s: diagnostics %s", code, diag)
+            if not diag["pass"]:
+                out_countries[code] = entry
+                continue
             s = series_model.break_summary(idata, y.astype("float64"), grid, seasons)
             entry["breaks"] = {
                 "fall": {**break_pick(s, s["rise"]), "factor": s["delta_factor"]["median"],

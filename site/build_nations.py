@@ -62,6 +62,19 @@ if home_ed and home_ed["decomposition"]["contrasts"]:
         parts.append(f'against {peer} (a gap of {c["gap_total"]:.2f} per million) the largest segment goes with {label}, {sg(top["contribution"])}{interval}')
     home_dec = "; ".join(parts)
 
+_rows = []
+for _c, _v in sorted(lr.get("countries", {}).items(), key=lambda kv: kv[1].get("name", kv[0])):
+    _d = _v.get("diagnostics")
+    if not _d:
+        continue
+    _rows.append(f'<tr><td>{esc_html(_v.get("name", _c))}</td><td>{_d["rhat_max"]:.3f}</td><td>{_d["ess_bulk_min"]:,}</td>'
+                 f'<td>{_d["ess_tail_min"]:,}</td><td>{_d["divergences"]}</td><td>{_d["stage"]}</td>'
+                 f'<td>{"passes" if _d["pass"] else "fails: no dated steps"}</td></tr>'.replace(",", "\u2009"))
+diag_table = ('<details class="fold ax-fold"><summary>convergence of every country\'s fit</summary><div class="tw"><table class="ax-table">'
+              '<thead><tr><th>Country</th><th>max R-hat</th><th>min bulk ESS</th><th>min tail ESS</th><th>divergences</th><th>stage</th><th>rule</th></tr></thead>'
+              '<tbody>' + "".join(_rows) + '</tbody></table></div>'
+              '<p class="ax-note">Stage 1: target acceptance 0.95; stage 2: 0.99, used only for fits that failed stage 1. Protocol: design/nations-refit-protocol.md in the repository.</p></details>') if _rows else ""
+
 HTML = f'''<!DOCTYPE html>
 <html lang="en" data-home="{home}">
 <head>
@@ -136,7 +149,8 @@ HTML = f'''<!DOCTYPE html>
     <p class="ax-kicker">C · the long run, {span}</p>
     <h2 class="ax-statement">Who fell, who rose, and when — every country's presence in the Big-5, with two dated steps each.</h2>
     <div class="ax-chart" data-nx-long></div>
-    <p class="ax-note">How to read it: players with {lr.get("min_minutes", 450)}+ minutes in a Big-5 league that season, per million; a diamond is a dated step (hover for size and certainty); a dashed rule is a documented reform — a date, not a cause. Convergence diagnostics for these cross-edition fits are not reported on this page, and some of the fits showed R-hat above 1.01; read their dated steps with that in mind.</p>
+    <p class="ax-note">How to read it: players with {lr.get("min_minutes", 450)}+ minutes in a Big-5 league that season, per million; a diamond is a dated step (hover for size and certainty); a dashed rule is a documented reform — a date, not a cause. Every fit was checked against a convergence rule written down on 30 September 2026, before the refit (four chains, 2000 tuning steps and 2000 draws, a stricter step size only where needed; max R-hat ≤ 1.01, bulk and tail effective sample size ≥ 400, no divergent transitions); a country whose fit fails has no dated steps here. The diagnostics are in the table below.</p>
+    {diag_table}
     <details class="fold ax-fold"><summary>how we know, and the two reform dates</summary>
       <p class="ax-note">FBref's season tables for the Premier League, Serie A, La Liga, Bundesliga and Ligue 1, from the first season all five are covered. Each country gets the report's two-step change-point model (<a href="#ref-adams_mackay_2007">{in_text(refs["adams_mackay_2007"])}</a>, in a batch, two-break setting). For a Big-5 nation the count includes its own league, so its series is mostly about how international that league became. Reform markers: {reform_lines}. A marker cannot tell whether a series moved because of a reform; it shows the timing, beside countries without such a reform.</p>
     </details>
