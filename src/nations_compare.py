@@ -137,6 +137,7 @@ def edition_summary(nation: str) -> dict | None:
                    "fare_min_share": fare.get("median_min_share")},
         "squad": {"event": (lens or {}).get("event"), "top9_share": sq_top9, "n": sq.get("matched")},
         "big5": {"n": series.get("n"), "seasons": (b5 or {}).get("seasons"),
+                 "converged": ((sm or {}).get("diagnostics") or {}).get("pass", True),
                  "break": {"season": break_pick(brk, brk.get("rise")).get("season"),
                            "prob": break_pick(brk, brk.get("rise")).get("prob"),
                            "factor": (brk.get("delta_factor") or {}).get("median"),
@@ -393,8 +394,13 @@ def takeaways(home: str, editions: list[dict], long: dict | None, recent: dict |
         kind = "fall" if br["factor"] < 1 else "rise"
         # the Big-5 page's rule (render._build_series_model): a step within
         # ±5 % of no change is not dated
-        is_step = abs(br["factor"] - 1.0) >= 0.05
-        if is_step:
+        # and a fit that fails the convergence rule dates nothing
+        converged = ed["big5"].get("converged", True)
+        is_step = converged and abs(br["factor"] - 1.0) >= 0.05
+        if not converged:
+            fall = ("The change-point model dates no step: its fit does not meet the convergence rule fixed before the refit "
+                    "(design/edition-refit-protocol.md), so neither its seasons nor its step sizes are reported.")
+        elif is_step:
             fall = (f"The change-point model’s most probable season for the {kind} is {season_slash(br['season'])} "
                     f"(posterior {br['prob'] * 100:.0f} %), a level change of ×{_f2(br['factor'])} (90 % HDI {_f2(br['lo'])}–{_f2(br['hi'])})"
                     + (f"; that interval includes ×1.00, so the {kind} is not distinguishable from no change at the 90 % level." if inc else "."))

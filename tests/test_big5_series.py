@@ -38,6 +38,16 @@ def test_series_counts_players_above_the_floor_and_finds_peak_and_low():
     assert s["golden"][0]["season"] == "2000-2001" and s["golden"][0]["players"][0] == "Home 2"
 
 
+def test_series_sums_a_players_minutes_across_clubs_before_the_floor():
+    # 300 + 300 minutes at two clubs in one season is one player over the 450 floor
+    extra = pd.DataFrame([
+        {"season": "2002-2003", "nation": HOME, "player_key": "mv", "player": "Mover", "min": 300, "league": "ENG-Premier League"},
+        {"season": "2002-2003", "nation": HOME, "player_key": "mv", "player": "Mover", "min": 300, "league": "ENG-Premier League"},
+    ])
+    s = build_series(pd.concat([_hist(), extra], ignore_index=True), PEERS)
+    assert s["countries"][HOME]["n"] == [3, 2, 2]
+
+
 def test_render_series_writes_svg(tmp_path):
     s = build_series(_hist(), PEERS)
     out_path = tmp_path / "big5_series.svg"

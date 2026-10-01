@@ -76,6 +76,9 @@ def clusters_payload(summary: pd.DataFrame, labels: dict) -> dict:
 
 def big5_payload(big5: dict, series_model: dict, names: dict[str, str]) -> dict:
     brk = series_model.get("break") or {}
+    # a fit that fails the convergence rule dates nothing (design/edition-refit-protocol.md)
+    if not (series_model.get("diagnostics") or {}).get("pass", True):
+        brk = {}
     return {
         "seasons": big5["seasons"],
         "countries": {c: {"name": names.get(c, c), "n": v["n"], "per_million": v["per_million"]}

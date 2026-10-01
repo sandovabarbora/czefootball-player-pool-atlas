@@ -1470,8 +1470,11 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     # series (England) has two steps near ×1 and no story to tell there
     # a step is written up only when it is one: a factor within ±5 % of one
     # is a flat series (Spain), and the page says so instead of dating noise
-    home_break["is_step"] = abs(br["delta_factor"]["median"] - 1.0) >= 0.05
-    if br.get("rise") and br["rise"]["delta_factor"]["median"] >= 1.05:
+    # and a fit that fails the convergence rule dates nothing at all
+    # (design/edition-refit-protocol.md)
+    home_break["converged"] = (sm.get("diagnostics") or {}).get("pass", True)
+    home_break["is_step"] = home_break["converged"] and abs(br["delta_factor"]["median"] - 1.0) >= 0.05
+    if home_break["converged"] and br.get("rise") and br["rise"]["delta_factor"]["median"] >= 1.05:
         rs = br["rise"]
         home_break["rise"] = {
             "season": season_label(break_pick(rs, br)["season"]), "prob": break_pick(rs, br)["prob"],
@@ -1492,6 +1495,7 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
     contrast = [
         {
             "code": code, "name": names.get(code, code),
+            "converged": (c.get("diagnostics") or {}).get("pass", True),
             "season": season_label(break_pick(c, c.get("rise"))["season"]), "prob": break_pick(c, c.get("rise"))["prob"],
             "delta": c["delta_factor"]["median"], "lo": c["delta_factor"]["lo"], "hi": c["delta_factor"]["hi"],
             "rise": ({"season": season_label(break_pick(c["rise"], c)["season"]), "prob": break_pick(c["rise"], c)["prob"],
@@ -2453,6 +2457,7 @@ def build_context(data: dict[str, Any], atlas_notes: dict[str, dict] | None = No
         # the same change-point fit that backs #series-model below, not a
         # second computation.
         big5["no_break"] = not series_model["break"].get("is_step", True)
+        big5["unconverged"] = not series_model["break"].get("converged", True)
         big5["break_season"] = series_model["break"]["season"]
         big5["break_prob"] = series_model["break"]["prob"]
         big5["delta"] = series_model["break"]["delta"]

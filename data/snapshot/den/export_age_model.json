@@ -80,7 +80,8 @@
   "min_ess_bulk": 1127.6,
   "min_ess_tail": 1425.7,
   "n_divergences": 0,
-  "sigma_n_median": 0.1378
+  "sigma_n_median": 0.1378,
+  "pass": true
  },
  "ppc": {
   "observed": {
@@ -102,14 +103,15 @@
    "min_ess_bulk": 1205.3,
    "min_ess_tail": 1407.9,
    "n_divergences": 0,
-   "sigma_n_median": 0.1392
+   "sigma_n_median": 0.1392,
+   "pass": true
   },
   "home_nation_effect": {
    "median": 0.0062,
    "lo": -0.0099,
    "hi": 0.0271
   },
-  "runtime_s": 5.0
+  "runtime_s": 5.2
  },
  "lono": {
   "n_excluded": 25,
@@ -117,29 +119,31 @@
   "diff_21_24": {
    "age_a": 21,
    "age_b": 24,
-   "median": 0.0015,
-   "lo": -0.0108,
-   "hi": 0.0146
+   "median": 0.0016,
+   "lo": -0.0117,
+   "hi": 0.0137
   },
   "beta": {
-   "median": -0.0118,
-   "lo": -0.1015,
-   "hi": 0.0653
+   "median": -0.0148,
+   "lo": -0.1021,
+   "hi": 0.0655
   },
   "diagnostics": {
-   "max_rhat": 1.0227,
-   "min_ess_bulk": 246.7,
-   "min_ess_tail": 359.4,
+   "max_rhat": 1.0038,
+   "min_ess_bulk": 911.4,
+   "min_ess_tail": 1178.9,
    "n_divergences": 0,
-   "sigma_n_median": 0.1545
+   "sigma_n_median": 0.1515,
+   "pass": true,
+   "stage": 1
   },
-  "runtime_s": 3.6,
-  "shift_diff_21_24": 0.0004
+  "runtime_s": 4.1,
+  "shift_diff_21_24": 0.0005
  },
  "fit": {
   "n": 115,
-  "runtime_s": 7.1,
-  "runtime_no_strength_s": 5.0,
-  "runtime_lono_s": 3.6
+  "runtime_s": 5.9,
+  "runtime_no_strength_s": 5.2,
+  "runtime_lono_s": 4.1
  }
 }
