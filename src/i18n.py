@@ -151,18 +151,18 @@ EN: dict[str, str] = {
     "hero.stamp.aria": "Document identification",
     "hero.kicker": "Research · Player pool atlas, {adj} edition · {season}",
     "hero.h2": "{Adj} players in Europe's {topn} top-ranked leagues per million inhabitants, {season}",
-    "hero.finding": "Per head, {nation} ranks {rank} of {n} countries ({nation} and {n_peers} peers) for players in Europe’s top-ranked leagues.",
+    "hero.finding": "Per head, {nation} ranks {rank} of {n}.",
     "hero.finding.lead": "Beside that count sit",
     "hero.finding.youth": "{per_club} regular under-21 starters per club at home against {best_per_club} in {best}",
     "hero.finding.move": "a median age of {age} at the first season with real playing time in a foreign league (n = {n})",
     "hero.finding.break": "a most probable {kind} in the Big-5 count in {season} (posterior {prob}; level ×{delta}, 90 % HDI {lo}–{hi})",
     "hero.path": "The findings, the five pathway measures and the one-page brief summarise the atlas; each question page holds the evidence, and the methodology page the data, limitations and references.",
-    "hero.unit": "players on {season} rosters of Europe's {topn} top-ranked leagues per million inhabitants (administrative count, any minutes)",
+    "hero.unit": "players per million in Europe’s {topn} top leagues, {season}",
     "hero.lead": "How one country’s professional pool compares with its peers, where its players move abroad and which leagues the national-team squad plays in, computed from public data on every run.",
     "hero.sublead.gap": "The largest cohort gap is in <strong>{group} aged {cohort}</strong>: {cze_n} {adj} player{s} in the top-{topn} leagues against a peer median of {peer}.",
     "hero.sublead.export": "A recent {adj} export (first top-{topn} season in the last two seasons) first reached a top-{topn} roster at a median age of {cze} (n = {n_cze}); one from {b} at {den} (n = {n_den}).",
     "hero.sublead.close": "Built from FBref, Wikipedia and Wikidata. {nation} is the worked example; the pipeline takes a nationality code and a peer set.",
-    "hero.footnote": "* {n} {code} players who appeared (any minutes) for a club in the UEFA top-{topn} leagues in {season}, per {pop} M inhabitants (Eurostat, 1 January 2024); peers counted the same way. {floors}<a href=\"#methodology\">Methodology</a>.",
+    "hero.footnote": "* {n} players who appeared (any minutes), per {pop} M inhabitants; an administrative count. <a href=\"#methodology\">Methodology</a>.",
 
     # ---- quickread (Task 25a): the 60-second opener, four tiles between the
     # hero and the slides — each tile's figure is typed in the template, its

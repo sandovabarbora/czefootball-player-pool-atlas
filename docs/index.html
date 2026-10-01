@@ -22,14 +22,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=202610011025">
-  <link rel="stylesheet" href="modern.css?v=202610011025">
+  <link rel="stylesheet" href="style.css?v=202610011042">
+  <link rel="stylesheet" href="modern.css?v=202610011042">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js" onload="window.renderTex && window.renderTex()"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
-  <script defer src="charts.js?v=202610011025"></script>
-  <script defer src="atlas.js?v=202610011025"></script>
+  <script defer src="charts.js?v=202610011042"></script>
+  <script defer src="atlas.js?v=202610011042"></script>
 </head>
 <body id="top">
 <nav class="topbar" aria-label="Navigation">
@@ -84,35 +84,14 @@
     <div class="hero-grid">
       <div class="hero-num">
         <span class="hero-num-figure">2.39<span class="ast" aria-hidden="true">*</span></span>
-        <span class="hero-num-unit">players on 2025/26 rosters of Europe's 9 top-ranked leagues per million inhabitants (administrative count, any minutes)</span>
+        <span class="hero-num-unit">players per million in Europe’s 9 top leagues, 2025/26</span>
       </div>
       <div class="hero-lead">
         
-        
-        
-        
-        
-        
-        
-        
-        <p class="hero-finding">
-          Per head, Czechia ranks 7th of 9 countries (Czechia and 8 peers) for players in Europe’s top-ranked leagues.
-          Beside that count sit 1.1 regular under-21 starters per club at home against 2.5 in Denmark; a median age of 24 at the first season with real playing time in a foreign league (n = 32); and a most probable fall in the Big-5 count in 2014/15 (posterior 57 %; level ×0.59, 90 % HDI 0.39–1.02).
-        </p>
-        <p class="hero-path">The findings, the five pathway measures and the one-page brief summarise the atlas; each question page holds the evidence, and the methodology page the data, limitations and references.</p>
-        <details class="fold fold-hero"><summary>In context</summary>
-        <p class="hero-sublead">
-          How one country’s professional pool compares with its peers, where its players move abroad and which leagues the national-team squad plays in, computed from public data on every run.
-          The largest cohort gap is in <strong>midfielders aged 23-25</strong>: 2 Czech players in the top-9 leagues against a peer median of 6.
-          A recent Czech export (first top-9 season in the last two seasons) first reached a top-9 roster at a median age of 22 (n = 7); one from Denmark at 22 (n = 25).
-          Built from FBref, Wikipedia and Wikidata. Czechia is the worked example; the pipeline takes a nationality code and a peer set.
-        </p>
-        </details>
+        <p class="hero-finding">Per head, Czechia ranks 7th of 9.</p>
       </div>
     </div>
-    
-    
-    <p class="hero-footnote">* 26 CZE players who appeared (any minutes) for a club in the UEFA top-9 leagues in 2025/26, per 10.9 M inhabitants (Eurostat, 1 January 2024); peers counted the same way. With a floor of 450 minutes the count is 23 (2.11 per million, rank 7 of 9); with 900 minutes it is 16 (1.47, rank 7). <a href="methodology/#methodology">Methodology</a>.</p>
+    <p class="hero-footnote">* 26 players who appeared (any minutes), per 10.9 M inhabitants; an administrative count. <a href="methodology/#methodology">Methodology</a>.</p>
   </div>
   <p class="hero-credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:The_Peninsula_Stadium_at_night_-_Salford_City_-_Aug_24.jpg">Emessem T</a> · CC BY-SA 4.0, colour held</p>
 </section>
@@ -154,8 +133,8 @@
       <li><span class="meta-k">published</span> 15 September 2026 · updated 1 October 2026 · version 2 (<a href="#changelog">change log</a>)</li>
       
       <li><span class="meta-k">status</span> research, exploratory, not pre-registered. The one registered item is the Big-5 forecast for 2026/27 (registered forecast: numbers committed at 9505779 on 21 September 2026; commit times are self-reported).</li>
-      <li><span class="meta-k">data</span> FBref season tables via soccerdata 1.9.1, fetched 14 September 2026; Big-5 history from 1995/96, committed 22 September 2026; Wikipedia squad lists (CC BY-SA 4.0), Wikidata (CC0), Eurostat, population on 1 January 2024 (table demo_pjan), UEFA association coefficients; snapshot commit ce793f3. Sources, licences and hashes: <a href="methodology/#data-availability">data availability</a>.</li>
-      <li><span class="meta-k">code</span> <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot at ce793f3; rebuild: <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> (<a href="methodology/#reproducibility">reproduction</a>)</li>
+      <li><span class="meta-k">data</span> FBref season tables via soccerdata 1.9.1, fetched 14 September 2026; Big-5 history from 1995/96, committed 22 September 2026; Wikipedia squad lists (CC BY-SA 4.0), Wikidata (CC0), Eurostat, population on 1 January 2024 (table demo_pjan), UEFA association coefficients; snapshot commit ddf1c7b. Sources, licences and hashes: <a href="methodology/#data-availability">data availability</a>.</li>
+      <li><span class="meta-k">code</span> <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot at ddf1c7b; rebuild: <code>uv sync &amp;&amp; make restore-snapshot &amp;&amp; make figures &amp;&amp; make pages</code> (<a href="methodology/#reproducibility">reproduction</a>)</li>
       <li><span class="meta-k">cite as</span> Šandová, B. (2026). <em>Czech football player pool atlas</em>. football.bsandova.com/, version 2.</li>
       <li><span class="meta-k">licence</span> code MIT; text, figures and data CC BY 4.0; player portraits are Wikimedia Commons files under their own licences (footer).</li>
     </ul>
@@ -269,12 +248,12 @@
 <section class="citelog" id="citelog">
   <div class="container">
     <h2 id="how-to-cite">How to cite</h2>
-    <p>Šandová, B. (2026). <em>Czech football player pool atlas</em>. football.bsandova.com/, version 2. Code and data: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot commit ce793f3. Text, figures and data are CC BY 4.0; the code is MIT.</p>
+    <p>Šandová, B. (2026). <em>Czech football player pool atlas</em>. football.bsandova.com/, version 2. Code and data: <a href="https://github.com/sandovabarbora/czefootball-player-pool-atlas">github.com/sandovabarbora/czefootball-player-pool-atlas</a>, data snapshot commit ddf1c7b. Text, figures and data are CC BY 4.0; the code is MIT.</p>
     <h2 id="changelog">Change log</h2>
     <ul class="changelog">
       
       <li><span class="mono">1 October 2026</span>
-        <ul><li>Each edition's own series model (the Big-5 page, its forecast and backtest, and the first finding on the Nations page) was refitted under a convergence rule written down on 1 October 2026, before the refit (design/edition-refit-protocol.md): four chains, 2000 tuning steps and 2000 draws, target acceptance 0.99 only where 0.95 failed; max R-hat at most 1.01, bulk and tail ESS at least 400, no divergent transitions. At the earlier settings (two chains, 500 draws) no edition's fit met it. Now every fit passes: the six home fits, the peers' fits, the forecast fits and every backtest origin.</li><li>What moved: England's fall, dated 2007/08 at ×0.95 (90 % HDI 0.77–1.17), is now ×0.96 (0.76–1.18), within 5 % of no change, so the England edition dates no fall (best candidate 2019/20, posterior 10 %). Germany's fall stays at 2000/01, ×0.75 (90 % HDI 0.64–0.90; was ×0.76, 0.65–0.98), posterior 75 % (was 69 %). Czechia's fall stays at 2014/15, ×0.59 (0.39–1.02; was ×0.60, 0.39–1.03), and its rise at 2000/01, ×1.67 (0.70–2.32; was ×1.65, 0.87–2.46). Every other dated season is unchanged. In Norway's backtest the model's mean error is now 3.4 players, the same as the naive baseline (was 3.2), so the model no longer beats it. The live forecasts move by at most two players; the registered forecasts are unchanged.</li><li>The Big-5 page of an edition that dates no step (England, Spain) no longer calls its best candidate season a rise or a fall in What this means.</li><li>The cross-edition change-point fits on the Nations page were refitted under a convergence rule written down before the refit (design/nations-refit-protocol.md): four chains, 2000 tuning steps and 2000 draws, target acceptance 0.95 and 0.99 only where needed; max R-hat at most 1.01, bulk and tail ESS at least 400, no divergent transitions. 15 of 17 fits pass and the page now lists every fit's diagnostics. Denmark and Switzerland fail (one divergent transition each) and are no longer dated.</li><li>Dated steps that moved in the refit: Poland's fall from 2014/15 to 2019/20 (×1.33, 90 % HDI 0.88–1.82) and its other step from 1998/99 to 2014/15; Italy's other step from 2010/11 to 2009/10. Every other country keeps its seasons with small changes in size. Czechia's fall stays at 2014/15, ×0.59, but its 90 % HDI widens from 0.38–0.97 to 0.37–1.02 and now includes no change; its rise stays at 2000/01, ×1.67 (0.74–2.40). The edition's own Big-5 fit, used in the findings, is unchanged.</li></ul>
+        <ul><li>The front page's header now carries the per-head figure and one sentence (the rank). The three other measures it listed are in the findings just below it; the counts at 450 and 900 minutes are on the Methodology page.</li><li>Each edition's own series model (the Big-5 page, its forecast and backtest, and the first finding on the Nations page) was refitted under a convergence rule written down on 1 October 2026, before the refit (design/edition-refit-protocol.md): four chains, 2000 tuning steps and 2000 draws, target acceptance 0.99 only where 0.95 failed; max R-hat at most 1.01, bulk and tail ESS at least 400, no divergent transitions. At the earlier settings (two chains, 500 draws) no edition's fit met it. Now every fit passes: the six home fits, the peers' fits, the forecast fits and every backtest origin.</li><li>What moved: England's fall, dated 2007/08 at ×0.95 (90 % HDI 0.77–1.17), is now ×0.96 (0.76–1.18), within 5 % of no change, so the England edition dates no fall (best candidate 2019/20, posterior 10 %). Germany's fall stays at 2000/01, ×0.75 (90 % HDI 0.64–0.90; was ×0.76, 0.65–0.98), posterior 75 % (was 69 %). Czechia's fall stays at 2014/15, ×0.59 (0.39–1.02; was ×0.60, 0.39–1.03), and its rise at 2000/01, ×1.67 (0.70–2.32; was ×1.65, 0.87–2.46). Every other dated season is unchanged. In Norway's backtest the model's mean error is now 3.4 players, the same as the naive baseline (was 3.2), so the model no longer beats it. The live forecasts move by at most two players; the registered forecasts are unchanged.</li><li>The Big-5 page of an edition that dates no step (England, Spain) no longer calls its best candidate season a rise or a fall in What this means.</li><li>The cross-edition change-point fits on the Nations page were refitted under a convergence rule written down before the refit (design/nations-refit-protocol.md): four chains, 2000 tuning steps and 2000 draws, target acceptance 0.95 and 0.99 only where needed; max R-hat at most 1.01, bulk and tail ESS at least 400, no divergent transitions. 15 of 17 fits pass and the page now lists every fit's diagnostics. Denmark and Switzerland fail (one divergent transition each) and are no longer dated.</li><li>Dated steps that moved in the refit: Poland's fall from 2014/15 to 2019/20 (×1.33, 90 % HDI 0.88–1.82) and its other step from 1998/99 to 2014/15; Italy's other step from 2010/11 to 2009/10. Every other country keeps its seasons with small changes in size. Czechia's fall stays at 2014/15, ×0.59, but its 90 % HDI widens from 0.38–0.97 to 0.37–1.02 and now includes no change; its rise stays at 2000/01, ×1.67 (0.74–2.40). The edition's own Big-5 fit, used in the findings, is unchanged.</li></ul>
       </li>
       
       <li><span class="mono">30 September 2026</span>
@@ -351,7 +330,7 @@
         </ul>
       </details>
     </div>
-    <p class="rendered-at">Rendered: 2026-10-01 10:25</p>
+    <p class="rendered-at">Rendered: 2026-10-01 10:42</p>
   </div>
 </footer>
 
