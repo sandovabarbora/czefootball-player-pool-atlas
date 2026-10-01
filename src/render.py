@@ -1424,11 +1424,23 @@ def _build_model_comparison(mc: dict, tr: Translator | None = None) -> dict:
     }
 
 
-# Mirrors src.series_model.CHAINS/DRAWS/TAU_MARGIN -- kept as literals here
+def _series_checks(sm: dict) -> dict:
+    """How the series model's fits fared against the convergence rule: the
+    peers' change-point fits and the forecast fits (pass counts), and the
+    backtest origins whose fit failed (they stay in the scores)."""
+    fits = [c.get("diagnostics") for c in (sm.get("contrast") or {}).values()]
+    fits += [f.get("diagnostics") for f in (sm.get("forecast") or {}).values()]
+    fits = [d for d in fits if d]
+    pooled = (sm.get("backtest") or {}).get("pooled", {}) or {}
+    return {"n": len(fits), "passed": sum(bool(d.get("pass")) for d in fits),
+            "backtest_failed": pooled.get("fits_failed"), "backtest_n": len((sm.get("backtest") or {}).get("rows", []))}
+
+
+# Mirrors src.series_model.PUBLISHED and TAU_MARGIN -- kept as literals here
 # (not imported) so render.py, imported by most of the test suite, doesn't
 # pull in PyMC/ArviZ just for three run-budget constants.
-SERIES_MODEL_CHAINS = 2
-SERIES_MODEL_DRAWS = 500
+SERIES_MODEL_CHAINS = 4
+SERIES_MODEL_DRAWS = 2000
 SERIES_MODEL_TAU_MARGIN = 3
 
 
@@ -1508,6 +1520,8 @@ def _build_series_model(sm: dict, names: dict[str, str], tr: Translator | None =
                     "end": backtest_rows[-1]["origin"] if backtest_rows else ""},
         "forecast": forecast_rows,
         "diagnostics": sm.get("diagnostics", {}) or {},
+        # every other fit in the section, by the same rule (design/edition-refit-protocol.md)
+        "checks": _series_checks(sm),
         "chains": SERIES_MODEL_CHAINS, "draws": SERIES_MODEL_DRAWS, "margin": SERIES_MODEL_TAU_MARGIN,
     }
 

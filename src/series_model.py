@@ -85,13 +85,19 @@ be identifiable at all."""
 BACKTEST_START = "2010-2011"
 BACKTEST_END = "2024-2025"
 
-# Runtime budget (T = 36, a tiny series): every fit below is 2 chains, short
-# draws/tune -- the backtest alone refits ~15 times, so each fit needs to
-# stay well under a second of sampling for the whole module to land inside
-# the < 5 min target.
+# Defaults for tests and quick runs (T = 31, a tiny series): 2 chains, short
+# draws/tune. At these settings the fits do not meet the convergence rule
+# below, so the published run uses PUBLISHED instead.
 DRAWS = 500
 TUNE = 500
 CHAINS = 2
+
+# The published fits (`main`) run at the settings of design/edition-refit-protocol.md
+# (1 October 2026): every fit at target_accept 0.95, and once more at 0.99 only
+# when it fails the convergence rule in `diagnostics_summary`. The defaults
+# above stay for tests and quick runs.
+PUBLISHED = {"chains": 4, "tune": 2000, "draws": 2000}
+STAGES = (0.95, 0.99)
 
 N_BREAKS = 2
 """Breaks in the home-nation fit. On the 36-season series (1990/91 on) a
@@ -388,7 +394,7 @@ def forecast_next(idata: az.InferenceData, seed: int | None = None) -> tuple[flo
 
 def run_backtest(
     seasons: list[str], y: np.ndarray, *, start: str = BACKTEST_START, end: str = BACKTEST_END,
-    draws: int = DRAWS, tune: int = TUNE, chains: int = CHAINS, seed: int | None = None,
+    draws: int = DRAWS, tune: int = TUNE, chains: int = CHAINS, seed: int | None = None, published: bool = False,
 ) -> dict[str, Any]:
     """One-step-ahead rolling-origin backtest of the plain local level
     against the naive "same as last season" baseline, over
@@ -396,14 +402,21 @@ def run_backtest(
     `end` default to the report's own span but are overridable so a test
     can exercise this on a cheap three-origin slice). `{rows, pooled}`:
     `rows` one dict per origin, `pooled` the mean MAE of each method and
-    the model's mean 90% coverage across origins.
+    the model's mean 90% coverage across origins. With `published`, every
+    origin is fitted by `fit_checked` and `pooled` also counts the origins
+    whose fit failed the convergence rule (they stay in the scores: the
+    backtest scores the method as run).
     """
     seed = config.RANDOM_SEED if seed is None else seed
-    rows = []
+    rows, failed = [], 0
     for i, origin in enumerate(backtest_origins(seasons, start, end)):
         train_idx, next_idx = rolling_origin_backtest_split(seasons, origin)
         y_train, actual = y[train_idx], float(y[next_idx])
-        idata = fit_local_level(y_train, draws=draws, tune=tune, chains=chains, seed=seed + i)
+        if published:
+            idata, diag = fit_checked(fit_local_level, y_train, LOCAL_LEVEL_VARS, seed=seed + i)
+            failed += not diag["pass"]
+        else:
+            idata = fit_local_level(y_train, draws=draws, tune=tune, chains=chains, seed=seed + i)
         median, lo, hi = forecast_next(idata, seed=seed + i)
         naive = float(y_train[-1])
         # median/lo/hi are rounded to whole players for display -- n_t is a
@@ -421,6 +434,8 @@ def run_backtest(
         "mae_naive": round(float(np.mean([r["mae_naive"] for r in rows])), 4),
         "coverage90": round(float(np.mean([r["covered"] for r in rows])), 4),
     }
+    if published:
+        pooled["fits_failed"] = failed
     return {"rows": rows, "pooled": pooled}
 
 
@@ -444,18 +459,41 @@ def assemble_output(
 # =============================================================================
 
 
-def diagnostics_summary(idata: az.InferenceData) -> dict[str, Any]:
-    """R-hat/ESS across the change-point model's continuous parameters plus
-    the divergence count (same construction as `src.league_strength.
-    diagnostics_summary`) -- `tau` itself carries no diagnostics, having
+CHANGE_POINT_VARS = ("mu0", "sigma", "delta", "z_eps")
+LOCAL_LEVEL_VARS = ("mu0", "sigma", "z_eps")
+
+
+def diagnostics_summary(idata: az.InferenceData, var_names: tuple[str, ...] = CHANGE_POINT_VARS,
+                        stage: int | None = None) -> dict[str, Any]:
+    """R-hat/ESS across a fit's continuous parameters plus the divergence
+    count, and whether they meet the convergence rule of
+    design/edition-refit-protocol.md (max R-hat <= 1.01, bulk and tail ESS
+    >= 400, no divergences) -- `tau` itself carries no diagnostics, having
     been marginalised out rather than sampled."""
-    summary = az.summary(idata, var_names=["mu0", "sigma", "delta"], ci_prob=0.9)
-    return {
+    summary = az.summary(idata, var_names=list(var_names), kind="diagnostics")
+    d = {
         "max_rhat": round(float(summary["r_hat"].max()), 4),
         "min_ess_bulk": round(float(summary["ess_bulk"].min()), 1),
         "min_ess_tail": round(float(summary["ess_tail"].min()), 1),
-        "n_divergences": int(idata.sample_stats["diverging"].values.sum()),
+        "n_divergences": int(np.asarray(idata["sample_stats"]["diverging"]).sum()),
     }
+    d["pass"] = (d["max_rhat"] <= 1.01 and d["min_ess_bulk"] >= 400 and d["min_ess_tail"] >= 400
+                 and d["n_divergences"] == 0)
+    if stage is not None:
+        d["stage"] = stage
+    return d
+
+
+def fit_checked(fit, y: np.ndarray, var_names: tuple[str, ...], **kw):
+    """`fit(y, ...)` at the PUBLISHED settings, stage by stage (STAGES) until
+    the convergence rule holds or the stages run out. Returns `(fit's own
+    return value, diagnostics of the last stage)`."""
+    for stage, ta in enumerate(STAGES, 1):
+        out = fit(y, target_accept=ta, **PUBLISHED, **kw)
+        diag = diagnostics_summary(out[0] if isinstance(out, tuple) else out, var_names, stage)
+        if diag["pass"]:
+            break
+    return out, diag
 
 
 # =============================================================================
@@ -559,10 +597,10 @@ def main() -> None:
 
     y_home = extract_series(big5_series, home)
     t0 = time.time()
-    idata_home, tau_grid = fit_change_point(y_home, n_breaks=N_BREAKS, seed=config.RANDOM_SEED)
+    (idata_home, tau_grid), diagnostics = fit_checked(fit_change_point, y_home, CHANGE_POINT_VARS,
+                                                      n_breaks=N_BREAKS, seed=config.RANDOM_SEED)
     LOG.info("%s change-point fit: %.1f s (%d seasons)", home, time.time() - t0, len(y_home))
     break_result = break_summary(idata_home, y_home, tau_grid, seasons)
-    diagnostics = diagnostics_summary(idata_home)
     LOG.info("%s break: %s", home, break_result)
     LOG.info("diagnostics: %s", diagnostics)
 
@@ -570,12 +608,13 @@ def main() -> None:
     for code in contrast_codes:
         y_c = extract_series(big5_series, code)
         t0 = time.time()
-        idata_c, tau_grid_c = fit_change_point(y_c, n_breaks=N_BREAKS, seed=config.RANDOM_SEED)
-        LOG.info("%s change-point fit: %.1f s", code, time.time() - t0)
-        contrast[code] = break_summary(idata_c, y_c, tau_grid_c, seasons)
+        (idata_c, tau_grid_c), diag_c = fit_checked(fit_change_point, y_c, CHANGE_POINT_VARS,
+                                                    n_breaks=N_BREAKS, seed=config.RANDOM_SEED)
+        LOG.info("%s change-point fit: %.1f s, diagnostics %s", code, time.time() - t0, diag_c)
+        contrast[code] = {**break_summary(idata_c, y_c, tau_grid_c, seasons), "diagnostics": diag_c}
 
     t0 = time.time()
-    backtest = run_backtest(seasons, y_home, seed=config.RANDOM_SEED)
+    backtest = run_backtest(seasons, y_home, seed=config.RANDOM_SEED, published=True)
     LOG.info("backtest: %.1f s, pooled=%s", time.time() - t0, backtest["pooled"])
 
     forecast: dict[str, Any] = {}
@@ -583,13 +622,13 @@ def main() -> None:
     for i, code in enumerate([home, *contrast_codes]):
         y_c = y_home if code == home else extract_series(big5_series, code)
         t0 = time.time()
-        idata_fc = fit_local_level(y_c, seed=config.RANDOM_SEED + i)
+        idata_fc, diag_fc = fit_checked(fit_local_level, y_c, LOCAL_LEVEL_VARS, seed=config.RANDOM_SEED + i)
         median, lo, hi = forecast_next(idata_fc, seed=config.RANDOM_SEED + i)
-        LOG.info("%s forecast fit: %.1f s -> %s: %.1f (%.1f-%.1f)",
-                 code, time.time() - t0, next_season, median, lo, hi)
+        LOG.info("%s forecast fit: %.1f s -> %s: %.1f (%.1f-%.1f), diagnostics %s",
+                 code, time.time() - t0, next_season, median, lo, hi, diag_fc)
         # rounded to whole players (a count), same reasoning as run_backtest's rows
         forecast[code] = {"season": next_season, "median": round(median),
-                          "lo": round(lo), "hi": round(hi)}
+                          "lo": round(lo), "hi": round(hi), "diagnostics": diag_fc}
 
     result = assemble_output(break_result, contrast, backtest, forecast, diagnostics)
     out_json = config.PROCESSED_DIR / "series_model.json"
