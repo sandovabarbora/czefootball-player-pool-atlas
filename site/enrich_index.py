@@ -294,9 +294,6 @@ sub(r'<section class="hero" id="summary">',
     f'alt="{HERO_ALT}" decoding="async" fetchpriority="high">', 1)
 sub(r'(<p class="hero-footnote">.*?</p>\n  </div>\n)(</section>)',
     lambda m: m.group(1) + f'  <p class="hero-credit">{HERO_CREDIT}</p>\n' + m.group(2), 1, re.S)
-sub(r'<p class="hero-sublead">(.*?)</p>',
-    lambda m: f'<details class="fold fold-hero"><summary>{S["in_context"]}</summary>\n        <p class="hero-sublead">{m.group(1)}</p>\n        </details>',
-    1, re.S)
 sub(r'\s*<details class="toc-mobile" open>.*?</details>', '', 1, re.S)
 
 # ---------------------------------------------------------------- cycle cards: visual header
